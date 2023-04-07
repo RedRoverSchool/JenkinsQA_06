@@ -1,5 +1,6 @@
 package school.redrover;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -12,6 +13,9 @@ public class SergeyDTest {
 
     @Test
     public void test() throws InterruptedException {
+
+        WebDriverManager.chromedriver().setup();
+
         WebDriver driver = new ChromeDriver();
 
         driver.get("https://www.google.com/");
