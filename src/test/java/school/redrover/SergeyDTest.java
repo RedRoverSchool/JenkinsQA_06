@@ -70,6 +70,11 @@ public class SergeyDTest {
     }
 
     @Test
+    public void testTest() {
+        System.out.println("Simple test");
+    }
+
+    @Test
     public void testShort() {
         System.out.println("This is short test!");
     }
