@@ -68,4 +68,9 @@ public class SergeyDTest {
     public void testOneMore() {
         System.out.println("Я не знаю как писать тесты!");
     }
+
+    @Test
+    public void testShort() {
+        System.out.println("This is short test!");
+    }
 }
