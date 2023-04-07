@@ -62,4 +62,8 @@ public class SergeyDTest {
         driver.quit();
     }
 
+    @Test
+    public void testOneMore() {
+        System.out.println("Я не знаю как писать тесты!");
+    }
 }
