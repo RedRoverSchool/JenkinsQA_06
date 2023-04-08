@@ -87,4 +87,19 @@ public class AlexLeoEpicGroupTest {
 
         driver.quit();
     }
+
+    @Test
+
+    public void checkDiscount() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://askomdch.com/");
+        Thread.sleep(1000);
+        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
+        WebElement discount = driver.findElement(By.xpath("//h3[contains(text(), \"25% OFF \")]"));
+        Assert.assertEquals(discount.getText(), "25% OFF On all products");
+        driver.quit();
+    }
 }
