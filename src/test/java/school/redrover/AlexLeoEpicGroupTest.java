@@ -151,5 +151,6 @@ public class AlexLeoEpicGroupTest {
         shopNowButton.click();
         Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
         driver.quit();
+
     }
     }
