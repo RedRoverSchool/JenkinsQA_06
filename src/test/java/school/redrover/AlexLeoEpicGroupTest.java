@@ -43,7 +43,7 @@ public class AlexLeoEpicGroupTest {
         Assert.assertEquals(saleSign.getText(), "Sale!");
 
         driver.quit();
-}
+    }
     @Test
     public void buttonOpened(){
         ChromeOptions chromeOptions = new ChromeOptions();
