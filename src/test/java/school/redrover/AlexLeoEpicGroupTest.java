@@ -140,7 +140,7 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
-    public void VerifyTheLoginPage_TC () {
+    public void VerifyTheLoginPage_TC() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -154,4 +154,24 @@ public class AlexLeoEpicGroupTest {
         driver.quit();
 
     }
+
+    @Test
+    public void MikeBTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/");
+
+        driver.findElement(By.xpath("//a[@class=\"wp-block-button__link\"]")).click();
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
+
+
     }
+
+
+}
