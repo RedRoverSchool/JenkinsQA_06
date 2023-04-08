@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class Group_Andrey {
+public class GroupAndreyTest {
     @Test
     public void testAndreyD() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -23,10 +23,8 @@ public class Group_Andrey {
         WebElement button = driver.findElement(By.xpath("//*[@id=\"desktop-menu\"]/ul/li[1]/a"));
         button.click();
 
-        String title = driver.getTitle();
-        assertEquals("OpenWeatherMap API guide - OpenWeatherMap", title);
+        assertEquals(driver.getTitle(), "OpenWeatherMap API guide - OpenWeatherMap");
 
         driver.quit();
-
     }
 }
