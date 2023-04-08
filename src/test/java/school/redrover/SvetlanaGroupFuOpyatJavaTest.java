@@ -18,11 +18,11 @@ public class SvetlanaGroupFuOpyatJavaTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.montereybayaquarium.org");
 
         String title = driver.getTitle();
-        Assert.assertEquals(title, "Visit | Monterey Bay Aquarium");
+        Assert.assertEquals(title, "Monterey Bay Aquarium");
         Thread.sleep(3000);
         WebElement tabAnimals = driver.findElement(By.xpath("//button[normalize-space()='Animals']"));
         tabAnimals.click();
