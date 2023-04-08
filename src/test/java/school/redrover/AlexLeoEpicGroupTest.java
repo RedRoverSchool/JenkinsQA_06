@@ -102,6 +102,20 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
+    public void clickAccountButtonTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://askomdch.com/");
+        driver.findElement(By.xpath("//li[@id='menu-item-1237']/a")).click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/account/");
+        driver.quit();
+    }
+
+
     public void productsNumberTest_TC_006_23() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
