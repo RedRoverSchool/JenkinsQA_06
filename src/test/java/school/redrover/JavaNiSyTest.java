@@ -46,7 +46,7 @@ public class JavaNiSyTest {
     }
 
     @Test
-    public void UscisTest() throws InterruptedException {
+    public void testUscis() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
