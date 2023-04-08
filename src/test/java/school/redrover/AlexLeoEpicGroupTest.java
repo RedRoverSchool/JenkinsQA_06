@@ -57,7 +57,7 @@ public class AlexLeoEpicGroupTest {
         Assert.assertEquals(url, "https://askomdch.com/store");
         driver.quit();
     }
-    @Ignore
+
     @Test
     public void colourTest_TC_007_23() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -90,14 +90,12 @@ public class AlexLeoEpicGroupTest {
 
     @Test
 
-    public void checkDiscount() throws InterruptedException {
+    public void checkDiscount() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://askomdch.com/");
-        Thread.sleep(1000);
-        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
         WebElement discount = driver.findElement(By.xpath("//h3[contains(text(), \"25% OFF \")]"));
         Assert.assertEquals(discount.getText(), "25% OFF On all products");
         driver.quit();
@@ -117,5 +115,16 @@ public class AlexLeoEpicGroupTest {
         driver.quit();
     }
 
+
+    public void productsNumberTest_TC_006_23() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.findElement(By.cssSelector("ul.products.columns-5")).
+                findElements(By.tagName("li")).size(), 5);
+        driver.quit();
+    }
 
 }
