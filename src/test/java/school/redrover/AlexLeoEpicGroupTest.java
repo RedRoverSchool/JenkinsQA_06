@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
+
 
 public class AlexLeoEpicGroupTest {
     @Test
@@ -28,8 +30,7 @@ public class AlexLeoEpicGroupTest {
     }
 
 
-    @Test
-    public void Test_TC_001_01() throws InterruptedException {
+
 
     @Test
     public void verifySaleSTas_TC_001_04() {
@@ -59,7 +60,6 @@ public class AlexLeoEpicGroupTest {
 
         String fieldValidation = driver.findElement(By.xpath("//h2[@class=\"has-text-align-center\"]")).getText();
         Assert.assertEquals(fieldValidation, "Featured Products");
-        Thread.sleep(2000);
 
         String saleTag = driver.findElement(By.xpath("//span[@class=\"onsale\"]")).getText();
         Assert.assertEquals(saleTag, "Sale!");
