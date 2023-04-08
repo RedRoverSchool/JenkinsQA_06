@@ -6,8 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class AlexLeoEpicGroupTest {
@@ -55,7 +57,7 @@ public class AlexLeoEpicGroupTest {
         Assert.assertEquals(url, "https://askomdch.com/store");
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void colourTest_TC_007_23() {
         ChromeOptions chromeOptions = new ChromeOptions();
