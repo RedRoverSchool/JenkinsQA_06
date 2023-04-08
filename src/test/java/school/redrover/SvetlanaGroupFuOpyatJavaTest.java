@@ -18,8 +18,8 @@ public class SvetlanaGroupFuOpyatJavaTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.montereybayaquarium.org/visit");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.montereybayaquarium.org");
 
         String title = driver.getTitle();
         Assert.assertEquals(title, "Visit | Monterey Bay Aquarium");
