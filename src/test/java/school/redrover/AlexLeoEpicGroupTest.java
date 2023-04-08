@@ -29,8 +29,10 @@ public class AlexLeoEpicGroupTest {
     }
     @Test
     public void buttonOpened(){
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://askomdch.com/");
         String url = "https://askomdch.com/store";
 
