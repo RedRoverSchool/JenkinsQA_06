@@ -129,8 +129,10 @@ public class AlexLeoEpicGroupTest {
 
     @Test
     public void testVerifySymbol() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
         WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
 
         driver.get("https://askomdch.com/");
         Thread.sleep(3000);
