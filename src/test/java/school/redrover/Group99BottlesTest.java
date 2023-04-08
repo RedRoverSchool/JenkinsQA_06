@@ -60,5 +60,7 @@ public class Group99BottlesTest {
                 By.xpath("//header[@class = 'woocommerce-products-header']/h1"));
 
         Assert.assertEquals(headerText.getText(), "Women");
+
+        driver.quit();
     }
 }
