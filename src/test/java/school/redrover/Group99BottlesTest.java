@@ -18,8 +18,7 @@ public class Group99BottlesTest {
         driver.get("https://petstore.octoperf.com/actions/Catalog.action");
 
         String title = driver.getTitle();
-        Assert.assertEquals("JPetStore Demo", title);
-
+        Assert.assertEquals(title, "JPetStore Demo");
         driver.quit();
     }
 }
