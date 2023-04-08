@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 public class Group99BottlesTest {
 
     @Test
-    public void testSecond() {
+    public void testTitleBasePage() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
