@@ -44,8 +44,9 @@ public class AlexLeoEpicGroupTest {
 
         driver.quit();
     }
+
     @Test
-    public void buttonOpened(){
+    public void buttonOpened() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -115,7 +116,7 @@ public class AlexLeoEpicGroupTest {
         driver.quit();
     }
 
-
+    @Test
     public void productsNumberTest_TC_006_23() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
