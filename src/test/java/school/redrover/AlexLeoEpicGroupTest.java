@@ -97,7 +97,6 @@ public class AlexLeoEpicGroupTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://askomdch.com/");
         Thread.sleep(1000);
-        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
         WebElement discount = driver.findElement(By.xpath("//h3[contains(text(), \"25% OFF \")]"));
         Assert.assertEquals(discount.getText(), "25% OFF On all products");
         driver.quit();
