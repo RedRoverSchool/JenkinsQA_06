@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -127,5 +126,23 @@ public class AlexLeoEpicGroupTest {
                 findElements(By.tagName("li")).size(), 5);
         driver.quit();
     }
+
+    @Test
+    public void testVerifySymbol() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://askomdch.com/");
+        Thread.sleep(3000);
+        String text = driver.findElement(By.cssSelector("h2.has-text-align-center")).getText();
+        Assert.assertEquals(text,"Featured Products");
+        Thread.sleep(3000);
+        String symbol = driver.findElement(By.cssSelector("span.woocommerce-Price-currencySymbol")).getText();
+        Assert.assertEquals(symbol,"$");
+
+        driver.quit();
+
+    }
+
 
 }
