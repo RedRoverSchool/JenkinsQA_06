@@ -27,24 +27,4 @@ public class AlexLeoEpicGroupTest {
         Assert.assertEquals(icon.getText(), "Sale!");
         driver.quit();
     }
-
-    @Test
-    public void verifySaleSTas_TC_001_04() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://askomdch.com");
-        driver.manage().window().maximize();
-
-
-        driver.quit();
-
-        WebElement saleSign = driver.findElement(By.className("onsale"));
-        Assert.assertEquals(saleSign.getText(), "Sale!");
-
-        driver.quit();
-
-    }
 }
