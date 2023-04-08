@@ -23,7 +23,7 @@ public class NikolayMkvComradesAdelanteTest {
 
         driver.get("https://ya.ru/");
 
-        WebElement textBox = driver.findElement(By.xpath("//*[@id='text']"));
+        WebElement textBox = driver.findElement(By.id("text"));
 
         textBox.click();
 
