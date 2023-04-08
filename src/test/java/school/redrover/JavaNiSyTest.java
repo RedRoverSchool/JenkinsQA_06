@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -42,6 +43,29 @@ public class JavaNiSyTest {
 
         Assert.assertEquals(browser.findElement(By.cssSelector(".mt-3")).getText(), "You have selected Yes");
         browser.quit();
+    }
+
+    @Test
+    public void UscisTest() throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://www.uscis.gov/");
+        WebElement textBox = driver.findElement(By.id("gsc-i-id1"));
+
+        textBox.sendKeys("citizenship and naturalization");
+        textBox.sendKeys(Keys.RETURN);
+
+        Thread.sleep(2000);
+
+        WebElement button = driver.findElement(By.name("Search"));
+        button.click();
+
+        WebElement text = driver.findElement(By.className("gsc-selected-option"));
+
+        Assert.assertEquals(text.getText(), "Relevance");
+
+        driver.quit();
     }
 }
 
