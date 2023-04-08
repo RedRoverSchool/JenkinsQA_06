@@ -12,7 +12,7 @@ public class Group99BottlesTest {
     public void testSecond() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://petstore.octoperf.com/actions/Catalog.action");
