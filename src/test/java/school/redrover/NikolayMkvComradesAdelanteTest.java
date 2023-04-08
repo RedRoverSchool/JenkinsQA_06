@@ -23,6 +23,8 @@ public class NikolayMkvComradesAdelanteTest {
 
         driver.get("https://ya.ru/");
 
+        Thread.sleep(2000);
+
         WebElement textBox = driver.findElement(By.id("text"));
 
         textBox.click();
