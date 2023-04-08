@@ -3,16 +3,20 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class javaExpertsGroup {
+public class JavaExpertsGroup {
     @Test
     public void testFirst() throws InterruptedException {
 
-        WebDriver driver = new SafariDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
 
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
