@@ -144,6 +144,7 @@ public class AlexLeoEpicGroupTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         driver.get("https://askomdch.com/");
         Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
         driver.findElement(By.xpath("//span[@class='onsale']")).isDisplayed();
