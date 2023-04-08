@@ -48,24 +48,26 @@ public class JavaNiSyTest {
     @Test
     public void UscisTest() throws InterruptedException {
 
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver browser = new ChromeDriver(chromeOptions);
 
-        driver.get("https://www.uscis.gov/");
-        WebElement textBox = driver.findElement(By.id("gsc-i-id1"));
+        browser.get("https://www.uscis.gov/");
+        WebElement textBox = browser.findElement(By.id("gsc-i-id1"));
 
         textBox.sendKeys("citizenship and naturalization");
         textBox.sendKeys(Keys.RETURN);
 
         Thread.sleep(2000);
 
-        WebElement button = driver.findElement(By.name("Search"));
+        WebElement button = browser.findElement(By.name("Search"));
         button.click();
 
-        WebElement text = driver.findElement(By.className("gsc-selected-option"));
+        WebElement text = browser.findElement(By.className("gsc-selected-option"));
 
         Assert.assertEquals(text.getText(), "Relevance");
 
-        driver.quit();
+        browser.quit();
     }
 }
 
