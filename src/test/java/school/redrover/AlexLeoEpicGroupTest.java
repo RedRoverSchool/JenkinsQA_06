@@ -129,6 +129,26 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
+    public void testVerifySymbol() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com/");
+        Thread.sleep(3000);
+        String text = driver.findElement(By.cssSelector("h2.has-text-align-center")).getText();
+        Assert.assertEquals(text,"Featured Products");
+        Thread.sleep(3000);
+        String symbol = driver.findElement(By.cssSelector("span.woocommerce-Price-currencySymbol")).getText();
+        Assert.assertEquals(symbol,"$");
+
+        driver.quit();
+
+    }
+
+
+    @Test
     public void currencyTest_TC_002_23() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
