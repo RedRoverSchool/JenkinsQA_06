@@ -17,8 +17,8 @@ public class Group99BottlesTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://petstore.octoperf.com/actions/Catalog.action");
 
-        String title = driver.getTitle();
-        Assert.assertEquals(title, "JPetStore Demo");
+        Assert.assertEquals(driver.getTitle(), "JPetStore Demo");
+
         driver.quit();
     }
 }
