@@ -12,8 +12,8 @@ public class AndreyPomazTest {
     @Test
     public void testFirst_RedRover() throws InterruptedException {
 
-//        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver();
         driver.get("https://redrover.school");
@@ -68,7 +68,7 @@ public class AndreyPomazTest {
     }
 
     @Test
-    public void test3() throws InterruptedException {
+    public void testJenkins() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
