@@ -17,10 +17,10 @@ public class VidimTest {
     @Test
     public void checkWrongEmail() throws InterruptedException {
 
-        //  ChromeOptions chromeOptions = new ChromeOptions();
-     //  chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+        ChromeOptions chromeOptions = new ChromeOptions();
+     chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
 
         driver.get("https://redrover.school");
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
