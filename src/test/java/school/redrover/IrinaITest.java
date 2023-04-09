@@ -8,11 +8,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.awt.*;
-import java.util.List;
-import java.util.Set;
-
-import static org.testng.Assert.assertEquals;
 
 public class IrinaITest {
     @Test
@@ -36,5 +31,6 @@ public class IrinaITest {
         Assert.assertEquals(title.getText(), "Essential tools for software developers and teams");
 
         driver.quit();
+
     }
 }
