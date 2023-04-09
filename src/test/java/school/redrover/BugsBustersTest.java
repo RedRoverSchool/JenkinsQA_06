@@ -31,8 +31,6 @@ public class BugsBustersTest {
 //        Assert.assertEquals(text.getText(),"$100.00");
 
         driver.quit();
-
-
     }
     @Test
     public void testSergeyConvert() {
@@ -67,5 +65,7 @@ public class BugsBustersTest {
 
         WebElement text = driver.findElement(By.xpath("//a[@href=\"/shows/the-phantom-of-the-opera/\"]/h3"));
         Assert.assertEquals(text.getText(), "The Phantom of the Opera");
+
+        driver.quit();
     }
 }
