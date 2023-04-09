@@ -122,6 +122,7 @@ public class JavaNiSyTest {
         WebElement inputPassword1 = driver.findElement(By.id("exampleInputPassword1"));
         inputPassword1.sendKeys("123@@#aA");
 
+
         WebElement inputPassword2 = driver.findElement(By.id("exampleInputPassword2"));
         inputPassword2.sendKeys("321@@#aA");
 
