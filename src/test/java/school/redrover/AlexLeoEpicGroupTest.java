@@ -6,11 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class AlexLeoEpicGroupTest {
     @Test
@@ -20,7 +18,7 @@ public class AlexLeoEpicGroupTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
         driver.get("https://askomdch.com/");
         Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
@@ -81,7 +79,7 @@ public class AlexLeoEpicGroupTest {
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://askomdch.com/");
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         WebElement textDiscount = driver.findElement(By.xpath("//h3[text()='25% OFF On all products']"));
 
         Assert.assertEquals(textDiscount.getText(), DISCOUNT_INFO);
@@ -160,5 +158,40 @@ public class AlexLeoEpicGroupTest {
         }
         driver.quit();
     }
+
+    @Test
+    public void VerifyTheLoginPage_TC() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
+        driver.findElement(By.xpath("//span[@class='onsale']")).isDisplayed();
+        WebElement shopNowButton = driver.findElement(By.xpath("//a[@class='wp-block-button__link']"));
+        shopNowButton.click();
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
+        driver.quit();
+
+    }
+
+    @Test
+    public void MikeBTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/");
+
+        driver.findElement(By.xpath("//a[@class=\"wp-block-button__link\"]")).click();
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
+
+
+    }
+
 
 }
