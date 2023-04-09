@@ -10,12 +10,12 @@ import org.testng.annotations.Test;
 
 public class YuliyaKTest {
     @Test
-    public void testH2TagText_WhenSearchingCityCharlotte() throws InterruptedException {
+    public void testH2TagText_WhenSearchingCityOrlando() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
 
         String cityName = "Orlando";
         String expectedResult = "Orlando, US";
