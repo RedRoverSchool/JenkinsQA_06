@@ -14,7 +14,7 @@ public class EvgenyZagrebelnikovTest {
     public void testOpenweatherGoogleSearch() throws InterruptedException {
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--window-size=1920,1080", "--remote-allow-origins=*");
+        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(options);
 
         driver.get("https://www.google.com/");
