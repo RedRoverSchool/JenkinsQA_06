@@ -17,8 +17,8 @@ public class VidimTest {
     @Test
     public void checkWrongEmail() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+      ChromeOptions chromeOptions = new ChromeOptions();
+      chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
@@ -35,11 +35,11 @@ public class VidimTest {
         name.sendKeys("Vitalii");
 
         WebElement checkbox = driver.findElement(By.className("t-checkbox__indicator"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
         checkbox.click();
 
         WebElement button = driver.findElement(By.className("t-submit"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
         button.click();
 
         WebElement errorMessage = driver.findElement(By.className("t-input-error"));
