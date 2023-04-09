@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 public class GroupJavaQaTeamTest {
 
     @Test
-    public void testCheckTheCartIsEmpty() {
+    public void testCheckTheCartIsEmpty() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -27,6 +27,8 @@ public class GroupJavaQaTeamTest {
 
         WebElement searchText = driver.findElement(
                 By.xpath("//div[@class='empty-cart__message empty-cart__message--primary' and text()=\"There's Nothing Here Yet\"]"));
+
+        Thread.sleep(2000);
 
         String actualResult = searchText.getText();
         Assert.assertEquals(actualResult, expectedResult);
