@@ -26,7 +26,7 @@ public class BugsBustersTest {
         WebElement buyNowButton = driver.findElement(By.linkText("Buy Now"));
         buyNowButton.click();
 
-//        WebElement continueToDeliveryButton = driver.findElement(By.xpath("//button[@type=\"submit\"]"));
+//        WebElement continueToDeliveryButton = driver.findElement(By.xpath("//button[@type='submit']"));
 //        continueToDeliveryButton.click();
 
         Thread.sleep(3000);
