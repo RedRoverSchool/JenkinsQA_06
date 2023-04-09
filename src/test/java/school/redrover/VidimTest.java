@@ -15,26 +15,24 @@ public class VidimTest {
 
 
     @Test
-    public void checkWrongEmail() {
+    public void checkWrongEmail() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebDriver driver = new ChromeDriver(/*chromeOptions*/);
 
         driver.get("https://redrover.school");
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
         WebElement but = driver.findElement(By.xpath("//*[@id=\"rec544122398\"]/div/div/div[3]/a"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(15000));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
         but.click();
 
         WebElement email = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[1]/div/input"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(15000));
         email.sendKeys("vidim@gmail.");
 
         WebElement name = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[2]/div/input"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(15000));
         name.sendKeys("Vitalii");
 
         WebElement checkbox = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[3]/div/label"));
@@ -42,13 +40,12 @@ public class VidimTest {
         checkbox.click();
 
         WebElement button = driver.findElement(By.className("t-submit"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
         button.click();
 
-        WebElement errorMessage = driver.findElement(By.className("t-input-error"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
-        Assert.assertEquals(errorMessage.getText(), "Please enter a valid email address");
-        //Assert.assertEquals(errorMessage.getText(), "Укажите, пожалуйста, корректный email");
+        WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"tilda-popup-for-error\"]/div[1]/p"));
+        Thread.sleep(1000);
+        //Assert.assertEquals(errorMessage.getText(), "Please enter a valid email address");
+        Assert.assertEquals(errorMessage.getText(), "Укажите, пожалуйста, корректный email");
         driver.quit();
     }
 }
