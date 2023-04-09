@@ -68,4 +68,29 @@ public class BugsBustersTest {
 
         driver.quit();
     }
+
+    @Test
+    public void YuliyaTFirstTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+//        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.selenium.dev/");
+
+        WebElement readMoreButton = driver.findElement(By.xpath("//a[@href='/documentation/webdriver/']"));
+        readMoreButton.click();
+
+        WebElement getStatedButton = driver.findElement(By.xpath("//a[@href='/documentation/webdriver/getting_started/']"));
+        getStatedButton.click();
+
+        WebElement text = driver.findElement(By.xpath("//h1"));
+        Assert.assertEquals(text.getText(), "Getting started");
+
+        driver.quit();
+    }
+
+
 }

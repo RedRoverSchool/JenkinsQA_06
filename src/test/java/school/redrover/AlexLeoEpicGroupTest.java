@@ -200,6 +200,19 @@ public class AlexLeoEpicGroupTest {
         for(WebElement element : driver.findElements(By.cssSelector("span[class='onsale']"))){
             Assert.assertEquals(element.getText(), "Sale!");
         }
+        driver.quit();
+    }
+
+    @Test
+    public void discountTest_TC_003_23_PetroMatsiura() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.findElement(By.cssSelector("h3[class*='medium-font-size']")).
+                getText(), "25% OFF On all products");
+        driver.quit();
     }
     @Test
     public void TC_002_33_ArtemT_verifyShopNowLink() {
