@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 
 public class AlexLeoEpicGroupTest {
     @Test
@@ -173,5 +174,20 @@ public class AlexLeoEpicGroupTest {
 
     }
 
+    @Test
+    public void testMenuBar() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://askomdch.com/");
+        Thread.sleep(3000);
+        WebElement menu = driver.findElement(By.xpath("//ul[@id='ast-hf-menu-1']"));
+        Thread.sleep(3000);
+        List<WebElement> products = menu.findElements(By.tagName("li"));
+        Assert.assertEquals(products.size(), 8);
+        driver.quit();
+
+    }
 
 }
