@@ -210,7 +210,6 @@ public class AlexLeoEpicGroupTest {
             driver.get("https://askomdch.com/");
             driver.findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
                     .click();
-            //driver.findElement(By.cssSelector("a.wp-block-button__link:contains('Shop Now')"))
             String URL = driver.getCurrentUrl();
             Assert.assertEquals(URL, "https://askomdch.com/store" );
         }
