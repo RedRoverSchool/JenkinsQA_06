@@ -17,10 +17,10 @@ public class VidimTest {
     @Test
     public void checkWrongEmail() throws InterruptedException {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        //  ChromeOptions chromeOptions = new ChromeOptions();
+     //  chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebDriver driver = new ChromeDriver();
 
         driver.get("https://redrover.school");
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
@@ -39,13 +39,13 @@ public class VidimTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
         checkbox.click();
 
-        WebElement button = driver.findElement(By.className("t-submit"));
+        WebElement button = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[5]/button"));
         button.click();
 
         WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"tilda-popup-for-error\"]/div[1]/p"));
         Thread.sleep(1000);
-        //Assert.assertEquals(errorMessage.getText(), "Please enter a valid email address");
-        Assert.assertEquals(errorMessage.getText(), "Укажите, пожалуйста, корректный email");
+        Assert.assertEquals(errorMessage.getText(), "Please enter a valid email address");
+        //Assert.assertEquals(errorMessage.getText(), "Укажите, пожалуйста, корректный email");
         driver.quit();
     }
 }
