@@ -83,7 +83,7 @@ public class JavaNiSyTest {
         inputName.sendKeys("Ivan");
 
         WebElement inputEmail = driver.findElement(By.id("exampleInputEmail1"));
-        inputEmail.sendKeys("test10@mail.ru");                                       // При каждом запуске необходимо изменить почту
+        inputEmail.sendKeys("test12130@mail.ru");                                       // При каждом запуске необходимо изменить почту
 
         WebElement inputPassword1 = driver.findElement(By.id("exampleInputPassword1"));
         inputPassword1.sendKeys("123@@#aA");
@@ -117,7 +117,7 @@ public class JavaNiSyTest {
         inputName.sendKeys("Ivan");
 
         WebElement inputEmail = driver.findElement(By.id("exampleInputEmail1"));
-        inputEmail.sendKeys("test12@mail.ru");                                       // При каждом запуске необходимо изменить почту
+        inputEmail.sendKeys("test3213@mail.ru");                                       // При каждом запуске необходимо изменить почту
 
         WebElement inputPassword1 = driver.findElement(By.id("exampleInputPassword1"));
         inputPassword1.sendKeys("123@@#aA");
