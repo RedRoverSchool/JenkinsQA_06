@@ -190,4 +190,17 @@ public class AlexLeoEpicGroupTest {
 
     }
 
+    @Test
+    public void verifyTest() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://askomdch.com");
+        driver.manage().window().maximize();
+        WebElement saleSign = driver.findElement(By.className("onsale"));
+        Assert.assertEquals(saleSign.getText(), "Sale!");
+
+        driver.quit();
+    }
 }
