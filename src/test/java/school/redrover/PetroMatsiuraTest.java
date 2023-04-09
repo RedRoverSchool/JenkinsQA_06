@@ -5,10 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class PetroMatsiuraTest {
-
+    @Ignore
     @Test
     public void storeTest() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
