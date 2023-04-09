@@ -52,7 +52,6 @@ public class AndreyPomazTest {
 
         String title = driver.getTitle();
         Assert.assertEquals("Web form", title);
-
         Thread.sleep(2000);
 
         WebElement textBox = driver.findElement(By.name("my-text"));
