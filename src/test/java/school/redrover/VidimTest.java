@@ -42,7 +42,7 @@ public class VidimTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
         button.click();
 
-        WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[1]/div/div"));
+        WebElement errorMessage = driver.findElement(By.className("t-input-error"));
         Assert.assertEquals(errorMessage.getText(), "Please enter a valid email address");
         driver.quit();
     }
