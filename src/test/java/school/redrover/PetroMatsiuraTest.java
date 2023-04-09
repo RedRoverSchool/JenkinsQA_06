@@ -16,7 +16,7 @@ public class PetroMatsiuraTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.google.com/");
         driver.findElement(By.linkText("Store")).click();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         Assert.assertEquals(driver.getTitle(), "Google Store for Google Made Devices & Accessories");
         driver.quit();
     }
