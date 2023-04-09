@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class GroupComradesAdelante {
+public class GroupComradesAdelanteTest {
 
     @Test
 
