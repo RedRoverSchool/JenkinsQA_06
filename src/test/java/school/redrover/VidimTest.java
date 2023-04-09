@@ -20,7 +20,7 @@ public class VidimTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(/*chromeOptions*/);
+        WebDriver driver = new ChromeDriver(chromeOptions);
 
         driver.get("https://redrover.school");
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
