@@ -69,5 +69,25 @@ public class JavaNiSyTest {
 
         browser.quit();
     }
+    @Test
+    public void testGoogleTransl() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.google.com/");
+
+        WebElement textBox = driver.findElement(By.id("APjFqb"));
+        textBox.sendKeys("гугл переводчик");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text =  driver.findElement(By.xpath("//h3[@class='LC20lb MBeuO DKV0Md']"));
+
+        Assert.assertEquals(text.getText(),"Google Переводчик");
+
+        driver.quit();
+    }
+
 }
 
