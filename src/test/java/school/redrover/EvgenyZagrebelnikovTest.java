@@ -14,8 +14,6 @@ public class EvgenyZagrebelnikovTest {
     @Test
     public void testOpenweatherGoogleSearch() throws InterruptedException {
 
-        System.setProperty("webdriver.chrome.driver", "/media/hp14/10ddf784-6745-4d03-a3ef-abc9d57c9d6f/hp/QA_06_Java/ChromeDriver/chromedriver");
-
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox", "--window-size=1920,1080", "--remote-allow-origins=*");
         WebDriver driver = new ChromeDriver(options);
