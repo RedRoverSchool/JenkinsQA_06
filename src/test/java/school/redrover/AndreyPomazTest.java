@@ -40,7 +40,6 @@ public class AndreyPomazTest {
         WebElement error = driver.findElement(By.className("t-input-error"));
         Assert.assertEquals(error.getText(), "Please enter a valid email address");
         driver.quit();
-
     }
     @Test
     public void testSecond_Selenium() throws InterruptedException {
@@ -65,7 +64,6 @@ public class AndreyPomazTest {
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
-
         driver.quit();
     }
 }
