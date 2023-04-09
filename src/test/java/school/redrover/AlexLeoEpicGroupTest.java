@@ -173,7 +173,6 @@ public class AlexLeoEpicGroupTest {
 
     }
 
-
     @Test
     public void testFindGitHubEl() {
 
