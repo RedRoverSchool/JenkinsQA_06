@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -29,5 +30,22 @@ public class GroupJavaJitsu {
         Assert.assertEquals(options.size(), 14);
 
         driver.quit();
+    }
+
+    @Test
+    public void testAriumFindACommunity() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://ariumliving.com/");
+
+        WebElement inputElement = driver.findElement(By.name("search"));
+        inputElement.sendKeys("Arium Seaglass");
+        inputElement.sendKeys(Keys.ENTER);
+        Assert.assertEquals(driver.getCurrentUrl(), "https://ariumliving.com/find-a-community/?search=Arium+Seaglass");
+
+        driver.quit();
+
     }
 }
