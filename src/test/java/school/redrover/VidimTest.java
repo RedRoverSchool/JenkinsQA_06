@@ -25,8 +25,9 @@ public class VidimTest {
         driver.get("https://redrover.school");
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
-        driver.findElement(By.xpath("//*[@id=\"rec544122398\"]/div/div/div[3]/a")).click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+        WebElement but = driver.findElement(By.xpath("//*[@id=\"rec544122398\"]/div/div/div[3]/a"));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
+        but.click();
 
         WebElement email = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[1]/div/input"));
         email.sendKeys("vidim@gmail.");
