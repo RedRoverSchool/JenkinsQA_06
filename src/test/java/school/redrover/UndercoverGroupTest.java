@@ -19,9 +19,6 @@ public class UndercoverGroupTest {
 
         driver.get("https://google.com");
 
-        WebElement consentReject = driver.findElement(By.id("W0wltc"));
-        consentReject.click();
-
         WebElement searchField = driver.findElement(By.name("q"));
         searchField.sendKeys("Selenium");
         searchField.sendKeys(Keys.RETURN);
