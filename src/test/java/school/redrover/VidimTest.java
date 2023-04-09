@@ -16,7 +16,6 @@ public class VidimTest {
 
     @Test
     public void checkWrongEmail() {
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -40,7 +39,7 @@ public class VidimTest {
         button.click();
 
         WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"form539601227\"]/div[2]/div[1]/div/div"));
-        Assert.assertEquals(errorMessage.getText(), "Укажите, пожалуйста, корректный email");
+        Assert.assertEquals(errorMessage.getText(), "Please enter a valid email address");
         driver.quit();
     }
 }
