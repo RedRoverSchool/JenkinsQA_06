@@ -130,7 +130,7 @@ public class GroupOlesyaTests {
             afterFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
         }
         Collections.sort(beforeFilterPriceList);
-        Collections.reverse(beforeFilterPriceList);
+        Collections.reverse(beforeFilterPriceList); //reverse the sorted list
 
         Assert.assertEquals(beforeFilterPriceList, afterFilterPriceList);
 
