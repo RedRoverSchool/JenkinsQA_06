@@ -32,7 +32,7 @@ public class VidimTest {
         WebElement name = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[2]/div/input"));
         name.sendKeys("Vitalii");
         WebElement checkbox = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[3]/div/label"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(15000));
         checkbox.click();
 
         WebElement button = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[5]/button"));
