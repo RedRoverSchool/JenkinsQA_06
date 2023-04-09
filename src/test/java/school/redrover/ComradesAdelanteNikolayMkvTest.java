@@ -38,7 +38,7 @@ public class ComradesAdelanteNikolayMkvTest {
         Thread.sleep(5000);
 
         String expectedResult = "https://www.google.com/maps/place/%D0%91%D0%B5%D1%80%D0%B4%D1%81%D0%BA,+%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B8%D0%B1%D0%B8%D1%80%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB./@54.7646848,83.0277085,12z/data=!3m1!4b1!4m6!3m5!1s0x42dfcf8ff0ea4713:0x977d7d9948dc1705!8m2!3d54.7750638!4d83.0800315!16zL20vMDc2MXZt?hl=RU";
-        String actualResult = driver.getCurrentUrl();;
+        String actualResult = driver.getCurrentUrl();
 
         Assert.assertEquals(actualResult,expectedResult);
 
