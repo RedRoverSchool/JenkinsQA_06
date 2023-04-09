@@ -22,24 +22,27 @@ public class VidimTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://redrover.school/ru");
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(200));
-
-        driver.findElement(By.xpath("//*[@id=\"rec546712405\"]/div/div/div[4]/a")).click();
-
-        WebElement email = driver.findElement(By.xpath("//*[@id=\"form539601227\"]/div[2]/div[1]/div/input"));
-        email.sendKeys("vidim@gmail.");
-        WebElement name = driver.findElement(By.xpath("//*[@id=\"form539601227\"]/div[2]/div[2]/div/input"));
-        name.sendKeys("Vitalii");
-        WebElement checkbox = driver.findElement(By.xpath("//*[@id=\"form539601227\"]/div[2]/div[3]/div/label/div"));
+        driver.get("https://redrover.school");
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+
+        driver.findElement(By.xpath("//*[@id=\"rec544122398\"]/div/div/div[3]/a")).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+
+        WebElement email = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[1]/div/input"));
+        email.sendKeys("vidim@gmail.");
+
+        WebElement name = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[2]/div/input"));
+        name.sendKeys("Vitalii");
+
+        WebElement checkbox = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[3]/div/label/div"));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
         checkbox.click();
 
-        WebElement button = driver.findElement(By.xpath("//*[@id=\"form539601227\"]/div[2]/div[5]/button"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(700));
+        WebElement button = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[5]/button"));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
         button.click();
 
-        WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"form539601227\"]/div[2]/div[1]/div/div"));
+        WebElement errorMessage = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[1]/div/div"));
         Assert.assertEquals(errorMessage.getText(), "Please enter a valid email address");
         driver.quit();
     }
