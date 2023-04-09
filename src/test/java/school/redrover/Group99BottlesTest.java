@@ -13,10 +13,10 @@ public class Group99BottlesTest {
     @Test
     public void testH2Text_WhenSearchingCityCountry() throws InterruptedException {
 
-//        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
         String url = "https://openweathermap.org/";
