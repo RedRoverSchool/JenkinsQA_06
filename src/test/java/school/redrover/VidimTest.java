@@ -25,9 +25,9 @@ public class VidimTest {
         driver.get("https://redrover.school");
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
-        WebElement but = driver.findElement(By.xpath("//*[@id=\"rec544122398\"]/div/div/div[3]/a"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
-        but.click();
+       WebElement but = driver.findElement(By.xpath("//*[@id=\"rec544122398\"]/div/div/div[3]/a"));
+       driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
+       but.click();
 
         WebElement email = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[1]/div/input"));
         email.sendKeys("vidim@gmail.");
@@ -44,7 +44,8 @@ public class VidimTest {
         button.click();
 
         WebElement errorMessage = driver.findElement(By.className("t-input-error"));
-        Assert.assertEquals(errorMessage.getText(), "Please enter a valid email address");
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(25000));
+        Assert.assertEquals(errorMessage.getText(), "Укажите, пожалуйста, корректный email");
         driver.quit();
     }
 }
