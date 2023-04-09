@@ -1,11 +1,11 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.time.Duration;
@@ -47,5 +47,19 @@ public class GroupJavaJitsu {
 
         driver.quit();
 
+    }
+
+    @Test
+    public void tema_openCartRegistrationTest() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.get("https://demo.opencart.com/index.php?route=account/register&language=en-gb");
+        driver.findElement(By.id("input-firstname")).sendKeys("Tema");
+        driver.findElement(By.id("input-lastname")).sendKeys("Shvets");
+        driver.findElement(By.id("input-email")).sendKeys("temaemail123@gmail.com");
+        driver.findElement(By.id("input-password")).sendKeys("123xyz");
+        driver.quit();
     }
 }
