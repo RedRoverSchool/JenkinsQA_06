@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 public class HelloWorldTest {
 
     @Test
-    public void getUrlKovalen (){
+    public void getUrlTest (){
    ChromeOptions chromeOptions = new ChromeOptions();
      chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         for (int i=0;i<3;i++){
@@ -22,24 +22,31 @@ public class HelloWorldTest {
         }
     }
 
-@Ignore
-@Test
+//@Ignore
+//@Test
+//
+//    public void firstTestOK() throws InterruptedException {
+////       ChromeOptions chromeOptions = new ChromeOptions();
+////      chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+//        WebDriver driver= new ChromeDriver();
+//        driver.get("https://ya.ru/");
+//        WebElement news= driver.findElement(By.xpath("//*[@id=\"text\"]"));
+//        news.sendKeys("Moscow");
+//        Thread.sleep(2000);
+//        WebElement but = driver.findElement(By.xpath("/html/body/main/div[3]/form/div[2]/button"));
+//        but.click();
+//        Thread.sleep(2000);
+//
+//    /  //  WebElement text  = driver.findElement(By.xpath("//*[@id=\"search-result\"]/li[1]/div/div[1]/a/h2/span"));
+//        //Assert.assertEquals(text.getText(),  "Moscow - Wikipedia");
+//        driver.quit();
+//    }
 
-    public void firstTestOK() throws InterruptedException {
-//       ChromeOptions chromeOptions = new ChromeOptions();
-//      chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver= new ChromeDriver();
-        driver.get("https://ya.ru/");
-        WebElement news= driver.findElement(By.xpath("//*[@id=\"text\"]"));
-        news.sendKeys("Moscow");
-        Thread.sleep(2000);
-        WebElement but = driver.findElement(By.xpath("/html/body/main/div[3]/form/div[2]/button"));
-        but.click();
-        Thread.sleep(2000);
-
-      //  WebElement text  = driver.findElement(By.xpath("//*[@id=\"search-result\"]/li[1]/div/div[1]/a/h2/span"));
-        //Assert.assertEquals(text.getText(),  "Moscow - Wikipedia");
-        driver.quit();
+    @Test
+    public void printTest (){
+        System.out.println("Hi");
     }
+
+
 
 }
