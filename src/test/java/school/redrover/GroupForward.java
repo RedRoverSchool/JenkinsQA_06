@@ -1,5 +1,5 @@
 package school.redrover;
 
-public class GroupForwardTest {
+public class GroupForward {
 
 }
