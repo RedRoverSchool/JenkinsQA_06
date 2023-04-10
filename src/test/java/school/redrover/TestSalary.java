@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class testSalary {
+public class TestSalary {
     @Test
     public void testSalary() throws InterruptedException {
 
