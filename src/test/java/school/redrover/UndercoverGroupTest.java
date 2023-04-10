@@ -29,4 +29,19 @@ public class UndercoverGroupTest {
 
         driver.quit();
     }
+    @Test
+    public void testSearch(){
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=800,600");
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get("https://www.google.com/");
+        WebElement searchbox = driver.findElement(By.name("q"));
+        searchbox.sendKeys("selenium\n");
+
+        WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
+        Assert.assertEquals(text.getText(), "Selenium");
+
+        driver.quit();
+    }
 }

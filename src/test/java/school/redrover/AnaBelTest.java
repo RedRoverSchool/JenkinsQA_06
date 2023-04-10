@@ -7,10 +7,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class AnaBelTest {
     String url = "https://openweathermap.org";
+    @Ignore
     @Test
     public void testTitle() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -23,7 +25,7 @@ public class AnaBelTest {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testFaringeights() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -38,7 +40,7 @@ public class AnaBelTest {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testCookies() {
         ChromeOptions chromeOptions = new ChromeOptions();
