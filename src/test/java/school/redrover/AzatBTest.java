@@ -13,7 +13,7 @@ import java.time.Duration;
 public class AzatBTest {
     String[] links = {"Courses", "Training", "About school", "Teachers"};
     @Test
-    public void eightComponents() throws InterruptedException {
+    public void test1() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -29,5 +29,10 @@ public class AzatBTest {
         }
 
         driver.quit();
+    }
+
+    @Test
+    public void test2(){
+        System.out.println("Hello test");
     }
 }
