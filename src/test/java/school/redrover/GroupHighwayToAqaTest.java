@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,6 +24,41 @@ public class GroupHighwayToAqaTest {
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://magento.softwaretestingboard.com/contact/");
         Assert.assertEquals(pageTitle.getText(), "Contact Us");
+
+        driver.quit();
+    }
+
+    @Test
+    public void testErrorMessage() {
+
+        String expectedErrorMessage = "This is a required field.";
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://magento.softwaretestingboard.com");
+
+        WebElement scrollByVisibleElement = driver.findElement(By.xpath("//div[@class='footer content']"));
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].scrollIntoView(true)", scrollByVisibleElement);
+
+        WebElement contactNavItem = driver.findElement(
+                By.xpath("//a[@href='https://magento.softwaretestingboard.com/contact/']"));
+        contactNavItem.click();
+
+        driver.findElement(By.xpath("//input[@id='name']"))
+                .sendKeys("Anna");
+        driver.findElement(By.xpath("//input[@id='telephone']"))
+                .sendKeys("8995552557");
+        driver.findElement(By.xpath("//textarea[@id='comment']"))
+                .sendKeys("Thank you for providing such great products and service!");
+        driver.findElement(By.xpath("//span[text()='Submit']")).click();
+
+        String actualErrorMessage = driver.findElement(
+                By.xpath("//div[@id='email-error']")).getText();
+
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
 
         driver.quit();
     }
