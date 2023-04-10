@@ -1,4 +1,4 @@
-package school.redrover;
+package test.java.school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
