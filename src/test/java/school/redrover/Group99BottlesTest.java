@@ -63,4 +63,69 @@ public class Group99BottlesTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testWorkshopHeaderText () {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://corporatetrainingmaterials.com/");
+
+        driver.findElement(By.xpath("//ul[@id='AccessibleNav']/li[2]/a")).click();
+
+        WebElement headerH1Text = driver.findElement(
+                By.xpath("//div[@id='ProductSection']//div[1]/h1"));
+
+        Assert.assertEquals(headerH1Text.getText(), "WORKSHOP LIBRARY");
+
+        driver.quit();
+
+    }
+
+    public void testH2Text_WhenSearchingCityCountry() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String url = "https://openweathermap.org/";
+        String cityName = "Paris";
+        String expectedResult = "Paris, FR";
+
+        driver.get(url);
+        Thread.sleep(5000);
+
+        WebElement searchCityField = driver.findElement(
+                By.xpath("//div[@id='weather-widget']//input[@placeholder='Search city']")
+        );
+        searchCityField.click();
+        searchCityField.sendKeys(cityName);
+
+        WebElement searchButton = driver.findElement(
+                By.xpath("//button[@type='submit']")
+        );
+        searchButton.click();
+        Thread.sleep(1000);
+
+
+        WebElement parisFRChoiceDropdownMenu = driver.findElement(
+                By.xpath("//ul[@class='search-dropdown-menu']/li/span[text()='Paris, FR ']")
+        );
+        parisFRChoiceDropdownMenu.click();
+
+        WebElement h2CityNameHeader = driver.findElement(
+                By.xpath(
+                        "//div[@id='weather-widget']//h2")
+        );
+
+        Thread.sleep(2000);
+        String actualResult = h2CityNameHeader.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
 }
