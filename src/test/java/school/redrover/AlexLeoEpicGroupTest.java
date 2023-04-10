@@ -194,7 +194,7 @@ public class AlexLeoEpicGroupTest {
     @Test
     public void TC_002_33_ArtemT_verifyShopNowLink() {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-sixze=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         try {
@@ -212,7 +212,7 @@ public class AlexLeoEpicGroupTest {
     @Test
     public void TC003_33_ArtemT_verifyFindMoreLink() {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-sixze=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
