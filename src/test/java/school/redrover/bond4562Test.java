@@ -49,7 +49,7 @@ public class bond4562Test {
                 By.xpath("//ytd-toggle-theme-compact-link-renderer//div[@id='label']")
         );
 
-        Assert.assertEquals(darkTheme.getText(), "Appearance: Device theme");
+        Assert.assertEquals(darkTheme.getText(), "Appearance: Dark");
 
         driver.quit();
     }
