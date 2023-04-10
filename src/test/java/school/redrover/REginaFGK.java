@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 public class REginaFGK {
 
     @Test
-    public void goToHomePage() throws InterruptedException {
+    public void homePage() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
