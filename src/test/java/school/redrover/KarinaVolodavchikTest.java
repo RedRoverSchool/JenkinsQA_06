@@ -10,12 +10,16 @@ import org.testng.annotations.Test;
 
 public class KarinaVolodavchikTest {
 
+
         @Test
         public void testFirst () throws InterruptedException {
             // WebDriverManager.chromedriver().setup();
             // System.setProperty("webdriver.chrome.driver","/path/to/chromedriver");
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+            WebDriver driver = new ChromeDriver(chromeOptions);
 
-            WebDriver driver = new ChromeDriver();
+            //WebDriver driver = new ChromeDriver();
             driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
             String title = driver.getTitle();
