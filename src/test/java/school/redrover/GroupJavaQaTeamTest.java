@@ -89,4 +89,24 @@ public class GroupJavaQaTeamTest {
 
     }
 
+    @Test
+    public void testLinkSearchLanguage() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("http://www.99-bottles-of-beer.net/");
+
+        WebElement linkSearchLanguage = driver.findElement(By.linkText("Search Languages"));
+        linkSearchLanguage.click();
+
+        WebElement headerText = driver.findElement(
+                By.xpath("//div[@id = 'main']/h2[contains(.,'Search Languages')]"));
+
+        Assert.assertEquals(headerText.getText(), "Search Languages");
+
+        driver.quit();
+    }
+
+
 }
