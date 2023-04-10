@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class GroupForward1Test {
 
     @Test
-    public void test() throws InterruptedException {
+    public void firstTest() throws InterruptedException {
 
         WebDriver driver = new ChromeDriver();
 
