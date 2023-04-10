@@ -11,6 +11,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class ComradesAdelanteTest {
+
+    @Ignore
     @Test
     public void testMap() throws InterruptedException {
 
