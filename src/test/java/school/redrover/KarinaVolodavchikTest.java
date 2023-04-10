@@ -51,10 +51,7 @@ public class KarinaVolodavchikTest {
         Assert.assertEquals("JPetStore Demo", title);
 
         driver.quit();
-
     }
-
-
     }
 
 
