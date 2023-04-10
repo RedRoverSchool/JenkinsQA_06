@@ -219,6 +219,7 @@ public class AlexLeoEpicGroupTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-sixze=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         try {
             driver.get("https://askomdch.com/");
             driver.findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
