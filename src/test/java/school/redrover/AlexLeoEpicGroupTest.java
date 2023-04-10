@@ -9,6 +9,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
+
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 public class AlexLeoEpicGroupTest {
     @Test
@@ -186,11 +190,52 @@ public class AlexLeoEpicGroupTest {
 
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"sponsorsblock\"]/div[1]/ul/li[6]/a/img"))
                 .isDisplayed());
-        driver.get("https://askomdch.com/");
-        Assert.assertEquals(driver.findElement(By.cssSelector("h3[class*='medium-font-size']")).
-                getText(), "25% OFF On all products");
-        driver.quit();
     }
+
+        @Test
+        public void test_006(){
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+            driver.get("https://askomdch.com/");
+            Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
+
+            String textBox = driver.findElement(By.xpath("//h2[@class='has-text-align-center']")).getText();
+
+            Assert.assertEquals(textBox, "Featured Products");
+            List<WebElement> products = driver.findElements(By.className("type-product"));
+            Assert.assertEquals(products.size(), 5);
+            driver.quit();
+
+    }
+
+    @Test
+    public void Test_TC_001_33() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        try {
+            driver.get("https://askomdch.com/");
+            WebElement featuredProducts = driver
+                    .findElement(By.xpath("//*[contains(text(),'Featured Products')]"));
+            List<WebElement> saleProducts = featuredProducts
+                    .findElements(By.xpath("//li[contains(@class, 'ast-article-single')]" +
+                            "[count(.//span[contains(@class, 'woocommerce-Price-currencySymbol')]) > 1]"));
+            for (WebElement saleProduct : saleProducts) {
+                assertTrue(saleProduct.findElement(By.cssSelector("span.onsale"))
+                        .isDisplayed(), "Sale icon not found on a sale product: " + saleProduct.getText());
+            }
+        } catch (Exception e) {
+            fail("An exception occurred: " + e.getMessage());
+        } finally {
+            driver.quit();
+        }
+    }
+
+
     @Test
     public void TC_002_33_ArtemT_verifyShopNowLink() {
         ChromeOptions chromeOptions = new ChromeOptions();
