@@ -154,21 +154,6 @@ public class GroupJavaJitsu {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", schedule);
         WebElement enroll=driver.findElement(By.xpath("(//a[@href=\"https://www.instamojo.com/globalsqa/appium-training/\"])[2]"));
         enroll.click();
-//        WebElement cart=driver.findElement(By.xpath("//button[@id=\"add-to-cart-btn\"]"));
-//        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@id=\"add-to-cart-btn\"]")));
-//
-//        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOf(cart));
-//        cart.click();
-//        WebElement quantity=driver.findElement(By.xpath("//span[@id=\"cart-quantity-increment-NaN\"]"));
-//        quantity.click();
-//        quantity.click();
-//        driver.findElement(By.xpath("//span[contains(text(),'Buy Now')]")).click();
-//        driver.findElement(By.xpath("//input[@id='firstname']")).sendKeys("Alexandra");
-//        driver.findElement(By.xpath("//input[@id='lastname']")).sendKeys("Novik");
-//        driver.findElement(By.xpath("//span[contains(text(),'Continue Shopping')]")).click();
-//        WebElement welcome=driver.findElement(By.xpath("//span[contains(text(),'Welcome!')]"));
-//        WebElement description= driver.findElement(By.xpath("//p[contains(text(),'Appium is the mobile automation testing API that i')]"));
-//        Assert.assertTrue(description.isDisplayed());
         driver.quit();
     }
 }
