@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 
 public class AlexLeoEpicGroupTest {
     @Test
@@ -187,4 +188,25 @@ public class AlexLeoEpicGroupTest {
         Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"sponsorsblock\"]/div[1]/ul/li[6]/a/img"))
                 .isDisplayed());
     }
+
+        @Test
+        public void test_006(){
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+            driver.get("https://askomdch.com/");
+            Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
+
+            String textBox = driver.findElement(By.xpath("//h2[@class='has-text-align-center']")).getText();
+
+            Assert.assertEquals(textBox, "Featured Products");
+            List<WebElement> products = driver.findElements(By.className("type-product"));
+            Assert.assertEquals(products.size(), 5);
+            driver.quit();
+
+    }
+
+
 }
