@@ -1,3 +1,5 @@
+package school.redrover;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,7 +15,10 @@ public class NeedMoreCoffeeTestCase {
 
         @Test
         public void test_006() throws InterruptedException {
-            WebDriver driver = new ChromeDriver();
+            ChromeOptions chromeOptions = new ChromeOptions(); // это опции для запуска на сервеере
+            chromeOptions.addArguments("--headless", "--window-size=1920,1080"); //чтобы не открывалось окно браузера и с одним размером окна. Потому что на сервере не установлен этот браузер. Тест упадет, если оставить открытие браузера
+
+            WebDriver driver = new ChromeDriver(chromeOptions);
             driver.manage().window().maximize();
             driver.get("https://askomdch.com/");
             assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
