@@ -11,30 +11,22 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class AzatBTest {
-
+    String[] links = {"Courses", "Training", "About school", "Teachers"};
     @Test
-    public void eightComponents() {
+    public void eightComponents() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        String title = driver.getTitle();
-        Assert.assertEquals("Web form", title);
+        driver.get("https://redrover.school");
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
-
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
-
-        textBox.sendKeys("Selenium");
-        submitButton.click();
-
-        WebElement message = driver.findElement(By.id("message"));
-        String value = message.getText();
-        Assert.assertEquals("Received!", value);
+        for (String link : links) {
+            driver.findElement(new By.ByLinkText(link)).click();
+            Thread.sleep(3000);
+            String copyright = driver.findElement(By.xpath("//*[contains(text(), 'Copyright ©')]")).getText();
+            Assert.assertEquals(copyright, "Copyright © 2022 RedRover School. All rights reserved");
+        }
 
         driver.quit();
     }
