@@ -14,10 +14,46 @@ import java.util.Collections;
 import java.util.List;
 
 public class GroupOlesyaTests {
-
     private final String URL = "https://www.saucedemo.com/";
     private final String PASSWORD = "secret_sauce";
     private WebDriver driverCha;
+
+    private void loginToSite(WebDriver driver) {
+
+        driver.get("https://www.saucedemo.com/");
+
+        WebElement login = driver.findElement(By.name("user-name"));
+        WebElement password = driver.findElement(By.name("password"));
+        WebElement button = driver.findElement(By.name("login-button"));
+
+        login.sendKeys("standard_user");
+        password.sendKeys("secret_sauce");
+        button.click();
+    }
+
+    public void standardUserLogin() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        driverCha = new ChromeDriver(chromeOptions);
+
+        driverCha.get(URL);
+        driverCha.findElement(By.id("user-name")).sendKeys("standard_user");
+        driverCha.findElement(By.id("password")).sendKeys(PASSWORD);
+        driverCha.findElement(By.id("login-button")).click();
+    }
+
+    public List<WebElement> getListItems() {
+        standardUserLogin();
+
+        return driverCha.findElements(By.xpath("//div[@class = 'inventory_item_name']"));
+    }
+
+    public String getSortingStatus() {
+
+        return driverCha.findElement(By.xpath("//span[@class = 'active_option']")).getText();
+    }
+
     @Test
     public void nsergeevaTest (){
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -141,27 +177,50 @@ public class GroupOlesyaTests {
         driver.quit();
     }
 
-    public void standardUserLogin() {
+    @Test
+    public void test9ContinueShopping() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        driverCha = new ChromeDriver(chromeOptions);
+        WebDriver driver = new ChromeDriver();
+        loginToSite(driver);
 
-        driverCha.get(URL);
-        driverCha.findElement(By.id("user-name")).sendKeys("standard_user");
-        driverCha.findElement(By.id("password")).sendKeys(PASSWORD);
-        driverCha.findElement(By.id("login-button")).click();
+        WebElement addToCart = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
+        addToCart.click();
+
+        WebElement shoppingCartLink = driver.findElement(By.className("shopping_cart_link"));
+        shoppingCartLink.click();
+
+        WebElement continueShopping = driver.findElement(By.id("continue-shopping"));
+        continueShopping.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+
+        driver.quit();
     }
 
-    public List<WebElement> getListItems() {
-        standardUserLogin();
+    @Test
+    public void test10GoToAllItems() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        return driverCha.findElements(By.xpath("//div[@class = 'inventory_item_name']"));
-    }
+        WebDriver driver = new ChromeDriver();
+        loginToSite(driver);
 
-    public String getSortingStatus() {
+        WebElement shopButton = driver.findElement(By.className("shopping_cart_link"));
+        shopButton.click();
 
-        return driverCha.findElement(By.xpath("//span[@class = 'active_option']")).getText();
+        WebElement burgerMenuLink = driver.findElement(By.id("react-burger-menu-btn"));
+        burgerMenuLink.click();
+
+        Thread.sleep(3000);
+
+        WebElement allItemsLink = driver.findElement(By.id("inventory_sidebar_link"));
+        allItemsLink.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+
+        driver.quit();
     }
 
     @Test

@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -80,6 +81,25 @@ public class HelloWorldTest {
         Assert.assertEquals(selPage.getText(), "Selenium");
         driver.quit();
     }
+
+    @Test
+
+    public void wikTest(){
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.wikipedia.org/");
+        WebElement textBox = driver.findElement(By.name("search"));
+        textBox.sendKeys("Xpath");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//*[@id=\"firstHeading\"]/span"));
+        Assert.assertEquals(text.getText(),"XPath");
+
+        driver.quit();
+    }
+
 
 
 
