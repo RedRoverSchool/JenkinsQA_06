@@ -219,6 +219,7 @@ public class AlexLeoEpicGroupTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-sixze=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         try {
             driver.get("https://askomdch.com/");
             driver.findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
@@ -227,6 +228,23 @@ public class AlexLeoEpicGroupTest {
             Assert.assertEquals(URL, "https://askomdch.com/store" );
         }
         finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void TC003_33_ArtemT_verifyFindMoreLink() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-sixze=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        try {
+            driver.get("https://askomdch.com/");
+            driver.findElements(By.cssSelector("a.wp-block-button__link")).get(1).click();
+            String URL = driver.getCurrentUrl();
+            Assert.assertEquals(URL, "https://askomdch.com/contact-us/");
+        } finally {
             driver.quit();
         }
     }
