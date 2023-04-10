@@ -18,11 +18,11 @@ public class VidimTest {
     public void checkWrongEmail() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://redrover.school");
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(15000));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         WebElement but = driver.findElement(By.xpath("//*[@id=\"rec544122398\"]/div/div/div[3]/a"));
         but.click();
         WebElement email = driver.findElement(By.xpath("//*[@id=\"form544122415\"]/div[2]/div[1]/div/input"));
