@@ -17,9 +17,6 @@ public class GroupTwentyThreeTest {
         WebDriver driver = new ChromeDriver(options);
         driver.get("https://www.w3schools.com/");
 
-        WebElement acceptCookieBtn = driver.findElement(By.id("accept-choices"));
-        acceptCookieBtn.click();
-
         WebElement textBox = driver.findElement(By.id("search2"));
 
         textBox.sendKeys("Java Tutorial\n");
