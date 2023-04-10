@@ -75,7 +75,7 @@ public class Group99BottlesTest {
         driver.findElement(By.xpath("//ul[@id='AccessibleNav']/li[2]/a")).click();
 
         WebElement headerH1Text = driver.findElement(
-                By.xpath("//div[@id='ProductSection']//div[1]/h1"));
+                 By.xpath("//div[@id='ProductSection']//div[1]/h1"));
 
         Assert.assertEquals(headerH1Text.getText(), "WORKSHOP LIBRARY");
 
