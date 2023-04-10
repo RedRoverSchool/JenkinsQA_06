@@ -2,23 +2,29 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class PetroMatsiuraTest {
-
+public class GroupILoveBugsTest {
     @Test
-    public void storeTest() throws InterruptedException {
+    public void ADFirstTest() throws InterruptedException {
+
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.google.com/");
-        Thread.sleep(5000);
-        driver.findElement(By.linkText("Store")).click();
-        Thread.sleep(5000);
-        Assert.assertEquals(driver.getTitle(), "Google Store for Google Made Devices & Accessories");
+
+        driver.get("https://guitar.com/");
+
+        Thread.sleep(2000);
+
+        WebElement latestNews = driver.findElement(By.xpath("//h2[@class='posts-block-title']"));
+
+        Assert.assertEquals(latestNews.getText(), "LATEST NEWS");
+
         driver.quit();
     }
 }

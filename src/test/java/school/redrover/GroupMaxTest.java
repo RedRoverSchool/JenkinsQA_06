@@ -35,6 +35,8 @@ public class GroupMaxTest {
         driver.findElement(By.id("login-button")).click();
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+
+        driver.quit();
     }
 
     @Test
@@ -51,5 +53,7 @@ public class GroupMaxTest {
 
         Assert.assertTrue(driver.findElement(By.className("error-message-container")).isDisplayed());
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
+
+        driver.quit();
     }
 }

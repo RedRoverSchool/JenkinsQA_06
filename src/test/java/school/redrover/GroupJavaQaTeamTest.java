@@ -9,31 +9,84 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 public class GroupJavaQaTeamTest {
-    @Ignore
+
     @Test
-    public void testCheckTheCartIsEmpty() throws InterruptedException {
+    public void testFirst() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String title = driver.getTitle();
+        assertEquals("Web form", title);
+
+        WebElement textBox = driver.findElement(By.name("my-text"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        Thread.sleep(3000);
+
+        textBox.sendKeys("Selenium");
+
+        Thread.sleep(3000);
+
+        submitButton.click();
+
+        Thread.sleep(3000);
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        assertEquals("Received!", value);
+
+        Thread.sleep(3000);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testH2TagText_WhenSearchingCityOrlando() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        String expectedResult = "There's Nothing Here Yet";
+        String cityName = "Orlando";
+        String expectedResult = "Orlando, US";
 
-        driver.get("https://www.homedepot.com/");
+        driver.get("https://openweathermap.org/ ");
 
-        WebElement searchButtonCart = driver.findElement(By.xpath("//span[@class ='MyCart__label' ]"));
-        searchButtonCart.click();
+        Thread.sleep(5000);
 
-        WebElement searchText = driver.findElement(
-                By.xpath("//div[@class='empty-cart__message empty-cart__message--primary' and text()=\"There's Nothing Here Yet\"]"));
+        WebElement searchCityField = driver.findElement(
+                By.xpath("//div[@id = 'weather-widget']//input[@placeholder = 'Search city']"));
 
-        Thread.sleep(2000);
+        searchCityField.click();
+        searchCityField.sendKeys(cityName);
 
-        String actualResult = searchText.getText();
+        WebElement searchButton = driver.findElement(By.xpath("//button[@type = 'submit']"));
+        searchButton.click();
+
+        Thread.sleep(1000);
+
+        WebElement charlotteDropdownMenu = driver.findElement(
+                By.xpath("//ul[@class = 'search-dropdown-menu']/li/span[text() = 'Orlando, US ']"));
+        charlotteDropdownMenu.click();
+
+        WebElement h2CityNameHeader = driver.findElement(
+                By.xpath("//div[@class = 'section-content']/div/div/div/h2"));
+
+        Thread.sleep(1000);
+
+        String actualResult = h2CityNameHeader.getText();
         Assert.assertEquals(actualResult, expectedResult);
 
         driver.quit();
+
     }
+
 }
