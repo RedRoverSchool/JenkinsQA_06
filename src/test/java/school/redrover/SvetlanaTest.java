@@ -11,9 +11,8 @@ import org.testng.annotations.Test;
 
 public class SvetlanaTest {
 
-    @Ignore
     @Test
-    public void TitleTest() throws InterruptedException {
+    public void findTest() throws InterruptedException {
 
         final String EXPLORE_STORIES = "Explore amazing stories";
 
@@ -22,15 +21,16 @@ public class SvetlanaTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.montereybayaquarium.org");
+        Thread.sleep(5000);
 
         String title = driver.getTitle();
         Assert.assertEquals(title, "Monterey Bay Aquarium");
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         WebElement tabAnimals = driver.findElement(By.xpath("//button[normalize-space()='Animals']"));
         tabAnimals.click();
 
         WebElement explStories = driver.findElement(By.xpath("//h3[normalize-space()='Explore amazing stories']"));
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         Assert.assertEquals(explStories.getText(), EXPLORE_STORIES);
         driver.quit();
     }

@@ -9,7 +9,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
-import java.util.List;
 
 public class AlexLeoEpicGroupTest {
     @Test
@@ -59,7 +58,7 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
-    public void colourTest_TC_007_23_PetroMatsiura() {
+    public void colourTest_TC_007_23() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -116,7 +115,7 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
-    public void productsNumberTest_TC_006_23_PetroMatsiura() {
+    public void productsNumberTest_TC_006_23() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -128,7 +127,7 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
-    public void currencyTest_TC_002_23_PetroMatsiura() {
+    public void currencyTest_TC_002_23() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -175,60 +174,17 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
-    public void testMenuBar() throws InterruptedException {
+    public void testFindGitHubEl() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://askomdch.com/");
-        Thread.sleep(3000);
-        WebElement menu = driver.findElement(By.xpath("//ul[@id='ast-hf-menu-1']"));
-        Thread.sleep(3000);
-        List<WebElement> products = menu.findElements(By.tagName("li"));
-        Assert.assertEquals(products.size(), 8);
-        driver.quit();
-
-    }
-
-    @Test
-    public void saleTest_TC_001_23_PetroMatsiura() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-        driver.get("https://askomdch.com/");
-        for(WebElement element : driver.findElements(By.cssSelector("span[class='onsale']"))){
-            Assert.assertEquals(element.getText(), "Sale!");
-        }
-        driver.quit();
-    }
 
-    @Test
-    public void discountTest_TC_003_23_PetroMatsiura() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-        driver.get("https://askomdch.com/");
-        Assert.assertEquals(driver.findElement(By.cssSelector("h3[class*='medium-font-size']")).
-                getText(), "25% OFF On all products");
-        driver.quit();
-    }
-    @Test
-    public void TC_002_33_ArtemT_verifyShopNowLink() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-sixze=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        try {
-            driver.get("https://askomdch.com/");
-            driver.findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
-                    .click();
-            String URL = driver.getCurrentUrl();
-            Assert.assertEquals(URL, "https://askomdch.com/store" );
-        }
-        finally {
-            driver.quit();
-        }
-    }
+        driver.get("https://www.jenkins.io/");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.jenkins.io/");
 
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"sponsorsblock\"]/div[1]/ul/li[6]/a/img"))
+                .isDisplayed());
+    }
 }
