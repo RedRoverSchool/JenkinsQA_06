@@ -173,5 +173,18 @@ public class AlexLeoEpicGroupTest {
 
     }
 
+    @Test
+    public void testFindGitHubEl() {
 
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        driver.get("https://www.jenkins.io/");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.jenkins.io/");
+
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"sponsorsblock\"]/div[1]/ul/li[6]/a/img"))
+                .isDisplayed());
+    }
 }
