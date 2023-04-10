@@ -139,4 +139,52 @@ public class AlexLeoEpicGroupTest {
         driver.quit();
     }
 
+    @Test
+    public void VerifyTheLoginPage_TC() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
+        driver.findElement(By.xpath("//span[@class='onsale']")).isDisplayed();
+        WebElement shopNowButton = driver.findElement(By.xpath("//a[@class='wp-block-button__link']"));
+        shopNowButton.click();
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
+        driver.quit();
+
+    }
+
+    @Test
+    public void MikeBTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/");
+
+        driver.findElement(By.xpath("//a[@class=\"wp-block-button__link\"]")).click();
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
+
+
+    }
+
+    @Test
+    public void testFindGitHubEl() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        driver.get("https://www.jenkins.io/");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.jenkins.io/");
+
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"sponsorsblock\"]/div[1]/ul/li[6]/a/img"))
+                .isDisplayed());
+    }
 }
