@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,8 +23,8 @@ public class HelloWorldTest {
         }
     }
 
-@Ignore
-@Test
+    @Ignore
+    @Test
 
     public void firstTestOK() throws InterruptedException {
 //      ChromeOptions chromeOptions = new ChromeOptions();
@@ -61,6 +62,41 @@ public class HelloWorldTest {
 
         driver.quit();
 
+    }
+
+     @Test
+    public void wiTest() {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.wikipedia.org/");
+
+        WebElement textBox = driver.findElement(By.name("search"));
+        textBox.sendKeys("Xpath");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//*[@id=\"firstHeading\"]/span"));
+
+        Assert.assertEquals(text.getText(),"XPath");
+
+        driver.quit();
+    }
+
+    @Test
+    public void wikTest(){
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.wikipedia.org/");
+
+        WebElement textBox = driver.findElement(By.name("search"));
+        textBox.sendKeys("Xpath");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//*[@id=\"mw-content-text\"]/div[1]/p[6]/a"));
+        text.click();
+
+        WebElement text1 = driver.findElement(By.xpath("//*[@id=\"firstHeading\"]/span"));
+        Assert.assertEquals(text1.getText(),"XHTML");
+
+        driver.quit();
     }
 
 
