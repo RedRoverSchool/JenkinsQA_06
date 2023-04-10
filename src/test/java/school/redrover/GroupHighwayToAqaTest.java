@@ -111,4 +111,20 @@ public class GroupHighwayToAqaTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testTitle() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://magento.softwaretestingboard.com/");
+
+        String title = driver.getTitle();
+        Assert.assertEquals("Home Page", title);
+        
+        driver.quit();
+    }
 }

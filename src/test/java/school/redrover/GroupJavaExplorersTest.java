@@ -10,12 +10,29 @@ import org.testng.annotations.Test;
 
 public class GroupJavaExplorersTest {
 
-    @Test  //GroupJavaExplorersTest
+    @Test
+    public void testTrelloTitle(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        String url = "https://trello.com/";
+        String expTitle = "Manage Your Team’s Projects From Anywhere | Trello";
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(url);
+
+        Assert.assertEquals(driver.getTitle(), expTitle);
+
+        driver.quit();
+    }
+
+    @Test
     public void vhodTextOnAuthPageTest() throws InterruptedException {
+
         //проверка того, что на окошке со входом над полями Логина и пасса есть слово Вход
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-            //"--remote-allow-origins=*", "--headless" --- params for server
+        //"--remote-allow-origins=*", "--headless" --- params for server
 
         WebDriver driver = new ChromeDriver(options);
         driver.get("https://www.21vek.by/");             //проходим на сайт
