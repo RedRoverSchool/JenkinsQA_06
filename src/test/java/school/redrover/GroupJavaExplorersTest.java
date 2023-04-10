@@ -10,9 +10,9 @@ import org.testng.annotations.Test;
 
 public class GroupJavaExplorersTest {
 
-    //проверка того, что на окошке со входом над полями Логина и пасса есть слово Вход
     @Test  //GroupJavaExplorersTest
     public void vhodTextOnAuthPageTest() throws InterruptedException {
+        //проверка того, что на окошке со входом над полями Логина и пасса есть слово Вход
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
             //"--remote-allow-origins=*", "--headless" --- params for server
