@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+
 
 public class HelloWorldTest {
 
@@ -62,6 +64,63 @@ public class HelloWorldTest {
         driver.quit();
 
     }
+
+    @Test
+    public void wikiSeleniumTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://ru.wikipedia.org/");
+        WebElement search = driver.findElement(By.xpath("//*[@id='searchInput']"));
+        search.sendKeys("selenium");
+
+        WebElement searchBtn = driver.findElement(By.xpath("//*[@id='searchButton']"));
+        searchBtn.click();
+        WebElement selPage = driver.findElement(By.xpath("//*[@id='firstHeading']/span"));
+
+        Assert.assertEquals(selPage.getText(), "Selenium");
+        driver.quit();
+    }
+
+    @Test
+
+    public void wikTest(){
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.wikipedia.org/");
+        WebElement textBox = driver.findElement(By.name("search"));
+        textBox.sendKeys("Xpath");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//*[@id=\"firstHeading\"]/span"));
+        Assert.assertEquals(text.getText(),"XPath");
+
+        driver.quit();
+    }
+
+    @Test
+    public void firstTest() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        //chromeOptions.addArguments("--remote-allow-origins=*", "--start-maximized");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/");
+        Thread.sleep(3000);
+        driver.findElement(By.xpath("//a[@class=\"wp-block-button__link\"]")).click();
+        Thread.sleep(3000);
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
+
+        Thread.sleep(3000);
+        driver.quit();
+
+
+    }
+
 
 
 
