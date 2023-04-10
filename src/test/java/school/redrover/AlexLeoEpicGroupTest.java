@@ -273,6 +273,7 @@ public class AlexLeoEpicGroupTest {
         }
     }
 
+    @Test
     public void verifyTest() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
