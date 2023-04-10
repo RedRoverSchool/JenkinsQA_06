@@ -32,7 +32,7 @@ public class bond4562Test {
         themeLinkButton.click();
 
         WebElement darkThemeButton = driver.findElement(
-                By.xpath("//yt-formatted-string[text() = 'Тёмная']")
+                By.xpath("//yt-formatted-string[text() = 'Dark theme']")
         );
         darkThemeButton.click();
 
@@ -49,7 +49,7 @@ public class bond4562Test {
                 By.xpath("//ytd-toggle-theme-compact-link-renderer//div[@id='label']")
         );
 
-        Assert.assertEquals(darkTheme.getText(), "Тема: тёмная");
+        Assert.assertEquals(darkTheme.getText(), "Appearance: Device theme");
 
         driver.quit();
     }
