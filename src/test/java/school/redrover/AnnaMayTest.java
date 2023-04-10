@@ -63,7 +63,6 @@ public class AnnaMayTest {
     @Test
     public void uspsHoverOnSubElementTest() {
 
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
