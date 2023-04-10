@@ -124,15 +124,7 @@ public class GroupHighwayToAqaTest {
 
         String title = driver.getTitle();
         Assert.assertEquals("Home Page", title);
+        
+        driver.quit();
     }
-
-
-
-
-
-
-
-
-
-
 }
