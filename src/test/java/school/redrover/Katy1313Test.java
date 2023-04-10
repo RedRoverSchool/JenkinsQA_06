@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 public class Katy1313Test {
 
     @Test
-    public void testGoogleSearchFunctionality() {
+    public void testGoogleSearch() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
