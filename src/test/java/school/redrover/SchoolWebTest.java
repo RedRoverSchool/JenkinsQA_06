@@ -9,8 +9,9 @@ import org.testng.annotations.Test;
 
 public class SchoolWebTest {
     String[] links = {"Courses", "Training", "About school", "Teachers"};
+
     @Test
-    public void testCopyright() {
+    public void testCopyright() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -19,6 +20,7 @@ public class SchoolWebTest {
 
         for (String link : links) {
             driver.findElement(new By.ByLinkText(link)).click();
+            Thread.sleep(3000);
             String copyright = driver.findElement(By.xpath("//*[contains(text(), 'Copyright ©')]")).getText();
             Assert.assertEquals(copyright, "Copyright © 2022 RedRover School. All rights reserved");
         }
