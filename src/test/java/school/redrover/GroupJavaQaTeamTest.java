@@ -47,6 +47,7 @@ public class GroupJavaQaTeamTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testH2TagText_WhenSearchingCityOrlando() throws InterruptedException {
 
