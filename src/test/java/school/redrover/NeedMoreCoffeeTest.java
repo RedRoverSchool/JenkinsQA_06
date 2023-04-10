@@ -20,7 +20,6 @@ public class NeedMoreCoffeeTest {
         textBox.sendKeys(Keys.RETURN);
         //WebElement text = driver.findElement(By.xpath("//*[@href='https://vk.com/login]"));
         //Assert.assertEquals(text.getText(), "ВКонтакте");
-
         driver.quit();
     }
 }
