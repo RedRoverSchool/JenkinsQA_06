@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 public class BarbaraTest {
     @Test
     public void firstTest(){
-        String test = "Github First Test";
-        Assert.assertEquals("Github First Test", test);
+        String test = "Github First Simple Test";
+        Assert.assertEquals("Github First Simple Test", test);
     }
 }
 
