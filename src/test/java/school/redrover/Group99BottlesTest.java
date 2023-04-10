@@ -80,5 +80,6 @@ public class Group99BottlesTest {
         Assert.assertEquals(headerH1Text.getText(), "WORKSHOP LIBRARY");
 
         driver.quit();
+
     }
 }
