@@ -18,9 +18,26 @@ public class NeedMoreCoffeeTest {
         WebElement textBox = driver.findElement(By.name("q"));
         textBox.sendKeys("vk");
         textBox.sendKeys(Keys.RETURN);
+
         //WebElement text = driver.findElement(By.xpath("//*[@href='https://vk.com/login]"));
         //Assert.assertEquals(text.getText(), "ВКонтакте");
+
         driver.quit();
+    }
+
+    @Test
+    public void testBut() {
+       ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.google.com/");
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.sendKeys("ozon");
+        textBox.sendKeys(Keys.RETURN);
+        driver.quit();
+
+
+
     }
 }
 
