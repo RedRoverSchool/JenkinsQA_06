@@ -21,7 +21,6 @@ public class VidimTest {
         chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
-
         driver.get("https://redrover.school");
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(15000));
         WebElement but = driver.findElement(By.xpath("//*[@id=\"rec544122398\"]/div/div/div[3]/a"));
