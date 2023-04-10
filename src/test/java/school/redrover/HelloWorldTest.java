@@ -63,6 +63,24 @@ public class HelloWorldTest {
 
     }
 
+    @Test
+    public void wikiSeleniumTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://ru.wikipedia.org/");
+        WebElement search = driver.findElement(By.xpath("//*[@id='searchInput']"));
+        search.sendKeys("selenium");
+
+        WebElement searchBtn = driver.findElement(By.xpath("//*[@id='searchButton']"));
+        searchBtn.click();
+        WebElement selPage = driver.findElement(By.xpath("//*[@id='firstHeading']/span"));
+
+        Assert.assertEquals(selPage.getText(), "Selenium");
+        driver.quit();
+    }
+
 
 
 }
