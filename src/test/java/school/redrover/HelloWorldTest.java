@@ -82,7 +82,7 @@ public class HelloWorldTest {
     @Test
     public void wikiSeleniumTest(){
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://ru.wikipedia.org/");
         WebElement search = driver.findElement(By.xpath("//*[@id='searchInput']"));
