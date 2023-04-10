@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 
-public class Caramel_surup_for_java {
+public class CaramelSurupForJavaTest {
 
     @Test
     public void artyomDulyaOpenWeatherGuideClick () throws InterruptedException {
