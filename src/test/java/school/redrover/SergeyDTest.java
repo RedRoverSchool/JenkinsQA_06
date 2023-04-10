@@ -68,7 +68,7 @@ public class SergeyDTest {
 
     @Test
     // Commit and push assignment
-    public void testVladLi() throws InterruptedException {
+    public void VladLiTest() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
 //        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
