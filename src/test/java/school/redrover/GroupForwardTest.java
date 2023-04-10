@@ -9,13 +9,12 @@ import org.testng.annotations.Test;
 
 public class GroupForwardTest {
     @Test
-    public void pageHasCommonComponents() throws InterruptedException {
+    public void testPageHasCommonComponents() throws InterruptedException {
 
         WebDriver driver = new ChromeDriver();
         driver.get("https://yummymarket.com/");
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
-        String actualResultTitle = driver.getTitle();
 
         WebElement searchField = driver.findElement(
                 By.xpath("//input[@type = 'search']")
@@ -30,7 +29,7 @@ public class GroupForwardTest {
                 By.xpath("//div[@class='copyright-bar']")
         );
 
-        Assert.assertEquals(actualResultTitle, "Home - Yummy Market");
+        Assert.assertEquals(driver.getTitle(), "Home - Yummy Market");
 
         Assert.assertTrue(searchField.isDisplayed());
         Assert.assertTrue(label.isDisplayed());
