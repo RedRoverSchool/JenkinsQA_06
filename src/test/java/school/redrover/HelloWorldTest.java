@@ -66,6 +66,10 @@ public class HelloWorldTest {
 
      @Test
     public void wiTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless","window size 1920,1080");
+
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.wikipedia.org/");
 
@@ -82,6 +86,8 @@ public class HelloWorldTest {
 
     @Test
     public void wikTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless","window size 1920,1080");
 
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.wikipedia.org/");
