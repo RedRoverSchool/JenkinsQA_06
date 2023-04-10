@@ -6,11 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 public class AlexLeoEpicGroupTest {
     @Test
@@ -20,7 +19,7 @@ public class AlexLeoEpicGroupTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
         driver.get("https://askomdch.com/");
         Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
@@ -44,8 +43,9 @@ public class AlexLeoEpicGroupTest {
 
         driver.quit();
     }
+
     @Test
-    public void buttonOpened(){
+    public void buttonOpened() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -59,7 +59,7 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
-    public void colourTest_TC_007_23() {
+    public void colourTest_TC_007_23_PetroMatsiura() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -80,7 +80,7 @@ public class AlexLeoEpicGroupTest {
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://askomdch.com/");
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         WebElement textDiscount = driver.findElement(By.xpath("//h3[text()='25% OFF On all products']"));
 
         Assert.assertEquals(textDiscount.getText(), DISCOUNT_INFO);
@@ -102,7 +102,21 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
-    public void productsNumberTest_TC_006_23() {
+    public void clickAccountButtonTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://askomdch.com/");
+        driver.findElement(By.xpath("//li[@id='menu-item-1237']/a")).click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/account/");
+        driver.quit();
+    }
+
+    @Test
+    public void productsNumberTest_TC_006_23_PetroMatsiura() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -111,6 +125,110 @@ public class AlexLeoEpicGroupTest {
         Assert.assertEquals(driver.findElement(By.cssSelector("ul.products.columns-5")).
                 findElements(By.tagName("li")).size(), 5);
         driver.quit();
+    }
+
+    @Test
+    public void currencyTest_TC_002_23_PetroMatsiura() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        for (WebElement element : driver.findElements(By.cssSelector("span[class*='currencySymbol']"))) {
+            Assert.assertEquals(element.getText(), "$");
+        }
+        driver.quit();
+    }
+
+    @Test
+    public void VerifyTheLoginPage_TC() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
+        driver.findElement(By.xpath("//span[@class='onsale']")).isDisplayed();
+        WebElement shopNowButton = driver.findElement(By.xpath("//a[@class='wp-block-button__link']"));
+        shopNowButton.click();
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
+        driver.quit();
+
+    }
+
+    @Test
+    public void MikeBTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/");
+
+        driver.findElement(By.xpath("//a[@class=\"wp-block-button__link\"]")).click();
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
+
+
+    }
+
+    @Test
+    public void testMenuBar() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://askomdch.com/");
+        Thread.sleep(3000);
+        WebElement menu = driver.findElement(By.xpath("//ul[@id='ast-hf-menu-1']"));
+        Thread.sleep(3000);
+        List<WebElement> products = menu.findElements(By.tagName("li"));
+        Assert.assertEquals(products.size(), 8);
+        driver.quit();
+
+    }
+
+    @Test
+    public void saleTest_TC_001_23_PetroMatsiura() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        for(WebElement element : driver.findElements(By.cssSelector("span[class='onsale']"))){
+            Assert.assertEquals(element.getText(), "Sale!");
+        }
+        driver.quit();
+    }
+
+    @Test
+    public void discountTest_TC_003_23_PetroMatsiura() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.findElement(By.cssSelector("h3[class*='medium-font-size']")).
+                getText(), "25% OFF On all products");
+        driver.quit();
+    }
+    @Test
+    public void TC_002_33_ArtemT_verifyShopNowLink() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-sixze=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        try {
+            driver.get("https://askomdch.com/");
+            driver.findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
+                    .click();
+            String URL = driver.getCurrentUrl();
+            Assert.assertEquals(URL, "https://askomdch.com/store" );
+        }
+        finally {
+            driver.quit();
+        }
     }
 
 }
