@@ -63,6 +63,22 @@ public class HelloWorldTest {
 
     }
 
+    @Test
+    public void EFCourseTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("http://efcourse.efitness.md/");
+        WebElement user = driver.findElement(By.xpath("//input[@id='username']"));
+        user.sendKeys("mymail373@yandex.ru");
+        WebElement pass = driver.findElement(By.xpath("//input[@id='password']"));
+        pass.sendKeys("12345");
+        WebElement loginBtn = driver.findElement(By.xpath("//button[@id = 'loginbtn']"));
+        loginBtn.click();
+        WebElement startPage = driver.findElement(By.xpath("//h1[text() = 'Мои курсы']"));
+        Assert.assertEquals(startPage.getText(), "Мои курсы");
+        driver.quit();
+    }
 
 
 }
