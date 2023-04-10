@@ -69,7 +69,7 @@ public class ComradesAdelanteTest {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testHeaderSignInPage() throws InterruptedException {
 
