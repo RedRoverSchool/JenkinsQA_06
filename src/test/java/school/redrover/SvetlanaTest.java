@@ -11,9 +11,9 @@ import org.testng.annotations.Test;
 
 public class SvetlanaTest {
 
-    @Ignore
+   // @Ignore
     @Test
-    public void TitleTest() throws InterruptedException {
+    public void titleTest() throws InterruptedException {
 
         final String EXPLORE_STORIES = "Explore amazing stories";
 
