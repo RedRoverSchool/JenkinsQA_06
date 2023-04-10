@@ -273,4 +273,20 @@ public class AlexLeoEpicGroupTest {
         }
     }
 
+    @Test
+    public void verifyTest() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com");
+        Thread.sleep(3000);
+        driver.manage().window().maximize();
+        WebElement saleSign = driver.findElement(By.className("onsale"));
+        Assert.assertEquals(saleSign.getText(), "Sale!");
+
+        driver.quit();
+    }
+
 }
