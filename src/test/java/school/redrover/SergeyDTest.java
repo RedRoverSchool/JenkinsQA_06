@@ -10,8 +10,6 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
 public class SergeyDTest {
 
     @Ignore
@@ -62,33 +60,6 @@ public class SergeyDTest {
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
-
-        driver.quit();
-    }
-
-    @Test
-    // Commit and push assignment
-    public void VladLiTest() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://www.yahoo.com/?guccounter=1");
-
-        WebElement textBox = driver.findElement(By.name("p"));
-
-        textBox.sendKeys("Amazon");
-        textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
-
-        WebElement text = driver.findElement(By.xpath("//span[text() = 'Amazon.com® Official Site - Fast Free Delivery with Prime']"));
-
-        Assert.assertEquals(text.getText(), "Amazon.com® Official Site - Fast Free Delivery with Prime");
-
 
         driver.quit();
     }
