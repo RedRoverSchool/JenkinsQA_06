@@ -97,7 +97,7 @@ import org.testng.annotations.Test;
      WebElement search = driver.findElement(By.name("q"));
         search.sendKeys("redrover school");
         search.sendKeys(Keys.RETURN);
-         Thread.sleep(2000);
+         Thread.sleep(5000);
 
      WebElement link = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div/div[1]/div/div/div[1]/div/a/h3"));
         Assert.assertEquals(link.getText(),"Бесплатная IT-школа RedRover - Red rover.school");
