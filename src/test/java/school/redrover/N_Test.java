@@ -18,8 +18,5 @@ public class N_Test {
        Thread.sleep(2000);
        Assert.assertEquals(driver.getTitle(),"Wikipedia");
        driver.quit();
-
-
    }
-
 }
