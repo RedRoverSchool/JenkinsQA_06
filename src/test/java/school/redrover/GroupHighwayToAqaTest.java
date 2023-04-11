@@ -231,6 +231,7 @@ public class GroupHighwayToAqaTest {
         Assert.assertEquals(h1InWhatIsNew.getText(), "What's New");
 
         driver.quit();
+
     }
 }
 
