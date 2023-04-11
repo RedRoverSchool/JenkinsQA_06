@@ -64,9 +64,13 @@ public class GroupJavaExplorersTest {
         driver.quit();
     }
 
-
     @Test
-    public void TestS (){
+    public void TestSecondehe ()
+    {
+        System.out.println("Thos is TestSecondehe");
     }
+
+
+
 
 }
