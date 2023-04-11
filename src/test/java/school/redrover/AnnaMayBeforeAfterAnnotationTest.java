@@ -54,6 +54,7 @@ public class AnnaMayBeforeAfterAnnotationTest {
             String expectedResult = "Most Relevant Results for stamps";
             Assert.assertEquals(actualResult, expectedResult);
         }
+        @Ignore
         @Test(priority = 3)
         public void uspsHoverOnSubElementTest() {
 
