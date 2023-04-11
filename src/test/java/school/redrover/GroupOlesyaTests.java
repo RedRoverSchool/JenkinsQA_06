@@ -466,4 +466,35 @@ public class GroupOlesyaTests {
 
         Assert.assertEquals(firstOrderItems, sortOrderItems);
     }
+
+    @Test
+    public void testLogOut() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.saucedemo.com/inventory.html");
+
+        WebElement username = driver.findElement(By.name("user-name"));
+        WebElement password = driver.findElement(By.name("password"));
+        WebElement loginButton = driver.findElement(By.name("login-button"));
+
+        username.sendKeys("standard_user");
+        password.sendKeys("secret_sauce");
+        loginButton.click();
+
+        WebElement burgerMenuLink = driver.findElement(By.id("react-burger-menu-btn"));
+        burgerMenuLink.click();
+
+        Thread.sleep(3000);
+
+        WebElement logOut = driver.findElement(By.id("logout_sidebar_link"));
+        logOut.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
+
+        driver.quit();
+    }
+
 }
+
