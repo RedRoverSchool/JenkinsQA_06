@@ -32,6 +32,7 @@ public class ZeroBugTest {
         Assert.assertEquals(text.getText(), "Selenium");
 
         driver.quit();
+
     }
 
     @Test
@@ -59,5 +60,6 @@ public class ZeroBugTest {
         Assert.assertEquals("Received!", value);
 
         driver.quit();
+
     }
 }
