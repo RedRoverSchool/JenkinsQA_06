@@ -37,7 +37,7 @@ public class AndreyPomazTest {
         Thread.sleep(2000);
 
         WebElement error = driver.findElement(By.className("t-input-error"));
-        Assert.assertEquals(error.getText(), "Укажите, пожалуйста, корректный email");
+        Assert.assertEquals(error.getText(), "Please enter a valid email address");
         driver.quit();
     }
     @Test

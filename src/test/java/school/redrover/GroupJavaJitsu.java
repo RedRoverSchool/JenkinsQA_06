@@ -122,7 +122,6 @@ public class GroupJavaJitsu {
     @Test
     public void testForm() throws InterruptedException {
 
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
