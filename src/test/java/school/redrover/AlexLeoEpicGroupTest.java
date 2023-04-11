@@ -319,6 +319,20 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
+    public void test_TC_006_01() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com");
+        List<WebElement> list = driver.findElements(By.className("astra-shop-thumbnail-wrap"));
+        Assert.assertEquals(list.size(), 5);
+
+        driver.quit();
+    }
+
+
+    @Test
     public void saleIconVerificationTest_TC_001_24() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
