@@ -9,12 +9,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 public class Caramel_surup_for_java {
 
     @Test
-    public void artyomDulyaOpenWeatherGuideClick () throws InterruptedException {
+    public void artyomDulyaOpenWeatherGuideClick() throws InterruptedException {
 
         String expectedResultUrl = "https://openweather.co.uk/";
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
@@ -23,6 +24,7 @@ public class Caramel_surup_for_java {
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
+
 
         driver.get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -66,6 +68,37 @@ public class Caramel_surup_for_java {
         button.click();
 
         String actualResult = driver.getCurrentUrl();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    @Test
+    public void artyomDulyaSearchLineHeader() throws InterruptedException {
+
+        String expectedResult = "Paris, FR";
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        driver.get("https://openweathermap.org/");
+
+
+        String selectorSearchLine = "//ul[@id='first-level-nav']//div//form//input[@placeholder='Weather in your city']";
+        WebElement searchLineHeader = driver.findElement(By.xpath(selectorSearchLine));
+        searchLineHeader.sendKeys("Paris\n");
+
+        WebElement paris = driver.findElement(By.xpath("//td//b//a[@href='/city/2988507']"));
+        paris.click();
+
+
+        WebElement parisText = driver.findElement(By.tagName("h2"));
+
+        String actualResult = parisText.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
 
