@@ -7,12 +7,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-public class SergeyDTest {
+public class ZeroBugTest {
 
-    @Ignore
     @Test
     public void testFirst() throws InterruptedException {
 
@@ -20,7 +18,6 @@ public class SergeyDTest {
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
-
         driver.get("https://www.google.com/");
 
         WebElement textBox = driver.findElement(By.name("q"));
@@ -35,6 +32,7 @@ public class SergeyDTest {
         Assert.assertEquals(text.getText(), "Selenium");
 
         driver.quit();
+
     }
 
     @Test
@@ -62,6 +60,6 @@ public class SergeyDTest {
         Assert.assertEquals("Received!", value);
 
         driver.quit();
-    }
 
+    }
 }
