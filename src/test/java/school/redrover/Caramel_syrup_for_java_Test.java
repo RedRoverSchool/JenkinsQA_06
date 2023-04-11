@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.ArrayList;
 
-public class Caramel_surup_for_java {
+public class Caramel_syrup_for_java_Test {
 
     @Test
     public void artyomDulyaOpenWeatherGuideClick() throws InterruptedException {
