@@ -59,8 +59,6 @@ public class UndercoverGroupTest {
         WebElement check = driver.findElement(By.cssSelector("ul.list-unstyled span.done-true"));
         if (check != null) {
             System.out.println("First checkbox checked!");
-        } else {
-            System.out.println("Checkbox not found");
         }
     }
 }
