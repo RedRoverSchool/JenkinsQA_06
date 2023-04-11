@@ -68,7 +68,7 @@ public class UndercoverGroupTest {
     @Test
     public void dragAndDropTest() throws InterruptedException {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--window-size=1920,1080"); //"--headless"
+        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(options);
 
         try {
