@@ -6,12 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-
 public class AndreyPomazTest {
-
-    @Ignore
     @Test
     public void testFirst_RedRover() throws InterruptedException {
 
@@ -40,7 +36,7 @@ public class AndreyPomazTest {
         Thread.sleep(2000);
 
         WebElement error = driver.findElement(By.className("t-input-error"));
-        Assert.assertEquals(error.getText(), "Укажите, пожалуйста, корректный email");
+        Assert.assertEquals(error.getText(), "Please enter a valid email address");
         driver.quit();
     }
     @Test
