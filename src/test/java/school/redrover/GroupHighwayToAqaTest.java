@@ -6,9 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -133,6 +133,31 @@ public class GroupHighwayToAqaTest {
         String title = driver.getTitle();
         Assert.assertEquals("Home Page", title);
         
+        driver.quit();
+    }
+
+    @Test
+    public void testNewLinkAR(){
+        String expectedPageTitle = "What's New";
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://magento.softwaretestingboard.com/");
+
+        WebDriverWait waitForWhatsNewLink = new WebDriverWait(driver, Duration.ofSeconds(10));
+        waitForWhatsNewLink.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='ui-id-3']")));
+
+        WebElement whatsNewLink = driver.findElement(By.xpath("//a[@id='ui-id-3']"));
+        whatsNewLink.click();
+
+        WebElement pageTitle = driver.findElement(By.xpath("//h1[@id='page-title-heading']"));
+        String actualPageTitle = pageTitle.getText();
+
+        Assert.assertEquals(expectedPageTitle, actualPageTitle);
+
         driver.quit();
     }
 
