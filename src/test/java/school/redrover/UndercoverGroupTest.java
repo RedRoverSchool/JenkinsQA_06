@@ -44,4 +44,23 @@ public class UndercoverGroupTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testFirstTry() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=800,600");
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get("https://crossbrowsertesting.github.io/todo-app.html");
+
+        WebElement checkboxOne = driver.findElement(By.name("todo-1"));
+        checkboxOne.click();
+
+        WebElement check = driver.findElement(By.cssSelector("ul.list-unstyled span.done-true"));
+        if (check != null) {
+            System.out.println("First checkbox checked!");
+        } else {
+            System.out.println("Checkbox not found");
+        }
+    }
 }
