@@ -177,7 +177,6 @@ public class GroupOlesyaTests {
 
         driver.quit();
     }
-}
     public void test9ContinueShopping() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
