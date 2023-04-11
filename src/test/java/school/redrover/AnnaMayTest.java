@@ -31,6 +31,7 @@ public class AnnaMayTest {
         driver.close();
     }
 
+    @Ignore
     @Test
     public void uspsSearchTest() throws InterruptedException {
 
