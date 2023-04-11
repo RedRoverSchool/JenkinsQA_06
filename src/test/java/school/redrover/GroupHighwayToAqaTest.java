@@ -78,7 +78,7 @@ public class GroupHighwayToAqaTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://magento.softwaretestingboard.com/");
+        driver.get(BASE_URL);
 
         WebElement textBox = driver.findElement(
                 By.xpath("//header//a[normalize-space(text())=\"Create an Account\"]"));
@@ -87,7 +87,6 @@ public class GroupHighwayToAqaTest {
         WebElement text = driver.findElement(By.xpath("//span[@data-ui-id = \"page-title-wrapper\"]"));
 
         Assert.assertEquals(text.getText(), "Create New Customer Account");
-
 
         WebElement firstName = driver.findElement(By.xpath("//input[@id = \"firstname\"]"));
         firstName.sendKeys("Marina");
