@@ -56,7 +56,6 @@ public class JavaciraptorsTeamTest {
 
         WebElement checkBox = driver.findElement(By.id("my-check-2"));
         checkBox.click();
-
         WebElement submitButton = driver.findElement(By.cssSelector("button"));
         submitButton.click();
 
