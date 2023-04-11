@@ -288,5 +288,17 @@ public class AlexLeoEpicGroupTest {
 
         driver.quit();
     }
+    @Test
+    public void test_TC_003_01(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com");
+        WebElement text = driver.findElement(By.xpath("//h3[contains(text(), '25%')]"));
+        Assert.assertEquals(text.getText(), "25% OFF On all products");
+
+        driver.quit();
+    }
 
 }
