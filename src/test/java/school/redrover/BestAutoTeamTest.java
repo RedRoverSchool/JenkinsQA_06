@@ -68,5 +68,30 @@ public class BestAutoTeamTest {
 
         Assert.assertEquals(Header.getText(), "Login");
     }
+
+    @Test
+    public void testDonation5EurButton() throws InterruptedException {
+
+        driver.get("https://monkkee.com/en");
+
+        WebElement Button = driver.findElement(By.xpath("//*[contains(@class, 'btn btn-primary home__donation-form-amount-btn') and text() = '5 EUR']"));
+        Button.click();
+
+        WebElement element = driver.findElement(By.xpath("//*[@class='form-control home__donation-form-amount-input']"));
+
+        Assert.assertEquals(element.getAttribute("value"), "5");
+    }
+    @Test
+    public void testDonation10EurButton() throws InterruptedException {
+
+        driver.get("https://monkkee.com/en");
+
+        WebElement Button = driver.findElement(By.xpath("//*[contains(@class, 'btn btn-primary home__donation-form-amount-btn') and text() = '10 EUR']"));
+        Button.click();
+
+        WebElement element = driver.findElement(By.xpath("//*[@class='form-control home__donation-form-amount-input']"));
+
+        Assert.assertEquals(element.getAttribute("value"), "10");
+    }
 }
 
