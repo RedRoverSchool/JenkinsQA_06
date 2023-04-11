@@ -183,7 +183,7 @@ public class GroupHighwayToAqaTest {
 
         List<WebElement> listShippingOptions = driver.findElements(By.xpath("//div[@data-role='title']"));
 
-        Assert.assertEquals(13, listShippingOptions.size());
+        Assert.assertEquals(listShippingOptions.size(), 13);
 
         driver.quit();
     }
