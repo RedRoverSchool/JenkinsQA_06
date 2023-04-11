@@ -85,4 +85,23 @@ import org.testng.annotations.Test;
          driver.quit();
      }
 
+     @Test
+     public void getSite() throws InterruptedException {
+         ChromeOptions chromeOptions = new ChromeOptions();
+         chromeOptions.addArguments( "--headless", "--window-size=1920,1080");
+
+     WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.google.com.ua/");
+        Thread.sleep(2000);
+
+     WebElement search = driver.findElement(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input"));
+        search.sendKeys("redrover school");
+        search.sendKeys(Keys.RETURN);
+         Thread.sleep(2000);
+
+     WebElement link = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div/div[1]/div/div/div[1]/div/a/div/div/span"));
+        Assert.assertEquals(link.getText(),"redrover.school");
+        driver.quit();
+
+ }
 }
