@@ -16,7 +16,7 @@ public class GroupFuOpyatJavaTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://demoqa.com/");
 
         WebElement textE = driver.findElement(By.xpath("//h5[normalize-space()='Elements']"));
