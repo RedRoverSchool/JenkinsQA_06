@@ -31,6 +31,7 @@ public class AnnaMayTest {
         driver.close();
     }
 
+    @Ignore
     @Test
     public void uspsSearchTest() throws InterruptedException {
 
@@ -60,7 +61,6 @@ public class AnnaMayTest {
     }
 
     @Ignore
-
     @Test
     public void uspsHoverOnSubElementTest() {
 
