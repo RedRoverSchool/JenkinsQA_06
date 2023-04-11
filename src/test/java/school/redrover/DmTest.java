@@ -6,32 +6,46 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class DmTest {
 
-        @Test
-        public void testThird() throws InterruptedException {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-            WebDriver driver = new ChromeDriver();
-            driver.get("http://www.consultant.ru");
+    @Test
+    public void testThird() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.w3schools.com/");
 
-            WebElement textBox;
-            textBox = driver.findElement(By.name("q"));
-            textBox.sendKeys("Федеральный закон №116");
-            textBox.sendKeys(Keys.RETURN);
+        WebElement search;
+        search = driver.findElement(By.xpath("//form/input[@id = \"search2\"]"));
+        search.sendKeys("HTML Tutorial");
+        search.sendKeys(Keys.RETURN);
 
-            WebElement item;
-            item = driver.findElement(By.className("search-results__link-inherit"));
-            item.click();
+        Thread.sleep(5000);
 
-            Thread.sleep(4000);
+        WebElement textBox;
+        textBox = driver.findElement(By.xpath("//input[@name = \"ex1\"]"));
+        textBox.sendKeys("title");
 
-//          WebElement button;
-//          button = driver.findElement((By.xpath("//button[@class = 'full-text__button']")));
-//          button.click();
+        Thread.sleep(5000);
 
-            driver.quit();
-        }
+        WebElement submitConfirm;
+        submitConfirm = driver.findElement(By.xpath("//*[@id=\"w3-exerciseform\"]/div/button"));
+        submitConfirm.click();
+
+        Thread.sleep(5000);
+
+//        WebElement submit = driver.findElement(By.xpath("//button[@id='answerbutton']"));
+//        submit.click();
+//
+//        WebElement result;
+//        result = driver.findElement(By.xpath("//*[@id=\"assignmentCorrect\"]/h2"));
+//        result.click();
+//
+//        Assert.assertEquals(result.getText(), "Correct");
+
+        driver.quit();
     }
+}
