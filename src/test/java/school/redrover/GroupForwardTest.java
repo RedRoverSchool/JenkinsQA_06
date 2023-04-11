@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Locale;
+
 public class GroupForwardTest {
 
     @Test
@@ -98,6 +100,29 @@ public class GroupForwardTest {
         Assert.assertEquals(driver.getCurrentUrl(), link+endpoint_inventory);
 
         driver.quit();
+      }
+
+      @Test
+      public void testYoutubeSearch() {
+
+          ChromeOptions options = new ChromeOptions();
+          options.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080");
+
+          WebDriver driver = new ChromeDriver(options);
+          driver.get("https://www.youtube.com/");
+
+          WebElement searchBox = driver.findElement(By.xpath("//input[@name = 'search_query']"));
+          searchBox.click();
+          searchBox.sendKeys("m1 vs robinhood");
+
+          WebElement goButton = driver.findElement(By.id("search-icon-legacy"));
+          goButton.click();
+
+          WebElement videoName = driver.findElement(
+                  By.xpath("//a[@title = 'M1 Finance Vs Robinhood | SHOCKING Facts About Each Investing Platform']"));
+
+          Assert.assertTrue(videoName.getText().toLowerCase().contains("m1"));
+
       }
 
 }
