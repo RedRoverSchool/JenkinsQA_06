@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -30,6 +32,24 @@ public class GroupDreamTeam {
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
         assertEquals("Received!", value);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testVerifyURL() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        String url = "http://www.99-bottles-of-beer.net/";
+        String expectedResult = "http://www.99-bottles-of-beer.net/";
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(url);
+
+        String actualResult = driver.getCurrentUrl();
+        Assert.assertEquals(actualResult, expectedResult);
 
         driver.quit();
     }
