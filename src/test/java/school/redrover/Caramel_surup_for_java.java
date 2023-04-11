@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -45,6 +46,29 @@ public class Caramel_surup_for_java {
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
 
         driver.quit();
+    }
 
+    @Test
+    public void artyomDulyaThehostbest() throws InterruptedException {
+
+        String expectedResult = "https://thehostbest.ru/business-card-site/";
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        driver.get("https://thehostbest.ru/");
+
+        WebElement button = driver.findElement(By.xpath("//div[@data-id='ee672f3']//div//div//a"));
+        js.executeScript("window.scrollBy(0,200)");
+        button.click();
+
+        String actualResult = driver.getCurrentUrl();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
     }
 }
