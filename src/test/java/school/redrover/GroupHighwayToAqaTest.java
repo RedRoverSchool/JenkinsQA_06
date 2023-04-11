@@ -1,9 +1,6 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -78,7 +75,7 @@ public class GroupHighwayToAqaTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://magento.softwaretestingboard.com/");
+        driver.get(BASE_URL);
 
         WebElement textBox = driver.findElement(
                 By.xpath("//header//a[normalize-space(text())=\"Create an Account\"]"));
@@ -87,7 +84,6 @@ public class GroupHighwayToAqaTest {
         WebElement text = driver.findElement(By.xpath("//span[@data-ui-id = \"page-title-wrapper\"]"));
 
         Assert.assertEquals(text.getText(), "Create New Customer Account");
-
 
         WebElement firstName = driver.findElement(By.xpath("//input[@id = \"firstname\"]"));
         firstName.sendKeys("Marina");
@@ -156,7 +152,7 @@ public class GroupHighwayToAqaTest {
         WebElement pageTitle = driver.findElement(By.xpath("//h1[@id='page-title-heading']"));
         String actualPageTitle = pageTitle.getText();
 
-        Assert.assertEquals(expectedPageTitle, actualPageTitle);
+        Assert.assertEquals(actualPageTitle, expectedPageTitle);
 
         driver.quit();
     }
@@ -187,4 +183,42 @@ public class GroupHighwayToAqaTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testRequiredFieldMessage() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        String expectedMessage = "This is a required field.";
+
+        driver.get(BASE_URL);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement subscribeButton = driver.findElement(By.xpath("//button[@class='action subscribe primary']"));
+        js.executeScript("arguments[0].scrollIntoView();", subscribeButton);
+
+        Thread.sleep(2000);
+
+        subscribeButton.click();
+        WebElement element = driver.findElement(By.xpath("//div[@id='newsletter-error']"));
+        wait.until(ExpectedConditions.visibilityOf(element));
+
+        String actualMessage = element.getText();
+
+        Assert.assertEquals(actualMessage, expectedMessage);
+
+        driver.quit();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

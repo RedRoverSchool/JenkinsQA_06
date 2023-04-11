@@ -104,4 +104,49 @@ public class Caramel_surup_for_java {
 
         driver.quit();
     }
+
+    @Test
+    public static void artyomDulyaHeaderButtonTest() throws InterruptedException {
+
+        int expectedResult = 3;
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        driver.get("https://openweathermap.org/");
+        Thread.sleep(5000);
+
+        WebElement guide = driver.findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
+        WebElement api = driver.findElement(By.xpath("//div[@id='desktop-menu']//ul//li[2]//a[@href='/api']"));
+        WebElement dashboard = driver.findElement((By.xpath("//div[@id='desktop-menu']//ul//li[3]//a[@href='/weather-dashboard']")));
+
+        WebElement[] headers = {guide, api, dashboard};
+
+        ArrayList<String> urls = new ArrayList<String>(10);
+        urls.add("https://openweathermap.org/guide");
+        urls.add("https://openweathermap.org/api");
+        urls.add("https://openweathermap.org/weather-dashboard");
+
+        int count = 0;
+
+        for (int i = 0; i < headers.length; i++) {
+            headers[i].click();
+            driver.getCurrentUrl();
+            for (int j = 0; j < urls.size(); j++) {
+                if (driver.getCurrentUrl().equals(urls.get(j))) {
+                    count++;
+                }
+            }
+            driver.navigate().back();
+        }
+
+        int actualResult = count;
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
 }
