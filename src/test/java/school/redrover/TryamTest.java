@@ -1,4 +1,5 @@
 package school.redrover;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -7,31 +8,20 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
- public class GroupJasperAutomation {
-     @Test
-    public void footballua () throws InterruptedException {
+
+public class TryamTest {
+    @Test
+    public void homePage() throws InterruptedException {
+
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://football.ua/");
-        Thread.sleep(3000);
+        driver.get("https://www.google.com/");
+        WebElement textBox = driver.findElement(By.name("q"));
 
-        WebElement textBox = driver.findElement(By.id("searchInput"));
-        Thread.sleep(2000);
-        textBox.sendKeys("Реал Мадрид");
-        Thread.sleep(2000);
-
-
-        textBox.sendKeys(Keys.RETURN);
+       Assert.assertEquals(driver.getTitle(),"Google");
 
         Thread.sleep(2000);
-
-
-
-        WebElement text = driver.findElement(By.linkText("Реал Мадрид"));
-        Assert.assertEquals(text.getText(), "Реал Мадрид");
-
         driver.quit();
     }
 }
