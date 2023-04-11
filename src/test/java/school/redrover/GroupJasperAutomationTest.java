@@ -97,7 +97,7 @@ public class GroupJasperAutomationTest {
         driver.get("https://gorodok.ua/");
         Thread.sleep(5000);
         WebElement name = driver.findElement(By.xpath("//*[@id=\"masthead\"]/div[1]/div[4]/ul/li[3]/div/a[2]/span"));
-        Assert.assertEquals(name.getText(), "Contacts");
+        Assert.assertEquals(name.getText(), "CONTACTS");
         driver.quit();
 
     }
