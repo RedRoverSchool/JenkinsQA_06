@@ -55,5 +55,18 @@ public class BestAutoTeamTest {
         Assert.assertEquals(text.getText(), "Selenium");
 
     }
+
+    @Test
+    public void testLoginButton() throws InterruptedException {
+
+        driver.get("https://monkkee.com/en");
+
+        WebElement Button = driver.findElement(By.xpath("//div[@class='user-menu']/a[@href='/app/']"));
+        Button.click();
+
+        WebElement Header = driver.findElement(By.xpath("//h1[@class='login__heading']"));
+
+        Assert.assertEquals(Header.getText(), "Login");
+    }
 }
 

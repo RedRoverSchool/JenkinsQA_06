@@ -10,8 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-public class SergeyDTest {
-
+public class LadaTest {
     @Ignore
     @Test
     public void testFirst() throws InterruptedException {
