@@ -8,13 +8,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.time.Duration;
 import java.util.List;
 
 public class GroupJavaJitsu {
 
     @Test
-    public void testCarServiceOptions(){
+    public void testCarServiceOptions() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -62,6 +63,7 @@ public class GroupJavaJitsu {
         driver.findElement(By.id("input-password")).sendKeys("123xyz");
         driver.quit();
     }
+
     @Test
     public void testFirst_RedRover() throws InterruptedException {
 
@@ -93,6 +95,7 @@ public class GroupJavaJitsu {
         Assert.assertEquals(error.getText(), "Please enter a valid email address");
         driver.quit();
     }
+
     @Test
     public void testJenkins() {
 
@@ -113,7 +116,57 @@ public class GroupJavaJitsu {
 
         WebElement text = driver.findElement(By.className("hdlist1"));
 
-        Assert.assertEquals(text.getText(),"Step 1: Setup wizard");
+        Assert.assertEquals(text.getText(), "Step 1: Setup wizard");
+        driver.quit();
+    }
+    @Test
+    public void testForm() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://demoqa.com");
+        WebElement ButtonForms = driver.findElement(By.xpath("//div[@class='home-body']//div[2]//div[1]//div[2]//*[name()='svg']"));
+        ButtonForms.click();
+
+        WebElement ButtonPracticeForm = driver.findElement(By.xpath("(//li[@id='item-0'])[2]"));
+        ButtonPracticeForm.click();
+
+        WebElement formNameFirst = driver.findElement(By.id("firstName"));
+        formNameFirst.sendKeys("Andrey");
+        WebElement formNameLast = driver.findElement(By.id("lastName"));
+        formNameLast.sendKeys("Pomaz");
+
+        WebElement formEmail = driver.findElement(By.id("userEmail"));
+        formEmail.sendKeys("Test@mail.com");
+
+        WebElement genderMale = driver.findElement(By.className("custom-control-label"));
+        genderMale.click();
+
+        WebElement mobileNumber = driver.findElement(By.id("userNumber"));
+        mobileNumber.sendKeys("5555555555");
+
+        WebElement dateOfBirth = driver.findElement(By.id("dateOfBirthInput"));
+        dateOfBirth.click();
+        dateOfBirth.findElement(By.xpath("(//select[@class='react-datepicker__month-select'])[1]")).click();
+        dateOfBirth.findElement(By.xpath("(//option[@value='8'])[1]")).click();
+        dateOfBirth.findElement(By.xpath("(//option[@value='1989'])[1]")).click();
+        dateOfBirth.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[2]/form[1]/div[5]/div[2]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[4]/div[7]")).click();
+
+        WebElement checkboxHobbies = driver.findElement(By.xpath("(//label[normalize-space()='Sports'])[1]"));
+        checkboxHobbies.findElement(By.xpath("(//label[normalize-space()='Sports'])[1]")).click();
+        checkboxHobbies.findElement(By.xpath("(//label[normalize-space()='Music'])[1]")).click();
+
+        WebElement address = driver.findElement(By.id("currentAddress"));
+        address.sendKeys("Test Address");
+
+        WebElement ButSubmit = driver.findElement(By.id("submit"));
+        ButSubmit.click();
+
+        WebElement got = driver.findElement(By.xpath("(//div[@id='example-modal-sizes-title-lg'])[1]"));
+        Thread.sleep(2000);
+        Assert.assertEquals(got.getText(), "Thanks for submitting the form");
         driver.quit();
     }
 
