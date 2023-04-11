@@ -116,4 +116,45 @@ public class GroupJavaJitsu {
         Assert.assertEquals(text.getText(),"Step 1: Setup wizard");
         driver.quit();
     }
+
+
+
+    @Test
+    public void testAboutDoctorsFind() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://prodoctorov.ru/");
+        String title = driver.getTitle();
+        Assert.assertEquals("ПроДокторов – сайт отзывов пациентов о врачах №1 в России", title);
+        WebElement inputElement = driver.findElement(By.className("text-field__input"));
+        WebElement submitButton = driver.findElement(By.className("base-search__button"));
+        inputElement.sendKeys("Ницакова Марина Петровна");
+        submitButton.click();
+        WebElement link = driver.findElement(By.className("b-card__name-link"));
+        link.click();
+        WebElement text = driver.findElement(By.className("ui-text"));
+        Assert.assertEquals(driver.getCurrentUrl(), "https://prodoctorov.ru/krasnodar/vrach/177664-nicakova/");
+        driver.quit();
+
+    }
+    @Test
+    public void testAlex() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().window().maximize();
+        driver.get("https://www.globalsqa.com/");
+        WebElement element= driver.findElement(By.xpath("//a[@href=\"https://www.globalsqa.com/training/appium-online-training/\"]"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        Thread.sleep(2000);
+        element.click();
+        WebElement schedule=driver.findElement(By.xpath("//li[@id='Batch Schedule']"));
+        schedule.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", schedule);
+        WebElement enroll=driver.findElement(By.xpath("(//a[@href=\"https://www.instamojo.com/globalsqa/appium-training/\"])[2]"));
+        enroll.click();
+        driver.quit();
+    }
 }
+
