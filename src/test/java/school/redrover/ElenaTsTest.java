@@ -30,7 +30,7 @@ public class ElenaTsTest {
     WebElement searchField = driver.findElement(By.xpath("//input [@class='ais-SearchBox-input']"));
     searchField.sendKeys("smartwool");
     searchField.sendKeys(Keys.RETURN);
-   Thread.sleep(3000);
+   Thread.sleep(5000);
     WebElement result = driver.findElement(By.xpath("//div[@class='hit-name'][1]"));
 
 
