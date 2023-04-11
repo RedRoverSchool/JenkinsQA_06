@@ -94,13 +94,13 @@ import org.testng.annotations.Test;
         driver.get("https://www.google.com.ua/");
         Thread.sleep(2000);
 
-     WebElement search = driver.findElement(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input"));
+     WebElement search = driver.findElement(By.name("q"));
         search.sendKeys("redrover school");
         search.sendKeys(Keys.RETURN);
          Thread.sleep(2000);
 
-     WebElement link = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div/div[1]/div/div/div[1]/div/a/div/div/span"));
-        Assert.assertEquals(link.getText(),"redrover.school");
+     WebElement link = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div/div[1]/div/div/div[1]/div/a/h3"));
+        Assert.assertEquals(link.getText(),"Бесплатная IT-школа RedRover - Red rover.school");
         driver.quit();
 
  }
