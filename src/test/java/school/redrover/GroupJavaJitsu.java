@@ -212,6 +212,9 @@ public class GroupJavaJitsu {
 
     @Test
     public void testLoginAnton () throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
@@ -227,8 +230,6 @@ public class GroupJavaJitsu {
         loginButton.click();
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
-
-
 
     }
 }
