@@ -6,7 +6,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class N_Test {
+public class NumTest {
 
    @Test
    public  void wikiTest() throws InterruptedException {
