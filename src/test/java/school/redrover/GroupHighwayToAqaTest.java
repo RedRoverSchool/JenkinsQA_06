@@ -1,9 +1,6 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -186,4 +183,42 @@ public class GroupHighwayToAqaTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testRequiredFieldMessage() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        String expectedMessage = "This is a required field.";
+
+        driver.get(BASE_URL);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement subscribeButton = driver.findElement(By.xpath("//button[@class='action subscribe primary']"));
+        js.executeScript("arguments[0].scrollIntoView();", subscribeButton);
+
+        Thread.sleep(2000);
+
+        subscribeButton.click();
+        WebElement element = driver.findElement(By.xpath("//div[@id='newsletter-error']"));
+        wait.until(ExpectedConditions.visibilityOf(element));
+
+        String actualMessage = element.getText();
+
+        Assert.assertEquals(actualMessage, expectedMessage);
+
+        driver.quit();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
