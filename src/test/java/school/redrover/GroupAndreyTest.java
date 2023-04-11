@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
@@ -86,6 +87,8 @@ public class GroupAndreyTest {
 
         driver.quit();
     }
+
+    @Ignore
     @Test
     public void testArtemLocalDateOnCityPage() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();

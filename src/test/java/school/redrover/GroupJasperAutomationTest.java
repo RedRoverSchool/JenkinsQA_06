@@ -68,4 +68,21 @@ import org.testng.annotations.Test;
          driver.quit();
      }
 
+     @Test
+     public void testBUshakov() throws InterruptedException{
+
+         ChromeOptions chromeOptions = new ChromeOptions();
+         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+         WebDriver driver = new ChromeDriver(chromeOptions);
+         driver.get("https://privatbank.ua/");
+
+         WebElement textLink = driver.findElement(By.xpath("//a[contains(text(), 'Відділення')]"));
+         textLink.click();
+
+         Assert.assertEquals(driver.getCurrentUrl(), "https://privatbank.ua/map");
+
+         driver.quit();
+     }
+
 }
