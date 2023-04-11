@@ -182,6 +182,23 @@ public class GroupOlesyaTests {
 
         driver.quit();
     }
+    @Test
+    //testing continue shopping button
+    public void testContinueShopping()  {
+
+       standardUserLogin();
+
+        WebElement productAdd = driverCha.findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']"));
+        productAdd.click();
+        WebElement cart = driverCha.findElement(By.xpath("//span[@class='shopping_cart_badge']"));
+        cart.click();
+        WebElement continueShopping = driverCha.findElement(By.id("continue-shopping"));
+        continueShopping.click();
+        String url = driverCha.getCurrentUrl();
+
+        Assert.assertEquals(url, "https://www.saucedemo.com/inventory.html");
+        driverCha.quit();
+    }
 
     @Test
     public void checkPriceHighToLow() { //Stoyana's Test

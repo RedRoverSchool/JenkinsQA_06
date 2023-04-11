@@ -1,4 +1,5 @@
 package school.redrover;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -7,9 +8,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
- public class GroupJasperAutomationTest {
+
+public class GroupJasperAutomationTest {
     @Test
-    public void footballua () throws InterruptedException {
+    public void footballua() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -28,12 +30,12 @@ import org.testng.annotations.Test;
         Thread.sleep(2000);
 
 
-
         WebElement text = driver.findElement(By.linkText("Реал Мадрид"));
         Assert.assertEquals(text.getText(), "Реал Мадрид");
 
         driver.quit();
     }
+
     @Test
     public void testTitle() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -48,41 +50,55 @@ import org.testng.annotations.Test;
 
         driver.quit();
     }
-     @Test
-     public void testBiletskayaA() throws InterruptedException{
 
-         ChromeOptions chromeOptions = new ChromeOptions();
-         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+    @Test
+    public void testBiletskayaA() throws InterruptedException {
 
-         WebDriver driver = new ChromeDriver(chromeOptions);
-         driver.get("https://new.uschess.org/");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
 
-         WebElement textLink = driver.findElement(By.className("clo-image"));
-         textLink.click();
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://new.uschess.org/");
 
-         Thread.sleep(2000);
+        WebElement textLink = driver.findElement(By.className("clo-image"));
+        textLink.click();
 
-         WebElement element = driver.findElement(By.xpath("//*[text()='Search Articles']"));
-         Assert.assertEquals(element.getText(), "Search Articles");
+        Thread.sleep(2000);
 
-         driver.quit();
-     }
+        WebElement element = driver.findElement(By.xpath("//*[text()='Search Articles']"));
+        Assert.assertEquals(element.getText(), "Search Articles");
 
-     @Test
-     public void testBUshakov() throws InterruptedException{
+        driver.quit();
+    }
 
-         ChromeOptions chromeOptions = new ChromeOptions();
-         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+    @Test
+    public void testBUshakov() throws InterruptedException {
 
-         WebDriver driver = new ChromeDriver(chromeOptions);
-         driver.get("https://privatbank.ua/");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
 
-         WebElement textLink = driver.findElement(By.xpath("//a[contains(text(), 'Відділення')]"));
-         textLink.click();
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://privatbank.ua/");
 
-         Assert.assertEquals(driver.getCurrentUrl(), "https://privatbank.ua/map");
+        WebElement textLink = driver.findElement(By.xpath("//a[contains(text(), 'Відділення')]"));
+        textLink.click();
 
-         driver.quit();
-     }
+        Assert.assertEquals(driver.getCurrentUrl(), "https://privatbank.ua/map");
 
+        driver.quit();
+    }
+
+    @Test
+    public void getSite() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://gorodok.ua/");
+        Thread.sleep(5000);
+        WebElement name = driver.findElement(By.xpath("//*[@id=\"masthead\"]/div[1]/div[4]/ul/li[3]/div/a[2]/span"));
+        Assert.assertEquals(name.getText(), "CONTACTS");
+        driver.quit();
+
+    }
 }
