@@ -176,15 +176,13 @@ public class GroupOlesyaTests {
 
         standardUserLogin();
 
-        WebElement productAdd = driverCha.findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']"));
-        productAdd.click();
-        WebElement cart = driverCha.findElement(By.xpath("//span[@class='shopping_cart_badge']"));
-        cart.click();
-        WebElement continueShopping = driverCha.findElement(By.id("continue-shopping"));
-        continueShopping.click();
-        String url = driverCha.getCurrentUrl();
+        driverCha.findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']")).click();
+        driverCha.findElement(By.xpath("//span[@class='shopping_cart_badge']")).click();
+        driverCha.findElement(By.id("continue-shopping")).click();
 
-        Assert.assertEquals(url, "https://www.saucedemo.com/inventory.html");
+
+
+        Assert.assertEquals(driverCha.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
         driverCha.quit();
     }
 
