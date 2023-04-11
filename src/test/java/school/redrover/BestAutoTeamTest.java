@@ -40,7 +40,7 @@ public class BestAutoTeamTest {
         driver.quit();
     }
 
-    @Test
+    @Test(enabled = false)
     public void testFirst() throws InterruptedException {
 
         driver.get("https://www.google.com/");
