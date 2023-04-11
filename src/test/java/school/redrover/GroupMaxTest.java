@@ -56,4 +56,11 @@ public class GroupMaxTest {
 
         driver.quit();
     }
+
+
+    @Test
+    public void testMax(){
+        String text = "Max";
+        Assert.assertEquals("Max", text);
+    }
 }
