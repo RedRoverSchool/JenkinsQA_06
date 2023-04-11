@@ -121,7 +121,50 @@ public class HelloWorldTest {
 
     }
 
+    @Test
+    public void wiTest() {
 
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless","--window size 1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.wikipedia.org/");
+
+        WebElement textBox = driver.findElement(By.name("search"));
+        textBox.sendKeys("Selectors");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//*[@id=\"mw-content-text\"]/div[4]/div[2]/ul/li[1]/table/tbody/tr/td[2]/div[1]/a"));
+        text.click();
+
+        WebElement text1 = driver.findElement(By.xpath("//*[@id=\"firstHeading\"]/span"));
+
+        Assert.assertEquals(text1.getText(),"CSS");
+
+        driver.quit();
+    }
+
+    @Test
+    public void wTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless","--window size 1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.wikipedia.org/");
+
+        WebElement textBox = driver.findElement(By.name("search"));
+        textBox.sendKeys("Xpath");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//*[@id=\"mw-content-text\"]/div[1]/p[6]/a"));
+        text.click();
+
+        WebElement text1 = driver.findElement(By.xpath("//*[@id=\"firstHeading\"]/span"));
+        Assert.assertEquals(text1.getText(),"XHTML");
+
+        driver.quit();
+
+    }
 
 
 }
