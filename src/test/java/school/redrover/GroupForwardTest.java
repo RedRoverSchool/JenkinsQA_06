@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class GroupForward1Test {
+public class GroupForwardTest {
 
     @Test
     public void testCommonComponents() throws InterruptedException {
@@ -41,6 +41,38 @@ public class GroupForward1Test {
         Assert.assertTrue(navigationBar.isDisplayed());
         Assert.assertEquals(copyrightInformation.getText(), "© 2023 Yummy Market inc. All Rights Reserved.");
         Assert.assertTrue(copyrightInformation.isDisplayed());
+
+        driver.quit();
+    }
+
+    @Test
+    public void testAbleToSearch() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://yummymarket.com/");
+
+        WebElement searchField = driver.findElement(
+                By.xpath("//input[@type = 'search']")
+        );
+        searchField.click();
+        searchField.sendKeys("menu");
+
+        WebElement searchButton = driver.findElement(
+                By.xpath("//button[@class = 'is-search-submit']")
+        );
+        searchButton.click();
+        Thread.sleep(3000);
+
+        WebElement searchHeader = driver.findElement(
+                By.xpath("//header[@class = 'page-header']/h1")
+        );
+
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://yummymarket.com/?s=menu&id=5067");
+
+        Assert.assertEquals(searchHeader.getText(), "Search Results for: menu");
 
         driver.quit();
     }
