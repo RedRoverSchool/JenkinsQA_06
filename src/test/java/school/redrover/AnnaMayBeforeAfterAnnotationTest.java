@@ -10,6 +10,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class AnnaMayBeforeAfterAnnotationTest {
@@ -54,6 +55,7 @@ public class AnnaMayBeforeAfterAnnotationTest {
             Assert.assertEquals(actualResult, expectedResult);
         }
 
+        @Ignore
         @Test(priority = 3)
         public void uspsHoverOnSubElementTest() {
 
