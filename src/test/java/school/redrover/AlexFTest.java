@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class AlexFTest {
+
     @Test
     public void titleOfTheHomePageCheckedTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -26,5 +27,11 @@ public class AlexFTest {
         WebElement icon = driver.findElement(By.xpath("//span[@class='onsale']"));
         Assert.assertEquals(icon.getText(), "Sale!");
         driver.quit();
+    }
+
+    @Test
+    public void firstTest(){
+        String test = "First Test";
+        Assert.assertEquals("First Test", test);
     }
 }
