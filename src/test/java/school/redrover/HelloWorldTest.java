@@ -23,8 +23,8 @@ public class HelloWorldTest {
         }
     }
 
-@Ignore
-@Test
+    @Ignore
+    @Test
 
     public void firstTestOK() throws InterruptedException {
 //      ChromeOptions chromeOptions = new ChromeOptions();
@@ -96,6 +96,7 @@ public class HelloWorldTest {
     }
 
 
+    @Test
     public void wikTest(){
 
         ChromeOptions chromeOptions = new ChromeOptions();
