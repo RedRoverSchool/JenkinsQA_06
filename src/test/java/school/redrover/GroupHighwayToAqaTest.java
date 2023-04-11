@@ -156,7 +156,7 @@ public class GroupHighwayToAqaTest {
         WebElement pageTitle = driver.findElement(By.xpath("//h1[@id='page-title-heading']"));
         String actualPageTitle = pageTitle.getText();
 
-        Assert.assertEquals(expectedPageTitle, actualPageTitle);
+        Assert.assertEquals(actualPageTitle, expectedPageTitle);
 
         driver.quit();
     }
