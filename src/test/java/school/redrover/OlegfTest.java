@@ -30,5 +30,6 @@ public class OlegfTest {
             finalPlate = platesList.get(i).getText();
             assert finalPlate.contains("Blue");
         }
+        driver.quit();
     }
 }
