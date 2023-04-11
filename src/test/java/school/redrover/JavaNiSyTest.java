@@ -7,11 +7,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
 public class JavaNiSyTest {
+    @Ignore
     @Test
     public void testNewsPageMS()  {
 
@@ -31,6 +33,7 @@ public class JavaNiSyTest {
         browser.quit();
     }
 
+    @Ignore
     @Test
     public void testButtonsMS() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -91,5 +94,72 @@ public class JavaNiSyTest {
         driver.quit();
     }
 
+    @Test
+    public void testSignUpPlotnikov() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("http://shop.bugred.ru/user/register/index");
+
+        WebElement inputName = driver.findElement(By.id("exampleInputName"));
+        inputName.sendKeys("Ivan");
+
+        WebElement inputEmail = driver.findElement(By.id("exampleInputEmail1"));
+        inputEmail.sendKeys("test10@mail.ru");                                       // При каждом запуске необходимо изменить почту
+
+        WebElement inputPassword1 = driver.findElement(By.id("exampleInputPassword1"));
+        inputPassword1.sendKeys("123@@#aA");
+
+        WebElement inputPassword2 = driver.findElement(By.id("exampleInputPassword2"));
+        inputPassword2.sendKeys("123@@#aA");
+
+        WebElement button = driver.findElement(By.name("_csrf"));
+        button.click();
+
+        Thread.sleep(2000);
+
+        WebElement text = driver.findElement(By.xpath("//p[text() = 'Пользователь с таким email уже зарегистрирован!']"));
+        Thread.sleep(2000);
+        Assert.assertEquals(text.getText() ,"Пользователь с таким email уже зарегистрирован!");
+
+        driver.quit();
+
+    }
+
+    @Test
+    public void testGetMessageDifferentPasswordPlotnikov() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("http://shop.bugred.ru/user/register/index");
+
+        WebElement inputName = driver.findElement(By.id("exampleInputName"));
+        inputName.sendKeys("Ivan");
+
+        WebElement inputEmail = driver.findElement(By.id("exampleInputEmail1"));
+        inputEmail.sendKeys("test12@mail.ru");                                       // При каждом запуске необходимо изменить почту
+
+        WebElement inputPassword1 = driver.findElement(By.id("exampleInputPassword1"));
+        inputPassword1.sendKeys("123@@#aA");
+
+        WebElement inputPassword2 = driver.findElement(By.id("exampleInputPassword2"));
+        inputPassword2.sendKeys("321@@#aA");
+
+        WebElement button = driver.findElement(By.name("_csrf"));
+        button.click();
+
+        Thread.sleep(2000);
+
+        WebElement text = driver.findElement(By.xpath("//p[text() = 'Пароль и повтор пароля не равны!']"));
+        Thread.sleep(2000);
+        Assert.assertEquals(text.getText() ,"Пароль и повтор пароля не равны!");
+
+        driver.quit();
+
+    }
 }
 

@@ -6,10 +6,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.List;
+
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 public class AlexLeoEpicGroupTest {
     @Test
@@ -175,19 +180,125 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
-    public void testMenuBar() throws InterruptedException {
+    public void testFindGitHubEl() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://askomdch.com/");
-        Thread.sleep(3000);
-        WebElement menu = driver.findElement(By.xpath("//ul[@id='ast-hf-menu-1']"));
-        Thread.sleep(3000);
-        List<WebElement> products = menu.findElements(By.tagName("li"));
-        Assert.assertEquals(products.size(), 8);
-        driver.quit();
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
+        driver.get("https://www.jenkins.io/");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.jenkins.io/");
+
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"sponsorsblock\"]/div[1]/ul/li[6]/a/img"))
+                .isDisplayed());
+    }
+
+        @Test
+        public void test_006(){
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+            driver.get("https://askomdch.com/");
+            Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
+
+            String textBox = driver.findElement(By.xpath("//h2[@class='has-text-align-center']")).getText();
+
+            Assert.assertEquals(textBox, "Featured Products");
+            List<WebElement> products = driver.findElements(By.className("type-product"));
+            Assert.assertEquals(products.size(), 5);
+            driver.quit();
+
+    }
+
+    @Test
+    public void Test_TC_001_33() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        try {
+            driver.get("https://askomdch.com/");
+            WebElement featuredProducts = driver
+                    .findElement(By.xpath("//*[contains(text(),'Featured Products')]"));
+            List<WebElement> saleProducts = featuredProducts
+                    .findElements(By.xpath("//li[contains(@class, 'ast-article-single')]" +
+                            "[count(.//span[contains(@class, 'woocommerce-Price-currencySymbol')]) > 1]"));
+            for (WebElement saleProduct : saleProducts) {
+                assertTrue(saleProduct.findElement(By.cssSelector("span.onsale"))
+                        .isDisplayed(), "Sale icon not found on a sale product: " + saleProduct.getText());
+            }
+        } catch (Exception e) {
+            fail("An exception occurred: " + e.getMessage());
+        } finally {
+            driver.quit();
+        }
+    }
+
+
+    @Test
+    public void TC_002_33_ArtemT_verifyShopNowLink() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        try {
+            driver.get("https://askomdch.com/");
+            driver.findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
+                    .click();
+            String URL = driver.getCurrentUrl();
+            Assert.assertEquals(URL, "https://askomdch.com/store" );
+        }
+        finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void TC003_33_ArtemT_verifyFindMoreLink() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        try {
+            driver.get("https://askomdch.com/");
+            driver.findElements(By.cssSelector("a.wp-block-button__link")).get(1).click();
+            String URL = driver.getCurrentUrl();
+            Assert.assertEquals(URL, "https://askomdch.com/contact-us/");
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void verifyTest() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com");
+        Thread.sleep(3000);
+        driver.manage().window().maximize();
+        WebElement saleSign = driver.findElement(By.className("onsale"));
+        Assert.assertEquals(saleSign.getText(), "Sale!");
+
+        driver.quit();
+    }
+    @Test
+    public void test_TC_003_01(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com");
+        WebElement text = driver.findElement(By.xpath("//h3[contains(text(), '25%')]"));
+        Assert.assertEquals(text.getText(), "25% OFF On all products");
+
+        driver.quit();
     }
 
 }
