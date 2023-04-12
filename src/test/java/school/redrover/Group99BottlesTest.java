@@ -83,6 +83,7 @@ public class Group99BottlesTest {
 
     }
 
+    @Test
     public void testH2Text_WhenSearchingCityCountry() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -125,6 +126,23 @@ public class Group99BottlesTest {
         String actualResult = h2CityNameHeader.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testTelerikHeaderText() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.telerik.com/");
+
+        WebElement headerH1Text = driver.findElement(
+                By.xpath("//div[@id='ContentPlaceholder1_C339_Col00']/h1"));
+
+        Assert.assertEquals(headerH1Text.getText(), "Modern UI Made Easy");
 
         driver.quit();
     }
