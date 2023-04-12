@@ -48,4 +48,9 @@ public class CatCatchyNargiz {
         driver.quit();
 
     }
+
+    @Test
+    public int testNew() {
+        return 0;
+    }
 }
