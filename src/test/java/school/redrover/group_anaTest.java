@@ -15,8 +15,9 @@ public class group_anaTest {
 
     @Test
     public  void  testTatyanaA() throws InterruptedException {
+
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless”, “--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
@@ -27,8 +28,6 @@ public class group_anaTest {
         textBox.sendKeys("selenium");
         textBox.sendKeys(Keys.RETURN);
 
-//            WebElement button = driver.findElement(By.name("btnK"));
-//            button.click();
         Thread.sleep(2000);
 
         WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
@@ -41,9 +40,10 @@ public class group_anaTest {
     }
 
     @Test
-    public void testsecondTatyanaA() throws InterruptedException {
+    public void testSecond() throws InterruptedException {
+
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless”, “--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
@@ -72,7 +72,10 @@ public class group_anaTest {
     @Test
     public void testTitle( ) throws InterruptedException {
 
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(url);
         WebElement guide = driver.findElement(By.xpath("//a[@href='/guide']"));
         Thread.sleep(5000);
