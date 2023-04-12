@@ -5,9 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
 
 import static org.testng.Assert.assertEquals;
 
@@ -159,6 +163,37 @@ public class GroupJavaQaTeamTest {
         Assert.assertEquals(actualResultTitle,expectedResultTitle);
 
         driver.quit();
+    }
+    @Test
+    public void tutorialsFeature(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.w3schools.com/"); // navigate to application
+        driver.manage().window().maximize();  // maximize window
+
+
+        WebElement tutorials = driver.findElement(By.id("navbtn_tutorials"));
+        tutorials.click(); // click on tutorials function
+
+        WebElement htmlAndCss = driver.findElement(By.xpath("//h3[text()='HTML and CSS']"));
+        Assert.assertTrue(htmlAndCss.isDisplayed()); //assert text HTML and CSS
+
+       WebElement learnHTML = driver.findElement(By.xpath("//a[text()='Learn HTML']"));
+       learnHTML.click(); // navigate to learn HTML
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        String expectTitle = "HTML Tutorial" ;
+      String actualTitle = driver.getTitle();
+        System.out.println(actualTitle);
+      Assert.assertEquals(actualTitle,expectTitle,"test is failed"); //verify title
+
+driver.quit();
     }
 
 }
