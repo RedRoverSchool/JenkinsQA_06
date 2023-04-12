@@ -140,20 +140,6 @@ public class GroupJavaJitsu {
     }
 
     @Test
-    public void tema_openCartRegistrationTest() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get("https://demo.opencart.com/index.php?route=account/register&language=en-gb");
-        driver.findElement(By.id("input-firstname")).sendKeys("Tema");
-        driver.findElement(By.id("input-lastname")).sendKeys("Shvets");
-        driver.findElement(By.id("input-email")).sendKeys("temaemail123@gmail.com");
-        driver.findElement(By.id("input-password")).sendKeys("123xyz");
-        driver.quit();
-    }
-
-    @Test
     public void testFirst_RedRover() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
