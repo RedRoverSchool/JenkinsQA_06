@@ -121,6 +121,30 @@ public class HelloWorldTest {
 
     }
 
+    @Test
+
+    public void otherTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless","--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.wikipedia.org/");
+
+        WebElement textBox = driver.findElement(By.name("search"));
+        textBox.sendKeys("SpaceX");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//*[@id=\"mw-content-text\"]/div[1]/p[2]/a[1]"));
+        text.click();
+
+        WebElement textFalcon = driver.findElement(By.xpath("//*[@id=\"mw-content-text\"]/div[1]/table[1]/tbody/tr[2]/td/span/span"));
+        Assert.assertEquals(driver.getCurrentUrl(),"https://ru.wikipedia.org/wiki/Falcon_1");
+        Assert.assertEquals(textFalcon.getText(), "Пятый запуск ракеты Falcon 1. Остров Омелек");
+
+        driver.quit();
+    }
+
 
 
 
