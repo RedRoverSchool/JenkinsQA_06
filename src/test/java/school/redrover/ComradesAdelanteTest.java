@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ComradesAdelanteTest {
@@ -138,6 +139,37 @@ public class ComradesAdelanteTest {
 
         int countItems = items.size();
         Assert.assertEquals(countItems, 3);
+
+        driver.quit();
+    }
+    @Test
+    public void testMapsY() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://ya.ru/");
+        WebElement textBox = driver.findElement(By.xpath("//*[@id='text']"));
+
+        textBox.click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        WebElement iconMaps = driver.findElement(By.xpath("//a[@data-id='maps']/div"));
+
+        iconMaps.click();
+        ArrayList<String> words = new ArrayList<>(driver.getWindowHandles());// Записываем  открытые вкладки {0,1,...}
+        driver.switchTo().window(words.get(1));// Выбираем вкладку
+
+        WebElement search = driver.findElement(By.xpath("//input"));
+
+        search.click();
+        search.sendKeys("иркутск");
+        search.sendKeys(Keys.RETURN);
+
+        Thread.sleep(2000);
+        WebElement text = driver.findElement(By.xpath("//div[@class='sidebar-container']//h1"));
+
+        Assert.assertEquals(text.getText(),"Иркутск");
 
         driver.quit();
     }
