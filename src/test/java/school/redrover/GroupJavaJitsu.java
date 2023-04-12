@@ -246,6 +246,7 @@ public class GroupJavaJitsu {
         System.out.println("testLoginNatasha");
         System.out.println("testLogin2");
 
+
     }
     
     @Ignore
@@ -267,7 +268,7 @@ public class GroupJavaJitsu {
 
 
     }
-
+@Ignore
     @Test
     public void testArtem() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -298,6 +299,16 @@ public class GroupJavaJitsu {
 
         WebElement successfullySubmitted = driver.findElement(By.id("name"));
         Assert.assertEquals(successfullySubmitted.getText(), "Name:Artem De");
+        driver.quit();
+    }
+
+    @Test
+
+    public void testLoginTest () throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.visitmaryland.org/");
         driver.quit();
     }
 }
