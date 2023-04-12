@@ -190,4 +190,19 @@ public class AlexLeoEpicGroupTest {
 
     }
 
+    @Test
+    public void verifyLoginPageOpening_004_MariaBassTest() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1000");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://askomdch.com/");
+
+        WebElement accountButton = driver.findElement(By.xpath(
+                "// li[@id='menu-item-1237']//a[contains(normalize-space(),'Account')]"));
+        accountButton.click();
+        String openedURL = driver.getCurrentUrl();
+        Assert.assertEquals(openedURL, "https://askomdch.com/account/");
+    }
+
 }
