@@ -141,36 +141,24 @@ public class GroupOlesyaTests {
     }
 
     @Test
-    public void checkPriceLowToHigh() { //Stoyana's Test
+    public void checkSortingByPriceLowToHigh() { //Stoyana's Test
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        standardUserLogin();
 
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
-
-        WebElement login = driver.findElement(By.name("user-name"));
-        WebElement password = driver.findElement(By.name("password"));
-        WebElement button = driver.findElement(By.name("login-button"));
-
-        login.sendKeys("standard_user");
-        password.sendKeys("secret_sauce");
-        button.click();
-
-        List<WebElement> beforeFilterPrice = driver.findElements(By.className("inventory_item_price"));
+        List<WebElement> beforeFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
         List<Double> beforeFilterPriceList = new ArrayList<>();
 
         for (WebElement e : beforeFilterPrice) {
             beforeFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
         }
 
-        WebElement funnelIcon = driver.findElement(By.className("select_container"));
+        WebElement funnelIcon = driverCha.findElement(By.className("select_container"));
         funnelIcon.click();
 
-        Select drpOrder = new Select(driver.findElement(By.className("product_sort_container")));
+        Select drpOrder = new Select(driverCha.findElement(By.className("product_sort_container")));
         drpOrder.selectByVisibleText("Price (low to high)");
 
-        List<WebElement> afterFilterPrice = driver.findElements(By.className("inventory_item_price"));
+        List<WebElement> afterFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
         List<Double> afterFilterPriceList = new ArrayList<>();
 
         for (WebElement e : afterFilterPrice) {
@@ -180,57 +168,42 @@ public class GroupOlesyaTests {
 
         Assert.assertEquals(beforeFilterPriceList, afterFilterPriceList);
 
-        driver.quit();
+        driverCha.quit();
     }
     @Test
     //testing continue shopping button
     public void testContinueShopping()  {
 
-       standardUserLogin();
+        standardUserLogin();
 
-        WebElement productAdd = driverCha.findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']"));
-        productAdd.click();
-        WebElement cart = driverCha.findElement(By.xpath("//span[@class='shopping_cart_badge']"));
-        cart.click();
-        WebElement continueShopping = driverCha.findElement(By.id("continue-shopping"));
-        continueShopping.click();
-        String url = driverCha.getCurrentUrl();
+        driverCha.findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']")).click();
+        driverCha.findElement(By.xpath("//span[@class='shopping_cart_badge']")).click();
+        driverCha.findElement(By.id("continue-shopping")).click();
 
-        Assert.assertEquals(url, "https://www.saucedemo.com/inventory.html");
+
+
+        Assert.assertEquals(driverCha.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
         driverCha.quit();
     }
 
     @Test
-    public void checkPriceHighToLow() { //Stoyana's Test
+    public void checkSortingByPriceHighToLow() { //Stoyana's Test
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
-
-        WebElement login = driver.findElement(By.name("user-name"));
-        WebElement password = driver.findElement(By.name("password"));
-        WebElement button = driver.findElement(By.name("login-button"));
-
-        login.sendKeys("standard_user");
-        password.sendKeys("secret_sauce");
-        button.click();
-
-        List<WebElement> beforeFilterPrice = driver.findElements(By.className("inventory_item_price"));
+        standardUserLogin();
+        List<WebElement> beforeFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
         List<Double> beforeFilterPriceList = new ArrayList<>();
 
         for (WebElement e : beforeFilterPrice) {
             beforeFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
         }
 
-        WebElement funnelIcon = driver.findElement(By.className("select_container"));
+        WebElement funnelIcon = driverCha.findElement(By.className("select_container"));
         funnelIcon.click();
 
-        Select drpOrder = new Select(driver.findElement(By.className("product_sort_container")));
+        Select drpOrder = new Select(driverCha.findElement(By.className("product_sort_container")));
         drpOrder.selectByVisibleText("Price (high to low)");
 
-        List<WebElement> afterFilterPrice = driver.findElements(By.className("inventory_item_price"));
+        List<WebElement> afterFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
         List<Double> afterFilterPriceList = new ArrayList<>();
 
         for (WebElement e : afterFilterPrice) {
@@ -241,7 +214,7 @@ public class GroupOlesyaTests {
 
         Assert.assertEquals(beforeFilterPriceList, afterFilterPriceList);
 
-        driver.quit();
+        driverCha.quit();
     }
 
     @Test

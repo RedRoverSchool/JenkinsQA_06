@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -51,6 +52,41 @@ public class GroupCodePro {
                 .findElement(By.xpath("//button[@id='tab-event-list']"));
 
         Assert.assertEquals(pageEvents.getText(), "EVENT LIST");
+
+        driver.quit();
+    }
+
+    @Test
+    public void testSSregistration() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.hbomax.com/");
+
+        WebElement buttonSignUpNow = driver
+                .findElement(By.xpath("//*[@id=\"page23957-band406944-Header406945\"]//a[text()='Sign Up Now']"));
+        buttonSignUpNow.click();
+        Thread.sleep(2000);
+
+        WebElement pageSignUp = driver
+                .findElement(By.xpath("//div[@class='exp-2688-plans']//div[text()='$9.99']"));
+        pageSignUp.click();
+        Thread.sleep(2000);
+
+        WebElement firstName = driver.findElement(By.id("firstName"));
+        firstName.sendKeys("Ann");
+        WebElement lastName = driver.findElement(By.id("lastName"));
+        lastName.sendKeys("Mann");
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys("mail2467845@gmail.com");
+        WebElement password = driver.findElement(By.id("password"));
+        password.sendKeys("bumbar123!");
+        WebElement buttonCreateAccount = driver
+                .findElement(By.xpath("//button[@id='createAccount']"));
+
+        Assert.assertEquals(buttonCreateAccount.getText(), "CREATE ACCOUNT");
 
         driver.quit();
     }

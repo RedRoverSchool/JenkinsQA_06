@@ -12,6 +12,8 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+
 public class GroupHighwayToAqaTest {
 
     private static final String BASE_URL = "https://magento.softwaretestingboard.com/";
@@ -209,6 +211,63 @@ public class GroupHighwayToAqaTest {
         Assert.assertEquals(actualMessage, expectedMessage);
 
         driver.quit();
+    }
+
+    @Test
+    public void searchItem() throws InterruptedException {
+        ChromeOptions chromeOptions=new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://magento.softwaretestingboard.com");
+        WebElement href = driver.findElement(By.xpath("//div/nav/ul/li [1]"));
+        String value = href.getText();
+        assertEquals(value, "What's New");
+        WebElement href2 = driver.findElement(By.xpath("//div/nav/ul/li [2]"));
+        String value1 = href2.getText();
+        assertEquals(value1, "Women");
+        WebElement href3 = driver.findElement(By.xpath("//div/nav/ul/li [3]"));
+        String value2 = href3.getText();
+        assertEquals(value2, "Men");
+        WebElement href4 = driver.findElement(By.xpath("//div/nav/ul/li [4]"));
+        String value3 = href4.getText();
+        assertEquals(value3, "Gear");
+        WebElement href5 = driver.findElement(By.xpath("//div/nav/ul/li [5]"));
+        String value4 = href5.getText();
+        assertEquals(value4, "Training");
+        WebElement href6 = driver.findElement(By.xpath("//div/nav/ul/li [6]"));
+        String value5 = href6.getText();
+        assertEquals(value5, "Sale");
+        driver.findElement(By.xpath("//div/nav/ul/li [2]")).click();
+        String text= driver.getTitle();
+        assertEquals(text,"Women");
+        driver.findElement(By.xpath("//html/body/div[1]/div[2]/ul/li[1]/a")).click();
+        String title= driver.getTitle();
+        assertEquals(title,"Home Page");
+        driver.quit();
+    }
+
+    @Test
+
+    public void testH1TextInWhatIsNew() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://magento.softwaretestingboard.com/");
+        Thread.sleep(2000);
+
+        WebElement whatIsNew = driver.findElement(By.id("ui-id-3"));
+        whatIsNew.click();
+
+        WebElement h1InWhatIsNew = driver.findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
+
+        Assert.assertEquals(h1InWhatIsNew.getText(), "What's New");
+
+        driver.quit();
+
     }
 }
 

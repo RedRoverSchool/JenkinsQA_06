@@ -39,6 +39,11 @@ public class NeedMoreCoffeeTest {
 
 
     }
+
+    @Test
+    public void testHello() {
+        System.out.println("Hello World!");
+    }
 }
 
 
