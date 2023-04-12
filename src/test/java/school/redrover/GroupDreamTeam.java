@@ -48,6 +48,7 @@ public class GroupDreamTeam {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(url);
 
+
         String actualResult = driver.getCurrentUrl();
         Assert.assertEquals(actualResult, expectedResult);
 
