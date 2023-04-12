@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class CaramelSyrupForJava {
 
     @Test
-    public void artyomDulyaOpenWeatherGuideClick() throws InterruptedException {
+    public void artyomDulyaOpenWeatherGuideClickTest() throws InterruptedException {
 
         String expectedResultUrl = "https://openweather.co.uk/";
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
@@ -51,7 +51,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaThehostbest() throws InterruptedException {
+    public void artyomDulyaThehostbestTest() throws InterruptedException {
 
         String expectedResult = "https://thehostbest.ru/business-card-site/";
 
@@ -75,7 +75,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaSearchLineHeader() throws InterruptedException {
+    public void artyomDulyaSearchLineHeaderTest() throws InterruptedException {
 
         String expectedResult = "Paris, FR";
 
@@ -192,7 +192,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaAuthorizationText() throws InterruptedException {
+    public void artyomDulyaAuthorizationTextTest() throws InterruptedException {
 
         String actualResult = "Sign In To Your Account";
 
@@ -217,7 +217,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaWildberries() {
+    public void artyomDulyaWildberriesTest() {
 
         int expectedResult = 26;
 
