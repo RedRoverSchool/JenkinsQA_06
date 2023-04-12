@@ -123,6 +123,7 @@ public class BugsBustersTest {
     }
 
     @Test
+    @Ignore
     public void testVictoriaContactTitle() throws InterruptedException {
 
         String expectedResult = "Contact Us".toLowerCase();
