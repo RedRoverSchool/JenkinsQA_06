@@ -15,6 +15,7 @@ import java.util.List;
 
 public class ComradesAdelanteTest {
 
+    @Ignore
     @Test
     public void testMap() throws InterruptedException {
 

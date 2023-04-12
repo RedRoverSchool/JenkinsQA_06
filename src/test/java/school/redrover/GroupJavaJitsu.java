@@ -230,11 +230,18 @@ public class GroupJavaJitsu {
         loginButton.click();
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
-    }
+
+}
 
     public static void main(String[] args) {
         System.out.println("I am creating conflict");
     }
 
+
+    
+    public static void main(String[] args) {
+        System.out.println("testLoginNatasha");
+        System.out.println("testLogin2");
+    }
 }
 
