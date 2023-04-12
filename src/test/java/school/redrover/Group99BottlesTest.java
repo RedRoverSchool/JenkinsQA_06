@@ -243,7 +243,7 @@ public class Group99BottlesTest {
 
         driver.findElement(By.xpath("//a[text() = 'Sony vaio i5']")).click();
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         WebElement text = driver.findElement(By.xpath("//h2[text() = 'Sony vaio i5']"));
 
