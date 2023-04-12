@@ -41,7 +41,7 @@ public class NeedMoreCoffeeTestCase {
 
     }
     @Test
-    public void testS() throws InterruptedException {
+    public void testS() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
 
