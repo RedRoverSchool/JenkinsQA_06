@@ -7,8 +7,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class UndercoverGroupTest {
 
@@ -87,5 +91,52 @@ public class UndercoverGroupTest {
             Thread.sleep(2000);
             driver.quit();
         }
+    }
+
+    @Test
+    public void seleniumWebFormTest() throws InterruptedException {
+        ChromeOptions chrOpts = new ChromeOptions();
+        chrOpts.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920, 1080");
+
+        WebDriver driver = new ChromeDriver(chrOpts);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        assertEquals("Web form", driver.getTitle());
+
+        Thread.sleep(2000);
+
+        WebElement textInput = driver.findElement(By.name("my-text"));
+        textInput.click();
+        textInput.sendKeys("Selenium");
+
+        WebElement password = driver.findElement(By.name("my-password"));
+        password.click();
+        password.sendKeys("123456");
+
+        WebElement textArea = driver.findElement(By.name("my-textarea"));
+        textArea.click();
+        textArea.sendKeys("lorem ipsum ...");
+
+        Select dropdown = new Select(driver.findElement(By.className("form-select")));
+        dropdown.selectByVisibleText("Two");
+
+        WebElement checkbox1 = driver.findElement(By.id("my-check-1"));
+        if(checkbox1.isDisplayed()){
+            checkbox1.click();
+        }
+        WebElement checkbox2 = driver.findElement(By.id("my-check-2"));
+        if(checkbox2.isDisplayed()){
+            checkbox2.click();
+        }
+        assertFalse(driver.findElement(By.id("my-check-1")).isSelected());
+        assertTrue(driver.findElement(By.id("my-check-2")).isSelected());
+
+        driver.findElement(By.cssSelector("button")).click();
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        assertEquals("Received!", value);
+
+        driver.quit();
     }
 }
