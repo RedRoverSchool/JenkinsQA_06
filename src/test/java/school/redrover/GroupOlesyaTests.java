@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -482,6 +483,21 @@ public class GroupOlesyaTests {
         WebElement cartListAfterRemove = driverCha.findElement(By.className("cart_list"));
         List<WebElement> cartItemsAfterRemove = cartListAfterRemove.findElements(By.className("cart_item"));
         Assert.assertTrue(cartItemsAfterRemove.isEmpty());
+    }
+
+    @Test
+    public void checkSocialMediaLinkTest(){
+        String socialMedia = "Facebook";
+        loginToSite(LOGIN, PASSWORD);
+
+        WebElement socialMediaLink = driverCha.findElement(By.xpath("//a[contains(text(), '" + socialMedia + "')]"));
+        socialMediaLink.click();
+
+        Set<String> windowsHandles =  driverCha.getWindowHandles();
+        List<String> list = new ArrayList<>(windowsHandles);
+        driverCha.switchTo().window(list.get(1));
+
+        Assert.assertTrue(driverCha.getCurrentUrl().contains(socialMedia.toLowerCase()) && driverCha.getCurrentUrl().contains(URL.substring(12, 17)));
     }
 }
 
