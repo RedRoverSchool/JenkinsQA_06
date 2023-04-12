@@ -120,4 +120,32 @@ public class BugsBustersTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testVictoriaContactTitle() throws InterruptedException {
+
+        String expectedResult = "Contact Us".toLowerCase();
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().window().maximize();
+
+        driver.get("https://www.ohiofamilypractice.com/");
+        Thread.sleep(2000);
+
+        WebElement contactUsReference = driver.findElement(By.xpath(
+                "//div[@class='Header-nav-inner']/a[@href='/connect']"));
+        contactUsReference.click();
+        Thread.sleep(2000);
+        WebElement h1 = driver.findElement(By.xpath("//h1"));
+        Thread.sleep(2000);
+        String h1Text = h1.getText().toLowerCase();
+        Thread.sleep(2000);
+
+        Assert.assertEquals(h1Text, expectedResult);
+
+        driver.quit();
+    }
 }
