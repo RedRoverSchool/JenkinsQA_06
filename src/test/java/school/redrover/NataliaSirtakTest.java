@@ -1,4 +1,6 @@
-package test.java.school.redrover;
+package school.redrover;
+
+import org.testng.annotations.Test;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -10,7 +12,9 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-public class SergeyDTest {
+import static org.testng.Assert.assertEquals;
+
+public class NataliaSirtakTest {
 
     @Ignore
     @Test
