@@ -122,7 +122,7 @@ public class HelloWorldTest {
 
 
     @Test
-    public void bazhTest() throws InterruptedException {
+    public void bazhTestZoolegenda() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
