@@ -269,6 +269,32 @@ public class GroupHighwayToAqaTest {
         driver.quit();
 
     }
+
+    @Test
+    public void testNumberOfItemsEqualsProductNumberShownPerPage() throws InterruptedException {
+       ChromeOptions chromeOptions = new ChromeOptions();
+       chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get(BASE_URL);
+        Thread.sleep(3000);
+
+        WebElement womenButton = driver.findElement(By.id("ui-id-4"));
+        WebElement topsButton = driver.findElement(By.id("ui-id-9"));
+        WebElement jacketsButton = driver.findElement(By.id("ui-id-11"));
+
+        new Actions(driver).moveToElement(womenButton).moveToElement(topsButton)
+                .moveToElement(jacketsButton).perform();
+        jacketsButton.click();
+
+      WebElement expectedNumberOfItems = driver.findElement(By
+              .xpath("//span[@class='toolbar-number'][1]"));
+      List<WebElement> listOfItemsShownOnPage = driver.findElements(By
+              .xpath("//li[@class='item product product-item']"));
+
+      Assert.assertEquals(listOfItemsShownOnPage.size(), Integer.parseInt(expectedNumberOfItems.getText()));
+      driver.quit();
+    }
 }
 
 
