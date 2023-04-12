@@ -209,5 +209,28 @@ public class GroupJavaJitsu {
         enroll.click();
         driver.quit();
     }
+
+    @Test
+    public void testLoginAnton () throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().window().maximize();
+        driver.get("https://www.saucedemo.com/");
+
+        WebElement userElement = driver.findElement(By.id("user-name"));
+        userElement.sendKeys("standard_user");
+
+        WebElement userPassword = driver.findElement(By.id("password"));
+        userPassword.sendKeys("secret_sauce");
+
+        WebElement loginButton = driver.findElement(By.id("login-button"));
+        loginButton.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+
+    }
 }
 

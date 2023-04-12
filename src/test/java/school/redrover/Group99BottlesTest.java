@@ -83,6 +83,7 @@ public class Group99BottlesTest {
 
     }
 
+    @Test
     public void testH2Text_WhenSearchingCityCountry() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
