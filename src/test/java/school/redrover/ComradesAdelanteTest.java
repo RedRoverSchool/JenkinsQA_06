@@ -151,7 +151,7 @@ public class ComradesAdelanteTest {
 
         driver.get("https://ya.ru/");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        WebElement textBox = driver.findElement(By.xpath("//*[@id='text']"));
+        WebElement textBox = driver.findElement(By.xpath("//input[@id='text']"));
 
         textBox.click();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
