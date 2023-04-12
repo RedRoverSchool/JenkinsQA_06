@@ -7,14 +7,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.List;
 
 public class ComradesAdelanteTest {
 
-    @Ignore
     @Test
     public void testMap() throws InterruptedException {
 
@@ -23,23 +22,24 @@ public class ComradesAdelanteTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
 
         driver.get("https://www.google.com//");
-
         WebElement textBox = driver.findElement(By.className("gLFyf"));
+
         textBox.sendKeys("гугл карты");
         textBox.sendKeys(Keys.RETURN);
 
         WebElement search = driver.findElement(By.className("qLRx3b"));
 
         search.click();
-
-        Thread.sleep(2000);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         WebElement searchBox = driver.findElement(
                 By.xpath("//input[@id='searchboxinput']"));
-        searchBox.sendKeys("Бердск");
-        searchBox.sendKeys(Keys.RETURN);
-        Thread.sleep(5000);
 
-        WebElement text = driver.findElement(By.xpath("//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div/div[1]/div[1]/h1"));
+        searchBox.sendKeys("бердск");
+        searchBox.sendKeys(Keys.RETURN);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        WebElement text = driver.findElement(
+                By.xpath("//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div/div[1]/div[1]/h1")
+        );
 
         String expectedResult = "Бердск";
         String actualResult = text.getText();
@@ -49,7 +49,6 @@ public class ComradesAdelanteTest {
         driver.quit();
     }
 
-    @Ignore
     @Test
     public void testHeaderOpenWeather() throws InterruptedException {
 
@@ -58,13 +57,12 @@ public class ComradesAdelanteTest {
                 "--remote-allow-origins=*", "--headless", "--window-size=1920,1080"
         );
         WebDriver driver = new ChromeDriver(chromeOptions);
-
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://openweathermap.org");
 
         WebElement textHeader = driver.findElement(
                 By.xpath("//h1/span[@class='white-text']")
         );
-        Thread.sleep(1500);
 
         String expectedResult = "OpenWeather";
         String actualResult = textHeader.getText();
@@ -73,7 +71,7 @@ public class ComradesAdelanteTest {
 
         driver.quit();
     }
-    @Ignore
+
     @Test
     public void testHeaderSignInPage() throws InterruptedException {
 
@@ -82,13 +80,14 @@ public class ComradesAdelanteTest {
                 "--remote-allow-origins=*", "--headless", "--window-size=1920,1080"
         );
         WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         driver.get("https://openweathermap.org");
 
         WebElement linkSignIn = driver.findElement(
-                By.xpath("//div/ul/li[@class='user-li']")
+                By.xpath("//div/ul/li[@class='user-li']/a")
         );
-        linkSignIn.click();
+        linkSignIn.sendKeys(Keys.RETURN);
         Thread.sleep(1500);
 
         WebElement textHeader = driver.findElement(
@@ -141,6 +140,5 @@ public class ComradesAdelanteTest {
         Assert.assertEquals(countItems, 3);
 
         driver.quit();
-
     }
 }

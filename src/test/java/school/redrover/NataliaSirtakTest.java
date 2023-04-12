@@ -1,63 +1,64 @@
 package school.redrover;
 
+import org.testng.annotations.Test;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-public class JavaciraptorsTeamTest {
+import static org.testng.Assert.assertEquals;
+
+public class NataliaSirtakTest {
+
+    @Ignore
     @Test
-    public void testReadOnlyInput() throws InterruptedException {
+    public void testFirst() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        WebElement readOnlyInput = driver.findElement(By.name("my-readonly"));
-        String initial = readOnlyInput.getAttribute("value");
+        driver.get("https://www.google.com/");
 
-        readOnlyInput.click();
-        readOnlyInput.sendKeys("Hello World!");
+        WebElement textBox = driver.findElement(By.name("q"));
 
-        Assert.assertEquals(readOnlyInput.getAttribute("value"), initial);
+        textBox.sendKeys("selenium");
+        textBox.sendKeys(Keys.RETURN);
+
+        Thread.sleep(2000);
+
+        WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
+
+        Assert.assertEquals(text.getText(), "Selenium");
+
         driver.quit();
     }
 
     @Test
-    public void testSavichev() throws InterruptedException {
+    public void testSecond() throws InterruptedException {
+
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        WebElement textInput = driver.findElement(By.name("my-text"));
-        textInput.click();
-        textInput.sendKeys("Hello World!");
-        String expText = textInput.getAttribute("value");
-
-        Assert.assertEquals(expText, "Hello World!");
+        String title = driver.getTitle();
+        Assert.assertEquals("Web form", title);
 
         Thread.sleep(2000);
 
-        WebElement passInput = driver.findElement(By.name("my-password"));
-        passInput.click();
-        passInput.sendKeys("222222");
-        String expPass = passInput.getAttribute("value");
-
-        Assert.assertEquals(expPass, "222222");
-
-        Thread.sleep(2000);
-
-        WebElement checkBox = driver.findElement(By.id("my-check-2"));
-        checkBox.click();
-
+        WebElement textBox = driver.findElement(By.name("my-text"));
         WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("Selenium");
         submitButton.click();
 
         WebElement message = driver.findElement(By.id("message"));
@@ -66,4 +67,5 @@ public class JavaciraptorsTeamTest {
 
         driver.quit();
     }
+
 }

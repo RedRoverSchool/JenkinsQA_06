@@ -95,5 +95,29 @@ public class BugsBustersTest {
         driver.quit();
     }
 
+    @Test
+    public void testMS() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().window().maximize();
+
+        driver.get("https://www.funartcolorado.com/");
+        Assert.assertEquals(driver.getTitle(), "Home | Funart");
+
+        WebElement artTab = driver.findElement(By.id("comp-jnlr6x4r1label"));
+        artTab.click();
+        Thread.sleep(2000);
+        WebElement mosaicArtHeader = driver.findElement(By.cssSelector("div[id='comp-jbrwxjbr'] span"));
+        Assert.assertEquals(mosaicArtHeader.getText(), "About my art:");
+
+        WebElement classesTab = driver.findElement(By.id("comp-jnlr6x4r2label"));
+        classesTab.click();
+        Thread.sleep(2000);
+        WebElement classesHeader = driver.findElement(By.cssSelector("h1[class='font_0'] span"));
+        Assert.assertEquals(classesHeader.getText(), "ONLINE course \"Fun Art with Tempered glass\"");
+
+        driver.quit();
+    }
 }
