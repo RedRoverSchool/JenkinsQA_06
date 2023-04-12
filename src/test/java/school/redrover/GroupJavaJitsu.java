@@ -233,6 +233,11 @@ public class GroupJavaJitsu {
 
     }
 
+    public static void main(String[] args) {
+        System.out.println("testLoginNatasha");
+        System.out.println("testLogin2");
+    }
+
     @Test
     public void testArtem() {
         ChromeOptions chromeOptions = new ChromeOptions();
