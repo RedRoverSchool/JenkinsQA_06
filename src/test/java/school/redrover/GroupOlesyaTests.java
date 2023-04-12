@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -483,5 +484,45 @@ public class GroupOlesyaTests {
         List<WebElement> cartItemsAfterRemove = cartListAfterRemove.findElements(By.className("cart_item"));
         Assert.assertTrue(cartItemsAfterRemove.isEmpty());
     }
+
+    @Test
+    public void checkSocialMediaLinkTest(){
+        String socialMedia = "Facebook";
+        loginToSite(LOGIN, PASSWORD);
+
+        WebElement socialMediaLink = driverCha.findElement(By.xpath("//a[contains(text(), '" + socialMedia + "')]"));
+        socialMediaLink.click();
+
+        Set<String> windowsHandles =  driverCha.getWindowHandles();
+        List<String> list = new ArrayList<>(windowsHandles);
+        driverCha.switchTo().window(list.get(1));
+
+        Assert.assertTrue(driverCha.getCurrentUrl().contains(socialMedia.toLowerCase()) && driverCha.getCurrentUrl().contains(URL.substring(12, 17)));
+    }
+    @Test
+        public void testUGLogOut() throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/");
+
+        WebElement login = driver.findElement(By.name("user-name"));
+        WebElement password = driver.findElement(By.name("password"));
+        WebElement button = driver.findElement(By.name("login-button"));
+
+        login.sendKeys("standard_user");
+        password.sendKeys("secret_sauce");
+        button.click();
+
+        WebElement dropDown = driver.findElement(By.id("react-burger-menu-btn"));
+        dropDown.click();
+
+        Thread.sleep(2000);
+
+        WebElement logOut = driver.findElement(By.id("logout_sidebar_link"));
+        logOut.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
+
+        }
 }
 
