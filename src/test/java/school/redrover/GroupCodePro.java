@@ -87,5 +87,7 @@ public class GroupCodePro {
                 .findElement(By.xpath("//button[@id='createAccount']"));
 
         Assert.assertEquals(buttonCreateAccount.getText(), "CREATE ACCOUNT");
+
+        driver.quit();
     }
 }
