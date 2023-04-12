@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -72,37 +73,37 @@ public class GroupOlesyaTests {
         return driverCha.findElement(By.xpath("//span[@class = 'active_option']")).getText();
     }
 
-    public List<String> productNames() {
+    public List<String> productNames(){
         List<WebElement> el = driverCha.findElements(By.xpath("//div[@class = 'inventory_item_name']"));
         return el.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public void sortElements(String visibleText) {
+    public void sortElements(String visibleText){
         Select dropdownMenu = new Select(driverCha.findElement(By.className("product_sort_container")));
         dropdownMenu.selectByVisibleText(visibleText);
     }
 
-    public void choiceItem(String item) {
+    public void choiceItem(String item){
         driverCha
                 .findElement(By.id(String.format("%s", item))).click();
     }
 
-    public void shoppingCart() {
+    public void shoppingCart(){
         driverCha.findElement(By.className("shopping_cart_link")).click();
     }
 
-    public void clickCheckout() {
+    public void clickCheckout(){
         driverCha.findElement(By.id("checkout")).click();
     }
 
-    public void fillOutOrderForm(String name, String surname, String postcode) {
+    public void fillOutOrderForm(String name, String surname, String postcode){
         driverCha.findElement(By.id("first-name")).sendKeys(name);
         driverCha.findElement(By.id("last-name")).sendKeys(surname);
         driverCha.findElement(By.id("postal-code")).sendKeys(postcode);
         driverCha.findElement(By.id("continue")).click();
     }
 
-    public List<String> getListOfItemInCart() {
+    public List <String> getListOfItemInCart(){
         WebElement cartList = driverCha.findElement(By.className("cart_list"));
         List<WebElement> cartItems = cartList.findElements(By.className("inventory_item_name"));
         return cartItems.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -182,8 +183,8 @@ public class GroupOlesyaTests {
 
     @Test
     //testing continue shopping button
-
-    public void testContinueShopping() {
+    
+    public void testContinueShopping()  {
 
         loginToSite(LOGIN, PASSWORD);
 
@@ -192,10 +193,11 @@ public class GroupOlesyaTests {
         driverCha.findElement(By.id("continue-shopping")).click();
 
 
+
         Assert.assertEquals(driverCha.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
         driverCha.quit();
     }
-
+    
     @Test
     public void checkSortingByPriceLowToHigh() { //Stoyana's Test
         loginToSite(LOGIN, PASSWORD);
@@ -393,7 +395,7 @@ public class GroupOlesyaTests {
     }
 
     @Test
-    public void finishOrderTest() {
+    public void finishOrderTest(){
         loginToSite(LOGIN, PASSWORD);
         choiceItem("add-to-cart-sauce-labs-bolt-t-shirt");
         shoppingCart();
@@ -410,7 +412,7 @@ public class GroupOlesyaTests {
     }
 
     @Test
-    public void sortByNameAZTest() {
+    public void sortByNameAZTest(){
         loginToSite(LOGIN, PASSWORD);
 
         sortElements("Price (low to high)");
@@ -424,7 +426,7 @@ public class GroupOlesyaTests {
     }
 
     @Test
-    public void sortByNameZATest() {
+    public void sortByNameZATest(){
         loginToSite(LOGIN, PASSWORD);
 
         List<String> firstOrderItems = productNames();
@@ -456,9 +458,8 @@ public class GroupOlesyaTests {
         driverCha.quit();
 
     }
-
     @Test
-    public void testRemoveFromCart() throws InterruptedException {
+    public void testRemoveFromCart() {
         loginToSite(LOGIN, PASSWORD);
         choiceItem("add-to-cart-sauce-labs-backpack");
         shoppingCart();
@@ -482,6 +483,21 @@ public class GroupOlesyaTests {
         WebElement cartListAfterRemove = driverCha.findElement(By.className("cart_list"));
         List<WebElement> cartItemsAfterRemove = cartListAfterRemove.findElements(By.className("cart_item"));
         Assert.assertTrue(cartItemsAfterRemove.isEmpty());
+    }
+
+    @Test
+    public void checkSocialMediaLinkTest(){
+        String socialMedia = "Facebook";
+        loginToSite(LOGIN, PASSWORD);
+
+        WebElement socialMediaLink = driverCha.findElement(By.xpath("//a[contains(text(), '" + socialMedia + "')]"));
+        socialMediaLink.click();
+
+        Set<String> windowsHandles =  driverCha.getWindowHandles();
+        List<String> list = new ArrayList<>(windowsHandles);
+        driverCha.switchTo().window(list.get(1));
+
+        Assert.assertTrue(driverCha.getCurrentUrl().contains(socialMedia.toLowerCase()) && driverCha.getCurrentUrl().contains(URL.substring(12, 17)));
     }
     @Test
         public void testUGLogOut() throws InterruptedException {

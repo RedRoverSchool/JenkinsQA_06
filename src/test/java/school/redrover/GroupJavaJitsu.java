@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -244,6 +245,27 @@ public class GroupJavaJitsu {
     public static void main(String[] args) {
         System.out.println("testLoginNatasha");
         System.out.println("testLogin2");
+
+    }
+    
+    @Ignore
+    @Test
+    void testFirstMariana() throws InterruptedException {
+
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.google.com/");
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.findElements(By.name("Cat Breeds | Types of Cats"));
+        driver.quit();
+
+
+
+
+
     }
 
     @Test
