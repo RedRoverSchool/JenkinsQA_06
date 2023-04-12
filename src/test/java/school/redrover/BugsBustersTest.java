@@ -121,9 +121,8 @@ public class BugsBustersTest {
 
         driver.quit();
     }
-
-    @Test
     @Ignore
+    @Test
     public void testVictoriaContactTitle() throws InterruptedException {
 
         String expectedResult = "Contact Us".toLowerCase();
