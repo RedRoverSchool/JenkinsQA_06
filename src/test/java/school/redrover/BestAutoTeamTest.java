@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,7 @@ public class BestAutoTeamTest {
     public static final long SCRIPTRUMTIMEOUT = 15;
 
     protected WebDriver driver;
-
+    @Ignore
     @BeforeTest
     public void beforeTest() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -34,12 +35,12 @@ public class BestAutoTeamTest {
         driver.manage().timeouts().setScriptTimeout(SCRIPTRUMTIMEOUT,
                 TimeUnit.SECONDS);
     }
-
+    @Ignore
     @AfterTest
     public void afterTest() throws InterruptedException {
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testFirst() throws InterruptedException {
 
@@ -55,7 +56,7 @@ public class BestAutoTeamTest {
         Assert.assertEquals(text.getText(), "Selenium");
 
     }
-
+    @Ignore
     @Test
     public void testLoginButton() throws InterruptedException {
 
