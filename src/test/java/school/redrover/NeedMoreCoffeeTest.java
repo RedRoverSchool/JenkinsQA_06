@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class NeedMoreCoffeeTest {
@@ -62,7 +63,7 @@ public class NeedMoreCoffeeTest {
         Thread.sleep(3000);
 
         WebElement text = driver.findElement(By.xpath("/html/body/div[7]/div/div[11]/div[1]/div[2]/div[2]/div/div/div[1]/div/div/div/div/div/div/div/div[1]/a/div/div/div/cite"));
-
+        Assert.assertEquals(text.getText(), "https://www.java.com");
         WebElement submitButton = driver.findElement(By.cssSelector("button"));
         submitButton.click();
 
