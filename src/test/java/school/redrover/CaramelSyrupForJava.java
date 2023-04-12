@@ -56,9 +56,9 @@ public class CaramelSyrupForJava {
         String expectedResult = "https://thehostbest.ru/business-card-site/";
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*","--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().window().maximize();
+
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         driver.get("https://thehostbest.ru/");
@@ -111,9 +111,9 @@ public class CaramelSyrupForJava {
         int expectedResult = 3;
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*","--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().window().maximize();
+
 
         driver.get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -157,9 +157,9 @@ public class CaramelSyrupForJava {
         String expectedResultAskAQuestion = "https://home.openweathermap.org/questions";
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().window().maximize();
+
 
         driver.get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -198,7 +198,6 @@ public class CaramelSyrupForJava {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().window().maximize();
 
         driver.get("https://openweathermap.org/");
         Thread.sleep(5000);
