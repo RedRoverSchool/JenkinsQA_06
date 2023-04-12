@@ -232,9 +232,5 @@ public class GroupJavaJitsu {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
     }
 
-    public static void main(String[] args) {
-        System.out.println("I am creating conflict");
-    }
-
 }
 
