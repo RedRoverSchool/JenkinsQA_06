@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -228,5 +227,28 @@ public class Group99BottlesTest {
             stringList.add(element.getText());
         }
         return stringList;
+    }
+
+    @Test
+    public void testH2Text_WhenChooseSonyVaio() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.demoblaze.com/index.html");
+
+        driver.findElement(By.xpath("//a[text() = 'Laptops']")).click();
+
+        driver.findElement(By.xpath("//a[text() = 'Sony vaio i5']")).click();
+
+        Thread.sleep(3000);
+
+        WebElement text = driver.findElement(By.xpath("//h2[text() = 'Sony vaio i5']"));
+
+        Assert.assertEquals(text.getText(), "Sony vaio i5");
+
+        driver.quit();
     }
 }
