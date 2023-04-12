@@ -146,4 +146,21 @@ public class Group99BottlesTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testTelerikTitleURLDemosPage() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.telerik.com/");
+
+        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        Assert.assertEquals(driver.getTitle(), "Telerik Product Demos, Examples and Tutorials for all Telerik products");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.telerik.com/support/demos");
+
+        driver.quit();
+    }
 }
