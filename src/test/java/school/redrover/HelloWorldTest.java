@@ -138,7 +138,11 @@ public class HelloWorldTest {
         Assert.assertEquals(text.getText(), "КОШКИ");
 
         driver.quit();
+    }
 
+    @Test
+    public void SimpleTest() {
+        System.out.println("It's work");
     }
 
 }
