@@ -156,8 +156,8 @@ public class HelloWorldTest {
         Thread.sleep(3000);
 
         // allow cookies
-        WebElement cookies = driver.findElement(By.cssSelector("[data-id=\"button-all\"]"));
-        cookies.click();
+//        WebElement cookies = driver.findElement(By.cssSelector("[data-id=\"button-all\"]"));
+//        cookies.click();
 
         // test name
         WebElement firstname = driver.findElement(By.cssSelector("[data-t=\"field:input-firstname\"]"));
