@@ -232,6 +232,10 @@ public class GroupJavaJitsu {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
 
     }
+    public static void main(String[] args) {
+        System.out.println("testLoginNatasha");
+        System.out.println("testLogin2");
+    }
 
     @Test
     public void goToHomePage() throws InterruptedException {
