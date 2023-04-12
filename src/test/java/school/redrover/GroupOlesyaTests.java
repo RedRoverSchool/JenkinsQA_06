@@ -506,8 +506,6 @@ public class GroupOlesyaTests {
         logOut.click();
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
-
-
         }
 
     }
