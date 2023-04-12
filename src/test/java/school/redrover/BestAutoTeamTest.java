@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import org.testng.annotations.Ignore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +41,8 @@ public class BestAutoTeamTest {
         driver.quit();
     }
 
-    @Test(enabled = false)
+    @Ignore
+    @Test
     public void testFirst() throws InterruptedException {
 
         driver.get("https://www.google.com/");
