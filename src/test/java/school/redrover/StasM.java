@@ -22,7 +22,7 @@ public class StasM {
         textBox.sendKeys("selenium");
         textBox.sendKeys(Keys.RETURN);
 
-        Thread.sleep(5000);
+        Thread.sleep(3000);
 
         WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
 
