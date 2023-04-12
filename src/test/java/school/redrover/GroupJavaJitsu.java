@@ -232,5 +232,42 @@ public class GroupJavaJitsu {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
 
     }
+
+    @Test
+    public void goToHomePage() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*",  "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.google.com/");
+
+        WebElement textBox = driver.findElement(By.name("q"));
+
+        textBox.sendKeys("ubereats");
+        textBox.sendKeys(Keys.RETURN);
+
+        Thread.sleep(2000);
+
+        WebElement firstResult = driver.findElement(By.cssSelector("div.g a"));
+        firstResult.click();
+        Assert.assertEquals(driver.getTitle(), "Uber Eats US | Food Delivery and Takeout | Order Online from Restaurants Near You");
+
+        driver.quit();
+    }
+
+    @Test
+    public void homePageSoccer() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://soccerzone.com/");
+
+        Assert.assertEquals(driver.getTitle(), "Soccer Zone");
+
+        driver.quit();
+    }
 }
 
