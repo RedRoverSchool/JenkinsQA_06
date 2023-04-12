@@ -62,6 +62,11 @@ public class GroupOlesyaTests {
         return driverCha.findElements(By.xpath("//div[@class = 'inventory_item_name']"));
     }
 
+    public List<WebElement> getListItems(By by) {
+
+        return driverCha.findElements(by);
+    }
+
     public String getSortingStatus() {
 
         return driverCha.findElement(By.xpath("//span[@class = 'active_option']")).getText();
@@ -149,8 +154,7 @@ public class GroupOlesyaTests {
 
     @Test
     public void checkSortingByPriceLowToHigh() { //Stoyana's Test
-
-        standardUserLogin();
+        loginToSite(LOGIN, PASSWORD);
 
         List<WebElement> beforeFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
         List<Double> beforeFilterPriceList = new ArrayList<>();
@@ -196,7 +200,7 @@ public class GroupOlesyaTests {
     @Test
     public void checkSortingByPriceHighToLow() { //Stoyana's Test
 
-        standardUserLogin();
+        loginToSite(LOGIN, PASSWORD);
         List<WebElement> beforeFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
         List<Double> beforeFilterPriceList = new ArrayList<>();
 
