@@ -181,7 +181,7 @@ public class Group99BottlesTest {
 
         driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         List<WebElement> elementList = driver.findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
         List<String> actualResult = WebElementToString(elementList);
