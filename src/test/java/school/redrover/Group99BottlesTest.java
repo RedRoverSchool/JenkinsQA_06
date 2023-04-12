@@ -98,7 +98,7 @@ public class Group99BottlesTest {
         String expectedResult = "Paris, FR";
 
         driver.get(url);
-        Thread.sleep(5000);
+        Thread.sleep(8000);
 
         WebElement searchCityField = driver.findElement(
                 By.xpath("//div[@id='weather-widget']//input[@placeholder='Search city']")
