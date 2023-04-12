@@ -14,15 +14,21 @@ import org.testng.annotations.Test;
 public class UndercoverGroupTest {
     // Browser setup params
     private ChromeOptions resolution(int resolutionX, int resolutionY) {
+        // Метод создает новые options для браузера с параметрами(разрешением окна) указанными в аргументах.
         ChromeOptions options = new ChromeOptions();
         return options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=" + resolutionX + "," + resolutionY);
     }
 
+    // Открываем единый браузер для всех тестов с одними параметрами(разрешением окна).
     WebDriver driverFHD = new ChromeDriver(resolution(1920, 1080));
+    WebDriver driverHD = new ChromeDriver(resolution(1280, 720));
+
 
     @AfterTest
     private void closeChromeBrowser() {
+        // Закрываем браузеры после тестов.
         driverFHD.quit();
+        driverHD.quit();
     }
 
     // Tests
@@ -69,7 +75,7 @@ public class UndercoverGroupTest {
     }
 
     @Test(timeOut = 20000)
-    public void dragAndDropTest() throws InterruptedException {
+    public void dragAndDropTestFHD() throws InterruptedException {
         driverFHD.get("https://crossbrowsertesting.github.io/drag-and-drop.html");
         Thread.sleep(2000);
 
@@ -80,4 +86,18 @@ public class UndercoverGroupTest {
 
         action.dragAndDrop(element1, element2).build().perform();
     }
+    @Test(timeOut = 20000)
+    public void dragAndDropTestHD() throws InterruptedException {
+        driverHD.get("https://crossbrowsertesting.github.io/drag-and-drop.html");
+        Thread.sleep(2000);
+
+        WebElement element1 = driverHD.findElement(By.id("draggable"));
+        WebElement element2 = driverHD.findElement(By.id("droppable"));
+
+        Actions action = new Actions(driverHD);
+
+        action.dragAndDrop(element1, element2).build().perform();
+    }
+
+
 }
