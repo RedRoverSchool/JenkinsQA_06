@@ -147,7 +147,7 @@ public class Group99BottlesTest {
 
         driver.quit();
     }
-    @Ignore
+
     @Test
     public void testTelerikTitleURLDemosPage() {
 
@@ -156,6 +156,8 @@ public class Group99BottlesTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.telerik.com/");
+
+        driver.manage().window().maximize();
 
         driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
