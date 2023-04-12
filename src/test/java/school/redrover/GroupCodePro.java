@@ -11,13 +11,6 @@ import org.testng.annotations.Test;
 
 public class GroupCodePro {
 
-    public static String getRandomStr(int length) {
-        return RandomStringUtils.random(length,
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-    }
-
-    public static final String EMAIL = getRandomStr(10) + "@gmail.com";
-
     @Test
     public void testKravisRegistration() throws InterruptedException {
 
@@ -88,21 +81,11 @@ public class GroupCodePro {
         lastName.sendKeys("Mann");
         WebElement email = driver.findElement(By.id("email"));
         email.sendKeys("mail2467845@gmail.com");
-     //   Thread.sleep(2000);
-   //     WebElement confirmEmail = driver.findElement(By.id("emailDupe"));
-     //   confirmEmail.sendKeys("mail2467845@gmail.com");
         WebElement password = driver.findElement(By.id("password"));
         password.sendKeys("bumbar123!");
         WebElement buttonCreateAccount = driver
                 .findElement(By.xpath("//button[@id='createAccount']"));
-        Assert.assertEquals(buttonCreateAccount.getText(), "CREATE ACCOUNT");
 
-//        buttonCreateAccount.click();
-//        Thread.sleep(2000);
-//
-//        WebElement pagePayment = driver
-//                .findElement(By.xpath("//h1[text()='Add your payment method']"));
-//
-//        Assert.assertEquals("Add your payment method", pagePayment.getText());
+        Assert.assertEquals(buttonCreateAccount.getText(), "CREATE ACCOUNT");
     }
 }
