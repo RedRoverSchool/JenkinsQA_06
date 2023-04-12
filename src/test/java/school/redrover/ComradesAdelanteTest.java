@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -15,7 +14,6 @@ import java.util.List;
 
 public class ComradesAdelanteTest {
 
-    @Ignore
     @Test
     public void testMap() throws InterruptedException {
 
@@ -23,10 +21,7 @@ public class ComradesAdelanteTest {
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-
         driver.get("https://www.google.com//");
-
-
         WebElement textBox = driver.findElement(By.className("gLFyf"));
 
         textBox.sendKeys("гугл карты");
@@ -36,14 +31,15 @@ public class ComradesAdelanteTest {
 
         search.click();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-
         WebElement searchBox = driver.findElement(
                 By.xpath("//input[@id='searchboxinput']"));
 
-        searchBox.sendKeys("Бердск");
+        searchBox.sendKeys("бердск");
         searchBox.sendKeys(Keys.RETURN);
-
-        WebElement text = driver.findElement(By.xpath("//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div/div[1]/div[1]/h1"));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        WebElement text = driver.findElement(
+                By.xpath("//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div/div[1]/div[1]/h1")
+        );
 
         String expectedResult = "Бердск";
         String actualResult = text.getText();
@@ -52,7 +48,6 @@ public class ComradesAdelanteTest {
 
         driver.quit();
     }
-
 
     @Test
     public void testHeaderOpenWeather() throws InterruptedException {
@@ -145,6 +140,5 @@ public class ComradesAdelanteTest {
         Assert.assertEquals(countItems, 3);
 
         driver.quit();
-
     }
 }

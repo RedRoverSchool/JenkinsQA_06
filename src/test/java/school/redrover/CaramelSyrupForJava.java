@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.ArrayList;
 
-public class Caramel_surup_for_java {
+public class CaramelSyrupForJava {
 
     @Test
     public void artyomDulyaOpenWeatherGuideClick() throws InterruptedException {
@@ -36,7 +36,7 @@ public class Caramel_surup_for_java {
                 By.xpath("//main//div[2]/div/div/p[1]/a[text()='complex enterprise systems']"));
         complexEnterprise.click();
 
-        ArrayList<String> windows = new ArrayList<String>(driver.getWindowHandles());
+        ArrayList<String> windows = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(windows.get(1));
 
         WebElement text = driver.findElement(By.xpath("//h1//span[@class='white-text']"));
@@ -114,7 +114,6 @@ public class Caramel_surup_for_java {
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         driver.get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -125,7 +124,7 @@ public class Caramel_surup_for_java {
 
         WebElement[] headers = {guide, api, dashboard};
 
-        ArrayList<String> urls = new ArrayList<String>(10);
+        ArrayList<String> urls = new ArrayList<>(10);
         urls.add("https://openweathermap.org/guide");
         urls.add("https://openweathermap.org/api");
         urls.add("https://openweathermap.org/weather-dashboard");
@@ -146,6 +145,48 @@ public class Caramel_surup_for_java {
         int actualResult = count;
 
         Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    @Test
+    public void artyomDulyaSupportMenuButtonTest() throws InterruptedException {
+
+        String expectedResultFAQ = "https://openweathermap.org/faq";
+        String expectedResultHowToStart = "https://openweathermap.org/appid";
+        String expectedResultAskAQuestion = "https://home.openweathermap.org/questions";
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://openweathermap.org/");
+        Thread.sleep(5000);
+
+        WebElement support = driver.findElement(By.xpath("//div[@id='support-dropdown']"));
+        WebElement supportFAQ = driver.findElement(By.xpath("//ul[@id='support-dropdown-menu']//li//a[@href='/faq']"));
+        WebElement supportHowToStart = driver.findElement(By.xpath("//ul[@id='support-dropdown-menu']//li[2]//a[@href='/appid']"));
+        WebElement supportAsk = driver.findElement(By.xpath("//ul[@id='support-dropdown-menu']" +
+                "//li[3]//a[@href='https://home.openweathermap.org/questions']"));
+
+        support.click();
+        supportFAQ.click();
+        String actualResultFAQ = driver.getCurrentUrl();
+        driver.navigate().back();
+        support.click();
+        supportHowToStart.click();
+        String actualResultHowToStart = driver.getCurrentUrl();
+        driver.navigate().back();
+        support.click();
+        supportAsk.click();
+        ArrayList<String> windows = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(windows.get(1));
+        String actualResultAsk = driver.getCurrentUrl();
+
+        Assert.assertEquals(actualResultFAQ, expectedResultFAQ);
+        Assert.assertEquals(actualResultHowToStart, expectedResultHowToStart);
+        Assert.assertEquals(actualResultAsk, expectedResultAskAQuestion);
 
         driver.quit();
     }
