@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -62,6 +63,11 @@ public class GroupOlesyaTests {
         return driver.findElements(By.xpath("//div[@class = 'inventory_item_name']"));
     }
 
+    public List<WebElement> getListItems(By by) {
+
+        return driverCha.findElements(by);
+    }
+
     public String getSortingStatus() {
 
         return driver.findElement(By.xpath("//span[@class = 'active_option']")).getText();
@@ -96,6 +102,41 @@ public class GroupOlesyaTests {
         driver.findElement(By.id("postal-code")).sendKeys(postcode);
         driver.findElement(By.id("continue")).click();
     }
+
+    public List <String> getListOfItemInCart(){
+        WebElement cartList = driverCha.findElement(By.className("cart_list"));
+        List<WebElement> cartItems = cartList.findElements(By.className("inventory_item_name"));
+        return cartItems.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public List<Double> getListBeforeSorting(String sortName) {
+        List<WebElement> beforeFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
+        List<Double> beforeFilterPriceList = new ArrayList<>();
+
+        for (WebElement e : beforeFilterPrice) {
+            beforeFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
+        }
+
+        WebElement funnelIcon = driverCha.findElement(By.className("select_container"));
+        funnelIcon.click();
+
+        Select drpOrder = new Select(driverCha.findElement(By.className("product_sort_container")));
+        drpOrder.selectByVisibleText(sortName);
+        Collections.sort(beforeFilterPriceList);
+
+        return beforeFilterPriceList;
+    }
+
+    public List<Double> getListAfterSorting() {
+        List<WebElement> afterFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
+        List<Double> afterFilterPriceList = new ArrayList<>();
+
+        for (WebElement e : afterFilterPrice) {
+            afterFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
+        }
+        return afterFilterPriceList;
+    }
+
 
     @Test
     public void standardUserLoginTest() {
@@ -172,9 +213,10 @@ public class GroupOlesyaTests {
     }
     @Test
     //testing continue shopping button
+    
     public void testContinueShopping()  {
 
-        standardUserLogin();
+        loginToSite(LOGIN, PASSWORD);
 
         driver.findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']")).click();
         driver.findElement(By.xpath("//span[@class='shopping_cart_badge']")).click();
@@ -184,6 +226,14 @@ public class GroupOlesyaTests {
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
         driver.quit();
+    }
+    
+    @Test
+    public void checkSortingByPriceLowToHigh() { //Stoyana's Test
+        loginToSite(LOGIN, PASSWORD);
+        List<Double> expectedResult = getListBeforeSorting("Price (low to high)");
+        Assert.assertEquals(getListAfterSorting(), expectedResult);
+        driverCha.quit();
     }
 
     @Test
@@ -215,6 +265,11 @@ public class GroupOlesyaTests {
         Assert.assertEquals(beforeFilterPriceList, afterFilterPriceList);
 
         driver.quit();
+        loginToSite(LOGIN, PASSWORD);
+        List<Double> expectedResult = getListBeforeSorting("Price (high to low)");
+        Collections.reverse(expectedResult);
+        Assert.assertEquals(getListAfterSorting(), expectedResult);
+        driverCha.quit();
     }
 
     @Test
@@ -438,29 +493,61 @@ public class GroupOlesyaTests {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.saucedemo.com/inventory.html");
+        loginToSite(LOGIN, PASSWORD);
 
-        WebElement username = driver.findElement(By.name("user-name"));
-        WebElement password = driver.findElement(By.name("password"));
-        WebElement loginButton = driver.findElement(By.name("login-button"));
-
-        username.sendKeys("standard_user");
-        password.sendKeys("secret_sauce");
-        loginButton.click();
-
-        WebElement burgerMenuLink = driver.findElement(By.id("react-burger-menu-btn"));
+        WebElement burgerMenuLink = driverCha.findElement(By.id("react-burger-menu-btn"));
         burgerMenuLink.click();
 
         Thread.sleep(3000);
 
-        WebElement logOut = driver.findElement(By.id("logout_sidebar_link"));
+        WebElement logOut = driverCha.findElement(By.id("logout_sidebar_link"));
         logOut.click();
 
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
+        Assert.assertEquals(driverCha.getCurrentUrl(), "https://www.saucedemo.com/");
 
-        driver.quit();
+        driverCha.quit();
+
+    }
+    @Test
+    public void testRemoveFromCart() {
+        loginToSite(LOGIN, PASSWORD);
+        choiceItem("add-to-cart-sauce-labs-backpack");
+        shoppingCart();
+
+        WebElement removeButton = driverCha.findElement(By.name("remove-sauce-labs-backpack"));
+
+        Assert.assertEquals(removeButton.getText(), "Remove");
+
+        WebElement cartButton = driverCha.findElement(By.id("shopping_cart_container"));
+        cartButton.click();
+
+        Assert.assertEquals(driverCha.getCurrentUrl(), "https://www.saucedemo.com/cart.html");
+
+        getListOfItemInCart();
+        Assert.assertFalse(getListOfItemInCart().isEmpty());
+        Assert.assertEquals(getListOfItemInCart().get(0), "Sauce Labs Backpack");
+
+        WebElement cartRemoveButton = driverCha.findElement(By.name("remove-sauce-labs-backpack"));
+        cartRemoveButton.click();
+
+        WebElement cartListAfterRemove = driverCha.findElement(By.className("cart_list"));
+        List<WebElement> cartItemsAfterRemove = cartListAfterRemove.findElements(By.className("cart_item"));
+        Assert.assertTrue(cartItemsAfterRemove.isEmpty());
     }
 
+    @Test
+    public void checkSocialMediaLinkTest(){
+        String socialMedia = "Facebook";
+        loginToSite(LOGIN, PASSWORD);
+
+        WebElement socialMediaLink = driverCha.findElement(By.xpath("//a[contains(text(), '" + socialMedia + "')]"));
+        socialMediaLink.click();
+
+        Set<String> windowsHandles =  driverCha.getWindowHandles();
+        List<String> list = new ArrayList<>(windowsHandles);
+        driverCha.switchTo().window(list.get(1));
+
+        Assert.assertTrue(driverCha.getCurrentUrl().contains(socialMedia.toLowerCase()) && driverCha.getCurrentUrl().contains(URL.substring(12, 17)));
+    }
 }
 
