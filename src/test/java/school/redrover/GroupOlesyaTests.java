@@ -182,10 +182,10 @@ public class GroupOlesyaTests {
         driverCha.quit();
     }
     @Test
-    //testing continue shopping button
+
     public void testContinueShopping()  {
 
-        standardUserLogin();
+        loginToSite(LOGIN, PASSWORD);
 
         driverCha.findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']")).click();
         driverCha.findElement(By.xpath("//span[@class='shopping_cart_badge']")).click();
