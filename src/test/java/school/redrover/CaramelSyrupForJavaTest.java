@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.ArrayList;
 
-public class Caramel_surup_for_java {
+public class CaramelSyrupForJavaTest {
 
     @Test
     public void artyomDulyaOpenWeatherGuideClick() throws InterruptedException {
@@ -190,4 +190,32 @@ public class Caramel_surup_for_java {
 
         driver.quit();
     }
+
+    @Test
+    public void artyomDulyaAuthorization() throws InterruptedException {
+
+        String actualResult = "Sign In To Your Account";
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://openweathermap.org/");
+        Thread.sleep(5000);
+
+        WebElement signIn = driver.findElement
+                (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
+        signIn.click();
+
+        WebElement loginText = driver.findElement(By.tagName("h3"));
+
+        String expectedResult = loginText.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+
 }
