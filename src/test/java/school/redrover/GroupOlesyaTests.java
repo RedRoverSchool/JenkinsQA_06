@@ -108,6 +108,34 @@ public class GroupOlesyaTests {
         return cartItems.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
+    public List<Double> getListBeforeSorting(String sortName) {
+        List<WebElement> beforeFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
+        List<Double> beforeFilterPriceList = new ArrayList<>();
+
+        for (WebElement e : beforeFilterPrice) {
+            beforeFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
+        }
+
+        WebElement funnelIcon = driverCha.findElement(By.className("select_container"));
+        funnelIcon.click();
+
+        Select drpOrder = new Select(driverCha.findElement(By.className("product_sort_container")));
+        drpOrder.selectByVisibleText(sortName);
+        Collections.sort(beforeFilterPriceList);
+
+        return beforeFilterPriceList;
+    }
+
+    public List<Double> getListAfterSorting() {
+        List<WebElement> afterFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
+        List<Double> afterFilterPriceList = new ArrayList<>();
+
+        for (WebElement e : afterFilterPrice) {
+            afterFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
+        }
+        return afterFilterPriceList;
+    }
+
 
     @Test
     public void standardUserLoginTest() {
@@ -153,35 +181,6 @@ public class GroupOlesyaTests {
     }
 
     @Test
-    public void checkSortingByPriceLowToHigh() { //Stoyana's Test
-        loginToSite(LOGIN, PASSWORD);
-
-        List<WebElement> beforeFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
-        List<Double> beforeFilterPriceList = new ArrayList<>();
-
-        for (WebElement e : beforeFilterPrice) {
-            beforeFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
-        }
-
-        WebElement funnelIcon = driverCha.findElement(By.className("select_container"));
-        funnelIcon.click();
-
-        Select drpOrder = new Select(driverCha.findElement(By.className("product_sort_container")));
-        drpOrder.selectByVisibleText("Price (low to high)");
-
-        List<WebElement> afterFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
-        List<Double> afterFilterPriceList = new ArrayList<>();
-
-        for (WebElement e : afterFilterPrice) {
-            afterFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
-        }
-        Collections.sort(beforeFilterPriceList);
-
-        Assert.assertEquals(beforeFilterPriceList, afterFilterPriceList);
-
-        driverCha.quit();
-    }
-    @Test
     //testing continue shopping button
     public void testContinueShopping()  {
 
@@ -196,35 +195,20 @@ public class GroupOlesyaTests {
         Assert.assertEquals(driverCha.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
         driverCha.quit();
     }
+    @Test
+    public void checkSortingByPriceLowToHigh() { //Stoyana's Test
+        loginToSite(LOGIN, PASSWORD);
+        List<Double> expectedResult = getListBeforeSorting("Price (low to high)");
+        Assert.assertEquals(getListAfterSorting(), expectedResult);
+        driverCha.quit();
+    }
 
     @Test
     public void checkSortingByPriceHighToLow() { //Stoyana's Test
-
         loginToSite(LOGIN, PASSWORD);
-        List<WebElement> beforeFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
-        List<Double> beforeFilterPriceList = new ArrayList<>();
-
-        for (WebElement e : beforeFilterPrice) {
-            beforeFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
-        }
-
-        WebElement funnelIcon = driverCha.findElement(By.className("select_container"));
-        funnelIcon.click();
-
-        Select drpOrder = new Select(driverCha.findElement(By.className("product_sort_container")));
-        drpOrder.selectByVisibleText("Price (high to low)");
-
-        List<WebElement> afterFilterPrice = driverCha.findElements(By.className("inventory_item_price"));
-        List<Double> afterFilterPriceList = new ArrayList<>();
-
-        for (WebElement e : afterFilterPrice) {
-            afterFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
-        }
-        Collections.sort(beforeFilterPriceList);
-        Collections.reverse(beforeFilterPriceList); //reverse the sorted list
-
-        Assert.assertEquals(beforeFilterPriceList, afterFilterPriceList);
-
+        List<Double> expectedResult = getListBeforeSorting("Price (high to low)");
+        Collections.reverse(expectedResult);
+        Assert.assertEquals(getListAfterSorting(), expectedResult);
         driverCha.quit();
     }
 
