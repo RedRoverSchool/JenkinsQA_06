@@ -69,4 +69,10 @@ public class GroupJavaExplorersTest {
     public void TestS (){
     }
 
+    public void TestAfterSet ()
+    {
+        System.out.println("Тест после перенастроек всего и вся");
+    }
+
+
 }
