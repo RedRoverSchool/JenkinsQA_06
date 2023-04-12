@@ -169,7 +169,7 @@ public class Group99BottlesTest {
     }
 
     @Test
-    public void testTelerikNavigateMenuDemosPage() {
+    public void testTelerikNavigateMenuDemosPage() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -180,6 +180,8 @@ public class Group99BottlesTest {
         driver.get("https://www.telerik.com/");
 
         driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        Thread.sleep(3000);
 
         List<WebElement> elementList = driver.findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
         List<String> actualResult = WebElementToString(elementList);
