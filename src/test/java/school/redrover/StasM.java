@@ -58,4 +58,9 @@ public class StasM {
 
         driver.quit();
     }
+
+    @Test
+    public void testTherd(){
+        System.out.println("I will be a AQA soon!");
+    }
 }
