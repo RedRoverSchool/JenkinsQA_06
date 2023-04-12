@@ -150,6 +150,7 @@ public class ComradesAdelanteTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
 
         driver.get("https://ya.ru/");
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         WebElement textBox = driver.findElement(By.xpath("//*[@id='text']"));
 
         textBox.click();
