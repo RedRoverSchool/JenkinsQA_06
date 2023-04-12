@@ -61,6 +61,6 @@ public class StasM {
 
     @Test
     public void testTherd(){
-        System.out.println("I will be a AQA soon");
+        System.out.println("I will be a AQA soon!");
     }
 }
