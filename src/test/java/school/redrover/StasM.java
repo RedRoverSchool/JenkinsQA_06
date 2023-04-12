@@ -21,8 +21,7 @@ public class StasM {
         WebElement textBox = driver.findElement(By.name("q"));
         textBox.sendKeys("selenium");
         textBox.sendKeys(Keys.RETURN);
-//        WebElement button = driver.findElement(By.name("btnk"));
-//        button.click();
+
         Thread.sleep(5000);
 
         WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
