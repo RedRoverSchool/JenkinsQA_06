@@ -7,12 +7,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertEquals;
+
 
 public class DavidMTest {
 
     @Test
-    public  void testFirst() throws InterruptedException {
+    public  void testFirst1() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size-1920,.1080");
