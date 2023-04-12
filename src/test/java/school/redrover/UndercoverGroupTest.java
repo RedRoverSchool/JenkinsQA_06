@@ -53,7 +53,7 @@ public class UndercoverGroupTest {
     }
 
     @Test(timeOut = 20000)
-    public void testFirstTry() throws InterruptedException{
+    public void testCheckboxClick() throws InterruptedException{
         driverFHD.get("https://crossbrowsertesting.github.io/todo-app.html");
         Thread.sleep(2000);
 
