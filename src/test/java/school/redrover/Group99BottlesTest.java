@@ -8,6 +8,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Group99BottlesTest {
 
     @Test
@@ -162,5 +166,34 @@ public class Group99BottlesTest {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.telerik.com/support/demos");
 
         driver.quit();
+    }
+
+    @Test
+    public void testTelerikNavigateMenuDemosPage() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        List<String> expectedResult = new ArrayList<>(
+                Arrays.asList("Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"));
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.telerik.com/");
+
+        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        List<WebElement> elementList = driver.findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        List<String> actualResult = WebElementToString(elementList);
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    public static List<String> WebElementToString(List<WebElement> elementList) {
+        List<String> stringList = new ArrayList<>();
+        for (WebElement element : elementList) {
+            stringList.add(element.getText());
+        }
+        return stringList;
     }
 }
