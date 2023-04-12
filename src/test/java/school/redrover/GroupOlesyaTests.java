@@ -72,37 +72,37 @@ public class GroupOlesyaTests {
         return driverCha.findElement(By.xpath("//span[@class = 'active_option']")).getText();
     }
 
-    public List<String> productNames(){
+    public List<String> productNames() {
         List<WebElement> el = driverCha.findElements(By.xpath("//div[@class = 'inventory_item_name']"));
         return el.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public void sortElements(String visibleText){
+    public void sortElements(String visibleText) {
         Select dropdownMenu = new Select(driverCha.findElement(By.className("product_sort_container")));
         dropdownMenu.selectByVisibleText(visibleText);
     }
 
-    public void choiceItem(String item){
+    public void choiceItem(String item) {
         driverCha
                 .findElement(By.id(String.format("%s", item))).click();
     }
 
-    public void shoppingCart(){
+    public void shoppingCart() {
         driverCha.findElement(By.className("shopping_cart_link")).click();
     }
 
-    public void clickCheckout(){
+    public void clickCheckout() {
         driverCha.findElement(By.id("checkout")).click();
     }
 
-    public void fillOutOrderForm(String name, String surname, String postcode){
+    public void fillOutOrderForm(String name, String surname, String postcode) {
         driverCha.findElement(By.id("first-name")).sendKeys(name);
         driverCha.findElement(By.id("last-name")).sendKeys(surname);
         driverCha.findElement(By.id("postal-code")).sendKeys(postcode);
         driverCha.findElement(By.id("continue")).click();
     }
 
-    public List <String> getListOfItemInCart(){
+    public List<String> getListOfItemInCart() {
         WebElement cartList = driverCha.findElement(By.className("cart_list"));
         List<WebElement> cartItems = cartList.findElements(By.className("inventory_item_name"));
         return cartItems.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -182,8 +182,8 @@ public class GroupOlesyaTests {
 
     @Test
     //testing continue shopping button
-    
-    public void testContinueShopping()  {
+
+    public void testContinueShopping() {
 
         loginToSite(LOGIN, PASSWORD);
 
@@ -192,11 +192,10 @@ public class GroupOlesyaTests {
         driverCha.findElement(By.id("continue-shopping")).click();
 
 
-
         Assert.assertEquals(driverCha.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
         driverCha.quit();
     }
-    
+
     @Test
     public void checkSortingByPriceLowToHigh() { //Stoyana's Test
         loginToSite(LOGIN, PASSWORD);
@@ -394,7 +393,7 @@ public class GroupOlesyaTests {
     }
 
     @Test
-    public void finishOrderTest(){
+    public void finishOrderTest() {
         loginToSite(LOGIN, PASSWORD);
         choiceItem("add-to-cart-sauce-labs-bolt-t-shirt");
         shoppingCart();
@@ -411,7 +410,7 @@ public class GroupOlesyaTests {
     }
 
     @Test
-    public void sortByNameAZTest(){
+    public void sortByNameAZTest() {
         loginToSite(LOGIN, PASSWORD);
 
         sortElements("Price (low to high)");
@@ -425,7 +424,7 @@ public class GroupOlesyaTests {
     }
 
     @Test
-    public void sortByNameZATest(){
+    public void sortByNameZATest() {
         loginToSite(LOGIN, PASSWORD);
 
         List<String> firstOrderItems = productNames();
@@ -457,8 +456,9 @@ public class GroupOlesyaTests {
         driverCha.quit();
 
     }
+
     @Test
-    public void testRemoveFromCart() {
+    public void testRemoveFromCart() throws InterruptedException {
         loginToSite(LOGIN, PASSWORD);
         choiceItem("add-to-cart-sauce-labs-backpack");
         shoppingCart();
@@ -483,5 +483,32 @@ public class GroupOlesyaTests {
         List<WebElement> cartItemsAfterRemove = cartListAfterRemove.findElements(By.className("cart_item"));
         Assert.assertTrue(cartItemsAfterRemove.isEmpty());
     }
-}
+    @Test
+        public void testUGLogOut() throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/");
+
+        WebElement login = driver.findElement(By.name("user-name"));
+        WebElement password = driver.findElement(By.name("password"));
+        WebElement button = driver.findElement(By.name("login-button"));
+
+        login.sendKeys("standard_user");
+        password.sendKeys("secret_sauce");
+        button.click();
+
+        WebElement dropDown = driver.findElement(By.id("react-burger-menu-btn"));
+        dropDown.click();
+
+        Thread.sleep(2000);
+
+        WebElement logOut = driver.findElement(By.id("logout_sidebar_link"));
+        logOut.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
+
+
+        }
+
+    }
 
