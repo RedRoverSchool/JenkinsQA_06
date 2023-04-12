@@ -63,7 +63,7 @@ public class UndercoverGroupTest {
             driver.quit();
         } else {
             System.out.println("Checkbox not found");
-
+            driver.quit();
         }
     }
 
