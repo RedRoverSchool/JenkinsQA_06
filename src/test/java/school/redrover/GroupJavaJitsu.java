@@ -277,5 +277,18 @@ public class GroupJavaJitsu {
         Assert.assertEquals(successfullySubmitted.getText(), "Name:Artem De");
         driver.quit();
     }
+
+    @Test
+    public void homePageSoccer(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://soccerzone.com/");
+
+        Assert.assertEquals(driver.getTitle(), "Soccer Zone");
+
+        driver.quit();
+    }
 }
 
