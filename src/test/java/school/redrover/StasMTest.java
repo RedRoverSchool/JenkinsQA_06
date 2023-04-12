@@ -11,11 +11,11 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class StasM {
+public class StasMTest {
 
 
     @Test
-    public void firstTest() throws InterruptedException {
+    public void testFirst() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.google.com");
         WebElement textBox = driver.findElement(By.name("q"));
