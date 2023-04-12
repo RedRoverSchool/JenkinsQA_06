@@ -117,11 +117,27 @@ public class HelloWorldTest {
 
         Thread.sleep(3000);
         driver.quit();
-
-
     }
 
 
 
+    @Test
+    public void bazhTest() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://zoolegenda.ru/");
+
+        WebElement button = driver.findElement(By.cssSelector("[href='/catalog/koshki']"));
+        Thread.sleep(3000);
+        button.click();
+
+        WebElement text = driver.findElement(By.tagName("h1"));
+        Assert.assertEquals(text.getText(), "КОШКИ");
+
+        driver.quit();
+    }
 
 }
