@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.ArrayList;
 
-public class CaramelSyrupForJava {
+public class CaramelSyrupForJavaTest {
 
     @Test
     public void artyomDulyaOpenWeatherGuideClick() throws InterruptedException {
@@ -208,7 +208,7 @@ public class CaramelSyrupForJava {
                 (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
         signIn.click();
 
-        WebElement loginText = driver.findElement(By.tagName("h3"));
+        WebElement loginText = driver.findElement(By.xpath("//h3[text()='Sign In To Your Account']"));
 
         String expectedResult = loginText.getText();
 
