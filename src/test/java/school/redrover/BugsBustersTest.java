@@ -34,6 +34,7 @@ public class BugsBustersTest {
 
         driver.quit();
     }
+
     @Test
     public void testSergeyConvert() {
         ChromeOptions options = new ChromeOptions();
@@ -73,7 +74,7 @@ public class BugsBustersTest {
     }
 
     @Test
-    public void YuliyaTFirstTest(){
+    public void YuliyaTFirstTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 //        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
@@ -120,4 +121,36 @@ public class BugsBustersTest {
 
         driver.quit();
     }
+
+
+
+
+    @Test
+    public void testMarynaLFirstTest() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://invoice-generator.com/");
+
+
+        WebElement signInButton = driver.findElement(By.xpath("/html/body/nav[1]/div/div/ul/li[3]/a"));
+        signInButton.click();
+
+
+        WebElement emailAddress = driver.findElement(By.xpath("//*[@id='inputEmail']"));
+        emailAddress.sendKeys("victoria.bilanko@gmail.com");
+
+        WebElement password = driver.findElement(By.xpath("//*[@id='inputPassword']"));
+        password.sendKeys("Java12345@");
+
+        WebElement signInBtn = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/button"));
+        signInBtn.click();
+
+        driver.quit();
+
+
+    }
+
+
 }
