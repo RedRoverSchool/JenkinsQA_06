@@ -15,7 +15,7 @@ public class StasM {
 
 
     @Test
-    public void testS() throws InterruptedException {
+    public void firstTest() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.google.com");
         WebElement textBox = driver.findElement(By.name("q"));
