@@ -32,7 +32,7 @@ public class GroupJavaExplorersTest {
 
         //проверка того, что на окошке со входом над полями Логина и пасса есть слово Вход
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         //"--remote-allow-origins=*", "--headless" --- params for server
 
         WebDriver driver = new ChromeDriver(options);
@@ -72,7 +72,10 @@ public class GroupJavaExplorersTest {
 
     @Test
     public void testOracleSearch() throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(options);
         driver.get("https://docs.oracle.com/en/");
 
         WebElement textBox = driver.findElement(By.name("q"));
