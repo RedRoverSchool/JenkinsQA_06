@@ -18,6 +18,5 @@ public class TryamTestGetAtrr {
         driver.get("https://www.google.com/");
         WebElement button = driver.findElement(By.name("btnK"));
         Assert.assertEquals(button.getAttribute("value"),"Поиск в Google");
-
     }
 }
