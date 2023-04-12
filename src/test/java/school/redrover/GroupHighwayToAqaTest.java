@@ -246,7 +246,31 @@ public class GroupHighwayToAqaTest {
         assertEquals(title,"Home Page");
         driver.quit();
     }
+
+    @Test
+
+    public void testH1TextInWhatIsNew() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://magento.softwaretestingboard.com/");
+        Thread.sleep(2000);
+
+        WebElement whatIsNew = driver.findElement(By.id("ui-id-3"));
+        whatIsNew.click();
+
+        WebElement h1InWhatIsNew = driver.findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
+
+        Assert.assertEquals(h1InWhatIsNew.getText(), "What's New");
+
+        driver.quit();
+
+    }
 }
+
 
 
 
