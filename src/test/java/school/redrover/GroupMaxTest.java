@@ -60,6 +60,9 @@ public class GroupMaxTest {
 
     @Test
     public void testMax(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
         String text = "Max";
         Assert.assertEquals("Max", text);
     }
