@@ -135,5 +135,30 @@ public class GroupJavaQaTeamTest {
 
     }
 
+    @Test
+    public void testBootcampUrlAndTitle() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        String expectedResultTitle = "W3Schools Online Web Tutorials";
+        String expectedResultUrl = "https://www.w3schools.com/bootcamp/index.php";
+
+        driver.get("https://www.w3schools.com/");
+
+        WebElement bootcampElementMenu = driver.findElement(
+                By.xpath("//a[@title='Web Development Bootcamp']"));
+
+        bootcampElementMenu.click();
+
+        String actualResultUrl = "https://www.w3schools.com/bootcamp/index.php";
+        String actualResultTitle = driver.getTitle();
+
+        Assert.assertEquals(actualResultUrl, expectedResultUrl);
+        Assert.assertEquals(actualResultTitle,expectedResultTitle);
+
+        driver.quit();
+    }
 
 }
