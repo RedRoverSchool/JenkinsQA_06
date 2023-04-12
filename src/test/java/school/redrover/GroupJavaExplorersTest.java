@@ -70,6 +70,11 @@ public class GroupJavaExplorersTest {
         System.out.println("Thos is TestSecondehe");
     }
 
+    @Test
+    public void TestAfterSet ()
+    {
+        System.out.println("Тест после перенастроек всего и вся");
+    }
 
 
 
