@@ -232,9 +232,28 @@ public class GroupJavaJitsu {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
 
     }
-    public static void main(String[] args) {
-        System.out.println("testLoginNatasha");
-        System.out.println("testLogin2");
-    }
+//    public static void main(String[] args) {
+//        System.out.println("testLoginNatasha");
+//        System.out.println("testLogin2");
+//    }
+
+
+    @Test
+    public void GlobalSqaTrainingTest() throws InterruptedException {
+            WebDriver driver = new ChromeDriver();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+            driver.manage().window().maximize();
+            driver.get("https://www.globalsqa.com/");
+            WebElement element = driver.findElement(By.xpath("//a[@href=\"https://www.globalsqa.com/training/appium-online-training/\"]"));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            Thread.sleep(2000);
+            element.click();
+            WebElement schedule = driver.findElement(By.xpath("//li[@id='Batch Schedule']"));
+            schedule.click();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", schedule);
+            WebElement enroll = driver.findElement(By.xpath("(//a[@href=\"https://www.instamojo.com/globalsqa/appium-training/\"])[2]"));
+            enroll.click();
+            driver.quit();
+        }
 }
 
