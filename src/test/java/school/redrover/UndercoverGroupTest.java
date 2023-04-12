@@ -61,9 +61,7 @@ public class UndercoverGroupTest {
         if (check != null) {
             System.out.println("First checkbox checked!");
             driver.quit();
-        } else {
-            System.out.println("Checkbox not found");
-            driver.quit();
+        }
         }
     }
 
