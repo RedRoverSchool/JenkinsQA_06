@@ -250,5 +250,38 @@ public class GroupJavaJitsu {
 
         driver.quit();
     }
+
+    @Test
+    public void testArtem() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://demoqa.com/");
+        WebElement buttonElements = driver.findElement(By.xpath("//div[@class='card mt-4 top-card'][1]//*[name()='svg']"));
+        buttonElements.click();
+
+        WebElement textBox = driver.findElement(By.xpath("//span[text()='Text Box']"));
+        textBox.click();
+
+        WebElement fullNameField = driver.findElement(By.id("userName"));
+        fullNameField.sendKeys("Artem De");
+
+        WebElement emailField = driver.findElement(By.id("userEmail"));
+        emailField.sendKeys("test@gmail.com");
+
+        WebElement currentAddressField = driver.findElement(By.id("currentAddress"));
+        currentAddressField.sendKeys("123 Main St, Anytown USA");
+
+        WebElement permanentAddressField = driver.findElement(By.id("permanentAddress"));
+        permanentAddressField.sendKeys("456 Oak St, Anytown USA");
+
+        WebElement submitButton = driver.findElement(By.id("submit"));
+        submitButton.click();
+
+        WebElement successfullySubmitted = driver.findElement(By.id("name"));
+        Assert.assertEquals(successfullySubmitted.getText(), "Name:Artem De");
+        driver.quit();
+    }
 }
 
