@@ -97,6 +97,13 @@ public class GroupOlesyaTests {
         driverCha.findElement(By.id("continue")).click();
     }
 
+    public List <String> getListOfItemInCart(){
+        WebElement cartList = driverCha.findElement(By.className("cart_list"));
+        List<WebElement> cartItems = cartList.findElements(By.className("inventory_item_name"));
+        return cartItems.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+
     @Test
     public void standardUserLoginTest() {
         standardUserLogin();
@@ -467,7 +474,33 @@ public class GroupOlesyaTests {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
 
         driver.quit();
-    }
 
+    }
+    @Test
+    public void testRemoveFromCart() {
+        loginToSite(LOGIN, PASSWORD);
+        choiceItem("add-to-cart-sauce-labs-backpack");
+        shoppingCart();
+
+        WebElement removeButton = driverCha.findElement(By.name("remove-sauce-labs-backpack"));
+
+        Assert.assertEquals(removeButton.getText(), "Remove");
+
+        WebElement cartButton = driverCha.findElement(By.id("shopping_cart_container"));
+        cartButton.click();
+
+        Assert.assertEquals(driverCha.getCurrentUrl(), "https://www.saucedemo.com/cart.html");
+
+        getListOfItemInCart();
+        Assert.assertFalse(getListOfItemInCart().isEmpty());
+        Assert.assertEquals(getListOfItemInCart().get(0), "Sauce Labs Backpack");
+
+        WebElement cartRemoveButton = driverCha.findElement(By.name("remove-sauce-labs-backpack"));
+        cartRemoveButton.click();
+
+        WebElement cartListAfterRemove = driverCha.findElement(By.className("cart_list"));
+        List<WebElement> cartItemsAfterRemove = cartListAfterRemove.findElements(By.className("cart_item"));
+        Assert.assertTrue(cartItemsAfterRemove.isEmpty());
+    }
 }
 
