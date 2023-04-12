@@ -50,7 +50,6 @@ public class ElenaTsTest {
         searchField.sendKeys("Samsung");
         searchField.sendKeys(Keys.RETURN);
         Thread.sleep(3000);
-
         WebElement result = driver.findElement(By.xpath("(//span[@role='heading'])[2]"));
         Assert.assertEquals(result.getText().substring(0,7), "Samsung");
         driver.quit();
