@@ -7,8 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
 
 public class GroupJavaExplorersTest {
 
@@ -71,20 +72,18 @@ public class GroupJavaExplorersTest {
     public void TestS() {
     }
 
-    @Ignore
     @Test
-    public void testOracleSearch() throws InterruptedException {
+    public void testOracleSearch() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        options.addArguments("--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.get("https://docs.oracle.com/en/");
 
         WebElement textBox = driver.findElement(By.name("q"));
         textBox.sendKeys("Java");
         textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(5000);
 
         WebElement text = driver.findElement(By.cssSelector("span[class*='search-title']"));
         Assert.assertEquals(text.getText(), "Java Management");
