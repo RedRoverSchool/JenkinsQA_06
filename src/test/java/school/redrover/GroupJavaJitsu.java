@@ -259,6 +259,7 @@ public class GroupJavaJitsu {
         Assert.assertEquals(driver.getTitle(), "Uber Eats US | Food Delivery and Takeout | Order Online from Restaurants Near You");
 
         driver.quit();
+
     }
 
     @Test
