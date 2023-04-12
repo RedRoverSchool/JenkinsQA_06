@@ -18,15 +18,15 @@ public class ElenaTsTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.backcountry.com/");
-       Assert.assertEquals(  driver.getTitle(),"Backcountry - Outdoor Gear & Clothing for Ski, Snowboard, Camp, & More" );
+        driver.get("https://www.ebay.com/");
+       Assert.assertEquals(  driver.getTitle(),"Electronics, Cars, Fashion, Collectibles & More | eBay" );
        driver.quit();
     }
-    @Ignore
+@Ignore
 @Test
     public void testProductSearchByBrandName() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+    ChromeOptions chromeOptions = new ChromeOptions();
+    chromeOptions.addArguments("--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.tradeinn.com/trekkinn/en");
     WebElement searchField = driver.findElement(By.xpath("//input [@class='ais-SearchBox-input']"));
@@ -44,7 +44,7 @@ public class ElenaTsTest {
     public void testFindProductByBrandName() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.ebay.com/");
         WebElement searchField = driver.findElement(By.xpath("//input [@class='gh-tb ui-autocomplete-input']"));
         searchField.sendKeys("Samsung");
