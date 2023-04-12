@@ -148,7 +148,10 @@ public class HelloWorldTest {
     @Test
     public void bazhTestYandexSignInError() throws InterruptedException {
 
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://passport.yandex.ru/registration?retpath=https%3A%2F%2Fsso.passport.yandex.ru%2Fprepare%3Fuuid%3Db258193d-7833-453a-882c-4c071ee1a3a9%26goal%3Dhttps%253A%252F%252Fya.ru%252F%26finish%3Dhttps%253A%252F%252Fpassport.yandex.ru%252F&process_uuid=6e0d6f36-3d71-4915-bbc6-18cf579d4abe");
         Thread.sleep(3000);
 
