@@ -73,7 +73,7 @@ public class UndercoverGroupTest {
         ChromeOptions chrOpts = new ChromeOptions();
         chrOpts.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920, 1080");
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chrOpts);
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
         assertEquals("Web form", driver.getTitle());
