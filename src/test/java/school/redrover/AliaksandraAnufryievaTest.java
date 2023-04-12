@@ -26,11 +26,11 @@ public class AliaksandraAnufryievaTest {
 
         element2.sendKeys("29365");
 
-        Thread.sleep(2000);
+        Thread.sleep(3000);
 
         WebElement text = driver.findElement(By.className("location-name"));
 
-        //System.out.println(text.getText());
+        System.out.println(text.getText());
 
         Assert.assertEquals(text.getText(), "LYMAN, SC");
 
