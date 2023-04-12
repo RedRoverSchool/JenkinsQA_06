@@ -8,31 +8,32 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AnnaWTest {
-    // Check that I can test
-    @Test
-    public void firstTest(){
-        String test = "First Test";
-        Assert.assertEquals("First Test", test);
-    }
 
-    // Test opening W3Schools and going to Java
+public class NataliaKTest {
+
     @Test
-    public void findJavaTutorial() throws InterruptedException {
+    public void eightComponents() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.w3schools.com/");
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String title = driver.getTitle();
+        Assert.assertEquals("Web form", title);
 
         Thread.sleep(2000);
 
-        WebElement textBox = driver.findElement(By.xpath("//*[@id=\"search2\"]"));
+        WebElement textBox = driver.findElement(By.name("my-text"));
         WebElement submitButton = driver.findElement(By.cssSelector("button"));
 
-        textBox.sendKeys("Java Tutorial");
+        textBox.sendKeys("Selenium");
         submitButton.click();
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        Assert.assertEquals("Received!", value);
 
         driver.quit();
     }
