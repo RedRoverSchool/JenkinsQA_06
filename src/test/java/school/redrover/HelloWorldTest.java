@@ -143,6 +143,7 @@ public class HelloWorldTest {
         Assert.assertEquals(textFalcon.getText(), "Пятый запуск ракеты Falcon 1. Остров Омелек");
 
         driver.quit();
+
     }
 
 
