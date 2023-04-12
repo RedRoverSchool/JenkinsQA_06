@@ -73,6 +73,14 @@ public class GroupDreamTeam {
         textBox.sendKeys("Selenium");
         submitButton.click();
 
+        WebElement password = driver.findElement(By.name("my-password"));
+        Thread.sleep(2000);
+        textBox.sendKeys("Selenium");
+
+        password.sendKeys("WebSel1");
+        Thread.sleep(2000);
+        submitButton.click();
+        Thread.sleep(2000);
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
