@@ -18,10 +18,22 @@ public class TryamTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.google.com/");
         WebElement textBox = driver.findElement(By.name("q"));
-
+        WebElement button = driver.findElement(By.name("btnK"));
+        System.out.println(button.getAttribute("value"));
        Assert.assertEquals(driver.getTitle(),"Google");
-
+        Assert.assertEquals(button.getAttribute("value"),"Поиск в Google");
         Thread.sleep(2000);
         driver.quit();
+    }
+    @Test
+    public void getAtrr(){
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.google.com/");
+        WebElement button = driver.findElement(By.name("btnK"));
+        Assert.assertEquals(button.getAttribute("value"),"Поиск в Google");
+
     }
 }
