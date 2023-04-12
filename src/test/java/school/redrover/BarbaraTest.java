@@ -21,7 +21,7 @@ public class BarbaraTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.w3schools.com/");
-        Thread.sleep(3000);
+
 
         WebElement textBox = driver.findElement(By.id("search2"));
         textBox.sendKeys("java ");
