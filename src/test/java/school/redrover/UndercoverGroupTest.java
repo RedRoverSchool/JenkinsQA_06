@@ -47,7 +47,7 @@ public class UndercoverGroupTest {
     }
 
     @Test
-    public void testFirstTry() {
+    public void testCheckboxClick() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=800,600");
         WebDriver driver = new ChromeDriver(options);
@@ -60,8 +60,10 @@ public class UndercoverGroupTest {
         WebElement check = driver.findElement(By.cssSelector("ul.list-unstyled span.done-true"));
         if (check != null) {
             System.out.println("First checkbox checked!");
+            driver.quit();
         } else {
             System.out.println("Checkbox not found");
+            driver.quit();
         }
     }
 
