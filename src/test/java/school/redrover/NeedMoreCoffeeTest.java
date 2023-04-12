@@ -11,8 +11,8 @@ import org.testng.annotations.Test;
 public class NeedMoreCoffeeTest {
     @Test
     public void testB() {
-       ChromeOptions chromeOptions = new ChromeOptions();
-       chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.google.com/");
         WebElement textBox = driver.findElement(By.name("q"));
@@ -27,7 +27,7 @@ public class NeedMoreCoffeeTest {
 
     @Test
     public void testBut() {
-       ChromeOptions chromeOptions = new ChromeOptions();
+        ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.google.com/");
@@ -35,7 +35,6 @@ public class NeedMoreCoffeeTest {
         textBox.sendKeys("ozon");
         textBox.sendKeys(Keys.RETURN);
         driver.quit();
-
 
 
     }
@@ -62,7 +61,7 @@ public class NeedMoreCoffeeTest {
 
         Thread.sleep(3000);
 
-        WebElement text = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div/div/div/div/div/div[1]/a/div/div/div/cite"));
+        WebElement text = driver.findElement(By.xpath("/html/body/div[7]/div/div[11]/div[1]/div[2]/div[2]/div/div/div[1]/div/div/div/div/div/div/div/div[1]/a/div/div/div/cite"));
 
         WebElement submitButton = driver.findElement(By.cssSelector("button"));
         submitButton.click();
