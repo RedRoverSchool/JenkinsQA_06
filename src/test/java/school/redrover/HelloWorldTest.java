@@ -215,8 +215,8 @@ public class HelloWorldTest {
 
         Thread.sleep(3000);
 
-        WebElement part = driver.findElement(By.id("API_как_средство_интеграции_приложений"));
-        Assert.assertEquals(part.getText(), "API как средство интеграции приложений");
+        WebElement part = driver.findElement(By.xpath("//span[@id = 'Сигнатура_функции']"));
+        Assert.assertEquals(part.getText(), "Сигнатура функции");
         driver.quit();
     }
 
