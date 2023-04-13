@@ -347,9 +347,11 @@ public class GroupJavaJitsu {
         // Verify the page title
         Assert.assertEquals("Soccer Zone", driver.getTitle());
 
+
         // Close the browser
         driver.quit();
     }
+
 }
 
 
