@@ -9,6 +9,10 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Group99BottlesTest {
 
     @Test
@@ -98,7 +102,7 @@ public class Group99BottlesTest {
         String expectedResult = "Paris, FR";
 
         driver.get(url);
-        Thread.sleep(5000);
+        Thread.sleep(8000);
 
         WebElement searchCityField = driver.findElement(
                 By.xpath("//div[@id='weather-widget']//input[@placeholder='Search city']")
@@ -147,7 +151,7 @@ public class Group99BottlesTest {
 
         driver.quit();
     }
-    @Ignore
+
     @Test
     public void testTelerikTitleURLDemosPage() {
 
@@ -157,11 +161,73 @@ public class Group99BottlesTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.telerik.com/");
 
+        driver.manage().window().maximize();
+
         driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
         Assert.assertEquals(driver.getTitle(), "Telerik Product Demos, Examples and Tutorials for all Telerik products");
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.telerik.com/support/demos");
 
         driver.quit();
+    }
+
+    @Ignore
+    @Test
+    public void testTelerikNavigateMenuDemosPageArray() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        String[] expectedResult = {"Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"};
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.telerik.com/");
+
+        driver.manage().window().maximize();
+
+        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        String[] actualResult = new String[6];
+        actualResult[0] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][1]")).getText();
+        actualResult[1] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][2]")).getText();
+        actualResult[2] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][3]")).getText();
+        actualResult[3] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][4]")).getText();
+        actualResult[4] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][5]")).getText();
+        actualResult[5] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][6]")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testTelerikNavigateMenuDemosPageList() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        List<String> expectedResult = new ArrayList<>(
+                Arrays.asList("Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"));
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.telerik.com/");
+
+        driver.manage().window().maximize();
+
+        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        List<WebElement> elementList = driver.findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        List<String> actualResult = WebElementToString(elementList);
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    public static List<String> WebElementToString(List<WebElement> elementList) {
+        List<String> stringList = new ArrayList<>();
+        for (WebElement element : elementList) {
+            stringList.add(element.getText());
+        }
+        return stringList;
     }
 }

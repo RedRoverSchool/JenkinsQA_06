@@ -1,12 +1,19 @@
 package school.redrover;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -230,8 +237,8 @@ public class GroupJavaJitsu {
         loginButton.click();
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
-    }
 
+    }
 
     public static void main(String[] args) {
         System.out.println("testLoginNatasha");
@@ -268,6 +275,19 @@ public class GroupJavaJitsu {
 
         WebElement successfullySubmitted = driver.findElement(By.id("name"));
         Assert.assertEquals(successfullySubmitted.getText(), "Name:Artem De");
+        driver.quit();
+    }
+
+    @Test
+    public void homePageSoccer(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://soccerzone.com/");
+
+        Assert.assertEquals(driver.getTitle(), "Soccer Zone");
+
         driver.quit();
     }
 }

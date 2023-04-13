@@ -295,6 +295,36 @@ public class GroupHighwayToAqaTest {
       Assert.assertEquals(listOfItemsShownOnPage.size(), Integer.parseInt(expectedNumberOfItems.getText()));
       driver.quit();
     }
+
+    @Test
+    void testTrainingMessage() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+
+        Thread.sleep(2000);
+
+        WebElement trainingBar = driver.findElement(By.id("ui-id-7"));
+        WebElement trainingLink = driver.findElement(By.id("ui-id-28"));
+
+        new Actions(driver).moveToElement(trainingBar).perform();
+        wait.until(ExpectedConditions.visibilityOf(trainingLink));
+
+        trainingLink.click();
+
+        WebElement messageInfo = driver
+                .findElement(By
+                        .xpath("//div[contains(@class, 'message info empty')]/div"));
+        Assert.assertEquals(messageInfo.getText(), "We can't find products matching the selection.");
+
+        driver.quit();
+
+    }
 }
 
 
