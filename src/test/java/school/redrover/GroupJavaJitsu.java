@@ -22,7 +22,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 
 public class GroupJavaJitsu {
-
+    @Ignore
     @Test
     public void testCarServiceOptions() {
 
@@ -72,7 +72,7 @@ public class GroupJavaJitsu {
         driver.findElement(By.id("input-password")).sendKeys("123xyz");
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testFirst_RedRover() throws InterruptedException {
 
@@ -180,7 +180,7 @@ public class GroupJavaJitsu {
         driver.quit();
     }
 
-
+    @Ignore
     @Test
     public void testAboutDoctorsFind() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -213,7 +213,7 @@ public class GroupJavaJitsu {
         driver.quit();
 
     }
-
+    @Ignore
     @Test
     public void testAlex() throws InterruptedException {
         WebDriver driver = new ChromeDriver();

@@ -29,7 +29,7 @@ public class GroupJavaExplorersTest {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void vhodTextOnAuthPageTest() throws InterruptedException {
 

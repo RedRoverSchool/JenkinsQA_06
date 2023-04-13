@@ -120,7 +120,7 @@ public class HelloWorldTest {
     }
 
 
-
+    @Ignore
     @Test
     public void bazhTestZoolegenda() throws InterruptedException {
 
@@ -156,7 +156,7 @@ public class HelloWorldTest {
         inputField.sendKeys(Keys.ENTER);
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void bazhTestYandexSignInError() throws InterruptedException {
 

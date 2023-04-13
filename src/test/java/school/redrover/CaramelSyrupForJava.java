@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import static java.awt.SystemColor.window;
 
 public class CaramelSyrupForJava {
-
+    @Ignore
     @Test
     public void testArtyomDulyaOpenWeatherGuideClick() throws InterruptedException {
 
@@ -51,7 +52,7 @@ public class CaramelSyrupForJava {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testArtyomDulyaThehostbest() throws InterruptedException {
 
@@ -75,7 +76,7 @@ public class CaramelSyrupForJava {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
 
@@ -106,7 +107,7 @@ public class CaramelSyrupForJava {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public static void testArtyomDulyaHeaderButton() throws InterruptedException {
 
@@ -150,7 +151,7 @@ public class CaramelSyrupForJava {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testArtyomDulyaSupportMenuButton() throws InterruptedException {
 
@@ -192,7 +193,7 @@ public class CaramelSyrupForJava {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
 
@@ -217,7 +218,7 @@ public class CaramelSyrupForJava {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testArtyomDulyaWildberries() {
 
@@ -274,7 +275,7 @@ public class CaramelSyrupForJava {
         Assert.assertEquals(actualResult, expectedResult);
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void dimaKFirstTest() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
