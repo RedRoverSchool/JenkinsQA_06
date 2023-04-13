@@ -535,4 +535,19 @@ public class AlexLeoEpicGroupTest {
         driver.quit();
     }
 
+    @Test
+    public void VerifyContactUsPageDisplayedTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com");
+        driver.findElement(By.xpath("//*[contains(text(),'Find More')]")).click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/contact-us/");
+
+        driver.quit();
+    }
+
 }
