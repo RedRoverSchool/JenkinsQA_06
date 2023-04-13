@@ -349,7 +349,7 @@ public class GroupHighwayToAqaTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        ChromeDriver driver = new ChromeDriver();
+        ChromeDriver driver = new ChromeDriver(chromeOptions);
         driver.get(BASE_URL);
 
         WebElement buttonShopNewYoga = driver.findElement(By
@@ -373,8 +373,6 @@ public class GroupHighwayToAqaTest {
         Assert.assertEquals(currentUrl,"https://magento.softwaretestingboard.com/lando-gym-jacket.html");
 
         driver.quit();
-
-
     }
 }
 
