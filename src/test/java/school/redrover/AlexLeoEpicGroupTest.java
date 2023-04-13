@@ -194,22 +194,22 @@ public class AlexLeoEpicGroupTest {
                 .isDisplayed());
     }
 
-        @Test
-        public void test_006(){
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-            WebDriver driver = new ChromeDriver(chromeOptions);
-            driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+    @Test
+    public void test_006() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
-            driver.get("https://askomdch.com/");
-            Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
 
-            String textBox = driver.findElement(By.xpath("//h2[@class='has-text-align-center']")).getText();
+        String textBox = driver.findElement(By.xpath("//h2[@class='has-text-align-center']")).getText();
 
-            Assert.assertEquals(textBox, "Featured Products");
-            List<WebElement> products = driver.findElements(By.className("type-product"));
-            Assert.assertEquals(products.size(), 5);
-            driver.quit();
+        Assert.assertEquals(textBox, "Featured Products");
+        List<WebElement> products = driver.findElements(By.className("type-product"));
+        Assert.assertEquals(products.size(), 5);
+        driver.quit();
 
     }
 
@@ -249,9 +249,8 @@ public class AlexLeoEpicGroupTest {
             driver.findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
                     .click();
             String URL = driver.getCurrentUrl();
-            Assert.assertEquals(URL, "https://askomdch.com/store" );
-        }
-        finally {
+            Assert.assertEquals(URL, "https://askomdch.com/store");
+        } finally {
             driver.quit();
         }
     }
@@ -288,8 +287,9 @@ public class AlexLeoEpicGroupTest {
 
         driver.quit();
     }
+
     @Test
-    public void test_TC_003_01(){
+    public void test_TC_003_01() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -351,7 +351,8 @@ public class AlexLeoEpicGroupTest {
                     String sale = featuredProduct.findElement(By.xpath("//span[@class='onsale']")).getText();
                     Assert.assertEquals(sale, "Sale!");
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 
@@ -460,4 +461,62 @@ public class AlexLeoEpicGroupTest {
         Assert.assertEquals(actaulPage, expectedPage);
         Assert.assertEquals(actualLink, expectedLink);
     }
+
+
+  @Test
+  public void testMenuBar() throws InterruptedException {
+
+      ChromeOptions chromeOptions = new ChromeOptions();
+      chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+      WebDriver driver = new ChromeDriver(chromeOptions);
+      driver.get("https://askomdch.com/");
+      Thread.sleep(3000);
+      WebElement menu = driver.findElement(By.xpath("//ul[@id='ast-hf-menu-1']"));
+      Thread.sleep(3000);
+      List<WebElement> products = menu.findElements(By.tagName("li"));
+      Assert.assertEquals(products.size(), 8);
+      driver.quit();
+
+  }
+
+    @Test
+    public void saleTest_TC_001_23_PetroMatsiura() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        for(WebElement element : driver.findElements(By.cssSelector("span[class='onsale']"))){
+            Assert.assertEquals(element.getText(), "Sale!");
+        }
+        driver.quit();
+    }
+
+    @Test
+    public void discountTest_TC_003_23_PetroMatsiura() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://askomdch.com/");
+        Assert.assertEquals(driver.findElement(By.cssSelector("h3[class*='medium-font-size']")).
+                getText(), "25% OFF On all products");
+        driver.quit();
+    }
+
+
+    @Test
+    public void test_TC_005_01() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com");
+        driver.findElement(By.cssSelector("a[href='/store']")).click();
+        WebElement store = driver.findElement(By.xpath("//header[contains(@class, 'woocommerce-products-header')]//following::h1"));
+        Assert.assertEquals(store.getText(), "Store");
+
+        driver.quit();
+    }
+
 }
