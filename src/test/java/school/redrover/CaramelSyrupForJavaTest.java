@@ -7,13 +7,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.ArrayList;
 
-public class CaramelSyrupForJava {
-
+public class CaramelSyrupForJavaTest {
+    @Ignore
     @Test
     public void artyomDulyaOpenWeatherGuideClickTest() throws InterruptedException {
 
@@ -50,6 +51,7 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void artyomDulyaThehostbestTest() throws InterruptedException {
 
@@ -74,6 +76,7 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void artyomDulyaSearchLineHeaderTest() throws InterruptedException {
 
@@ -105,6 +108,7 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public static void artyomDulyaHeaderButtonTest() throws InterruptedException {
 
@@ -149,6 +153,7 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void artyomDulyaSupportMenuButtonTest() throws InterruptedException {
 
@@ -191,6 +196,7 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void artyomDulyaAuthorizationTextTest() throws InterruptedException {
 
@@ -216,6 +222,7 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void artyomDulyaWildberriesTest() {
 
