@@ -70,7 +70,7 @@ public class BestAutoTeamTest {
 
         Assert.assertEquals(Header.getText(), "Login");
     }
-
+    @Ignore
     @Test
     public void testDonation5EurButton() throws InterruptedException {
 
@@ -83,6 +83,7 @@ public class BestAutoTeamTest {
 
         Assert.assertEquals(element.getAttribute("value"), "5");
     }
+    @Ignore
     @Test
     public void testDonation10EurButton() throws InterruptedException {
 

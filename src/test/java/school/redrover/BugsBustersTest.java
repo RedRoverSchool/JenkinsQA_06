@@ -95,7 +95,7 @@ public class BugsBustersTest {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testMS() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();

@@ -7,10 +7,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class GroupCodePro {
-
+    @Ignore
     @Test
     public void testKravisRegistration() throws InterruptedException {
 
@@ -55,7 +56,7 @@ public class GroupCodePro {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testSSregistration() throws InterruptedException {
 

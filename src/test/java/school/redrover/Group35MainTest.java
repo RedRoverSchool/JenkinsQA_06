@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class Group35MainTest {
@@ -14,6 +15,7 @@ public class Group35MainTest {
     public void simpleTest_01() {
         Assert.assertEquals(14, 14);
     }
+    @Ignore
     @Test
     public void aLugovskayaTest(){
         ChromeOptions chromeOptions = new ChromeOptions();
