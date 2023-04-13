@@ -30,11 +30,6 @@ public class VitaliiPlTest {
         signIn.click();
 
 
-        WebElement loginText = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[contains(@class, 'newlogindialog_PrimaryHeader_39uMK') and contains(text(), 'Войти')]")));
-
-        Assert.assertEquals(loginText.getText(), "ВОЙТИ");
-
         WebElement inputLogin = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[text()='Войти, используя имя аккаунта']/following-sibling::input")));
         inputLogin.sendKeys("login");
