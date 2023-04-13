@@ -7,51 +7,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ComradesAdelanteTest {
 
     @Test
-    public void testMap() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://www.google.com//");
-        WebElement textBox = driver.findElement(By.className("gLFyf"));
-
-        textBox.sendKeys("гугл карты");
-        textBox.sendKeys(Keys.RETURN);
-
-        WebElement search = driver.findElement(By.className("qLRx3b"));
-
-        search.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        WebElement searchBox = driver.findElement(
-                By.xpath("//input[@id='searchboxinput']"));
-
-        searchBox.sendKeys("бердск");
-        searchBox.sendKeys(Keys.RETURN);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        WebElement text = driver.findElement(
-                By.xpath("//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div/div[1]/div[1]/h1")
-        );
-
-        String expectedResult = "Бердск";
-        String actualResult = text.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
-
-        driver.quit();
-    }
-
-    @Test
     public void testHeaderOpenWeather() throws InterruptedException {
-
+        Reporter.log("Tests started 1", true);
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments(
                 "--remote-allow-origins=*", "--headless", "--window-size=1920,1080"
@@ -68,13 +35,14 @@ public class ComradesAdelanteTest {
         String actualResult = textHeader.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
+        Reporter.log("Tests stop",true);
         driver.quit();
     }
 
     @Test
     public void testHeaderSignInPage() throws InterruptedException {
 
+        Reporter.log("Tests started 2", true);
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments(
                 "--remote-allow-origins=*", "--headless", "--window-size=1920,1080"
@@ -99,13 +67,14 @@ public class ComradesAdelanteTest {
         String actualResult = textHeader.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
+        Reporter.log("Tests stop",true);
         driver.quit();
     }
 
     @Test
     public void MariaLuchnikovaTest() throws InterruptedException {
 
+        Reporter.log("Tests started 3", true);
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -138,7 +107,101 @@ public class ComradesAdelanteTest {
 
         int countItems = items.size();
         Assert.assertEquals(countItems, 3);
+        Reporter.log("Tests stop",true);
+        driver.quit();
+    }
+    @Test
+    public void nikolayMarkovTest() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.w3schools.com/");
 
+        Reporter.log("Tests started 4", true);
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        WebElement search;
+        search = driver.findElement(By.xpath("//form/input[@id = 'search2']"));
+        search.sendKeys("HTML Tutorial");
+        search.sendKeys(Keys.RETURN);
+
+        WebElement textBox;
+        textBox = driver.findElement(By.xpath("//input[@name = 'ex1']"));
+        textBox.sendKeys("title");
+        textBox.sendKeys(Keys.RETURN);
+
+        ArrayList<String> words = new ArrayList<>(driver.getWindowHandles());// Записываем  открытые вкладки {0,1,...}
+        driver.switchTo().window(words.get(1));// Выбираем вкладку
+
+        WebElement submit;
+        submit = driver.findElement(By.xpath("//button[@id='answerbutton']"));
+        submit.click();
+        WebElement result;
+        result = driver.findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
+
+        String actualResultOne = result.getText();
+
+        WebElement submitConfirm;
+        submitConfirm = driver.findElement(By.xpath("//div[@class='exercisemenuinner']//a[2]"));
+        submitConfirm.click();
+
+        textBox = driver.findElement(By.xpath("//*[@id='assignmentcontainer']/input[1]"));
+        textBox.sendKeys("250");
+        WebElement textBoxOne = driver.findElement(By.xpath("//*[@id='assignmentcontainer']/input[2]"));
+        textBoxOne.sendKeys("400");
+        textBoxOne.sendKeys(Keys.RETURN);
+
+        result = driver.findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
+
+        String actualResultTwo = result.getText();
+
+        submitConfirm = driver.findElement(By.xpath("//div[@class='exercisemenuinner']//a[3]"));
+        submitConfirm.click();
+
+        textBox = driver.findElement(By.xpath("//*[@id='assignmentcontainer']/input"));
+        textBox.sendKeys("href=");
+        textBox.sendKeys(Keys.RETURN);
+
+        result = driver.findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
+
+        String actualResultThree = result.getText();
+
+        submitConfirm = driver.findElement(By.xpath("//div[@class='exercisemenuinner']//a[4]"));
+        submitConfirm.click();
+
+        textBox = driver.findElement(By.xpath("//*[@id='assignmentcontainer']/input"));
+        textBox.sendKeys("alt");
+        textBox.sendKeys(Keys.RETURN);
+
+        result = driver.findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
+
+        String actualResultFour = result.getText();
+
+        String expectResult = "Correct!";
+
+        List<WebElement> exerciseNamesList = driver.findElements(
+                By.xpath("//*[@id=\"exercisemenu\"]/div[4]/div[1]/div[2]/a/i")
+        );
+
+        int actualResultNamesList = exerciseNamesList.size();
+        int expectResultNamesList = 4;
+
+        List<WebElement> exerciseTextList = driver.findElements(
+                By.xpath("//*[@id=\"exercisemenu\"]/div[4]/div[1]/div[2]/a/text")
+        );
+
+        for (WebElement webElement : exerciseTextList) {
+            Assert.assertTrue(webElement.getText().contains("Exercise"));
+        }
+
+        Assert.assertEquals(actualResultOne, expectResult);
+        Assert.assertEquals(actualResultTwo, expectResult);
+        Assert.assertEquals(actualResultThree, expectResult);
+        Assert.assertEquals(actualResultFour, expectResult);
+        Assert.assertEquals(actualResultNamesList, expectResultNamesList);
+
+        Reporter.log("Tests stop",true);
         driver.quit();
     }
 }

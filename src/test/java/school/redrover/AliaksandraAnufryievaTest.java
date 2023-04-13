@@ -9,29 +9,32 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-public class CaramelSurupForJavaTest {
 
-
-
-
+public class AliaksandraAnufryievaTest {
+    @Ignore
     @Test
-    public void serhiiHaponiukFirstSeleniumTest() throws InterruptedException {
-
+    public void weatherTest() throws InterruptedException{
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://www.selenium.dev/");
-        String title = driver.getTitle();
-        Assert.assertEquals(title, "Selenium");
+        driver.get("https://www.foxcarolina.com/");
 
-        Thread.sleep(5000);
-        WebElement SeleniumWebDriverButton = driver.findElement(By.xpath
-                ("//*[contains(@class, 'selenium-button selenium-webdriver')]"));
-        SeleniumWebDriverButton.click();
+        WebElement element1 = driver.findElement(By.linkText("Weather"));
+        element1.click();
 
-        Thread.sleep(5000);
-        Assert.assertEquals(driver.getTitle(), "WebDriver | Selenium");
+        WebElement element2 = driver.findElement(By.className("form-control"));
+
+        element2.sendKeys("29365");
+
+        Thread.sleep(3000);
+
+        WebElement text = driver.findElement(By.className("location-name"));
+
+        System.out.println(text.getText());
+
+        Assert.assertEquals(text.getText(), "LYMAN, SC");
+
         driver.quit();
     }
 }

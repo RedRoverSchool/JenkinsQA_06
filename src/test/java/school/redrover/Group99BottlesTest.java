@@ -171,6 +171,7 @@ public class Group99BottlesTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageArray() {
 

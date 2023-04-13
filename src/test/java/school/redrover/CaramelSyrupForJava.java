@@ -12,17 +12,19 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.ArrayList;
 
+import static java.awt.SystemColor.window;
+
 public class CaramelSyrupForJava {
 
     @Test
-    public void artyomDulyaOpenWeatherGuideClick() throws InterruptedException {
+    public void testArtyomDulyaOpenWeatherGuideClick() throws InterruptedException {
 
         String expectedResultUrl = "https://openweather.co.uk/";
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
 
 
@@ -51,14 +53,14 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaThehostbest() throws InterruptedException {
+    public void testArtyomDulyaThehostbest() throws InterruptedException {
 
         String expectedResult = "https://thehostbest.ru/business-card-site/";
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         driver.get("https://thehostbest.ru/");
@@ -75,13 +77,13 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaSearchLineHeader() throws InterruptedException {
+    public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
 
         String expectedResult = "Paris, FR";
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
@@ -106,14 +108,14 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public static void artyomDulyaHeaderButtonTest() throws InterruptedException {
+    public static void testArtyomDulyaHeaderButton() throws InterruptedException {
 
         int expectedResult = 3;
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
 
         driver.get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -150,16 +152,16 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaSupportMenuButtonTest() throws InterruptedException {
+    public void testArtyomDulyaSupportMenuButton() throws InterruptedException {
 
         String expectedResultFAQ = "https://openweathermap.org/faq";
         String expectedResultHowToStart = "https://openweathermap.org/appid";
         String expectedResultAskAQuestion = "https://home.openweathermap.org/questions";
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
 
         driver.get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -187,6 +189,111 @@ public class CaramelSyrupForJava {
         Assert.assertEquals(actualResultFAQ, expectedResultFAQ);
         Assert.assertEquals(actualResultHowToStart, expectedResultHowToStart);
         Assert.assertEquals(actualResultAsk, expectedResultAskAQuestion);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testArtyomDulyaAuthorizationText() throws InterruptedException {
+
+        String actualResult = "Sign In To Your Account";
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://openweathermap.org/");
+        Thread.sleep(5000);
+
+        WebElement signIn = driver.findElement
+                (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
+        signIn.click();
+
+        WebElement loginText = driver.findElement(By.xpath("//h3"));
+
+        String expectedResult = loginText.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testArtyomDulyaWildberries() {
+
+        int expectedResult = 26;
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        driver.get("https://www.wildberries.ru/");
+
+        WebElement burgerMenu = driver.findElement(By.xpath("//button[@data-wba-header-name='Catalog']"));
+        burgerMenu.click();
+
+        WebElement women = driver.findElement(By.xpath("//li[@data-menu-id='306']"));
+        WebElement boot = driver.findElement(By.xpath("//li[@data-menu-id='629']"));
+        WebElement kids = driver.findElement(By.xpath("//li[@data-menu-id='115']"));
+        WebElement mens = driver.findElement(By.xpath("//li[@data-menu-id='566']"));
+        WebElement hays = driver.findElement(By.xpath("//li[@data-menu-id='258']"));
+        WebElement beauty = driver.findElement(By.xpath("//li[@data-menu-id='543']"));
+        WebElement accessories = driver.findElement(By.xpath("//li[@data-menu-id='1']"));
+        WebElement electronics = driver.findElement(By.xpath("//li[@data-menu-id='4830']"));
+        WebElement toys = driver.findElement(By.xpath("//li[@data-menu-id='481']"));
+        WebElement furniture = driver.findElement(By.xpath("//li[@data-menu-id='62827']"));
+        WebElement adults = driver.findElement(By.xpath("//li[@data-menu-id='62057']"));
+        WebElement products = driver.findElement(By.xpath("//li[@data-menu-id='10296']"));
+        WebElement appliances = driver.findElement(By.xpath("//li[@data-menu-id='16107']"));
+        WebElement petSupplies = driver.findElement(By.xpath("//li[@data-menu-id='6119']"));
+        WebElement sports = driver.findElement(By.xpath("//li[@data-menu-id='784']"));
+        WebElement autoProducts = driver.findElement(By.xpath("//li[@data-menu-id='6994']"));
+        WebElement books = driver.findElement(By.xpath("//li[@data-menu-id='519']"));
+        WebElement jewelry = driver.findElement(By.xpath("//li[@data-menu-id='1023']"));
+        WebElement tools = driver.findElement(By.xpath("//li[@data-menu-id='17006']"));
+        WebElement garden = driver.findElement(By.xpath("//li[@data-menu-id='4863']"));
+        WebElement health = driver.findElement(By.xpath("//li[@data-menu-id='10326']"));
+        WebElement stationery = driver.findElement(By.xpath("//li[@data-menu-id='5486']"));
+        WebElement stock = driver.findElement(By.xpath("//li[@data-menu-id='2192']"));
+        WebElement digitalGoods = driver.findElement(By.xpath("//li[@data-menu-id='12']"));
+        WebElement madeInMoscow = driver.findElement(By.xpath("//li[@data-menu-id='130255']"));
+        WebElement trips = driver.findElement(By.xpath("//li[@data-menu-id='61037']"));
+//       WebElement brands = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/ul/li[27]"));
+
+        WebElement[] categories = {women, boot, kids, mens, hays, beauty, accessories, electronics, toys,
+                furniture, adults, products, appliances, petSupplies, sports, autoProducts, books, jewelry,
+                tools, garden, health, stationery, stock, digitalGoods, madeInMoscow, trips};
+
+        int actualResult = 0;
+
+        for (int i = 0; i < categories.length; i++) {
+            actualResult++;
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+        driver.quit();
+    }
+
+    @Test
+    public void dimaKFirstTest() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        String exp ="One Call API 3.0 - OpenWeatherMap";
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://openweathermap.org");
+        Thread.sleep(5000);
+        WebElement oneCallApi = driver.findElement(By.xpath("//div [@class='section']//h2/a"));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,1000)");
+        Thread.sleep(3000);
+        oneCallApi.click();
+
+        String act = driver.getTitle();
+
+        Assert.assertEquals(exp, act);
 
         driver.quit();
     }

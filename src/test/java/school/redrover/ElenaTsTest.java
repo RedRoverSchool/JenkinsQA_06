@@ -37,4 +37,17 @@ public class ElenaTsTest {
         Assert.assertEquals(result.getText().substring(0,7), "Samsung");
         driver.quit();
     }
+    @Test
+    public void returnToMainPage() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.ebay.com/");
+        WebElement menuButton = driver.findElement(By.xpath("//li[@data-currenttabindex ='0']"));
+        menuButton.click();
+        Thread.sleep(3000);
+        WebElement siteIcon = driver.findElement(By.xpath("//a[@id='gh-la']"));
+        siteIcon.click();
+        Assert.assertEquals(driver.getCurrentUrl(),"https://www.ebay.com/");
+    }
 }
