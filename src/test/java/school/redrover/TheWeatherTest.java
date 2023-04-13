@@ -39,8 +39,6 @@ public class TheWeatherTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        String query = "Воркута ";
-
         WebDriver driver = new ChromeDriver();
 
         driver.get("https://www.gismeteo.ru/weather-vorkuta-3960/");
