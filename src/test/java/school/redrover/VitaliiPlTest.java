@@ -16,11 +16,11 @@ public class VitaliiPlTest {
 
     @Test
     public void steamHomePageTest() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*",
-                "--headless", "--window-size=1920,1080");
+//        ChromeOptions chromeOptions = new ChromeOptions();
+//        chromeOptions.addArguments("--remote-allow-origins=*",
+//                "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get("https://store.steampowered.com/");
 
@@ -31,9 +31,9 @@ public class VitaliiPlTest {
 
 
         WebElement loginText = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.linkText("Войти")));
+                (By.xpath("//div[contains(@class, 'newlogindialog_PrimaryHeader_39uMK') and contains(text(), 'Войти')]")));
 
-        Assert.assertEquals(loginText.getText(), "Войти");
+        Assert.assertEquals(loginText.getText(), "ВОЙТИ");
 
         WebElement inputLogin = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[text()='Войти, используя имя аккаунта']/following-sibling::input")));
