@@ -18,10 +18,10 @@ public class AnnaMayTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        // Set up the WebDriver instance
+
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        // Navigate to the test URL
+
         driver.get("https://www.usps.com/");
 
         String actualResult;
