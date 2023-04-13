@@ -21,7 +21,7 @@ public class VitaliiPlTest {
                 "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         driver.get("https://store.steampowered.com/");
 
 
