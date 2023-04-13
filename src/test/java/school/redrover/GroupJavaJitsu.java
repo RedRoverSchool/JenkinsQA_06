@@ -302,5 +302,25 @@ public class GroupJavaJitsu {
 
         driver.quit();
     }
+    @Test
+    public void testHomePageSoccer() {
+        // Set up Chrome options
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        // Create a new ChromeDriver instance
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        // Navigate to the Soccer Zone website
+        driver.get("https://soccerzone.com/");
+
+        // Verify the page title
+        Assert.assertEquals("Soccer Zone", driver.getTitle());
+
+        // Close the browser
+        driver.quit();
+    }
 }
+
+
 
