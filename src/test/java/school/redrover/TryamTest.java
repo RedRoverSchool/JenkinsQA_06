@@ -18,7 +18,6 @@ public class TryamTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.google.com/");
         WebElement textBox = driver.findElement(By.name("q"));
-        tryamkin/firstStep
         WebElement button = driver.findElement(By.name("btnK"));
         System.out.println(button.getAttribute("value"));
        Assert.assertEquals(driver.getTitle(),"Google");
