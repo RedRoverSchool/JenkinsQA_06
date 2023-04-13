@@ -134,22 +134,24 @@ public class GroupJavaQaTeamTest {
         driver.quit();
 
     }
-
     @Test
     public void testBookingTitle() {
-        // Запустить драйвер
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver();
 
-        // Открыть сайт Booking
+
         driver.get("https://www.booking.com");
 
-        // Проверить, что заголовок страницы содержит слово "Booking.com"
+        // Проверить, что заголовок страницы содержит слово Booking.com
         Assert.assertTrue(driver.getTitle().contains("Booking.com"));
 
-        // Закрыть браузер
+
         driver.quit();
     }
+
 
 
 
