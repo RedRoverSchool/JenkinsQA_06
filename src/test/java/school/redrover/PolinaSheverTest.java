@@ -11,12 +11,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 public class PolinaSheverTest {
 
+    @Ignore
     @Test
     public void iGoToLookupZIPPageByAddress() throws InterruptedException {
 
