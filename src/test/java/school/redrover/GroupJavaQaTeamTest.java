@@ -145,7 +145,7 @@ public class GroupJavaQaTeamTest {
 
         driver.get("https://www.booking.com");
 
-        // Проверить, что заголовок страницы содержит слово Booking.com
+
         Assert.assertTrue(driver.getTitle().contains("Booking.com"));
 
 
