@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 public class AliaksandraAnufryievaTest {
 
     @Test
-    public void jenkinsTest() {
+    public void jenkinsTest() throws InterruptedException{
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
