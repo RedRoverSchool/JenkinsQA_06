@@ -259,4 +259,30 @@ public class Group99BottlesTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testDemoblazeProdAddToCart() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        String productName = "Sony vaio i5";
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.demoblaze.com/");
+
+        Thread.sleep(1000);
+        List<WebElement> products = driver.findElements(By.cssSelector(".hrefch"));
+        WebElement prod = products.stream().filter(product->product.getText()
+                .equals(productName)).findFirst().orElse(null);
+        prod.click();
+        Thread.sleep(1000);
+        driver.findElement(By.cssSelector(".btn-success")).click();
+        Thread.sleep(1000);
+        driver.switchTo().alert().accept();
+        driver.findElement(By.cssSelector("#cartur")).click();
+        Thread.sleep(1000);
+
+        Assert.assertEquals(driver.findElement(By.xpath("//tr/td[2]")).getText(), productName);
+
+        driver.quit();
+    }
 }
