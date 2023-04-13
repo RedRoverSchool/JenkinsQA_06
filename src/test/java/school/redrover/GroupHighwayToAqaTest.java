@@ -368,6 +368,13 @@ public class GroupHighwayToAqaTest {
         String fiveElementText = searchResult.get(5).getText();
         assertTrue(fiveElementText.contains("Jacket"));
         searchResult.get(5).click();
+
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertEquals(currentUrl,"https://magento.softwaretestingboard.com/lando-gym-jacket.html");
+
+        driver.quit();
+
+
     }
 }
 
