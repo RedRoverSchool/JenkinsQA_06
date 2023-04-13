@@ -469,5 +469,60 @@ public class GroupOlesyaTests {
         driver.quit();
     }
 
-}
+    @Test
+    public static void changeQuantityTest() {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/inventory.html");
 
+        WebElement username = driver.findElement(By.name("user-name"));
+        WebElement password = driver.findElement(By.name("password"));
+        WebElement loginButton = driver.findElement(By.name("login-button"));
+
+        username.sendKeys("standard_user");
+        password.sendKeys("secret_sauce");
+        loginButton.click();
+
+        WebElement addtocartButton = driver.findElement(By.xpath("//*[@id=\"add-to-cart-sauce-labs-backpack\"]"));
+        addtocartButton.click();
+        WebElement removeButton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-backpack\"]"));
+        Assert.assertEquals(removeButton.getText(), "Remove");
+
+        addtocartButton = driver.findElement(By.xpath("//*[@id=\"add-to-cart-sauce-labs-bolt-t-shirt\"]"));
+        addtocartButton.click();
+        removeButton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-bolt-t-shirt\"]"));
+        Assert.assertEquals(removeButton.getText(), "Remove");
+
+        addtocartButton = driver.findElement(By.xpath("//*[@id=\"add-to-cart-sauce-labs-onesie\"]"));
+        addtocartButton.click();
+        removeButton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-onesie\"]"));
+        Assert.assertEquals(removeButton.getText(), "Remove");
+
+        addtocartButton = driver.findElement(By.xpath("//*[@id=\"add-to-cart-sauce-labs-bike-light\"]"));
+        addtocartButton.click();
+        removeButton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-bike-light\"]"));
+        Assert.assertEquals(removeButton.getText(), "Remove");
+
+        addtocartButton = driver.findElement(By.xpath("//*[@id=\"add-to-cart-sauce-labs-fleece-jacket\"]"));
+        addtocartButton.click();
+        removeButton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-fleece-jacket\"]"));
+        Assert.assertEquals(removeButton.getText(), "Remove");
+
+        addtocartButton = driver.findElement(By.xpath("//*[@id=\"add-to-cart-test.allthethings()-t-shirt-(red)\"]"));
+        addtocartButton.click();
+        removeButton = driver.findElement(By.xpath("//*[@id=\"remove-test.allthethings()-t-shirt-(red)\"]"));
+        Assert.assertEquals(removeButton.getText(), "Remove");
+
+        WebElement cartbutton = driver.findElement(By.xpath("//*[@id=\"shopping_cart_container\"]/a"));
+        cartbutton.click();
+        Assert.assertEquals(driver.getTitle(), "Swag Labs");
+
+        WebElement cartQuantity = driver.findElement(By.xpath("//*[@class=\"cart_quantity\"]"));
+        //Bug! can't change the quantity
+        //removing backpack from the cart:
+        WebElement cartremovebutton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-backpack\"]"));
+        cartremovebutton.click();
+        Assert.assertEquals(driver.findElements(By.xpath("//*[@id=\"remove-sauce-labs-backpack\"]")).isEmpty(), true);
+
+        driver.quit();
+    }
+}
