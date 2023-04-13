@@ -21,7 +21,7 @@ public class GroupAnaBelsTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.yahoo.com/");
 
-        WebElement submitButton = driver.findElement(By.className("_yb_pbrc7"));
+        WebElement submitButton = driver.findElement(By.xpath("//a[@class=\"_yb_pbrc7\"]"));
         submitButton.click();
 
         String title = driver.getTitle();
