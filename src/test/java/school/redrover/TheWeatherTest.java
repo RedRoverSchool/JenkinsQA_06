@@ -33,4 +33,24 @@ public class TheWeatherTest {
         driver.close();
 
     }
+
+    @Test
+    public void testWeatherFor10Days () throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        String query = "Воркута ";
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://www.gismeteo.ru/weather-vorkuta-3960/");
+        Thread.sleep(2000);
+        WebElement itemLink = driver.findElement(By.xpath("//div[@class = 'subnav-menu header-subnav-menu']/a[2]"));
+        itemLink.click();
+        Thread.sleep(1000);
+        WebElement textTitle = driver.findElement(By.xpath("//div[@class='page-title']//h1"));
+        Assert.assertEquals(textTitle.getText(), "Погода в Воркуте на завтра");
+        driver.close();
+
+    }
 }
