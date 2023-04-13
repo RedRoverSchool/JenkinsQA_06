@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class JavaNiSyTest {
+
     @Ignore
     @Test
     public void testNewsPageMS()  {
