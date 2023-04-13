@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+
 public class DmTest {
 
     @Test
@@ -36,15 +38,16 @@ public class DmTest {
         submitConfirm.click();
 
         Thread.sleep(5000);
+        ArrayList<String> words = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(words.get(1));
 
-//        WebElement submit = driver.findElement(By.xpath("//button[@id='answerbutton']"));
-//        submit.click();
-//
-//        WebElement result;
-//        result = driver.findElement(By.xpath("//*[@id=\"assignmentCorrect\"]/h2"));
-//        result.click();
-//
-//        Assert.assertEquals(result.getText(), "Correct");
+        WebElement submit = driver.findElement(By.xpath("//button[@id='answerbutton']"));
+        submit.click();
+
+        WebElement result;
+        result = driver.findElement(By.xpath("//*[@id=\"assignmentCorrect\"]/h2"));
+
+        Assert.assertEquals(result.getText(), "Correct!");
 
         driver.quit();
     }
