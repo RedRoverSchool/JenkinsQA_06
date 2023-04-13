@@ -42,6 +42,7 @@ public class UgTest {
         @Test
         public void testtComponents() {
             WebDriver driver = new ChromeDriver();
+
             driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
             String title = driver.getTitle();
