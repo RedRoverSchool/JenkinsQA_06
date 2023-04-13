@@ -27,4 +27,9 @@ public class AlexFTest {
         Assert.assertEquals(icon.getText(), "Sale!");
         driver.quit();
     }
+
+    @Test
+    public void printName(){
+        System.out.println("Print name");
+    }
 }

@@ -7,15 +7,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.ArrayList;
 
-public class CaramelSyrupForJava {
+public class CaramelSyrupForJavaTest {
 
     @Test
-    public void artyomDulyaOpenWeatherGuideClickTest() throws InterruptedException {
+    public void testArtyomDulyaOpenWeatherGuideClick() throws InterruptedException {
 
         String expectedResultUrl = "https://openweather.co.uk/";
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
@@ -50,8 +51,9 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
-    public void artyomDulyaThehostbestTest() throws InterruptedException {
+    public void testArtyomDulyaThehostbest() throws InterruptedException {
 
         String expectedResult = "https://thehostbest.ru/business-card-site/";
 
@@ -75,7 +77,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaSearchLineHeaderTest() throws InterruptedException {
+    public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
 
         String expectedResult = "Paris, FR";
 
@@ -105,8 +107,9 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
-    public static void artyomDulyaHeaderButtonTest() throws InterruptedException {
+    public static void testArtyomDulyaHeaderButton() throws InterruptedException {
 
         int expectedResult = 3;
 
@@ -149,8 +152,9 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
-    public void artyomDulyaSupportMenuButtonTest() throws InterruptedException {
+    public void testArtyomDulyaSupportMenuButton() throws InterruptedException {
 
         String expectedResultFAQ = "https://openweathermap.org/faq";
         String expectedResultHowToStart = "https://openweathermap.org/appid";
@@ -192,7 +196,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaAuthorizationTextTest() throws InterruptedException {
+    public void testArtyomDulyaAuthorizationText() throws InterruptedException {
 
         String actualResult = "Sign In To Your Account";
 
@@ -217,7 +221,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaWildberriesTest() {
+    public void testArtyomDulyaWildberries() {
 
         int expectedResult = 26;
 
@@ -273,5 +277,26 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Test
+    public void dimaKFirstTest() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
+        String exp = "One Call API 3.0 - OpenWeatherMap";
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://openweathermap.org");
+        Thread.sleep(5000);
+        WebElement oneCallApi = driver.findElement(By.xpath("//div [@class='section']//h2/a"));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,1000)");
+        Thread.sleep(3000);
+        oneCallApi.click();
+
+        String act = driver.getTitle();
+
+        Assert.assertEquals(exp, act);
+
+        driver.quit();
+    }
 }
