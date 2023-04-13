@@ -12,6 +12,8 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.ArrayList;
 
+import static java.awt.SystemColor.window;
+
 public class CaramelSyrupForJava {
 
     @Test
@@ -273,5 +275,26 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Test
+    public void dimaKFirstTest() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
+        String exp ="One Call API 3.0 - OpenWeatherMap";
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://openweathermap.org");
+        Thread.sleep(5000);
+        WebElement oneCallApi = driver.findElement(By.xpath("//div [@class='section']//h2/a"));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,1000)");
+        Thread.sleep(3000);
+        oneCallApi.click();
+
+        String act = driver.getTitle();
+
+        Assert.assertEquals(exp, act);
+
+        driver.quit();
+    }
 }
