@@ -181,7 +181,6 @@ public class GroupJavaJitsu {
     }
 
 
-
     @Test
     public void testAboutDoctorsFind() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -306,6 +305,7 @@ public class GroupJavaJitsu {
 
         driver.quit();
     }
+
     @Test
     public void testHomePageSoccer() {
         // Set up Chrome options
@@ -322,53 +322,35 @@ public class GroupJavaJitsu {
         Assert.assertEquals("Soccer Zone", driver.getTitle());
 
         // Close the browser
-
-    @Test
-    public void testKatya2() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless","--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        String title = driver.getTitle();
-        assertEquals("Web form", title);
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
-
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
-
-        textBox.sendKeys("Selenium");
-        submitButton.click();
-
-        WebElement message = driver.findElement(By.id("message"));
-        String value = message.getText();
-        assertEquals("Received!", value);
-
-        driver.quit();
-    }
-    @Test
-    public void testHomePageSoccer() {
-        // Set up Chrome options
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        // Create a new ChromeDriver instance
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        // Navigate to the Soccer Zone website
-        driver.get("https://soccerzone.com/");
-
-        // Verify the page title
-        Assert.assertEquals("Soccer Zone", driver.getTitle());
-
-
-        // Close the browser
-        driver.quit();
     }
 
-}
+        @Test
+        public void testKatya2 () {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+            String title = driver.getTitle();
+            assertEquals("Web form", title);
+
+            driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+
+            WebElement textBox = driver.findElement(By.name("my-text"));
+            WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+            textBox.sendKeys("Selenium");
+            submitButton.click();
+
+            WebElement message = driver.findElement(By.id("message"));
+            String value = message.getText();
+            assertEquals("Received!", value);
+
+            driver.quit();
+        }
+    }
+
 
 
 
