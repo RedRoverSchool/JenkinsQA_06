@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class GroupJavaJitsu {
 
@@ -329,6 +330,32 @@ public class GroupJavaJitsu {
         String value = message.getText();
         assertEquals("Received!", value);
 
+        driver.quit();
+    }
+
+    @Test
+    public void liliia_loginTestNegative() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://automationteststore.com/");
+        WebElement login = driver.findElement(By.xpath("//ul[@id=\"customer_menu_top\"]/li/a"));
+        login.click();
+
+        WebElement loginNameField = driver.findElement(By.xpath("//input[@id='loginFrm_loginname']"));
+        loginNameField.sendKeys("avadakedavra");
+
+        WebElement passwordField = driver.findElement(By.xpath("//input[@name='password']"));
+        passwordField.sendKeys("12345");
+
+        WebElement loginButton = driver.findElement(By.xpath("//button[@title='Login']"));
+        loginButton.click();
+
+        WebElement alert = driver.findElement(By.xpath("//div[@class='alert alert-error alert-danger']"));
+        WebElement closeButton = alert.findElement(By.tagName("button"));
+        String alertText = alert.getText().replace(closeButton.getText(), "").trim();
+        Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
         driver.quit();
     }
 }
