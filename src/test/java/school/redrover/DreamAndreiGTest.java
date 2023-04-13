@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class DreamTeam {
+public class DreamAndreiGTest {
     @Test
     public void AndreiG_TC_001_04() {
         ChromeOptions chromeOptions = new ChromeOptions();
