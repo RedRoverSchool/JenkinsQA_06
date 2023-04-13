@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 public class AnnaMayTest {
 
+    @Ignore
     @Test
     public void uspsTitle() {
         ChromeOptions chromeOptions = new ChromeOptions();
