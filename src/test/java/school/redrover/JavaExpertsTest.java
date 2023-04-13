@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class JavaExpertsGroup {
+public class JavaExpertsTest {
     @Test
     public void testFirst(){
 
