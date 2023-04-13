@@ -349,6 +349,98 @@ public class GroupJavaJitsu {
 
             driver.quit();
         }
+    @Test
+    public void formFillOut() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://demo.opencart.com/index.php?route=account/register&language=en-gb");
+
+        driver.findElement(By.xpath("//input[@id='input-firstname']")).sendKeys("Egor");
+        driver.findElement(By.xpath("//input[@id='input-lastname']")).sendKeys("Zaitsev");
+        driver.findElement(By.xpath(" //input[@id='input-email']")).sendKeys("zadfsdg@mail.ua");
+        driver.findElement(By.xpath("//input[@id='input-password']")).sendKeys("1234567890");
+        driver.findElement(By.id("input-newsletter-yes")).click();
+        driver.findElement(By.name("agree")).click();
+        driver.findElement(By.xpath("//button[contains(text(),'Continue')]")).click();
+        driver.quit();
+    }
+
+
+    @Test
+    public void changeCurrencyTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://demo.opencart.com/index.php?route=common/home&language=en-gb");
+        driver.findElement(By.xpath("//span[contains(text(), 'Currency')]")).click();
+        driver.findElement(By.xpath("//a[contains(text(), '€ Euro')]")).click();
+        driver.findElement(By.xpath("//body/main[1]/div[2]/div[1]/div[1]/div[2]/div[2]/form[1]/div[1]/div[1]/a[1]/img[1]")).click();
+        String currency = driver.findElement(By.xpath("//span[contains(text(),'112.65€')]")).getText();
+        Assert.assertEquals(currency, "112.65€");
+        driver.quit();
+
+    }
+
+    @Test
+    public void buttonsRedirectionTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://demo.opencart.com/index.php?route=common/home&language=en-gb");
+
+        driver.findElement(By.xpath("//body/main[1]/div[1]/nav[1]/div[2]/ul[1]/li[1]/a[1]")).click();
+        driver.findElement(By.xpath("//a[contains(text(),'Mac (1)')]")).click();
+        String totalDesktop = driver.findElement(By.xpath("//div[contains(text(),'Showing 1 to 1 of 1 (1 Pages)')]")).getText();
+        Assert.assertEquals(totalDesktop, "Showing 1 to 1 of 1 (1 Pages)");
+        driver.quit();
+    }
+
+    @Test
+    public void valuePlaceHolderTest(){
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("https://demo.opencart.com/index.php?route=account/register&language=en-gb");
+
+        String firstName = driver.findElement(By.xpath("//input[@placeholder='First Name']")).getAttribute("placeholder");
+        Assert.assertEquals(firstName, "First Name");
+
+        String lastName = driver.findElement(By.xpath("//input[@placeholder='Last Name']")).getAttribute("placeholder");
+        Assert.assertEquals(lastName, "Last Name");
+
+        String email = driver.findElement(By.xpath("//input[@placeholder='E-Mail']")).getAttribute("placeholder");
+        Assert.assertEquals(email, "E-Mail");
+
+        String password = driver.findElement(By.xpath("//input[@placeholder='Password']")).getAttribute("placeholder");
+        Assert.assertEquals(password, "Password");
+        driver.quit();
+    }
+
+    @Test
+    public void multiSelectionBoxTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.get("http://omayo.blogspot.com/");
+        driver.findElement(By.xpath("//option[contains(text(),'Hyundai')]")).click();
+        WebElement checkMultiBox = driver.findElement(By.xpath("//option[contains(text(),'Hyundai')]"));
+        Assert.assertEquals(checkMultiBox.getText(), "Hyundai");
+        driver.quit();
+    }
     }
 
 
