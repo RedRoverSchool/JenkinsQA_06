@@ -6,17 +6,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-public class AlexLeoEpicGroupTest {
+public class GroupAlexLeoTest {
     @Test
     public void titleOfTheHomePageCheckedTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
