@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class CaramelSyrupForJava {
 
     @Test
-    public void artyomDulyaOpenWeatherGuideClickTest() throws InterruptedException {
+    public void testArtyomDulyaOpenWeatherGuideClick() throws InterruptedException {
 
         String expectedResultUrl = "https://openweather.co.uk/";
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
@@ -51,7 +51,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaThehostbestTest() throws InterruptedException {
+    public void testArtyomDulyaThehostbest() throws InterruptedException {
 
         String expectedResult = "https://thehostbest.ru/business-card-site/";
 
@@ -75,7 +75,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaSearchLineHeaderTest() throws InterruptedException {
+    public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
 
         String expectedResult = "Paris, FR";
 
@@ -106,7 +106,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public static void artyomDulyaHeaderButtonTest() throws InterruptedException {
+    public static void testArtyomDulyaHeaderButton() throws InterruptedException {
 
         int expectedResult = 3;
 
@@ -150,7 +150,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaSupportMenuButtonTest() throws InterruptedException {
+    public void testArtyomDulyaSupportMenuButton() throws InterruptedException {
 
         String expectedResultFAQ = "https://openweathermap.org/faq";
         String expectedResultHowToStart = "https://openweathermap.org/appid";
@@ -192,7 +192,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaAuthorizationTextTest() throws InterruptedException {
+    public void testArtyomDulyaAuthorizationText() throws InterruptedException {
 
         String actualResult = "Sign In To Your Account";
 
@@ -217,7 +217,7 @@ public class CaramelSyrupForJava {
     }
 
     @Test
-    public void artyomDulyaWildberriesTest() {
+    public void testArtyomDulyaWildberries() {
 
         int expectedResult = 26;
 
