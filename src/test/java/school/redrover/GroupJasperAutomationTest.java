@@ -113,7 +113,7 @@ public class GroupJasperAutomationTest {
 
         driver.get("https://www.imdb.com/");
 
-        WebElement textBox = driver.findElement(By.name("q"));
+        WebElement textBox = driver.findElement(By.id("suggestion-search"));
 
         textBox.sendKeys("Everything Everywhere All At Once");
         textBox.sendKeys(Keys.RETURN);
