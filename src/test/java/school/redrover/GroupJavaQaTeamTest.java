@@ -135,5 +135,24 @@ public class GroupJavaQaTeamTest {
 
     }
 
+    @Test
+    public void testBookingTitle() {
+        // Запустить драйвер
+
+        WebDriver driver = new ChromeDriver();
+
+        // Открыть сайт Booking
+        driver.get("https://www.booking.com");
+
+        // Проверить, что заголовок страницы содержит слово "Booking.com"
+        Assert.assertTrue(driver.getTitle().contains("Booking.com"));
+
+        // Закрыть браузер
+        driver.quit();
+    }
+
+
+
+
 
 }
