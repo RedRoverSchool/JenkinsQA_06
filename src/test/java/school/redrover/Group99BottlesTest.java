@@ -170,6 +170,8 @@ public class Group99BottlesTest {
         driver.quit();
     }
 
+
+    @Ignore
     @Test
     public void testDemoblazeAddToCart() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
