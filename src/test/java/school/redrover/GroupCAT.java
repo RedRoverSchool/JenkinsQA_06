@@ -93,4 +93,59 @@ public class GroupCAT {
 
         driver.quit();
     }
+
+    @Test
+    public void openToyotaHomePage_TC_001(){
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.toyota.com/");
+
+        WebElement logoElement = driver.findElement(By.cssSelector("a.logo"));
+        Assert.assertEquals(true, logoElement.isDisplayed());
+
+        driver.quit();
+    }
+
+    @Test
+    public void verifyVehiclesPointMenu_TC_002(){
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.toyota.com/");
+
+        WebElement vehiclesPointMenu = driver.findElement(By.xpath("//button[@data-aa-link-type-title]"));
+        Assert.assertEquals(vehiclesPointMenu.getText(), "Vehicles" );
+
+
+        driver.quit();
+    }
+    @Test
+    public void verifyShoppingToolsPointMenu_TC_003(){
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.toyota.com/");
+
+        WebElement shoppingToolsPointMenu = driver.findElement(By.xpath("//button[@class = 'main-nav-link main-nav-link shopping-tools']"));
+        Assert.assertEquals(shoppingToolsPointMenu.getText(), "Shopping Tools" );
+
+        driver.quit();
+    }
+
+    @Test
+    public void verifyShoppingToolsPointMenu_TC_004(){
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.toyota.com/");
+
+        WebElement ownersPointMenu = driver.findElement(By.xpath("//button[@class = 'main-nav-link main-nav-link owners']"));
+        Assert.assertEquals(ownersPointMenu.getText(), "Owners" );
+
+        driver.quit();
+    }
+
+    @Test
+    public void verifyShoppingToolsPointMenu_TC_005(){
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.toyota.com/");
+
+        WebElement searchInventoryPointMenu = driver.findElement(By.xpath("//a[@class = 'main-nav-link search-inventory']"));
+        Assert.assertEquals(searchInventoryPointMenu.getText(), "Search Inventory" );
+
+        driver.quit();
+    }
 }
