@@ -419,4 +419,21 @@ public class GroupHighwayToAqaTest {
 
         driver.quit();
     }
+    @Test
+    public void testExistSubscription() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080" );
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+        WebElement emailInput = driver.findElement(By.cssSelector("#newsletter"));
+        emailInput.sendKeys("universal@mail.ru");
+        WebElement submitButton = driver.findElement(By
+                .xpath("//button[@title = 'Subscribe']"));
+        submitButton.click();
+        Thread.sleep(5000);
+        WebElement message = driver.findElement(By
+                .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
+        Assert.assertEquals(message.getText(),"This email address is already subscribed.");
+        driver.quit();
+    }
 }
