@@ -325,15 +325,49 @@ public class GroupHighwayToAqaTest {
         driver.quit();
 
     }
+
+    @Test
+    public void testNumberOfItemsShownOnPageChanged() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        Actions actions = new Actions(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        driver.get(BASE_URL);
+        Thread.sleep(2000);
+        WebElement womenButton = driver.findElement(By.id("ui-id-4"));
+        WebElement topsButton = driver.findElement(By.id("ui-id-9"));
+
+        actions.moveToElement(womenButton).moveToElement(topsButton).perform();
+        topsButton.click();
+
+        WebElement expectedNumberOfItems12 = driver.findElement(By
+                .xpath("//div[@class ='toolbar toolbar-products'][2]/div[3]/div/select/option[@value='12']"));
+       List<WebElement> listOfItemsShownOnPage12 = driver.findElements(By
+                .xpath("//li[@class='item product product-item']"));
+
+       /* Checking the number of items shown on page equals the number depicted in the "show per page" block
+        in the bottom right corner of the page */
+
+       Assert.assertEquals(listOfItemsShownOnPage12.size(), Integer.parseInt(expectedNumberOfItems12.getText()));
+       expectedNumberOfItems12.click();
+
+       // Selecting number 24 in the "show per page" block so that 24 items to be shown on the page
+
+       WebElement expectedNumberOfItems24 = driver.findElement(By
+                .xpath("//div[@class ='toolbar toolbar-products'][2]/div[3]/div/select/option[@value='24']"));
+        wait.until(ExpectedConditions.elementToBeClickable(expectedNumberOfItems24)).click();
+
+       List<WebElement> listOfItemsShownOnPage24 = driver.findElements(By
+            .xpath("//li[@class='item product product-item']"));
+
+       WebElement expectedNumberOfItems24_ = driver.findElement(By
+                .xpath("//div[@class ='toolbar toolbar-products'][2]/div[3]/div/select/option[@value='24']"));
+
+       // Checking 24 items are shown on page as has been selected in the "show per page" block
+       Assert.assertEquals(listOfItemsShownOnPage24.size(), Integer.parseInt(expectedNumberOfItems24_.getText()));
+
+       driver.quit();
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
