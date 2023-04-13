@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 public class GroupJasperAutomationTest {
     @Test
     public void footballua() throws InterruptedException {
@@ -100,5 +102,27 @@ public class GroupJasperAutomationTest {
         Assert.assertEquals(name.getText(), "CONTACTS");
         driver.quit();
 
+    }
+
+    @Test
+    public void testImdb() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.imdb.com/");
+
+        WebElement textBox = driver.findElement(By.name("q"));
+
+        textBox.sendKeys("Everything Everywhere All At Once");
+        textBox.sendKeys(Keys.RETURN);
+        WebElement link = driver.findElement(By.xpath("//a[contains(text(), 'Всё везде и сразу')]"));
+        link.click();
+
+        Thread.sleep(5000);
+
+        WebElement textBox2 = driver.findElement(By.xpath("//*[@id=\"__next\"]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/div"));
+        assertEquals(textBox2.getText(), "Original title: Everything Everywhere All at Once");
     }
 }
