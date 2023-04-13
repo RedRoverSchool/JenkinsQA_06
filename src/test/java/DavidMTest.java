@@ -5,13 +5,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 
 
     public class DavidMTest {
-       @Ignore
+
+
         @Test
         public  void testFirst1() throws InterruptedException {
 
@@ -67,12 +67,12 @@ import org.testng.annotations.Test;
             //https://github.com/RedRoverSchool/JenkinsQA_06/pull/376
 
         }
-
         @Test
         public void testOneMore(){
             System.out.println("One two Three");
         }
-   // test
+        // test
+
     }
 
 
