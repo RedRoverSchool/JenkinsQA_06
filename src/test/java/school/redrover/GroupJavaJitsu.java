@@ -1,8 +1,14 @@
 package school.redrover;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -174,7 +180,7 @@ public class GroupJavaJitsu {
 
 
     @Test
-    public void testAboutDoctorsFind() throws InterruptedException {
+    public void testAboutDoctorsFind() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -182,24 +188,16 @@ public class GroupJavaJitsu {
         driver.get("https://prodoctorov.ru/");
         String title = driver.getTitle();
         Assert.assertEquals("ПроДокторов – сайт отзывов пациентов о врачах №1 в России", title);
-        WebElement urlElement = driver.findElement(By.className("b-choose-town-btn-v2"));
-        urlElement.click();
-        WebElement inputElementSearch = driver.findElement(By.className("b-choose-town-popup__search-input"));
-        inputElementSearch.sendKeys("Краснодар");
-        WebElement SearchboxElement = driver.findElement(By.className("tt-dataset"));
-        Thread.sleep(2000);
-        SearchboxElement.click();
-        Thread.sleep(2000);
         WebElement inputElement = driver.findElement(By.className("text-field__input"));
-        Thread.sleep(2000);
-        inputElement.sendKeys("Ницакова Марина Петровна");
         WebElement submitButton = driver.findElement(By.className("base-search__button"));
+        inputElement.sendKeys("Ницакова Марина Петровна");
         submitButton.click();
         WebElement link = driver.findElement(By.className("b-card__name-link"));
         link.click();
         WebElement text = driver.findElement(By.className("ui-text"));
         Assert.assertEquals(driver.getCurrentUrl(), "https://prodoctorov.ru/krasnodar/vrach/177664-nicakova/");
         driver.quit();
+
     }
     @Test
     public void testAlex() throws InterruptedException {
@@ -239,36 +237,14 @@ public class GroupJavaJitsu {
         loginButton.click();
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
-    }
 
+    }
 
     public static void main(String[] args) {
         System.out.println("testLoginNatasha");
         System.out.println("testLogin2");
-
-
     }
-    
-    @Ignore
-    @Test
-    void testFirstMariana() throws InterruptedException {
 
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.google.com/");
-        WebElement textBox = driver.findElement(By.name("q"));
-        textBox.findElements(By.name("Cat Breeds | Types of Cats"));
-        driver.quit();
-
-
-
-
-
-    }
-@Ignore
     @Test
     public void testArtem() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -303,12 +279,15 @@ public class GroupJavaJitsu {
     }
 
     @Test
-
-    public void testLoginTest () throws InterruptedException {
+    public void homePageSoccer(){
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.visitmaryland.org/");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://soccerzone.com/");
+
+        Assert.assertEquals(driver.getTitle(), "Soccer Zone");
+
         driver.quit();
     }
 }
