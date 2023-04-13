@@ -213,6 +213,25 @@ public class HelloWorldTest {
         WebElement error3 = driver.findElement(By.cssSelector("[data-t=\"login-error\"]"));
         Assert.assertEquals(error3.getText(), "Необходимо выбрать логин");
 
-}  
+}
+    @Test
+    public void newTest() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.wikipedia.org/");
+
+        WebElement searchField = driver.findElement(By.name("search"));
+        searchField.sendKeys("API");
+        searchField.sendKeys(Keys.RETURN);
+
+        Thread.sleep(3000);
+
+        WebElement part = driver.findElement(By.xpath("//span[@class = \"mw-page-title-main\"]"));
+        Assert.assertEquals(part.getText(), "API");
+        driver.quit();
+    }
 
 }
