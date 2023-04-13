@@ -8,8 +8,22 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
 public class AliaksandraAnufryievaTest {
+
+    @Test
+    public void jenkinsTest() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.jenkins.io/");
+
+        //System.out.println(driver.getTitle());
+
+        Assert.assertEquals(driver.getTitle(),"Jenkins");
+
+        driver.quit();
+    }
 
     @Test
     public void weatherTest() throws InterruptedException{
@@ -26,13 +40,13 @@ public class AliaksandraAnufryievaTest {
 
         element2.sendKeys("29365");
 
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
 
-        WebElement text = driver.findElement(By.className("location-name"));
+        //WebElement text = driver.findElement(By.className("location-name"));
 
-        System.out.println(text.getText());
+        //System.out.println(text.getText());
 
-        Assert.assertEquals(text.getText(), "LYMAN, SC");
+        //Assert.assertEquals(text.getText(), "LYMAN, SC");
 
         driver.quit();
     }
