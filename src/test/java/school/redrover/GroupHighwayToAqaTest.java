@@ -325,6 +325,23 @@ public class GroupHighwayToAqaTest {
         driver.quit();
 
     }
+
+    @Test
+    public void testSearching(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.sendKeys("watch\n");
+        WebElement searchingResult = driver.findElement(By.className("base"));
+
+        Assert.assertEquals(searchingResult.getText(), "Search results for: 'watch'");
+
+        driver.quit();
+    }
 }
 
 
