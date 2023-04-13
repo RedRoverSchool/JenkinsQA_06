@@ -269,6 +269,79 @@ public class GroupHighwayToAqaTest {
         driver.quit();
 
     }
+
+    @Test
+    public void testNumberOfItemsEqualsProductNumberShownPerPage() throws InterruptedException {
+       ChromeOptions chromeOptions = new ChromeOptions();
+       chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get(BASE_URL);
+        Thread.sleep(3000);
+
+        WebElement womenButton = driver.findElement(By.id("ui-id-4"));
+        WebElement topsButton = driver.findElement(By.id("ui-id-9"));
+        WebElement jacketsButton = driver.findElement(By.id("ui-id-11"));
+
+        new Actions(driver).moveToElement(womenButton).moveToElement(topsButton)
+                .moveToElement(jacketsButton).perform();
+        jacketsButton.click();
+
+      WebElement expectedNumberOfItems = driver.findElement(By
+              .xpath("//span[@class='toolbar-number'][1]"));
+      List<WebElement> listOfItemsShownOnPage = driver.findElements(By
+              .xpath("//li[@class='item product product-item']"));
+
+      Assert.assertEquals(listOfItemsShownOnPage.size(), Integer.parseInt(expectedNumberOfItems.getText()));
+      driver.quit();
+    }
+
+    @Test
+    void testTrainingMessage() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+
+        Thread.sleep(2000);
+
+        WebElement trainingBar = driver.findElement(By.id("ui-id-7"));
+        WebElement trainingLink = driver.findElement(By.id("ui-id-28"));
+
+        new Actions(driver).moveToElement(trainingBar).perform();
+        wait.until(ExpectedConditions.visibilityOf(trainingLink));
+
+        trainingLink.click();
+
+        WebElement messageInfo = driver
+                .findElement(By
+                        .xpath("//div[contains(@class, 'message info empty')]/div"));
+        Assert.assertEquals(messageInfo.getText(), "We can't find products matching the selection.");
+
+        driver.quit();
+
+    }
+
+    @Test
+    public void testSearching(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.sendKeys("watch\n");
+        WebElement searchingResult = driver.findElement(By.className("base"));
+
+        Assert.assertEquals(searchingResult.getText(), "Search results for: 'watch'");
+
+        driver.quit();
+    }
 }
 
 

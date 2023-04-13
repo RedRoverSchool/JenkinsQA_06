@@ -9,9 +9,9 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class JavaExpertsGroup {
+public class JavaExpertsTest {
     @Test
-    public void testFirst() throws InterruptedException {
+    public void testFirst(){
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -23,15 +23,11 @@ public class JavaExpertsGroup {
         String title = driver.getTitle();
         assertEquals("Web form", title);
 
-//        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
-
         WebElement textBox = driver.findElement(By.name("my-text"));
         WebElement submitButton = driver.findElement(By.cssSelector("button"));
 
         textBox.sendKeys("Selenium");
         submitButton.click();
-
-        Thread.sleep(3000);
 
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();

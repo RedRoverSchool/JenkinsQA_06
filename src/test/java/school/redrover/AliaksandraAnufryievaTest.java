@@ -9,28 +9,31 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
-public class IrinaITest {
+public class AliaksandraAnufryievaTest {
+
     @Test
-
-    public void testIrinaI() throws InterruptedException {
-
+    public void weatherTest() throws InterruptedException{
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.jetbrains.com/");
+
+        driver.get("https://www.foxcarolina.com/");
+
+        WebElement element1 = driver.findElement(By.linkText("Weather"));
+        element1.click();
+
+        WebElement element2 = driver.findElement(By.className("form-control"));
+
+        element2.sendKeys("29365");
 
         Thread.sleep(3000);
 
-        WebElement label= driver.findElement(By.xpath("//a[@aria-label='Navigate to main page']"));
-        label.click();
+        WebElement text = driver.findElement(By.className("location-name"));
 
-        WebElement title = driver.findElement(By.xpath("//h1[@class='rs-h1 rs-h1_theme_dark home-page__title']"));
+        System.out.println(text.getText());
 
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.jetbrains.com/");
-        Assert.assertEquals(title.getText(), "Essential tools for software developers and teams");
+        Assert.assertEquals(text.getText(), "LYMAN, SC");
 
         driver.quit();
-
     }
 }

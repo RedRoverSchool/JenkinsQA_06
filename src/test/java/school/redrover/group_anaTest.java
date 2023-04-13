@@ -1,4 +1,4 @@
-package test.java.school.redrover;
+package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -7,14 +7,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-public class SergeyDTest {
 
-    @Ignore
+
+public class group_anaTest {
+
     @Test
-    public void testFirst() throws InterruptedException {
+    public  void  testTatyanaA() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -35,6 +35,8 @@ public class SergeyDTest {
         Assert.assertEquals(text.getText(), "Selenium");
 
         driver.quit();
+
+
     }
 
     @Test
@@ -62,7 +64,27 @@ public class SergeyDTest {
         Assert.assertEquals("Received!", value);
 
         driver.quit();
-    }
 
     }
+
+
+    String url = "https://openweathermap.org/";
+    @Test
+    public void testTitle( ) throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(url);
+        WebElement guide = driver.findElement(By.xpath("//a[@href='/guide']"));
+        Thread.sleep(5000);
+        guide.click();
+        String title = driver.getTitle();
+        Assert.assertEquals(title, "OpenWeatherMap API guide - OpenWeatherMap");
+        driver.quit();
+    }
+
+
+}
 

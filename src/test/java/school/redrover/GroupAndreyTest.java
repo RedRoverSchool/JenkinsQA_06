@@ -6,9 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -34,6 +34,7 @@ public class GroupAndreyTest {
 
         driver.quit();
     }
+
     @Test
     public void testArtemTextOnSuggestsButton() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -87,7 +88,6 @@ public class GroupAndreyTest {
 
         driver.quit();
     }
-
     @Ignore
     @Test
     public void testArtemLocalDateOnCityPage() throws InterruptedException {
@@ -122,4 +122,38 @@ public class GroupAndreyTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testArtemSliderMove() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        WebElement slider = driver.findElement(By.xpath("/html/body/main/div/form/div/div[3]/label[3]/input"));
+
+        Actions move = new Actions(driver);
+        move.moveToElement(slider).clickAndHold().moveByOffset(25, 0).release().perform();
+
+        Thread.sleep(3500);
+
+        WebElement button = driver.findElement(By.xpath("/html/body/main/div/form/div/div[2]/button"));
+        button.click();
+
+        Thread.sleep(3500);
+
+        String url = driver.getCurrentUrl();
+        int expected;
+        if (url.contains("my-range=6")) {
+            expected = 1;
+        } else {
+            expected = 2;
+        }
+
+        assertEquals(expected, 1);
+
+        driver.quit();
+    }
 }
+
