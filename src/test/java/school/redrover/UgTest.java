@@ -14,7 +14,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class UgTest {
     @Test
-    public void testSecond() throws InterruptedException {
+    public void testtestSecond() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -40,7 +40,7 @@ public class UgTest {
         driver.quit();
     }
         @Test
-        public void eightComponents() {
+        public void testtComponents() {
             WebDriver driver = new ChromeDriver();
             driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
