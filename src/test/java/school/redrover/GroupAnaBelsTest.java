@@ -13,7 +13,7 @@ public class GroupAnaBelsTest {
 
 
     @Test
-    public void testStasM(){
+    public void StasMtest(){
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
