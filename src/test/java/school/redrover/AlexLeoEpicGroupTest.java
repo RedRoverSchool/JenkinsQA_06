@@ -519,4 +519,20 @@ public class AlexLeoEpicGroupTest {
         driver.quit();
     }
 
+    @Test
+    public void VerifyCardOnWomenPageTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com");
+        driver.findElement(By.xpath("//li[@id='menu-item-1229']/a")).click();
+
+        List<WebElement> womenProducts = driver.findElements(By.xpath("//div[@class='astra-shop-thumbnail-wrap']"));
+        Assert.assertEquals(womenProducts.size(), 7);
+
+        driver.quit();
+    }
+
 }

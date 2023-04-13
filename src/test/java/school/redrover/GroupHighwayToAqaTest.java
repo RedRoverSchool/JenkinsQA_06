@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class GroupHighwayToAqaTest {
 
@@ -325,6 +326,56 @@ public class GroupHighwayToAqaTest {
         driver.quit();
 
     }
+ testNumberOfItemsShownOnPageChanged
+
+    @Test
+    public void testSearching(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.sendKeys("watch\n");
+        WebElement searchingResult = driver.findElement(By.className("base"));
+
+        Assert.assertEquals(searchingResult.getText(), "Search results for: 'watch'");
+
+        driver.quit();
+    }
+
+    @Test
+    public void TestYogaShop () {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        ChromeDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebElement buttonShopNewYoga = driver.findElement(By
+                .xpath("//a [@class = \"block-promo home-main\"]//span[text()=\"Shop New Yoga\"]"));
+        buttonShopNewYoga.click();
+
+        WebElement searchField = driver.findElement(By.xpath("//input[@id = \"search\"]"));
+        searchField.sendKeys("jacket for men");
+
+        WebElement searchText = driver.findElement(By.xpath("//button[@title=\"Search\"]"));
+        searchText.click();
+
+        List<WebElement> searchResult = driver.findElements(By
+                .xpath("//li[@class =\"item product product-item\"]"));
+
+        String fiveElementText = searchResult.get(5).getText();
+        assertTrue(fiveElementText.contains("Jacket"));
+        searchResult.get(5).click();
+
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertEquals(currentUrl,"https://magento.softwaretestingboard.com/lando-gym-jacket.html");
+
+        driver.quit();
+    }
+}
 
     @Test
     public void testNumberOfItemsShownOnPageChanged() throws InterruptedException {

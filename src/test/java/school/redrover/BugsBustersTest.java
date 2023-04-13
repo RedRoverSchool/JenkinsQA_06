@@ -210,5 +210,33 @@ public class BugsBustersTest {
         driver.quit();
     }
 
+    @Test
+    public void testVictoriaOurServicesTitle() throws InterruptedException {
+
+        String expectedResult = "Our Services".toLowerCase();
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().window().maximize();
+
+        driver.get("https://www.ohiofamilypractice.com/");
+        Thread.sleep(2000);
+
+        WebElement servicesReference = driver.findElement(By.xpath(
+                "//a[@href='/services'][@class='Header-nav-item']"));
+        servicesReference.click();
+        Thread.sleep(2000);
+        WebElement h1 = driver.findElement(By.xpath("//h1"));
+        Thread.sleep(2000);
+        String h1Text = h1.getText().toLowerCase();
+
+        Assert.assertEquals(h1Text, expectedResult);
+
+        driver.quit();
+    }
+
+
 
 }
