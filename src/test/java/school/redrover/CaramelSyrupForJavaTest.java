@@ -12,9 +12,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.ArrayList;
 
-import static java.awt.SystemColor.window;
-
-public class CaramelSyrupForJava {
+public class CaramelSyrupForJavaTest {
 
     @Test
     public void testArtyomDulyaOpenWeatherGuideClick() throws InterruptedException {
