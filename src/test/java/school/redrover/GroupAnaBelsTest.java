@@ -16,7 +16,7 @@ public class GroupAnaBelsTest {
     public void StasMtest(){
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.yahoo.com/");
