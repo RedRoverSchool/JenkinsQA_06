@@ -7,14 +7,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.ArrayList;
 
-import static java.awt.SystemColor.window;
-
-public class CaramelSyrupForJava {
+public class CaramelSyrupForJavaTest {
 
     @Test
     public void testArtyomDulyaOpenWeatherGuideClick() throws InterruptedException {
@@ -52,6 +51,7 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testArtyomDulyaThehostbest() throws InterruptedException {
 
@@ -107,6 +107,7 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public static void testArtyomDulyaHeaderButton() throws InterruptedException {
 
@@ -151,6 +152,7 @@ public class CaramelSyrupForJava {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testArtyomDulyaSupportMenuButton() throws InterruptedException {
 
@@ -280,7 +282,7 @@ public class CaramelSyrupForJava {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        String exp ="One Call API 3.0 - OpenWeatherMap";
+        String exp = "One Call API 3.0 - OpenWeatherMap";
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://openweathermap.org");

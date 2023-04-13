@@ -124,13 +124,12 @@ public class BugsBustersTest {
     @Ignore
     @Test
     public void testVictoriaContactTitle() throws InterruptedException {
-
         String expectedResult = "Contact Us".toLowerCase();
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
+
         driver.manage().window().maximize();
 
         driver.get("https://www.ohiofamilypractice.com/");
@@ -147,11 +146,30 @@ public class BugsBustersTest {
 
         Assert.assertEquals(h1Text, expectedResult);
 
+    }
+    @Test
+    public void testMsArtMosaicVideo() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080", "−−incognito");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.funartcolorado.com/");
+
+        WebElement mosaicArtHeader = driver.findElement(By.xpath("//p[@id='comp-jnlr6x4r2label']"));
+        Assert.assertEquals(mosaicArtHeader.getText(), "Classes");
+
+        WebElement classesTab = driver.findElement(By.id("comp-jnlr6x4r2label"));
+        classesTab.click();
+        Thread.sleep(2000);
+        WebElement playbutton = driver.findElement(By.xpath("//div[@class='QzC0oQ E1QW47']//*[name()='svg']"));
+        playbutton.click();
+        WebElement video = driver.findElement(By.tagName("video"));
+        Thread.sleep(3000);
+        Assert.assertTrue(Float.parseFloat(video.getAttribute("currentTime")) > 0);
+
         driver.quit();
     }
-
-
-
 
     @Test
     public void testMarynaLFirstTest() {
@@ -176,8 +194,6 @@ public class BugsBustersTest {
         signInBtn.click();
 
         driver.quit();
-
-
     }
 
     @Test
@@ -237,6 +253,5 @@ public class BugsBustersTest {
         driver.quit();
     }
 
-
-
 }
+
