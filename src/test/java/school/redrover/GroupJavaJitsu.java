@@ -331,5 +331,9 @@ public class GroupJavaJitsu {
 
         driver.quit();
     }
+    @Test
+    public void agTest2(){
+        System.out.println("Test");
+    }
 }
 
