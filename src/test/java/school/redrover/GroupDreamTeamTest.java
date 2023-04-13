@@ -7,12 +7,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.time.Duration;
-
 import static org.testng.Assert.assertEquals;
 
-public class GroupDreamTeam {
+public class GroupDreamTeamTest {
+
     @Test
     public void eightComponents() {
         WebDriver driver = new ChromeDriver();
@@ -48,17 +47,14 @@ public class GroupDreamTeam {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(url);
 
-
         String actualResult = driver.getCurrentUrl();
         Assert.assertEquals(actualResult, expectedResult);
 
         driver.quit();
     }
+
     @Test
     public void testSecond() throws InterruptedException {
-
-
-        //comment
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -91,8 +87,9 @@ public class GroupDreamTeam {
 
         driver.quit();
     }
+
     @Test
-    public void testSecondLilia() throws InterruptedException { 
+    public void testSecondLilia() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -109,18 +106,24 @@ public class GroupDreamTeam {
         WebElement submitButton = driver.findElement(By.cssSelector("button"));
         WebElement password = driver.findElement(By.name("my-password"));
         WebElement textarea = driver.findElement(By.xpath("//textarea"));
+
         Thread.sleep(2000);
+
         textBox.sendKeys("Selenium");
         password.sendKeys("WebSel1");
         textarea.sendKeys("I am working with Selenium");
+
         Thread.sleep(2000);
+
         submitButton.click();
+
         Thread.sleep(2000);
+
         WebElement message = driver.findElement(By.id("message"));
+
         String value = message.getText();
         Assert.assertEquals("Received!", value);
 
         driver.quit();
     }
-
 }
