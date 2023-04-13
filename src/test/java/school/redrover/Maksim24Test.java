@@ -15,12 +15,10 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 
 
-
 public class Maksim24Test {
 
-
     @FindBy(xpath = "//a[@class='btn btn-secondary m-1']")
-    public  WebElement buttonDocumentation;
+    public WebElement buttonDocumentation;
 
     public final static String BASE_URL = "https://www.jenkins.io/";
 
@@ -32,7 +30,7 @@ public class Maksim24Test {
         return driver;
     }
 
-    public  final ChromeOptions chromeOptions() {
+    public final ChromeOptions chromeOptions() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
@@ -47,7 +45,7 @@ public class Maksim24Test {
         return driver;
     }
 
-    public final  void getBaseUrl(){
+    public final void getBaseUrl() {
         driver = createDriver();
         driver.get(BASE_URL);
 
@@ -56,7 +54,7 @@ public class Maksim24Test {
 
     public final WebDriverWait getWait10() {
         if (webDriverWait10 == null) {
-            webDriverWait10 = new WebDriverWait(driver,Duration.ofSeconds(5));
+            webDriverWait10 = new WebDriverWait(driver, Duration.ofSeconds(5));
         }
         return webDriverWait10;
     }
@@ -66,18 +64,17 @@ public class Maksim24Test {
         getWait10().until(ExpectedConditions.visibilityOf(element));
     }
 
-    public WebElement verifyElementIsClickable (WebElement element) {
-      return   getWait10().until(ExpectedConditions.elementToBeClickable(element));
+    public WebElement verifyElementIsClickable(WebElement element) {
+        return getWait10().until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public final void clickButtonDocumentation() {
         verifyElementVisible(buttonDocumentation);
         verifyElementIsClickable(buttonDocumentation).click();
-
     }
 
     @Test
-    public void testClickDocumentationButton()  {
+    public void testClickDocumentationButton() {
 
         final String expectedTitle = "Jenkins User Documentation";
 
@@ -87,7 +84,7 @@ public class Maksim24Test {
 
         String actualTitle = driver.getTitle();
 
-        Assert.assertEquals(actualTitle,expectedTitle);
+        Assert.assertEquals(actualTitle, expectedTitle);
 
         driver.quit();
     }
