@@ -250,5 +250,4 @@ public class Group99BottlesTest {
 
         driver.quit();
     }
-
 }
