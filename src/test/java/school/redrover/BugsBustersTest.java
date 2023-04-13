@@ -180,5 +180,35 @@ public class BugsBustersTest {
 
     }
 
+    @Test
+    public void testAnastasiyaFirstTest () {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://demoqa.com/text-box");
+
+        WebElement firstNameTextBox = driver.findElement(By.id("userName"));
+        firstNameTextBox.sendKeys("First Last");
+
+        WebElement emailTextBox = driver.findElement(By.xpath("//*[@id=\"userEmail\"]"));
+        emailTextBox.sendKeys("blablabla@gmail.com");
+
+        WebElement currentAddress = driver.findElement(By.xpath("//*[@id=\"currentAddress\"]"));
+        currentAddress.sendKeys("2023 New Year St, NY");
+
+        WebElement permanentAddress = driver.findElement(By.xpath("//*[@id=\"permanentAddress\"]"));
+        permanentAddress.sendKeys("2024 New Year St, NY");
+
+        WebElement submitButton = driver.findElement(By.id("submit"));
+        submitButton.click();
+
+        WebElement nameText = driver.findElement(By.xpath("//*[@id=\"name\"]"));
+        Assert.assertEquals(nameText.getText(), "Name:First Last");
+
+        driver.quit();
+    }
+
 
 }
