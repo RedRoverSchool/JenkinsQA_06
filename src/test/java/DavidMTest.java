@@ -7,8 +7,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
-
 public class DavidMTest {
 
     @Test
@@ -39,10 +37,10 @@ public class DavidMTest {
     @Test
     public void testSecond() throws InterruptedException {
 
-//        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size-1920,.1080");
+       ChromeOptions chromeOptions = new ChromeOptions();
+       chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size-1920,.1080");
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
         String title = driver.getTitle();
@@ -62,6 +60,9 @@ public class DavidMTest {
         Assert.assertEquals("Received!", value);
 
         driver.quit();
+
+        //https://github.com/RedRoverSchool/JenkinsQA_06/pull/376
+
     }
 
     }
