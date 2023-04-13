@@ -26,7 +26,6 @@ public class GroupAnaBelsTest {
 
         String title = driver.getTitle();
         assertEquals("Yahoo", title);
-
         driver.quit();
     }
 }
