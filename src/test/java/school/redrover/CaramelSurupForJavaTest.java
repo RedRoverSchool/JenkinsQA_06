@@ -47,7 +47,7 @@ public class CaramelSurupForJavaTest {
         WebElement fitnessTekstil = driver.findElement(By.xpath("//div[@class='t694__overlay '][1]"));
         fitnessTekstil.click();
 
-        Thread.sleep(1000);
+        Thread.sleep(3000);
 
         WebElement phoneNumber1 = driver.findElement(By.xpath("//div[@class='t228__right_descr']/a[1]"));
         WebElement phoneNumber2 = driver.findElement(By.xpath("//div[@class='t228__right_descr']/a[2]"));
