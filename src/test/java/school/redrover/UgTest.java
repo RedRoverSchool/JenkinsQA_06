@@ -58,6 +58,7 @@ public class UgTest {
 
             WebElement message = driver.findElement(By.id("message"));
             String value = message.getText();
+
             assertEquals("Received!", value);
 
             driver.quit();
