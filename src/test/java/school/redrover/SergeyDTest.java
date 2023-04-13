@@ -1,4 +1,4 @@
-package school.redrover;
+package test.java.school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -9,8 +9,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
 
 public class SergeyDTest {
 
@@ -66,4 +64,5 @@ public class SergeyDTest {
         driver.quit();
     }
 
-}
+    }
+

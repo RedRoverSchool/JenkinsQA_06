@@ -7,11 +7,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
 public class JavaNiSyTest {
+
     @Test
     public void testNewsPageMS()  {
 
@@ -30,6 +32,7 @@ public class JavaNiSyTest {
         Assert.assertEquals(textNews.getText(), "Новости");
         browser.quit();
     }
+
 
     @Test
     public void testButtonsMS() {
