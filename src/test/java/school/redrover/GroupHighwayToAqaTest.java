@@ -419,21 +419,38 @@ public class GroupHighwayToAqaTest {
 
         driver.quit();
     }
+
     @Test
-    public void testExistSubscription() throws InterruptedException {
+    public void testSubscription() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080" );
+//        chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080" );
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(BASE_URL);
+        char[] prefix = new char[6];
+        for (int i = 0; i < prefix.length; i++) {
+            prefix[i] = (char) (Math.random() * (122 - 97) + 97);
+        }
         WebElement emailInput = driver.findElement(By.cssSelector("#newsletter"));
-        emailInput.sendKeys("universal@mail.ru");
+        String emailPostfix = "@mail.ru";
+        String emailPrefix = new String(prefix);
+        String email = emailPrefix.concat(emailPostfix);
+        emailInput.sendKeys(email);
         WebElement submitButton = driver.findElement(By
                 .xpath("//button[@title = 'Subscribe']"));
         submitButton.click();
         Thread.sleep(5000);
         WebElement message = driver.findElement(By
                 .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
-        Assert.assertEquals(message.getText(),"This email address is already subscribed.");
+        Assert.assertEquals(message.getText(), "Thank you for your subscription.");
+        emailInput = driver.findElement(By.xpath("//input[@placeholder = 'Enter your email address']"));
+        emailInput.sendKeys(email);
+        submitButton = driver.findElement(By
+                .xpath("//button[@title = 'Subscribe']"));
+        submitButton.click();
+        Thread.sleep(5000);
+        WebElement errorMessage = driver.findElement(By
+                .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
+        Assert.assertEquals(errorMessage.getText(), "This email address is already subscribed.");
         driver.quit();
     }
 }
