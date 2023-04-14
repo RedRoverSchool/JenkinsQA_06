@@ -129,14 +129,37 @@ public class BestAutoTeamTest {
         driver.get("https://monkkee.com/en");
         WebElement link = driver.findElement(By.xpath("//div[@class='col-sm-4'][1]//ul//li[2]"));
         link.click();
-        WebElement knowlegeLink= driver.findElement(By.xpath("//h3//a"));
+        WebElement knowlegeLink = driver.findElement(By.xpath("//h3//a"));
         knowlegeLink.click();
-        WebElement firstLanguage=driver.findElement(By.xpath("//span//a[1]"));
-        List<WebElement> languages=driver.findElements(By.xpath("//span//a"));
-        String actualFirstLanguage=languages.get(0).getText();
-        String expectedFirstLanguage=firstLanguage.getText();
-        Assert.assertEquals(actualFirstLanguage,expectedFirstLanguage,"There are different languages");
+        WebElement firstLanguage = driver.findElement(By.xpath("//span//a[1]"));
+        List<WebElement> languages = driver.findElements(By.xpath("//span//a"));
+        String actualFirstLanguage = languages.get(0).getText();
+        String expectedFirstLanguage = firstLanguage.getText();
+        Assert.assertEquals(actualFirstLanguage, expectedFirstLanguage, "There are different languages");
+    }
 
+    @Test
+    public void registerNewUserWithInvalidPasswordConfirmation() throws InterruptedException {
+
+        driver.get("https://monkkee.com/en");
+        WebElement registerButton = driver.findElement(By.xpath("//div[@id='about']//div//a"));
+        registerButton.click();
+        WebElement emailInput = driver.findElement(By.xpath("//input[@id='registration_email']"));
+        emailInput.sendKeys("ooo@com.ru");
+        WebElement passwordInput = driver.findElement(By.xpath("//input[@id='registration_password']"));
+        passwordInput.sendKeys("12345678Olja");
+        WebElement passwordConfirmInput = driver.findElement(By.xpath("//input[@id='registration_password_confirmation']"));
+        passwordConfirmInput.sendKeys("1234567Olja");
+        WebElement passwordHintInput = driver.findElement(By.xpath("//input[@id='registration_password_hint']"));
+        passwordHintInput.sendKeys("1");
+        WebElement firstCheckbox = driver.findElement(By.xpath("//div[@class=' form-group'][4]//input[2]"));
+        firstCheckbox.click();
+        WebElement secondCheckbox = driver.findElement(By.xpath("//div[@class=' form-group'][5]//input[2]"));
+        secondCheckbox.click();
+        WebElement okButton = driver.findElement(By.xpath("//div[@class='form-group'][2]//button"));
+        okButton.click();
+        WebElement message = driver.findElement(By.xpath("//div[@class='alert alert-danger']"));
+        Assert.assertEquals(message.getText(), "Registration not successful", "There isn't massage");
 
     }
 }
