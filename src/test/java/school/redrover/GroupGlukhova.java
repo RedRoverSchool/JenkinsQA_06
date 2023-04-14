@@ -38,4 +38,45 @@ public class GroupGlukhova {
         Assert.assertEquals(clickLogIn.getText(), "Log in");
         driver.quit();
     }
+
+    @Test
+    public void  videoAvailabilityAboutUSTest() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.demoblaze.com/");
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
+
+        WebElement clickAboutUs = driver.findElement(By.xpath("//a[text() = 'About us']"));
+        clickAboutUs.click();
+
+        WebElement clickPlayVideo = driver.findElement(By.cssSelector(".video-js .vjs-big-play-button"));
+        clickPlayVideo.click();
+
+        Assert.assertEquals(clickPlayVideo.getText(), "");
+        driver.quit();
+    }
+
+    @Test
+    public void  nextIconCarouselTest() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.demoblaze.com/");
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
+
+        WebElement clickNextIcon = driver.findElement(By.cssSelector(".carousel-control-next-icon"));
+        clickNextIcon.click();
+        clickNextIcon.click();
+        clickNextIcon.click();
+
+        Assert.assertEquals(clickNextIcon.getText(), "");
+        driver.quit();
+    }
 }

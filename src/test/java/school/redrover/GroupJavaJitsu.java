@@ -1,8 +1,14 @@
 package school.redrover;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,6 +18,8 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 public class GroupJavaJitsu {
 
@@ -120,6 +128,7 @@ public class GroupJavaJitsu {
         Assert.assertEquals(text.getText(), "Step 1: Setup wizard");
         driver.quit();
     }
+
     @Test
     public void testForm() throws InterruptedException {
 
@@ -172,7 +181,6 @@ public class GroupJavaJitsu {
     }
 
 
-
     @Test
     public void testAboutDoctorsFind() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -182,15 +190,18 @@ public class GroupJavaJitsu {
         driver.get("https://prodoctorov.ru/");
         String title = driver.getTitle();
         Assert.assertEquals("ПроДокторов – сайт отзывов пациентов о врачах №1 в России", title);
+
         WebElement urlElement = driver.findElement(By.className("b-choose-town-btn-v2"));
         urlElement.click();
         WebElement inputElementSearch = driver.findElement(By.className("b-choose-town-popup__search-input"));
         inputElementSearch.sendKeys("Краснодар");
-        WebElement SearchboxElement = driver.findElement(By.className("tt-dataset"));
         Thread.sleep(2000);
+        WebElement SearchboxElement = driver.findElement(By.className("tt-dataset"));
         SearchboxElement.click();
         Thread.sleep(2000);
-        WebElement inputElement = driver.findElement(By.className("text-field__input"));
+
+//      WebElement inputElement = driver.findElement(By.className("text-field__input"));
+        WebElement inputElement = driver.findElement(By.xpath("//input[@placeholder = 'Врачи, клиники, услуги']"));
         Thread.sleep(2000);
         inputElement.sendKeys("Ницакова Марина Петровна");
         WebElement submitButton = driver.findElement(By.className("base-search__button"));
@@ -200,27 +211,29 @@ public class GroupJavaJitsu {
         WebElement text = driver.findElement(By.className("ui-text"));
         Assert.assertEquals(driver.getCurrentUrl(), "https://prodoctorov.ru/krasnodar/vrach/177664-nicakova/");
         driver.quit();
+
     }
+
     @Test
     public void testAlex() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
         driver.get("https://www.globalsqa.com/");
-        WebElement element= driver.findElement(By.xpath("//a[@href=\"https://www.globalsqa.com/training/appium-online-training/\"]"));
+        WebElement element = driver.findElement(By.xpath("//a[@href=\"https://www.globalsqa.com/training/appium-online-training/\"]"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         Thread.sleep(2000);
         element.click();
-        WebElement schedule=driver.findElement(By.xpath("//li[@id='Batch Schedule']"));
+        WebElement schedule = driver.findElement(By.xpath("//li[@id='Batch Schedule']"));
         schedule.click();
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", schedule);
-        WebElement enroll=driver.findElement(By.xpath("(//a[@href=\"https://www.instamojo.com/globalsqa/appium-training/\"])[2]"));
+        WebElement enroll = driver.findElement(By.xpath("(//a[@href=\"https://www.instamojo.com/globalsqa/appium-training/\"])[2]"));
         enroll.click();
         driver.quit();
     }
 
     @Test
-    public void testLoginAnton () throws InterruptedException {
+    public void testLoginAnton() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -239,33 +252,12 @@ public class GroupJavaJitsu {
         loginButton.click();
 
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
-    }
 
+    }
 
     public static void main(String[] args) {
         System.out.println("testLoginNatasha");
         System.out.println("testLogin2");
-
-    }
-    
-    @Ignore
-    @Test
-    void testFirstMariana() throws InterruptedException {
-
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.google.com/");
-        WebElement textBox = driver.findElement(By.name("q"));
-        textBox.findElements(By.name("Cat Breeds | Types of Cats"));
-        driver.quit();
-
-
-
-
-
     }
 
     @Test
@@ -300,5 +292,92 @@ public class GroupJavaJitsu {
         Assert.assertEquals(successfullySubmitted.getText(), "Name:Artem De");
         driver.quit();
     }
-}
+
+    @Test
+    public void homePageSoccer() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://soccerzone.com/");
+
+        Assert.assertEquals(driver.getTitle(), "Soccer Zone");
+
+        driver.quit();
+    }
+
+    @Test
+    public void testHomePageSoccer() {
+        // Set up Chrome options
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        // Create a new ChromeDriver instance
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        // Navigate to the Soccer Zone website
+        driver.get("https://soccerzone.com/");
+
+        // Verify the page title
+        Assert.assertEquals("Soccer Zone", driver.getTitle());
+
+        // Close the browser
+    }
+
+        @Test
+        public void testKatya2 () {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+            String title = driver.getTitle();
+            assertEquals("Web form", title);
+
+            driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+
+            WebElement textBox = driver.findElement(By.name("my-text"));
+            WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+            textBox.sendKeys("Selenium");
+            submitButton.click();
+
+            WebElement message = driver.findElement(By.id("message"));
+            String value = message.getText();
+            assertEquals("Received!", value);
+
+            driver.quit();
+        }
+
+        @Test
+        public void Liliia_loginTestErrorAppears() {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            driver.get("https://automationteststore.com/");
+
+            WebElement loginOrRegister = driver.findElement(By.xpath("//ul[@id='customer_menu_top']/li"));
+            loginOrRegister.click();
+
+            WebElement loginNameInput = driver.findElement(By.xpath("//input[@id='loginFrm_loginname']"));
+            loginNameInput.sendKeys("avadakedavra");
+
+            WebElement passwordInput = driver.findElement(By.xpath("//input[@id='loginFrm_password']"));
+            passwordInput.sendKeys("12345");
+
+            WebElement loginButton = driver.findElement(By.xpath("//button[@title='Login']"));
+            loginButton.click();
+
+            WebElement alert = driver.findElement(By.xpath("//div[@class='alert alert-error alert-danger']"));
+            WebElement closeButton = alert.findElement(By.tagName("button"));
+            String alertText = alert.getText().replace(closeButton.getText(), "").trim();
+            Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
+            driver.quit();
+        }
+    }
+
+
+
 
