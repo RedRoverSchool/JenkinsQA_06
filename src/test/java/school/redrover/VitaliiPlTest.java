@@ -17,7 +17,7 @@ public class VitaliiPlTest {
     @Test
     public void steamHomePageTest() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--lang=ru",
+        chromeOptions.addArguments("--remote-allow-origins=*","--lang=eng",
                 "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -31,15 +31,15 @@ public class VitaliiPlTest {
 
 
         WebElement loginText = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[contains(@class, 'newlogindialog_PrimaryHeader_39uMK') and contains(text(), 'Войти')]")));
+                (By.xpath("//div[contains(@class, 'newlogindialog_PrimaryHeader_39uMK') and contains(text(), 'Sign in')]")));
 
-        Assert.assertEquals(loginText.getText(), "ВОЙТИ");
+        Assert.assertEquals(loginText.getText(), "SIGN IN");
 
 
         WebElement inputLogin = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[text()='Войти, используя имя аккаунта']/following-sibling::input")));
+                (By.xpath("//div[text()='Sign in with account name']/following-sibling::input")));
         inputLogin.sendKeys("login");
-        WebElement inputPassword = driver.findElement(By.xpath("//div[text()='Пароль']/following-sibling::input"));
+        WebElement inputPassword = driver.findElement(By.xpath("//div[text()='Password']/following-sibling::input"));
         inputPassword.sendKeys("password");
         WebElement subbmit = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@class='newlogindialog_SignInButtonContainer_14fsn']/child::button")));
@@ -47,10 +47,10 @@ public class VitaliiPlTest {
 
 
         WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[contains(@class,'newlogindialog_FormError') and contains(text(), 'Пожалуйста, проверьте свой пароль и имя аккаунта и попробуйте снова.')]")));
+                (By.xpath("//div[contains(@class,'newlogindialog_FormError_1Mcy9') and contains(text(), 'Please check your password and account name and try again.')]")));
 
         Assert.assertEquals(error.getText(),
-                "Пожалуйста, проверьте свой пароль и имя аккаунта и попробуйте снова.");
+                "Please check your password and account name and try again.");
 
         driver.quit();
 
