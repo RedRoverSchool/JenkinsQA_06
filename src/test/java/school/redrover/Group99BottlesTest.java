@@ -5,15 +5,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import org.testng.annotations.Ignore;
+import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Group99BottlesTest {
+public class Group99BottlesTest extends BaseTest {
 
     @Test
     public void testTitleBasePage() {
@@ -231,60 +235,82 @@ public class Group99BottlesTest {
         return stringList;
     }
 
-    @Ignore
     @Test
-    public void testDemoblazeAddToCart() throws InterruptedException {
+    public void testH1Text_WhenChooseLevelLanguage() throws InterruptedException {
+
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        String productName = "Iphone 6 32gb";
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.demoblaze.com/");
 
-        Thread.sleep(1000);
-        List<WebElement> products = driver.findElements(By.cssSelector(".hrefch"));
+        driver.get("https://www.w3schools.com/");
+
+        driver.findElement(By.xpath("//a[@href = 'where_to_start.asp']")).click();
+
+        Thread.sleep(3000);
+
+        WebElement text = driver.findElement(By.xpath("//h1[text() = 'Where To Start']"));
+
+        Assert.assertEquals(text.getText(), "Where To Start");
+
+        driver.quit();
+    }
+
+    @Test
+    public void testDemoblazeAddToCart() {
+
+        String productName = "Iphone 6 32gb";
+        getDriver().get("https://www.demoblaze.com/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        List<WebElement> products = getDriver().findElements(By.cssSelector(".hrefch"));
         for (WebElement prod : products) {
             if (prod.getText().equals(productName)) {
                 prod.click();
                 break;
             }
         }
-        Thread.sleep(1000);
-        driver.findElement(By.cssSelector(".btn-success")).click();
-        Thread.sleep(1000);
-        driver.switchTo().alert().accept();
-        driver.findElement(By.cssSelector("#cartur")).click();
-        Thread.sleep(1000);
+        getDriver().findElement(By.cssSelector(".btn-success")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.alertIsPresent());
+        getDriver().switchTo().alert().accept();
+        getDriver().findElement(By.cssSelector("#cartur")).click();
 
-        Assert.assertEquals(driver.findElement(By.xpath("//tr/td[2]")).getText(), productName);
-
-        driver.quit();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//tr/td[2]")).getText(), productName);
     }
 
-    @Ignore
     @Test
-    public void testDemoblazeProdAddToCart() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testDemoblazeProdAddToCart() {
 
         String productName = "Sony vaio i5";
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.demoblaze.com/");
+        getDriver().get("https://www.demoblaze.com/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        Thread.sleep(1000);
-        List<WebElement> products = driver.findElements(By.cssSelector(".hrefch"));
-        WebElement prod = products.stream().filter(product->product.getText()
-                .equals(productName)).findFirst().orElse(null);
-        prod.click();
-        Thread.sleep(1000);
-        driver.findElement(By.cssSelector(".btn-success")).click();
-        Thread.sleep(1000);
-        driver.switchTo().alert().accept();
-        driver.findElement(By.cssSelector("#cartur")).click();
-        Thread.sleep(1000);
+        List<WebElement> products = getDriver().findElements(By.cssSelector(".hrefch"));
+        products.stream().filter(product -> product.getText()
+                .equals(productName)).findFirst().ifPresent(WebElement::click);
+        getDriver().findElement(By.cssSelector(".btn-success")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.alertIsPresent());
+        getDriver().switchTo().alert().accept();
+        getDriver().findElement(By.cssSelector("#cartur")).click();
 
-        Assert.assertEquals(driver.findElement(By.xpath("//tr/td[2]")).getText(), productName);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//tr/td[2]")).getText(), productName);
+    }
 
-        driver.quit();
+    @Test
+    public void testJPetStoreAddDogToCart() {
+        getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
+
+        getDriver().findElement(By.xpath("//div[@id='SidebarContent']/a[2]")).click();
+        getDriver().findElement(By.xpath("//div[@id='Catalog']/table/tbody/tr[3]/td/a")).click();
+        getDriver().findElement(By.xpath("//a[@class='Button']")).click();
+
+        List<String> textCartItems = new ArrayList<>();
+        List<WebElement> cartItems = getDriver().findElements(By.xpath("//td"));
+        for (WebElement element : cartItems) {
+            textCartItems.add(element.getText());
+        }
+        Assert.assertTrue(textCartItems.contains("K9-PO-02"));
     }
 }

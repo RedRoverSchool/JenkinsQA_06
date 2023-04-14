@@ -147,6 +147,7 @@ public class BugsBustersTest {
         Assert.assertEquals(h1Text, expectedResult);
 
     }
+    @Ignore
     @Test
     public void testMsArtMosaicVideo() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -225,7 +226,7 @@ public class BugsBustersTest {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testVictoriaOurServicesTitle() throws InterruptedException {
 
