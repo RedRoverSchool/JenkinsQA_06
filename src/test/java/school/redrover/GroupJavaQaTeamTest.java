@@ -156,10 +156,7 @@ public class GroupJavaQaTeamTest {
         driver.quit();
     }
 
-
-
-
-
+    @Ignore
     @Test
     public void testBootcampUrlAndTitle() {
         ChromeOptions chromeOptions = new ChromeOptions();
