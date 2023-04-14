@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -21,11 +22,11 @@ public class GroupAnaBelsTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.yahoo.com/");
 
-        WebElement submitButton = driver.findElement(By.xpath("//a[@class=\"_yb_pbrc7\"]"));
+        WebElement submitButton = driver.findElement(By.id("ybarAccountProfile"));
         submitButton.click();
 
         String title = driver.getTitle();
-        assertEquals("Yahoo", title);
+        Assert.assertEquals("Yahoo", title);
         driver.quit();
     }
 }
