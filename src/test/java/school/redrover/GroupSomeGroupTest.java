@@ -33,7 +33,7 @@ public class GroupSomeGroupTest {
     }
 
     @Test
-    public void testEmailContactPage() throws InterruptedException {
+    public void testEmailContactPage() {
         driver.get("https://askomdch.com/");
         driver.findElement(By.cssSelector("#ast-desktop-header  a[href$='/contact-us/']")).click();
 
@@ -65,7 +65,7 @@ public class GroupSomeGroupTest {
     }
 
     @Test
-    public void testCartCounter() throws InterruptedException {
+    public void testCartCounter() {
         driver.get("https://askomdch.com/");
         driver.findElement(By.cssSelector("#ast-desktop-header  a[href$='/store/']")).click();
 
