@@ -19,7 +19,6 @@ public class CaramelSurupForJavaTest {
         driver.get("https://openweathermap.org/");
         String title = driver.getTitle();
 
-//        WebDriverWait waitTillVisible = new WebDriverWait(driver, 50);
         Assert.assertEquals(title, "Сurrent weather and forecast - OpenWeatherMap");
 
         Thread.sleep(5000);
