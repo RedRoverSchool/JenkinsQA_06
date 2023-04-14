@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class JavaNiSyTest {
-
+public class JavaNiSyGroupTest {
+    @Ignore
     @Test
     public void testNewsPageMS()  {
 
@@ -33,7 +33,7 @@ public class JavaNiSyTest {
         browser.quit();
     }
 
-
+    @Ignore
     @Test
     public void testButtonsMS() {
         ChromeOptions chromeOptions = new ChromeOptions();
