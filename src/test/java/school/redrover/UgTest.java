@@ -41,7 +41,6 @@ public class UgTest {
     }
         @Test
         public void testUGComponents() {
-
             WebDriver driver = new ChromeDriver();
 
             driver.get("https://www.selenium.dev/selenium/web/web-form.html");
