@@ -3,13 +3,19 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class PetroMatsiuraSecondTest extends PetroMatsiuraBaseTest {
 
+    @BeforeMethod
+    public void BeforeMethod() {
+        getDriver().get("https://askomdch.com/");
+    }
+
     @Test
     public void testSale() {
-        for(WebElement element : getDriver().findElements(By.cssSelector("span[class='onsale']"))){
+        for (WebElement element : getDriver().findElements(By.cssSelector("span[class='onsale']"))) {
             Assert.assertEquals(element.getText(), "Sale!");
         }
     }

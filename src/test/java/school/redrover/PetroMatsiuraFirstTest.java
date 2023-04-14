@@ -2,12 +2,17 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class PetroMatsiuraFirstTest extends PetroMatsiuraBaseTest {
+
+    @BeforeMethod
+    public void BeforeMethod() {
+        getDriver().get("https://www.google.com/");
+    }
     @Test
     public void testGoogleStore() throws InterruptedException {
-        getDriver().get("https://www.google.com/");
         getDriver().findElement(By.linkText("Store")).click();
         getDriver().navigate().refresh();
         Thread.sleep(5000);
@@ -17,7 +22,6 @@ public class PetroMatsiuraFirstTest extends PetroMatsiuraBaseTest {
 
     @Test
     public void testGoogleApps() throws InterruptedException {
-        getDriver().get("https://www.google.com/");
         String [] result = {
                 "Google Account",
                 "Google",
