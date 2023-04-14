@@ -51,21 +51,22 @@ public class CaramelSyrupForJavaTest {
         driver.quit();
     }
 
-    @Ignore
+
     @Test
     public void testArtyomDulyaThehostbest() throws InterruptedException {
 
         String expectedResult = "https://thehostbest.ru/business-card-site/";
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().window().maximize();
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         driver.get("https://thehostbest.ru/");
 
-        WebElement button = driver.findElement(By.xpath("//div[@data-id='ee672f3']//div//div//a"));
+        WebElement button = driver.findElement(By.xpath("//a[text()='Визитка']"));
         js.executeScript("window.scrollBy(0,200)");
         button.click();
 
@@ -84,7 +85,6 @@ public class CaramelSyrupForJavaTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         driver.get("https://openweathermap.org/");
@@ -107,14 +107,14 @@ public class CaramelSyrupForJavaTest {
         driver.quit();
     }
 
-    @Ignore
+
     @Test
     public static void testArtyomDulyaHeaderButton() throws InterruptedException {
 
         int expectedResult = 3;
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
 
 
@@ -152,7 +152,7 @@ public class CaramelSyrupForJavaTest {
         driver.quit();
     }
 
-    @Ignore
+
     @Test
     public void testArtyomDulyaSupportMenuButton() throws InterruptedException {
 
@@ -161,7 +161,7 @@ public class CaramelSyrupForJavaTest {
         String expectedResultAskAQuestion = "https://home.openweathermap.org/questions";
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*","--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
 
 
@@ -261,7 +261,6 @@ public class CaramelSyrupForJavaTest {
         WebElement digitalGoods = driver.findElement(By.xpath("//li[@data-menu-id='12']"));
         WebElement madeInMoscow = driver.findElement(By.xpath("//li[@data-menu-id='130255']"));
         WebElement trips = driver.findElement(By.xpath("//li[@data-menu-id='61037']"));
-//       WebElement brands = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/ul/li[27]"));
 
         WebElement[] categories = {women, boot, kids, mens, hays, beauty, accessories, electronics, toys,
                 furniture, adults, products, appliances, petSupplies, sports, autoProducts, books, jewelry,
