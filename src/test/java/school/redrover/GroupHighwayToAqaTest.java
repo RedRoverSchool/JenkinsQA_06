@@ -456,5 +456,6 @@ public class GroupHighwayToAqaTest {
         Assert.assertEquals(value1, "My Account");
         driver.quit();
     }
+}
 
    
