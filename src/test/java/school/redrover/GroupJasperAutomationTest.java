@@ -141,7 +141,6 @@ public class GroupJasperAutomationTest {
 
         button = driver.findElement(By.xpath("//a[text() = 'QA']"));
         button.click();
-
         driver.quit();
     }
 }
