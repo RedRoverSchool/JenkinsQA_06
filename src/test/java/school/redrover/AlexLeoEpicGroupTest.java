@@ -1,23 +1,21 @@
 package school.redrover;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.List;
-
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
+import school.redrover.runner.BaseTest;
 
-public class AlexLeoEpicGroupTest extends BaseTest {
+public class AlexLeoEpicGroupTest extends BaseTest{
+
     @Test
     public void titleOfTheHomePageCheckedTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -559,36 +557,28 @@ public class AlexLeoEpicGroupTest extends BaseTest {
     }
 
     @Test
-    public void VerifyContactUsPageDisplayedTest() {
+    public void testVerifyContactUsPageDisplayed() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        getDriver().get("https://askomdch.com");
+        getDriver().findElement(By.xpath("//*[contains(text(),'Find More')]")).click();
+        WebElement textOnPageContactUs = getDriver().findElement(
+                By.xpath("//*[@id='post-60']/div/div[1]/div/h1"));
 
-        driver.get("https://askomdch.com");
-        driver.findElement(By.xpath("//*[contains(text(),'Find More')]")).click();
-
-        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/contact-us/");
-
-        driver.quit();
+        Assert.assertEquals(textOnPageContactUs.getText(), "Contact Us");
     }
 
     @Test
-    public void VerifySearchBackgroundButtonColorOnMenPage() {
+    public void testVerifySearchBackgroundButtonColorOnMenPage() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://askomdch.com");
-        driver.findElement(By.xpath("//*[@id=\"menu-item-1228\"]/a")).click();
-
-        String backgroundButtonColor = driver.findElement(By.xpath("//*[@id=\"woocommerce_product_search-1\"]/form/button")).getCssValue("background-color");
+        getDriver().get("https://askomdch.com");
+        getDriver().findElement(By.xpath("//*[@id='menu-item-1228']/a")).click();
+        String backgroundButtonColor = getDriver().findElement(
+                By.xpath("//*[@id='woocommerce_product_search-1']/form/button"))
+                .getCssValue("background-color");
 
         Assert.assertEquals(backgroundButtonColor, "rgba(49, 151, 214, 1)");
-
-        driver.quit();
     }
+
     @Test
     public void test_TC_004_01() {
         ChromeOptions chromeOptions = new ChromeOptions();
