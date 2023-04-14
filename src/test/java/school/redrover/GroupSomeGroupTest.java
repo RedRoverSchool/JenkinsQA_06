@@ -23,7 +23,7 @@ public class GroupSomeGroupTest {
     public void init() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
-      //  chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         driver = new ChromeDriver(chromeOptions);
         wait=new WebDriverWait(driver, Duration.ofSeconds(2));
     }
