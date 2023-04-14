@@ -138,7 +138,25 @@ public class GroupJavaQaTeamTest {
         driver.quit();
 
     }
+    @Test
+    public void testBookingTitle() {
 
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+
+        driver.get("https://www.booking.com");
+
+
+        Assert.assertTrue(driver.getTitle().contains("Booking.com"));
+
+
+        driver.quit();
+    }
+
+    @Ignore
     @Test
     public void testBootcampUrlAndTitle() {
         ChromeOptions chromeOptions = new ChromeOptions();
