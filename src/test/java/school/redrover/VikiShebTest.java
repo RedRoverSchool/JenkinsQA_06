@@ -23,6 +23,7 @@ public class VikiShebTest {
         Assert.assertEquals(symbol.getText(), "$");
         Thread.sleep(1000);
         driver.quit();
+
     }
 
 }
