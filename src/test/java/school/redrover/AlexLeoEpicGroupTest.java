@@ -243,18 +243,22 @@ public class AlexLeoEpicGroupTest {
 
 
     @Test
-    public void TC_002_33_ArtemT_verifyShopNowLink() {
+    public void verifyShopNowLinkTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
         try {
             driver.get("https://askomdch.com/");
             driver.findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
                     .click();
             String URL = driver.getCurrentUrl();
             Assert.assertEquals(URL, "https://askomdch.com/store");
-        } finally {
+        }
+
+        finally {
             driver.quit();
         }
     }
