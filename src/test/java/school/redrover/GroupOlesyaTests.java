@@ -140,10 +140,8 @@ public class GroupOlesyaTests {
     public void nsergeevaTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(MAIN_PAGE);
-
         WebElement username = driver.findElement(By.name("user-name"));
         WebElement password = driver.findElement(By.name("password"));
         WebElement loginButton = driver.findElement(By.name("login-button"));
@@ -202,7 +200,7 @@ public class GroupOlesyaTests {
         driver.quit();
     }
     @Test
-    //testing continue shopping button
+
     
     public void testContinueShopping()  {
 
