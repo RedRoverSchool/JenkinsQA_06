@@ -588,5 +588,31 @@ public class GroupOlesyaTests {
 
         driver.quit();
     }
+    @Test
+    public void test2UGLogOut() throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/");
+
+        WebElement login = driver.findElement(By.name("user-name"));
+        WebElement password = driver.findElement(By.name("password"));
+        WebElement button = driver.findElement(By.name("login-button"));
+
+        login.sendKeys("standard_user");
+        password.sendKeys("secret_sauce");
+        button.click();
+
+        WebElement dropDown = driver.findElement(By.id("react-burger-menu-btn"));
+        dropDown.click();
+
+        Thread.sleep(2000);
+
+        WebElement logOut = driver.findElement(By.id("logout_sidebar_link"));
+        logOut.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
+
+    }
+
 }
 
