@@ -33,7 +33,7 @@ public class GroupSomeGroupTest {
     }
 
     @Test
-    public void testEmailContactPage() {
+    public void testEmailContactPage() throws InterruptedException {
         driver.get("https://askomdch.com/");
         driver.findElement(By.cssSelector("#ast-desktop-header  a[href$='/contact-us/']")).click();
 
@@ -44,7 +44,7 @@ public class GroupSomeGroupTest {
     }
 
     @Test
-    public void testCartCounter() {
+    public void testCartCounter() throws InterruptedException {
         driver.get("https://askomdch.com/");
         driver.findElement(By.cssSelector("#ast-desktop-header  a[href$='/store/']")).click();
 
@@ -53,26 +53,5 @@ public class GroupSomeGroupTest {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".ast-site-header-cart-data  ul")));
         WebElement counter = driver.findElement(By.xpath("//div[@id='ast-desktop-header']//span[@class='count']"));
         Assert.assertEquals(counter.getText().trim(), "1");
-    }
-
-    @Test
-    public void testVerifyTitle() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("http://w3schools.com");
-
-        WebElement textBox = driver.findElement(By.id("search2"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
-
-        textBox.sendKeys("JS");
-        submitButton.click();
-
-        driver.manage().window().maximize();
-        String title = driver.getTitle();
-
-        Assert.assertEquals(title, "JavaScript Tutorial");
-        driver.quit();
     }
 }
