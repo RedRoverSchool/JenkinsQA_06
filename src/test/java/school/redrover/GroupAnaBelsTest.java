@@ -11,10 +11,8 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class GroupAnaBelsTest {
-
-
     @Test
-    public void StasMtest(){
+    public void testStasM(){
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080");
