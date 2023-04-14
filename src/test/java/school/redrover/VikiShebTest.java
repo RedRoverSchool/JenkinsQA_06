@@ -8,8 +8,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class VikiShebTest {
-    @Test
 
+    @Test
     public void checkDollarSymbol_TC_002_02() throws InterruptedException {
 
         WebDriver driver = new ChromeDriver();
