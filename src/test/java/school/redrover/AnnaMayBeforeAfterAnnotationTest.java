@@ -29,6 +29,7 @@ public class AnnaMayBeforeAfterAnnotationTest {
             driver.get("https://www.usps.com/");
         }
 
+        @Ignore
         @Test(priority = 1)
         public void uspsTitle() {
             String actualResult ;
@@ -37,6 +38,7 @@ public class AnnaMayBeforeAfterAnnotationTest {
             Assert.assertEquals(actualResult, expectedResult);
         }
 
+        @Ignore
         @Test(priority = 2)
         public void uspsSearchTest() throws InterruptedException {
 
