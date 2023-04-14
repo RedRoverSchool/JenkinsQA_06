@@ -11,11 +11,17 @@ import org.testng.annotations.Test;
 
 public class VladLiTest {
 
-    @Test
+    @Test    
     public void YahooTest() throws InterruptedException {
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.yahoo.com/?guccounter=1");
+
+        WebElement textBox = driver.findElement(By.name("p"));
+        textBox.sendKeys("Amazon");
+        textBox.sendKeys(Keys.RETURN);
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.yahoo.com/?guccounter=1");
