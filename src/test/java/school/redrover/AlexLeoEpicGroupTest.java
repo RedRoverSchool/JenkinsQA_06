@@ -596,7 +596,7 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void verifyPromoText_TC_003() {
+    public void testVerifyPromoText() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -606,5 +606,4 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         Assert.assertEquals(promoText.getText(), "25% OFF On all products");
         driver.quit();
     }
-
 }
