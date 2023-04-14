@@ -5,6 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -13,6 +14,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.annotations.Ignore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BestAutoTeamTest {
@@ -27,7 +30,7 @@ public class BestAutoTeamTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        driver = new ChromeDriver(chromeOptions);
+        driver = new ChromeDriver( );
         driver.manage().deleteAllCookies();
         driver.manage().timeouts().implicitlyWait(IMPLICITLYWAIT,
                 TimeUnit.SECONDS);
@@ -41,7 +44,7 @@ public class BestAutoTeamTest {
     public void afterTest() throws InterruptedException {
         driver.quit();
     }
-    @Ignore
+
     @Test
     public void testFirst() throws InterruptedException {
 
@@ -57,7 +60,7 @@ public class BestAutoTeamTest {
         Assert.assertEquals(text.getText(), "Selenium");
 
     }
-    @Ignore
+
     @Test
     public void testLoginButton() throws InterruptedException {
 
@@ -94,6 +97,27 @@ public class BestAutoTeamTest {
         WebElement element = driver.findElement(By.xpath("//*[@class='form-control home__donation-form-amount-input']"));
 
         Assert.assertEquals(element.getAttribute("value"), "10");
+    }
+
+    @Test
+    public void findBlogLink()throws InterruptedException{
+        driver.get("https://monkkee.com/en");
+        WebElement blogLink = driver.findElement(By.xpath("//div[@class='col-sm-4'][2]//ul//li[2]"));
+        blogLink.getText();
+        Assert.assertEquals(blogLink.getText(),"Blog", "Link is not found");
+    }
+
+    @Test
+    public void clickBlogLink()throws InterruptedException{
+        driver.get("https://monkkee.com/en");
+        WebElement blogLink = driver.findElement(By.xpath("//div[@class='col-sm-4'][2]//ul//li[2]"));
+        blogLink.click();
+        List<WebElement> articles;
+        articles=  driver.findElements(By.xpath("//h2[@class='blog__heading']"));
+        int countOfArticles=articles.size();
+        Assert.assertEquals(countOfArticles,27, "Count is different");
+
+
     }
 }
 
