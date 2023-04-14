@@ -61,6 +61,7 @@ public class UgTest {
             String value = message.getText();
 
             assertEquals("Received!", value);
+
             driver.quit();
         }
     }
