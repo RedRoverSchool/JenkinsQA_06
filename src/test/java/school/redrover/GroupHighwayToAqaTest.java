@@ -423,7 +423,7 @@ public class GroupHighwayToAqaTest {
     @Test
     public void testSubscription() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080" );
+        chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080" );
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(BASE_URL);
         char[] prefix = new char[6];
