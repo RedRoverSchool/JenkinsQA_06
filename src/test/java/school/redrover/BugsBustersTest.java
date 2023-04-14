@@ -34,6 +34,7 @@ public class BugsBustersTest {
 
         driver.quit();
     }
+
     @Test
     public void testSergeyConvert() {
         ChromeOptions options = new ChromeOptions();
@@ -95,5 +96,162 @@ public class BugsBustersTest {
         driver.quit();
     }
 
+    @Test
+    public void testMS() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().window().maximize();
+
+        driver.get("https://www.funartcolorado.com/");
+        Assert.assertEquals(driver.getTitle(), "Home | Funart");
+
+        WebElement artTab = driver.findElement(By.id("comp-jnlr6x4r1label"));
+        artTab.click();
+        Thread.sleep(2000);
+        WebElement mosaicArtHeader = driver.findElement(By.cssSelector("div[id='comp-jbrwxjbr'] span"));
+        Assert.assertEquals(mosaicArtHeader.getText(), "About my art:");
+
+        WebElement classesTab = driver.findElement(By.id("comp-jnlr6x4r2label"));
+        classesTab.click();
+        Thread.sleep(2000);
+        WebElement classesHeader = driver.findElement(By.cssSelector("h1[class='font_0'] span"));
+        Assert.assertEquals(classesHeader.getText(), "ONLINE course \"Fun Art with Tempered glass\"");
+
+        driver.quit();
+    }
+    @Ignore
+    @Test
+    public void testVictoriaContactTitle() throws InterruptedException {
+        String expectedResult = "Contact Us".toLowerCase();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.manage().window().maximize();
+
+        driver.get("https://www.ohiofamilypractice.com/");
+        Thread.sleep(2000);
+
+        WebElement contactUsReference = driver.findElement(By.xpath(
+                "//div[@class='Header-nav-inner']/a[@href='/connect']"));
+        contactUsReference.click();
+        Thread.sleep(2000);
+        WebElement h1 = driver.findElement(By.xpath("//h1"));
+        Thread.sleep(2000);
+        String h1Text = h1.getText().toLowerCase();
+        Thread.sleep(2000);
+
+        Assert.assertEquals(h1Text, expectedResult);
+
+    }
+    @Test
+    public void testMsArtMosaicVideo() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080", "−−incognito");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.funartcolorado.com/");
+
+        WebElement mosaicArtHeader = driver.findElement(By.xpath("//p[@id='comp-jnlr6x4r2label']"));
+        Assert.assertEquals(mosaicArtHeader.getText(), "Classes");
+
+        WebElement classesTab = driver.findElement(By.id("comp-jnlr6x4r2label"));
+        classesTab.click();
+        Thread.sleep(2000);
+        WebElement playbutton = driver.findElement(By.xpath("//div[@class='QzC0oQ E1QW47']//*[name()='svg']"));
+        playbutton.click();
+        WebElement video = driver.findElement(By.tagName("video"));
+        Thread.sleep(3000);
+        Assert.assertTrue(Float.parseFloat(video.getAttribute("currentTime")) > 0);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testMarynaLFirstTest() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://invoice-generator.com/");
+
+
+        WebElement signInButton = driver.findElement(By.xpath("/html/body/nav[1]/div/div/ul/li[3]/a"));
+        signInButton.click();
+
+
+        WebElement emailAddress = driver.findElement(By.xpath("//*[@id='inputEmail']"));
+        emailAddress.sendKeys("victoria.bilanko@gmail.com");
+
+        WebElement password = driver.findElement(By.xpath("//*[@id='inputPassword']"));
+        password.sendKeys("Java12345@");
+
+        WebElement signInBtn = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/button"));
+        signInBtn.click();
+
+        driver.quit();
+    }
+
+    @Test
+    public void testAnastasiyaFirstTest () {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://demoqa.com/text-box");
+
+        WebElement firstNameTextBox = driver.findElement(By.id("userName"));
+        firstNameTextBox.sendKeys("First Last");
+
+        WebElement emailTextBox = driver.findElement(By.xpath("//*[@id=\"userEmail\"]"));
+        emailTextBox.sendKeys("blablabla@gmail.com");
+
+        WebElement currentAddress = driver.findElement(By.xpath("//*[@id=\"currentAddress\"]"));
+        currentAddress.sendKeys("2023 New Year St, NY");
+
+        WebElement permanentAddress = driver.findElement(By.xpath("//*[@id=\"permanentAddress\"]"));
+        permanentAddress.sendKeys("2024 New Year St, NY");
+
+        WebElement submitButton = driver.findElement(By.id("submit"));
+        submitButton.click();
+
+        WebElement nameText = driver.findElement(By.xpath("//*[@id=\"name\"]"));
+        Assert.assertEquals(nameText.getText(), "Name:First Last");
+
+        driver.quit();
+    }
+    @Ignore
+    @Test
+    public void testVictoriaOurServicesTitle() throws InterruptedException {
+
+        String expectedResult = "Our Services".toLowerCase();
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().window().maximize();
+
+        driver.get("https://www.ohiofamilypractice.com/");
+        Thread.sleep(2000);
+
+        WebElement servicesReference = driver.findElement(By.xpath(
+                "//a[@href='/services'][@class='Header-nav-item']"));
+        servicesReference.click();
+        Thread.sleep(2000);
+        WebElement h1 = driver.findElement(By.xpath("//h1"));
+        Thread.sleep(2000);
+        String h1Text = h1.getText().toLowerCase();
+
+        Assert.assertEquals(h1Text, expectedResult);
+
+        driver.quit();
+    }
 
 }
+

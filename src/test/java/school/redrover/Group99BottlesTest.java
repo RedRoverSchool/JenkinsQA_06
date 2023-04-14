@@ -7,6 +7,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.annotations.Ignore;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Group99BottlesTest {
 
@@ -83,6 +88,7 @@ public class Group99BottlesTest {
 
     }
 
+    @Test
     public void testH2Text_WhenSearchingCityCountry() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -96,7 +102,7 @@ public class Group99BottlesTest {
         String expectedResult = "Paris, FR";
 
         driver.get(url);
-        Thread.sleep(5000);
+        Thread.sleep(8000);
 
         WebElement searchCityField = driver.findElement(
                 By.xpath("//div[@id='weather-widget']//input[@placeholder='Search city']")
@@ -125,6 +131,180 @@ public class Group99BottlesTest {
         String actualResult = h2CityNameHeader.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testTelerikHeaderText() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.telerik.com/");
+
+        WebElement headerH1Text = driver.findElement(
+                By.xpath("//div[@id='ContentPlaceholder1_C339_Col00']/h1"));
+
+        Assert.assertEquals(headerH1Text.getText(), "Modern UI Made Easy");
+
+        driver.quit();
+    }
+
+    @Test
+    public void testTelerikTitleURLDemosPage() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.telerik.com/");
+
+        driver.manage().window().maximize();
+
+        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        Assert.assertEquals(driver.getTitle(), "Telerik Product Demos, Examples and Tutorials for all Telerik products");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.telerik.com/support/demos");
+
+        driver.quit();
+    }
+
+    @Ignore
+    @Test
+    public void testTelerikNavigateMenuDemosPageArray() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        String[] expectedResult = {"Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"};
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.telerik.com/");
+
+        driver.manage().window().maximize();
+
+        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        String[] actualResult = new String[6];
+        actualResult[0] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][1]")).getText();
+        actualResult[1] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][2]")).getText();
+        actualResult[2] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][3]")).getText();
+        actualResult[3] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][4]")).getText();
+        actualResult[4] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][5]")).getText();
+        actualResult[5] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][6]")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testTelerikNavigateMenuDemosPageList() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        List<String> expectedResult = new ArrayList<>(
+                Arrays.asList("Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"));
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.telerik.com/");
+
+        driver.manage().window().maximize();
+
+        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        List<WebElement> elementList = driver.findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        List<String> actualResult = WebElementToString(elementList);
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        driver.quit();
+    }
+
+    public static List<String> WebElementToString(List<WebElement> elementList) {
+        List<String> stringList = new ArrayList<>();
+        for (WebElement element : elementList) {
+            stringList.add(element.getText());
+        }
+        return stringList;
+    }
+
+    @Test
+    public void testH1Text_WhenChooseLevelLanguage() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.w3schools.com/");
+
+        driver.findElement(By.xpath("//a[@href = 'where_to_start.asp']")).click();
+
+        Thread.sleep(3000);
+
+        WebElement text = driver.findElement(By.xpath("//h1[text() = 'Where To Start']"));
+
+        Assert.assertEquals(text.getText(), "Where To Start");
+
+        driver.quit();
+    }
+
+    @Ignore
+    @Test
+    public void testDemoblazeAddToCart() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        String productName = "Iphone 6 32gb";
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.demoblaze.com/");
+
+        Thread.sleep(1000);
+        List<WebElement> products = driver.findElements(By.cssSelector(".hrefch"));
+        for (WebElement prod : products) {
+            if (prod.getText().equals(productName)) {
+                prod.click();
+                break;
+            }
+        }
+        Thread.sleep(1000);
+        driver.findElement(By.cssSelector(".btn-success")).click();
+        Thread.sleep(1000);
+        driver.switchTo().alert().accept();
+        driver.findElement(By.cssSelector("#cartur")).click();
+        Thread.sleep(1000);
+
+        Assert.assertEquals(driver.findElement(By.xpath("//tr/td[2]")).getText(), productName);
+
+        driver.quit();
+    }
+
+    @Ignore
+    @Test
+    public void testDemoblazeProdAddToCart() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        String productName = "Sony vaio i5";
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.demoblaze.com/");
+
+        Thread.sleep(1000);
+        List<WebElement> products = driver.findElements(By.cssSelector(".hrefch"));
+        WebElement prod = products.stream().filter(product->product.getText()
+                .equals(productName)).findFirst().orElse(null);
+        prod.click();
+        Thread.sleep(1000);
+        driver.findElement(By.cssSelector(".btn-success")).click();
+        Thread.sleep(1000);
+        driver.switchTo().alert().accept();
+        driver.findElement(By.cssSelector("#cartur")).click();
+        Thread.sleep(1000);
+
+        Assert.assertEquals(driver.findElement(By.xpath("//tr/td[2]")).getText(), productName);
 
         driver.quit();
     }

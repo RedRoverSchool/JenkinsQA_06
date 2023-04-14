@@ -1,17 +1,21 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
 
 public class GroupJavaExplorersTest {
 
     @Test
-    public void testTrelloTitle(){
+    public void testTrelloTitle() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -66,7 +70,32 @@ public class GroupJavaExplorersTest {
 
 
     @Test
-    public void TestS (){
+    public void TestS() {
     }
+    @Ignore
+    @Test
+    public void testOracleSearch() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.get("https://docs.oracle.com/en/");
+
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.sendKeys("Java");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.cssSelector("span[class*='search-title']"));
+        Assert.assertEquals(text.getText(), "Java Management");
+
+        driver.quit();
+    }
+
+    public void TestAfterSet ()
+    {
+        System.out.println("Тест после перенастроек всего и вся");
+    }
+
 
 }
