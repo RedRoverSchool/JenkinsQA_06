@@ -6,9 +6,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
 
 import static org.testng.Assert.assertEquals;
 
@@ -130,4 +135,42 @@ public class GroupJasperAutomationTest {
         WebElement textBox = driver.findElement(By.xpath("//*[@id=\"PageContent_C038_Col01\"]/div[1]/h2"));
         assertEquals(textBox.getText(),"General enquiries");
     }
+
+    @Test
+    public void discordTest() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25));
+        driver.get("https://discord.com/");
+
+        WebElement droplist = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@class='arrowIcon-3hG4PK']")));
+        droplist.click();
+
+        WebElement choseLeng = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'text-2H5FnP textExtraSmall-2-FKT0 dropdownLanguageName-3GY1QW') " +
+                "and contains(text(), 'English, USA')]")));
+        choseLeng.click();
+
+        WebElement nitro = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='link-1naFFL link-2eyudH' and @href='/nitro']")));
+        nitro.click();
+
+        WebElement droplist1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='selector-language-name']")));
+        droplist1.click();
+        WebElement choseLeng1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'dropdown-language-name')  and contains(text(), 'English (UK)')]")));
+        choseLeng1.click();
+
+        droplist1.click();
+        choseLeng1.click();
+
+        Thread.sleep(10000);
+
+        WebElement unlesh = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class = 'new-h1 font-white capital']")));
+
+        Assert.assertEquals(unlesh.getText(), "Unleash more fun with Nitro");
+        driver.quit();
+
+
+    }
+
 }
