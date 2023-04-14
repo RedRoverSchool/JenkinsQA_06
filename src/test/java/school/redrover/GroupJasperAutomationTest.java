@@ -128,4 +128,20 @@ public class GroupJasperAutomationTest {
         WebElement textBox = driver.findElement(By.xpath("//*[@id=\"PageContent_C038_Col01\"]/div[1]/h2"));
         assertEquals(textBox.getText(),"General enquiries");
     }
+    @Test
+    public void linkInDou(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://dou.ua/");
+
+        WebElement button = driver.findElement(By.xpath("//a[text() = 'Робота']"));
+        button.click();
+
+        button = driver.findElement(By.xpath("//a[text() = 'QA']"));
+        button.click();
+
+        driver.quit();
+    }
 }
