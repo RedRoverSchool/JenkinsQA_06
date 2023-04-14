@@ -163,7 +163,6 @@ public class GroupOlesyaTests {
         Assert.assertEquals(driver.getTitle(), "Swag Labs");
 
         WebElement cartQuantity = driver.findElement(By.xpath("//*[@class=\"cart_quantity\"]"));
-
         WebElement cartremovebutton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-backpack\"]"));
         cartremovebutton.click();
         Assert.assertTrue(driver.findElements(By.xpath("//*[@id=\"remove-sauce-labs-backpack\"]")).isEmpty());
