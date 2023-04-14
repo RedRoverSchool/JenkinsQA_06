@@ -7,11 +7,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import org.testng.Assert;
+
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class GroupUkrTest {
+public class GroupUkrTest extends BaseTest {
 
     @Test
     public void youtubeSearchTest(){
@@ -44,30 +46,20 @@ public class GroupUkrTest {
 
     }
     @Test
-    public void VNUiTest(){
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless","--window-size= 1920,1080");
+    public void testRenameBtn(){
+        final String NAME = "new button name";
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("http://uitestingplayground.com/home");
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(20000));
-        String title = driver.getTitle();
+        getDriver().get("http://uitestingplayground.com/home");
+        String title = getDriver().getTitle();
         Assert.assertEquals(title,"UI Test Automation Playground");
 
-        WebElement textInputLink = driver.findElement(By.xpath("//section[@id = 'overview']//a[text() = 'Text Input']"));
+        WebElement textInputLink = getDriver().findElement(By.xpath("//section[@id = 'overview']//a[text() = 'Text Input']"));
         textInputLink.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(20000));
-        WebElement textField = driver.findElement(By.xpath("//input[@id='newButtonName']"));
-        WebElement updButton = driver.findElement(By.xpath("//button[@id='updatingButton']"));
+        WebElement textField = getDriver().findElement(By.xpath("//input[@id='newButtonName']"));
+        WebElement updButton = getDriver().findElement(By.xpath("//button[@id='updatingButton']"));
 
-        textField.sendKeys("New Name");
+        textField.sendKeys(NAME);
         updButton.click();
-        Assert.assertEquals(updButton.getText(), "New Name");
-
-        driver.quit();
-
-
+        Assert.assertEquals(updButton.getText(), NAME);
     }
-
 }

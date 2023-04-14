@@ -349,6 +349,33 @@ public class GroupJavaJitsu {
 
             driver.quit();
         }
+
+        @Test
+        public void Liliia_loginTestErrorAppears() {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            driver.get("https://automationteststore.com/");
+
+            WebElement loginOrRegister = driver.findElement(By.xpath("//ul[@id='customer_menu_top']/li"));
+            loginOrRegister.click();
+
+            WebElement loginNameInput = driver.findElement(By.xpath("//input[@id='loginFrm_loginname']"));
+            loginNameInput.sendKeys("avadakedavra");
+
+            WebElement passwordInput = driver.findElement(By.xpath("//input[@id='loginFrm_password']"));
+            passwordInput.sendKeys("12345");
+
+            WebElement loginButton = driver.findElement(By.xpath("//button[@title='Login']"));
+            loginButton.click();
+
+            WebElement alert = driver.findElement(By.xpath("//div[@class='alert alert-error alert-danger']"));
+            WebElement closeButton = alert.findElement(By.tagName("button"));
+            String alertText = alert.getText().replace(closeButton.getText(), "").trim();
+            Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
+            driver.quit();
+        }
     }
 
 

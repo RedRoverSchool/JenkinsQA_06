@@ -288,6 +288,31 @@ public class AlexLeoEpicGroupTest {
         driver.quit();
     }
 
+
+
+
+       @Test
+       public void testLoginPageIsOpenedTC_004() throws InterruptedException {
+           ChromeOptions chromeOptions = new ChromeOptions();
+           chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+           WebDriver driver = new ChromeDriver(chromeOptions);
+           driver.get("https://askomdch.com/");
+           Thread.sleep(2000);
+           driver.findElement(By.xpath("//li[@id=\"menu-item-1237\"]")).click();
+           String expectedUrl = "https://askomdch.com/account/";
+           driver.get(expectedUrl);
+           try {
+               Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
+               System.out.println("Navigated to the correct login page");
+           }
+           catch (Throwable pageNavigationError) {
+               System.out.println("Did not navigate to correct page");
+           }
+           Thread.sleep(2000);
+           driver.quit();
+
+       }
+
     @Test
     public void test_TC_003_01() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -519,6 +544,9 @@ public class AlexLeoEpicGroupTest {
         driver.quit();
     }
 
+
+
+
     @Test
     public void VerifyCardOnWomenPageTest() {
 
@@ -531,6 +559,50 @@ public class AlexLeoEpicGroupTest {
 
         List<WebElement> womenProducts = driver.findElements(By.xpath("//div[@class='astra-shop-thumbnail-wrap']"));
         Assert.assertEquals(womenProducts.size(), 7);
+
+        driver.quit();
+    }
+
+    @Test
+    public void VerifyContactUsPageDisplayedTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com");
+        driver.findElement(By.xpath("//*[contains(text(),'Find More')]")).click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/contact-us/");
+
+        driver.quit();
+    }
+
+    @Test
+    public void VerifySearchBackgroundButtonColorOnMenPage() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com");
+        driver.findElement(By.xpath("//*[@id=\"menu-item-1228\"]/a")).click();
+
+        String backgroundButtonColor = driver.findElement(By.xpath("//*[@id=\"woocommerce_product_search-1\"]/form/button")).getCssValue("background-color");
+
+        Assert.assertEquals(backgroundButtonColor, "rgba(49, 151, 214, 1)");
+
+        driver.quit();
+    }
+    @Test
+    public void test_TC_004_01() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://askomdch.com");
+        driver.findElement(By.linkText("Account")).click();
+        Assert.assertEquals(driver.findElement(By.className("has-text-align-center")).getText(), "Account");
 
         driver.quit();
     }

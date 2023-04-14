@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 
 public class HelloWorldTest {
 
@@ -212,8 +213,26 @@ public class HelloWorldTest {
 
         WebElement error3 = driver.findElement(By.cssSelector("[data-t=\"login-error\"]"));
         Assert.assertEquals(error3.getText(), "Необходимо выбрать логин");
-
 }
+   
+    
+    @Test
+    public void TestSlackSignupErrorAleksE(){
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
+        driver.get("https://www.slack.com/");
+        driver.findElement(By.xpath("//header//a[text()='Try for free']")).click();
+
+        driver.findElement(By.xpath("//button[text()='Continue']")).click();
+
+        WebElement error = driver.findElement(By.xpath("//div[@id='creator_signup_email_error']/span"));
+        Assert.assertEquals(error.getText(), "This is required — you’ll need to enter an email.");
+ 
+    }
     @Test
     public void newTest() throws InterruptedException {
 
@@ -232,6 +251,5 @@ public class HelloWorldTest {
         WebElement part = driver.findElement(By.xpath("//span[@class = \"mw-page-title-main\"]"));
         Assert.assertEquals(part.getText(), "API");
         driver.quit();
-    }
 
 }
