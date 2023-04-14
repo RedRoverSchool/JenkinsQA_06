@@ -147,7 +147,6 @@ public class BugsBustersTest {
         Assert.assertEquals(h1Text, expectedResult);
 
     }
-    @Ignore
     @Test
     public void testMsArtMosaicVideo() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
