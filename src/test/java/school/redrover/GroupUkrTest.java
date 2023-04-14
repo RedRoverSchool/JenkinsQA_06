@@ -1,16 +1,19 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class GroupUkrTest {
+public class GroupUkrTest extends BaseTest {
 
     @Test
     public void youtubeSearchTest(){
@@ -42,4 +45,51 @@ public class GroupUkrTest {
         driver.quit();
 
     }
+    @Test
+    public void testRenameBtn(){
+        final String NAME = "new button name";
+
+        getDriver().get("http://uitestingplayground.com/home");
+        String title = getDriver().getTitle();
+        Assert.assertEquals(title,"UI Test Automation Playground");
+
+        WebElement textInputLink = getDriver().findElement(By.xpath("//section[@id = 'overview']//a[text() = 'Text Input']"));
+        textInputLink.click();
+        WebElement textField = getDriver().findElement(By.xpath("//input[@id='newButtonName']"));
+        WebElement updButton = getDriver().findElement(By.xpath("//button[@id='updatingButton']"));
+
+        textField.sendKeys(NAME);
+        updButton.click();
+        Assert.assertEquals(updButton.getText(), NAME);
+    }
+
+
+    @Test
+    public void OpenElementsTab(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://demoqa.com/");
+        WebElement element = driver.findElement(By.className("card-up"));
+        element.click();
+        WebElement header = driver.findElement(By.className("main-header"));
+        Assert.assertEquals(header.getText(),"Elements");
+        WebElement textTab = driver.findElement(By.className("text"));
+        textTab.click();
+        WebElement fullNameField = driver.findElement(By.id("userName"));
+        fullNameField.sendKeys("Test User");
+        WebElement emailField = driver.findElement(By.id("userEmail"));
+        emailField.sendKeys("test@mail.com");
+        WebElement addressField = driver.findElement(By.id("currentAddress"));
+        addressField.sendKeys("394 Davis Avenue");
+        WebElement submitButton = driver.findElement(By.id("submit"));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView();", submitButton);
+        submitButton.click();
+        WebElement output = driver.findElement(By.id("output"));
+        Assert.assertTrue(output.isDisplayed(),"The for is not displayed");
+        driver.quit();
+    }
+
+
 }

@@ -116,4 +116,41 @@ public class GroupJasperAutomationTest {
         driver.quit();
 
     }
+
+    @Test
+    public void testOlgaMinina() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        WebElement textBox = driver.findElement(By.name("my-text"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("Selenium");
+        submitButton.click();
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        Assert.assertEquals(value, "Received!");
+
+        driver.quit();
+    }
+
+    @Test
+    public void testWHO() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.who.int/en");
+        WebElement linkToGo = driver.findElement(By.xpath("//a[contains(text(), 'Contact us')]"));
+        linkToGo.click();
+
+        Thread.sleep(2000);
+        WebElement textBox = driver.findElement(By.xpath("//*[@id=\"PageContent_C038_Col01\"]/div[1]/h2"));
+        assertEquals(textBox.getText(),"General enquiries");
+    }
 }
