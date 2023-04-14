@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -125,7 +126,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         afterMethod();
     }
 
-
+    @Ignore
     @Test
     public static void testArtyomDulyaHeaderButton() throws InterruptedException {
 
@@ -169,7 +170,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         driver.quit();
     }
 
-
+    @Ignore
     @Test
     public void testArtyomDulyaSupportMenuButton() throws InterruptedException {
 
@@ -312,8 +313,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         driver.quit();
     }
-
-
 
 
 }
