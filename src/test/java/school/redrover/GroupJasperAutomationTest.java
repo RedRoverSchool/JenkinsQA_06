@@ -101,4 +101,19 @@ public class GroupJasperAutomationTest {
         driver.quit();
 
     }
+
+
+    @Test
+    public void Andrii() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://metanit.com/");
+        Thread.sleep(5000);
+        WebElement name = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/header[1]/div[3]/ul[1]/li[3]/a[1]"));
+        Assert.assertEquals(name.getText(), "JAVA");
+        driver.quit();
+
+    }
 }
