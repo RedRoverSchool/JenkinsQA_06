@@ -524,5 +524,6 @@ public class GroupOlesyaTests {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
 
         }
+
 }
 
