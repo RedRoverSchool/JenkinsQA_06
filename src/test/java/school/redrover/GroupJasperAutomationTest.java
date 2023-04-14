@@ -105,24 +105,18 @@ public class GroupJasperAutomationTest {
     }
 
     @Test
-    public void testImdb() throws InterruptedException {
+    public void testWHO() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://www.imdb.com/");
+        driver.get("https://www.who.int/en");
+        WebElement linkToGo = driver.findElement(By.xpath("//a[contains(text(), 'Contact us')]"));
+        linkToGo.click();
 
-        WebElement textBox = driver.findElement(By.id("suggestion-search"));
-
-        textBox.sendKeys("Everything Everywhere All At Once");
-        textBox.sendKeys(Keys.RETURN);
-        WebElement link = driver.findElement(By.xpath("//a[contains(text(), 'Всё везде и сразу')]"));
-        link.click();
-
-        Thread.sleep(5000);
-
-        WebElement textBox2 = driver.findElement(By.xpath("//*[@id=\"__next\"]/main/div/section[1]/section/div[3]/section/section/div[2]/div[1]/div"));
-        assertEquals(textBox2.getText(), "Original title: Everything Everywhere All at Once");
+        Thread.sleep(2000);
+        WebElement textBox = driver.findElement(By.xpath("//*[@id=\"PageContent_C038_Col01\"]/div[1]/h2"));
+        assertEquals(textBox.getText(),"General enquiries");
     }
 }
