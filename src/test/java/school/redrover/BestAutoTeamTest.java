@@ -30,7 +30,7 @@ public class BestAutoTeamTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        driver = new ChromeDriver( );
+        driver = new ChromeDriver(chromeOptions);
         driver.manage().deleteAllCookies();
         driver.manage().timeouts().implicitlyWait(IMPLICITLYWAIT,
                 TimeUnit.SECONDS);
