@@ -130,41 +130,28 @@ public class GroupOlesyaTests {
 
     @Test
     public void standardUserLoginTest() {
-        standardUserLogin();
+        loginToSite(LOGIN);
 
         Assert.assertEquals(driver.getCurrentUrl(), MAIN_PAGE);
-        driver.quit();
     }
 
-    @Test
+    @Test(dependsOnMethods = "standardUserLoginTest")
     public void nsergeevaTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(MAIN_PAGE);
-        WebElement username = driver.findElement(By.name("user-name"));
-        WebElement password = driver.findElement(By.name("password"));
-        WebElement loginButton = driver.findElement(By.name("login-button"));
-
-        username.sendKeys("standard_user");
-        password.sendKeys("secret_sauce");
-        loginButton.click();
-
-        WebElement addtocartButton = driver.findElement(By.xpath("//*[@id=\"add-to-cart-sauce-labs-backpack\"]"));
+        WebElement addtocartButton = driver.findElement(By.xpath("//*[@id='add-to-cart-sauce-labs-backpack']"));
         addtocartButton.click();
 
-        WebElement removeButton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-backpack\"]"));
+        WebElement removeButton = driver.findElement(By.xpath("//*[@id='remove-sauce-labs-backpack']"));
         Assert.assertEquals(removeButton.getText(), "Remove");
 
-        WebElement cartbutton = driver.findElement(By.xpath("//*[@id=\"shopping_cart_container\"]/a"));
+        WebElement cartbutton = driver.findElement(By.xpath("//*[@id='shopping_cart_container']/a"));
         cartbutton.click();
         Assert.assertEquals(driver.getTitle(), "Swag Labs");
 
-        WebElement cartQuantity = driver.findElement(By.xpath("//*[@class=\"cart_quantity\"]"));
+        WebElement cartQuantity = driver.findElement(By.xpath("//*[@class='cart_quantity']"));
 
-        WebElement cartremovebutton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-backpack\"]"));
+        WebElement cartremovebutton = driver.findElement(By.xpath("//*[@id='remove-sauce-labs-backpack']"));
         cartremovebutton.click();
-        Assert.assertTrue(driver.findElements(By.xpath("//*[@id=\"remove-sauce-labs-backpack\"]")).isEmpty());
+        Assert.assertTrue(driver.findElements(By.xpath("//*[@id='remove-sauce-labs-backpack']")).isEmpty());
 
         driver.quit();
     }
@@ -289,6 +276,7 @@ public class GroupOlesyaTests {
         driver.quit();
     }
 
+    @Test
     public void test9ContinueShopping() {
         loginToSite(LOGIN);
 
