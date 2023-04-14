@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 public class GroupJasperAutomationTest {
     @Test
     public void footballua() throws InterruptedException {
@@ -31,7 +33,7 @@ public class GroupJasperAutomationTest {
 
 
         WebElement text = driver.findElement(By.linkText("Реал Мадрид"));
-        Assert.assertEquals(text.getText(), "Реал Мадрид");
+        assertEquals(text.getText(), "Реал Мадрид");
 
         driver.quit();
     }
@@ -46,7 +48,7 @@ public class GroupJasperAutomationTest {
         Thread.sleep(3000);
 
         String title = driver.getTitle();
-        Assert.assertEquals(title, "Football.ua - Новости футбола - Футбол онлайн - Результаты матчей, трансляции — football.ua");
+        assertEquals(title, "Football.ua - Новости футбола - Футбол онлайн - Результаты матчей, трансляции — football.ua");
 
         driver.quit();
     }
@@ -66,7 +68,7 @@ public class GroupJasperAutomationTest {
         Thread.sleep(2000);
 
         WebElement element = driver.findElement(By.xpath("//*[text()='Search Articles']"));
-        Assert.assertEquals(element.getText(), "Search Articles");
+        assertEquals(element.getText(), "Search Articles");
 
         driver.quit();
     }
@@ -83,7 +85,7 @@ public class GroupJasperAutomationTest {
         WebElement textLink = driver.findElement(By.xpath("//a[contains(text(), 'Відділення')]"));
         textLink.click();
 
-        Assert.assertEquals(driver.getCurrentUrl(), "https://privatbank.ua/map");
+        assertEquals(driver.getCurrentUrl(), "https://privatbank.ua/map");
 
         driver.quit();
     }
@@ -97,7 +99,7 @@ public class GroupJasperAutomationTest {
         driver.get("https://gorodok.ua/");
         Thread.sleep(5000);
         WebElement name = driver.findElement(By.xpath("//*[@id=\"masthead\"]/div[1]/div[4]/ul/li[3]/div/a[2]/span"));
-        Assert.assertEquals(name.getText(), "CONTACTS");
+        assertEquals(name.getText(), "CONTACTS");
         driver.quit();
 
     }
@@ -112,7 +114,7 @@ public class GroupJasperAutomationTest {
         driver.get("https://metanit.com/");
         Thread.sleep(5000);
         WebElement name = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/header[1]/div[3]/ul[1]/li[3]/a[1]"));
-        Assert.assertEquals(name.getText(), "JAVA");
+        assertEquals(name.getText(), "JAVA");
         driver.quit();
 
     }
@@ -133,7 +135,7 @@ public class GroupJasperAutomationTest {
 
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
-        Assert.assertEquals(value, "Received!");
+        assertEquals(value, "Received!");
 
         driver.quit();
     }
