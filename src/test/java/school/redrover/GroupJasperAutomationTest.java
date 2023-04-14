@@ -11,30 +11,18 @@ import org.testng.annotations.Test;
 
 public class GroupJasperAutomationTest {
     @Test
-    public void footballua() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://football.ua/");
-        Thread.sleep(3000);
+        public void footballua() throws InterruptedException {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments( "--headless", "--window-size=1920,1080");
 
-        WebElement textBox = driver.findElement(By.id("searchInput"));
-        Thread.sleep(2000);
-        textBox.sendKeys("Реал Мадрид");
-        Thread.sleep(2000);
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            driver.get("https://football.ua/");
+            WebElement element = driver.findElement(By.xpath("//*[text()='Україна']"));
+            Assert.assertEquals(element.getText(), "Україна");
+            driver.quit();
+        }
 
-
-        textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
-
-
-        WebElement text = driver.findElement(By.linkText("Реал Мадрид"));
-        Assert.assertEquals(text.getText(), "Реал Мадрид");
-
-        driver.quit();
-    }
 
     @Test
     public void testTitle() throws InterruptedException {

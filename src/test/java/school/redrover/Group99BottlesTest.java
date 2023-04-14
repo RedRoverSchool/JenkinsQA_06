@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import org.testng.annotations.Ignore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -229,6 +229,27 @@ public class Group99BottlesTest {
             stringList.add(element.getText());
         }
         return stringList;
+    }
+
+    @Test
+    public void testH1Text_WhenChooseLevelLanguage() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.w3schools.com/");
+
+        driver.findElement(By.xpath("//a[@href = 'where_to_start.asp']")).click();
+
+        Thread.sleep(3000);
+
+        WebElement text = driver.findElement(By.xpath("//h1[text() = 'Where To Start']"));
+
+        Assert.assertEquals(text.getText(), "Where To Start");
+
+        driver.quit();
     }
 
     @Ignore
