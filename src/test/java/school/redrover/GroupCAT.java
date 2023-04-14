@@ -95,9 +95,14 @@ public class GroupCAT {
     }
 
     @Test
-    public void openToyotaHomePage_TC_001(){
-        WebDriver driver = new ChromeDriver();
+    public void openToyotaHomePage_TC_001() throws InterruptedException{
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.toyota.com/");
+        Thread.sleep(3000);
 
         WebElement logoElement = driver.findElement(By.cssSelector("a.logo"));
         Assert.assertEquals(true, logoElement.isDisplayed());
@@ -106,9 +111,15 @@ public class GroupCAT {
     }
 
     @Test
-    public void verifyVehiclesPointMenu_TC_002(){
-        WebDriver driver = new ChromeDriver();
+    public void verifyVehiclesPointMenu_TC_002() throws InterruptedException{
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.toyota.com/");
+
+        Thread.sleep(3000);
 
         WebElement vehiclesPointMenu = driver.findElement(By.xpath("//button[@data-aa-link-type-title]"));
         Assert.assertEquals(vehiclesPointMenu.getText(), "Vehicles" );
@@ -117,9 +128,15 @@ public class GroupCAT {
         driver.quit();
     }
     @Test
-    public void verifyShoppingToolsPointMenu_TC_003(){
-        WebDriver driver = new ChromeDriver();
+    public void verifyShoppingToolsPointMenu_TC_003() throws InterruptedException{
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.toyota.com/");
+
+        Thread.sleep(3000);
 
         WebElement shoppingToolsPointMenu = driver.findElement(By.xpath("//button[@class = 'main-nav-link main-nav-link shopping-tools']"));
         Assert.assertEquals(shoppingToolsPointMenu.getText(), "Shopping Tools" );
@@ -128,9 +145,14 @@ public class GroupCAT {
     }
 
     @Test
-    public void verifyShoppingToolsPointMenu_TC_004(){
-        WebDriver driver = new ChromeDriver();
+    public void verifyShoppingToolsPointMenu_TC_004() throws InterruptedException{
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.toyota.com/");
+
+        Thread.sleep(3000);
 
         WebElement ownersPointMenu = driver.findElement(By.xpath("//button[@class = 'main-nav-link main-nav-link owners']"));
         Assert.assertEquals(ownersPointMenu.getText(), "Owners" );
@@ -139,9 +161,15 @@ public class GroupCAT {
     }
 
     @Test
-    public void verifyShoppingToolsPointMenu_TC_005(){
-        WebDriver driver = new ChromeDriver();
+    public void verifyShoppingToolsPointMenu_TC_005() throws InterruptedException{
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.toyota.com/");
+
+        Thread.sleep(3000);
 
         WebElement searchInventoryPointMenu = driver.findElement(By.xpath("//a[@class = 'main-nav-link search-inventory']"));
         Assert.assertEquals(searchInventoryPointMenu.getText(), "Search Inventory" );
