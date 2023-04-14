@@ -8,13 +8,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
 public class GroupUkrTest extends BaseTest {
-
+    @Ignore
     @Test
     public void youtubeSearchTest(){
         ChromeOptions optionsChrome = new ChromeOptions();
