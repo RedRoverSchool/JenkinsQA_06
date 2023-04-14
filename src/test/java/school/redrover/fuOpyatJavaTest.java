@@ -10,9 +10,9 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class FuOpyatJavaTests {
+public class fuOpyatJavaTest {
     @Test
-    public void firstAttempt001() throws InterruptedException {
+    public void testFirstAttempt001() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
