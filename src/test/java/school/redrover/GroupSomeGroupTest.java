@@ -21,12 +21,12 @@ public class GroupSomeGroupTest {
 
     @BeforeTest
     public void init() {
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         driver = new ChromeDriver(chromeOptions);
         wait=new WebDriverWait(driver, Duration.ofSeconds(2));
     }
+
     @AfterTest
     public void end() {
         driver.quit();
@@ -41,6 +41,27 @@ public class GroupSomeGroupTest {
                 By.xpath("//p[contains(text(), 'Email')]/strong"));
 
         Assert.assertEquals(email.getText(), "askomdch@gmail.com");
+    }
+
+    @Test
+    public void testVerifyTitle() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("http://w3schools.com");
+
+        WebElement textBox = driver.findElement(By.id("search2"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("JS");
+        submitButton.click();
+
+        driver.manage().window().maximize();
+        String title = driver.getTitle();
+
+        Assert.assertEquals(title, "JavaScript Tutorial");
+        driver.quit();
     }
 
     @Test

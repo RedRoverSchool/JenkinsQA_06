@@ -55,4 +55,41 @@ public class GroupILoveBugsTest {
 
         driver.quit();
     }
+    @Test
+    public void swagLabsTest() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.saucedemo.com/");
+
+
+        WebElement nameInput = driver.findElement(By.xpath("//*[@placeholder = 'Username']"));
+        nameInput.sendKeys("standard_user");
+
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        passwordInput.sendKeys("secret_sauce");
+
+        WebElement loginButton = driver.findElement(By.name("login-button"));
+        loginButton.click();
+
+        WebElement firstItem = driver.findElement(By.xpath("//*[text() = 'Sauce Labs Backpack']"));
+        String firstItemName = firstItem.getText();
+
+        Assert.assertEquals(firstItemName, "Sauce Labs Backpack", "First Item is not Sauce Labs Backpack");
+
+        WebElement addToCartButton = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
+        addToCartButton.click();
+
+        WebElement cartButton = driver.findElement(By.className("shopping_cart_link"));
+        cartButton.click();
+
+        WebElement cartItem = driver.findElement(By.className("inventory_item_name"));
+        String cartItemName = cartItem.getText();
+
+        Assert.assertEquals(cartItemName, "Sauce Labs Backpack");
+
+        driver.quit();
+    }
 }
