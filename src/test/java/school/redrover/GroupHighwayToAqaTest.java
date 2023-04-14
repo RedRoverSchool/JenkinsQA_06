@@ -127,10 +127,9 @@ public class GroupHighwayToAqaTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://magento.softwaretestingboard.com/");
+        driver.get(BASE_URL);
 
-        String title = driver.getTitle();
-        Assert.assertEquals("Home Page", title);
+        Assert.assertEquals(driver.getTitle(), "Home Page");
 
         driver.quit();
     }
@@ -416,6 +415,26 @@ public class GroupHighwayToAqaTest {
 
         // Checking 24 items are shown on page as has been selected in the "show per page" block
         Assert.assertEquals(listOfItemsShownOnPage24.size(), Integer.parseInt(expectedNumberOfItems24_.getText()));
+
+        driver.quit();
+    }
+
+    @Test
+    public void testBlockPromo() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get(BASE_URL);
+
+        WebElement blockPromo = driver.findElement(By.xpath("//span[@class='action more button']"));
+        blockPromo.click();
+
+        String title = driver.findElement(By.xpath("//span[@class='base']")).getText();
+
+        Assert.assertEquals(title, "New Luma Yoga Collection");
 
         driver.quit();
     }
