@@ -99,6 +99,18 @@ public class BestAutoTeamTest {
         Assert.assertEquals(element.getAttribute("value"), "10");
     }
 
+
+    @Test
+    public void clickBlogLink()throws InterruptedException {
+        driver.get("https://monkkee.com/en");
+        WebElement blogLink = driver.findElement(By.xpath("//div[@class='col-sm-4'][2]//ul//li[2]"));
+        blogLink.click();
+        List<WebElement> articles;
+        articles = driver.findElements(By.xpath("//h2[@class='blog__heading']"));
+        int countOfArticles = articles.size();
+        Assert.assertEquals(countOfArticles, 27, "Count is different");
+    }
+
     @Test
     public void findBlogLink()throws InterruptedException{
         driver.get("https://monkkee.com/en");
@@ -107,17 +119,7 @@ public class BestAutoTeamTest {
         Assert.assertEquals(blogLink.getText(),"Blog", "Link is not found");
     }
 
-    @Test
-    public void clickBlogLink()throws InterruptedException{
-        driver.get("https://monkkee.com/en");
-        WebElement blogLink = driver.findElement(By.xpath("//div[@class='col-sm-4'][2]//ul//li[2]"));
-        blogLink.click();
-        List<WebElement> articles;
-        articles=  driver.findElements(By.xpath("//h2[@class='blog__heading']"));
-        int countOfArticles=articles.size();
-        Assert.assertEquals(countOfArticles,27, "Count is different");
 
 
     }
-}
 
