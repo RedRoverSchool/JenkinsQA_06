@@ -17,7 +17,7 @@ public class VitaliiPlTest {
     @Test
     public void steamHomePageTest() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*",
+        chromeOptions.addArguments("--remote-allow-origins=*", "--lang=ru",
                 "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -29,13 +29,13 @@ public class VitaliiPlTest {
                 (By.className("global_action_link")));
         signIn.click();
 
-        Thread.sleep(10000);
+
         WebElement loginText = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[contains(@class, 'newlogindialog_PrimaryHeader_39uMK') and contains(text(), 'Войти')]")));
 
         Assert.assertEquals(loginText.getText(), "ВОЙТИ");
 
-        Thread.sleep(10000);
+
         WebElement inputLogin = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[text()='Войти, используя имя аккаунта']/following-sibling::input")));
         inputLogin.sendKeys("login");
@@ -45,7 +45,7 @@ public class VitaliiPlTest {
                 (By.xpath("//div[@class='newlogindialog_SignInButtonContainer_14fsn']/child::button")));
         subbmit.click();
 
-        Thread.sleep(10000);
+
         WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[contains(@class,'newlogindialog_FormError') and contains(text(), 'Пожалуйста, проверьте свой пароль и имя аккаунта и попробуйте снова.')]")));
 
