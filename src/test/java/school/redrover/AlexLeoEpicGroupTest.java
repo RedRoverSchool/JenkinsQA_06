@@ -214,11 +214,13 @@ public class AlexLeoEpicGroupTest {
     }
 
     @Test
-    public void Test_TC_001_33() {
+    public void verifySaleIconIsDisplayedTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
         try {
             driver.get("https://askomdch.com/");
             WebElement featuredProducts = driver
@@ -230,8 +232,10 @@ public class AlexLeoEpicGroupTest {
                 assertTrue(saleProduct.findElement(By.cssSelector("span.onsale"))
                         .isDisplayed(), "Sale icon not found on a sale product: " + saleProduct.getText());
             }
+
         } catch (Exception e) {
             fail("An exception occurred: " + e.getMessage());
+
         } finally {
             driver.quit();
         }
