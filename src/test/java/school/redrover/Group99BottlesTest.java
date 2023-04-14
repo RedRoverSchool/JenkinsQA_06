@@ -8,12 +8,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.annotations.Ignore;
+import school.redrover.runner.BaseTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Group99BottlesTest {
+public class Group99BottlesTest extends BaseTest {
 
     @Test
     public void testTitleBasePage() {
@@ -307,5 +308,21 @@ public class Group99BottlesTest {
         Assert.assertEquals(driver.findElement(By.xpath("//tr/td[2]")).getText(), productName);
 
         driver.quit();
+    }
+
+    @Test
+    public void testJPetStoreAddDogToCart() {
+        getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
+
+        getDriver().findElement(By.xpath("//div[@id='SidebarContent']/a[2]")).click();
+        getDriver().findElement(By.xpath("//div[@id='Catalog']/table/tbody/tr[3]/td/a")).click();
+        getDriver().findElement(By.xpath("//a[@class='Button']")).click();
+
+        List<String> textCartItems = new ArrayList<>();
+        List<WebElement> cartItems = getDriver().findElements(By.xpath("//td"));
+        for (WebElement element : cartItems) {
+            textCartItems.add(element.getText());
+        }
+        Assert.assertTrue(textCartItems.contains("K9-PO-02"));
     }
 }

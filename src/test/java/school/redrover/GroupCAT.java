@@ -2,6 +2,7 @@ package school.redrover;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,11 +16,19 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GroupCAT {
 
     @FindBy(xpath = "//a[@class='btn btn-secondary m-1']")
     public WebElement buttonDocumentation;
+    @FindBy(xpath = "//div[@class='supporters']//li")
+    public List<WebElement> supporters;
+
+    @FindBy(xpath = "//div[@class='supporters']")
+    public WebElement containerOfSupporters;
 
     public final static String BASE_URL = "https://www.jenkins.io/";
 
@@ -74,7 +83,28 @@ public class GroupCAT {
         verifyElementIsClickable(buttonDocumentation).click();
 
     }
+    public void scrollByElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", element);
+    }
 
+    public int getListSize(List<WebElement> elements){
+        return elements.size();
+    }
+
+    public String getText(WebElement element){
+        return element.getText();
+    }
+
+    public List<String> getNamesOfSupporters(List<WebElement> elements) {
+        List<String> texts = new ArrayList<>();
+
+        for (WebElement element : elements) {
+            texts.add(getText(element));
+        }
+
+        return texts;
+    }
     @Test
     public void textVerification() {
 
@@ -171,6 +201,39 @@ public class GroupCAT {
         String actualTitle = driver.getTitle();
 
         Assert.assertEquals(actualTitle, expectedTitle);
+
+        driver.quit();
+    }
+    @Test
+    public void testSizeSupporters(){
+        final int expectedSizeOfSupporters = 12;
+
+        getBaseUrl();
+
+        scrollByElement(containerOfSupporters);
+        getWait10();
+
+        int actualSizeOfSupporters = getListSize(supporters);
+        getWait10();
+
+        Assert.assertEquals(actualSizeOfSupporters, expectedSizeOfSupporters);
+        driver.quit();
+    }
+
+    @Test
+    public void testNamesOfSupporters(){
+        final List<String> expectedNamesOfSupporters = Arrays.asList("Atlassian", "Datadog", "DigitalOcean",
+                "Discourse", "Fastly",
+                "IBM", "Netlify", "PagerDuty", "Sentry", "SpinUp", "Tsinghua University", "XMission");
+
+        getBaseUrl();
+
+        scrollByElement(containerOfSupporters);
+        getWait10();
+
+        List<String> actualNamesOfSupporters = getNamesOfSupporters(supporters);
+
+        Assert.assertEquals(actualNamesOfSupporters, expectedNamesOfSupporters);
 
         driver.quit();
     }
