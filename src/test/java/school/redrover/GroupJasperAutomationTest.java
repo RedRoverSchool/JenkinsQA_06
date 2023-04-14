@@ -9,32 +9,22 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 public class GroupJasperAutomationTest {
     @Test
-    public void footballua() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://football.ua/");
-        Thread.sleep(3000);
+        public void footballua() throws InterruptedException {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments( "--headless", "--window-size=1920,1080");
 
-        WebElement textBox = driver.findElement(By.id("searchInput"));
-        Thread.sleep(2000);
-        textBox.sendKeys("Реал Мадрид");
-        Thread.sleep(2000);
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            driver.get("https://football.ua/");
+            WebElement element = driver.findElement(By.xpath("//*[text()='Україна']"));
+            Assert.assertEquals(element.getText(), "Україна");
+            driver.quit();
+        }
 
-
-        textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
-
-
-        WebElement text = driver.findElement(By.linkText("Реал Мадрид"));
-        Assert.assertEquals(text.getText(), "Реал Мадрид");
-
-        driver.quit();
-    }
 
     @Test
     public void testTitle() throws InterruptedException {
@@ -100,5 +90,42 @@ public class GroupJasperAutomationTest {
         Assert.assertEquals(name.getText(), "CONTACTS");
         driver.quit();
 
+    }
+
+    @Test
+    public void testOlgaMinina() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        WebElement textBox = driver.findElement(By.name("my-text"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("Selenium");
+        submitButton.click();
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        Assert.assertEquals(value, "Received!");
+
+        driver.quit();
+    }
+
+    @Test
+    public void testWHO() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://www.who.int/en");
+        WebElement linkToGo = driver.findElement(By.xpath("//a[contains(text(), 'Contact us')]"));
+        linkToGo.click();
+
+        Thread.sleep(2000);
+        WebElement textBox = driver.findElement(By.xpath("//*[@id=\"PageContent_C038_Col01\"]/div[1]/h2"));
+        assertEquals(textBox.getText(),"General enquiries");
     }
 }
