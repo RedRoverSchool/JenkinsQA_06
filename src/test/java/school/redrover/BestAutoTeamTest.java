@@ -11,8 +11,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import org.testng.annotations.Ignore;
 
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BestAutoTeamTest {
@@ -21,6 +22,7 @@ public class BestAutoTeamTest {
     public static final long SCRIPTRUMTIMEOUT = 15;
 
     protected WebDriver driver;
+
     @Ignore
     @BeforeTest
     public void beforeTest() throws InterruptedException {
@@ -36,11 +38,13 @@ public class BestAutoTeamTest {
         driver.manage().timeouts().setScriptTimeout(SCRIPTRUMTIMEOUT,
                 TimeUnit.SECONDS);
     }
+
     @Ignore
     @AfterTest
     public void afterTest() throws InterruptedException {
         driver.quit();
     }
+
     @Ignore
     @Test
     public void testFirst() throws InterruptedException {
@@ -57,6 +61,7 @@ public class BestAutoTeamTest {
         Assert.assertEquals(text.getText(), "Selenium");
 
     }
+
     @Ignore
     @Test
     public void testLoginButton() throws InterruptedException {
@@ -83,6 +88,8 @@ public class BestAutoTeamTest {
 
         Assert.assertEquals(element.getAttribute("value"), "5");
     }
+
+
     @Test
     public void testDonation10EurButton() throws InterruptedException {
 
@@ -94,6 +101,43 @@ public class BestAutoTeamTest {
         WebElement element = driver.findElement(By.xpath("//*[@class='form-control home__donation-form-amount-input']"));
 
         Assert.assertEquals(element.getAttribute("value"), "10");
+    }
+
+    @Test
+    public void findLinkOfBlog() throws InterruptedException {
+
+        driver.get("https://monkkee.com/en");
+        WebElement link = driver.findElement(By.xpath("//div[@class='col-sm-4'][2]//ul//li[2]"));
+        Assert.assertEquals(link.getText(), "Blog", "Link is not found");
+    }
+
+    @Test
+    public void countOgArticles() throws InterruptedException {
+
+        driver.get("https://monkkee.com/en");
+        WebElement link = driver.findElement(By.xpath("//div[@class='col-sm-4'][2]//ul//li[2]"));
+        link.click();
+        WebElement article = driver.findElement(By.xpath("//h2[@class='blog__heading']"));
+        List<WebElement> articles = driver.findElements(By.xpath("//h2[@class='blog__heading']"));
+        int countOfArticles = articles.size();
+        Assert.assertEquals(countOfArticles, 27, "Count is different");
+    }
+
+    @Test
+    public void clickSupportLink() throws InterruptedException {
+
+        driver.get("https://monkkee.com/en");
+        WebElement link = driver.findElement(By.xpath("//div[@class='col-sm-4'][1]//ul//li[2]"));
+        link.click();
+        WebElement knowlegeLink= driver.findElement(By.xpath("//h3//a"));
+        knowlegeLink.click();
+        WebElement firstLanguage=driver.findElement(By.xpath("//span//a[1]"));
+        List<WebElement> languages=driver.findElements(By.xpath("//span//a"));
+        String actualFirstLanguage=languages.get(0).getText();
+        String expectedFirstLanguage=firstLanguage.getText();
+        Assert.assertEquals(actualFirstLanguage,expectedFirstLanguage,"There are different languages");
+
+
     }
 }
 
