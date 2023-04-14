@@ -11,10 +11,6 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class CaramelSurupForJavaTest {
-
-
-
-
     @Test
     public void openWeatherMapGridContainerTest() throws InterruptedException {
 
