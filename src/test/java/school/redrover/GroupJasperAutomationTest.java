@@ -153,7 +153,7 @@ public class GroupJasperAutomationTest {
         WebElement nitro = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='link-1naFFL link-2eyudH' and @href='/nitro']")));
         nitro.click();
 
-        WebElement droplist1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@class='arrowIcon-3hG4PK']")));
+        WebElement droplist1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='selector-language-name']")));
         droplist1.click();
         WebElement choseLeng1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'dropdown-language-name')  and contains(text(), 'English (UK)')]")));
         choseLeng1.click();
