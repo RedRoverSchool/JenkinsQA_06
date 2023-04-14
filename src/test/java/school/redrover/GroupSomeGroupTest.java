@@ -28,5 +28,23 @@ public class GroupSomeGroupTest {
         driver.quit();
     }
 
+    @Test
+    public void testVerifyTitle() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("http://w3schools.com");
+
+        WebElement textBox = driver.findElement(By.id("search2"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("JS");
+        submitButton.click();
+
+        driver.manage().window().maximize();
+        String title = driver.getTitle();
+
+        Assert.assertEquals(title, "JavaScript Tutorial");
+    }
 }
