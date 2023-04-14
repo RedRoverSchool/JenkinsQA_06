@@ -158,8 +158,8 @@ public class GroupOlesyaTests {
         WebElement removeButton = driver.findElement(By.xpath("//*[@id=\"remove-sauce-labs-backpack\"]"));
         Assert.assertEquals(removeButton.getText(), "Remove");
 
-        WebElement cartbutton = driver.findElement(By.xpath("//*[@id=\"shopping_cart_container\"]/a"));
-        cartbutton.click();
+        WebElement cartButton = driver.findElement(By.xpath("//*[@id=\"shopping_cart_container\"]/a"));
+        cartButton.click();
         Assert.assertEquals(driver.getTitle(), "Swag Labs");
 
         WebElement cartQuantity = driver.findElement(By.xpath("//*[@class=\"cart_quantity\"]"));
