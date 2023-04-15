@@ -146,7 +146,6 @@ public class GroupAndreyTest extends BaseTest {
         }
 
         assertEquals(expected, 1);
-
     }
 
     @Test
