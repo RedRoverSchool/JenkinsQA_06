@@ -460,5 +460,28 @@ public class GroupOlesyaTests extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/");
     }
+
+    @Test
+    public void resetAppStateTest() {
+        loginToSite(LOGIN);
+
+        choiceItem("add-to-cart-sauce-labs-backpack");
+
+        getDriver().findElement(By.className("shopping_cart_badge")).click();
+
+        getDriver().findElement(By.id("react-burger-menu-btn")).click();
+
+        WebElement resetSidebarLink = getDriver().findElement(By.id("reset_sidebar_link"));
+        getWait().until(ExpectedConditions.visibilityOf(resetSidebarLink));
+        resetSidebarLink.click();
+
+        shoppingCart();
+
+        WebElement cartListAfterRemove = getDriver().findElement(By.className("cart_list"));
+        List<WebElement> cartItemsAfterRemove = cartListAfterRemove.findElements(By.className("cart_item"));
+
+        Assert.assertTrue(cartItemsAfterRemove.isEmpty());
+
+    }
 }
 
