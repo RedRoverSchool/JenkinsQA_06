@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class GroupGlukhovaTest {
-
     @Test
     public void logInTest(){
         ChromeOptions chromeOptions = new ChromeOptions();
