@@ -127,7 +127,7 @@ public class GroupAndreyTest extends BaseTest {
     public void testAndreyGuideTitle() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
 
-        Thread.sleep(3500);
+        Thread.sleep(5000);
 
         WebElement button = getDriver().findElement(By.xpath("//*[@id=\"desktop-menu\"]/ul/li[1]/a"));
         button.click();
