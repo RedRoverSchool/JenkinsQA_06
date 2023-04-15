@@ -143,7 +143,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(got.getText(), "Thanks for submitting the form");
     }
 
-    @Ignore
+
     @Test
     public void testAboutDoctorsFind() throws InterruptedException {
         getDriver().get("https://prodoctorov.ru/");
@@ -161,8 +161,12 @@ public class GroupJavaJitsuTest extends BaseTest {
         Thread.sleep(2000);
 
 //      WebElement inputElement = driver.findElement(By.className("text-field__input"));
-        getDriver().findElement(By.xpath("//div[@class = 'text-field base-search__input'")).click();
-        getDriver().findElement(By.xpath("//div[@class = 'text-field base-search__input']/div[1]/div[1]/input[1]")).sendKeys("Ницакова Марина Петровна");
+//      WebElement inputElement = getDriver().findElement(By.xpath("//div[@class = 'text-field base-search__input'")).click();
+//      getDriver().findElement(By.xpath("//div[@class = 'text-field base-search__input']/div[1]/div[1]/input[1]")).sendKeys("Ницакова Марина Петровна");
+
+        WebElement inputElement = getDriver().findElement(By.xpath("//input[@placeholder = 'Врачи, клиники, услуги']"));
+        Thread.sleep(2000);
+        inputElement.sendKeys("Ницакова Марина Петровна");
         WebElement submitButton = getDriver().findElement(By.className("base-search__button"));
         submitButton.click();
         WebElement link = getDriver().findElement(By.className("b-card__name-link"));
