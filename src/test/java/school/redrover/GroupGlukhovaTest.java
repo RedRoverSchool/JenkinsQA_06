@@ -9,6 +9,7 @@ import school.redrover.runner.BaseTest;
 import java.time.Duration;
 
 public class GroupGlukhovaTest extends BaseTest {
+
     @Test
     public void testLogIn(){
         getDriver().get("https://www.demoblaze.com/");
