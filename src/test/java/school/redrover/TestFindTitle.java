@@ -8,17 +8,16 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class NumTest {
+public class TestFindTitle {
 
     @Test
-    public  void wikiTest() /*throws InterruptedException */{
+    public  void testWiki() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(2000));
         driver.get("https://wikipedia.org");
-        //Thread.sleep(2000);
+
         Assert.assertEquals(driver.getTitle(),"Wikipedia");
         driver.quit();
     }
