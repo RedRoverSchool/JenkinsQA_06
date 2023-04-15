@@ -79,12 +79,12 @@ public class GroupForwardTest {
 
         driver.quit();
     }
-    
+
     @Test
     public void SauceDemoLoginSuccessTest() {
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080");
+        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(options);
         String link = "https://www.saucedemo.com/";
@@ -126,8 +126,26 @@ public class GroupForwardTest {
           String value = message.getText();
           assertEquals("Received!", value);
 
-          driver.quit();
+        driver.quit();
       }
 
+    @Test
+    public void testSearchIplayAmerica()  {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.google.com/");
+
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.sendKeys("i play america");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//h3[contains(text(),\"Home - iPlay America - NJ's Premier Indoor Amuseme\")]"));
+
+        assertEquals(text.getText(), "Home - iPlay America - NJ's Premier Indoor Amusement Park");
+
+        driver.quit();
+    }
 }
 
