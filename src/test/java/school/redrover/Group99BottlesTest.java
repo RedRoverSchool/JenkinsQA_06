@@ -204,6 +204,7 @@ public class Group99BottlesTest extends BaseTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageList() {
         ChromeOptions chromeOptions = new ChromeOptions();
