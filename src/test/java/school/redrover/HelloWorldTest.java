@@ -21,7 +21,6 @@ public class HelloWorldTest extends BaseTest {
         textBox.sendKeys("Википедия");
         textBox.sendKeys(Keys.RETURN);
         WebElement heading = getDriver().findElement(By.className("mw-page-title-main"));
-
         Assert.assertEquals(heading.getText(), "Википедия");
     }
 
