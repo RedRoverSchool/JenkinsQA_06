@@ -7,11 +7,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import static org.testng.Assert.assertEquals;
 
-public class GroupForwardTest {
+public class GroupForwardTest extends BaseTest {
 
     @Test
     public void testCommonComponents() throws InterruptedException {
@@ -144,6 +146,41 @@ public class GroupForwardTest {
         WebElement text = driver.findElement(By.xpath("//h3[contains(text(),\"Home - iPlay America - NJ's Premier Indoor Amuseme\")]"));
 
         assertEquals(text.getText(), "Home - iPlay America - NJ's Premier Indoor Amusement Park");
+
+        driver.quit();
+    }
+
+
+    @Test
+
+    public void testFirst() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String title = driver.getTitle();
+        assertEquals("Web form", title);
+
+
+        WebElement textBox = driver.findElement(By.cssSelector("#my-text-id"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        Thread.sleep(2000);
+
+        textBox.sendKeys("Selenium");
+
+        Thread.sleep(2000);
+
+        submitButton.click();
+
+        Thread.sleep(2000);
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        assertEquals("Received!", value);
+
+        Thread.sleep(2000);
 
         driver.quit();
     }

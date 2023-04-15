@@ -66,6 +66,10 @@ public class GroupOlesyaTests extends BaseTest {
         getDriver().findElement(By.id("checkout")).click();
     }
 
+    public void reactBurgerMenu(){
+        getDriver().findElement(By.id("react-burger-menu-btn")).click();
+    }
+
     public void fillOutOrderForm(String name, String surname, String postcode){
         getDriver().findElement(By.id("first-name")).sendKeys(name);
         getDriver().findElement(By.id("last-name")).sendKeys(surname);
@@ -203,8 +207,7 @@ public class GroupOlesyaTests extends BaseTest {
         WebElement shopButton = getDriver().findElement(By.className("shopping_cart_link"));
         shopButton.click();
 
-        WebElement burgerMenuLink = getDriver().findElement(By.id("react-burger-menu-btn"));
-        burgerMenuLink.click();
+        reactBurgerMenu();
 
         WebElement allItemsLink = getDriver().findElement(By.id("inventory_sidebar_link"));
         getWait().until(ExpectedConditions.visibilityOf(allItemsLink));
@@ -357,8 +360,7 @@ public class GroupOlesyaTests extends BaseTest {
     public void testLogOut() {
         loginToSite(LOGIN);
 
-        WebElement burgerMenuLink = getDriver().findElement(By.id("react-burger-menu-btn"));
-        burgerMenuLink.click();
+        reactBurgerMenu();
 
         WebElement logOut = getDriver().findElement(By.id("logout_sidebar_link"));
         getWait().until(ExpectedConditions.visibilityOf(logOut));
@@ -416,8 +418,7 @@ public class GroupOlesyaTests extends BaseTest {
         public void testUGLogOut(){
         loginToSite(LOGIN);
 
-        WebElement dropDown = getDriver().findElement(By.id("react-burger-menu-btn"));
-        dropDown.click();
+        reactBurgerMenu();
 
         WebElement logOut = getDriver().findElement(By.id("logout_sidebar_link"));
         getWait().until(ExpectedConditions.visibilityOf(logOut));
@@ -451,14 +452,34 @@ public class GroupOlesyaTests extends BaseTest {
     public void logOutUlTest() {
         loginToSite(LOGIN);
 
-        WebElement dropDown = getDriver().findElement(By.id("react-burger-menu-btn"));
-        dropDown.click();
+        reactBurgerMenu();
 
         WebElement logOut = getDriver().findElement(By.id("logout_sidebar_link"));
         getWait().until(ExpectedConditions.visibilityOf(logOut));
         logOut.click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/");
+    }
+
+    @Test
+    public void resetAppStateTest() {
+        loginToSite(LOGIN);
+
+        choiceItem("add-to-cart-sauce-labs-backpack");
+        getDriver().findElement(By.className("shopping_cart_badge")).click();
+        reactBurgerMenu();
+
+        WebElement resetSidebarLink = getDriver().findElement(By.id("reset_sidebar_link"));
+        getWait().until(ExpectedConditions.visibilityOf(resetSidebarLink));
+        resetSidebarLink.click();
+
+        shoppingCart();
+
+        WebElement cartListAfterRemove = getDriver().findElement(By.className("cart_list"));
+        List<WebElement> cartItemsAfterRemove = cartListAfterRemove.findElements(By.className("cart_item"));
+
+        Assert.assertTrue(cartItemsAfterRemove.isEmpty());
+
     }
 }
 
