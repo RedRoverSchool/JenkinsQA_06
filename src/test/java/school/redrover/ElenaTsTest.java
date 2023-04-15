@@ -16,8 +16,8 @@ public class ElenaTsTest {
         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.ebay.com/");
-       Assert.assertEquals(  driver.getTitle(),"Electronics, Cars, Fashion, Collectibles & More | eBay" );
-       driver.quit();
+        Assert.assertEquals(driver.getTitle(), "Electronics, Cars, Fashion, Collectibles & More | eBay");
+        driver.quit();
     }
 
     @Test
@@ -34,6 +34,7 @@ public class ElenaTsTest {
         Assert.assertEquals(result.getText().substring(0,7), "Samsung");
         driver.quit();
     }
+
     @Test
     public void testReturnToMainPage() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -47,25 +48,59 @@ public class ElenaTsTest {
         siteIcon.click();
         Assert.assertEquals(driver.getCurrentUrl(),"https://www.ebay.com/");
     }
-    @Test
-public void testAddProductToCart() throws InterruptedException {
-ChromeOptions chromeOptions=new ChromeOptions();
-chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-WebDriver driver = new ChromeDriver(chromeOptions);
-driver.get("https://www.bergfreunde.eu/");
-WebElement searchIcon = driver.findElement(By.xpath("//input[@title='Start your search!']"));
-        searchIcon.click();
- WebElement searchField = driver.findElement(By.xpath("//input[@class='searchfield show-for-small-only']"));
-searchField.sendKeys("Bottle");
-searchField.sendKeys(Keys.RETURN);
-WebElement productImg = driver.findElement(By.xpath("(//img[@class='product-image'])[1]"));
-productImg.click();
-WebElement addToCurtButton = driver.findElement(By.xpath("//button[contains(@id,'addToCartButton')]"));
-addToCurtButton.click();
-Thread.sleep(3000);
-WebElement quantityOfProducts = driver.findElement(By.xpath("//td[text()>=1]"));
 
-    Assert.assertEquals(quantityOfProducts.getText(), "1");
-    driver.quit();
+    @Test
+    public void testAddProductToCart() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.bergfreunde.eu/");
+
+        WebElement searchIcon = driver.findElement(By.xpath("//input[@title='Start your search!']"));
+        searchIcon.click();
+
+        WebElement searchField = driver.findElement(By.xpath("//input[@class='searchfield show-for-small-only']"));
+        searchField.sendKeys("Bottle");
+        searchField.sendKeys(Keys.RETURN);
+
+        WebElement productImg = driver.findElement(By.xpath("(//img[@class='product-image'])[1]"));
+        productImg.click();
+
+        WebElement addToCurtButton = driver.findElement(By.xpath("//button[contains(@id,'addToCartButton')]"));
+        addToCurtButton.click();
+
+        Thread.sleep(3000);
+        WebElement quantityOfProducts = driver.findElement(By.xpath("//td[text()>=1]"));
+
+        Assert.assertEquals(quantityOfProducts.getText(), "1");
+        driver.quit();
+    }
+
+    @Test
+    public void testRegistrationWithInvalidEmail(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.bergfreunde.eu/");
+
+        WebElement loginIcon = driver.findElement(By.xpath("//i[@class='icon login']"));
+        loginIcon.click();
+
+        WebElement cookiesButton = driver.findElement(By.id("onetrust-accept-btn-handler"));
+        cookiesButton.click();
+
+        WebElement registrationButton = driver.findElement(By.id("login_create_form_show"));
+        registrationButton.click();
+
+        WebElement registrationEmailField =driver.findElement(By.id("lgn-usr"));
+        registrationEmailField.sendKeys("qw@");
+
+        WebElement registrationPasswordField =driver.findElement(By.id("lgn-pwd"));
+        registrationPasswordField.click();
+
+        WebElement warningMessage = driver.findElement(By.xpath("//p[@id='err-lgn-usr']"));
+        Assert.assertEquals(warningMessage.getText(),"Your email address is incorrect. Please recheck your input");
+        driver.quit();
+    }
 }
-}
+

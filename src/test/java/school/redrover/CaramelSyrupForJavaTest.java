@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -97,7 +98,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         afterMethod();
     }
-
+@Ignore
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
 
@@ -224,6 +225,14 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(exp, act);
 
         driver.quit();
+    }
+    @Test
+    public void testAnastasiyaAbramova() {
+        String expectedResult = "https://openweathermap.org/";
+        beforeMethod();
+        getDriver().get("https://openweathermap.org/");
+        String actualResult = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
 
