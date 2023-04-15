@@ -148,91 +148,59 @@ public class Group99BottlesTest extends BaseTest {
 
     @Test
     public void testTelerikHeaderText() {
+        getDriver().get("https://www.telerik.com/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.telerik.com/");
-
-        WebElement headerH1Text = driver.findElement(
+        WebElement headerH1Text = getDriver().findElement(
                 By.xpath("//div[@id='ContentPlaceholder1_C339_Col00']/h1"));
 
         Assert.assertEquals(headerH1Text.getText(), "Modern UI Made Easy");
-
-        driver.quit();
     }
 
     @Test
     public void testTelerikTitleURLDemosPage() {
+        getDriver().get("https://www.telerik.com/");
+        getDriver().manage().window().maximize();
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.telerik.com/");
-
-        driver.manage().window().maximize();
-
-        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
-
-        Assert.assertEquals(driver.getTitle(), "Telerik Product Demos, Examples and Tutorials for all Telerik products");
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.telerik.com/support/demos");
-
-        driver.quit();
+        Assert.assertEquals(getDriver().getTitle(), "Telerik Product Demos, Examples and Tutorials for all Telerik products");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.telerik.com/support/demos");
     }
 
-    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageArray() {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         String[] expectedResult = {"Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"};
+        getDriver().get("https://www.telerik.com/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().window().maximize();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.telerik.com/");
-
-        driver.manage().window().maximize();
-
-        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+        getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
         String[] actualResult = new String[6];
-        actualResult[0] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][1]")).getText();
-        actualResult[1] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][2]")).getText();
-        actualResult[2] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][3]")).getText();
-        actualResult[3] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][4]")).getText();
-        actualResult[4] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][5]")).getText();
-        actualResult[5] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][6]")).getText();
+        actualResult[0] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][1]")).getText();
+        actualResult[1] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][2]")).getText();
+        actualResult[2] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][3]")).getText();
+        actualResult[3] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][4]")).getText();
+        actualResult[4] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][5]")).getText();
+        actualResult[5] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][6]")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        driver.quit();
     }
 
-    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageList() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         List<String> expectedResult = new ArrayList<>(
                 Arrays.asList("Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"));
+        getDriver().get("https://www.telerik.com/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().window().maximize();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.telerik.com/");
+        getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
-        driver.manage().window().maximize();
-
-        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
-
-        List<WebElement> elementList = driver.findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        List<WebElement> elementList = getDriver().findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
         List<String> actualResult = WebElementToString(elementList);
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        driver.quit();
     }
 
     public static List<String> WebElementToString(List<WebElement> elementList) {
