@@ -15,12 +15,12 @@ import java.time.Duration;
 public class HelloWorldTest extends BaseTest {
 
     @Test
-    public void testOnlinerKurs()  {
-        getDriver().get("https://www.onliner.by/");
-        WebElement kurs = getDriver().findElement(By.xpath("//*[@id='moneyRate']"));
-        kurs.click();
+    public void testOnlinerLogo() {
+        getDriver().get("https://catalog.onliner.by/");
+        WebElement logo = getDriver().findElement(By.className("onliner_logo"));
+        logo.click();
         String url = getDriver().getCurrentUrl();
-        Assert.assertEquals(url, "https://kurs.onliner.by/");
+        Assert.assertEquals(url, "https://www.onliner.by/");
      }
 
     @Test
