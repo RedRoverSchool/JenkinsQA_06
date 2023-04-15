@@ -6,8 +6,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-public class DreamTeamTest {
+public class DreamTeamTest extends BaseTest {
     //First test
     @Test
     public void testSecond() throws InterruptedException {
@@ -35,6 +36,30 @@ public class DreamTeamTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testSendKeysPavelBal() throws InterruptedException {
+
+        final String START_LINK = "http://uitestingplayground.com/";
+        getDriver().get(START_LINK);
+        WebElement textInput = getDriver().findElement(By.cssSelector("[href='/textinput']"));
+        textInput.click();
+        String title = getDriver().getTitle();
+        Thread.sleep(2000);
+        Assert.assertEquals("Text Input", title);
+
+        String myButtonName = "Push me";
+        WebElement button = getDriver().findElement(By.id("updatingButton"));
+        Assert.assertNotEquals(button.getText(), myButtonName);
+
+        WebElement field = getDriver().findElement(By.id("newButtonName"));
+        field.click();
+        field.sendKeys(myButtonName);
+        button.click();
+        Assert.assertEquals(button.getText(), myButtonName);
+
+    }
+
     @Test
     public void testZoom(){
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -55,4 +80,5 @@ public class DreamTeamTest {
         driver.quit();
 
     }
+
 }
