@@ -12,12 +12,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.Base64;
 
 import static org.testng.Assert.assertEquals;
 
-public class GroupJasperAutomationTest {
+public class GroupJasperAutomationTest extends BaseTest {
     @Test
 
         public void footballua() throws InterruptedException {
@@ -85,16 +87,14 @@ public class GroupJasperAutomationTest {
     }
 
     @Test
-    public void getSite() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+    public void testFindContacts() throws InterruptedException {
+        getDriver().get("https://gorodok.ua/");
+        Thread.sleep(3000);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://gorodok.ua/");
-        Thread.sleep(5000);
-        WebElement name = driver.findElement(By.xpath("//*[@id=\"masthead\"]/div[1]/div[4]/ul/li[3]/div/a[2]/span"));
+        WebElement name = getDriver().findElement(By.xpath("//*[@id=\"masthead\"]/div[1]/div[4]/ul/li[3]/div/a[2]/span"));
+
         Assert.assertEquals(name.getText(), "CONTACTS");
-        driver.quit();
+
 
     }
 
