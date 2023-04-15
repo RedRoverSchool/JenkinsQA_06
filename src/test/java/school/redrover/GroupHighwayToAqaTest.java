@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -8,18 +9,25 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.time.Duration;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class GroupHighwayToAqaTest {
 
     private static final String BASE_URL = "https://magento.softwaretestingboard.com/";
+    Faker faker = new Faker();
+    String firstName = faker.name().firstName();
+    String lastName = faker.name().lastName();
+    String email = faker.internet().emailAddress();
+    String password = faker.internet().password(11,12,true,
+            true, true);
+
 
     @Test
-    public void openContactUsPageTest() {
+    public void testOpenContactUsPage() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -104,7 +112,7 @@ public class GroupHighwayToAqaTest {
 
         Thread.sleep(2000);
 
-        WebElement clickHereLink=driver.findElement(
+        WebElement clickHereLink = driver.findElement(
                 By.xpath("//div/a[normalize-space(text())=\"click here\"]")
         );
         clickHereLink.click();
@@ -126,16 +134,15 @@ public class GroupHighwayToAqaTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://magento.softwaretestingboard.com/");
+        driver.get(BASE_URL);
 
-        String title = driver.getTitle();
-        Assert.assertEquals("Home Page", title);
-        
+        Assert.assertEquals(driver.getTitle(), "Home Page");
+
         driver.quit();
     }
 
     @Test
-    public void testNewLinkAR(){
+    public void testNewLinkAR() {
         String expectedPageTitle = "What's New";
 
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -215,7 +222,7 @@ public class GroupHighwayToAqaTest {
 
     @Test
     public void searchItem() throws InterruptedException {
-        ChromeOptions chromeOptions=new ChromeOptions();
+        ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -239,11 +246,11 @@ public class GroupHighwayToAqaTest {
         String value5 = href6.getText();
         assertEquals(value5, "Sale");
         driver.findElement(By.xpath("//div/nav/ul/li [2]")).click();
-        String text= driver.getTitle();
-        assertEquals(text,"Women");
+        String text = driver.getTitle();
+        assertEquals(text, "Women");
         driver.findElement(By.xpath("//html/body/div[1]/div[2]/ul/li[1]/a")).click();
-        String title= driver.getTitle();
-        assertEquals(title,"Home Page");
+        String title = driver.getTitle();
+        assertEquals(title, "Home Page");
         driver.quit();
     }
 
@@ -272,8 +279,8 @@ public class GroupHighwayToAqaTest {
 
     @Test
     public void testNumberOfItemsEqualsProductNumberShownPerPage() throws InterruptedException {
-       ChromeOptions chromeOptions = new ChromeOptions();
-       chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
 
         driver.get(BASE_URL);
@@ -287,13 +294,13 @@ public class GroupHighwayToAqaTest {
                 .moveToElement(jacketsButton).perform();
         jacketsButton.click();
 
-      WebElement expectedNumberOfItems = driver.findElement(By
-              .xpath("//span[@class='toolbar-number'][1]"));
-      List<WebElement> listOfItemsShownOnPage = driver.findElements(By
-              .xpath("//li[@class='item product product-item']"));
+        WebElement expectedNumberOfItems = driver.findElement(By
+                .xpath("//span[@class='toolbar-number'][1]"));
+        List<WebElement> listOfItemsShownOnPage = driver.findElements(By
+                .xpath("//li[@class='item product product-item']"));
 
-      Assert.assertEquals(listOfItemsShownOnPage.size(), Integer.parseInt(expectedNumberOfItems.getText()));
-      driver.quit();
+        Assert.assertEquals(listOfItemsShownOnPage.size(), Integer.parseInt(expectedNumberOfItems.getText()));
+        driver.quit();
     }
 
     @Test
@@ -325,15 +332,149 @@ public class GroupHighwayToAqaTest {
         driver.quit();
 
     }
+
+    @Test
+    public void testSearching() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.sendKeys("watch\n");
+        WebElement searchingResult = driver.findElement(By.className("base"));
+
+        Assert.assertEquals(searchingResult.getText(), "Search results for: 'watch'");
+
+        driver.quit();
+    }
+
+    @Test
+    public void TestYogaShop() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        ChromeDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebElement buttonShopNewYoga = driver.findElement(By
+                .xpath("//a [@class = \"block-promo home-main\"]//span[text()=\"Shop New Yoga\"]"));
+        buttonShopNewYoga.click();
+
+        WebElement searchField = driver.findElement(By.xpath("//input[@id = \"search\"]"));
+        searchField.sendKeys("jacket for men");
+
+        WebElement searchText = driver.findElement(By.xpath("//button[@title=\"Search\"]"));
+        searchText.click();
+
+        List<WebElement> searchResult = driver.findElements(By
+                .xpath("//li[@class =\"item product product-item\"]"));
+
+        String fiveElementText = searchResult.get(5).getText();
+        assertTrue(fiveElementText.contains("Jacket"));
+        searchResult.get(5).click();
+
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertEquals(currentUrl, "https://magento.softwaretestingboard.com/lando-gym-jacket.html");
+
+        driver.quit();
+    }
+
+    @Test
+    public void testNumberOfItemsShownOnPageChanged() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        Actions actions = new Actions(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        driver.get(BASE_URL);
+        Thread.sleep(2000);
+        WebElement womenButton = driver.findElement(By.id("ui-id-4"));
+        WebElement topsButton = driver.findElement(By.id("ui-id-9"));
+
+        actions.moveToElement(womenButton).moveToElement(topsButton).perform();
+        topsButton.click();
+
+        WebElement expectedNumberOfItems12 = driver.findElement(By
+                .xpath("//div[@class ='toolbar toolbar-products'][2]/div[3]/div/select/option[@value='12']"));
+        List<WebElement> listOfItemsShownOnPage12 = driver.findElements(By
+                .xpath("//li[@class='item product product-item']"));
+
+       /* Checking the number of items shown on page equals the number depicted in the "show per page" block
+        in the bottom right corner of the page */
+
+        Assert.assertEquals(listOfItemsShownOnPage12.size(), Integer.parseInt(expectedNumberOfItems12.getText()));
+        expectedNumberOfItems12.click();
+
+        // Selecting number 24 in the "show per page" block so that 24 items to be shown on the page
+
+        WebElement expectedNumberOfItems24 = driver.findElement(By
+                .xpath("//div[@class ='toolbar toolbar-products'][2]/div[3]/div/select/option[@value='24']"));
+        wait.until(ExpectedConditions.elementToBeClickable(expectedNumberOfItems24)).click();
+
+        List<WebElement> listOfItemsShownOnPage24 = driver.findElements(By
+                .xpath("//li[@class='item product product-item']"));
+
+        WebElement expectedNumberOfItems24_ = driver.findElement(By
+                .xpath("//div[@class ='toolbar toolbar-products'][2]/div[3]/div/select/option[@value='24']"));
+
+        // Checking 24 items are shown on page as has been selected in the "show per page" block
+        Assert.assertEquals(listOfItemsShownOnPage24.size(), Integer.parseInt(expectedNumberOfItems24_.getText()));
+
+        driver.quit();
+    }
+
+    @Test
+    public void testBlockPromo() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get(BASE_URL);
+
+        WebElement blockPromo = driver.findElement(By.xpath("//span[@class='action more button']"));
+        blockPromo.click();
+       Thread.sleep(2000);
+        String title = driver.findElement(By.xpath("//span[@class='base']")).getText();
+
+        Assert.assertEquals(title, "New Luma Yoga Collection");
+
+        driver.quit();
+    }
+
+    @Test
+    public void CreateAnAccountWithFacker() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebElement href = driver.findElement(By.linkText("Create an Account"));
+        href.click();
+        String value = driver.getTitle();
+
+        Assert.assertEquals(value, "Create New Customer Account");
+        Thread.sleep(2000);
+        driver.findElement(By.id("firstname")).sendKeys(firstName);
+        driver.findElement(By.id("lastname")).sendKeys(lastName);
+        driver.findElement(By.id("email_address")).sendKeys(email);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("password-confirmation")).sendKeys(password);
+        WebElement button = driver.findElement(By.xpath("//form[@id='form-validate']//button/span[text()='Create an Account']"));
+        button.click();
+        Thread.sleep(2000);
+        WebElement title = driver.findElement(By.xpath("//div[@class='message-success success message']"));;
+        String value1 =title.getText();
+
+        Assert.assertEquals(value1, "Thank you for registering with Main Website Store.");
+        System.out.println(password);
+
+        driver.quit();
+    }
 }
-
-
-
-
-
-
-
-
-
 
 
