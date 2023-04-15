@@ -91,7 +91,7 @@ public class GroupJasperAutomationTest extends BaseTest {
         getDriver().get("https://gorodok.ua/");
         Thread.sleep(3000);
 
-        WebElement name = getDriver().findElement(By.xpath("//*[@id=\"masthead\"]/div[1]/div[4]/ul/li[3]/div/a[2]/span"));
+        WebElement name = getDriver().findElement(By.xpath("//*[@class='button primary is-outline is-small']"));
 
         Assert.assertEquals(name.getText(), "CONTACTS");
 
