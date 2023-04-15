@@ -22,19 +22,19 @@ public class Group99BottlesTest extends BaseTest {
     @Test
     public void testRemoveProductFromCart() {
 
-        getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
+        getGetdriver().get("https://petstore.octoperf.com/actions/Catalog.action");
 
-        getDriver().findElement(
+        getGetdriver().findElement(
                 By.xpath("//div[@id='SidebarContent']/a[contains(@href, 'FISH')]")).click();
-        getDriver().findElement(
+        getGetdriver().findElement(
                 By.xpath("//div[@id='Catalog']//a[contains(@href, 'FI-SW-01')]")).click();
-        getDriver().findElement(
+        getGetdriver().findElement(
                 By.xpath("//div[@id='Catalog']//a[contains(@href, 'EST-2') and text()='EST-2']")).click();
-        getDriver().findElement(
+        getGetdriver().findElement(
                 By.xpath("//div[@id='Catalog']//a[contains(@href, 'EST-2') and @class='Button' and text()='Add to Cart']")).click();
-        getDriver().findElement(
+        getGetdriver().findElement(
                 By.xpath("//div[@id='Cart']//a[contains(@href, 'EST-2') and @class='Button' and text()='Remove']")).click();
-        String actual = getDriver().findElement(
+        String actual = getGetdriver().findElement(
                 By.xpath("//div[@id='Cart']//td[text()='Sub Total: $0.00 ']")).getText();
 
         Assert.assertEquals(actual, "Sub Total: $0.00");
@@ -268,54 +268,54 @@ public class Group99BottlesTest extends BaseTest {
     public void testDemoblazeAddToCart() {
 
         String productName = "Iphone 6 32gb";
-        getDriver().get("https://www.demoblaze.com/");
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getGetdriver().get("https://www.demoblaze.com/");
+        getGetdriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        List<WebElement> products = getDriver().findElements(By.cssSelector(".hrefch"));
+        List<WebElement> products = getGetdriver().findElements(By.cssSelector(".hrefch"));
         for (WebElement prod : products) {
             if (prod.getText().equals(productName)) {
                 prod.click();
                 break;
             }
         }
-        getDriver().findElement(By.cssSelector(".btn-success")).click();
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        getGetdriver().findElement(By.cssSelector(".btn-success")).click();
+        WebDriverWait wait = new WebDriverWait(getGetdriver(), Duration.ofSeconds(5));
         wait.until(ExpectedConditions.alertIsPresent());
-        getDriver().switchTo().alert().accept();
-        getDriver().findElement(By.cssSelector("#cartur")).click();
+        getGetdriver().switchTo().alert().accept();
+        getGetdriver().findElement(By.cssSelector("#cartur")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//tr/td[2]")).getText(), productName);
+        Assert.assertEquals(getGetdriver().findElement(By.xpath("//tr/td[2]")).getText(), productName);
     }
 
     @Test
     public void testDemoblazeProdAddToCart() {
 
         String productName = "Sony vaio i5";
-        getDriver().get("https://www.demoblaze.com/");
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getGetdriver().get("https://www.demoblaze.com/");
+        getGetdriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        List<WebElement> products = getDriver().findElements(By.cssSelector(".hrefch"));
+        List<WebElement> products = getGetdriver().findElements(By.cssSelector(".hrefch"));
         products.stream().filter(product -> product.getText()
                 .equals(productName)).findFirst().ifPresent(WebElement::click);
-        getDriver().findElement(By.cssSelector(".btn-success")).click();
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        getGetdriver().findElement(By.cssSelector(".btn-success")).click();
+        WebDriverWait wait = new WebDriverWait(getGetdriver(), Duration.ofSeconds(5));
         wait.until(ExpectedConditions.alertIsPresent());
-        getDriver().switchTo().alert().accept();
-        getDriver().findElement(By.cssSelector("#cartur")).click();
+        getGetdriver().switchTo().alert().accept();
+        getGetdriver().findElement(By.cssSelector("#cartur")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//tr/td[2]")).getText(), productName);
+        Assert.assertEquals(getGetdriver().findElement(By.xpath("//tr/td[2]")).getText(), productName);
     }
 
     @Test
     public void testJPetStoreAddDogToCart() {
-        getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
+        getGetdriver().get("https://petstore.octoperf.com/actions/Catalog.action");
 
-        getDriver().findElement(By.xpath("//div[@id='SidebarContent']/a[2]")).click();
-        getDriver().findElement(By.xpath("//div[@id='Catalog']/table/tbody/tr[3]/td/a")).click();
-        getDriver().findElement(By.xpath("//a[@class='Button']")).click();
+        getGetdriver().findElement(By.xpath("//div[@id='SidebarContent']/a[2]")).click();
+        getGetdriver().findElement(By.xpath("//div[@id='Catalog']/table/tbody/tr[3]/td/a")).click();
+        getGetdriver().findElement(By.xpath("//a[@class='Button']")).click();
 
         List<String> textCartItems = new ArrayList<>();
-        List<WebElement> cartItems = getDriver().findElements(By.xpath("//td"));
+        List<WebElement> cartItems = getGetdriver().findElements(By.xpath("//td"));
         for (WebElement element : cartItems) {
             textCartItems.add(element.getText());
         }
@@ -325,13 +325,13 @@ public class Group99BottlesTest extends BaseTest {
     @Test
     public void testCheckActionMoreButton() throws InterruptedException {
 
-        getDriver().get("https://magento.softwaretestingboard.com/");
+        getGetdriver().get("https://magento.softwaretestingboard.com/");
 
-        getDriver().findElement(By.xpath("//span[@class='action more button']")).click();
+        getGetdriver().findElement(By.xpath("//span[@class='action more button']")).click();
 
         Thread.sleep(3000);
 
-        WebElement text = getDriver().findElement(By.xpath("//span[@class='base']"));
+        WebElement text = getGetdriver().findElement(By.xpath("//span[@class='base']"));
 
         Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
     }
@@ -340,9 +340,9 @@ public class Group99BottlesTest extends BaseTest {
     public void testLogoNavigateToBaseUrl() {
         String expectedResult = "https://www.thestar.com/";
 
-        getDriver().get("https://www.thestar.com/");
-        getDriver().findElement(By.xpath("//*[@class='c-main-logo']")).click();
-        String actualResult = getDriver().getCurrentUrl();
+        getGetdriver().get("https://www.thestar.com/");
+        getGetdriver().findElement(By.xpath("//*[@class='c-main-logo']")).click();
+        String actualResult = getGetdriver().getCurrentUrl();
 
         Assert.assertEquals(actualResult, expectedResult);
     }

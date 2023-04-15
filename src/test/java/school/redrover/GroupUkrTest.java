@@ -50,14 +50,14 @@ public class GroupUkrTest extends BaseTest {
     public void testRenameBtn(){
         final String NAME = "new button name";
 
-        getDriver().get("http://uitestingplayground.com/home");
-        String title = getDriver().getTitle();
+        getGetdriver().get("http://uitestingplayground.com/home");
+        String title = getGetdriver().getTitle();
         Assert.assertEquals(title,"UI Test Automation Playground");
 
-        WebElement textInputLink = getDriver().findElement(By.xpath("//section[@id = 'overview']//a[text() = 'Text Input']"));
+        WebElement textInputLink = getGetdriver().findElement(By.xpath("//section[@id = 'overview']//a[text() = 'Text Input']"));
         textInputLink.click();
-        WebElement textField = getDriver().findElement(By.xpath("//input[@id='newButtonName']"));
-        WebElement updButton = getDriver().findElement(By.xpath("//button[@id='updatingButton']"));
+        WebElement textField = getGetdriver().findElement(By.xpath("//input[@id='newButtonName']"));
+        WebElement updButton = getGetdriver().findElement(By.xpath("//button[@id='updatingButton']"));
 
         textField.sendKeys(NAME);
         updButton.click();

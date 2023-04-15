@@ -40,14 +40,14 @@ public class GroupCATTest extends BaseTest {
     public WebDriverWait webDriverWait10;
 
     public final void getBaseUrl() {
-        getDriver().get(BASE_URL);
+        getGetdriver().get(BASE_URL);
 
-        PageFactory.initElements(getDriver(), this);
+        PageFactory.initElements(getGetdriver(), this);
     }
 
     public final WebDriverWait getWait10() {
         if (webDriverWait10 == null) {
-            webDriverWait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+            webDriverWait10 = new WebDriverWait(getGetdriver(), Duration.ofSeconds(5));
         }
         return webDriverWait10;
     }
@@ -72,7 +72,7 @@ public class GroupCATTest extends BaseTest {
     }
 
     public void scrollByElement(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        JavascriptExecutor js = (JavascriptExecutor) getGetdriver();
         js.executeScript("arguments[0].scrollIntoView();", element);
     }
 
@@ -182,11 +182,11 @@ public class GroupCATTest extends BaseTest {
 
         clickButtonDocumentation();
 
-        String actualTitle = getDriver().getTitle();
+        String actualTitle = getGetdriver().getTitle();
 
         Assert.assertEquals(actualTitle, expectedTitle);
 
-        getDriver().quit();
+        getGetdriver().quit();
     }
     @Test
     public void testSizeSupporters(){
@@ -201,7 +201,7 @@ public class GroupCATTest extends BaseTest {
         getWait10();
 
         Assert.assertEquals(actualSizeOfSupporters, expectedSizeOfSupporters);
-        getDriver().quit();
+        getGetdriver().quit();
     }
 
     @Test
@@ -218,7 +218,7 @@ public class GroupCATTest extends BaseTest {
 
         Assert.assertEquals(actualNamesOfSupporters, expectedNamesOfSupporters);
 
-        getDriver().quit();
+        getGetdriver().quit();
     }
 
     @Test
@@ -227,10 +227,10 @@ public class GroupCATTest extends BaseTest {
 
         getBaseUrl();
         clickButtonDownload();
-        String actualTitle = getDriver().getTitle();
+        String actualTitle = getGetdriver().getTitle();
 
         Assert.assertEquals(actualTitle, expectedTitle);
-        getDriver().quit();
+        getGetdriver().quit();
     }
 
     @Test
@@ -244,6 +244,6 @@ public class GroupCATTest extends BaseTest {
         List<String> actualNamesOfNamesOfFeatureListSegment = getNamesOfLists(featureListSegment);
 
         Assert.assertEquals(actualNamesOfNamesOfFeatureListSegment, expectedNamesOfFeatureListSegment);
-        getDriver().quit();
+        getGetdriver().quit();
     }
 }

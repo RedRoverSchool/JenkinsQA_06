@@ -8,22 +8,22 @@ import org.testng.annotations.BeforeMethod;
 
 public abstract class BaseTest {
 
-    private WebDriver driver;
+    private WebDriver getdriver;
 
     @BeforeMethod
     protected void beforeMethod() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        driver = new ChromeDriver(chromeOptions);
+        getdriver = new ChromeDriver(chromeOptions);
     }
 
     @AfterMethod
     protected void afterMethod() {
-        driver.quit();
+        getdriver.quit();
     }
 
-    protected WebDriver getDriver() {
-        return driver;
+    protected WebDriver getGetdriver() {
+        return getdriver;
     }
 }

@@ -10,20 +10,20 @@ public class GroupFuOpyatJavaTest extends school.redrover.runner.BaseTest {
     @Test
     public void testNotes(){
 
-        getDriver().get("https://demoqa.com/");
+        getGetdriver().get("https://demoqa.com/");
 
-        WebElement textElements = getDriver().findElement(By.xpath("//h5[normalize-space()='Elements']"));
+        WebElement textElements = getGetdriver().findElement(By.xpath("//h5[normalize-space()='Elements']"));
         textElements.click();
 
-        WebElement textCheckBox = getDriver().findElement(By.xpath("//span[normalize-space()='Check Box']"));
+        WebElement textCheckBox = getGetdriver().findElement(By.xpath("//span[normalize-space()='Check Box']"));
         textCheckBox.click();
 
-        WebElement buttonExpandAll = getDriver().findElement(By.xpath("//button[@title='Expand all']"));
+        WebElement buttonExpandAll = getGetdriver().findElement(By.xpath("//button[@title='Expand all']"));
         buttonExpandAll.click();
 
         Assert.assertEquals("Notes", "Notes");
 
-        WebElement buttonCollapseAll = getDriver().findElement(By.xpath("//button[@title='Collapse all']"));
+        WebElement buttonCollapseAll = getGetdriver().findElement(By.xpath("//button[@title='Collapse all']"));
         buttonCollapseAll.click();
     }
 }

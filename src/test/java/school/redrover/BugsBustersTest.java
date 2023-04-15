@@ -128,15 +128,15 @@ public class BugsBustersTest extends BaseTest {
         String expectedURL = "https://www.ohiofamilypractice.com/connect";
         String expectedHeader = "Contact Us".toLowerCase();
 
-        getDriver().get("https://www.ohiofamilypractice.com/");
+        getGetdriver().get("https://www.ohiofamilypractice.com/");
         Thread.sleep(1000);
-        WebElement contactUsReference = getDriver().findElement(By.xpath("//div[@class='Header-nav-inner']/a[@href='/connect']"));
+        WebElement contactUsReference = getGetdriver().findElement(By.xpath("//div[@class='Header-nav-inner']/a[@href='/connect']"));
         contactUsReference.click();
         Thread.sleep(1000);
-        WebElement h1 = getDriver().findElement(By.xpath("//h1"));
+        WebElement h1 = getGetdriver().findElement(By.xpath("//h1"));
         String h1Text = h1.getText().toLowerCase();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),expectedURL);
+        Assert.assertEquals(getGetdriver().getCurrentUrl(),expectedURL);
         Assert.assertEquals(h1Text, expectedHeader);
     }
 
@@ -225,16 +225,16 @@ public class BugsBustersTest extends BaseTest {
         String expectedURL = "https://www.ohiofamilypractice.com/services" ;
         String expectedHeader = "Our Services".toLowerCase();
 
-        getDriver().get("https://www.ohiofamilypractice.com/");
+        getGetdriver().get("https://www.ohiofamilypractice.com/");
         Thread.sleep(1000);
-        WebElement servicesReference = getDriver().findElement(By.xpath(
+        WebElement servicesReference = getGetdriver().findElement(By.xpath(
                 "//a[@href='/services'][@class='Header-nav-item']"));
         servicesReference.click();
         Thread.sleep(1000);
-        WebElement h1 = getDriver().findElement(By.xpath("//h1"));
+        WebElement h1 = getGetdriver().findElement(By.xpath("//h1"));
         String h1Text = h1.getText().toLowerCase();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),expectedURL);
+        Assert.assertEquals(getGetdriver().getCurrentUrl(),expectedURL);
         Assert.assertEquals(h1Text, expectedHeader);
     }
 }

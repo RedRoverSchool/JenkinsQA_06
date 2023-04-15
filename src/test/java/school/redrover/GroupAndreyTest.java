@@ -20,30 +20,30 @@ import static org.testng.Assert.assertEquals;
 public class GroupAndreyTest extends BaseTest {
     @Test
     public void testAndreyTitle() throws InterruptedException {
-        getDriver().get("https://openweathermap.org/");
+        getGetdriver().get("https://openweathermap.org/");
 
         Thread.sleep(5000);
 
-        WebElement button = getDriver().findElement(By.xpath("//*[@id=\"desktop-menu\"]/ul/li[1]/a"));
+        WebElement button = getGetdriver().findElement(By.xpath("//*[@id=\"desktop-menu\"]/ul/li[1]/a"));
         button.click();
 
-        assertEquals(getDriver().getTitle(), "OpenWeatherMap API guide - OpenWeatherMap");
+        assertEquals(getGetdriver().getTitle(), "OpenWeatherMap API guide - OpenWeatherMap");
     }
 
     @Test
     public void testArtemTextOnSuggestsButton() throws InterruptedException {
-        getDriver().get("https://openweathermap.org/");
+        getGetdriver().get("https://openweathermap.org/");
 
         Thread.sleep(5000);
 
-        WebElement textBox = getDriver().findElement(By.name("q"));
+        WebElement textBox = getGetdriver().findElement(By.name("q"));
         textBox.sendKeys("omsk");
         textBox.sendKeys(Keys.RETURN);
 
         Thread.sleep(5000);
 
-        WebElement suggestButton = getDriver().findElement(By.xpath("//*[@class=\"tab-pane active\"]/div/table/tbody/tr/td/b/a"));
-        WebElement suggestButton2 = getDriver().findElement(By.xpath("//*[@id=\"forecast_list_ul\"]/table/tbody/tr[2]/td[2]/b[1]/a"));
+        WebElement suggestButton = getGetdriver().findElement(By.xpath("//*[@class=\"tab-pane active\"]/div/table/tbody/tr/td/b/a"));
+        WebElement suggestButton2 = getGetdriver().findElement(By.xpath("//*[@id=\"forecast_list_ul\"]/table/tbody/tr[2]/td[2]/b[1]/a"));
 
         assertEquals(suggestButton.getText(), "Omsk, RU");
         assertEquals(suggestButton2.getText(), "Omskaya Oblast’, RU");
@@ -51,46 +51,46 @@ public class GroupAndreyTest extends BaseTest {
 
     @Test
     public void testArtemTextOnCityPage() throws InterruptedException {
-        getDriver().get("https://openweathermap.org/");
+        getGetdriver().get("https://openweathermap.org/");
 
         Thread.sleep(5000);
 
-        WebElement textBox = getDriver().findElement(By.name("q"));
+        WebElement textBox = getGetdriver().findElement(By.name("q"));
         textBox.sendKeys("omsk");
         textBox.sendKeys(Keys.RETURN);
 
         Thread.sleep(5000);
 
-        WebElement button = getDriver().findElement(By.xpath("//*[@class=\"tab-pane active\"]/div/table/tbody/tr/td/b/a"));
+        WebElement button = getGetdriver().findElement(By.xpath("//*[@class=\"tab-pane active\"]/div/table/tbody/tr/td/b/a"));
         assertEquals(button.getText(), "Omsk, RU");
         button.click();
 
         Thread.sleep(5000);
 
-        WebElement text = getDriver().findElement(By.xpath("//*[@class=\"grid-container grid-4-5\"]/div/div/h2"));
+        WebElement text = getGetdriver().findElement(By.xpath("//*[@class=\"grid-container grid-4-5\"]/div/div/h2"));
 
         assertEquals(text.getText(), "Omsk, RU");
     }
     @Ignore
     @Test
     public void testArtemLocalDateOnCityPage() throws InterruptedException {
-        getDriver().get("https://openweathermap.org/");
+        getGetdriver().get("https://openweathermap.org/");
 
         Thread.sleep(5000);
 
-        WebElement textBox = getDriver().findElement(By.name("q"));
+        WebElement textBox = getGetdriver().findElement(By.name("q"));
         textBox.sendKeys("omsk");
         textBox.sendKeys(Keys.RETURN);
 
         Thread.sleep(5000);
 
-        WebElement button = getDriver().findElement(By.xpath("//*[@class=\"tab-pane active\"]/div/table/tbody/tr/td/b/a"));
+        WebElement button = getGetdriver().findElement(By.xpath("//*[@class=\"tab-pane active\"]/div/table/tbody/tr/td/b/a"));
         assertEquals(button.getText(), "Omsk, RU");
         button.click();
 
         Thread.sleep(5000);
 
-        WebElement text = getDriver().findElement(By.xpath("//*[@class=\"grid-container grid-4-5\"]/div/div/span"));
+        WebElement text = getGetdriver().findElement(By.xpath("//*[@class=\"grid-container grid-4-5\"]/div/div/span"));
 
         Date currentDate = new Date();
         SimpleDateFormat formatDate = new SimpleDateFormat("MMM d, hh:mma", Locale.US);
@@ -102,21 +102,21 @@ public class GroupAndreyTest extends BaseTest {
 
     @Test
     public void testArtemSliderMove() throws InterruptedException {
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getGetdriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        WebElement slider = getDriver().findElement(By.xpath("/html/body/main/div/form/div/div[3]/label[3]/input"));
+        WebElement slider = getGetdriver().findElement(By.xpath("/html/body/main/div/form/div/div[3]/label[3]/input"));
 
-        Actions move = new Actions(getDriver());
+        Actions move = new Actions(getGetdriver());
         move.moveToElement(slider).clickAndHold().moveByOffset(25, 0).release().perform();
 
         Thread.sleep(3500);
 
-        WebElement button = getDriver().findElement(By.xpath("/html/body/main/div/form/div/div[2]/button"));
+        WebElement button = getGetdriver().findElement(By.xpath("/html/body/main/div/form/div/div[2]/button"));
         button.click();
 
         Thread.sleep(3500);
 
-        String url = getDriver().getCurrentUrl();
+        String url = getGetdriver().getCurrentUrl();
         int expected;
         if (url.contains("my-range=6")) {
             expected = 1;
@@ -129,15 +129,15 @@ public class GroupAndreyTest extends BaseTest {
     @Ignore
     @Test
     public void testAndreyTemperatureScaleType() throws InterruptedException {
-        getDriver().get("https://openweathermap.org/");
+        getGetdriver().get("https://openweathermap.org/");
 
         Thread.sleep(3500);
 
-        WebElement button = getDriver().findElement(
+        WebElement button = getGetdriver().findElement(
                 By.xpath("//*[@id=\"weather-widget\"]/div[1]/div/div/div[1]/div[2]/div[3]"));
         button.click();
 
-        WebElement heading = getDriver().findElement(
+        WebElement heading = getGetdriver().findElement(
                 By.xpath("//*[@id=\"weather-widget\"]/div[2]/div[1]/div[1]/div[2]/div[1]/span"));
         int expected;
         if (heading.getText().contains("F")) {

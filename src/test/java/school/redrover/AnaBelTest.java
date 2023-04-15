@@ -2,12 +2,8 @@ package school.redrover;
 
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -19,26 +15,26 @@ public class AnaBelTest extends BaseTest {
     @Test
     public void testTitle() {
 
-        getDriver().get(url + "/guide");
-        String title = getDriver().getTitle();
+        getGetdriver().get(url + "/guide");
+        String title = getGetdriver().getTitle();
         Assert.assertEquals(title,"OpenWeatherMap API guide - OpenWeatherMap");
     }
     @Ignore
     @Test
     public void testFaringeights() throws InterruptedException {
 
-        getDriver().get(url + "/city/2643743");
-        WebElement switcher = getDriver().findElement(By.xpath("//div[@class='option'][2]"));
+        getGetdriver().get(url + "/city/2643743");
+        WebElement switcher = getGetdriver().findElement(By.xpath("//div[@class='option'][2]"));
         Thread.sleep(6000);
         switcher.click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//span[@class='heading']")).getText().contains("F"));
+        Assert.assertTrue(getGetdriver().findElement(By.xpath("//span[@class='heading']")).getText().contains("F"));
     }
     @Ignore
     @Test
     public void testCookies() {
 
-        getDriver().get(url);
-        String footer = getDriver().findElement(By.xpath("//p[contains(text(),'We use cookies which are "
+        getGetdriver().get(url);
+        String footer = getGetdriver().findElement(By.xpath("//p[contains(text(),'We use cookies which are "
                 + "essential for the site to work. We also use non-essential cookies to help us improve our services. "
                 + "Any data collected is anonymised. You can allow all cookies or manage them individually.')]"))
                 .getText();

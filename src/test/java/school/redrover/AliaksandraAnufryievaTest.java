@@ -14,32 +14,32 @@ public class AliaksandraAnufryievaTest extends BaseTest {
     @Ignore
     @Test
     public void testEtsy() {
-        getDriver().get("https://www.etsy.com/");
+        getGetdriver().get("https://www.etsy.com/");
 
-        WebElement search = getDriver().findElement(By.name("search_query"));
+        WebElement search = getGetdriver().findElement(By.name("search_query"));
         search.sendKeys("easter gifts");
         search.sendKeys(Keys.RETURN);
 
-        WebElement filter = getDriver().findElement(By.id("search-filter-button"));
+        WebElement filter = getGetdriver().findElement(By.id("search-filter-button"));
         filter.click();
 
-        WebElement onSale = getDriver().findElement(By.xpath("//label[@for='special-offers-on-sale']"));
+        WebElement onSale = getGetdriver().findElement(By.xpath("//label[@for='special-offers-on-sale']"));
         onSale.click();
 
-        WebElement apply = getDriver().findElement(By.xpath("//button[@aria-label='Apply']"));
+        WebElement apply = getGetdriver().findElement(By.xpath("//button[@aria-label='Apply']"));
         apply.click();
 
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+        getGetdriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
 
-        WebElement text = getDriver().findElement(By.xpath("//a[@aria-label='Remove On sale Filter']"));
+        WebElement text = getGetdriver().findElement(By.xpath("//a[@aria-label='Remove On sale Filter']"));
 
         Assert.assertEquals(text.getText(), "On sale");
     }
 
     @Test
     public void testJenkinsTitle() {
-        getDriver().get("https://www.jenkins.io/");
+        getGetdriver().get("https://www.jenkins.io/");
 
-        Assert.assertEquals(getDriver().getTitle(),"Jenkins");
+        Assert.assertEquals(getGetdriver().getTitle(),"Jenkins");
     }
 }

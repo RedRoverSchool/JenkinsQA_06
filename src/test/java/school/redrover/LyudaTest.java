@@ -10,21 +10,21 @@ public class LyudaTest extends BaseTest {
 
     @Test
     public void testLoginForm(){
-        getDriver().navigate().to("https://demo.applitools.com/");
+        getGetdriver().navigate().to("https://demo.applitools.com/");
 
-        WebElement username = getDriver().findElement(By.xpath("//input[@id = 'username' ]"));
+        WebElement username = getGetdriver().findElement(By.xpath("//input[@id = 'username' ]"));
         username.sendKeys("milaqa1@gmail.com");
 
-        WebElement password = getDriver().findElement(By.xpath("//input[@id = 'password' ]"));
+        WebElement password = getGetdriver().findElement(By.xpath("//input[@id = 'password' ]"));
         password.sendKeys("123456");
 
-        WebElement checkBox = getDriver().findElement(By.xpath("//input[@type = 'checkbox' ]"));
+        WebElement checkBox = getGetdriver().findElement(By.xpath("//input[@type = 'checkbox' ]"));
         checkBox.click();
 
-        WebElement signInButton = getDriver().findElement(By.xpath("//a[@id= 'log-in' ]"));
+        WebElement signInButton = getGetdriver().findElement(By.xpath("//a[@id= 'log-in' ]"));
         signInButton.click();
 
-        WebElement totalBalance = getDriver().findElement(By.xpath("//div[contains(text(),'Balance')]"));
+        WebElement totalBalance = getGetdriver().findElement(By.xpath("//div[contains(text(),'Balance')]"));
         Assert.assertEquals(totalBalance.getText(),"Total Balance");
     }
 }

@@ -12,13 +12,13 @@ public class PetroMatsiuraTest extends BaseTest {
     @BeforeMethod
     public void BeforeMethod() {
 
-        getDriver().get("https://askomdch.com/");
+        getGetdriver().get("https://askomdch.com/");
     }
 
     @Test
     public void testSale() {
 
-        for(WebElement element : getDriver().findElements(By.cssSelector("span[class='onsale']"))) {
+        for(WebElement element : getGetdriver().findElements(By.cssSelector("span[class='onsale']"))) {
 
             Assert.assertEquals(element.getText(), "Sale!");
         }
@@ -27,7 +27,7 @@ public class PetroMatsiuraTest extends BaseTest {
     @Test
     public void testCurrency() {
 
-        for (WebElement element : getDriver().findElements(By.cssSelector("span[class*='currencySymbol']"))) {
+        for (WebElement element : getGetdriver().findElements(By.cssSelector("span[class*='currencySymbol']"))) {
 
             Assert.assertEquals(element.getText(), "$");
         }
@@ -36,47 +36,47 @@ public class PetroMatsiuraTest extends BaseTest {
     @Test
     public void testDiscount() {
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("h3[class*='medium-font-size']")).
+        Assert.assertEquals(getGetdriver().findElement(By.cssSelector("h3[class*='medium-font-size']")).
                 getText(), "25% OFF On all products");
     }
 
     @Test
     public void testAccount() {
 
-        getDriver().findElement(By.cssSelector("li#menu-item-1237")).click();
+        getGetdriver().findElement(By.cssSelector("li#menu-item-1237")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/account/");
+        Assert.assertEquals(getGetdriver().getCurrentUrl(), "https://askomdch.com/account/");
     }
 
     @Test
     public void testShop() {
 
-        getDriver().findElement(By.cssSelector("a.wp-block-button__link")).click();
+        getGetdriver().findElement(By.cssSelector("a.wp-block-button__link")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
+        Assert.assertEquals(getGetdriver().getCurrentUrl(), "https://askomdch.com/store");
     }
 
     @Test
     public void testProductsNumber() {
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("ul.products.columns-5")).
+        Assert.assertEquals(getGetdriver().findElement(By.cssSelector("ul.products.columns-5")).
                 findElements(By.tagName("li")).size(), 5);
     }
 
     @Test
     public void testColour() {
 
-        getDriver().findElement(By.cssSelector("a[href*='men']")).click();
+        getGetdriver().findElement(By.cssSelector("a[href*='men']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("button[value='Search']")).
+        Assert.assertEquals(getGetdriver().findElement(By.cssSelector("button[value='Search']")).
                 getCssValue("background-color"), "rgba(49, 151, 214, 1)");
     }
 
     @Test
     public void testFindMoreButton() {
 
-        getDriver().findElement(By.cssSelector("div.wp-block-button.is-style-fill")).click();
+        getGetdriver().findElement(By.cssSelector("div.wp-block-button.is-style-fill")).click();
 
-        Assert.assertEquals(getDriver().getTitle(), "Contact Us – AskOmDch");
+        Assert.assertEquals(getGetdriver().getTitle(), "Contact Us – AskOmDch");
     }
 }

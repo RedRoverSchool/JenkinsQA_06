@@ -21,16 +21,16 @@ public class GroupSomeGroupTest extends BaseTest{
 
     @BeforeMethod
     public void init() {
-        wait=new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        wait=new WebDriverWait(getGetdriver(), Duration.ofSeconds(2));
     }
 
 
     @Test
     public void testEmailContactPage() {
-        getDriver().get("https://askomdch.com/");
-        getDriver().findElement(By.cssSelector("#ast-desktop-header  a[href$='/contact-us/']")).click();
+        getGetdriver().get("https://askomdch.com/");
+        getGetdriver().findElement(By.cssSelector("#ast-desktop-header  a[href$='/contact-us/']")).click();
 
-        WebElement email = getDriver().findElement(
+        WebElement email = getGetdriver().findElement(
                 By.xpath("//p[contains(text(), 'Email')]/strong"));
 
         Assert.assertEquals(email.getText(), "askomdch@gmail.com");
@@ -59,13 +59,13 @@ public class GroupSomeGroupTest extends BaseTest{
 
     @Test
     public void testCartCounter() {
-        getDriver().get("https://askomdch.com/");
-        getDriver().findElement(By.cssSelector("#ast-desktop-header  a[href$='/store/']")).click();
+        getGetdriver().get("https://askomdch.com/");
+        getGetdriver().findElement(By.cssSelector("#ast-desktop-header  a[href$='/store/']")).click();
 
-        getDriver().findElement(
+        getGetdriver().findElement(
                 By.xpath("//a[@href='?add-to-cart=1198']")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".ast-site-header-cart-data  ul")));
-        WebElement counter = getDriver().findElement(By.xpath("//div[@id='ast-desktop-header']//span[@class='count']"));
+        WebElement counter = getGetdriver().findElement(By.xpath("//div[@id='ast-desktop-header']//span[@class='count']"));
         Assert.assertEquals(counter.getText().trim(), "1");
     }
 }
