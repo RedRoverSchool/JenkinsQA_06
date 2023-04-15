@@ -25,7 +25,5 @@ public class GroupFuOpyatJavaTest extends school.redrover.runner.BaseTest {
 
         WebElement buttonCollapseAll = getDriver().findElement(By.xpath("//button[@title='Collapse all']"));
         buttonCollapseAll.click();
-
-        getDriver().quit();
     }
 }
