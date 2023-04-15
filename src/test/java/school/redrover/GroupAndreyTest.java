@@ -127,19 +127,18 @@ public class GroupAndreyTest extends BaseTest {
         assertEquals(expected, 1);
     }
     @Test
-    public void testAndreySignInTitle() throws InterruptedException {
+    public void testAndreyGuideTitle() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
 
         Thread.sleep(3500);
 
-        WebElement button = getDriver().findElement(
-                By.xpath("//*[@id=\"desktop-menu\"]/ul/li[11]/a"));
+        WebElement button = getDriver().findElement(By.xpath("//*[@id=\"desktop-menu\"]/ul/li[1]/a"));
         button.click();
 
         WebElement title = getDriver().findElement(
-                By.xpath("/html/body/div[2]/div[3]/div[2]/div/div/h3"));
+                By.xpath("/html/body/main/div[1]/div/div/div[1]/h1"));
         int expected;
-        if (title.getText().contains("Sign In To Your Account")) {
+        if (title.getText().contains("Guide")) {
             expected = 1;
         } else {
             expected = 2;
