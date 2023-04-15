@@ -1,8 +1,8 @@
 package school.redrover;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+
+
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -171,7 +171,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         submitButton.click();
         WebElement link = getDriver().findElement(By.className("b-card__name-link"));
         link.click();
-        WebElement text = getDriver().findElement(By.className("ui-text"));
+//        WebElement text = getDriver().findElement(By.className("ui-text"));
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://prodoctorov.ru/krasnodar/vrach/177664-nicakova/");
     }
 
