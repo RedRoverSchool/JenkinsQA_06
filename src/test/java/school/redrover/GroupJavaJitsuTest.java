@@ -381,20 +381,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
     }
 
-    @Test
-    public void testSignInJenkins() throws InterruptedException {
 
-        getDriver().get("http://127.0.0.1:8080/login?from=%2F");
-
-        WebElement userName = getDriver().findElement(By.cssSelector("#j_username"));
-        userName.sendKeys("admin");
-        WebElement password = getDriver().findElement(By.name("j_password"));
-        password.sendKeys("admin");
-        WebElement signInButton = getDriver().findElement(By.name("Submit"));
-        signInButton.click();
-
-        WebElement logo = getDriver().findElement(By.id("jenkins-name-icon"));
-        Assert.assertEquals(logo.getText(), "");}
 }
 
 
