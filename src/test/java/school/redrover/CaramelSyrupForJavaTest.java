@@ -98,7 +98,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         afterMethod();
     }
-@Ignore
+
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
 
@@ -233,6 +233,32 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         getDriver().get("https://openweathermap.org/");
         String actualResult = getDriver().getCurrentUrl();
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testArtyomDulyaEnterpriseGuide() {
+
+        String expectedResult = "OpenWeather Enterprise Guide";
+
+        beforeMethod();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        getDriver().get("https://openweathermap.org/");
+
+        WebElement guide = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/guide']"));
+        guide.click();
+        WebElement enterpriseSystem = getDriver().findElement(By.xpath("//a[text()='complex enterprise systems']"));
+        enterpriseSystem.click();
+        ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(windows.get(1));
+        WebElement tailoredToYou = getDriver().findElement(By.xpath("//a[@href='/enterprise-approach']//u[text()='Tailored to you']"));
+        tailoredToYou.click();
+        WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
+        String actualResult = banner.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        afterMethod();
     }
 
 
