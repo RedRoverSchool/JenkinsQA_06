@@ -122,26 +122,26 @@ public class GroupAndreyTest extends BaseTest {
 
         assertEquals(expected, 1);
     }
-    @Ignore
     @Test
-    public void testAndreyTemperatureScaleType() throws InterruptedException {
+    public void testAndreySignInTitle() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
 
         Thread.sleep(3500);
 
         WebElement button = getDriver().findElement(
-                By.xpath("//*[@id=\"weather-widget\"]/div[1]/div/div/div[1]/div[2]/div[3]"));
+                By.xpath("//*[@id=\"desktop-menu\"]/ul/li[11]/a"));
         button.click();
 
-        WebElement heading = getDriver().findElement(
-                By.xpath("//*[@id=\"weather-widget\"]/div[2]/div[1]/div[1]/div[2]/div[1]/span"));
+        WebElement title = getDriver().findElement(
+                By.xpath("/html/body/div[2]/div[3]/div[2]/div/div/h3"));
         int expected;
-        if (heading.getText().contains("F")) {
+        if (title.getText().contains("Sign In To Your Account")) {
             expected = 1;
         } else {
             expected = 2;
         }
 
         assertEquals(expected, 1);
+
     }
 }
