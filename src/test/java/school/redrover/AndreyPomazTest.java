@@ -119,21 +119,17 @@ public class AndreyPomazTest extends BaseTest {
     }
     @Test
     public void findBook() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver getDriver = new ChromeDriver(chromeOptions);
-        getDriver.get("https://demoqa.com/");
-        WebElement buttonAlertMain = getDriver.findElement(By.xpath("(//div[@class='card mt-4 top-card'])[6]"));
+        getDriver().get("https://demoqa.com/");
+        WebElement buttonAlertMain = getDriver().findElement(By.xpath("(//div[@class='card mt-4 top-card'])[6]"));
         buttonAlertMain.click();
         Thread.sleep(2000);
 
-        WebElement searchBox = getDriver.findElement(By.xpath("//input[@id='searchBox']"));
+        WebElement searchBox = getDriver().findElement(By.xpath("//input[@id='searchBox']"));
         searchBox.sendKeys("Speaking JavaScript");
 
-        WebElement findBook = getDriver.findElement(By.linkText("Speaking JavaScript"));
+        WebElement findBook = getDriver().findElement(By.linkText("Speaking JavaScript"));
         findBook.click();
 
-        Assert.assertEquals(getDriver.getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
     }
 }

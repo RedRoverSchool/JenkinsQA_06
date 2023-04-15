@@ -367,22 +367,18 @@ public class GroupJavaJitsuTest extends BaseTest {
     }
     @Test
     public void findBookAndreyP() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://demoqa.com/");
-        WebElement buttonAlertMain = driver.findElement(By.xpath("(//div[@class='card mt-4 top-card'])[6]"));
+        getDriver().get("https://demoqa.com/");
+        WebElement buttonAlertMain = getDriver().findElement(By.xpath("(//div[@class='card mt-4 top-card'])[6]"));
         buttonAlertMain.click();
         Thread.sleep(2000);
 
-        WebElement searchBox = driver.findElement(By.xpath("//input[@id='searchBox']"));
+        WebElement searchBox = getDriver().findElement(By.xpath("//input[@id='searchBox']"));
         searchBox.sendKeys("Speaking JavaScript");
 
-        WebElement findBook = driver.findElement(By.linkText("Speaking JavaScript"));
+        WebElement findBook = getDriver().findElement(By.linkText("Speaking JavaScript"));
         findBook.click();
 
-        Assert.assertEquals(driver.getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
     }
 }
 
