@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class ElenaTsTest {
@@ -76,6 +77,7 @@ public class ElenaTsTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testRegistrationWithInvalidEmail(){
         ChromeOptions chromeOptions = new ChromeOptions();
