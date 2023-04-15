@@ -91,6 +91,33 @@ public class GroupUkrTest extends BaseTest {
         Assert.assertTrue(output.isDisplayed(),"The for is not displayed");
         driver.quit();
     }
+    @Test
+    public void firstTest() throws InterruptedException {
 
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String title = driver.getTitle();
+        Assert.assertEquals("Web form", title);
+
+        Thread.sleep(3000);
+
+        WebElement textBox = driver.findElement(By.name("my-text"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("Selenium");
+        submitButton.click();
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        Assert.assertEquals("Received!", value);
+
+        driver.quit();
+    }
 
 }
+
+

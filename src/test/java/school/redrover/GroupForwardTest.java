@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 public class GroupForwardTest {
 
     @Test
@@ -36,11 +38,11 @@ public class GroupForwardTest {
                 By.xpath("//div[@class='copyright-bar']")
         );
 
-        Assert.assertEquals(actualResultTitle, "Home - Yummy Market");
+        assertEquals(actualResultTitle, "Home - Yummy Market");
         Assert.assertTrue(searchField.isDisplayed());
         Assert.assertTrue(label.isDisplayed());
         Assert.assertTrue(navigationBar.isDisplayed());
-        Assert.assertEquals(copyrightInformation.getText(), "© 2023 Yummy Market inc. All Rights Reserved.");
+        assertEquals(copyrightInformation.getText(), "© 2023 Yummy Market inc. All Rights Reserved.");
         Assert.assertTrue(copyrightInformation.isDisplayed());
 
         driver.quit();
@@ -71,9 +73,9 @@ public class GroupForwardTest {
         );
 
 
-        Assert.assertEquals(driver.getCurrentUrl(), "https://yummymarket.com/?s=menu&id=5067");
+        assertEquals(driver.getCurrentUrl(), "https://yummymarket.com/?s=menu&id=5067");
 
-        Assert.assertEquals(searchHeader.getText(), "Search Results for: menu");
+        assertEquals(searchHeader.getText(), "Search Results for: menu");
 
         driver.quit();
     }
@@ -95,9 +97,36 @@ public class GroupForwardTest {
         password.sendKeys("secret_sauce");
         WebElement loginButton = driver.findElement(By.cssSelector("#login-button"));
         loginButton.sendKeys(Keys.ENTER);
-        Assert.assertEquals(driver.getCurrentUrl(), link+endpoint_inventory);
+        assertEquals(driver.getCurrentUrl(), link+endpoint_inventory);
 
         driver.quit();
+      }
+
+      @Test
+    public void TestDemo() throws InterruptedException {
+
+          ChromeOptions chromeOptions = new ChromeOptions();
+          chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+          WebDriver driver = new ChromeDriver(chromeOptions);
+          driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+          String title = driver.getTitle();
+          assertEquals("Web form", title);
+
+          Thread.sleep(3000);
+
+          WebElement textBox = driver.findElement(By.name("my-text"));
+          WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+          textBox.sendKeys("Selenium");
+          submitButton.click();
+
+          WebElement message = driver.findElement(By.id("message"));
+          String value = message.getText();
+          assertEquals("Received!", value);
+
+          driver.quit();
       }
 
 }

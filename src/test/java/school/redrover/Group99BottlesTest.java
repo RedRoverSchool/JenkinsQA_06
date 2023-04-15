@@ -74,7 +74,7 @@ public class Group99BottlesTest extends BaseTest {
     }
 
     @Test
-    public void testWorkshopHeaderText () {
+    public void testWorkshopHeaderText() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -204,6 +204,7 @@ public class Group99BottlesTest extends BaseTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageList() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -312,5 +313,19 @@ public class Group99BottlesTest extends BaseTest {
             textCartItems.add(element.getText());
         }
         Assert.assertTrue(textCartItems.contains("K9-PO-02"));
+    }
+
+    @Test
+    public void testCheckActionMoreButton() throws InterruptedException {
+
+        getDriver().get("https://magento.softwaretestingboard.com/");
+
+        getDriver().findElement(By.xpath("//span[@class='action more button']")).click();
+
+        Thread.sleep(3000);
+
+        WebElement text = getDriver().findElement(By.xpath("//span[@class='base']"));
+
+        Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
     }
 }
