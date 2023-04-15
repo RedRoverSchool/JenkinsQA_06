@@ -105,7 +105,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResult = "Paris, FR";
 
         beforeMethod();
-
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         getDriver().get("https://openweathermap.org/");
@@ -236,16 +235,16 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testArtyomDulyaEnterpriseGuide() {
+    public void testArtyomDulyaEnterpriseGuide() throws InterruptedException {
 
         String expectedResult = "OpenWeather Enterprise Guide";
 
         beforeMethod();
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
 
-        WebElement guide = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/guide']"));
+        WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
         guide.click();
         WebElement enterpriseSystem = getDriver().findElement(By.xpath("//a[text()='complex enterprise systems']"));
         enterpriseSystem.click();
