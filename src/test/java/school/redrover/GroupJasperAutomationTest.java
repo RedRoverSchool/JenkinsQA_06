@@ -89,13 +89,11 @@ public class GroupJasperAutomationTest extends BaseTest {
     @Test
     public void testFindContacts() throws InterruptedException {
         getDriver().get("https://gorodok.ua/");
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         WebElement name = getDriver().findElement(By.xpath("//*[@class='button primary is-outline is-small']"));
 
         Assert.assertEquals(name.getText(), "CONTACTS");
-
-
     }
 
     @Test
