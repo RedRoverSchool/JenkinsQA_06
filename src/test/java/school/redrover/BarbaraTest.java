@@ -10,7 +10,7 @@ public class BarbaraTest extends BaseTest {
     public void testFindElement() {
 
         beforeMethod();
-        getDriver().get("https://www.w3schools.ru/");
+        getDriver().get("https://www.w3schools.com/");
 
         WebElement textBox = getDriver().findElement(By.id("search2"));
         textBox.sendKeys("java ");
