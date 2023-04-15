@@ -8,8 +8,6 @@ import school.redrover.runner.BaseTest;
 public class BarbaraTest extends BaseTest {
     @Test
     public void testFindElement() {
-
-        beforeMethod();
         getDriver().get("https://www.w3schools.com/");
 
         WebElement textBox = getDriver().findElement(By.id("search2"));
@@ -19,8 +17,6 @@ public class BarbaraTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//*[@id=\"leftmenuinnerinner\"]/a[1]"));
 
         Assert.assertEquals(text.getText(), "Java HOME");
-
-        afterMethod();
     }
 }
 
