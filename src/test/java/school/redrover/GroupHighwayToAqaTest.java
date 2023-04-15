@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -18,6 +19,17 @@ import static org.testng.Assert.assertTrue;
 public class GroupHighwayToAqaTest {
 
     private static final String BASE_URL = "https://magento.softwaretestingboard.com/";
+    Faker javaFaker = Faker.instance();
+
+    public Faker getJavaFaker() {
+        return javaFaker;
+    }
+
+    Faker faker = new Faker();
+    String firstName = faker.name().firstName();
+    String lastName = faker.name().lastName();
+    String email = faker.internet().emailAddress();
+    String Password = faker.letterify("Some text:????656 ??? ?? ?? 666");
 
     @Test
     public void openContactUsPageTest() {
@@ -432,13 +444,14 @@ public class GroupHighwayToAqaTest {
 
         WebElement blockPromo = driver.findElement(By.xpath("//span[@class='action more button']"));
         blockPromo.click();
-       Thread.sleep(2000);
+        Thread.sleep(2000);
         String title = driver.findElement(By.xpath("//span[@class='base']")).getText();
 
         Assert.assertEquals(title, "New Luma Yoga Collection");
 
         driver.quit();
     }
+
     @Test
     public void CreateAnAccountWithFacker() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -466,7 +479,7 @@ public class GroupHighwayToAqaTest {
     @Test
     public void testSubscription() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080" );
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(BASE_URL);
         char[] prefix = new char[6];
