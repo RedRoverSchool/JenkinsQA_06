@@ -101,7 +101,7 @@ public class GroupJavaJitsuTest extends BaseTest {
     @Test
     public void testForm() throws InterruptedException {
         getDriver().get("https://demoqa.com");
-        WebElement ButtonForms = getDriver().findElement(By.xpath("//div[@class='home-body']//div[2]//div[1]//div[2]//*[name()='svg']"));
+        WebElement ButtonForms = getDriver().findElement(By.xpath("(//div[@class='card-body'])[2]"));
         ButtonForms.click();
 
         WebElement ButtonPracticeForm = getDriver().findElement(By.xpath("(//li[@id='item-0'])[2]"));
@@ -126,7 +126,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         dateOfBirth.findElement(By.xpath("(//select[@class='react-datepicker__month-select'])[1]")).click();
         dateOfBirth.findElement(By.xpath("(//option[@value='8'])[1]")).click();
         dateOfBirth.findElement(By.xpath("(//option[@value='1989'])[1]")).click();
-        dateOfBirth.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[2]/form[1]/div[5]/div[2]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[4]/div[7]")).click();
+        dateOfBirth.findElement(By.xpath("//div[contains(text(),'23')]")).click();
 
         WebElement checkboxHobbies = getDriver().findElement(By.xpath("(//label[normalize-space()='Sports'])[1]"));
         checkboxHobbies.findElement(By.xpath("(//label[normalize-space()='Sports'])[1]")).click();
@@ -364,9 +364,23 @@ public class GroupJavaJitsuTest extends BaseTest {
             String alertText = alert.getText().replace(closeButton.getText(), "").trim();
 
             Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
-        }
-
     }
+    @Test
+    public void findBookAndreyP() throws InterruptedException {
+        getDriver().get("https://demoqa.com/");
+        WebElement buttonAlertMain = getDriver().findElement(By.xpath("(//div[@class='card mt-4 top-card'])[6]"));
+        buttonAlertMain.click();
+        Thread.sleep(2000);
+
+        WebElement searchBox = getDriver().findElement(By.xpath("//input[@id='searchBox']"));
+        searchBox.sendKeys("Speaking JavaScript");
+
+        WebElement findBook = getDriver().findElement(By.linkText("Speaking JavaScript"));
+        findBook.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
+    }
+}
 
 
 
