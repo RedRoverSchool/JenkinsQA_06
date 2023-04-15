@@ -468,6 +468,7 @@ public class GroupJavaJitsu {
             Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
             driver.quit();
         }
+
     }
 
 
