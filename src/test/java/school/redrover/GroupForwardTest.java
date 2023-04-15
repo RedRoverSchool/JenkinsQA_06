@@ -134,7 +134,7 @@ public class GroupForwardTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.google.com/");
 
         WebElement textBox = driver.findElement(By.name("q"));
