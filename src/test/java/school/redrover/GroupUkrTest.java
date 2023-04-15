@@ -117,7 +117,37 @@ public class GroupUkrTest extends BaseTest {
 
         driver.quit();
     }
+    @Test
+    public void testAuthorizationAndLogOutDemoBlaze() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
 
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.demoblaze.com/");
+        WebElement shopTitle = driver.findElement(By.xpath("//a[@class ='navbar-brand']"));
+        Assert.assertEquals(shopTitle.getText(), "PRODUCT STORE");
+        WebElement logInButton = driver.findElement(By.xpath("//a[@id='login2']"));
+        logInButton.click();
+
+        Thread.sleep(1000);
+        WebElement inputUsernameLogInForm = driver.findElement(By.xpath("//input[@id='loginusername']"));
+        inputUsernameLogInForm.sendKeys("TestAuthMax");
+        WebElement inputPasswordLogInForm = driver.findElement(By.xpath("//input[@id='loginpassword']"));
+        inputPasswordLogInForm.sendKeys("1234");
+        WebElement logInButtonLogInForm = driver.findElement(By.xpath("//button[@onclick='logIn()']"));
+        logInButtonLogInForm.click();
+        Thread.sleep(1500);
+
+        WebElement helloUserNameButton = driver.findElement(By.xpath("//a[@id='nameofuser']"));
+        Assert.assertEquals(helloUserNameButton.getText(), "Welcome TestAuthMax");
+        Assert.assertEquals(driver.getCurrentUrl(),"https://www.demoblaze.com/");
+        WebElement logOutButton = driver.findElement(By.xpath("//a[@id='logout2']"));
+        logOutButton.click();
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.demoblaze.com/index.html");
+        WebElement singUpButton = driver.findElement(By.xpath("//a[@id='signin2']"));
+        Assert.assertEquals(singUpButton.getText(), "Sign up");
+        driver.quit();
+    }
 }
 
 
