@@ -33,7 +33,6 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         driver.quit();
     }
 
-
     @Test
     public void verifySaleSTas_TC_001_04() {
         ChromeOptions chromeOptions = new ChromeOptions();
