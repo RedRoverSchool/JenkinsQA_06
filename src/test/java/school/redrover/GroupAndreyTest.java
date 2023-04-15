@@ -2,12 +2,8 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -126,21 +122,21 @@ public class GroupAndreyTest extends BaseTest {
 
         assertEquals(expected, 1);
     }
+
     @Ignore
     @Test
-    public void testAndreyTemperatureScaleType() throws InterruptedException {
+    public void testAndreyGuideTitle() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
 
-        Thread.sleep(3500);
+        Thread.sleep(5000);
 
-        WebElement button = getDriver().findElement(
-                By.xpath("//*[@id=\"weather-widget\"]/div[1]/div/div/div[1]/div[2]/div[3]"));
+        WebElement button = getDriver().findElement(By.xpath("//*[@id=\"desktop-menu\"]/ul/li[1]/a"));
         button.click();
 
-        WebElement heading = getDriver().findElement(
-                By.xpath("//*[@id=\"weather-widget\"]/div[2]/div[1]/div[1]/div[2]/div[1]/span"));
+        WebElement title = getDriver().findElement(
+                By.xpath("/html/body/main/div[1]/div/div/div[1]/h1"));
         int expected;
-        if (heading.getText().contains("F")) {
+        if (title.getText().contains("Guide")) {
             expected = 1;
         } else {
             expected = 2;
@@ -152,27 +148,23 @@ public class GroupAndreyTest extends BaseTest {
     @Test
     public void testBaku11() throws InterruptedException {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        String title = driver.getTitle();
-        Assert.assertEquals("Web form", title);
+        String title = getDriver().getTitle();
+        assertEquals("Web form", title);
 
         Thread.sleep(2000);
 
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
 
         textBox.sendKeys("Selenium");
         submitButton.click();
 
-        WebElement message = driver.findElement(By.id("message"));
+        WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
-        Assert.assertEquals("Received!", value);
+        assertEquals("Received!", value);
 
-        driver.quit();
+        getDriver().quit();
     }
 }
