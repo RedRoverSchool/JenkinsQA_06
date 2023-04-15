@@ -18,8 +18,3 @@ public class GroupAnaBelsTest extends BaseTest {
         Assert.assertEquals("Yahoo", title);
     }
 }
-
-
-
-
-
