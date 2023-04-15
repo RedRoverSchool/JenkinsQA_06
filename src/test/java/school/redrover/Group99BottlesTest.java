@@ -335,4 +335,15 @@ public class Group99BottlesTest extends BaseTest {
 
         Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
     }
+
+    @Test
+    public void testLogoNavigateToBaseUrl() {
+        String expectedResult = "https://www.thestar.com/";
+
+        getDriver().get("https://www.thestar.com/");
+        getDriver().findElement(By.xpath("//*[@class='c-main-logo']")).click();
+        String actualResult = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
