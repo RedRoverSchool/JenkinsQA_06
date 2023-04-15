@@ -20,7 +20,7 @@ import java.util.List;
 public class Group99BottlesTest extends BaseTest {
 
     @Test
-    public void testTitleBasePage() {
+    public void testRemoveProductFromCart() {
 
         getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
 
