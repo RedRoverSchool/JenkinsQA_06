@@ -10,7 +10,6 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
 
 public class HelloWorldTest extends BaseTest {
@@ -21,7 +20,7 @@ public class HelloWorldTest extends BaseTest {
         WebElement textBox = getDriver().findElement(By.id("searchInput"));
         textBox.sendKeys("Википедия");
         textBox.sendKeys(Keys.RETURN);
-        WebElement heading = getDriver().findElement(By.xpath("/html/body/div[3]/h1/span"));
+        WebElement heading = getDriver().findElement(By.className("mw-page-title-main"));
 
         Assert.assertEquals(heading.getText(), "Википедия");
     }
