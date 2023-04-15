@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 //import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -17,10 +18,10 @@ public class TatianaTodosevaTest {
     @Test
     public void firstTest() throws InterruptedException {
 
-        //ChromeOptions chromeOptions = new ChromeOptions();
-        //chromeOptions.addArguments("--remote-allow-origins", "--headless", "--window-size=1920,1080");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
         String title = driver.getTitle();
@@ -38,7 +39,7 @@ public class TatianaTodosevaTest {
 
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
-        Assert.assertEquals("Received!", value);
+        assertEquals("Received!", value);
 
         driver.quit();
     }
