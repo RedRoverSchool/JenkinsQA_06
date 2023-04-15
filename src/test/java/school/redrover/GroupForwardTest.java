@@ -128,8 +128,9 @@ public class GroupForwardTest {
 
         driver.quit();
       }
+
     @Test
-    public void testSearchIplayAmerica() throws InterruptedException {
+    public void testSearchIplayAmerica()  {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -142,7 +143,7 @@ public class GroupForwardTest {
 
         WebElement text = driver.findElement(By.xpath("//h3[contains(text(),\"Home - iPlay America - NJ's Premier Indoor Amuseme\")]"));
 
-        Assert.assertEquals(text.getText(), "Home - iPlay America - NJ's Premier Indoor Amusement Park");
+        assertEquals(text.getText(), "Home - iPlay America - NJ's Premier Indoor Amusement Park");
 
         driver.quit();
     }
