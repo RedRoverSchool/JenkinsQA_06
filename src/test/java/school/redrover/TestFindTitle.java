@@ -1,8 +1,4 @@
 package school.redrover;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -15,7 +11,7 @@ public class TestFindTitle extends BaseTest {
     public  void testYandex() {
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(2000));
-        getDriver().get("https://wikipedia.org");
+        getDriver().get("https://Yandex.ru");
 
         Assert.assertEquals(getDriver().getTitle(),"Дзен");
         getDriver().quit();
