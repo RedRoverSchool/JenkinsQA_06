@@ -349,6 +349,7 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         Assert.assertEquals(text.getText(), "25% OFF On all products");
     }
 
+
     @Test
     public void saleIconVerificationTest_TC_001_24() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -526,9 +527,6 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         Assert.assertEquals(store.getText(), "Store");
     }
 
-
-
-
     @Test
     public void VerifyCardOnWomenPageTest() {
 
@@ -576,4 +574,39 @@ public class AlexLeoEpicGroupTest extends BaseTest{
 
         Assert.assertEquals(getDriver().findElement(By.className("has-text-align-center")).getText(), "Account");
     }
+
+    @Test
+    public void testLoginPageOpened() {
+
+        getDriver().get("https://askomdch.com/");
+
+        WebElement accountButton = getDriver().findElement(By.xpath(
+                "// li[@id='menu-item-1237']//a[contains(normalize-space(),'Account')]"));
+        accountButton.click();
+        String openedURL = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(openedURL, "https://askomdch.com/account/");
+    }
+
+    @Test
+    public void testTheStorePageOpened() {
+        getDriver().get("https://askomdch.com/");
+
+        WebElement shopNowButton = getDriver().findElement(By.xpath("//a[contains(text(),'Shop Now')]"));
+        shopNowButton.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
+    }
+
+    @Test
+    public void testNumberOfFeaturedProducts() {
+        getDriver().get("https://askomdch.com/");
+
+        WebElement featuredProductsBlock = getDriver().findElement(By.xpath(
+                "//ul[@class='products columns-5']"));
+        List<WebElement> items = featuredProductsBlock.findElements(By.tagName("li"));
+
+        Assert.assertEquals(items.size(), 5);
+    }
+
 }
