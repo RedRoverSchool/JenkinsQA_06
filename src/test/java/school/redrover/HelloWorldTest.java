@@ -15,14 +15,13 @@ import java.time.Duration;
 public class HelloWorldTest extends BaseTest {
 
     @Test
-    public void testWiki() {
-        getDriver().get("https://www.wikipedia.org/");
-        WebElement textBox = getDriver().findElement(By.id("searchInput"));
-        textBox.sendKeys("Википедия");
-        textBox.sendKeys(Keys.RETURN);
-        WebElement heading = getDriver().findElement(By.className("mw-page-title-main"));
-        Assert.assertEquals(heading.getText(), "Википедия");
-    }
+    public void testOnlinerKurs()  {
+        getDriver().get("https://www.onliner.by/");
+        WebElement kurs = getDriver().findElement(By.xpath("//*[@id='moneyRate']"));
+        kurs.click();
+        String url = getDriver().getCurrentUrl();
+        Assert.assertEquals(url, "https://kurs.onliner.by/");
+     }
 
     @Test
     public void wikiSeleniumTest(){
