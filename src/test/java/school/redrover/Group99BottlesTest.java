@@ -22,15 +22,22 @@ public class Group99BottlesTest extends BaseTest {
     @Test
     public void testTitleBasePage() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://petstore.octoperf.com/actions/Catalog.action");
+        getDriver().findElement(
+                By.xpath("//div[@id='SidebarContent']/a[contains(@href, 'FISH')]")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='Catalog']//a[contains(@href, 'FI-SW-01')]")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='Catalog']//a[contains(@href, 'EST-2') and text()='EST-2']")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='Catalog']//a[contains(@href, 'EST-2') and @class='Button' and text()='Add to Cart']")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='Cart']//a[contains(@href, 'EST-2') and @class='Button' and text()='Remove']")).click();
+        String actual = getDriver().findElement(
+                By.xpath("//div[@id='Cart']//td[text()='Sub Total: $0.00 ']")).getText();
 
-        Assert.assertEquals(driver.getTitle(), "JPetStore Demo");
-
-        driver.quit();
+        Assert.assertEquals(actual, "Sub Total: $0.00");
     }
 
     @Test
