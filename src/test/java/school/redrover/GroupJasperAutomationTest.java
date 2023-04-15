@@ -171,4 +171,20 @@ public class GroupJasperAutomationTest extends BaseTest {
 
     }
 
+    @Test
+    public void testEnterToSite(){
+        getDriver().get("https://www.saucedemo.com/");
+
+        WebElement addLogin = getDriver().findElement(By.xpath("//input[@data-test='username']"));
+        addLogin.sendKeys("standard_user");
+
+        WebElement addPassword = getDriver().findElement(By.xpath("//input[@data-test='password']"));
+        addPassword.sendKeys("secret_sauce");
+
+        WebElement loginButton = getDriver().findElement(By.xpath("//input[@class='submit-button btn_action']"));
+        loginButton.click();
+
+        WebElement logo = getDriver().findElement(By.xpath("//div[@class='app_logo']"));
+        Assert.assertEquals(logo.getText(),"Swag Labs");
+    }
 }
