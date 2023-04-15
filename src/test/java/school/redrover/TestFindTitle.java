@@ -16,7 +16,6 @@ public class TestFindTitle extends BaseTest {
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(2000));
         getDriver().get("https://yandex.ru");
-
         Assert.assertEquals(getDriver().getTitle(),"Дзен");
         getDriver().quit();
     }
