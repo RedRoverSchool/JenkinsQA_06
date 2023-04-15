@@ -421,6 +421,49 @@ public class GroupHighwayToAqaTest {
     }
 
     @Test
+    public void testBlockPromo() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get(BASE_URL);
+
+        WebElement blockPromo = driver.findElement(By.xpath("//span[@class='action more button']"));
+        blockPromo.click();
+       Thread.sleep(2000);
+        String title = driver.findElement(By.xpath("//span[@class='base']")).getText();
+
+        Assert.assertEquals(title, "New Luma Yoga Collection");
+
+        driver.quit();
+    }
+    @Test
+    public void CreateAnAccountWithFacker() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+        WebElement href = driver.findElement(By.linkText("Create an Account"));
+        href.click();
+        String value = driver.getTitle();
+        Assert.assertEquals(value, "Create New Customer Account");
+        driver.findElement(By.id("firstname")).sendKeys(firstName);
+        driver.findElement(By.id("lastname")).sendKeys(lastName);
+        driver.findElement(By.id("email_address")).sendKeys(email);
+        driver.findElement(By.id("password")).sendKeys(Password);
+        driver.findElement(By.id("password-confirmation")).sendKeys(Password);
+        WebElement button = driver.findElement(By.xpath("//*[@id=\"form-validate\"]/div/div[1]/button/span"));
+        button.click();
+
+        WebElement title = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[2]/div[1]/div[1]/h1/span"));
+        String value1 = title.getText();
+        Assert.assertEquals(value1, "My Account");
+        driver.quit();
+    }
+
+    @Test
     public void testSubscription() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080" );
