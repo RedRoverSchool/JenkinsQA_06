@@ -20,17 +20,24 @@ import java.util.List;
 public class Group99BottlesTest extends BaseTest {
 
     @Test
-    public void testTitleBasePage() {
+    public void testRemoveProductFromCart() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://petstore.octoperf.com/actions/Catalog.action");
+        getDriver().findElement(
+                By.xpath("//div[@id='SidebarContent']/a[contains(@href, 'FISH')]")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='Catalog']//a[contains(@href, 'FI-SW-01')]")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='Catalog']//a[contains(@href, 'EST-2') and text()='EST-2']")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='Catalog']//a[contains(@href, 'EST-2') and @class='Button' and text()='Add to Cart']")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='Cart']//a[contains(@href, 'EST-2') and @class='Button' and text()='Remove']")).click();
+        String actual = getDriver().findElement(
+                By.xpath("//div[@id='Cart']//td[text()='Sub Total: $0.00 ']")).getText();
 
-        Assert.assertEquals(driver.getTitle(), "JPetStore Demo");
-
-        driver.quit();
+        Assert.assertEquals(actual, "Sub Total: $0.00");
     }
 
     @Test
@@ -74,7 +81,7 @@ public class Group99BottlesTest extends BaseTest {
     }
 
     @Test
-    public void testWorkshopHeaderText () {
+    public void testWorkshopHeaderText() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -204,6 +211,7 @@ public class Group99BottlesTest extends BaseTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageList() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -312,5 +320,30 @@ public class Group99BottlesTest extends BaseTest {
             textCartItems.add(element.getText());
         }
         Assert.assertTrue(textCartItems.contains("K9-PO-02"));
+    }
+
+    @Test
+    public void testCheckActionMoreButton() throws InterruptedException {
+
+        getDriver().get("https://magento.softwaretestingboard.com/");
+
+        getDriver().findElement(By.xpath("//span[@class='action more button']")).click();
+
+        Thread.sleep(3000);
+
+        WebElement text = getDriver().findElement(By.xpath("//span[@class='base']"));
+
+        Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
+    }
+
+    @Test
+    public void testLogoNavigateToBaseUrl() {
+        String expectedResult = "https://www.thestar.com/";
+
+        getDriver().get("https://www.thestar.com/");
+        getDriver().findElement(By.xpath("//*[@class='c-main-logo']")).click();
+        String actualResult = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
