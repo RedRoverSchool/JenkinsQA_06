@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,7 +13,7 @@ import school.redrover.runner.BaseTest;
 public class AndreyPomazTest extends BaseTest {
 
     @Test
-    public void testFirstRedRover() throws InterruptedException {
+    public void testRedRover() throws InterruptedException {
         getDriver().get("https://redrover.school");
         Thread.sleep(2000);
 
@@ -29,8 +30,8 @@ public class AndreyPomazTest extends BaseTest {
         Thread.sleep(2000);
         checkBox.click();
 
-        WebElement buttonW = getDriver().findElement(By.className("t-submit"));
-        buttonW.click();
+        WebElement buttonSubmit = getDriver().findElement(By.className("t-submit"));
+        buttonSubmit.click();
         Thread.sleep(2000);
 
         WebElement error = getDriver().findElement(By.className("t-input-error"));
@@ -38,7 +39,7 @@ public class AndreyPomazTest extends BaseTest {
     }
 
     @Test
-    public void testSecond_Selenium() throws InterruptedException {
+    public void testSelenium() throws InterruptedException {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
         String title = getDriver().getTitle();
@@ -60,17 +61,75 @@ public class AndreyPomazTest extends BaseTest {
     public void testJenkins() {
         getDriver().get("https://www.jenkins.io/");
 
-        WebElement But = getDriver().findElement(By.linkText("Documentation"));
-        But.click();
+        WebElement butDoc = getDriver().findElement(By.linkText("Documentation"));
+        butDoc.click();
 
-        WebElement But1 = getDriver().findElement(By.linkText("Installing Jenkins"));
-        But1.click();
+        WebElement butInstall = getDriver().findElement(By.linkText("Installing Jenkins"));
+        butInstall.click();
 
-        WebElement But3 = getDriver().findElement(By.linkText("Windows"));
-        But3.click();
+        WebElement butWindows = getDriver().findElement(By.linkText("Windows"));
+        butWindows.click();
 
         WebElement text = getDriver().findElement(By.className("hdlist1"));
-
         Assert.assertEquals(text.getText(),"Step 1: Setup wizard");
+    }
+    @Test
+    public void testForm() throws InterruptedException {
+        getDriver().get("https://demoqa.com");
+        WebElement ButtonForms = getDriver().findElement(By.xpath("(//div[@class='card-body'])[2]"));
+        ButtonForms.click();
+
+        WebElement ButtonPracticeForm = getDriver().findElement(By.xpath("(//li[@id='item-0'])[2]"));
+        ButtonPracticeForm.click();
+
+        WebElement formNameFirst = getDriver().findElement(By.id("firstName"));
+        formNameFirst.sendKeys("Andrey");
+        WebElement formNameLast = getDriver().findElement(By.id("lastName"));
+        formNameLast.sendKeys("Pomaz");
+
+        WebElement formEmail = getDriver().findElement(By.id("userEmail"));
+        formEmail.sendKeys("Test@mail.com");
+
+        WebElement genderMale = getDriver().findElement(By.className("custom-control-label"));
+        genderMale.click();
+
+        WebElement mobileNumber = getDriver().findElement(By.id("userNumber"));
+        mobileNumber.sendKeys("5555555555");
+
+        WebElement dateOfBirth = getDriver().findElement(By.id("dateOfBirthInput"));
+        dateOfBirth.click();
+        dateOfBirth.findElement(By.xpath("(//select[@class='react-datepicker__month-select'])[1]")).click();
+        dateOfBirth.findElement(By.xpath("(//option[@value='8'])[1]")).click();
+        dateOfBirth.findElement(By.xpath("(//option[@value='1989'])[1]")).click();
+        dateOfBirth.findElement(By.xpath("//div[contains(text(),'23')]")).click();
+
+        WebElement checkboxHobbies = getDriver().findElement(By.xpath("(//label[normalize-space()='Sports'])[1]"));
+        checkboxHobbies.findElement(By.xpath("(//label[normalize-space()='Sports'])[1]")).click();
+        checkboxHobbies.findElement(By.xpath("(//label[normalize-space()='Music'])[1]")).click();
+
+        WebElement address = getDriver().findElement(By.id("currentAddress"));
+        address.sendKeys("Test Address");
+
+        WebElement ButSubmit = getDriver().findElement(By.id("submit"));
+        ButSubmit.click();
+
+        WebElement got = getDriver().findElement(By.xpath("(//div[@id='example-modal-sizes-title-lg'])[1]"));
+        Thread.sleep(2000);
+        Assert.assertEquals(got.getText(), "Thanks for submitting the form");
+    }
+    @Test
+    public void findBook() throws InterruptedException {
+        getDriver().get("https://demoqa.com/");
+        WebElement buttonAlertMain = getDriver().findElement(By.xpath("(//div[@class='card mt-4 top-card'])[6]"));
+        buttonAlertMain.click();
+        Thread.sleep(2000);
+
+        WebElement searchBox = getDriver().findElement(By.xpath("//input[@id='searchBox']"));
+        searchBox.sendKeys("Speaking JavaScript");
+
+        WebElement findBook = getDriver().findElement(By.linkText("Speaking JavaScript"));
+        findBook.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
     }
 }
