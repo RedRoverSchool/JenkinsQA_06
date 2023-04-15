@@ -34,7 +34,6 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         driver.quit();
     }
 
-
     @Test
     public void verifySaleSTas_TC_001_04() {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -306,16 +305,14 @@ public class AlexLeoEpicGroupTest extends BaseTest{
        }
 
     @Test
-    public void test_TC_003_01() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+    public void testDollarSignDisplayed() {
+        List<WebElement> listFeaturedProductsText = getDriver().findElements(By.className("astra-shop-summary-wrap"));
 
-        driver.get("https://askomdch.com");
-        WebElement text = driver.findElement(By.xpath("//h3[contains(text(), '25%')]"));
-        Assert.assertEquals(text.getText(), "25% OFF On all products");
+        for (WebElement webElement : listFeaturedProductsText) {
+            String[] arrProductText = webElement.getText().split("\n");
 
-        driver.quit();
+            Assert.assertEquals(arrProductText[2].charAt(0), '$');
+        }
     }
 
     @Test
@@ -338,7 +335,9 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     @Test
     public void testVerifyDiscountMessagePresented() {
         getDriver().get("https://askomdch.com");
+
         WebElement text = getDriver().findElement(By.xpath("//h3[contains(text(), '25%')]"));
+
         Assert.assertEquals(text.getText(), "25% OFF On all products");
     }
 
@@ -506,21 +505,14 @@ public class AlexLeoEpicGroupTest extends BaseTest{
 
 
     @Test
-    public void test_TC_005_01() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+    public void testVerifyStorePageOpened() {
+        getDriver().get("https://askomdch.com");
 
-        driver.get("https://askomdch.com");
-        driver.findElement(By.cssSelector("a[href='/store']")).click();
-        WebElement store = driver.findElement(By.xpath("//header[contains(@class, 'woocommerce-products-header')]//following::h1"));
+        getDriver().findElement(By.cssSelector("a[href='/store']")).click();
+        WebElement store = getDriver().findElement(By.xpath("//header[contains(@class, 'woocommerce-products-header')]//following::h1"));
+
         Assert.assertEquals(store.getText(), "Store");
-
-        driver.quit();
     }
-
-
-
 
     @Test
     public void VerifyCardOnWomenPageTest() {
@@ -562,16 +554,12 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void test_TC_004_01() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+    public void testVerifyLoginPageOpened() {
+        getDriver().get("https://askomdch.com");
 
-        driver.get("https://askomdch.com");
-        driver.findElement(By.linkText("Account")).click();
-        Assert.assertEquals(driver.findElement(By.className("has-text-align-center")).getText(), "Account");
+        getDriver().findElement(By.linkText("Account")).click();
 
-        driver.quit();
+        Assert.assertEquals(getDriver().findElement(By.className("has-text-align-center")).getText(), "Account");
     }
 
     @Test
