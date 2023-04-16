@@ -67,7 +67,14 @@ public class DavidMTest {
     }
     @Test
     public void testOneMore(){
-        System.out.println("I do not know how to write tests");
+     System.out.println("I do not know how to write tests");
+    }
+
+    @Test
+    public void testTest(){
+        System.out.println("Simple test");
 
     }
+
+
 }
