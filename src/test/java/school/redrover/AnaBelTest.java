@@ -46,4 +46,18 @@ public class AnaBelTest extends BaseTest {
                 + "non-essential cookies to help us improve our services. Any data collected is anonymised. "
                 + "You can allow all cookies or manage them individually.");
     }
+
+    @Test
+    public void testSimpleCalculator() {
+        getDriver().get("https://testpages.herokuapp.com/styled/calculator");
+
+        WebElement num1 = getDriver().findElement(By.id("number1"));
+        num1.sendKeys("5");
+        WebElement num2 = getDriver().findElement(By.id("number2"));
+        num2.sendKeys("5");
+        getDriver().findElement(By.id("calculate")).click();
+        String answer = getDriver().findElement(By.id("answer")).getText();
+
+        Assert.assertEquals(answer, "10");
+    }
 }
