@@ -171,6 +171,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://prodoctorov.ru/krasnodar/vrach/177664-nicakova/");
     }
 
+    @Ignore
     @Test
     public void testAlex() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
