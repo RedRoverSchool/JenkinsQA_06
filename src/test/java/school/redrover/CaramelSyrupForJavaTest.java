@@ -132,7 +132,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
 
         String expectedResult = "Sign In To Your Account";
-
+ 
         getDriver().get("https://openweathermap.org/");
 
         WebElement signIn = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
@@ -252,4 +252,5 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
 }
