@@ -280,6 +280,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         button.click();
         WebElement filmsInput = getDriver().findElement(By.xpath("//span[text()='Фильмы']"));
         filmsInput.click();
+        
         WebElement films = getDriver().findElement(
                 By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[1]"));
         WebElement onlineCinema = getDriver().findElement(
@@ -309,6 +310,8 @@ public class CaramelSyrupForJavaTest extends BaseTest {
             waitForElementToBeDisplayed(cells[i]);
             actualResult++;
         }
+        
         Assert.assertEquals(actualResult, expectedResult);
     }
+
 }

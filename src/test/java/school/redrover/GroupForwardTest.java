@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -83,25 +82,20 @@ public class GroupForwardTest extends BaseTest {
     }
 
     @Test
-    public void SauceDemoLoginSuccessTest() {
+    public void sauceDemoLoginSuccessTest() {
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(options);
         String link = "https://www.saucedemo.com/";
         String endpoint_inventory = "inventory.html";
-        driver.get(link);
+        getDriver().get(link);
 
-        WebElement username = driver.findElement(By.cssSelector("#user-name"));
+        WebElement username = getDriver().findElement(By.cssSelector("#user-name"));
         username.sendKeys("standard_user");
-        WebElement password = driver.findElement(By.cssSelector("#password"));
+        WebElement password = getDriver().findElement(By.cssSelector("#password"));
         password.sendKeys("secret_sauce");
-        WebElement loginButton = driver.findElement(By.cssSelector("#login-button"));
+        WebElement loginButton = getDriver().findElement(By.cssSelector("#login-button"));
         loginButton.sendKeys(Keys.ENTER);
-        assertEquals(driver.getCurrentUrl(), link+endpoint_inventory);
 
-        driver.quit();
+        assertEquals(getDriver().getCurrentUrl(), link+endpoint_inventory);
       }
 
       @Test
