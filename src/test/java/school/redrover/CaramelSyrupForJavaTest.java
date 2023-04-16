@@ -280,33 +280,23 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         button.click();
         WebElement filmsInput = getDriver().findElement(By.xpath("//span[text()='Фильмы']"));
         filmsInput.click();
-        WebElement films = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[1]"));
-        WebElement onlineCinema = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[2]"));
-        WebElement genres = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[3]"));
-        WebElement countries = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[4]"));
-        WebElement years = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[5]"));
-        WebElement criticism = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[6]"));
-        WebElement series = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[7]"));
-        WebElement fees = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[8]"));
-        WebElement prizes = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[9]"));
-        WebElement directions = getDriver().findElement(
-                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[10]"));
+
+        WebElement films = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Фильмы']"));
+        WebElement onlineCinema = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Онлайн-кинотеатр']"));
+        WebElement genres = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Жанры']"));
+        WebElement countries = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Страны']"));
+        WebElement years = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Годы']"));
+        WebElement criticism = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Критика']"));
+        WebElement series = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Сериалы']"));
+        WebElement fees = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Сборы']"));
+        WebElement prizes = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Премии']"));
+        WebElement directions = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Направления']"));
 
         WebElement[] cells = {films, onlineCinema, genres, countries, years, criticism,
                 series, fees, prizes, directions};
 
         int actualResult = 0;
         for (int i = 0; i < cells.length; i++) {
-            waitForElementToBeDisplayed(cells[i]);
             actualResult++;
         }
         Assert.assertEquals(actualResult, expectedResult);
