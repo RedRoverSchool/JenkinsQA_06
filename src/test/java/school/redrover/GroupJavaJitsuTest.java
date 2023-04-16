@@ -252,7 +252,7 @@ public class GroupJavaJitsuTest extends BaseTest {
     @Test
     public void testKatya2() {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
-
+        
         String title = getDriver().getTitle();
         assertEquals("Web form", title);
 
@@ -260,7 +260,7 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         WebElement textBox = getDriver().findElement(By.name("my-text"));
         WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
-
+        
         textBox.sendKeys("Selenium");
         submitButton.click();
 
@@ -418,6 +418,25 @@ public class GroupJavaJitsuTest extends BaseTest {
         getDriver().switchTo().alert().accept();
         WebElement enterTextResult = getDriver().findElement(By.xpath("//span[@id='promptResult']"));
         Assert.assertEquals(enterTextResult.getText(), "You entered RedRover06");
+    }
+    @Test
+    public void testZakazUa() {
+        getDriver().get("https://winetime.zakaz.ua/uk/");
+
+        WebElement buttonEntry = getDriver().findElement(By.xpath("//span[contains(text(),'Увійти')]"));
+        buttonEntry.click();
+
+        WebElement textBoxPhone = getDriver().findElement(By.tagName("input"));
+        textBoxPhone.sendKeys("+380505055050");
+
+        WebElement textBoxPassword = getDriver().findElement(By.xpath("//input[@id='login-password']"));
+        textBoxPassword.sendKeys("1234567890");
+
+        WebElement buttonReg = getDriver().findElement(By.xpath("//button[contains(text(),'Зареєструватись')]"));
+        buttonReg.click();
+
+        WebElement text=getDriver().findElement(By.xpath("//span[contains(text(),'У мене вже є акаунт')]"));
+        Assert.assertEquals(text.getText(), "У мене вже є акаунт");
     }
 }
 
