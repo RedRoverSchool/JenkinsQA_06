@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -12,8 +13,8 @@ import static org.testng.Assert.assertEquals;
 
 public class GroupJavaJitsuTest extends BaseTest {
 
-   @Ignore
-   @Test
+    @Ignore
+    @Test
     public void testCarServiceOptions() {
         getDriver().get("https://www.homesteadhyundai.net/");
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
@@ -140,7 +141,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(got.getText(), "Thanks for submitting the form");
     }
 
-
+    @Ignore
     @Test
     public void testAboutDoctorsFind() throws InterruptedException {
         getDriver().get("https://prodoctorov.ru/");
@@ -248,25 +249,26 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals("Soccer Zone", getDriver().getTitle());
     }
 
-        @Test
-        public void testKatya2() {
-            getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+    @Test
+    public void testKatya2() {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-            String title = getDriver().getTitle();
-            assertEquals("Web form", title);
+        String title = getDriver().getTitle();
+        assertEquals("Web form", title);
 
-            getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
-            WebElement textBox = getDriver().findElement(By.name("my-text"));
-            WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
 
-            textBox.sendKeys("Selenium");
-            submitButton.click();
+        textBox.sendKeys("Selenium");
+        submitButton.click();
 
-            WebElement message = getDriver().findElement(By.id("message"));
-            String value = message.getText();
-            assertEquals("Received!", value);
-        }
+        WebElement message = getDriver().findElement(By.id("message"));
+        String value = message.getText();
+        assertEquals("Received!", value);
+    }
+
     @Test
     public void formFillOut() {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
@@ -340,28 +342,29 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(checkMultiBox.getText(), "Hyundai");
     }
 
-        @Test
-        public void Liliia_loginTestErrorAppears() {
-            getDriver().get("https://automationteststore.com/");
+    @Test
+    public void Liliia_loginTestErrorAppears() {
+        getDriver().get("https://automationteststore.com/");
 
-            WebElement loginOrRegister = getDriver().findElement(By.xpath("//ul[@id='customer_menu_top']/li"));
-            loginOrRegister.click();
+        WebElement loginOrRegister = getDriver().findElement(By.xpath("//ul[@id='customer_menu_top']/li"));
+        loginOrRegister.click();
 
-            WebElement loginNameInput = getDriver().findElement(By.xpath("//input[@id='loginFrm_loginname']"));
-            loginNameInput.sendKeys("avadakedavra");
+        WebElement loginNameInput = getDriver().findElement(By.xpath("//input[@id='loginFrm_loginname']"));
+        loginNameInput.sendKeys("avadakedavra");
 
-            WebElement passwordInput = getDriver().findElement(By.xpath("//input[@id='loginFrm_password']"));
-            passwordInput.sendKeys("12345");
+        WebElement passwordInput = getDriver().findElement(By.xpath("//input[@id='loginFrm_password']"));
+        passwordInput.sendKeys("12345");
 
-            WebElement loginButton = getDriver().findElement(By.xpath("//button[@title='Login']"));
-            loginButton.click();
+        WebElement loginButton = getDriver().findElement(By.xpath("//button[@title='Login']"));
+        loginButton.click();
 
-            WebElement alert = getDriver().findElement(By.xpath("//div[@class='alert alert-error alert-danger']"));
-            WebElement closeButton = alert.findElement(By.tagName("button"));
-            String alertText = alert.getText().replace(closeButton.getText(), "").trim();
+        WebElement alert = getDriver().findElement(By.xpath("//div[@class='alert alert-error alert-danger']"));
+        WebElement closeButton = alert.findElement(By.tagName("button"));
+        String alertText = alert.getText().replace(closeButton.getText(), "").trim();
 
-            Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
+        Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
     }
+
     @Test
     public void findBookAndreyP() throws InterruptedException {
         getDriver().get("https://demoqa.com/");
