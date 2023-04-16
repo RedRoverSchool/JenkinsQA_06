@@ -438,6 +438,28 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement text=getDriver().findElement(By.xpath("//span[contains(text(),'У мене вже є акаунт')]"));
         Assert.assertEquals(text.getText(), "У мене вже є акаунт");
     }
+    @Test
+    public void testWineTimeContact() {
+        getDriver().get("https://www.winetime.com/");
+
+        WebElement buttonEntry = getDriver().findElement(By.xpath("//a[contains(text(),'Contact')]"));
+        buttonEntry.click();
+
+        WebElement textBoxName = getDriver().findElement(By.cssSelector("#input_1_1_3"));
+        textBoxName.sendKeys("Ana");
+
+        WebElement textBoxLast = getDriver().findElement(By.cssSelector("#input_1_1_6"));
+        textBoxLast.sendKeys("Solo");
+
+        WebElement textBoxMail = getDriver().findElement(By.cssSelector("#input_1_2"));
+        textBoxMail.sendKeys("a.olo@gmail.com");
+
+        WebElement textBoxMessage = getDriver().findElement(By.cssSelector("#input_1_3"));
+        textBoxMessage.sendKeys("ASAP");
+
+        WebElement buttonSubmit = getDriver().findElement(By.cssSelector("#gform_submit_button_1"));
+        buttonSubmit.click();
+    }
 }
 
 
