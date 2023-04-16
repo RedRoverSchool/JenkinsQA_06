@@ -187,7 +187,6 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement logo = getDriver().findElement(By.xpath("//div[@class='app_logo']"));
         Assert.assertEquals(logo.getText(), "Swag Labs");
     }
-
     @Test
     public void testTryToEnterLockedUser() {
         getDriver().get("https://www.saucedemo.com/");
