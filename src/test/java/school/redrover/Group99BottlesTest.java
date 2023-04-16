@@ -100,53 +100,6 @@ public class Group99BottlesTest extends BaseTest {
     }
 
     @Test
-    public void testH2Text_WhenSearchingCityCountry() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        String url = "https://openweathermap.org/";
-        String cityName = "Paris";
-        String expectedResult = "Paris, FR";
-
-        driver.get(url);
-        Thread.sleep(8000);
-
-        WebElement searchCityField = driver.findElement(
-                By.xpath("//div[@id='weather-widget']//input[@placeholder='Search city']")
-        );
-        searchCityField.click();
-        searchCityField.sendKeys(cityName);
-
-        WebElement searchButton = driver.findElement(
-                By.xpath("//button[@type='submit']")
-        );
-        searchButton.click();
-        Thread.sleep(1000);
-
-
-        WebElement parisFRChoiceDropdownMenu = driver.findElement(
-                By.xpath("//ul[@class='search-dropdown-menu']/li/span[text()='Paris, FR ']")
-        );
-        parisFRChoiceDropdownMenu.click();
-
-        WebElement h2CityNameHeader = driver.findElement(
-                By.xpath(
-                        "//div[@id='weather-widget']//h2")
-        );
-
-        Thread.sleep(2000);
-        String actualResult = h2CityNameHeader.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
-
-        driver.quit();
-    }
-
-    @Test
     public void testTelerikHeaderText() {
         getDriver().get("https://www.telerik.com/");
 
@@ -313,5 +266,14 @@ public class Group99BottlesTest extends BaseTest {
         String actualResult = getDriver().getCurrentUrl();
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testElementContentTitle() {
+
+        getDriver().get("https://magento.softwaretestingboard.com/");
+        WebElement discountSign = getDriver().findElement(By.xpath("//a[@class='block-promo home-pants']/span/strong[@class='title']"));
+
+        Assert.assertEquals(discountSign.getText(), "20% OFF");
     }
 }
