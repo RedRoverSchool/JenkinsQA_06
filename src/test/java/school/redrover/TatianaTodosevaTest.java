@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 //import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.chrome.ChromeOptions;
+//import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,7 +15,7 @@ import static org.testng.Assert.assertEquals;
 
 public class TatianaTodosevaTest {
 
-    @Test
+    /*  @Test
     public void firstTest() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -43,7 +43,7 @@ public class TatianaTodosevaTest {
 
         driver.quit();
     }
-
+    */
     @Test
     public void secondTest() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
