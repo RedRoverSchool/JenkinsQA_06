@@ -439,6 +439,19 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement text=getDriver().findElement(By.xpath("//span[contains(text(),'У мене вже є акаунт')]"));
         Assert.assertEquals(text.getText(), "У мене вже є акаунт");
     }
+    @Test
+    public void findInSearchBox(){
+
+        getDriver().get("https://soccerzone.com/");
+        WebElement searchBox = getDriver().findElement(By.name("search_query_adv"));
+        searchBox.click();
+        searchBox.sendKeys("ball");
+
+        WebElement button = getDriver().findElement(By.xpath(" //button[@name='go']"));
+        button.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://soccerzone.com/search.php?search_query_adv=ball&go=Search");
+    }
 }
 
 
