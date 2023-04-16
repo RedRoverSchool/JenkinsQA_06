@@ -118,35 +118,59 @@ public class GroupUkrTest extends BaseTest {
         driver.quit();
     }
     @Test
-    public void testAuthorizationAndLogOutDemoBlaze() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.demoblaze.com/");
-        WebElement shopTitle = driver.findElement(By.xpath("//a[@class ='navbar-brand']"));
+    public void testAuthorizationAndLogOut() throws InterruptedException {
+        getDriver().get("https://www.demoblaze.com/");
+        WebElement shopTitle = getDriver().findElement(By.xpath("//a[@class ='navbar-brand']"));
         Assert.assertEquals(shopTitle.getText(), "PRODUCT STORE");
-        WebElement logInButton = driver.findElement(By.xpath("//a[@id='login2']"));
+        WebElement logInButton = getDriver().findElement(By.xpath("//a[@id='login2']"));
         logInButton.click();
 
         Thread.sleep(1000);
-        WebElement inputUsernameLogInForm = driver.findElement(By.xpath("//input[@id='loginusername']"));
+        WebElement inputUsernameLogInForm = getDriver().findElement(By.xpath("//input[@id='loginusername']"));
         inputUsernameLogInForm.sendKeys("TestAuthMax");
-        WebElement inputPasswordLogInForm = driver.findElement(By.xpath("//input[@id='loginpassword']"));
+        WebElement inputPasswordLogInForm = getDriver().findElement(By.xpath("//input[@id='loginpassword']"));
         inputPasswordLogInForm.sendKeys("1234");
-        WebElement logInButtonLogInForm = driver.findElement(By.xpath("//button[@onclick='logIn()']"));
+        WebElement logInButtonLogInForm = getDriver().findElement(By.xpath("//button[@onclick='logIn()']"));
         logInButtonLogInForm.click();
         Thread.sleep(1500);
 
-        WebElement helloUserNameButton = driver.findElement(By.xpath("//a[@id='nameofuser']"));
+        WebElement helloUserNameButton = getDriver()
+                .findElement(By.xpath("//a[@id='nameofuser']"));
         Assert.assertEquals(helloUserNameButton.getText(), "Welcome TestAuthMax");
-        Assert.assertEquals(driver.getCurrentUrl(),"https://www.demoblaze.com/");
-        WebElement logOutButton = driver.findElement(By.xpath("//a[@id='logout2']"));
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://www.demoblaze.com/");
+        WebElement logOutButton = getDriver().findElement(By.xpath("//a[@id='logout2']"));
         logOutButton.click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.demoblaze.com/index.html");
-        WebElement singUpButton = driver.findElement(By.xpath("//a[@id='signin2']"));
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.demoblaze.com/index.html");
+        WebElement singUpButton = getDriver().findElement(By.xpath("//a[@id='signin2']"));
         Assert.assertEquals(singUpButton.getText(), "Sign up");
-        driver.quit();
+    }
+    @Test
+    public void testProductsDisplayInListing() throws InterruptedException {
+        getDriver().get("https://www.demoblaze.com/");
+        Thread.sleep(1000);
+        WebElement firstProductTitle = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h4/a"));
+        Assert.assertEquals(firstProductTitle.getText(), "Samsung galaxy s6");
+
+        WebElement firstProductPrice = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h5"));
+        Assert.assertEquals(firstProductPrice.getText(), "$360");
+
+        WebElement linkLaptopSideBar = getDriver().findElement(By.xpath("//div[@class='list-group']/a[3]"));
+        linkLaptopSideBar.click();
+
+        Thread.sleep(1500);
+        WebElement firstProductTitleLaptop = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h4/a"));
+        Assert.assertEquals(firstProductTitleLaptop.getText(), "Sony vaio i5");
+        WebElement firstProductPriceLaptop = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h5"));
+        Assert.assertEquals(firstProductPriceLaptop.getText(), "$790");
+
+        WebElement linkMonitorsSideBar = getDriver().findElement(By.xpath("//div[@class='list-group']/a[4]"));
+        linkMonitorsSideBar.click();
+
+        Thread.sleep(1500);
+        WebElement firstProductTitleMonitor = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h4/a"));
+        Assert.assertEquals(firstProductTitleMonitor.getText(), "Apple monitor 24");
+        WebElement firstProductPriceMonitors = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h5"));
+        Assert.assertEquals(firstProductPriceMonitors.getText(), "$400");
     }
 }
 

@@ -63,4 +63,12 @@ public class DreamTeamTest extends BaseTest {
         Assert.assertEquals(link, "https://explore.zoom.us/en/industry/");
     }
 
+    @Test
+    public void testMainPageFirstLineText() {
+        getDriver().get("https://openweathermap.org/");
+
+        WebElement text = getDriver().findElement(By.xpath("//div[1]/div/h1/span"));
+        Assert.assertEquals(text.getText(), "OpenWeather");
+    }
 }
+

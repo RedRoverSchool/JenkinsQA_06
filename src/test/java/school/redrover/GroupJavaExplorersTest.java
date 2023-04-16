@@ -7,12 +7,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class GroupJavaExplorersTest {
+public class GroupJavaExplorersTest extends BaseTest {
 
     @Test
     public void testTrelloTitle() {
@@ -68,34 +68,26 @@ public class GroupJavaExplorersTest {
         driver.quit();
     }
 
-
     @Test
-    public void TestS() {
+    public void testEquilateralTriangle() {
+        int triangleSize = 5;
+        final String expectedResult = "Equilateral";
+
+        getDriver().get("https://testpages.herokuapp.com/styled/apps/triangle/triangle001.html");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        WebElement inputSize1 =  getDriver().findElement(By.id("side1"));
+        inputSize1.click();
+        inputSize1.sendKeys(String.valueOf(triangleSize));
+        WebElement inputSize2 =  getDriver().findElement(By.id("side2"));
+        inputSize2.click();
+        inputSize2.sendKeys(String.valueOf(triangleSize));
+        WebElement inputSize3 =  getDriver().findElement(By.id("side3"));
+        inputSize3.click();
+        inputSize3.sendKeys(String.valueOf(triangleSize));
+        WebElement button =  getDriver().findElement(By.id("identify-triangle-action"));
+        button.sendKeys(Keys.ENTER);
+
+        WebElement actualResult =  getDriver().findElement(By.id("triangle-type"));
+        Assert.assertEquals(actualResult.getText(), expectedResult);
     }
-    @Ignore
-    @Test
-    public void testOracleSearch() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get("https://docs.oracle.com/en/");
-
-        WebElement textBox = driver.findElement(By.name("q"));
-        textBox.sendKeys("Java");
-        textBox.sendKeys(Keys.RETURN);
-
-        WebElement text = driver.findElement(By.cssSelector("span[class*='search-title']"));
-        Assert.assertEquals(text.getText(), "Java Management");
-
-        driver.quit();
-    }
-
-    public void TestAfterSet ()
-    {
-        System.out.println("Тест после перенастроек всего и вся");
-    }
-
-
 }

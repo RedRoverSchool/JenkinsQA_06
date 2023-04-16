@@ -41,17 +41,12 @@ public class GroupDreamTeam {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         String url = "http://www.99-bottles-of-beer.net/";
         String expectedResult = "http://www.99-bottles-of-beer.net/";
-
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(url);
-
-
         String actualResult = driver.getCurrentUrl();
         Assert.assertEquals(actualResult, expectedResult);
-
         driver.quit();
     }
     @Test
