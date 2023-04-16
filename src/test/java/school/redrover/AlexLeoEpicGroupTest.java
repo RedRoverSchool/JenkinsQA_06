@@ -90,16 +90,12 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
+    public void testCheckDiscount() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().get("https://askomdch.com/");
+        WebElement discount = getDriver().findElement(By.xpath("//h3[contains(text(), \"25% OFF \")]"));
 
-    public void checkDiscount() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("https://askomdch.com/");
-        WebElement discount = driver.findElement(By.xpath("//h3[contains(text(), \"25% OFF \")]"));
         Assert.assertEquals(discount.getText(), "25% OFF On all products");
-        driver.quit();
     }
 
     @Test
@@ -585,4 +581,13 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         Assert.assertEquals(items.size(), 5);
     }
 
+    @Test
+    public void testBackgroundColor() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.cssSelector("a[href='https://askomdch.com/product-category/men/']")).click();
+        WebElement buttonSearch = getDriver().findElement(By.cssSelector("button[value='Search']"));
+
+        Assert.assertEquals(buttonSearch.getCssValue("background-color"), "rgba(49, 151, 214, 1)");
+    }
 }
