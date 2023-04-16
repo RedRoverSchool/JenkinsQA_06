@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
 
-    // Метод, ожидающий элемент, заданное время.
     public void waitForElementToBeDisplayed(WebElement element) {
         beforeMethod();
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
@@ -33,7 +32,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         wait.until(elementDisplayed);
     }
 
-    // Метод, прокликивающий элемент, заданное время.
     public void clickCustom(WebElement element) {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         ExpectedCondition<Boolean> elementIsClickable = arg0 -> {
