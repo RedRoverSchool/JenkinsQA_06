@@ -597,13 +597,9 @@ public class AlexLeoEpicGroupTest extends BaseTest{
 
     @Test
     public void testVerifyPromoText() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        getDriver().get("https://askomdch.com");
+        WebElement promoText = getDriver().findElement(By.xpath(".//h3[@class = 'has-text-align-center has-white-color has-text-color has-medium-font-size']"));
 
-        driver.get("https://askomdch.com");
-        WebElement promoText = driver.findElement(By.xpath(".//h3[@class = 'has-text-align-center has-white-color has-text-color has-medium-font-size']"));
         Assert.assertEquals(promoText.getText(), "25% OFF On all products");
-        driver.quit();
     }
 }
