@@ -6,15 +6,30 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
 
+
 public class CaramelSyrupForJavaTest extends BaseTest {
+
+    public void clickCustom(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        ExpectedCondition<Boolean> elementIsClickable = arg0 -> {
+            try {
+                element.click();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        };
+        wait.until(elementIsClickable);
+    }
 
     @Test
     public void testMessengersOpenWeather() throws InterruptedException {
@@ -28,7 +43,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         int expectedResult = 6;
 
-        beforeMethod();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         getDriver().get("https://openweathermap.org/");
@@ -63,8 +77,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
 
     @Test
@@ -73,13 +85,10 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResultUrl = "https://openweather.co.uk/";
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
 
-        beforeMethod();
-
         getDriver().get("https://openweathermap.org/");
-        Thread.sleep(5000);
-        WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
 
-        guide.click();
+        WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
+        clickCustom(guide);
 
         WebElement complexEnterprise = getDriver().findElement(
                 By.xpath("//main//div[2]/div/div/p[1]/a[text()='complex enterprise systems']"));
@@ -95,8 +104,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
-
-        afterMethod();
     }
 
     @Test
@@ -104,7 +111,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         String expectedResult = "Paris, FR";
 
-        beforeMethod();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         getDriver().get("https://openweathermap.org/");
@@ -121,8 +127,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = parisText.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
 
     @Test
@@ -130,30 +134,23 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         String actualResult = "Sign In To Your Account";
 
-        beforeMethod();
-
         getDriver().get("https://openweathermap.org/");
-        Thread.sleep(5000);
 
         WebElement signIn = getDriver().findElement
                 (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
-        signIn.click();
+        clickCustom(signIn);
 
         WebElement loginText = getDriver().findElement(By.xpath("//h3"));
 
         String expectedResult = loginText.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
 
     @Test
     public void testArtyomDulyaWildberries() {
 
         int expectedResult = 26;
-
-        beforeMethod();
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
@@ -200,7 +197,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
-        afterMethod();
     }
 
     @Test
@@ -225,6 +221,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         driver.quit();
     }
+
     @Test
     public void testAnastasiyaAbramova() {
         String expectedResult = "https://openweathermap.org/";
@@ -239,13 +236,10 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         String expectedResult = "OpenWeather Enterprise Guide";
 
-        beforeMethod();
-
         getDriver().get("https://openweathermap.org/");
-        Thread.sleep(5000);
 
         WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
-        guide.click();
+        clickCustom(guide);
         WebElement enterpriseSystem = getDriver().findElement(By.xpath("//a[text()='complex enterprise systems']"));
         enterpriseSystem.click();
         ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
@@ -256,11 +250,5 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = banner.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
-
-
-
-
 }
