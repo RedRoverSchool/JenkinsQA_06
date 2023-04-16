@@ -1,4 +1,5 @@
 package school.redrover;
+
 import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -7,7 +8,7 @@ import school.redrover.runner.BaseTest;
 public class ElenaTsTest extends BaseTest {
 
     @Test
-    public void testTitle(){
+    public void testTitle() {
         getDriver().get("https://www.ebay.com/");
         Assert.assertEquals(getDriver().getTitle(), "Electronics, Cars, Fashion, Collectibles & More | eBay");
     }
@@ -22,7 +23,7 @@ public class ElenaTsTest extends BaseTest {
 
         WebElement result = getDriver().findElement(By.xpath("(//span[@role='heading'])[2]"));
 
-        Assert.assertEquals(result.getText().substring(0,7), "Samsung");
+        Assert.assertEquals(result.getText().substring(0, 7), "Samsung");
     }
 
     @Test
@@ -35,7 +36,7 @@ public class ElenaTsTest extends BaseTest {
         WebElement siteIcon = getDriver().findElement(By.xpath("//a[@id='gh-la']"));
         siteIcon.click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),"https://www.ebay.com/");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.ebay.com/");
     }
 
     @Test
@@ -69,26 +70,26 @@ public class ElenaTsTest extends BaseTest {
         loginIcon.click();
         Thread.sleep(1000);
 
-        try {WebElement cookiesButton = getDriver().findElement(By.id("onetrust-accept-btn-handler"));
-        if (cookiesButton.isDisplayed()){
-            cookiesButton.click();}
-        } catch (NoSuchElementException ignored){
+        try {
+            WebElement cookiesButton = getDriver().findElement(By.id("onetrust-accept-btn-handler"));
+            if (cookiesButton.isDisplayed()) {
+                cookiesButton.click();
+            }
+        } catch (NoSuchElementException ignored) {
         }
 
         Thread.sleep(1000);
         WebElement registrationButton = getDriver().findElement(By.id("login_create_form_show"));
         registrationButton.click();
 
-        WebElement registrationEmailField =getDriver().findElement(By.id("lgn-usr"));
+        WebElement registrationEmailField = getDriver().findElement(By.id("lgn-usr"));
         registrationEmailField.sendKeys("qw@");
 
-        WebElement registrationPasswordField =getDriver().findElement(By.id("lgn-pwd"));
+        WebElement registrationPasswordField = getDriver().findElement(By.id("lgn-pwd"));
         registrationPasswordField.click();
 
         WebElement warningMessage = getDriver().findElement(By.xpath("//p[@id='err-lgn-usr']"));
 
-        Assert.assertEquals(warningMessage.getText(),"Your email address is incorrect. Please recheck your input");
-        }
+        Assert.assertEquals(warningMessage.getText(), "Your email address is incorrect. Please recheck your input");
+    }
 }
-
-
