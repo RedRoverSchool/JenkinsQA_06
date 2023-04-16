@@ -205,5 +205,4 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-test ='error']")));
         Assert.assertEquals(errorMessage.getText(),"Epic sadface: Sorry, this user has been locked out.");
     }
-
 }
