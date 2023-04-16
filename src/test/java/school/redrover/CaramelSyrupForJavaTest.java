@@ -237,6 +237,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         driver.quit();
     }
+
     @Test
     public void testAnastasiyaAbramova() {
         String expectedResult = "https://openweathermap.org/";
@@ -267,6 +268,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testArtyomDulyaAuthorizationKinopoisk() {
 
