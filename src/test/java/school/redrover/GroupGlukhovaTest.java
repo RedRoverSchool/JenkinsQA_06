@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import java.time.LocalDate;
 
 import java.time.Duration;
 
@@ -81,5 +82,25 @@ public class GroupGlukhovaTest {
         Assert.assertEquals(clickNextIcon.getText(), "");
         driver.quit();
 
+    }
+
+    @Test
+    public void aviaTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.aviasales.ru/");
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
+
+        WebElement destinationButton = driver.findElement(By.xpath("//input[@id='destination']"));
+        destinationButton.sendKeys("Коломбо");
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
+
+        driver.quit();
     }
 }
