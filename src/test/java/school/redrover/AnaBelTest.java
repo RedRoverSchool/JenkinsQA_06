@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import org.openqa.selenium.support.ui.Select;
 
 public class AnaBelTest extends BaseTest {
     String url = "https://openweathermap.org";
@@ -51,6 +52,8 @@ public class AnaBelTest extends BaseTest {
         num1.sendKeys("5");
         WebElement num2 = getDriver().findElement(By.id("number2"));
         num2.sendKeys("5");
+        Select function = new Select(getDriver().findElement(By.id("function")));
+        function.selectByVisibleText("plus");
         getDriver().findElement(By.id("calculate")).click();
         String answer = getDriver().findElement(By.id("answer")).getText();
 
