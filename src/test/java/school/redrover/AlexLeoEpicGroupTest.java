@@ -90,30 +90,21 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
+    public void testCheckDiscount() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().get("https://askomdch.com/");
+        WebElement discount = getDriver().findElement(By.xpath("//h3[contains(text(), \"25% OFF \")]"));
 
-    public void checkDiscount() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("https://askomdch.com/");
-        WebElement discount = driver.findElement(By.xpath("//h3[contains(text(), \"25% OFF \")]"));
         Assert.assertEquals(discount.getText(), "25% OFF On all products");
-        driver.quit();
     }
 
     @Test
-    public void clickAccountButtonTest() {
+    public void testClickAccountButton() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//li[@id='menu-item-1237']/a")).click();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://askomdch.com/");
-        driver.findElement(By.xpath("//li[@id='menu-item-1237']/a")).click();
-
-        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/account/");
-        driver.quit();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/account/");
     }
 
     @Test
@@ -515,19 +506,13 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void VerifyCardOnWomenPageTest() {
+    public void testVerifyCardOnWomenPage() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        getDriver().get("https://askomdch.com");
+        getDriver().findElement(By.xpath("//li[@id='menu-item-1229']/a")).click();
+        List<WebElement> womenProducts = getDriver().findElements(By.xpath("//div[@class='astra-shop-thumbnail-wrap']"));
 
-        driver.get("https://askomdch.com");
-        driver.findElement(By.xpath("//li[@id='menu-item-1229']/a")).click();
-
-        List<WebElement> womenProducts = driver.findElements(By.xpath("//div[@class='astra-shop-thumbnail-wrap']"));
         Assert.assertEquals(womenProducts.size(), 7);
-
-        driver.quit();
     }
 
     @Test
@@ -596,4 +581,13 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         Assert.assertEquals(items.size(), 5);
     }
 
+    @Test
+    public void testBackgroundColor() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.cssSelector("a[href='https://askomdch.com/product-category/men/']")).click();
+        WebElement buttonSearch = getDriver().findElement(By.cssSelector("button[value='Search']"));
+
+        Assert.assertEquals(buttonSearch.getCssValue("background-color"), "rgba(49, 151, 214, 1)");
+    }
 }

@@ -172,7 +172,7 @@ public class GroupJasperAutomationTest extends BaseTest {
     }
 
     @Test
-    public void testEnterToSite() {
+       public void testEnterToSite(){
         getDriver().get("https://www.saucedemo.com/");
 
         WebElement addLogin = getDriver().findElement(By.xpath("//input[@data-test='username']"));
@@ -205,5 +205,4 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-test ='error']")));
         Assert.assertEquals(errorMessage.getText(),"Epic sadface: Sorry, this user has been locked out.");
     }
-
 }
