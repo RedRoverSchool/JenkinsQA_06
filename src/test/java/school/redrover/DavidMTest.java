@@ -73,6 +73,5 @@ public class DavidMTest {
     @Test
     public void testShort(){
         System.out.println("This is short test");
-
     }
 }
