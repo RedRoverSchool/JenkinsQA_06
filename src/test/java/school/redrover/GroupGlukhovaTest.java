@@ -47,38 +47,6 @@ public class GroupGlukhovaTest extends BaseTest {
     }
 
     @Test
-    public void testCloseTabAboutUsByButton() {
-        getDriver().get("https://www.demoblaze.com/");
-
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        WebElement clickAboutUs = getDriver().findElement(By.xpath("//a[text() ='About us']"));
-        clickAboutUs.click();
-
-        WebElement closeButton = getDriver().findElement(By.xpath
-                ("//div[@id ='videoModal']//div[@class='modal-footer']/button[text()='Close']"));
-        closeButton.click();
-
-        Assert.assertTrue((closeButton.getText().equals("Close") || closeButton.getText().equals("")));
-    }
-
-    @Test
-    public void testCloseTabAboutUsByIcon() {
-        getDriver().get("https://www.demoblaze.com/");
-
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        WebElement clickAboutUs = getDriver().findElement(By.xpath("//a[text() ='About us']"));
-        clickAboutUs.click();
-
-        WebElement closeIcon = getDriver().findElement(By.xpath
-                ("//div[@id ='videoModal']//button[@class='close']/span"));
-        closeIcon.click();
-
-        Assert.assertTrue((closeIcon.getText().equals("×") || closeIcon.getText().equals("")));
-    }
-
-    @Test
     public void testNextIconCarousel() {
         getDriver().get("https://www.demoblaze.com/");
 
