@@ -200,7 +200,7 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void verifySaleIconIsDisplayedTest() {
+    public void verifySaleIconIsDisplayedArtemTTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -229,7 +229,7 @@ public class AlexLeoEpicGroupTest extends BaseTest{
 
 
     @Test
-    public void verifyShopNowLinkTest() {
+    public void verifyShopNowLinkArtemTTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -250,7 +250,7 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void TC003_33_ArtemT_verifyFindMoreLink() {
+    public void verifyFindMoreLinkArtemTTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
