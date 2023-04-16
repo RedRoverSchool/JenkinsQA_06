@@ -6,16 +6,29 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class JavaciraptorsTeamTest {
-    @Test
-    public void testReadOnlyInput() throws InterruptedException {
+    private WebDriver driver;
 
+    @BeforeMethod
+    private void beforeTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver = new ChromeDriver(chromeOptions);
+    }
+
+    @AfterMethod
+    private void afterTest() {
+        driver.quit();
+    }
+
+    @Test
+    public void testReadOnlyInput() {
+
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
         WebElement readOnlyInput = driver.findElement(By.name("my-readonly"));
@@ -25,15 +38,12 @@ public class JavaciraptorsTeamTest {
         readOnlyInput.sendKeys("Hello World!");
 
         Assert.assertEquals(readOnlyInput.getAttribute("value"), initial);
-        driver.quit();
+
     }
 
     @Test
-    public void testSavichev() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testSavichev() {
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
         WebElement textInput = driver.findElement(By.name("my-text"));
@@ -43,16 +53,12 @@ public class JavaciraptorsTeamTest {
 
         Assert.assertEquals(expText, "Hello World!");
 
-        Thread.sleep(2000);
-
         WebElement passInput = driver.findElement(By.name("my-password"));
         passInput.click();
         passInput.sendKeys("222222");
         String expPass = passInput.getAttribute("value");
 
         Assert.assertEquals(expPass, "222222");
-
-        Thread.sleep(2000);
 
         WebElement checkBox = driver.findElement(By.id("my-check-2"));
         checkBox.click();
@@ -64,6 +70,5 @@ public class JavaciraptorsTeamTest {
         String value = message.getText();
         Assert.assertEquals("Received!", value);
 
-        driver.quit();
     }
 }
