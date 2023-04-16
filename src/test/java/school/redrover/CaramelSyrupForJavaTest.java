@@ -264,8 +264,8 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         tailoredToYou.click();
 
         WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
-        String actualResult = banner.getText();
 
+        String actualResult = banner.getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
 
