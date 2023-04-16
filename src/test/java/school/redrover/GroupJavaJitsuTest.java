@@ -418,6 +418,25 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement enterTextResult = getDriver().findElement(By.xpath("//span[@id='promptResult']"));
         Assert.assertEquals(enterTextResult.getText(), "You entered RedRover06");
     }
+    @Test
+    public void testZakazUa() {
+        getDriver().get("https://winetime.zakaz.ua/uk/");
+
+        WebElement buttonEntry = getDriver().findElement(By.xpath("//span[contains(text(),'Увійти')]"));
+        buttonEntry.click();
+
+        WebElement textBoxPhone = getDriver().findElement(By.tagName("input"));
+        textBoxPhone.sendKeys("+380505055050");
+
+        WebElement textBoxPassword = getDriver().findElement(By.xpath("//input[@id='login-password']"));
+        textBoxPassword.sendKeys("1234567890");
+
+        WebElement buttonReg = getDriver().findElement(By.xpath("//button[contains(text(),'Зареєструватись')]"));
+        buttonReg.click();
+
+        WebElement text=getDriver().findElement(By.xpath("//span[contains(text(),'У мене вже є акаунт')]"));
+        Assert.assertEquals(text.getText(), "У мене вже є акаунт");
+    }
 }
 
 
