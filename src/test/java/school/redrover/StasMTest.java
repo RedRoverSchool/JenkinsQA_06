@@ -8,11 +8,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.runner.BaseTest;
-
-import static org.testng.Assert.assertEquals;
 
 public class StasMTest {
+
     @Test
     public void testFirst() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
