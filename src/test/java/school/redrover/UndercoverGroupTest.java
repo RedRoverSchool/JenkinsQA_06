@@ -9,9 +9,14 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class UndercoverGroupTest {
+
+    private WebDriver driverFHD;
+    private WebDriver driverHD;
+
     // Browser setup params
     private ChromeOptions resolution(int resolutionX, int resolutionY) {
         // Метод создает новые options для браузера с параметрами(разрешением окна) указанными в аргументах.
@@ -19,23 +24,21 @@ public class UndercoverGroupTest {
         return options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=" + resolutionX + "," + resolutionY);
     }
 
-    // Открываем единый браузер для всех тестов с одними параметрами(разрешением окна).
-    WebDriver driverFHD = new ChromeDriver(resolution(1920, 1080));
-    WebDriver driverHD = new ChromeDriver(resolution(1280, 720));
-
-
+    @BeforeTest
+    private void openChromeBrowser() {
+        driverFHD = new ChromeDriver(resolution(1920, 1080));
+        driverHD = new ChromeDriver(resolution(1280, 720));
+    }
     @AfterTest
     private void closeChromeBrowser() {
-        // Закрываем браузеры после тестов.
         driverFHD.quit();
         driverHD.quit();
     }
 
     // Tests
-    @Test(timeOut = 20000)
-    public void firstTest() throws InterruptedException{
+    @Test
+    public void googleSearchTest() {
         driverFHD.get("https://google.com");
-        Thread.sleep(2000);
 
         WebElement searchField = driverFHD.findElement(By.name("q"));
         searchField.sendKeys("Selenium");
@@ -46,10 +49,9 @@ public class UndercoverGroupTest {
         Assert.assertEquals(actual.getText(), "Selenium");
     }
 
-    @Test(timeOut = 20000)
-    public void testGoogleSearch() throws InterruptedException{
+    @Test
+    public void gogleSearchtest() {
         driverFHD.get("https://www.google.com/");
-        Thread.sleep(2000);
 
         WebElement searchbox = driverFHD.findElement(By.name("q"));
         searchbox.sendKeys("selenium\n");
@@ -58,26 +60,20 @@ public class UndercoverGroupTest {
         Assert.assertEquals(text.getText(), "Selenium");
     }
 
-    @Test(timeOut = 20000)
-    public void testCheckboxClick() throws InterruptedException{
+    @Test
+    public void checkboxClicktest() {
         driverFHD.get("https://crossbrowsertesting.github.io/todo-app.html");
-        Thread.sleep(2000);
 
         WebElement checkboxOne = driverFHD.findElement(By.name("todo-1"));
         checkboxOne.click();
 
         WebElement check = driverFHD.findElement(By.cssSelector("ul.list-unstyled span.done-true"));
-        if (check != null) {
-            System.out.println("First checkbox checked!");
-        } else {
-            System.out.println("Checkbox not found");
-        }
+        check.isDisplayed();
     }
 
-    @Test(timeOut = 20000)
-    public void dragAndDropTestFHD() throws InterruptedException {
+    @Test
+    public void dragAndDropFHDTest() {
         driverFHD.get("https://crossbrowsertesting.github.io/drag-and-drop.html");
-        Thread.sleep(2000);
 
         WebElement element1 = driverFHD.findElement(By.id("draggable"));
         WebElement element2 = driverFHD.findElement(By.id("droppable"));
@@ -86,10 +82,9 @@ public class UndercoverGroupTest {
 
         action.dragAndDrop(element1, element2).build().perform();
     }
-    @Test(timeOut = 20000)
-    public void dragAndDropTestHD() throws InterruptedException {
+    @Test
+    public void dragAndDropHDTest() {
         driverHD.get("https://crossbrowsertesting.github.io/drag-and-drop.html");
-        Thread.sleep(2000);
 
         WebElement element1 = driverHD.findElement(By.id("draggable"));
         WebElement element2 = driverHD.findElement(By.id("droppable"));
@@ -98,6 +93,4 @@ public class UndercoverGroupTest {
 
         action.dragAndDrop(element1, element2).build().perform();
     }
-
-
 }

@@ -1,6 +1,4 @@
 package school.redrover;
-
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,9 +7,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import school.redrover.runner.BaseTest;
+import java.time.Duration;
 
 public class AndreyPomazTest extends BaseTest {
-
     @Test
     public void testRedRover() throws InterruptedException {
         getDriver().get("https://redrover.school");
@@ -37,7 +35,6 @@ public class AndreyPomazTest extends BaseTest {
         WebElement error = getDriver().findElement(By.className("t-input-error"));
         Assert.assertEquals(error.getText(), "Please enter a valid email address");
     }
-
     @Test
     public void testSelenium() throws InterruptedException {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
@@ -56,7 +53,6 @@ public class AndreyPomazTest extends BaseTest {
         String value = message.getText();
         Assert.assertEquals("Received!", value);
     }
-
     @Test
     public void testJenkins() {
         getDriver().get("https://www.jenkins.io/");
@@ -118,10 +114,10 @@ public class AndreyPomazTest extends BaseTest {
         Assert.assertEquals(got.getText(), "Thanks for submitting the form");
     }
     @Test
-    public void findBook() throws InterruptedException {
+    public void testFindBook() throws InterruptedException {
         getDriver().get("https://demoqa.com/");
-        WebElement buttonAlertMain = getDriver().findElement(By.xpath("(//div[@class='card mt-4 top-card'])[6]"));
-        buttonAlertMain.click();
+        WebElement buttonBook = getDriver().findElement(By.xpath("(//div[@class='card mt-4 top-card'])[6]"));
+        buttonBook.click();
         Thread.sleep(2000);
 
         WebElement searchBox = getDriver().findElement(By.xpath("//input[@id='searchBox']"));
@@ -131,5 +127,43 @@ public class AndreyPomazTest extends BaseTest {
         findBook.click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
+    }
+    @Test
+    public void testAlert() throws InterruptedException {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
+        getDriver().get("https://demoqa.com/");
+        WebElement buttonMainAlert = getDriver().findElement(By.xpath("//h5[normalize-space()='Alerts, Frame & Windows']"));
+        buttonMainAlert.click();
+
+        WebElement buttonAlert = getDriver().findElement(By.xpath("//span[normalize-space()='Alerts']"));
+        buttonAlert.click();
+
+        WebElement buttonClickMe1 = getDriver().findElement(By.id("alertButton"));
+        buttonClickMe1.click();
+        getDriver().switchTo().alert().accept();
+
+        WebElement buttonClickMe2 = getDriver().findElement(By.id("timerAlertButton"));
+        buttonClickMe2.click();
+        Thread.sleep(6000);
+        getDriver().switchTo().alert().accept();
+
+        WebElement buttonClickMe3Ok = getDriver().findElement(By.id("confirmButton"));
+        buttonClickMe3Ok.click();
+        getDriver().switchTo().alert().accept();
+        WebElement selectOk = getDriver().findElement(By.xpath("(//span[@id='confirmResult'])[1]"));
+        Assert.assertEquals(selectOk.getText(), "You selected Ok");
+
+        WebElement buttonClickMe3No = getDriver().findElement(By.id("confirmButton"));
+        buttonClickMe3No.click();
+        getDriver().switchTo().alert().dismiss();
+        WebElement selectNo = getDriver().findElement(By.xpath("(//span[@id='confirmResult'])[1]"));
+        Assert.assertEquals(selectNo.getText(), "You selected Cancel");
+
+        WebElement buttonClickMe4 = getDriver().findElement(By.id("promtButton"));
+        buttonClickMe4.click();
+        getDriver().switchTo().alert().sendKeys("RedRover06");
+        getDriver().switchTo().alert().accept();
+        WebElement enterTextResult = getDriver().findElement(By.xpath("//span[@id='promptResult']"));
+        Assert.assertEquals(enterTextResult.getText(), "You entered RedRover06");
     }
 }

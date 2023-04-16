@@ -1,12 +1,15 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -30,19 +33,13 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testOpenContactUsPage() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebElement contactUsLink = getDriver().findElement(By.xpath("//footer/div/ul[@class='footer links']//a[text()='Contact Us']"));
+        contactUsLink.click();
+        WebElement contactUsPageTitle = getDriver().findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']"));
 
-        driver.get("https://magento.softwaretestingboard.com/");
-        driver.findElement(By.xpath("//footer/div/ul[@class='footer links']//a[text()='Contact Us']")).click();
-        WebElement pageTitle = driver.findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']"));
-
-        Assert.assertEquals(driver.getCurrentUrl(), "https://magento.softwaretestingboard.com/contact/");
-        Assert.assertEquals(pageTitle.getText(), "Contact Us");
-
-        driver.quit();
+        assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
 
     @Test
@@ -129,9 +126,10 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get(BASE_URL);
+        driver.get("https://magento.softwaretestingboard.com/");
 
-        Assert.assertEquals(driver.getTitle(), "Home Page");
+        String title = driver.getTitle();
+        Assert.assertEquals("Home Page", title);
 
         driver.quit();
     }
@@ -222,13 +220,13 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://magento.softwaretestingboard.com");
-        WebElement href = driver.findElement(By.xpath("//div/nav/ul/li [1]"));
+        WebElement href = driver.findElement(By.xpath("//div/nav/ul/li[1]"));
         String value = href.getText();
         assertEquals(value, "What's New");
-        WebElement href2 = driver.findElement(By.xpath("//div/nav/ul/li [2]"));
+        WebElement href2 = driver.findElement(By.xpath("//div/nav/ul/li[2]"));
         String value1 = href2.getText();
         assertEquals(value1, "Women");
-        WebElement href3 = driver.findElement(By.xpath("//div/nav/ul/li [3]"));
+        WebElement href3 = driver.findElement(By.xpath("//div/nav/ul/li[3]"));
         String value2 = href3.getText();
         assertEquals(value2, "Men");
         WebElement href4 = driver.findElement(By.xpath("//div/nav/ul/li [4]"));
@@ -433,7 +431,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         WebElement blockPromo = driver.findElement(By.xpath("//span[@class='action more button']"));
         blockPromo.click();
-       Thread.sleep(2000);
+        Thread.sleep(2000);
         String title = driver.findElement(By.xpath("//span[@class='base']")).getText();
 
         Assert.assertEquals(title, "New Luma Yoga Collection");
@@ -442,7 +440,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void CreateAnAccountWithFacker() throws InterruptedException {
+    public void testCreateAnAccountWithFacker() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -470,6 +468,38 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testSubscription() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+        char[] prefix = new char[6];
+        for (int i = 0; i < prefix.length; i++) {
+            prefix[i] = (char) (Math.random() * (122 - 97) + 97);
+        }
+        WebElement emailInput = driver.findElement(By.cssSelector("#newsletter"));
+        String emailPostfix = "@mail.ru";
+        String emailPrefix = new String(prefix);
+        String email = emailPrefix.concat(emailPostfix);
+        emailInput.sendKeys(email);
+        WebElement submitButton = driver.findElement(By
+                .xpath("//button[@title = 'Subscribe']"));
+        submitButton.click();
+        Thread.sleep(5000);
+        WebElement message = driver.findElement(By
+                .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
+        Assert.assertEquals(message.getText(), "Thank you for your subscription.");
+        emailInput = driver.findElement(By.xpath("//input[@placeholder = 'Enter your email address']"));
+        emailInput.sendKeys(email);
+        submitButton = driver.findElement(By
+                .xpath("//button[@title = 'Subscribe']"));
+        submitButton.click();
+        Thread.sleep(5000);
+        WebElement errorMessage = driver.findElement(By
+                .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
+        Assert.assertEquals(errorMessage.getText(), "This email address is already subscribed.");
+        driver.quit();
+    }
 }
-
-

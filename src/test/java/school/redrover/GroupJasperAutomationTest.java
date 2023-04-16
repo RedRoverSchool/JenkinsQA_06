@@ -22,16 +22,16 @@ import static org.testng.Assert.assertEquals;
 public class GroupJasperAutomationTest extends BaseTest {
     @Test
 
-        public void footballua() throws InterruptedException {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments( "--headless", "--window-size=1920,1080");
+    public void footballua() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
 
-            WebDriver driver = new ChromeDriver(chromeOptions);
-            driver.get("https://football.ua/");
-            WebElement element = driver.findElement(By.xpath("//*[text()='Україна']"));
-            Assert.assertEquals(element.getText(), "Україна");
-            driver.quit();
-        }
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://football.ua/");
+        WebElement element = driver.findElement(By.xpath("//*[text()='Україна']"));
+        Assert.assertEquals(element.getText(), "Україна");
+        driver.quit();
+    }
 
 
     @Test
@@ -131,7 +131,7 @@ public class GroupJasperAutomationTest extends BaseTest {
 
         Thread.sleep(2000);
         WebElement textBox = driver.findElement(By.xpath("//*[@id=\"PageContent_C038_Col01\"]/div[1]/h2"));
-        assertEquals(textBox.getText(),"General enquiries");
+        assertEquals(textBox.getText(), "General enquiries");
     }
 
     @Test
@@ -172,7 +172,7 @@ public class GroupJasperAutomationTest extends BaseTest {
     }
 
     @Test
-    public void testEnterToSite(){
+       public void testEnterToSite(){
         getDriver().get("https://www.saucedemo.com/");
 
         WebElement addLogin = getDriver().findElement(By.xpath("//input[@data-test='username']"));
@@ -185,6 +185,23 @@ public class GroupJasperAutomationTest extends BaseTest {
         loginButton.click();
 
         WebElement logo = getDriver().findElement(By.xpath("//div[@class='app_logo']"));
-        Assert.assertEquals(logo.getText(),"Swag Labs");
+        Assert.assertEquals(logo.getText(), "Swag Labs");
+    }
+    @Test
+    public void testTryToEnterLockedUser() {
+        getDriver().get("https://www.saucedemo.com/");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+
+        WebElement loginField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id ='user-name']")));
+        loginField.sendKeys("locked_out_user");
+
+        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id ='password']")));
+        passwordField.sendKeys("secret_sauce");
+
+        WebElement loginButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id ='login-button']")));
+        loginButton.click();
+
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-test ='error']")));
+        Assert.assertEquals(errorMessage.getText(),"Epic sadface: Sorry, this user has been locked out.");
     }
 }
