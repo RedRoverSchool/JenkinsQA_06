@@ -147,7 +147,7 @@ public class GroupUkrTest extends BaseTest {
     @Test
     public void testProductsDisplayInListing() throws InterruptedException {
         getDriver().get("https://www.demoblaze.com/");
-        Thread.sleep(700);
+        Thread.sleep(1000);
         WebElement firstProductTitle = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h4/a"));
         Assert.assertEquals(firstProductTitle.getText(), "Samsung galaxy s6");
 
@@ -157,7 +157,7 @@ public class GroupUkrTest extends BaseTest {
         WebElement linkLaptopSideBar = getDriver().findElement(By.xpath("//div[@class='list-group']/a[3]"));
         linkLaptopSideBar.click();
 
-        Thread.sleep(1000);
+        Thread.sleep(1500);
         WebElement firstProductTitleLaptop = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h4/a"));
         Assert.assertEquals(firstProductTitleLaptop.getText(), "Sony vaio i5");
         WebElement firstProductPriceLaptop = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h5"));
@@ -166,7 +166,7 @@ public class GroupUkrTest extends BaseTest {
         WebElement linkMonitorsSideBar = getDriver().findElement(By.xpath("//div[@class='list-group']/a[4]"));
         linkMonitorsSideBar.click();
 
-        Thread.sleep(1000);
+        Thread.sleep(1500);
         WebElement firstProductTitleMonitor = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h4/a"));
         Assert.assertEquals(firstProductTitleMonitor.getText(), "Apple monitor 24");
         WebElement firstProductPriceMonitors = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h5"));
