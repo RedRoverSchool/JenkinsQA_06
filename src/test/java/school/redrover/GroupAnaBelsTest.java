@@ -2,19 +2,26 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.openqa.selenium.WebDriver;
 import school.redrover.runner.BaseTest;
-public class GroupAnaBelsTest extends BaseTest {
+public class GroupAnaBelsTest {
 
     @Test
     public void testStasM() {
-        getDriver().get("https://www.yahoo.com/");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebElement submitButton = getDriver().findElement(By.xpath("//*[@id='ybarAccountProfile']/a"));
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.yahoo.com/");
+
+        WebElement submitButton = driver.findElement(By.xpath("//*[@id='ybarAccountProfile']/a"));
         submitButton.click();
 
-        String title = getDriver().getTitle();
+        String title = driver.getTitle();
         Assert.assertEquals("Yahoo", title);
     }
 }
