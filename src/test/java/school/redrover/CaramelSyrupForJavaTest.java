@@ -269,37 +269,4 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test
-    public void artyomDulyaAuthorizationKinopoisk() {
-
-        int expectedResult = 10;
-
-        getDriver().get("https://hd.kinopoisk.ru/");
-
-        WebElement button = getDriver().findElement(By.xpath("//button[@class='HeaderNavigationMenu_icon-container__fb6lu']"));
-        button.click();
-        WebElement filmsInput = getDriver().findElement(By.xpath("//span[text()='Фильмы']"));
-        clickCustom(filmsInput);
-
-        WebElement films = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Фильмы']"));
-        WebElement onlineCinema = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Онлайн-кинотеатр']"));
-        WebElement genres = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Жанры']"));
-        WebElement countries = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Страны']"));
-        WebElement years = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Годы']"));
-        WebElement criticism = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Критика']"));
-        WebElement series = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Сериалы']"));
-        WebElement fees = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Сборы']"));
-        WebElement prizes = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Премии']"));
-        WebElement directions = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Направления']"));
-
-        WebElement[] cells = {films, onlineCinema, genres, countries, years, criticism,
-                series, fees, prizes, directions};
-
-        int actualResult = 0;
-        for (int i = 0; i < cells.length; i++) {
-            waitForElementToBeDisplayed(cells[i]);
-            actualResult++;
-        }
-        Assert.assertEquals(actualResult, expectedResult);
-    }
 }
