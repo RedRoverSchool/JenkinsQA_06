@@ -73,5 +73,6 @@ public class DavidMTest {
     @Test
     public void testTest(){
         System.out.println("Simple test");
+
     }
 }
