@@ -123,7 +123,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     public void testTitle() {
         getDriver().get(BASE_URL);
 
-        Assert.assertEquals("Home Page", getDriver().getTitle());
+        Assert.assertEquals(getDriver().getTitle(), "Home Page");
     }
 
     @Test
