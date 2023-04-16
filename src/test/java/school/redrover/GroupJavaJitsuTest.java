@@ -1,13 +1,10 @@
 package school.redrover;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
 import java.util.List;
 
@@ -143,7 +140,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(got.getText(), "Thanks for submitting the form");
     }
 
-    @Ignore
+
     @Test
     public void testAboutDoctorsFind() throws InterruptedException {
         getDriver().get("https://prodoctorov.ru/");
@@ -151,23 +148,22 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         Assert.assertEquals("ПроДокторов – сайт отзывов пациентов о врачах №1 в России", title);
 
-        WebElement urlElement = getDriver().findElement(By.className("b-choose-town-btn-v2"));
-        urlElement.click();
+        WebElement urlTownElement = getDriver().findElement(By.className("b-choose-town-btn-v2"));
+        urlTownElement.click();
         WebElement inputElementSearch = getDriver().findElement(By.className("b-choose-town-popup__search-input"));
         inputElementSearch.sendKeys("Краснодар");
         Thread.sleep(2000);
-        WebElement SearchboxElement = getDriver().findElement(By.className("tt-dataset"));
-        SearchboxElement.click();
+        WebElement SearchBoxElement = getDriver().findElement(By.className("tt-dataset"));
+        SearchBoxElement.click();
         Thread.sleep(2000);
-
-//      WebElement inputElement = driver.findElement(By.className("text-field__input"));
-        getDriver().findElement(By.xpath("//div[@class = 'text-field base-search__input'")).click();
-        getDriver().findElement(By.xpath("//div[@class = 'text-field base-search__input']/div[1]/div[1]/input[1]")).sendKeys("Ницакова Марина Петровна");
+        WebElement inputPlaceholderElement = getDriver().findElement(By.xpath("//input[@placeholder = 'Врачи, клиники, услуги']"));
+        Thread.sleep(2000);
+        inputPlaceholderElement.sendKeys("Ницакова Марина Петровна");
         WebElement submitButton = getDriver().findElement(By.className("base-search__button"));
         submitButton.click();
-        WebElement link = getDriver().findElement(By.className("b-card__name-link"));
-        link.click();
-        WebElement text = getDriver().findElement(By.className("ui-text"));
+        WebElement linkName = getDriver().findElement(By.className("b-card__name-link"));
+        linkName.click();
+
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://prodoctorov.ru/krasnodar/vrach/177664-nicakova/");
     }
 
@@ -253,7 +249,7 @@ public class GroupJavaJitsuTest extends BaseTest {
     }
 
         @Test
-        public void testKatya2 () {
+        public void testKatya2() {
             getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
             String title = getDriver().getTitle();
