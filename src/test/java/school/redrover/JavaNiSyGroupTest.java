@@ -2,7 +2,9 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -140,5 +142,19 @@ public class JavaNiSyGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://careers.foodpanda.com/");
 
     }
+
+    @Test
+    public void testJava(){
+
+        getDriver().get("https://www.google.com");
+
+        WebElement textBox =  getDriver().findElement(By.name("q"));
+        textBox.sendKeys("java\n");
+
+        WebElement text =  getDriver().findElement(By.xpath("//h3[text() = 'Java | Oracle']"));
+
+        Assert.assertEquals(text.getText(), "Java | Oracle");
+    }
+
 }
 

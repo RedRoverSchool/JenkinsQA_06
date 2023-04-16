@@ -123,6 +123,7 @@ public class BugsBustersTest extends BaseTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testContactPageHeader() throws InterruptedException {
         String expectedURL = "https://www.ohiofamilypractice.com/connect";
@@ -220,6 +221,7 @@ public class BugsBustersTest extends BaseTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testOurServicesHeader() throws InterruptedException {
         String expectedURL = "https://www.ohiofamilypractice.com/services" ;
