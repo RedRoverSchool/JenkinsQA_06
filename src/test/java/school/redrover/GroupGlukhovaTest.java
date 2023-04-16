@@ -32,7 +32,7 @@ public class GroupGlukhovaTest extends BaseTest {
     }
 
     @Test
-    public void testVideoAvailabilityAboutUS() {
+    public void testVideoPlayAboutUS() {
         getDriver().get("https://www.demoblaze.com/");
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
