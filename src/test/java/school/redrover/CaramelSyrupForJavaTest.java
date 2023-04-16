@@ -19,6 +19,20 @@ import java.util.ArrayList;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
 
+    public void waitForElementToBeDisplayed(WebElement element) {
+        beforeMethod();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        ExpectedCondition<Boolean> elementDisplayed = arg0 -> {
+            try {
+                element.isDisplayed();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        };
+        wait.until(elementDisplayed);
+    }
+
     public void clickCustom(WebElement element) {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         ExpectedCondition<Boolean> elementIsClickable = arg0 -> {
@@ -250,6 +264,40 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
         String actualResult = banner.getText();
 
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void artyomDulyaAuthorizationKinopoisk() {
+
+        int expectedResult = 10;
+
+        getDriver().get("https://hd.kinopoisk.ru/");
+
+        WebElement button = getDriver().findElement(By.xpath("//button[@class='HeaderNavigationMenu_icon-container__fb6lu']"));
+        clickCustom(button);
+        WebElement filmsInput = getDriver().findElement(By.xpath("//span[text()='Фильмы']"));
+        clickCustom(filmsInput);
+
+        WebElement films = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Фильмы']"));
+        WebElement onlineCinema = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Онлайн-кинотеатр']"));
+        WebElement genres = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Жанры']"));
+        WebElement countries = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Страны']"));
+        WebElement years = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Годы']"));
+        WebElement criticism = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Критика']"));
+        WebElement series = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Сериалы']"));
+        WebElement fees = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Сборы']"));
+        WebElement prizes = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Премии']"));
+        WebElement directions = getDriver().findElement(By.xpath("//div[@data-tid='9b0445d1']//a[text()='Направления']"));
+
+        WebElement[] cells = {films, onlineCinema, genres, countries, years, criticism,
+                series, fees, prizes, directions};
+
+        int actualResult = 0;
+        for (int i = 0; i < cells.length; i++) {
+            waitForElementToBeDisplayed(cells[i]);
+            actualResult++;
+        }
         Assert.assertEquals(actualResult, expectedResult);
     }
 
