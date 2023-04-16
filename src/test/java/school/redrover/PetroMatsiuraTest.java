@@ -1,55 +1,82 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-import java.time.Duration;
+public class PetroMatsiuraTest extends BaseTest {
 
-public class PetroMatsiuraTest {
+    @BeforeMethod
+    public void BeforeMethod() {
 
-    @Test
-    public void googleStoreTest() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("https://www.google.com/");
-        driver.findElement(By.linkText("Store")).click();
-        driver.navigate().refresh();
-        Thread.sleep(5000);
-        Assert.assertEquals(driver.getTitle(), "Google Store for Google Made Devices & Accessories");
-        driver.quit();
+        getDriver().get("https://askomdch.com/");
     }
 
     @Test
-    public void googleAppsTest() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("https://www.google.com/");
-        String [] result = {
-                "Google Account",
-                "Google",
-                "Google Maps",
-                "YouTube",
-                "Android Apps on Google Play",
-                "Google News",
-                "Gmail",
-                "Google Meet: Online Video Meetings and Calls | Google Workspace"
-        };
-        for (int i = 1; i <= result.length; i++) {
-            driver.navigate().refresh();
-            driver.findElement(By.cssSelector("a[aria-label='Google apps']")).click();
-            driver.switchTo().frame("app").findElement(By.xpath("//div[1]/ul/li[" + i + "]")).click();
-            Thread.sleep(5000);
-            Assert.assertEquals(driver.getTitle(), "" + result[i - 1] + "");
-            driver.navigate().back();
+    public void testSale() {
+
+        for(WebElement element : getDriver().findElements(By.cssSelector("span[class='onsale']"))) {
+
+            Assert.assertEquals(element.getText(), "Sale!");
         }
-        driver.quit();
+    }
+
+    @Test
+    public void testCurrency() {
+
+        for (WebElement element : getDriver().findElements(By.cssSelector("span[class*='currencySymbol']"))) {
+
+            Assert.assertEquals(element.getText(), "$");
+        }
+    }
+
+    @Test
+    public void testDiscount() {
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("h3[class*='medium-font-size']")).
+                getText(), "25% OFF On all products");
+    }
+
+    @Test
+    public void testAccount() {
+
+        getDriver().findElement(By.cssSelector("li#menu-item-1237")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/account/");
+    }
+
+    @Test
+    public void testShop() {
+
+        getDriver().findElement(By.cssSelector("a.wp-block-button__link")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
+    }
+
+    @Test
+    public void testProductsNumber() {
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("ul.products.columns-5")).
+                findElements(By.tagName("li")).size(), 5);
+    }
+
+    @Test
+    public void testColour() {
+
+        getDriver().findElement(By.cssSelector("a[href*='men']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("button[value='Search']")).
+                getCssValue("background-color"), "rgba(49, 151, 214, 1)");
+    }
+
+    @Test
+    public void testFindMoreButton() {
+
+        getDriver().findElement(By.cssSelector("div.wp-block-button.is-style-fill")).click();
+
+        Assert.assertEquals(getDriver().getTitle(), "Contact Us – AskOmDch");
     }
 }

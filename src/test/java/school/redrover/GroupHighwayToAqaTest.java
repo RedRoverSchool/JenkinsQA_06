@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -8,7 +9,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.time.Duration;
 import java.util.List;
 
@@ -18,9 +18,16 @@ import static org.testng.Assert.assertTrue;
 public class GroupHighwayToAqaTest {
 
     private static final String BASE_URL = "https://magento.softwaretestingboard.com/";
+    Faker faker = new Faker();
+    String firstName = faker.name().firstName();
+    String lastName = faker.name().lastName();
+    String email = faker.internet().emailAddress();
+    String password = faker.internet().password(11,12,true,
+            true, true);
+
 
     @Test
-    public void openContactUsPageTest() {
+    public void testOpenContactUsPage() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -127,10 +134,9 @@ public class GroupHighwayToAqaTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://magento.softwaretestingboard.com/");
+        driver.get(BASE_URL);
 
-        String title = driver.getTitle();
-        Assert.assertEquals("Home Page", title);
+        Assert.assertEquals(driver.getTitle(), "Home Page");
 
         driver.quit();
     }
@@ -419,4 +425,56 @@ public class GroupHighwayToAqaTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testBlockPromo() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get(BASE_URL);
+
+        WebElement blockPromo = driver.findElement(By.xpath("//span[@class='action more button']"));
+        blockPromo.click();
+       Thread.sleep(2000);
+        String title = driver.findElement(By.xpath("//span[@class='base']")).getText();
+
+        Assert.assertEquals(title, "New Luma Yoga Collection");
+
+        driver.quit();
+    }
+
+    @Test
+    public void CreateAnAccountWithFacker() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        WebElement href = driver.findElement(By.linkText("Create an Account"));
+        href.click();
+        String value = driver.getTitle();
+
+        Assert.assertEquals(value, "Create New Customer Account");
+        Thread.sleep(2000);
+        driver.findElement(By.id("firstname")).sendKeys(firstName);
+        driver.findElement(By.id("lastname")).sendKeys(lastName);
+        driver.findElement(By.id("email_address")).sendKeys(email);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("password-confirmation")).sendKeys(password);
+        WebElement button = driver.findElement(By.xpath("//form[@id='form-validate']//button/span[text()='Create an Account']"));
+        button.click();
+        Thread.sleep(2000);
+        WebElement title = driver.findElement(By.xpath("//div[@class='message-success success message']"));;
+        String value1 =title.getText();
+
+        Assert.assertEquals(value1, "Thank you for registering with Main Website Store.");
+        System.out.println(password);
+
+        driver.quit();
+    }
 }
+
+

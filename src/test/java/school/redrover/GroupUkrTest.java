@@ -1,18 +1,21 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-
 import org.testng.Assert;
+
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class GroupUkrTest {
-
+public class GroupUkrTest extends BaseTest {
+    @Ignore
     @Test
     public void youtubeSearchTest(){
         ChromeOptions optionsChrome = new ChromeOptions();
@@ -44,30 +47,107 @@ public class GroupUkrTest {
 
     }
     @Test
-    public void VNUiTest(){
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless","--window-size= 1920,1080");
+    public void testRenameBtn(){
+        final String NAME = "new button name";
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("http://uitestingplayground.com/home");
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(20000));
-        String title = driver.getTitle();
+        getDriver().get("http://uitestingplayground.com/home");
+        String title = getDriver().getTitle();
         Assert.assertEquals(title,"UI Test Automation Playground");
 
-        WebElement textInputLink = driver.findElement(By.xpath("//section[@id = 'overview']//a[text() = 'Text Input']"));
+        WebElement textInputLink = getDriver().findElement(By.xpath("//section[@id = 'overview']//a[text() = 'Text Input']"));
         textInputLink.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(20000));
-        WebElement textField = driver.findElement(By.xpath("//input[@id='newButtonName']"));
-        WebElement updButton = driver.findElement(By.xpath("//button[@id='updatingButton']"));
+        WebElement textField = getDriver().findElement(By.xpath("//input[@id='newButtonName']"));
+        WebElement updButton = getDriver().findElement(By.xpath("//button[@id='updatingButton']"));
 
-        textField.sendKeys("New Name");
+        textField.sendKeys(NAME);
         updButton.click();
-        Assert.assertEquals(updButton.getText(), "New Name");
-
-        driver.quit();
-
-
+        Assert.assertEquals(updButton.getText(), NAME);
     }
 
+
+    @Test
+    public void OpenElementsTab(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://demoqa.com/");
+        WebElement element = driver.findElement(By.className("card-up"));
+        element.click();
+        WebElement header = driver.findElement(By.className("main-header"));
+        Assert.assertEquals(header.getText(),"Elements");
+        WebElement textTab = driver.findElement(By.className("text"));
+        textTab.click();
+        WebElement fullNameField = driver.findElement(By.id("userName"));
+        fullNameField.sendKeys("Test User");
+        WebElement emailField = driver.findElement(By.id("userEmail"));
+        emailField.sendKeys("test@mail.com");
+        WebElement addressField = driver.findElement(By.id("currentAddress"));
+        addressField.sendKeys("394 Davis Avenue");
+        WebElement submitButton = driver.findElement(By.id("submit"));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView();", submitButton);
+        submitButton.click();
+        WebElement output = driver.findElement(By.id("output"));
+        Assert.assertTrue(output.isDisplayed(),"The for is not displayed");
+        driver.quit();
+    }
+    @Test
+    public void firstTest() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String title = driver.getTitle();
+        Assert.assertEquals("Web form", title);
+
+        Thread.sleep(3000);
+
+        WebElement textBox = driver.findElement(By.name("my-text"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("Selenium");
+        submitButton.click();
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        Assert.assertEquals("Received!", value);
+
+        driver.quit();
+    }
+    @Test
+    public void testAuthorizationAndLogOutDemoBlaze() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.demoblaze.com/");
+        WebElement shopTitle = driver.findElement(By.xpath("//a[@class ='navbar-brand']"));
+        Assert.assertEquals(shopTitle.getText(), "PRODUCT STORE");
+        WebElement logInButton = driver.findElement(By.xpath("//a[@id='login2']"));
+        logInButton.click();
+
+        Thread.sleep(1000);
+        WebElement inputUsernameLogInForm = driver.findElement(By.xpath("//input[@id='loginusername']"));
+        inputUsernameLogInForm.sendKeys("TestAuthMax");
+        WebElement inputPasswordLogInForm = driver.findElement(By.xpath("//input[@id='loginpassword']"));
+        inputPasswordLogInForm.sendKeys("1234");
+        WebElement logInButtonLogInForm = driver.findElement(By.xpath("//button[@onclick='logIn()']"));
+        logInButtonLogInForm.click();
+        Thread.sleep(1500);
+
+        WebElement helloUserNameButton = driver.findElement(By.xpath("//a[@id='nameofuser']"));
+        Assert.assertEquals(helloUserNameButton.getText(), "Welcome TestAuthMax");
+        Assert.assertEquals(driver.getCurrentUrl(),"https://www.demoblaze.com/");
+        WebElement logOutButton = driver.findElement(By.xpath("//a[@id='logout2']"));
+        logOutButton.click();
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.demoblaze.com/index.html");
+        WebElement singUpButton = driver.findElement(By.xpath("//a[@id='signin2']"));
+        Assert.assertEquals(singUpButton.getText(), "Sign up");
+        driver.quit();
+    }
 }
+
+

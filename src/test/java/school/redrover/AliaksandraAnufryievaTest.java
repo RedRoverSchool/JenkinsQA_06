@@ -1,55 +1,45 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
+import java.time.Duration;
 
-public class AliaksandraAnufryievaTest {
+public class AliaksandraAnufryievaTest extends BaseTest {
+
     @Ignore
     @Test
-    public void jenkinsTest() throws InterruptedException{
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+    public void testEtsy() {
+        getDriver().get("https://www.etsy.com/");
 
-        driver.get("https://www.jenkins.io/");
+        WebElement search = getDriver().findElement(By.name("search_query"));
+        search.sendKeys("easter gifts");
+        search.sendKeys(Keys.RETURN);
 
-        //System.out.println(driver.getTitle());
+        WebElement filter = getDriver().findElement(By.id("search-filter-button"));
+        filter.click();
 
-        Assert.assertEquals(driver.getTitle(),"Jenkins");
+        WebElement onSale = getDriver().findElement(By.xpath("//label[@for='special-offers-on-sale']"));
+        onSale.click();
 
-        driver.quit();
+        WebElement apply = getDriver().findElement(By.xpath("//button[@aria-label='Apply']"));
+        apply.click();
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+
+        WebElement text = getDriver().findElement(By.xpath("//a[@aria-label='Remove On sale Filter']"));
+
+        Assert.assertEquals(text.getText(), "On sale");
     }
 
-    @Ignore
     @Test
-    public void weatherTest() throws InterruptedException{
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+    public void testJenkinsTitle() {
+        getDriver().get("https://www.jenkins.io/");
 
-        driver.get("https://www.foxcarolina.com/");
-
-        WebElement element1 = driver.findElement(By.linkText("Weather"));
-        element1.click();
-
-        WebElement element2 = driver.findElement(By.className("form-control"));
-
-        element2.sendKeys("29365");
-
-        //Thread.sleep(3000);
-
-        //WebElement text = driver.findElement(By.className("location-name"));
-
-        //System.out.println(text.getText());
-
-        //Assert.assertEquals(text.getText(), "LYMAN, SC");
-
-        driver.quit();
+        Assert.assertEquals(getDriver().getTitle(),"Jenkins");
     }
 }

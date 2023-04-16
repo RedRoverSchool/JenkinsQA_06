@@ -8,8 +8,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-public class BugsBustersTest {
+public class BugsBustersTest extends BaseTest {
     @Ignore
     @Test
     public void testAngelinaGiftCardSelection() {
@@ -121,32 +122,25 @@ public class BugsBustersTest {
 
         driver.quit();
     }
-    @Ignore
+
     @Test
-    public void testVictoriaContactTitle() throws InterruptedException {
-        String expectedResult = "Contact Us".toLowerCase();
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testContactPageHeader() throws InterruptedException {
+        String expectedURL = "https://www.ohiofamilypractice.com/connect";
+        String expectedHeader = "Contact Us".toLowerCase();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.manage().window().maximize();
-
-        driver.get("https://www.ohiofamilypractice.com/");
-        Thread.sleep(2000);
-
-        WebElement contactUsReference = driver.findElement(By.xpath(
-                "//div[@class='Header-nav-inner']/a[@href='/connect']"));
+        getDriver().get("https://www.ohiofamilypractice.com/");
+        Thread.sleep(1000);
+        WebElement contactUsReference = getDriver().findElement(By.xpath("//div[@class='Header-nav-inner']/a[@href='/connect']"));
         contactUsReference.click();
-        Thread.sleep(2000);
-        WebElement h1 = driver.findElement(By.xpath("//h1"));
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+        WebElement h1 = getDriver().findElement(By.xpath("//h1"));
         String h1Text = h1.getText().toLowerCase();
-        Thread.sleep(2000);
 
-        Assert.assertEquals(h1Text, expectedResult);
-
+        Assert.assertEquals(getDriver().getCurrentUrl(),expectedURL);
+        Assert.assertEquals(h1Text, expectedHeader);
     }
+
+    @Ignore
     @Test
     public void testMsArtMosaicVideo() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -227,31 +221,21 @@ public class BugsBustersTest {
     }
 
     @Test
-    public void testVictoriaOurServicesTitle() throws InterruptedException {
+    public void testOurServicesHeader() throws InterruptedException {
+        String expectedURL = "https://www.ohiofamilypractice.com/services" ;
+        String expectedHeader = "Our Services".toLowerCase();
 
-        String expectedResult = "Our Services".toLowerCase();
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().window().maximize();
-
-        driver.get("https://www.ohiofamilypractice.com/");
-        Thread.sleep(2000);
-
-        WebElement servicesReference = driver.findElement(By.xpath(
+        getDriver().get("https://www.ohiofamilypractice.com/");
+        Thread.sleep(1000);
+        WebElement servicesReference = getDriver().findElement(By.xpath(
                 "//a[@href='/services'][@class='Header-nav-item']"));
         servicesReference.click();
-        Thread.sleep(2000);
-        WebElement h1 = driver.findElement(By.xpath("//h1"));
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+        WebElement h1 = getDriver().findElement(By.xpath("//h1"));
         String h1Text = h1.getText().toLowerCase();
 
-        Assert.assertEquals(h1Text, expectedResult);
-
-        driver.quit();
+        Assert.assertEquals(getDriver().getCurrentUrl(),expectedURL);
+        Assert.assertEquals(h1Text, expectedHeader);
     }
-
 }
 
