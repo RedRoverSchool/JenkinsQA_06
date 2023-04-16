@@ -125,25 +125,22 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement parisText = getDriver().findElement(By.tagName("h2"));
 
         String actualResult = parisText.getText();
-
         Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
 
-        String actualResult = "Sign In To Your Account";
+        String expectedResult = "Sign In To Your Account";
 
         getDriver().get("https://openweathermap.org/");
 
-        WebElement signIn = getDriver().findElement
-                (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
+        WebElement signIn = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
         clickCustom(signIn);
 
         WebElement loginText = getDriver().findElement(By.xpath("//h3"));
 
-        String expectedResult = loginText.getText();
-
+        String actualResult = loginText.getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
 
@@ -247,8 +244,8 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement tailoredToYou = getDriver().findElement(By.xpath("//a[@href='/enterprise-approach']//u[text()='Tailored to you']"));
         tailoredToYou.click();
         WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
-        String actualResult = banner.getText();
 
+        String actualResult = banner.getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
 }
