@@ -237,15 +237,19 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
         clickCustom(guide);
+
         WebElement enterpriseSystem = getDriver().findElement(By.xpath("//a[text()='complex enterprise systems']"));
         enterpriseSystem.click();
+
         ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(windows.get(1));
+
         WebElement tailoredToYou = getDriver().findElement(By.xpath("//a[@href='/enterprise-approach']//u[text()='Tailored to you']"));
         tailoredToYou.click();
-        WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
 
+        WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
         String actualResult = banner.getText();
+
         Assert.assertEquals(actualResult, expectedResult);
     }
 
