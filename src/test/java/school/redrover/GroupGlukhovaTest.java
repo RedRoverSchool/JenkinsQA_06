@@ -47,7 +47,7 @@ public class GroupGlukhovaTest extends BaseTest {
     }
 
     @Test
-    public void testCloseSectionAboutUsByButton() {
+    public void testCloseTabAboutUsByButton() {
         getDriver().get("https://www.demoblaze.com/");
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
@@ -63,7 +63,7 @@ public class GroupGlukhovaTest extends BaseTest {
     }
 
     @Test
-    public void testCloseSectionAboutUsByIcon() {
+    public void testCloseTabAboutUsByIcon() {
         getDriver().get("https://www.demoblaze.com/");
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
