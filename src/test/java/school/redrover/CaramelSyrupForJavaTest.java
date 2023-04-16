@@ -297,6 +297,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         int actualResult = 0;
         for (int i = 0; i < cells.length; i++) {
+            waitForElementToBeDisplayed(cells[i]);
             actualResult++;
         }
         Assert.assertEquals(actualResult, expectedResult);
