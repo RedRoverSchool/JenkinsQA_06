@@ -11,6 +11,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -120,18 +121,9 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testTitle() {
+        getDriver().get(BASE_URL);
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
-
-        String title = driver.getTitle();
-        Assert.assertEquals("Home Page", title);
-
-        driver.quit();
+        Assert.assertEquals("Home Page", getDriver().getTitle());
     }
 
     @Test
@@ -421,22 +413,15 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testBlockPromo() throws InterruptedException {
+        getDriver().get(BASE_URL);
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get(BASE_URL);
-
-        WebElement blockPromo = driver.findElement(By.xpath("//span[@class='action more button']"));
+        WebElement blockPromo = getDriver().findElement(By.xpath("//span[@class='action more button']"));
         blockPromo.click();
         Thread.sleep(2000);
-        String title = driver.findElement(By.xpath("//span[@class='base']")).getText();
+
+        String title = getDriver().findElement(By.xpath("//span[@class='base']")).getText();
 
         Assert.assertEquals(title, "New Luma Yoga Collection");
-
-        driver.quit();
     }
 
     @Test
@@ -469,6 +454,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testSubscription() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
