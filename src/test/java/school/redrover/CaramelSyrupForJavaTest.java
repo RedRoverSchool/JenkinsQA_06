@@ -121,7 +121,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
     }
 
-    @Ignore
+
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
 
@@ -268,7 +268,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void artyomDulyaAuthorizationKinopoisk() {
+    public void testArtyomDulyaAuthorizationKinopoisk() {
 
         int expectedResult = 10;
 
