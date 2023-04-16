@@ -590,4 +590,22 @@ public class AlexLeoEpicGroupTest extends BaseTest{
 
         Assert.assertEquals(buttonSearch.getCssValue("background-color"), "rgba(49, 151, 214, 1)");
     }
+
+    @Test
+    public void testAccessoriesDropDownMenuSizeArtemT() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        try {
+            getDriver().get("https://askomdch.com/");
+            getDriver().findElement(By.xpath("//a[@class='menu-link'][text()='Accessories']"))
+                    .click();
+            WebElement dropDownMenu = getDriver().findElement(By.cssSelector("select.orderby[name='orderby']"));
+            dropDownMenu.click();
+            List<WebElement> listElements = dropDownMenu
+                        .findElements(By.cssSelector("option"));
+            Assert.assertEquals(listElements.size(), 6);
+        } finally {
+            getDriver().quit();
+        }
+    }
 }
