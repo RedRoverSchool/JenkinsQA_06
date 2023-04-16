@@ -17,8 +17,7 @@ public class GroupGlukhovaTest extends BaseTest {
         WebElement logIn = getDriver().findElement(By.xpath("//a[@id='login2']"));
         logIn.click();
 
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
-        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(6000));
 
         WebElement enterUserName = getDriver().findElement(By.xpath("//input[@id='loginusername']"));
         enterUserName.sendKeys("Alex33");
@@ -36,8 +35,7 @@ public class GroupGlukhovaTest extends BaseTest {
     public void  testVideoPlayAboutUS() {
         getDriver().get("https://www.demoblaze.com/");
 
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
-        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(6000));
 
         WebElement clickAboutUs = getDriver().findElement(By.xpath("//a[text() = 'About us']"));
         clickAboutUs.click();
@@ -52,8 +50,7 @@ public class GroupGlukhovaTest extends BaseTest {
     public void  testNextIconCarousel() {
         getDriver().get("https://www.demoblaze.com/");
 
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
-        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(6000));
 
         WebElement clickNextIcon = getDriver().findElement(By.cssSelector(".carousel-control-next-icon"));
         clickNextIcon.click();
