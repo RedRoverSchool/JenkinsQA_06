@@ -18,6 +18,22 @@ import java.util.ArrayList;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
 
+    // Метод, ожидающий элемент, заданное время.
+    public void waitForElementToBeDisplayed(WebElement element) {
+        beforeMethod();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        ExpectedCondition<Boolean> elementDisplayed = arg0 -> {
+            try {
+                element.isDisplayed();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        };
+        wait.until(elementDisplayed);
+    }
+
+    // Метод, прокликивающий элемент, заданное время.
     public void clickCustom(WebElement element) {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         ExpectedCondition<Boolean> elementIsClickable = arg0 -> {
@@ -250,6 +266,49 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
         String actualResult = banner.getText();
 
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void artyomDulyaAuthorizationKinopoisk() {
+
+        int expectedResult = 10;
+
+        getDriver().get("https://hd.kinopoisk.ru/");
+
+        WebElement button = getDriver().findElement(By.xpath("//button[@class='HeaderNavigationMenu_icon-container__fb6lu']"));
+        button.click();
+        WebElement filmsInput = getDriver().findElement(By.xpath("//span[text()='Фильмы']"));
+        filmsInput.click();
+        WebElement films = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[1]"));
+        WebElement onlineCinema = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[2]"));
+        WebElement genres = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[3]"));
+        WebElement countries = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[4]"));
+        WebElement years = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[5]"));
+        WebElement criticism = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[6]"));
+        WebElement series = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[7]"));
+        WebElement fees = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[8]"));
+        WebElement prizes = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[9]"));
+        WebElement directions = getDriver().findElement(
+                By.xpath("//div[@id='__next']//div[@class='styles_container__TJkuX styles_categories__ly3pq']//a[10]"));
+
+        WebElement[] cells = {films, onlineCinema, genres, countries, years, criticism,
+                series, fees, prizes, directions};
+
+        int actualResult = 0;
+        for (int i = 0; i < cells.length; i++) {
+            waitForElementToBeDisplayed(cells[i]);
+            actualResult++;
+        }
         Assert.assertEquals(actualResult, expectedResult);
     }
 }
