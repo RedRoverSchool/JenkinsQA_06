@@ -12,10 +12,10 @@ import school.redrover.runner.BaseTest;
 import java.time.Duration;
 import java.util.List;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
-public class AlexLeoEpicGroupTest extends BaseTest{
+public class AlexLeoEpicGroupTest extends BaseTest {
 
     @Test
     public void titleOfTheHomePageCheckedTest() {
@@ -230,9 +230,7 @@ public class AlexLeoEpicGroupTest extends BaseTest{
                     .click();
             String URL = getDriver().getCurrentUrl();
             Assert.assertEquals(URL, "https://askomdch.com/store");
-        }
-
-        finally {
+        } finally {
             getDriver().quit();
         }
     }
@@ -268,29 +266,26 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
 
+    @Test
+    public void testLoginPageIsOpenedTC_004() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://askomdch.com/");
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//li[@id=\"menu-item-1237\"]")).click();
+        String expectedUrl = "https://askomdch.com/account/";
+        driver.get(expectedUrl);
+        try {
+            Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
+            System.out.println("Navigated to the correct login page");
+        } catch (Throwable pageNavigationError) {
+            System.out.println("Did not navigate to correct page");
+        }
+        Thread.sleep(2000);
+        driver.quit();
 
-
-       @Test
-       public void testLoginPageIsOpenedTC_004() throws InterruptedException {
-           ChromeOptions chromeOptions = new ChromeOptions();
-           chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-           WebDriver driver = new ChromeDriver(chromeOptions);
-           driver.get("https://askomdch.com/");
-           Thread.sleep(2000);
-           driver.findElement(By.xpath("//li[@id=\"menu-item-1237\"]")).click();
-           String expectedUrl = "https://askomdch.com/account/";
-           driver.get(expectedUrl);
-           try {
-               Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
-               System.out.println("Navigated to the correct login page");
-           }
-           catch (Throwable pageNavigationError) {
-               System.out.println("Did not navigate to correct page");
-           }
-           Thread.sleep(2000);
-           driver.quit();
-
-       }
+    }
 
     @Test
     public void testDollarSignDisplayed() {
@@ -422,22 +417,22 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         Assert.assertEquals(actualLink, expectedLink);
     }
 
-  @Test
-  public void testMenuBar() {
-      getDriver().get("https://askomdch.com/");
-      WebElement menu = getDriver().findElement(By.xpath("//ul[@id='ast-hf-menu-1']"));
-      List<WebElement> products = menu.findElements(By.tagName("li"));
+    @Test
+    public void testMenuBar() {
+        getDriver().get("https://askomdch.com/");
+        WebElement menu = getDriver().findElement(By.xpath("//ul[@id='ast-hf-menu-1']"));
+        List<WebElement> products = menu.findElements(By.tagName("li"));
 
-      Assert.assertEquals(products.size(), 8);
+        Assert.assertEquals(products.size(), 8);
 
-  }
+    }
 
     @Test
     public void testSale() {
 
         getDriver().get("https://askomdch.com/");
 
-        for(WebElement element : getDriver().findElements(By.cssSelector("span[class='onsale']"))) {
+        for (WebElement element : getDriver().findElements(By.cssSelector("span[class='onsale']"))) {
 
             Assert.assertEquals(element.getText(), "Sale!");
         }
@@ -490,7 +485,7 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         getDriver().get("https://askomdch.com");
         getDriver().findElement(By.xpath("//*[@id='menu-item-1228']/a")).click();
         String backgroundButtonColor = getDriver().findElement(
-                By.xpath("//*[@id='woocommerce_product_search-1']/form/button"))
+                        By.xpath("//*[@id='woocommerce_product_search-1']/form/button"))
                 .getCssValue("background-color");
 
         Assert.assertEquals(backgroundButtonColor, "rgba(49, 151, 214, 1)");
@@ -555,5 +550,31 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         WebElement promoText = getDriver().findElement(By.xpath(".//h3[@class = 'has-text-align-center has-white-color has-text-color has-medium-font-size']"));
 
         Assert.assertEquals(promoText.getText(), "25% OFF On all products");
+    }
+
+    @Test
+    public void testAccountButtonOpensLoginPage() {
+        getDriver().get("https://askomdch.com/");
+
+        String title = getDriver().getTitle();
+        assertEquals(title, "AskOmDch – Become a Selenium automation expert!");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+
+        getDriver().findElement(By.xpath("//a[@href=\"https://askomdch.com/account/\"][@class=\"menu-link\"]")).click();
+        assertEquals("https://askomdch.com/account/", getDriver().getCurrentUrl());
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+    }
+
+    @Test
+    public void testShopNowButtonOpensUpStorePage() {
+        getDriver().get("https://askomdch.com/");
+
+        String title = getDriver().getTitle();
+        assertEquals(title, "AskOmDch – Become a Selenium automation expert!");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+
+        getDriver().findElement(By.cssSelector("a.wp-block-button__link")).click();
+        assertEquals("https://askomdch.com/store", getDriver().getCurrentUrl());
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(500));
     }
 }
