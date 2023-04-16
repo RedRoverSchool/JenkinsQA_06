@@ -201,15 +201,11 @@ public class AlexLeoEpicGroupTest extends BaseTest{
 
     @Test
     public void verifySaleIconIsDisplayedArtemTTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         try {
-            driver.get("https://askomdch.com/");
-            WebElement featuredProducts = driver
+            getDriver().get("https://askomdch.com/");
+            WebElement featuredProducts = getDriver()
                     .findElement(By.xpath("//*[contains(text(),'Featured Products')]"));
             List<WebElement> saleProducts = featuredProducts
                     .findElements(By.xpath("//li[contains(@class, 'ast-article-single')]" +
@@ -223,46 +219,39 @@ public class AlexLeoEpicGroupTest extends BaseTest{
             fail("An exception occurred: " + e.getMessage());
 
         } finally {
-            driver.quit();
+            getDriver().quit();
         }
     }
 
 
     @Test
     public void verifyShopNowLinkArtemTTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         try {
-            driver.get("https://askomdch.com/");
-            driver.findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
+            getDriver().get("https://askomdch.com/");
+            getDriver().findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
                     .click();
-            String URL = driver.getCurrentUrl();
+            String URL = getDriver().getCurrentUrl();
             Assert.assertEquals(URL, "https://askomdch.com/store");
         }
 
         finally {
-            driver.quit();
+            getDriver().quit();
         }
     }
 
     @Test
     public void verifyFindMoreLinkArtemTTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         try {
-            driver.get("https://askomdch.com/");
-            driver.findElements(By.cssSelector("a.wp-block-button__link")).get(1).click();
-            String URL = driver.getCurrentUrl();
+            getDriver().get("https://askomdch.com/");
+            getDriver().findElements(By.cssSelector("a.wp-block-button__link")).get(1).click();
+            String URL = getDriver().getCurrentUrl();
             Assert.assertEquals(URL, "https://askomdch.com/contact-us/");
         } finally {
-            driver.quit();
+            getDriver().quit();
         }
     }
 
