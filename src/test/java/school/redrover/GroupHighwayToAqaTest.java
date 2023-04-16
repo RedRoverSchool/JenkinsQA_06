@@ -484,4 +484,17 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), "This email address is already subscribed.");
         driver.quit();
     }
+
+    @Test
+    public void testCheckEmptyCartText() throws InterruptedException {
+        getDriver().get(BASE_URL);
+
+        Thread.sleep(2000);
+        WebElement cartIcon = getDriver().findElement(By.xpath("//header//a[contains(@href, 'cart')]"));
+        cartIcon.click();
+        WebElement cartDropDownDialog = getDriver().findElement(
+                By.xpath("//div[@id='ui-id-1']//div[@class='block-content']//strong"));
+
+        assertEquals(cartDropDownDialog.getText(),"You have no items in your shopping cart.");
+    }
 }
