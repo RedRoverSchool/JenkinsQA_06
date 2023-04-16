@@ -31,41 +31,18 @@ public class GroupJavaExplorersTest extends BaseTest {
     }
 
     @Test
-    public void vhodTextOnAuthPageTest() throws InterruptedException {
+    public void textTitleOnAuthFormTest() {
+        getDriver().get("https://www.21vek.by/");
 
-        //проверка того, что на окошке со входом над полями Логина и пасса есть слово Вход
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        //"--remote-allow-origins=*", "--headless" --- params for server
-
-        WebDriver driver = new ChromeDriver(options);
-        driver.get("https://www.21vek.by/");             //проходим на сайт
-
-        Thread.sleep(1000);
-
-        WebElement buttonCookie = driver.findElement(    //прошли выплывашку с куки
-                By.xpath("//button[@class='Button-module__button Button-module__blue-primary']"));
+        WebElement buttonCookie = getDriver().findElement(By.cssSelector("#modal-cookie button[class$='primary']"));
         buttonCookie.click();
-
-        Thread.sleep(1000);
-
-        WebElement buttonAccount = driver.findElement(   // нажали на Аккаунт
-                By.xpath("//button[@class='styles_userToolsToggler__imcSl']"));
+        WebElement buttonAccount = getDriver().findElement(By.cssSelector("div[class*=userTools] button"));
         buttonAccount.click();
+        WebElement buttonSignIn = getDriver().findElement(By.cssSelector("button[data-testid='loginButton']"));
+        buttonSignIn.click();
 
-        Thread.sleep(1000);
-
-        WebElement buttonVoiti = driver.findElement(   // нажали на Войти
-                By.xpath("//button[@data-testid='loginButton']"));
-        buttonVoiti.click();
-
-        Thread.sleep(1000);
-
-        WebElement textVhod = driver.findElement(   // нашли текст вверху, в центре, где должно быть ВХОД
-                By.xpath("//h5[@class='style_formTitle__hRNRz']"));
-        Assert.assertEquals(textVhod.getText(), "Вход");
-
-        driver.quit();
+        WebElement authFormTitleText = getDriver().findElement(By.cssSelector("form h5"));
+        Assert.assertEquals(authFormTitleText.getText(), "Вход");
     }
 
     @Test
@@ -89,5 +66,23 @@ public class GroupJavaExplorersTest extends BaseTest {
 
         WebElement actualResult =  getDriver().findElement(By.id("triangle-type"));
         Assert.assertEquals(actualResult.getText(), expectedResult);
+    }
+
+    @Test
+    public void testLocalityBtnOnHeader() {
+        getDriver().get("https://www.21vek.by/");
+
+        WebElement buttonCookie = getDriver().findElement(By.cssSelector("#modal-cookie button[class$='primary']"));
+        buttonCookie.click();
+        WebElement buttonLocality = getDriver().findElement(By.cssSelector("header button[class*='localityBtn']"));
+        buttonLocality.click();
+        WebElement buttonInputCity = getDriver().findElement(By.cssSelector("input[aria-label='city']"));
+        buttonInputCity.click();
+        WebElement firstCityOnDropdown = getDriver().findElement(By.cssSelector("div[id='dropdown-0-city'] li:nth-child(1)"));
+        firstCityOnDropdown.click();
+        WebElement buttonSubmit = getDriver().findElement(By.cssSelector("button[class*=baseAction] > div[class*=Button-module]"));
+        buttonSubmit.click();
+
+        Assert.assertEquals(buttonLocality.getText(), "г. Минск");
     }
 }
