@@ -269,6 +269,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+
     @Test
     public void artyomDulyaAuthorizationKinopoisk() {
 
@@ -301,4 +302,5 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         }
         Assert.assertEquals(actualResult, expectedResult);
     }
+
 }
