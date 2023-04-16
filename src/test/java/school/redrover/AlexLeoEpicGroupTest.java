@@ -332,16 +332,10 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         Assert.assertEquals(text.getText(), "25% OFF On all products");
     }
 
-
     @Test
-    public void saleIconVerificationTest_TC_001_24() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        driver.get("https://askomdch.com/");
-        WebElement featuredProductsElement = driver.findElement(By.xpath("//h2[@class='has-text-align-center']"));
+    public void testSaleIconVerification() {
+        getDriver().get("https://askomdch.com/");
+        WebElement featuredProductsElement = getDriver().findElement(By.xpath("//h2[@class='has-text-align-center']"));
         List<WebElement> featuredProducts = featuredProductsElement.findElements(By.xpath(
                 "//div[@class='astra-shop-thumbnail-wrap']/parent::li"));
         for (WebElement featuredProduct : featuredProducts) {
@@ -358,14 +352,9 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void dollarSignVerificationTest_TC_002_24() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        driver.get("https://askomdch.com/");
-        WebElement featuredProductsElement = driver.findElement(By.xpath("//h2[@class='has-text-align-center']"));
+    public void testDollarSignVerification() {
+        getDriver().get("https://askomdch.com/");
+        WebElement featuredProductsElement = getDriver().findElement(By.xpath("//h2[@class='has-text-align-center']"));
         List<WebElement> featuredProducts = featuredProductsElement.findElements(By.xpath(
                 "//span[@class='woocommerce-Price-currencySymbol']"));
         for (WebElement featuredProduct : featuredProducts) {
@@ -375,14 +364,9 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void discountMessageVerificationTest_TC_003_24() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        driver.get("https://askomdch.com/");
-        String actualText = driver.findElement(By.xpath("//h3[@class='has-text-align-center has-white-color " +
+    public void testDiscountMessageVerification() {
+        getDriver().get("https://askomdch.com/");
+        String actualText = getDriver().findElement(By.xpath("//h3[@class='has-text-align-center has-white-color " +
                 "has-text-color has-medium-font-size']")).getText();
 
         String expectedText = "25% OFF On all products";
@@ -390,79 +374,56 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void loginPageVerificationTest_TC_004_24() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        driver.get("https://askomdch.com/");
-        driver.findElement(By.xpath("//a[@href='https://askomdch.com/account/' and text()='Account']")).click();
+    public void testLoginPageVerification() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//a[@href='https://askomdch.com/account/' and text()='Account']")).click();
 
         String url = "https://askomdch.com/account/";
-        Assert.assertEquals(driver.getCurrentUrl(), url);
+        Assert.assertEquals(getDriver().getCurrentUrl(), url);
     }
 
     @Test
-    public void storePageVerificationTest_TC_005_24() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        driver.get("https://askomdch.com/");
-        driver.findElement(By.xpath("//a[@href='https://askomdch.com/store/' and text()='Store']")).click();
+    public void testStorePageVerification() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//a[@href='https://askomdch.com/store/' and text()='Store']")).click();
 
         String url = "https://askomdch.com/store/";
-        Assert.assertEquals(driver.getCurrentUrl(), url);
+        Assert.assertEquals(getDriver().getCurrentUrl(), url);
     }
 
     @Test
-    public void numberOfProductsVerificationTest_TC_006_24() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        driver.get("https://askomdch.com/");
-        WebElement featuredProductsElement = driver.findElement(By.xpath("//h2[@class='has-text-align-center']"));
+    public void testNumberOfProductsVerification() {
+        getDriver().get("https://askomdch.com/");
+        WebElement featuredProductsElement = getDriver().findElement(By.xpath("//h2[@class='has-text-align-center']"));
         List<WebElement> featuredProducts = featuredProductsElement.findElements(By.xpath(
                 "//div[@class='astra-shop-thumbnail-wrap']/parent::li"));
+
         Assert.assertEquals(featuredProducts.size(), 5);
     }
 
     @Test
-    public void numberOfProductsVerificationTest_TC_007_24() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        driver.get("https://askomdch.com/");
-        driver.findElement(By.xpath("//a[@href='https://askomdch.com/product-category/men/']")).click();
-        WebElement button = driver.findElement(By.xpath("//button[@type='submit' and @value='Search']"));
+    public void testBackgroundColorVerification() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//a[@href='https://askomdch.com/product-category/men/']")).click();
+        WebElement button = getDriver().findElement(By.xpath("//button[@type='submit' and @value='Search']"));
 
         String expectedColor = "rgba(49, 151, 214, 1)";
         Assert.assertEquals(button.getCssValue("background-color"), expectedColor);
     }
 
     @Test
-    public void findMorePageVerificationTest_TC_008_24() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+    public void testFindMorePageVerification() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//a[@href='https://askomdch.com/contact-us/' and text()='Find More']")).click();
 
-        driver.get("https://askomdch.com/");
-        driver.findElement(By.xpath("//a[@href='https://askomdch.com/contact-us/' and text()='Find More']")).click();
-        String actaulPage = driver.getTitle().substring(0, 10);
+        String actaulPage = getDriver().getTitle().substring(0, 10);
         String expectedPage = "Contact Us";
-        String actualLink = driver.getCurrentUrl();
+        String actualLink = getDriver().getCurrentUrl();
         String expectedLink = "https://askomdch.com/contact-us/";
+
         Assert.assertEquals(actaulPage, expectedPage);
         Assert.assertEquals(actualLink, expectedLink);
     }
-
 
   @Test
   public void testMenuBar() {

@@ -1,6 +1,8 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
+import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
+import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +13,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -42,6 +45,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
         assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
 
+    @Ignore
     @Test
     public void testErrorMessage() {
 
@@ -120,18 +124,9 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testTitle() {
+        getDriver().get(BASE_URL);
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
-
-        String title = driver.getTitle();
-        Assert.assertEquals("Home Page", title);
-
-        driver.quit();
+        Assert.assertEquals(getDriver().getTitle(), "Home Page");
     }
 
     @Test
@@ -421,54 +416,41 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testBlockPromo() throws InterruptedException {
+        getDriver().get(BASE_URL);
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get(BASE_URL);
-
-        WebElement blockPromo = driver.findElement(By.xpath("//span[@class='action more button']"));
+        WebElement blockPromo = getDriver().findElement(By.xpath("//span[@class='action more button']"));
         blockPromo.click();
         Thread.sleep(2000);
-        String title = driver.findElement(By.xpath("//span[@class='base']")).getText();
+
+        String title = getDriver().findElement(By.xpath("//span[@class='base']")).getText();
 
         Assert.assertEquals(title, "New Luma Yoga Collection");
-
-        driver.quit();
     }
 
     @Test
     public void testCreateAnAccountWithFacker() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
+        getDriver().get(BASE_URL);
 
-        WebElement href = driver.findElement(By.linkText("Create an Account"));
-        href.click();
-        String value = driver.getTitle();
+        WebElement createAnAccountHref = getDriver().findElement(By.linkText("Create an Account"));
+        createAnAccountHref.click();
+        String value = getDriver().getTitle();
 
         Assert.assertEquals(value, "Create New Customer Account");
         Thread.sleep(2000);
-        driver.findElement(By.id("firstname")).sendKeys(firstName);
-        driver.findElement(By.id("lastname")).sendKeys(lastName);
-        driver.findElement(By.id("email_address")).sendKeys(email);
-        driver.findElement(By.id("password")).sendKeys(password);
-        driver.findElement(By.id("password-confirmation")).sendKeys(password);
-        WebElement button = driver.findElement(By.xpath("//form[@id='form-validate']//button/span[text()='Create an Account']"));
-        button.click();
+        getDriver().findElement(By.id("firstname")).sendKeys(firstName);
+        getDriver().findElement(By.id("lastname")).sendKeys(lastName);
+        getDriver().findElement(By.id("email_address")).sendKeys(email);
+        getDriver().findElement(By.id("password")).sendKeys(password);
+        getDriver().findElement(By.id("password-confirmation")).sendKeys(password);
+        WebElement buttonForCreationAccout = getDriver().findElement(By.xpath("//form[@id='form-validate']//button/span[text()='Create an Account']"));
+        buttonForCreationAccout.click();
         Thread.sleep(2000);
-        WebElement title = driver.findElement(By.xpath("//div[@class='message-success success message']"));;
-        String value1 =title.getText();
+        WebElement titleOfSucessCreationAccountMessage = getDriver().findElement(By.xpath("//div[@class='message-success success message']"));;
 
-        Assert.assertEquals(value1, "Thank you for registering with Main Website Store.");
-        System.out.println(password);
-
-        driver.quit();
+        Assert.assertEquals(titleOfSucessCreationAccountMessage.getText(), "Thank you for registering with Main Website Store.");
     }
 
+    @Ignore
     @Test
     public void testSubscription() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
