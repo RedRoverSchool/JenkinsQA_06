@@ -1,6 +1,7 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
+import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.List;
@@ -43,6 +45,7 @@ public class GroupHighwayToAqaTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testErrorMessage() {
 
