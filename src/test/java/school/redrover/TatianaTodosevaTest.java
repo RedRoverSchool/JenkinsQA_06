@@ -1,6 +1,6 @@
 package school.redrover;
 
-/*import org.openqa.selenium.By;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,13 +13,14 @@ import java.time.Duration;
 
 import static org.testng.Assert.assertEquals;
 
- */
 
+
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class TatianaTodosevaTest {
-
-    /*  @Test
+     @Ignore
+     @Test
     public void firstTest() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -47,7 +48,7 @@ public class TatianaTodosevaTest {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void secondTest() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
@@ -72,7 +73,7 @@ public class TatianaTodosevaTest {
 
         driver.quit();
     }
-    */
+
     @Test
     public void oneMoreTest (){
         System.out.println("test test");
