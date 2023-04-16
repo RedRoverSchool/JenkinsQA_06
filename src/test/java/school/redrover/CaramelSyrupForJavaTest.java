@@ -28,7 +28,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         int expectedResult = 6;
 
-        beforeMethod();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         getDriver().get("https://openweathermap.org/");
@@ -63,8 +62,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
 
     @Test
@@ -72,8 +69,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         String expectedResultUrl = "https://openweather.co.uk/";
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
-
-        beforeMethod();
 
         getDriver().get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -95,8 +90,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
-
-        afterMethod();
     }
 
     @Test
@@ -104,7 +97,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         String expectedResult = "Paris, FR";
 
-        beforeMethod();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         getDriver().get("https://openweathermap.org/");
@@ -121,16 +113,12 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = parisText.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
 
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
 
         String actualResult = "Sign In To Your Account";
-
-        beforeMethod();
 
         getDriver().get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -144,16 +132,12 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResult = loginText.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
 
     @Test
     public void testArtyomDulyaWildberries() {
 
         int expectedResult = 26;
-
-        beforeMethod();
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
@@ -200,7 +184,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
-        afterMethod();
     }
 
     @Test
@@ -239,8 +222,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         String expectedResult = "OpenWeather Enterprise Guide";
 
-        beforeMethod();
-
         getDriver().get("https://openweathermap.org/");
         Thread.sleep(5000);
 
@@ -256,11 +237,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = banner.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
-
-
-
 
 }
