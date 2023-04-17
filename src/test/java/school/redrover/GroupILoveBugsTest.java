@@ -54,6 +54,7 @@ public class GroupILoveBugsTest extends BaseTest {
 
         getDriver().quit();
     }
+
     @Test
     public void swagLabsTest() {
 
