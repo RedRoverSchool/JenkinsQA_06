@@ -1,6 +1,11 @@
 package school.redrover;
 
-import org.openqa.selenium.*;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
@@ -73,5 +78,25 @@ public class GroupJavaExplorersTest extends BaseTest {
         String buttonClass = buttonPrimary.getAttribute("class");
 
         Assert.assertTrue(buttonClass.contains("btn-success"));
+    }
+
+    @Test
+    public void testIsoscelesTriangle() throws InterruptedException {
+        getDriver().get("https://playground.learnqa.ru/puzzle/triangle");
+
+        WebElement sideATextBox = getDriver().findElement(By.className("js_a"));
+        sideATextBox.sendKeys("5");
+        WebElement sideBTextBox = getDriver().findElement(By.className("js_b"));
+        sideBTextBox.sendKeys("5");
+        WebElement sideCTextBox = getDriver().findElement(By.className("js_c"));
+        sideCTextBox.sendKeys("6");
+        WebElement showResultButton = getDriver().findElement(By.xpath("//button[@class='btn btn-submit']"));
+        Thread.sleep(1000);
+        showResultButton.click();
+        WebElement resultMessage = getDriver().findElement(By.xpath("//div[@class='info logg']"));
+        Thread.sleep(1000);
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, "Это равнобедренный треугольник.\nВы ввели:\nA: 5; B: 5; C: 6");
     }
 }
