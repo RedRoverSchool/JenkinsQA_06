@@ -15,7 +15,9 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
@@ -237,5 +239,20 @@ public class GroupJasperAutomationTest extends BaseTest {
 
         WebElement orderedProductName = getDriver().findElement(By.linkText("iPhone 14 Pro 128GB Deep Purple"));
         Assert.assertEquals(orderedProductName.getText(), "iPhone 14 Pro 128GB Deep Purple");
+    }
+
+    @Test
+    public void testNumberOfIphoneModelsAvailable(){
+        getDriver().get("https://www.apple.com/");
+        WebElement searchButton = getDriver().findElement(By.id("globalnav-menubutton-link-search"));
+        searchButton.click();
+
+        WebElement iPhonePage = getDriver().findElement(By.xpath("//a[@aria-label = 'iPhone']"));
+        iPhonePage.click();
+
+        WebElement listOfIphones = getDriver().findElement(By.cssSelector("ul.chapternav-items"));
+        List<WebElement> list = listOfIphones.findElements(By.xpath("li[contains(@class, 'item-iphone-')]"));
+
+        Assert.assertEquals(list.size(), 5);
     }
 }
