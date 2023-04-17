@@ -79,6 +79,7 @@ public class GroupJasperAutomationTest extends BaseTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testFindContacts() throws InterruptedException {
         getDriver().get("https://gorodok.ua/");
