@@ -9,12 +9,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-public class GroupILoveBugsTest {
+public class GroupILoveBugsTest extends BaseTest {
     @Test
     public void ADFirstTest() throws InterruptedException {
 
@@ -35,27 +36,23 @@ public class GroupILoveBugsTest {
     }
 
     @Test
-    public void SteamTest(){
+    public void testSteam(){
         final String MAIN_PAGE = "https://store.steampowered.com/";
         final By LOGIN_BUTTON = By.xpath("//a[@class='global_action_link']");
         final By SIGN_IN_BUTTON = By.cssSelector(".newlogindialog_SubmitButton_2QgFE");
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(4));
 
-        WebDriver driver = new ChromeDriver(options);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4));
-
-        driver.get(MAIN_PAGE);
-        Assert.assertEquals(driver.getCurrentUrl(), MAIN_PAGE, "The page opened is not 'store.steampowered.com' or the URL is invalid");
+        getDriver().get(MAIN_PAGE);
+        Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE, "The page opened is not 'store.steampowered.com' or the URL is invalid");
 
         wait.until(ExpectedConditions.elementToBeClickable(LOGIN_BUTTON));
-        driver.findElement(LOGIN_BUTTON).click();
+        getDriver().findElement(LOGIN_BUTTON).click();
 
         wait.until(ExpectedConditions.elementToBeClickable(SIGN_IN_BUTTON));
-        Assert.assertTrue(driver.findElement(SIGN_IN_BUTTON).isDisplayed(), "The bottom 'Sign In' is not displayed.");
+        Assert.assertTrue(getDriver().findElement(SIGN_IN_BUTTON).isDisplayed(), "The bottom 'Sign In' is not displayed.");
 
-        driver.quit();
+        getDriver().quit();
     }
     @Test
     public void swagLabsTest() {
