@@ -225,7 +225,33 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         driver.quit();
     }
+    @Test
+    public void serhiiHaponiukOpenWeatherMapGridContainerTest() throws InterruptedException {
 
+        beforeMethod();
+
+        getDriver().get("https://openweathermap.org/");
+        String title = getDriver().getTitle();
+
+        Assert.assertEquals(title, "Сurrent weather and forecast - OpenWeatherMap");
+
+        Thread.sleep(5000);
+
+        WebElement celsiusButton = getDriver().findElement(By.xpath
+                ("//div[text() = 'Metric: °C, m/s']"));
+        WebElement fahrenheitButton = getDriver().findElement(By.xpath
+                ("//div[text() = 'Imperial: °F, mph']"));
+        WebElement temperature = getDriver().findElement(By.className("heading"));
+        Assert.assertTrue(temperature.getText().contains("C"));
+        celsiusButton.isDisplayed();
+        fahrenheitButton.click();
+
+        Assert.assertTrue(temperature.getText().contains("F"));
+        celsiusButton.click();
+        Assert.assertTrue(temperature.getText().contains("C"));
+
+        afterMethod();
+    }
 
 
 
