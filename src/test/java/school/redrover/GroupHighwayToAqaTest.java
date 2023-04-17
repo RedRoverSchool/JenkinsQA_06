@@ -45,40 +45,33 @@ public class GroupHighwayToAqaTest extends BaseTest {
         assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
 
-    @Ignore
     @Test
-    public void testErrorMessage() {
+    public void testErrorMessageWhenEmailFieldLeftBlank() {
 
         String expectedErrorMessage = "This is a required field.";
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://magento.softwaretestingboard.com");
-
-        WebElement scrollByVisibleElement = driver.findElement(By.xpath("//div[@class='footer content']"));
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        WebElement scrollByVisibleElement = getDriver().findElement(By.xpath("//div[@class='footer content']"));
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
         jse.executeScript("arguments[0].scrollIntoView(true)", scrollByVisibleElement);
 
-        WebElement contactNavItem = driver.findElement(
+        WebElement contactNavItem = getDriver().findElement(
                 By.xpath("//a[@href='https://magento.softwaretestingboard.com/contact/']"));
         contactNavItem.click();
 
-        driver.findElement(By.xpath("//input[@id='name']"))
+        getDriver().findElement(By.xpath("//input[@id='name']"))
                 .sendKeys("Anna");
-        driver.findElement(By.xpath("//input[@id='telephone']"))
+        getDriver().findElement(By.xpath("//input[@id='telephone']"))
                 .sendKeys("8995552557");
-        driver.findElement(By.xpath("//textarea[@id='comment']"))
+        getDriver().findElement(By.xpath("//textarea[@id='comment']"))
                 .sendKeys("Thank you for providing such great products and service!");
-        driver.findElement(By.xpath("//span[text()='Submit']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Submit']")).click();
 
-        String actualErrorMessage = driver.findElement(
+        String actualErrorMessage = getDriver().findElement(
                 By.xpath("//div[@id='email-error']")).getText();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
-
-        driver.quit();
     }
 
     @Test
