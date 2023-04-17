@@ -14,9 +14,8 @@ import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-@Ignore
+
 public class GroupUkrTest extends BaseTest {
-    @Ignore
     @Test
     public void youtubeSearchTest(){
         ChromeOptions optionsChrome = new ChromeOptions();
@@ -47,8 +46,6 @@ public class GroupUkrTest extends BaseTest {
         driver.quit();
 
     }
-
-    @Ignore
     @Test
     public void testRenameBtn(){
         final String NAME = "new button name";
