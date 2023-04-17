@@ -8,10 +8,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import static org.testng.Assert.assertEquals;
 
-public class GroupForwardTest {
+public class GroupForwardTest extends BaseTest {
 
     @Test
     public void testCommonComponents() throws InterruptedException {
@@ -79,27 +80,22 @@ public class GroupForwardTest {
 
         driver.quit();
     }
-    
+
     @Test
-    public void SauceDemoLoginSuccessTest() {
+    public void sauceDemoLoginSuccessTest() {
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*","--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(options);
         String link = "https://www.saucedemo.com/";
         String endpoint_inventory = "inventory.html";
-        driver.get(link);
+        getDriver().get(link);
 
-        WebElement username = driver.findElement(By.cssSelector("#user-name"));
+        WebElement username = getDriver().findElement(By.cssSelector("#user-name"));
         username.sendKeys("standard_user");
-        WebElement password = driver.findElement(By.cssSelector("#password"));
+        WebElement password = getDriver().findElement(By.cssSelector("#password"));
         password.sendKeys("secret_sauce");
-        WebElement loginButton = driver.findElement(By.cssSelector("#login-button"));
+        WebElement loginButton = getDriver().findElement(By.cssSelector("#login-button"));
         loginButton.sendKeys(Keys.ENTER);
-        assertEquals(driver.getCurrentUrl(), link+endpoint_inventory);
 
-        driver.quit();
+        assertEquals(getDriver().getCurrentUrl(), link+endpoint_inventory);
       }
 
       @Test
@@ -126,8 +122,61 @@ public class GroupForwardTest {
           String value = message.getText();
           assertEquals("Received!", value);
 
-          driver.quit();
+        driver.quit();
       }
 
+    @Test
+    public void testSearchIplayAmerica()  {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.google.com/");
+
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.sendKeys("i play america");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//h3[contains(text(),\"Home - iPlay America - NJ's Premier Indoor Amuseme\")]"));
+
+        assertEquals(text.getText(), "Home - iPlay America - NJ's Premier Indoor Amusement Park");
+
+        driver.quit();
+    }
+
+
+    @Test
+
+    public void testFirst() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String title = driver.getTitle();
+        assertEquals("Web form", title);
+
+
+        WebElement textBox = driver.findElement(By.cssSelector("#my-text-id"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        Thread.sleep(2000);
+
+        textBox.sendKeys("Selenium");
+
+        Thread.sleep(2000);
+
+        submitButton.click();
+
+        Thread.sleep(2000);
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        assertEquals("Received!", value);
+
+        Thread.sleep(2000);
+
+        driver.quit();
+    }
 }
 

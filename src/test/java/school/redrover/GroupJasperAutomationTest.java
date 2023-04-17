@@ -12,24 +12,26 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.Base64;
 
 import static org.testng.Assert.assertEquals;
 
-public class GroupJasperAutomationTest {
+public class GroupJasperAutomationTest extends BaseTest {
     @Test
 
-        public void footballua() throws InterruptedException {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments( "--headless", "--window-size=1920,1080");
+    public void footballua() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
 
-            WebDriver driver = new ChromeDriver(chromeOptions);
-            driver.get("https://football.ua/");
-            WebElement element = driver.findElement(By.xpath("//*[text()='Україна']"));
-            Assert.assertEquals(element.getText(), "Україна");
-            driver.quit();
-        }
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://football.ua/");
+        WebElement element = driver.findElement(By.xpath("//*[text()='Україна']"));
+        Assert.assertEquals(element.getText(), "Україна");
+        driver.quit();
+    }
 
 
     @Test
@@ -85,17 +87,13 @@ public class GroupJasperAutomationTest {
     }
 
     @Test
-    public void getSite() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://gorodok.ua/");
+    public void testFindContacts() throws InterruptedException {
+        getDriver().get("https://gorodok.ua/");
         Thread.sleep(5000);
-        WebElement name = driver.findElement(By.xpath("//*[@id=\"masthead\"]/div[1]/div[4]/ul/li[3]/div/a[2]/span"));
-        Assert.assertEquals(name.getText(), "CONTACTS");
-        driver.quit();
 
+        WebElement name = getDriver().findElement(By.xpath("//*[@class='button primary is-outline is-small']"));
+
+        Assert.assertEquals(name.getText(), "CONTACTS");
     }
 
     @Test
@@ -133,7 +131,7 @@ public class GroupJasperAutomationTest {
 
         Thread.sleep(2000);
         WebElement textBox = driver.findElement(By.xpath("//*[@id=\"PageContent_C038_Col01\"]/div[1]/h2"));
-        assertEquals(textBox.getText(),"General enquiries");
+        assertEquals(textBox.getText(), "General enquiries");
     }
 
     @Test
@@ -173,4 +171,37 @@ public class GroupJasperAutomationTest {
 
     }
 
+    @Test
+       public void testEnterToSite(){
+        getDriver().get("https://www.saucedemo.com/");
+
+        WebElement addLogin = getDriver().findElement(By.xpath("//input[@data-test='username']"));
+        addLogin.sendKeys("standard_user");
+
+        WebElement addPassword = getDriver().findElement(By.xpath("//input[@data-test='password']"));
+        addPassword.sendKeys("secret_sauce");
+
+        WebElement loginButton = getDriver().findElement(By.xpath("//input[@class='submit-button btn_action']"));
+        loginButton.click();
+
+        WebElement logo = getDriver().findElement(By.xpath("//div[@class='app_logo']"));
+        Assert.assertEquals(logo.getText(), "Swag Labs");
+    }
+    @Test
+    public void testTryToEnterLockedUser() {
+        getDriver().get("https://www.saucedemo.com/");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+
+        WebElement loginField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id ='user-name']")));
+        loginField.sendKeys("locked_out_user");
+
+        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id ='password']")));
+        passwordField.sendKeys("secret_sauce");
+
+        WebElement loginButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id ='login-button']")));
+        loginButton.click();
+
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-test ='error']")));
+        Assert.assertEquals(errorMessage.getText(),"Epic sadface: Sorry, this user has been locked out.");
+    }
 }

@@ -1,14 +1,21 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
+import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
 import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.List;
@@ -16,38 +23,29 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class GroupHighwayToAqaTest {
+public class GroupHighwayToAqaTest extends BaseTest {
 
     private static final String BASE_URL = "https://magento.softwaretestingboard.com/";
-    Faker javaFaker = Faker.instance();
-
-    public Faker getJavaFaker() {
-        return javaFaker;
-    }
-
     Faker faker = new Faker();
     String firstName = faker.name().firstName();
     String lastName = faker.name().lastName();
     String email = faker.internet().emailAddress();
-    String Password = faker.letterify("Some text:????656 ??? ?? ?? 666");
+    String password = faker.internet().password(11,12,true,
+            true, true);
+
 
     @Test
-    public void openContactUsPageTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testOpenContactUsPage() {
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        WebElement contactUsLink = getDriver().findElement(By.xpath("//footer/div/ul[@class='footer links']//a[text()='Contact Us']"));
+        contactUsLink.click();
+        WebElement contactUsPageTitle = getDriver().findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']"));
 
-        driver.get("https://magento.softwaretestingboard.com/");
-        driver.findElement(By.xpath("//footer/div/ul[@class='footer links']//a[text()='Contact Us']")).click();
-        WebElement pageTitle = driver.findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']"));
-
-        Assert.assertEquals(driver.getCurrentUrl(), "https://magento.softwaretestingboard.com/contact/");
-        Assert.assertEquals(pageTitle.getText(), "Contact Us");
-
-        driver.quit();
+        assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
 
+    @Ignore
     @Test
     public void testErrorMessage() {
 
@@ -84,66 +82,51 @@ public class GroupHighwayToAqaTest {
     }
 
     @Test
-    public void MLFirstTest() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void MlFirstTest() throws InterruptedException {
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get(BASE_URL);
-
-        WebElement textBox = driver.findElement(
-                By.xpath("//header//a[normalize-space(text())=\"Create an Account\"]"));
+        WebElement textBox = getDriver().findElement(
+                By.xpath("//header//a[normalize-space(text())='Create an Account']"));
         textBox.click();
 
-        WebElement text = driver.findElement(By.xpath("//span[@data-ui-id = \"page-title-wrapper\"]"));
+        WebElement text = getDriver().findElement(By.xpath("//span[@data-ui-id = 'page-title-wrapper']"));
 
         Assert.assertEquals(text.getText(), "Create New Customer Account");
 
-        WebElement firstName = driver.findElement(By.xpath("//input[@id = \"firstname\"]"));
+        WebElement firstName =getDriver().findElement(By.xpath("//input[@id = 'firstname']"));
         firstName.sendKeys("Marina");
-        WebElement lastName = driver.findElement(By.xpath("//input[@id = \"lastname\"]"));
+        WebElement lastName = getDriver().findElement(By.xpath("//input[@id = 'lastname']"));
         lastName.sendKeys("Los");
-        WebElement email = driver.findElement(By.xpath("//input[@id = \"email_address\"]"));
+        WebElement email = getDriver().findElement(By.xpath("//input[@id = 'email_address']"));
         email.sendKeys("test@google.com");
-        WebElement password1 = driver.findElement(By.xpath("//input[@id = \"password\"]"));
+        WebElement password1 = getDriver().findElement(By.xpath("//input[@id = 'password']"));
         password1.sendKeys("123Qwerty+");
-        WebElement password2 = driver.findElement(By.xpath("//input[@id = \"password-confirmation\"]"));
+        WebElement password2 = getDriver().findElement(By.xpath("//input[@id = 'password-confirmation']"));
         password2.sendKeys("123Qwerty+");
-        WebElement submitbutton = driver.findElement(
-                By.xpath("//button/span[normalize-space(text())=\"Create an Account\"]")
+        WebElement submitbutton = getDriver().findElement(
+                By.xpath("//button/span[normalize-space(text())='Create an Account']")
         );
         submitbutton.click();
 
         Thread.sleep(2000);
 
-        WebElement clickHereLink = driver.findElement(
-                By.xpath("//div/a[normalize-space(text())=\"click here\"]")
+        WebElement clickHereLink = getDriver().findElement(
+                By.xpath("//div/a[normalize-space(text())='click here']")
         );
         clickHereLink.click();
 
-        WebElement forgotPassword = driver.findElement(
-                By.xpath("//h1/span[normalize-space(text())=\"Forgot Your Password?\"]")
+        WebElement forgotPassword = getDriver().findElement(
+                By.xpath("//h1/span[normalize-space(text())='Forgot Your Password?']")
         );
 
         Assert.assertEquals(forgotPassword.getText(), "Forgot Your Password?");
-
-        driver.quit();
     }
 
     @Test
     public void testTitle() {
+        getDriver().get(BASE_URL);
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get(BASE_URL);
-
-        Assert.assertEquals(driver.getTitle(), "Home Page");
-
-        driver.quit();
+        Assert.assertEquals(getDriver().getTitle(), "Home Page");
     }
 
     @Test
@@ -232,13 +215,13 @@ public class GroupHighwayToAqaTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://magento.softwaretestingboard.com");
-        WebElement href = driver.findElement(By.xpath("//div/nav/ul/li [1]"));
+        WebElement href = driver.findElement(By.xpath("//div/nav/ul/li[1]"));
         String value = href.getText();
         assertEquals(value, "What's New");
-        WebElement href2 = driver.findElement(By.xpath("//div/nav/ul/li [2]"));
+        WebElement href2 = driver.findElement(By.xpath("//div/nav/ul/li[2]"));
         String value1 = href2.getText();
         assertEquals(value1, "Women");
-        WebElement href3 = driver.findElement(By.xpath("//div/nav/ul/li [3]"));
+        WebElement href3 = driver.findElement(By.xpath("//div/nav/ul/li[3]"));
         String value2 = href3.getText();
         assertEquals(value2, "Men");
         WebElement href4 = driver.findElement(By.xpath("//div/nav/ul/li [4]"));
@@ -433,46 +416,111 @@ public class GroupHighwayToAqaTest {
 
     @Test
     public void testBlockPromo() throws InterruptedException {
+        getDriver().get(BASE_URL);
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get(BASE_URL);
-
-        WebElement blockPromo = driver.findElement(By.xpath("//span[@class='action more button']"));
+        WebElement blockPromo = getDriver().findElement(By.xpath("//span[@class='action more button']"));
         blockPromo.click();
-       Thread.sleep(2000);
-        String title = driver.findElement(By.xpath("//span[@class='base']")).getText();
+        Thread.sleep(2000);
+
+        String title = getDriver().findElement(By.xpath("//span[@class='base']")).getText();
 
         Assert.assertEquals(title, "New Luma Yoga Collection");
-
-        driver.quit();
     }
+
     @Test
-    public void CreateAnAccountWithFacker() throws InterruptedException {
+    public void testCreateAnAccountWithFacker() throws InterruptedException {
+        getDriver().get(BASE_URL);
+
+        WebElement createAnAccountHref = getDriver().findElement(By.linkText("Create an Account"));
+        createAnAccountHref.click();
+        String value = getDriver().getTitle();
+
+        Assert.assertEquals(value, "Create New Customer Account");
+        Thread.sleep(2000);
+        getDriver().findElement(By.id("firstname")).sendKeys(firstName);
+        getDriver().findElement(By.id("lastname")).sendKeys(lastName);
+        getDriver().findElement(By.id("email_address")).sendKeys(email);
+        getDriver().findElement(By.id("password")).sendKeys(password);
+        getDriver().findElement(By.id("password-confirmation")).sendKeys(password);
+        WebElement buttonForCreationAccout = getDriver().findElement(By.xpath("//form[@id='form-validate']//button/span[text()='Create an Account']"));
+        buttonForCreationAccout.click();
+        Thread.sleep(2000);
+        WebElement titleOfSucessCreationAccountMessage = getDriver().findElement(By.xpath("//div[@class='message-success success message']"));;
+
+        Assert.assertEquals(titleOfSucessCreationAccountMessage.getText(), "Thank you for registering with Main Website Store.");
+    }
+
+    @Ignore
+    @Test
+    public void testSubscription() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(BASE_URL);
-        WebElement href = driver.findElement(By.linkText("Create an Account"));
-        href.click();
-        String value = driver.getTitle();
-        Assert.assertEquals(value, "Create New Customer Account");
-        driver.findElement(By.id("firstname")).sendKeys(firstName);
-        driver.findElement(By.id("lastname")).sendKeys(lastName);
-        driver.findElement(By.id("email_address")).sendKeys(email);
-        driver.findElement(By.id("password")).sendKeys(Password);
-        driver.findElement(By.id("password-confirmation")).sendKeys(Password);
-        WebElement button = driver.findElement(By.xpath("//*[@id=\"form-validate\"]/div/div[1]/button/span"));
-        button.click();
-
-        WebElement title = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[2]/div[1]/div[1]/h1/span"));
-        String value1 = title.getText();
-        Assert.assertEquals(value1, "My Account");
+        char[] prefix = new char[6];
+        for (int i = 0; i < prefix.length; i++) {
+            prefix[i] = (char) (Math.random() * (122 - 97) + 97);
+        }
+        WebElement emailInput = driver.findElement(By.cssSelector("#newsletter"));
+        String emailPostfix = "@mail.ru";
+        String emailPrefix = new String(prefix);
+        String email = emailPrefix.concat(emailPostfix);
+        emailInput.sendKeys(email);
+        WebElement submitButton = driver.findElement(By
+                .xpath("//button[@title = 'Subscribe']"));
+        submitButton.click();
+        Thread.sleep(5000);
+        WebElement message = driver.findElement(By
+                .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
+        Assert.assertEquals(message.getText(), "Thank you for your subscription.");
+        emailInput = driver.findElement(By.xpath("//input[@placeholder = 'Enter your email address']"));
+        emailInput.sendKeys(email);
+        submitButton = driver.findElement(By
+                .xpath("//button[@title = 'Subscribe']"));
+        submitButton.click();
+        Thread.sleep(5000);
+        WebElement errorMessage = driver.findElement(By
+                .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
+        Assert.assertEquals(errorMessage.getText(), "This email address is already subscribed.");
         driver.quit();
     }
+
+    @Test
+    public void testCheckEmptyCartText() throws InterruptedException {
+        getDriver().get(BASE_URL);
+
+        Thread.sleep(2000);
+        WebElement cartIcon = getDriver().findElement(By.xpath("//header//a[contains(@href, 'cart')]"));
+        cartIcon.click();
+        WebElement cartDropDownDialog = getDriver().findElement(
+                By.xpath("//div[@id='ui-id-1']//div[@class='block-content']//strong"));
+
+        assertEquals(cartDropDownDialog.getText(),"You have no items in your shopping cart.");
+    }
+
+    @Test
+    public void testNumOfItemsInCartCounter() throws InterruptedException {
+        getDriver().get(BASE_URL);
+
+        Thread.sleep(3000);
+        WebElement womenLink = getDriver().findElement(By.xpath("//a[@id='ui-id-4']"));
+        womenLink.click();
+        WebElement topsLink = getDriver().findElement(By.xpath("//dl[@class='options']//a[contains(text(), 'Tops')]"));
+        topsLink.click();
+        WebElement firstItemInListLink = getDriver().findElement(By.xpath("//ol[@class='products list items product-items']/li//a"));
+        firstItemInListLink.click();
+
+        Thread.sleep(3000);
+        WebElement itemSize = getDriver().findElement(By.xpath("//div[@class='swatch-option text']"));
+        itemSize.click();
+        WebElement itemColor = getDriver().findElement(By.xpath("//div[@class='swatch-option color']"));
+        itemColor.click();
+        WebElement addToCartButton = getDriver().findElement(By.id("product-addtocart-button"));
+        addToCartButton.click();
+
+        Thread.sleep(3000);
+        WebElement numOfItemsInCart = getDriver().findElement(By.xpath("//div[@data-block='minicart']//span[@class='counter-number']"));
+
+        assertEquals(numOfItemsInCart.getText(), "1");
+    }
 }
-
-

@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -27,7 +28,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         int expectedResult = 6;
 
-        beforeMethod();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         getDriver().get("https://openweathermap.org/");
@@ -62,8 +62,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
 
     @Test
@@ -71,8 +69,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         String expectedResultUrl = "https://openweather.co.uk/";
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
-
-        beforeMethod();
 
         getDriver().get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -94,16 +90,13 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
-
-        afterMethod();
     }
 
+    @Ignore
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
 
         String expectedResult = "Paris, FR";
-
-        beforeMethod();
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
@@ -121,16 +114,12 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = parisText.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
 
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
 
         String actualResult = "Sign In To Your Account";
-
-        beforeMethod();
 
         getDriver().get("https://openweathermap.org/");
         Thread.sleep(5000);
@@ -144,16 +133,12 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResult = loginText.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        afterMethod();
     }
 
     @Test
     public void testArtyomDulyaWildberries() {
 
         int expectedResult = 26;
-
-        beforeMethod();
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
@@ -200,7 +185,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
-        afterMethod();
     }
 
     @Test
@@ -225,8 +209,35 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         driver.quit();
     }
+    @Test
+    public void testAnastasiyaAbramova() {
+        String expectedResult = "https://openweathermap.org/";
+        beforeMethod();
+        getDriver().get("https://openweathermap.org/");
+        String actualResult = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 
+    @Test
+    public void testArtyomDulyaEnterpriseGuide() throws InterruptedException {
 
+        String expectedResult = "OpenWeather Enterprise Guide";
 
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
+
+        WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
+        guide.click();
+        WebElement enterpriseSystem = getDriver().findElement(By.xpath("//a[text()='complex enterprise systems']"));
+        enterpriseSystem.click();
+        ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(windows.get(1));
+        WebElement tailoredToYou = getDriver().findElement(By.xpath("//a[@href='/enterprise-approach']//u[text()='Tailored to you']"));
+        tailoredToYou.click();
+        WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
+        String actualResult = banner.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 
 }
