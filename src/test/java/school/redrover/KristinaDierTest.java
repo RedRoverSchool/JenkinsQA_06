@@ -20,7 +20,6 @@ public class KristinaDierTest extends BaseTest {
         String blogPageUrl = getDriver().getCurrentUrl();
 
         Assert.assertEquals(blogPageUrl, "https://www.eviltester.com/blog/" );
-
     }
 
     @Test
@@ -54,5 +53,4 @@ public class KristinaDierTest extends BaseTest {
         Assert.assertEquals(subTitleList.size(),countSubTitles);
         Assert.assertEquals (actualSubTitletext,expectedSubTitletext);
     }
-
 }
