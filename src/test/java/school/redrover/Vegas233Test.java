@@ -13,8 +13,6 @@ public class Vegas233Test {
 
     @Test
     public void testFirst(){
-        //System.setProperty("webdriver.chrome.driver", "D:\\chromedriver.exe");
-
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
