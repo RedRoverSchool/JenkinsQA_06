@@ -1,8 +1,6 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
-import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
-import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -45,40 +43,33 @@ public class GroupHighwayToAqaTest extends BaseTest {
         assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
 
-    @Ignore
     @Test
-    public void testErrorMessage() {
+    public void testErrorMessageWhenEmailFieldLeftBlank() {
 
         String expectedErrorMessage = "This is a required field.";
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://magento.softwaretestingboard.com");
-
-        WebElement scrollByVisibleElement = driver.findElement(By.xpath("//div[@class='footer content']"));
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        WebElement scrollByVisibleElement = getDriver().findElement(By.xpath("//div[@class='footer content']"));
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
         jse.executeScript("arguments[0].scrollIntoView(true)", scrollByVisibleElement);
 
-        WebElement contactNavItem = driver.findElement(
+        WebElement contactNavItem = getDriver().findElement(
                 By.xpath("//a[@href='https://magento.softwaretestingboard.com/contact/']"));
         contactNavItem.click();
 
-        driver.findElement(By.xpath("//input[@id='name']"))
+        getDriver().findElement(By.xpath("//input[@id='name']"))
                 .sendKeys("Anna");
-        driver.findElement(By.xpath("//input[@id='telephone']"))
+        getDriver().findElement(By.xpath("//input[@id='telephone']"))
                 .sendKeys("8995552557");
-        driver.findElement(By.xpath("//textarea[@id='comment']"))
+        getDriver().findElement(By.xpath("//textarea[@id='comment']"))
                 .sendKeys("Thank you for providing such great products and service!");
-        driver.findElement(By.xpath("//span[text()='Submit']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Submit']")).click();
 
-        String actualErrorMessage = driver.findElement(
+        String actualErrorMessage = getDriver().findElement(
                 By.xpath("//div[@id='email-error']")).getText();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
-
-        driver.quit();
     }
 
     @Test
@@ -292,33 +283,18 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    void testTrainingMessage() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-
-        Thread.sleep(2000);
-
-        WebElement trainingBar = driver.findElement(By.id("ui-id-7"));
-        WebElement trainingLink = driver.findElement(By.id("ui-id-28"));
-
-        new Actions(driver).moveToElement(trainingBar).perform();
+    void testMissingTrainingVideo() {
+        getDriver().get(BASE_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        WebElement trainingBar = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("ui-id-7")));
+        WebElement trainingLink = getDriver().findElement(By.id("ui-id-28"));
+        new Actions(getDriver()).moveToElement(trainingBar).perform();
         wait.until(ExpectedConditions.visibilityOf(trainingLink));
-
         trainingLink.click();
+        WebElement messageInfo = getDriver().findElement(By
+                .xpath("//div[contains(@class, 'message info empty')]/div"));
 
-        WebElement messageInfo = driver
-                .findElement(By
-                        .xpath("//div[contains(@class, 'message info empty')]/div"));
         Assert.assertEquals(messageInfo.getText(), "We can't find products matching the selection.");
-
-        driver.quit();
-
     }
 
     @Test
@@ -522,5 +498,24 @@ public class GroupHighwayToAqaTest extends BaseTest {
         WebElement numOfItemsInCart = getDriver().findElement(By.xpath("//div[@data-block='minicart']//span[@class='counter-number']"));
 
         assertEquals(numOfItemsInCart.getText(), "1");
+    }
+
+    @Test
+    public void testHoodiesAndSweatshirtsHeader() throws InterruptedException {
+        getDriver().get(BASE_URL);
+
+        Thread.sleep(2000);
+        WebElement whatsNewLink = getDriver().findElement(By.xpath("//a[@id='ui-id-3']"));
+        whatsNewLink.click();
+
+        Thread.sleep(2000);
+
+        WebElement hoodiesAndSweatshirtsLink = getDriver().findElement
+                (By.xpath("//div[@class='categories-menu']/ul/li/a[contains(@href,'sweatshirts-women')]"));
+        hoodiesAndSweatshirtsLink.click();
+
+        Thread.sleep(2000);
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']")).getText(),"Hoodies & Sweatshirts");
     }
 }

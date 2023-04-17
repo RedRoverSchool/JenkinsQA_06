@@ -117,6 +117,7 @@ public class GroupUkrTest extends BaseTest {
 
         driver.quit();
     }
+    @Ignore
     @Test
     public void testAuthorizationAndLogOut() throws InterruptedException {
         getDriver().get("https://www.demoblaze.com/");

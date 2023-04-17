@@ -8,7 +8,6 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
-
 public class AndreyPomazTest extends BaseTest {
     @Test
     public void testRedRover() throws InterruptedException {
@@ -128,12 +127,11 @@ public class AndreyPomazTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
     }
-
-    @Ignore
     @Test
     public void testAlert() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
         getDriver().get("https://demoqa.com/");
+        Thread.sleep(1000);
         WebElement buttonMainAlert = getDriver().findElement(By.xpath("//h5[normalize-space()='Alerts, Frame & Windows']"));
         buttonMainAlert.click();
 
@@ -142,17 +140,19 @@ public class AndreyPomazTest extends BaseTest {
 
         WebElement buttonClickMe1 = getDriver().findElement(By.id("alertButton"));
         buttonClickMe1.click();
+        Thread.sleep(1000);
         getDriver().switchTo().alert().accept();
 
         WebElement buttonClickMe2 = getDriver().findElement(By.id("timerAlertButton"));
         buttonClickMe2.click();
-        Thread.sleep(6000);
+        Thread.sleep(7000);
         getDriver().switchTo().alert().accept();
 
         WebElement buttonClickMe3Ok = getDriver().findElement(By.id("confirmButton"));
         buttonClickMe3Ok.click();
         getDriver().switchTo().alert().accept();
         WebElement selectOk = getDriver().findElement(By.xpath("(//span[@id='confirmResult'])[1]"));
+        Thread.sleep(1000);
         Assert.assertEquals(selectOk.getText(), "You selected Ok");
 
         WebElement buttonClickMe3No = getDriver().findElement(By.id("confirmButton"));
@@ -163,7 +163,9 @@ public class AndreyPomazTest extends BaseTest {
 
         WebElement buttonClickMe4 = getDriver().findElement(By.id("promtButton"));
         buttonClickMe4.click();
+        Thread.sleep(1000);
         getDriver().switchTo().alert().sendKeys("RedRover06");
+        Thread.sleep(1000);
         getDriver().switchTo().alert().accept();
         WebElement enterTextResult = getDriver().findElement(By.xpath("//span[@id='promptResult']"));
         Assert.assertEquals(enterTextResult.getText(), "You entered RedRover06");

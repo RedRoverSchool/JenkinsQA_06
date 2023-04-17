@@ -35,7 +35,7 @@ public class CaramelSurupForJavaTest {
         driver.quit();
     }
 
-    @Ignore
+
     @Test
     public void svetaKhudovaWinnerTest() throws InterruptedException {
 
