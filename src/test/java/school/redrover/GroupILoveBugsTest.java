@@ -51,47 +51,38 @@ public class GroupILoveBugsTest extends BaseTest {
 
         wait.until(ExpectedConditions.elementToBeClickable(SIGN_IN_BUTTON));
         Assert.assertTrue(getDriver().findElement(SIGN_IN_BUTTON).isDisplayed(), "The bottom 'Sign In' is not displayed.");
-
-        getDriver().quit();
     }
 
     @Test
-    public void swagLabsTest() {
+    public void testSwagLabs() {
+        getDriver().get("https://www.saucedemo.com/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.saucedemo.com/");
-
-
-        WebElement nameInput = driver.findElement(By.xpath("//*[@placeholder = 'Username']"));
+        WebElement nameInput = getDriver().findElement(By.xpath("//*[@placeholder = 'Username']"));
         nameInput.sendKeys("standard_user");
 
-        WebElement passwordInput = driver.findElement(By.id("password"));
+        WebElement passwordInput = getDriver().findElement(By.id("password"));
         passwordInput.sendKeys("secret_sauce");
 
-        WebElement loginButton = driver.findElement(By.name("login-button"));
+        WebElement loginButton = getDriver().findElement(By.name("login-button"));
         loginButton.click();
 
-        WebElement firstItem = driver.findElement(By.xpath("//*[text() = 'Sauce Labs Backpack']"));
+        WebElement firstItem = getDriver().findElement(By.xpath("//*[text() = 'Sauce Labs Backpack']"));
         String firstItemName = firstItem.getText();
 
         Assert.assertEquals(firstItemName, "Sauce Labs Backpack", "First Item is not Sauce Labs Backpack");
 
-        WebElement addToCartButton = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
+        WebElement addToCartButton = getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack"));
         addToCartButton.click();
 
-        WebElement cartButton = driver.findElement(By.className("shopping_cart_link"));
+        WebElement cartButton = getDriver().findElement(By.className("shopping_cart_link"));
         cartButton.click();
 
-        WebElement cartItem = driver.findElement(By.className("inventory_item_name"));
+        WebElement cartItem = getDriver().findElement(By.className("inventory_item_name"));
         String cartItemName = cartItem.getText();
 
-        Assert.assertEquals(cartItemName, "Sauce Labs Backpack");
-
-        driver.quit();
+        Assert.assertEquals(cartItemName, firstItemName);
     }
+
     @Test
     public void eightComponentsTest() {
 
