@@ -1,47 +1,57 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import static org.testng.Assert.assertEquals;
 
-public class NeedMoreCoffeeTestCase {
+public class NeedMoreCoffeeTestCase extends BaseTest {
+
     @Test
-    public void testBozhok() throws InterruptedException{
-        ChromeOptions chromeOptions = new ChromeOptions(); // это опции для запуска на сервеере
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080"); //чтобы не открывалось окно браузера и с одним размером окна. Потому что на сервере не установлен этот браузер. Тест упадет, если оставить открытие браузера
+    public void testBozhok() throws InterruptedException {
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        String title = driver.getTitle();
+        String title = getDriver().getTitle();
         assertEquals("Web form", title);
 
         Thread.sleep(2000);
 
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
 
         textBox.sendKeys("Selenium");
         submitButton.click();
 
-        WebElement message = driver.findElement(By.id("message"));
+        WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
         assertEquals("Received!", value);
 
-        driver.quit();
-
     }
+
     @Test
-    public void elBaronTest(){
+    public void testElBaron() throws InterruptedException {
 
-        System.out.println("Test for Test");
+        getDriver().get("https://www.ivi.tv");
+
+        Thread.sleep(3000);
+
+        WebElement ButtonMovie = getDriver().findElement(By.cssSelector("#headerTop > div > div > div > " +
+                "div.headerTop__content > div.headerTop__wideArea > " +
+                "div.headerTop__additionalButton.headerTop__additionalButton_isAbTest > div > div"));
+
+        ButtonMovie.click();
+
+        Thread.sleep(3000);
+        WebElement text = getDriver().findElement(By.cssSelector("#root > div > div.subscribeLanding__wrapper-inner > " +
+                "div.subscribeLanding__content > h1"));
+
+        Assert.assertEquals(text.getText(), "Подписка Иви");
 
     }
-    }
+}
 
 

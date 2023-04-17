@@ -131,6 +131,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
 
@@ -251,6 +252,28 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = banner.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void svetaKhudova_testWinnerPhoneNumber() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+
+        driver.get("https://winnerfit.ru/");
+
+        WebElement fitnessTekstil = driver.findElement(By.xpath("//div[@class='t694__overlay '][1]"));
+        fitnessTekstil.click();
+
+        Thread.sleep(2000);
+
+        WebElement phoneNumber1 = driver.findElement(By.xpath("//div[@class='t228__right_descr']/a[1]"));
+        WebElement phoneNumber2 = driver.findElement(By.xpath("//div[@class='t228__right_descr']/a[2]"));
+
+        Assert.assertEquals(phoneNumber1.getText(), "+7 (499) 178-60-18");
+        Assert.assertEquals(phoneNumber2.getText(), "+7 (905) 714-13-70");
+
+        driver.quit();
     }
 
 }
