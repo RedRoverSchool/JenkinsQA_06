@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 public class DmitryGonchTest extends BaseTest {
 
     @Test
-    public void testFirstDg() {
+    public void testFindElement() {
         getDriver().get("https://7745.by/");
 
         WebElement texBox = getDriver().findElement(By.name("keys"));
