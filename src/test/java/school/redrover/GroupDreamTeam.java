@@ -41,17 +41,12 @@ public class GroupDreamTeam {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         String url = "http://www.99-bottles-of-beer.net/";
         String expectedResult = "http://www.99-bottles-of-beer.net/";
-
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(url);
-
-
         String actualResult = driver.getCurrentUrl();
         Assert.assertEquals(actualResult, expectedResult);
-
         driver.quit();
     }
     @Test
@@ -96,27 +91,21 @@ public class GroupDreamTeam {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
         String title = driver.getTitle();
         Assert.assertEquals("Web form", title);
-
-        Thread.sleep(2000);
 
         WebElement textBox = driver.findElement(By.name("my-text"));
         WebElement submitButton = driver.findElement(By.cssSelector("button"));
         WebElement password = driver.findElement(By.name("my-password"));
         WebElement textarea = driver.findElement(By.xpath("//textarea"));
-        Thread.sleep(2000);
         textBox.sendKeys("Selenium");
         password.sendKeys("WebSel1");
         textarea.sendKeys("I am working with Selenium");
-        Thread.sleep(2000);
         submitButton.click();
-        Thread.sleep(2000);
+
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
-
         driver.quit();
     }
 
