@@ -634,4 +634,14 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
     }
 
+    @Test
+    public void testVerifyDiscountMessage() {
+        getDriver().get("https://askomdch.com/");
+
+        String pageSource = getDriver().getPageSource();
+        String expectedString = "25% OFF On all products";
+
+        Assert.assertTrue(pageSource.contains(expectedString));
+    }
+
     }
