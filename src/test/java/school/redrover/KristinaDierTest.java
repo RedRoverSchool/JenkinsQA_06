@@ -38,7 +38,6 @@ public class KristinaDierTest extends BaseTest {
 
         List<WebElement> subTitleList  = getDriver().findElements(By.xpath("//h2"));
         int countSubTitles = 4;
-
         ArrayList<String> actualSubTitletext = new ArrayList<String>( );
         for(WebElement i:subTitleList){
             actualSubTitletext.add(i.getText());
