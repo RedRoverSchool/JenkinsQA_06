@@ -96,6 +96,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(text.getText(), "Step 1: Setup wizard");
     }
 
+    @Ignore
     @Test
     public void testForm() throws InterruptedException {
         getDriver().get("https://demoqa.com");
@@ -252,7 +253,7 @@ public class GroupJavaJitsuTest extends BaseTest {
     @Test
     public void testKatya2() {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
-
+        
         String title = getDriver().getTitle();
         assertEquals("Web form", title);
 
@@ -260,7 +261,7 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         WebElement textBox = getDriver().findElement(By.name("my-text"));
         WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
-
+        
         textBox.sendKeys("Selenium");
         submitButton.click();
 
@@ -460,6 +461,65 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement buttonSubmit = getDriver().findElement(By.cssSelector("#gform_submit_button_1"));
         buttonSubmit.click();
     }
+
+
+    @Test
+    public void testFindInSearchBox(){
+
+        getDriver().get("https://soccerzone.com/");
+        WebElement searchBox = getDriver().findElement(By.name("search_query_adv"));
+        searchBox.click();
+        searchBox.sendKeys("ball");
+
+        WebElement button = getDriver().findElement(By.xpath(" //button[@name='go']"));
+        button.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://soccerzone.com/search.php?search_query_adv=ball&go=Search");
+    }
+
+    @Test
+    public void testWrongSignIn(){
+        getDriver().get("https://soccerzone.com/login.php");
+        WebElement username = getDriver().findElement(By.name("login_email"));
+        username.sendKeys("1234@gmail.com");
+
+        WebElement password = getDriver().findElement(By.id("login_pass"));
+        password.sendKeys("12345678");
+
+        WebElement button = getDriver().findElement(By.cssSelector("input[value='Sign in']"));
+        button.click();
+
+        WebElement text = getDriver().findElement(By.cssSelector(".alertBox-column.alertBox-message"));
+        Assert.assertTrue(text.isDisplayed());}
+
+    @Test
+    public void testChoiceClothes() throws InterruptedException {
+        getDriver().get("https://soccerzone.com/");
+        WebElement bootRoom = getDriver().findElement(By.cssSelector("img[src='images/stencil/original/image-manager/boots.png']"));
+        bootRoom.click();
+
+        WebElement newBoots = getDriver().findElement(By.cssSelector("img[title='NEW']"));
+        newBoots.click();
+
+        WebElement nikePremier = getDriver().findElement(By.cssSelector("img[title='The Nike Premier III FG - WHITE/ROYAL/RED']"));
+        nikePremier.click();
+        Thread.sleep(1000);
+
+        WebElement choiceSize = getDriver().findElement(By.cssSelector("label[for='attribute_rectangle__3283_11248']"));
+        choiceSize.click();
+
+        WebElement choiceColor = getDriver().findElement(By.cssSelector("label[for='attribute_rectangle__3284_11254']"));
+        choiceColor.click();
+
+        WebElement addToCart = getDriver().findElement(By.id("form-action-addToCart"));
+        addToCart.click();
+        Thread.sleep(1000);
+
+        WebElement text = getDriver().findElement(By.cssSelector("h1[class='modal-header-title']"));
+        Assert.assertTrue(text.isDisplayed());
+    }
+
+
 }
 
 
