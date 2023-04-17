@@ -570,4 +570,12 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         }
 
     }
+
+    @Test
+    public void testProductsDisplayed() {
+        getDriver().get("https://askomdch.com/");
+        List<WebElement> list = getDriver().findElements(By.className("astra-shop-thumbnail-wrap"));
+
+        Assert.assertEquals(list.size(), 5);
+    }
 }
