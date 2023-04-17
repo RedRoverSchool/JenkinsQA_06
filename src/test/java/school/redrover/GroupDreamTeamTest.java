@@ -1,10 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -13,7 +10,7 @@ import java.time.Duration;
 
 import static org.testng.Assert.assertEquals;
 
-public class GroupDreamTeam extends BaseTest {
+public class GroupDreamTeamTest extends BaseTest {
     @Test
     public void eightComponents() {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
