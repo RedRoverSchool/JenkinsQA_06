@@ -7,16 +7,16 @@ import school.redrover.runner.BaseTest;
 
 public class LoginPageTest extends BaseTest {
 
-  private final static String PAGE = "https://practicetestautomation.com/practice-test-login/";
   private final static String EXPECTED_URL = "https://practicetestautomation.com/logged-in-successfully/";
   private final static String EXPECTED_TEXT = "Logged In Successfully";
-  private final static String EXPECTED_COLOR = "rgba(227, 72, 72, 1)";
-  private final static String WRONG_NAME = "Your username is invalid!";
-  private final static String WRONG_PASSWORD = "Your password is invalid!";
-  private final static String USERNAME = "student";
-  private final static String PASSWORD = "Password123";
+  private final static String USERNAME_IS_INVALID = "Your username is invalid!";
+  private final static String PASSWORD_IS_INVALID = "Your password is invalid!";
   private final static String INCORRECT_USER = "incorrectUser";
   private final static String INCORRECT_PASS = "incorrectPassword";
+  private final static String PAGE = "https://practicetestautomation.com/practice-test-login/";
+  private final String EXPECTED_COLOR = "rgba(227, 72, 72, 1)";
+  private final String PASSWORD = "Password123";
+  private final String USERNAME = "student";
   private final By userNameID = By.id("username");
   private final By passwordID = By.id("password");
   private final By submitID = By.id("submit");
@@ -28,7 +28,7 @@ public class LoginPageTest extends BaseTest {
 
   @Test
   public void testPositiveLogin() {
-    mainPage(PAGE);
+    mainPage();
     sendUsername(USERNAME);
     sendPassword(PASSWORD);
     clickSubmitButton();
@@ -40,28 +40,28 @@ public class LoginPageTest extends BaseTest {
 
   @Test
   public void testNegativeUsername() {
-    mainPage(PAGE);
+    mainPage();
     sendUsername(INCORRECT_USER);
     sendPassword(PASSWORD);
     clickSubmitButton();
 
     Assert.assertEquals(getBackgroundColor(), EXPECTED_COLOR);
-    Assert.assertEquals(getErrorMessage(), WRONG_NAME);
+    Assert.assertEquals(getErrorMessage(), USERNAME_IS_INVALID);
   }
 
   @Test
   public void testNegativePassword() {
-    mainPage(PAGE);
+    mainPage();
     sendUsername(USERNAME);
     sendPassword(INCORRECT_PASS);
     clickSubmitButton();
 
     Assert.assertEquals(getBackgroundColor(), EXPECTED_COLOR);
-    Assert.assertEquals(getErrorMessage(), WRONG_PASSWORD);
+    Assert.assertEquals(getErrorMessage(), PASSWORD_IS_INVALID);
   }
 
-  private void mainPage(String page) {
-    getDriver().get(page);
+  private void mainPage() {
+    getDriver().get(PAGE);
   }
 
   private void sendUsername(String username) {
