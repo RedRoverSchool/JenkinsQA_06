@@ -577,4 +577,17 @@ public class AlexLeoEpicGroupTest extends BaseTest {
             Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
         }
 
+    @Test
+    public void testVerifySymbol() {
+        getDriver().get("https://askomdch.com/");
+        String text = getDriver().findElement(By.cssSelector("h2.has-text-align-center")).getText();
+
+        Assert.assertEquals(text,"Featured Products");
+
+        String symbol = getDriver().findElement(By.cssSelector("span.woocommerce-Price-currencySymbol")).getText();
+
+        Assert.assertEquals(symbol,"$");
+    }
+
+
     }
