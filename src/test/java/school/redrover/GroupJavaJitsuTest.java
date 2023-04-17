@@ -142,7 +142,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(got.getText(), "Thanks for submitting the form");
     }
 
-    @Ignore
+
     @Test
     public void testAboutDoctorsFind() throws InterruptedException {
         getDriver().get("https://prodoctorov.ru/");
@@ -154,8 +154,8 @@ public class GroupJavaJitsuTest extends BaseTest {
         urlTownElement.click();
         WebElement inputElementSearch = getDriver().findElement(By.className("b-choose-town-popup__search-input"));
         inputElementSearch.sendKeys("Краснодар");
-        Thread.sleep(2000);
-        WebElement SearchBoxElement = getDriver().findElement(By.className("tt-dataset"));
+        inputElementSearch.click();
+        WebElement SearchBoxElement = getDriver().findElement(By.xpath("//span[@data-translit='krasnodar']"));
         SearchBoxElement.click();
         Thread.sleep(2000);
         WebElement inputPlaceholderElement = getDriver().findElement(By.xpath("//input[@placeholder = 'Врачи, клиники, услуги']"));
