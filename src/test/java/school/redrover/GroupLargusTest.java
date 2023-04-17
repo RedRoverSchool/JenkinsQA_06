@@ -1,8 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -67,26 +65,18 @@ public class GroupLargusTest extends BaseTest {
         Assert.assertEquals("HashMap", titleOnPage.getText());
     }
     @Test
-    public void testFirst() throws InterruptedException {
+    public void testSeleniumInGoogle() throws InterruptedException {
+        getDriver().get("https://www.google.com");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebElement textBox = getDriver().findElement(By.name("q"));
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://www.google.com");
-
-        WebElement textBox = driver.findElement(By.name("q"));
-
-        textBox.sendKeys("selenium");
-        textBox.sendKeys(Keys.RETURN);
+        textBox.sendKeys("selenium", Keys.RETURN);
 
         Thread.sleep(2000);
 
-        WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
+        WebElement text = getDriver().findElement(By.xpath("//h3[text() = 'Selenium']"));
 
         Assert.assertEquals(text.getText(),"Selenium");
-
-        driver.quit();
     }
 }
+
