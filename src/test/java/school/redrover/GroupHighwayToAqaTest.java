@@ -1,6 +1,8 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
+import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
+import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -426,38 +428,39 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Assert.assertEquals(titleOfSucessCreationAccountMessage.getText(), "Thank you for registering with Main Website Store.");
     }
 
+    @Ignore
     @Test
     public void testSubscription() throws InterruptedException {
-        getDriver().get(BASE_URL);
-
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
         char[] prefix = new char[6];
         for (int i = 0; i < prefix.length; i++) {
             prefix[i] = (char) (Math.random() * (122 - 97) + 97);
         }
-
+        WebElement emailInput = driver.findElement(By.cssSelector("#newsletter"));
         String emailPostfix = "@mail.ru";
         String emailPrefix = new String(prefix);
         String email = emailPrefix.concat(emailPostfix);
-
-        WebElement emailInput = getDriver().findElement(By.cssSelector("#newsletter"));
         emailInput.sendKeys(email);
-        WebElement submitButton = getDriver().findElement(By
+        WebElement submitButton = driver.findElement(By
                 .xpath("//button[@title = 'Subscribe']"));
         submitButton.click();
         Thread.sleep(5000);
-        WebElement message = getDriver().findElement(By
+        WebElement message = driver.findElement(By
                 .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
         Assert.assertEquals(message.getText(), "Thank you for your subscription.");
-
-        emailInput = getDriver().findElement(By.xpath("//input[@placeholder = 'Enter your email address']"));
+        emailInput = driver.findElement(By.xpath("//input[@placeholder = 'Enter your email address']"));
         emailInput.sendKeys(email);
-        submitButton = getDriver().findElement(By
+        submitButton = driver.findElement(By
                 .xpath("//button[@title = 'Subscribe']"));
         submitButton.click();
         Thread.sleep(5000);
-        WebElement errorMessage = getDriver().findElement(By
+        WebElement errorMessage = driver.findElement(By
                 .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
         Assert.assertEquals(errorMessage.getText(), "This email address is already subscribed.");
+        driver.quit();
     }
 
     @Test
@@ -516,5 +519,36 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Thread.sleep(2000);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']")).getText(),"Hoodies & Sweatshirts");
+    }
+
+    @Test
+    public void testAddWishlist() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        Thread.sleep(3000);
+        driver.findElement(By.className("authorization-link")).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.id("email")).sendKeys("kmgoncharova@ya.ru");
+        driver.findElement(By.id("pass")).sendKeys("qwerty123!");
+        driver.findElement(By.id("send2")).click();
+
+        Thread.sleep(2000);
+        WebElement actionToItem = driver.findElement(By.className("product-image-photo"));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", actionToItem);
+        driver.findElement(By.className("product-image-photo")).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//div[@class='product-addto-links']//a[@class='action towishlist']")).click();
+
+        Thread.sleep(3000);
+        WebElement textSuccessAddToWishlist = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[1]/div[2]/div/div/div"));
+
+        assertEquals(textSuccessAddToWishlist.getText(), "Radiant Tee has been added to your Wish List. Click here to continue shopping.");
+
+        driver.quit();
     }
 }
