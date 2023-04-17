@@ -1,17 +1,14 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class GroupGoogleItKiraKomissarovaTest extends BaseTest {
 
-    private static String SITE_URL= "https://www.99-bottles-of-beer.net/";
+    private static final String SITE_URL= "https://www.99-bottles-of-beer.net/";
 
     @Test
      public void testVerifySearchResults() throws InterruptedException {
