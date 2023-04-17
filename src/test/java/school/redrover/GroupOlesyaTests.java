@@ -38,6 +38,13 @@ public class GroupOlesyaTests extends BaseTest {
         getDriver().findElement(By.name("login-button")).click();
     }
 
+    private void loginToSite() {
+        getDriver().get(URL);
+        getDriver().findElement(By.name("user-name")).sendKeys(LOGIN);
+        getDriver().findElement(By.name("password")).sendKeys(PASSWORD);
+        getDriver().findElement(By.name("login-button")).click();
+    }
+
     public List<WebElement> getListItems(By by) {
 
         return getDriver().findElements(by);

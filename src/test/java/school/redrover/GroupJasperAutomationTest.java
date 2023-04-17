@@ -36,17 +36,12 @@ public class GroupJasperAutomationTest extends BaseTest {
 
     @Test
     public void testTitle() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
+        getDriver().get("https://football.ua/");
+        Thread.sleep(2000);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://football.ua/");
-        Thread.sleep(3000);
+        String title = getDriver().getTitle();
 
-        String title = driver.getTitle();
         Assert.assertEquals(title, "Football.ua - Новости футбола - Футбол онлайн - Результаты матчей, трансляции — football.ua");
-
-        driver.quit();
     }
 
     @Test

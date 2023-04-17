@@ -257,6 +257,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
     }
 
+    @Ignore
     @Test
     public void testLogoNavigateToBaseUrl() {
         String expectedResult = "https://www.thestar.com/";

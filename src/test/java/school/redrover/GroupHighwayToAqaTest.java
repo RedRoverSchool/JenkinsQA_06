@@ -45,40 +45,33 @@ public class GroupHighwayToAqaTest extends BaseTest {
         assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
 
-    @Ignore
     @Test
-    public void testErrorMessage() {
+    public void testErrorMessageWhenEmailFieldLeftBlank() {
 
         String expectedErrorMessage = "This is a required field.";
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://magento.softwaretestingboard.com");
-
-        WebElement scrollByVisibleElement = driver.findElement(By.xpath("//div[@class='footer content']"));
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        WebElement scrollByVisibleElement = getDriver().findElement(By.xpath("//div[@class='footer content']"));
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
         jse.executeScript("arguments[0].scrollIntoView(true)", scrollByVisibleElement);
 
-        WebElement contactNavItem = driver.findElement(
+        WebElement contactNavItem = getDriver().findElement(
                 By.xpath("//a[@href='https://magento.softwaretestingboard.com/contact/']"));
         contactNavItem.click();
 
-        driver.findElement(By.xpath("//input[@id='name']"))
+        getDriver().findElement(By.xpath("//input[@id='name']"))
                 .sendKeys("Anna");
-        driver.findElement(By.xpath("//input[@id='telephone']"))
+        getDriver().findElement(By.xpath("//input[@id='telephone']"))
                 .sendKeys("8995552557");
-        driver.findElement(By.xpath("//textarea[@id='comment']"))
+        getDriver().findElement(By.xpath("//textarea[@id='comment']"))
                 .sendKeys("Thank you for providing such great products and service!");
-        driver.findElement(By.xpath("//span[text()='Submit']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Submit']")).click();
 
-        String actualErrorMessage = driver.findElement(
+        String actualErrorMessage = getDriver().findElement(
                 By.xpath("//div[@id='email-error']")).getText();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
-
-        driver.quit();
     }
 
     @Test
@@ -292,33 +285,18 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    void testTrainingMessage() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-
-        Thread.sleep(2000);
-
-        WebElement trainingBar = driver.findElement(By.id("ui-id-7"));
-        WebElement trainingLink = driver.findElement(By.id("ui-id-28"));
-
-        new Actions(driver).moveToElement(trainingBar).perform();
+    void testMissingTrainingVideo() {
+        getDriver().get(BASE_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        WebElement trainingBar = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("ui-id-7")));
+        WebElement trainingLink = getDriver().findElement(By.id("ui-id-28"));
+        new Actions(getDriver()).moveToElement(trainingBar).perform();
         wait.until(ExpectedConditions.visibilityOf(trainingLink));
-
         trainingLink.click();
+        WebElement messageInfo = getDriver().findElement(By
+                .xpath("//div[contains(@class, 'message info empty')]/div"));
 
-        WebElement messageInfo = driver
-                .findElement(By
-                        .xpath("//div[contains(@class, 'message info empty')]/div"));
         Assert.assertEquals(messageInfo.getText(), "We can't find products matching the selection.");
-
-        driver.quit();
-
     }
 
     @Test
@@ -483,5 +461,44 @@ public class GroupHighwayToAqaTest extends BaseTest {
                 .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
         Assert.assertEquals(errorMessage.getText(), "This email address is already subscribed.");
         driver.quit();
+    }
+
+    @Test
+    public void testCheckEmptyCartText() throws InterruptedException {
+        getDriver().get(BASE_URL);
+
+        Thread.sleep(2000);
+        WebElement cartIcon = getDriver().findElement(By.xpath("//header//a[contains(@href, 'cart')]"));
+        cartIcon.click();
+        WebElement cartDropDownDialog = getDriver().findElement(
+                By.xpath("//div[@id='ui-id-1']//div[@class='block-content']//strong"));
+
+        assertEquals(cartDropDownDialog.getText(),"You have no items in your shopping cart.");
+    }
+
+    @Test
+    public void testNumOfItemsInCartCounter() throws InterruptedException {
+        getDriver().get(BASE_URL);
+
+        Thread.sleep(3000);
+        WebElement womenLink = getDriver().findElement(By.xpath("//a[@id='ui-id-4']"));
+        womenLink.click();
+        WebElement topsLink = getDriver().findElement(By.xpath("//dl[@class='options']//a[contains(text(), 'Tops')]"));
+        topsLink.click();
+        WebElement firstItemInListLink = getDriver().findElement(By.xpath("//ol[@class='products list items product-items']/li//a"));
+        firstItemInListLink.click();
+
+        Thread.sleep(3000);
+        WebElement itemSize = getDriver().findElement(By.xpath("//div[@class='swatch-option text']"));
+        itemSize.click();
+        WebElement itemColor = getDriver().findElement(By.xpath("//div[@class='swatch-option color']"));
+        itemColor.click();
+        WebElement addToCartButton = getDriver().findElement(By.id("product-addtocart-button"));
+        addToCartButton.click();
+
+        Thread.sleep(3000);
+        WebElement numOfItemsInCart = getDriver().findElement(By.xpath("//div[@data-block='minicart']//span[@class='counter-number']"));
+
+        assertEquals(numOfItemsInCart.getText(), "1");
     }
 }
