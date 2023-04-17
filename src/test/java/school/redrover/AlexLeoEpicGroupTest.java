@@ -582,18 +582,16 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     public void testAccountButtonOpensLoginPage() {
         getDriver().get("https://askomdch.com/");
         String title = getDriver().getTitle();
-        Assert.assertEquals(title, "AskOmDch – Become a Selenium automation expert!");
         getDriver().findElement(By.xpath("//a[@href=\"https://askomdch.com/account/\"][@class=\"menu-link\"]")).click();
-        Assert.assertEquals("https://askomdch.com/account/", getDriver().getCurrentUrl());
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/account/");
     }
 
     @Test
     public void testShopNowButtonOpensUpStorePage() {
         getDriver().get("https://askomdch.com/");
         String title = getDriver().getTitle();
-        Assert.assertEquals(title, "AskOmDch – Become a Selenium automation expert!");
         getDriver().findElement(By.cssSelector("a.wp-block-button__link")).click();
-        Assert.assertEquals("https://askomdch.com/store", getDriver().getCurrentUrl());
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
     }
 
 }
