@@ -14,7 +14,7 @@ public class GroupGoogleItKiraKomissarovaTest extends BaseTest {
     private static String SITE_URL= "https://www.99-bottles-of-beer.net/";
 
     @Test
-     public void bottlesTest() throws InterruptedException {
+     public void testVerifySearchResults() throws InterruptedException {
         String expectedResult = "Kotlin";
 
         getDriver().get(SITE_URL);
@@ -33,7 +33,6 @@ public class GroupGoogleItKiraKomissarovaTest extends BaseTest {
         WebElement kotlinInTable = getDriver().findElement(By.xpath("//a[@href = '/language-kotlin-2901.html']"));
 
         Assert.assertEquals(kotlinInTable.getText(),expectedResult);
-
     }
 
     @Test
@@ -51,7 +50,6 @@ public class GroupGoogleItKiraKomissarovaTest extends BaseTest {
         String textOfErrorMessage = errorMessage.getText();
 
         Assert.assertEquals(textOfErrorMessage, expectedResult);
-
     }
 
     @Test
@@ -67,5 +65,4 @@ public class GroupGoogleItKiraKomissarovaTest extends BaseTest {
 
         Assert.assertEquals(actualResultTitle, expectedResult);
     }
-
 }
