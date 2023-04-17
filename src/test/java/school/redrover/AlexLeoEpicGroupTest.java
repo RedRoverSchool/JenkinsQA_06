@@ -128,18 +128,14 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void VerifyTheLoginPage_TC() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-        driver.get("https://askomdch.com/");
-        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
-        driver.findElement(By.xpath("//span[@class='onsale']")).isDisplayed();
-        WebElement shopNowButton = driver.findElement(By.xpath("//a[@class='wp-block-button__link']"));
+    public void testVerifyShopNowButton() {
+
+        getDriver().get("https://askomdch.com/");
+        Assert.assertEquals(getDriver().getTitle(), "AskOmDch – Become a Selenium automation expert!");
+
+        WebElement shopNowButton = getDriver().findElement(By.xpath("//a[@class='wp-block-button__link']"));
         shopNowButton.click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
-        driver.quit();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
 
     }
 
