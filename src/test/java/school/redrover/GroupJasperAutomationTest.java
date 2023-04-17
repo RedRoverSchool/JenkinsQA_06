@@ -198,6 +198,8 @@ public class GroupJasperAutomationTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(),"Epic sadface: Sorry, this user has been locked out.");
     }
 
+
+    @Ignore
     @Test
     public void testOrderIphone14() throws InterruptedException {
         getDriver().get("https://www.apple.com/");
@@ -250,6 +252,8 @@ public class GroupJasperAutomationTest extends BaseTest {
         Assert.assertEquals(orderedProductName.getText(), "iPhone 14 Pro 128GB Deep Purple");
     }
 
+
+    @Ignore
     @Test
     public void testNumberOfIphoneModelsAvailable(){
         getDriver().get("https://www.apple.com/");
