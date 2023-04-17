@@ -440,9 +440,9 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(text.getText(), "У мене вже є акаунт");
     }
 
-    @Ignore
+
     @Test
-    public void findInSearchBox(){
+    public void testFindInSearchBox(){
 
         getDriver().get("https://soccerzone.com/");
         WebElement searchBox = getDriver().findElement(By.name("search_query_adv"));
@@ -456,7 +456,7 @@ public class GroupJavaJitsuTest extends BaseTest {
     }
 
     @Test
-    public void wrongSignIn(){
+    public void testWrongSignIn(){
         getDriver().get("https://soccerzone.com/login.php");
         WebElement username = getDriver().findElement(By.name("login_email"));
         username.sendKeys("1234@gmail.com");
@@ -469,6 +469,34 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         WebElement text = getDriver().findElement(By.cssSelector(".alertBox-column.alertBox-message"));
         Assert.assertTrue(text.isDisplayed());}
+
+    @Test
+    public void testChoiceClothes() throws InterruptedException {
+        getDriver().get("https://soccerzone.com/");
+        WebElement bootRoom = getDriver().findElement(By.cssSelector("img[src='images/stencil/original/image-manager/boots.png']"));
+        bootRoom.click();
+
+        WebElement newBoots = getDriver().findElement(By.cssSelector("img[title='NEW']"));
+        newBoots.click();
+
+        WebElement nikePremier = getDriver().findElement(By.cssSelector("img[title='The Nike Premier III FG - WHITE/ROYAL/RED']"));
+        nikePremier.click();
+        Thread.sleep(1000);
+
+        WebElement choiceSize = getDriver().findElement(By.cssSelector("label[for='attribute_rectangle__3283_11248']"));
+        choiceSize.click();
+
+        WebElement choiceColor = getDriver().findElement(By.cssSelector("label[for='attribute_rectangle__3284_11254']"));
+        choiceColor.click();
+
+        WebElement addToCart = getDriver().findElement(By.id("form-action-addToCart"));
+        addToCart.click();
+        Thread.sleep(1000);
+
+        WebElement text = getDriver().findElement(By.cssSelector("h1[class='modal-header-title']"));
+        Assert.assertTrue(text.isDisplayed());
+    }
+
 
 }
 
