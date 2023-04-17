@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -63,5 +64,16 @@ public class GroupLargusTest extends BaseTest {
                 (By.xpath("//span[@class='color_h1']"));
 
         Assert.assertEquals("HashMap", titleOnPage.getText());
+    }
+    @Test
+    public void testGit() throws InterruptedException {
+        getDriver().get("https://www.google.com");
+
+        WebElement textBox = getDriver().findElement(By.name("q"));
+        textBox.sendKeys("github",Keys.RETURN);
+        Thread.sleep(2000);
+
+        WebElement text = getDriver().findElement(By.xpath("//h3[text()='GitHub - Википедия']"));
+        Assert.assertEquals(text.getText(), "GitHub - Википедия");
     }
 }
