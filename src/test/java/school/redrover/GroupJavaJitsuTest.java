@@ -153,9 +153,11 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement urlTownElement = getDriver().findElement(By.className("b-choose-town-btn-v2"));
         urlTownElement.click();
         WebElement inputElementSearch = getDriver().findElement(By.className("b-choose-town-popup__search-input"));
+        Thread.sleep(2000);
         inputElementSearch.sendKeys("Краснодар");
         inputElementSearch.click();
-        WebElement SearchBoxElement = getDriver().findElement(By.xpath("//span[@data-translit='krasnodar']"));
+        Thread.sleep(2000);
+        WebElement SearchBoxElement = getDriver().findElement(By.xpath("//strong[@class='b-town-search__highlight']"));
         SearchBoxElement.click();
         Thread.sleep(2000);
         WebElement inputPlaceholderElement = getDriver().findElement(By.xpath("//input[@placeholder = 'Врачи, клиники, услуги']"));
