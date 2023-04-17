@@ -292,33 +292,21 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    void testTrainingMessage() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-
+    void testMissingTrainingVideo() throws InterruptedException {
+        getDriver().get(BASE_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         Thread.sleep(2000);
-
-        WebElement trainingBar = driver.findElement(By.id("ui-id-7"));
-        WebElement trainingLink = driver.findElement(By.id("ui-id-28"));
-
-        new Actions(driver).moveToElement(trainingBar).perform();
+        WebElement trainingBar = getDriver().findElement(By.id("ui-id-7"));
+        WebElement trainingLink = getDriver().findElement(By.id("ui-id-28"));
+        new Actions(getDriver()).moveToElement(trainingBar).perform();
         wait.until(ExpectedConditions.visibilityOf(trainingLink));
-
         trainingLink.click();
-
-        WebElement messageInfo = driver
-                .findElement(By
+        WebElement messageInfo = getDriver().findElement(By
                         .xpath("//div[contains(@class, 'message info empty')]/div"));
+
         Assert.assertEquals(messageInfo.getText(), "We can't find products matching the selection.");
 
-        driver.quit();
-
+        getDriver().quit();
     }
 
     @Test
