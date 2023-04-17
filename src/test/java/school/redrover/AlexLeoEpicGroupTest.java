@@ -644,4 +644,12 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertTrue(pageSource.contains(expectedString));
     }
 
+    @Test
+    public void testVerifyAccountLink() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//li[@id='menu-item-1237']/a")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/account/");
+    }
+
 }
