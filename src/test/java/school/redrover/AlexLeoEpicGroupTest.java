@@ -556,7 +556,7 @@ public class AlexLeoEpicGroupTest extends BaseTest{
     }
 
     @Test
-    public void testAccessoriesdropDownMenuSectionsNumber() {
+    public void testAccessoriesDropDownMenuSectionsNumber() {
         try {
             getDriver().get("https://askomdch.com/");
             getDriver().findElement(By.xpath("//a[text()='Accessories']")).click();
@@ -568,6 +568,19 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         } finally {
             getDriver().quit();
         }
-
     }
+    @Test
+    public void testAddProductToCartInscription() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[@class='menu-link'][text()='Store']")).click();
+        getDriver().findElement(By.xpath("//h2[text()='Blue Denim Shorts']")).click();
+        getDriver().findElement(By.xpath("//button[@name='add-to-cart'][text()='Add to cart']")).click();
+        WebElement addInscription = getDriver().findElement(By.xpath("//div[@role='alert']"));
+
+        Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
+
+        getDriver().quit();
+    }
+
 }
