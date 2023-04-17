@@ -565,8 +565,8 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
         Assert.assertEquals(list.size(), 5);
     }
-        @Test
-        public void testAddProductToCartInscription() {
+    @Test
+    public void testAddProductToCartInscription() {
             getDriver().get("https://askomdch.com/");
 
             getDriver().findElement(By.xpath("//a[@class='menu-link'][text()='Store']")).click();
@@ -575,6 +575,26 @@ public class AlexLeoEpicGroupTest extends BaseTest {
             WebElement addInscription = getDriver().findElement(By.xpath("//div[@role='alert']"));
 
             Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
-        }
+    }
+    @Test
+    public void testAddedProductInTheCartIcon() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[@class='wp-block-button__link'][text()='Shop Now']"))
+                .click();
+
+        WebElement firstProductInList = getDriver()
+                .findElement(By.cssSelector("div[class='ast-woocommerce-container'] > ul > li"));
+        String productNameInList = firstProductInList
+                .findElement(By.cssSelector("div[class='astra-shop-summary-wrap'] > a:first-child")).getText();
+        firstProductInList.findElement(By.cssSelector("div[class='astra-shop-summary-wrap'] > a:last-child")).click();
+        firstProductInList.findElement(By.cssSelector("a[title='View cart']")).click();
+        WebElement productNameEl = getDriver().findElement(By.cssSelector("td[data-title='Product'] > a"));
+
+        Assert.assertEquals(productNameEl.getText(), productNameInList);
+    }
 
     }
+
