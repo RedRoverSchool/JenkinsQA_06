@@ -9,9 +9,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.List;
 
-public class ZeroBugTest {
+
+public class DavidMTest {
 
     @Test
     public void testFirst() throws InterruptedException {
@@ -20,7 +20,8 @@ public class ZeroBugTest {
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.google.com/");
+
+        driver.get("https://www.google.com");
 
         WebElement textBox = driver.findElement(By.name("q"));
 
@@ -31,14 +32,13 @@ public class ZeroBugTest {
 
         WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
 
-        Assert.assertEquals(text.getText(), "Selenium");
+        Assert.assertEquals(text.getText(),"Selenium");
 
         driver.quit();
-
     }
 
     @Test
-    public void testSecond() throws InterruptedException {
+    public void TestSecond() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -48,6 +48,8 @@ public class ZeroBugTest {
 
         String title = driver.getTitle();
         Assert.assertEquals("Web form", title);
+
+
 
         Thread.sleep(2000);
 
@@ -60,32 +62,23 @@ public class ZeroBugTest {
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
-
+      //test
         driver.quit();
+    }
+    @Test
+    public void testOneMore(){
+        System.out.println("I do not know how to write tests");
 
     }
 
     @Test
-    public void testThird () throws InterruptedException {
+    public void testTest(){
+        System.out.println("Simple test");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://askomdch.com/");
-
-        String expectedHPResult = "AskOmDch";
-        String actualHPResultHP = driver.findElement(By.xpath("//*[@id=\"ast-desktop-header\"]/div[1]/div/div/div/div[1]/div/div/div/h1/a")).getText();
-        Thread.sleep(2000);
-        Assert.assertEquals(actualHPResultHP,expectedHPResult,"Wrong text from header!");
-
-        String textBtnMen = "Men";
-        WebElement men = driver.findElement(By.xpath("//*[@id='menu-item-1228']"));
-        men.click();
-        Thread.sleep(2000);
-        String textFromMenHeader = "Men";
-        String actualTextFromMenPage = driver.findElement(By.xpath("//*[@class='woocommerce-products-header__title page-title']")).getText();
-        Assert.assertEquals(actualTextFromMenPage,textFromMenHeader,"Wrong text from header");
-        driver.quit();
     }
+    @Test
+    public void testShort(){
+        System.out.println("This is short test");
+    }
+
 }

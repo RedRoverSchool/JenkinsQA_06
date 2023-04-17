@@ -1,32 +1,24 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-public class GroupTwentyThreeTest {
+public class GroupTwentyThreeTest extends BaseTest {
     @Test
     public void testJavaTutorial() throws InterruptedException {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://www.w3schools.com/");
 
-        WebDriver driver = new ChromeDriver(options);
-        driver.get("https://www.w3schools.com/");
-
-        WebElement textBox = driver.findElement(By.id("search2"));
+        WebElement textBox = getDriver().findElement(By.id("search2"));
 
         textBox.sendKeys("Java Tutorial\n");
 
         Thread.sleep(2000);
 
-        WebElement text = driver.findElement(By.xpath("//h1"));
+        WebElement text = getDriver().findElement(By.xpath("//h1"));
 
         Assert.assertEquals(text.getText(), "Java Tutorial");
-
-        driver.quit();
     }
 }
