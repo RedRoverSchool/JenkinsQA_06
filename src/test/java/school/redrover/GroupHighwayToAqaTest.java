@@ -511,7 +511,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Thread.sleep(2000);
 
         WebElement hoodiesAndSweatshirtsLink = getDriver().findElement
-                (By.xpath("//div[@class='categories-menu']/ul/li/a[@href='https://magento.softwaretestingboard.com/women/tops-women/hoodies-and-sweatshirts-women.html']/.."));
+                (By.xpath("//div[@class='categories-menu']/ul/li/a[contains(@href,'sweatshirts-women')]"));
         hoodiesAndSweatshirtsLink.click();
 
         Thread.sleep(2000);
