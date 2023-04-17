@@ -53,8 +53,8 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         getDriver().get("https://askomdch.com/");
         String url = "https://askomdch.com/store";
         getDriver().findElement(By.cssSelector("div.wp-block-button>a[href=\"/store\"]")).click();
+
         Assert.assertEquals(url, "https://askomdch.com/store");
-        getDriver().quit();
     }
 
     @Test
