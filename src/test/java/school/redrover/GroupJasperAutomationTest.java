@@ -187,4 +187,55 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement logo = getDriver().findElement(By.xpath("//div[@class='app_logo']"));
         Assert.assertEquals(logo.getText(),"Swag Labs");
     }
+
+    @Test
+    public void testOrderIphone14() throws InterruptedException {
+        getDriver().get("https://www.apple.com/");
+        WebElement searchButton = getDriver().findElement(By.id("globalnav-menubutton-link-search"));
+        searchButton.click();
+
+        WebElement searchBox = getDriver().findElement(By.className("globalnav-searchfield-input"));
+        searchBox.sendKeys("IPhone 14");
+        Thread.sleep(3000);
+
+        WebElement chooseIphone = getDriver().findElement(By.xpath("//a[@data-label = 'iPhone 14 Pro and iPhone 14 Pro Max']"));
+        chooseIphone.click();
+
+        WebElement buyIphoneButton = getDriver().findElement(By.xpath("//div[@class = 'section-content']/a[@aria-label = 'Buy iPhone 14 Pro']"));
+        buyIphoneButton.click();
+
+        WebElement chooseVersion = getDriver().findElement(By.xpath("//input[@value = '6_1inch']"));
+        chooseVersion.click();
+
+        WebElement chooseColor = getDriver().findElement(By.xpath("//input[@value = 'deeppurple']/following-sibling::label/img"));
+        chooseColor.click();
+
+        WebElement chooseVolume = getDriver().findElement(By.xpath("//input[@value = '128gb']"));
+        chooseVolume.click();
+
+        WebElement isTradeIn = getDriver().findElement(By.xpath("//input[@id = 'noTradeIn']"));
+        isTradeIn.click();
+        Thread.sleep(2000);
+
+        WebElement paymentOption = getDriver().findElement(By.xpath("//span[text() = 'Buy']"));
+        paymentOption.click();
+        Thread.sleep(1000);
+
+        WebElement carrierChoose = getDriver().findElement(By.xpath("//span[text() = 'Connect to any carrier later']"));
+        carrierChoose.click();
+        Thread.sleep(3000);
+
+        WebElement addCoverage = getDriver().findElement(By.xpath("//input[@id = 'applecareplus_58_noapplecare']"));
+        addCoverage.click();
+        Thread.sleep(1000);
+
+        WebElement addToCartButton = getDriver().findElement(By.xpath("//button[@value = 'add-to-cart']"));
+        addToCartButton.click();
+
+        WebElement reviewBagButton = getDriver().findElement(By.xpath("//button[@name = 'proceed']"));
+        reviewBagButton.click();
+
+        WebElement orderedProductName = getDriver().findElement(By.linkText("iPhone 14 Pro 128GB Deep Purple"));
+        Assert.assertEquals(orderedProductName.getText(), "iPhone 14 Pro 128GB Deep Purple");
+    }
 }
