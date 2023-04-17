@@ -146,7 +146,7 @@ public class GroupOlesyaTests extends BaseTest {
         List<WebElement> addproductstocart  = getDriver().findElements(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
         clickOnEachElement(addproductstocart);
 
-        shoppingCart();
+        addToShoppingCart();
 
         Assert.assertEquals(productNames(),expectedlist);
     }
