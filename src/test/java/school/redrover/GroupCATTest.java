@@ -1,6 +1,5 @@
 package school.redrover;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,57 +13,41 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GroupCAT {
+public class GroupCATTest extends BaseTest {
 
     @FindBy(xpath = "//a[@class='btn btn-secondary m-1']")
     public WebElement buttonDocumentation;
+    @FindBy(xpath = "//a[@class='btn btn-primary m-1']")
+    public WebElement buttonDownload;
     @FindBy(xpath = "//div[@class='supporters']//li")
     public List<WebElement> supporters;
-
     @FindBy(xpath = "//div[@class='supporters']")
     public WebElement containerOfSupporters;
+    @FindBy(xpath = "//div[@class='row chunks features uniform-height']")
+    public WebElement containerOfNamesOfFeatureListSegment;
+    @FindBy(xpath = "//div[@class='row chunks features uniform-height']//h5")
+    public List<WebElement> featureListSegment;
 
     public final static String BASE_URL = "https://www.jenkins.io/";
 
     public WebDriverWait webDriverWait10;
 
-    public WebDriver driver;
-
-    public WebDriver getDriver() {
-        return driver;
-    }
-
-    public final ChromeOptions chromeOptions() {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--window-size=1920,1080");
-
-        return chromeOptions;
-    }
-
-    public final WebDriver createDriver() {
-        WebDriver driver = new ChromeDriver(chromeOptions());
-
-        WebDriverManager.chromedriver().setup();
-        return driver;
-    }
-
     public final void getBaseUrl() {
-        driver = createDriver();
-        driver.get(BASE_URL);
+        getDriver().get(BASE_URL);
 
-        PageFactory.initElements(driver, this);
+        PageFactory.initElements(getDriver(), this);
     }
 
     public final WebDriverWait getWait10() {
         if (webDriverWait10 == null) {
-            webDriverWait10 = new WebDriverWait(driver, Duration.ofSeconds(5));
+            webDriverWait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         }
         return webDriverWait10;
     }
@@ -81,8 +64,13 @@ public class GroupCAT {
     public final void clickButtonDocumentation() {
         verifyElementVisible(buttonDocumentation);
         verifyElementIsClickable(buttonDocumentation).click();
-
     }
+
+    public final void clickButtonDownload() {
+        verifyElementVisible(buttonDownload);
+        verifyElementIsClickable(buttonDownload).click();
+    }
+
     public void scrollByElement(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].scrollIntoView();", element);
@@ -96,7 +84,7 @@ public class GroupCAT {
         return element.getText();
     }
 
-    public List<String> getNamesOfSupporters(List<WebElement> elements) {
+    public List<String> getNamesOfLists(List<WebElement> elements) {
         List<String> texts = new ArrayList<>();
 
         for (WebElement element : elements) {
@@ -105,6 +93,7 @@ public class GroupCAT {
 
         return texts;
     }
+
     @Test
     public void textVerification() {
 
@@ -122,7 +111,6 @@ public class GroupCAT {
         Assert.assertEquals(actualText, expectedText, "Text verification is FAILED");
 
         driver.quit();
-
     }
 
     @Test
@@ -142,11 +130,9 @@ public class GroupCAT {
         actions.dragAndDrop(image, box).perform();
 
         driver.quit();
-
     }
 
     @Test
-
     public void testVerifyRedirectFromJetLabel() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -166,11 +152,9 @@ public class GroupCAT {
         Assert.assertEquals(title.getText(), "Essential tools for software developers and teams");
 
         driver.quit();
-
     }
 
     @Test
-
     public void testVerifyLink() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -198,11 +182,11 @@ public class GroupCAT {
 
         clickButtonDocumentation();
 
-        String actualTitle = driver.getTitle();
+        String actualTitle = getDriver().getTitle();
 
         Assert.assertEquals(actualTitle, expectedTitle);
 
-        driver.quit();
+        getDriver().quit();
     }
     @Test
     public void testSizeSupporters(){
@@ -217,24 +201,49 @@ public class GroupCAT {
         getWait10();
 
         Assert.assertEquals(actualSizeOfSupporters, expectedSizeOfSupporters);
-        driver.quit();
+        getDriver().quit();
     }
 
     @Test
     public void testNamesOfSupporters(){
-        final List<String> expectedNamesOfSupporters = Arrays.asList("Atlassian", "Datadog", "DigitalOcean",
-                "Discourse", "Fastly",
-                "IBM", "Netlify", "PagerDuty", "Sentry", "SpinUp", "Tsinghua University", "XMission");
+        final List<String> expectedNamesOfSupporters = Arrays.asList("Atlassian", "Datadog", "DigitalOcean", "Discourse",
+                "Fastly", "IBM", "Netlify", "PagerDuty", "Sentry", "SpinUp", "Tsinghua University", "XMission");
 
         getBaseUrl();
 
         scrollByElement(containerOfSupporters);
         getWait10();
 
-        List<String> actualNamesOfSupporters = getNamesOfSupporters(supporters);
+        List<String> actualNamesOfSupporters = getNamesOfLists(supporters);
 
         Assert.assertEquals(actualNamesOfSupporters, expectedNamesOfSupporters);
 
-        driver.quit();
+        getDriver().quit();
+    }
+
+    @Test
+    public void testClickDownloadButton() {
+        final String expectedTitle = "Jenkins download and deployment";
+
+        getBaseUrl();
+        clickButtonDownload();
+        String actualTitle = getDriver().getTitle();
+
+        Assert.assertEquals(actualTitle, expectedTitle);
+        getDriver().quit();
+    }
+
+    @Test
+    public void testNamesOfFeatureListSegment(){
+        final List<String> expectedNamesOfFeatureListSegment = Arrays.asList("Continuous Integration and Continuous Delivery",
+                "Easy installation", "Easy configuration", "Plugins", "Extensible", "Distributed");
+
+        getBaseUrl();
+        scrollByElement(containerOfNamesOfFeatureListSegment);
+        getWait10();
+        List<String> actualNamesOfNamesOfFeatureListSegment = getNamesOfLists(featureListSegment);
+
+        Assert.assertEquals(actualNamesOfNamesOfFeatureListSegment, expectedNamesOfFeatureListSegment);
+        getDriver().quit();
     }
 }
