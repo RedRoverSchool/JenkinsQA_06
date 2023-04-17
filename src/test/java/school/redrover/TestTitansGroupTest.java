@@ -32,7 +32,7 @@ public class TestTitansGroupTest extends BaseTest {
     }
 
     @Test
-    public void testFormDemoqaDotCom(){
+    public void testFormDemoqaDotCom() throws InterruptedException {
         getDriver().get("https://demoqa.com");
 
         WebElement buttonCategoryCards = getDriver().findElement(By.xpath("//div[@class='card mt-4 top-card'][2]"));
@@ -40,6 +40,8 @@ public class TestTitansGroupTest extends BaseTest {
 
         WebElement buttonHeaderWrapper = getDriver().findElement(By.xpath("//div[@class='element-group'][2]"));
         buttonHeaderWrapper.click();
+
+        Thread.sleep(5000);
 
         WebElement buttonPracticeForm = getDriver().findElement(By.xpath("//span[@class='text'][text()=\"Practice Form\"]"));
         buttonPracticeForm.click();
