@@ -557,7 +557,7 @@ public class AlexLeoEpicGroupTest extends BaseTest{
 
     @Test
     public void testAccessoriesDropDownMenuSectionsNumber() {
-        try {
+
             getDriver().get("https://askomdch.com/");
             getDriver().findElement(By.xpath("//a[text()='Accessories']")).click();
             WebElement dropDownMenu = getDriver().findElement(By.cssSelector("select.orderby[name='orderby']"));
@@ -565,10 +565,8 @@ public class AlexLeoEpicGroupTest extends BaseTest{
             List<WebElement> dropDownMenuSections = dropDownMenu.findElements(By.tagName("option"));
             dropDownMenuSections.get(4).click();
             Assert.assertEquals(dropDownMenuSections.size(), 6);
-        } finally {
-            getDriver().quit();
-        }
     }
+
     @Test
     public void testAddProductToCartInscription() {
         getDriver().get("https://askomdch.com/");
@@ -579,8 +577,6 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         WebElement addInscription = getDriver().findElement(By.xpath("//div[@role='alert']"));
 
         Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
-
-        getDriver().quit();
     }
 
 }
