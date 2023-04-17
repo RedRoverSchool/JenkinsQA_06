@@ -1,8 +1,6 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
-import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
-import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -504,7 +502,6 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testHoodiesAndSweatshirtsHeader() throws InterruptedException {
-
         getDriver().get(BASE_URL);
 
         Thread.sleep(2000);

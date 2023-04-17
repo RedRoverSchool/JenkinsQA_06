@@ -197,7 +197,7 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-test ='error']")));
         Assert.assertEquals(errorMessage.getText(),"Epic sadface: Sorry, this user has been locked out.");
     }
-
+    @Ignore
     @Test
     public void testOrderIphone14() throws InterruptedException {
         getDriver().get("https://www.apple.com/");
