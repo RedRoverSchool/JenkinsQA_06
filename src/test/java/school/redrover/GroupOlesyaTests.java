@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -138,11 +137,6 @@ public class GroupOlesyaTests extends BaseTest {
         }
     }
 
-    public void addItemstoCartbyXpath (By xpath) {
-        List<WebElement> addproductstocart  = getDriver().findElements(xpath);
-        clickOnEachElement(addproductstocart);
-    }
-
     @Test
     public void testAddtoCart() {
         loginToSite(LOGIN);
@@ -150,34 +144,17 @@ public class GroupOlesyaTests extends BaseTest {
         List<WebElement> addproducts  = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
         List<String> expectedlist= getTextList (addproducts);
 
-        addItemstoCartbyXpath(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
-
-        goToShoppingCartPage();
-        Assert.assertEquals(getListOfItemInCart(),expectedlist);
-    }
-
-    @Ignore /*Bug!*/
-    @Test
-    public void testChangeQuantityinCart() {
-        loginToSite(LOGIN);
-
-        addItemstoCartbyXpath(By.xpath("//div[@class = 'inventory_item_name']"));
+        List<WebElement> addproductstocart  = getDriver().findElements(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
+        clickOnEachElement(addproductstocart);
 
         goToShoppingCartPage();
 
-        WebElement cartQuantity = getDriver().findElement(By.xpath("//*[@class='cart_quantity']"));
-        cartQuantity.clear();
-        cartQuantity.sendKeys("2");
-
-        getDriver().findElement(By.id("continue-shopping")).click();
-        goToShoppingCartPage();
-
-        Assert.assertEquals(cartQuantity.getText(), "2");
-
+        Assert.assertEquals(productNames(),expectedlist);
     }
 
     @Test
     public void continueShoppingTest()  {
+
         loginToSite(LOGIN);
 
         getDriver().findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']")).click();
