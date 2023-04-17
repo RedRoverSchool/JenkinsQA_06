@@ -210,11 +210,9 @@ public class AlexLeoEpicGroupTest extends BaseTest{
                 assertTrue(saleProduct.findElement(By.cssSelector("span.onsale"))
                         .isDisplayed(), "Sale icon not found on a sale product: " + saleProduct.getText());
             }
+        }
 
-        } catch (Exception e) {
-            fail("An exception occurred: " + e.getMessage());
-
-        } finally {
+        finally {
             getDriver().quit();
         }
     }
@@ -555,5 +553,21 @@ public class AlexLeoEpicGroupTest extends BaseTest{
         WebElement promoText = getDriver().findElement(By.xpath(".//h3[@class = 'has-text-align-center has-white-color has-text-color has-medium-font-size']"));
 
         Assert.assertEquals(promoText.getText(), "25% OFF On all products");
+    }
+
+    @Test
+    public void testAccessoriesdropDownMenuSectionsNumber() {
+        try {
+            getDriver().get("https://askomdch.com/");
+            getDriver().findElement(By.xpath("//a[text()='Accessories']")).click();
+            WebElement dropDownMenu = getDriver().findElement(By.cssSelector("select.orderby[name='orderby']"));
+            dropDownMenu.click();
+            List<WebElement> dropDownMenuSections = dropDownMenu.findElements(By.tagName("option"));
+            dropDownMenuSections.get(4).click();
+            Assert.assertEquals(dropDownMenuSections.size(), 6);
+        } finally {
+            getDriver().quit();
+        }
+
     }
 }

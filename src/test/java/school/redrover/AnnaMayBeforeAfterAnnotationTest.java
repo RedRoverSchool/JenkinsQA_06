@@ -13,8 +13,8 @@ import school.redrover.runner.BaseTest;
 import java.util.List;
 
 public class AnnaMayBeforeAfterAnnotationTest extends BaseTest {
-    final String[] navigationLinks = {"Quick Tools", "Send", "Receive", "Shop", "Business", "International", "Help"};
 
+    final String[] navigationLinks = {"Quick Tools", "Send", "Receive", "Shop", "Business", "International", "Help"};
 
     @Test
     public void testUspsWebsiteTitle() {
@@ -38,6 +38,7 @@ public class AnnaMayBeforeAfterAnnotationTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
     @Ignore
     @Test
     public void testHoverOnSubElement() {
@@ -75,7 +76,7 @@ public class AnnaMayBeforeAfterAnnotationTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@id='tCity']")).sendKeys(city);
         getDriver().findElement(By.xpath("//a[@id='zip-by-address']")).click();
 
-        WebElement resultElement = getDriver().findElement(By.xpath("//div[@id='zipByAddressDiv']"));
+        getDriver().findElement(By.xpath("//div[@id='zipByAddressDiv']"));
         Thread.sleep(3000);
 
         List<WebElement> list = getDriver().findElements(By.xpath("//*[@class='zipcode-result-address']"));
