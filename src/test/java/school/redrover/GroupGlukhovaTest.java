@@ -107,7 +107,6 @@ public class GroupGlukhovaTest extends BaseTest {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
-
         driver.quit();
     }
 }
