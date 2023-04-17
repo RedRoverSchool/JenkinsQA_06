@@ -500,86 +500,57 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement text = getDriver().findElement(By.cssSelector("h1[class='modal-header-title']"));
         Assert.assertTrue(text.isDisplayed());
     }
-    public void tema_flightFinderTest() throws Throwable {
-//        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        String url = "https://demo.guru99.com/test/newtours/reservation.php";
-        driver.get(url);
 
-        WebElement radioBtn = driver.findElement(By.xpath("//input[@value='oneway']"));
-        radioBtn.click();
+    @Test
+     public void testFlight(){
+        getDriver().manage().window().maximize();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        getDriver().get("https://demo.guru99.com/test/newtours/reservation.php");
+        WebElement oneWayBtn =  getDriver().findElement(By.xpath("//input[@value='oneway']"));
+        oneWayBtn.click();
 
-        //Passenger Selection
-        WebElement passengerAmount = driver.findElement(By.name("passCount"));
-        Select pAmount = new Select(passengerAmount);
-        pAmount.selectByIndex(2);           //3 passengers selected
-        Thread.sleep(2000);
-        pAmount.selectByVisibleText("2");   //changed my mind, selected 2 passengers
-        Thread.sleep(2000);
-        pAmount.selectByValue("4");         //changed my mind, selected 4 passengers
-        Thread.sleep(2000);
+        WebElement passAmount =  getDriver().findElement(By.name("passCount"));
+        Select pAmount = new Select(passAmount);
+        pAmount.selectByValue("3");
 
-        //Departing Airport Selection
-        WebElement dAirport = driver.findElement(By.name("fromPort"));
-        Select dFrom = new Select(dAirport);
-        List<WebElement> dAirports = dFrom.getOptions();
-        for(WebElement ele : dAirports){
-            System.out.println("Departing city: "+ele.getText());
-        }
-        Thread.sleep(2000);
-        dFrom.selectByValue("Paris");
+        WebElement depAirport =  getDriver().findElement(By.name("fromPort"));
+        Select depAir = new Select (depAirport);
+        depAir.selectByValue("New York");
 
-        //Departing Month Selection
-        WebElement dMonths = driver.findElement(By.name("fromMonth"));
-        Select dMonth = new Select(dMonths);
-        Thread.sleep(2000);
-        dMonth.selectByVisibleText("April");
+        WebElement depMonth  =  getDriver().findElement(By.name("fromMonth"));
+        Select dMonth =new Select(depMonth);
+        depMonth.click();
+        dMonth.selectByVisibleText("July");
 
-        //Departing Day Selection
-        WebElement dDays = driver.findElement(By.name("fromDay"));
-        Select dDay = new Select(dDays);
-        Thread.sleep(2000);
-        dDay.selectByVisibleText("5");
+        WebElement depDate  =  getDriver().findElement(By.name("fromDay"));
+        Select dDate =new Select(depDate);
+        dDate.selectByValue("10");
 
-        //Arriving Airport Selection
-        WebElement aAirport = driver.findElement(By.name("toPort"));
-        Select aTo = new Select(aAirport);
-        Thread.sleep(2000);
-        aTo.selectByValue("Zurich");
+        WebElement aAirport =  getDriver().findElement(By.name("toPort"));
+        Select aAir = new Select (aAirport);
+        aAir.selectByValue("Paris");
 
-        //Arriving Month Selection
-        WebElement aMonths = driver.findElement(By.name("toMonth"));
-        Select aMonth = new Select(aMonths);
-        Thread.sleep(2000);
-        aMonth.selectByVisibleText("May");
+        WebElement aMonth  =  getDriver().findElement(By.name("toMonth"));
+        Select airMonth =new Select(aMonth);
+        aMonth.click();
+        airMonth.selectByVisibleText("August");
 
-        //Arriving Day Selection
-        WebElement aDays = driver.findElement(By.name("toDay"));
-        Select aDay = new Select(aDays);
-        Thread.sleep(2000);
-        aDay.selectByVisibleText("14");
+        WebElement deppDate  =  getDriver().findElement(By.name("toDay"));
+        Select deDate =new Select(deppDate);
+        deDate.selectByValue("15");
 
-        //Service Class
-        WebElement sClass = driver.findElement(By.xpath("//input[@value='Business']"));
-        sClass.click();
+        WebElement busClass =  getDriver().findElement(By.xpath("//input[@value='Business']"));
+        busClass.click();
 
-        //Airline
-        WebElement airline = driver.findElement(By.name("airline"));
-        Select selectAirline = new Select(airline);
-        Thread.sleep(2000);
-        airline.click();
-        Thread.sleep(2000);
+        WebElement airLine =  getDriver().findElement(By.name("airline"));
+        Select aLine = new Select(airLine);
+        airLine.click();
+        aLine.selectByVisibleText("Blue Skies Airlines");
 
-//        selectAirline.selectByIndex(3);
-        selectAirline.selectByVisibleText("Unified Airlines");
-
-        //checkout
-        driver.findElement(By.name("findFlights")).click();
-        Assert.assertEquals(driver.getCurrentUrl(),"https://demo.guru99.com/test/newtours/reservation2.php");
-        driver.quit();
+        getDriver().findElement(By.xpath("//input[@name='findFlights']")).click();
+        Assert.assertEquals( getDriver().getCurrentUrl(),"https://demo.guru99.com/test/newtours/reservation2.php");
     }
+
 }
 
 
