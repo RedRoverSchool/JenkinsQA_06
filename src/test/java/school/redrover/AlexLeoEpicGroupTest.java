@@ -589,5 +589,13 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(symbol,"$");
     }
 
+    @Test
+    public void testContactUs() {
+        getDriver().get("https://askomdch.com/");
+        String text = getDriver().findElement(By.xpath("//*[@id=\"menu-item-1233\"]/a")).getText();
+        Assert.assertEquals(text, "Contact Us");
+
+    }
+
 
     }
