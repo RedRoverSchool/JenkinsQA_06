@@ -589,5 +589,19 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(symbol,"$");
     }
 
+    @Test
+    public void testSaleIconPresent() {
+        getDriver().get("https://askomdch.com/");
 
+        List<WebElement> listFeaturedProducts = getDriver().findElements(By.className("astra-shop-thumbnail-wrap"));
+        List<WebElement> listFeaturedProductsText = getDriver().findElements(By.className("astra-shop-summary-wrap"));
+
+        for (int i = 0; i < listFeaturedProductsText.size(); i++) {
+            String[] arrProductText = listFeaturedProductsText.get(i).getText().split("\n");
+            if (arrProductText[2].split(" ").length > 1) {
+
+                Assert.assertEquals(listFeaturedProducts.get(i).getText(), "Sale!");
+            }
+        }
     }
+}
