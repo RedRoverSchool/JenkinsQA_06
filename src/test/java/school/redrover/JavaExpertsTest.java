@@ -1,38 +1,73 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
-public class JavaExpertsTest {
+public class JavaExpertsTest extends BaseTest {
+
+    private static final String email = "test" + Math.random()*1000 + "@mail.com";
+
     @Test
-    public void testFirst(){
+    public void testPageTitle(){
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        String title = getDriver().getTitle();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        assertEquals("Web form", title, "Test page title is fail");
+    }
 
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+    @Test
+    public void testFormSubmit(){
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        String title = driver.getTitle();
-        assertEquals("Web form", title);
-
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
 
         textBox.sendKeys("Selenium");
         submitButton.click();
 
-        WebElement message = driver.findElement(By.id("message"));
+        WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
-        assertEquals("Received!", value);
 
-        driver.quit();
+        assertEquals("Received!", value, "Form submit is fail");
+    }
+
+    @Test
+    public void testRegisterUser(){
+        getDriver().get("http://selenium1py.pythonanywhere.com/en-gb/accounts/login/");
+
+        WebElement registration_email = getDriver().findElement(By.cssSelector("input[name='registration-email']"));
+        registration_email.sendKeys(email);
+
+        WebElement password1 = getDriver().findElement(By.cssSelector("input[name='registration-password1']"));
+        password1.sendKeys(email);
+
+        WebElement password2 = getDriver().findElement(By.cssSelector("input[name='registration-password2']"));
+        password2.sendKeys(email);
+
+        getDriver().findElement(By.cssSelector("button[name='registration_submit']")).click();
+
+        assertFalse(getDriver().findElements(By.cssSelector(".alertinner.wicon")).isEmpty(),
+                "User registration is fail");
+    }
+
+    @Test(dependsOnMethods = "testRegisterUser")
+    public void testLoginUser(){
+        getDriver().get("http://selenium1py.pythonanywhere.com/en-gb/accounts/login/");
+
+        WebElement login_email = getDriver().findElement(By.cssSelector("input[name='login-username']"));
+        login_email.sendKeys(email);
+
+        WebElement password = getDriver().findElement(By.cssSelector("input[name='login-password']"));
+        password.sendKeys(email);
+
+        getDriver().findElement(By.cssSelector("button[name='login_submit']")).click();
+
+        assertFalse(getDriver().findElements(By.cssSelector(".alertinner.wicon")).isEmpty(),
+                "User login is fail");
     }
 }

@@ -1,8 +1,6 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
-import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
-import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -285,33 +283,18 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    void testTrainingMessage() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-
-        Thread.sleep(2000);
-
-        WebElement trainingBar = driver.findElement(By.id("ui-id-7"));
-        WebElement trainingLink = driver.findElement(By.id("ui-id-28"));
-
-        new Actions(driver).moveToElement(trainingBar).perform();
+    void testMissingTrainingVideo() {
+        getDriver().get(BASE_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        WebElement trainingBar = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("ui-id-7")));
+        WebElement trainingLink = getDriver().findElement(By.id("ui-id-28"));
+        new Actions(getDriver()).moveToElement(trainingBar).perform();
         wait.until(ExpectedConditions.visibilityOf(trainingLink));
-
         trainingLink.click();
+        WebElement messageInfo = getDriver().findElement(By
+                .xpath("//div[contains(@class, 'message info empty')]/div"));
 
-        WebElement messageInfo = driver
-                .findElement(By
-                        .xpath("//div[contains(@class, 'message info empty')]/div"));
         Assert.assertEquals(messageInfo.getText(), "We can't find products matching the selection.");
-
-        driver.quit();
-
     }
 
     @Test
@@ -443,39 +426,38 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Assert.assertEquals(titleOfSucessCreationAccountMessage.getText(), "Thank you for registering with Main Website Store.");
     }
 
-    @Ignore
     @Test
     public void testSubscription() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
+        getDriver().get(BASE_URL);
+
         char[] prefix = new char[6];
         for (int i = 0; i < prefix.length; i++) {
             prefix[i] = (char) (Math.random() * (122 - 97) + 97);
         }
-        WebElement emailInput = driver.findElement(By.cssSelector("#newsletter"));
+
         String emailPostfix = "@mail.ru";
         String emailPrefix = new String(prefix);
         String email = emailPrefix.concat(emailPostfix);
+
+        WebElement emailInput = getDriver().findElement(By.cssSelector("#newsletter"));
         emailInput.sendKeys(email);
-        WebElement submitButton = driver.findElement(By
+        WebElement submitButton = getDriver().findElement(By
                 .xpath("//button[@title = 'Subscribe']"));
         submitButton.click();
         Thread.sleep(5000);
-        WebElement message = driver.findElement(By
+        WebElement message = getDriver().findElement(By
                 .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
         Assert.assertEquals(message.getText(), "Thank you for your subscription.");
-        emailInput = driver.findElement(By.xpath("//input[@placeholder = 'Enter your email address']"));
+
+        emailInput = getDriver().findElement(By.xpath("//input[@placeholder = 'Enter your email address']"));
         emailInput.sendKeys(email);
-        submitButton = driver.findElement(By
+        submitButton = getDriver().findElement(By
                 .xpath("//button[@title = 'Subscribe']"));
         submitButton.click();
         Thread.sleep(5000);
-        WebElement errorMessage = driver.findElement(By
+        WebElement errorMessage = getDriver().findElement(By
                 .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
         Assert.assertEquals(errorMessage.getText(), "This email address is already subscribed.");
-        driver.quit();
     }
 
     @Test
@@ -515,5 +497,24 @@ public class GroupHighwayToAqaTest extends BaseTest {
         WebElement numOfItemsInCart = getDriver().findElement(By.xpath("//div[@data-block='minicart']//span[@class='counter-number']"));
 
         assertEquals(numOfItemsInCart.getText(), "1");
+    }
+
+    @Test
+    public void testHoodiesAndSweatshirtsHeader() throws InterruptedException {
+        getDriver().get(BASE_URL);
+
+        Thread.sleep(2000);
+        WebElement whatsNewLink = getDriver().findElement(By.xpath("//a[@id='ui-id-3']"));
+        whatsNewLink.click();
+
+        Thread.sleep(2000);
+
+        WebElement hoodiesAndSweatshirtsLink = getDriver().findElement
+                (By.xpath("//div[@class='categories-menu']/ul/li/a[contains(@href,'sweatshirts-women')]"));
+        hoodiesAndSweatshirtsLink.click();
+
+        Thread.sleep(2000);
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']")).getText(),"Hoodies & Sweatshirts");
     }
 }

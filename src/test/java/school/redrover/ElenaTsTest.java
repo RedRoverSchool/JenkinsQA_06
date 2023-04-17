@@ -1,108 +1,95 @@
 package school.redrover;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.Assert;
-import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
 
-public class ElenaTsTest {
+import org.openqa.selenium.*;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
+
+public class ElenaTsTest extends BaseTest {
 
     @Test
-    public void testTitle(){
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.ebay.com/");
-        Assert.assertEquals(driver.getTitle(), "Electronics, Cars, Fashion, Collectibles & More | eBay");
-        driver.quit();
+    public void testTitle() {
+        getDriver().get("https://www.ebay.com/");
+        Assert.assertEquals(getDriver().getTitle(), "Electronics, Cars, Fashion, Collectibles & More | eBay");
     }
 
     @Test
     public void testFindProductByBrandName() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.ebay.com/");
-        WebElement searchField = driver.findElement(By.xpath("//input [@class='gh-tb ui-autocomplete-input']"));
+        getDriver().get("https://www.ebay.com/");
+        WebElement searchField = getDriver().findElement(By.xpath("//input [@class='gh-tb ui-autocomplete-input']"));
         searchField.sendKeys("Samsung");
         searchField.sendKeys(Keys.RETURN);
-        Thread.sleep(3000);
-        WebElement result = driver.findElement(By.xpath("(//span[@role='heading'])[2]"));
-        Assert.assertEquals(result.getText().substring(0,7), "Samsung");
-        driver.quit();
+        Thread.sleep(2000);
+
+        WebElement result = getDriver().findElement(By.xpath("(//span[@role='heading'])[2]"));
+
+        Assert.assertEquals(result.getText().substring(0, 7), "Samsung");
     }
 
     @Test
     public void testReturnToMainPage() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.ebay.com/");
-        WebElement menuButton = driver.findElement(By.xpath("//li[@data-currenttabindex ='0']"));
+        getDriver().get("https://www.ebay.com/");
+        WebElement menuButton = getDriver().findElement(By.xpath("//li[@data-currenttabindex ='0']"));
         menuButton.click();
-        Thread.sleep(3000);
-        WebElement siteIcon = driver.findElement(By.xpath("//a[@id='gh-la']"));
+        Thread.sleep(2000);
+
+        WebElement siteIcon = getDriver().findElement(By.xpath("//a[@id='gh-la']"));
         siteIcon.click();
-        Assert.assertEquals(driver.getCurrentUrl(),"https://www.ebay.com/");
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.ebay.com/");
     }
 
     @Test
     public void testAddProductToCart() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.bergfreunde.eu/");
+        getDriver().get("https://www.bergfreunde.eu/");
 
-        WebElement searchIcon = driver.findElement(By.xpath("//input[@title='Start your search!']"));
+        WebElement searchIcon = getDriver().findElement(By.xpath("//input[@title='Start your search!']"));
         searchIcon.click();
 
-        WebElement searchField = driver.findElement(By.xpath("//input[@class='searchfield show-for-small-only']"));
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@class='searchfield show-for-small-only']"));
         searchField.sendKeys("Bottle");
         searchField.sendKeys(Keys.RETURN);
 
-        WebElement productImg = driver.findElement(By.xpath("(//img[@class='product-image'])[1]"));
+        WebElement productImg = getDriver().findElement(By.xpath("(//img[@class='product-image'])[1]"));
         productImg.click();
 
-        WebElement addToCurtButton = driver.findElement(By.xpath("//button[contains(@id,'addToCartButton')]"));
+        WebElement addToCurtButton = getDriver().findElement(By.xpath("//button[contains(@id,'addToCartButton')]"));
         addToCurtButton.click();
 
-        Thread.sleep(3000);
-        WebElement quantityOfProducts = driver.findElement(By.xpath("//td[text()>=1]"));
+        Thread.sleep(2000);
+        WebElement quantityOfProducts = getDriver().findElement(By.xpath("//td[text()>=1]"));
 
         Assert.assertEquals(quantityOfProducts.getText(), "1");
-        driver.quit();
     }
 
-    @Ignore
     @Test
-    public void testRegistrationWithInvalidEmail(){
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.bergfreunde.eu/");
+    public void testRegistrationWithInvalidEmail() throws InterruptedException {
+        getDriver().get("https://www.bergfreunde.eu/");
 
-        WebElement loginIcon = driver.findElement(By.xpath("//i[@class='icon login']"));
+        WebElement loginIcon = getDriver().findElement(By.xpath("//i[@class='icon login']"));
         loginIcon.click();
+        Thread.sleep(1000);
 
-        WebElement cookiesButton = driver.findElement(By.id("onetrust-accept-btn-handler"));
-        cookiesButton.click();
+        try {
+            WebElement cookiesButton = getDriver().findElement(By.id("onetrust-accept-btn-handler"));
+            if (cookiesButton.isDisplayed()) {
+                cookiesButton.click();
+            }
+        } catch (NoSuchElementException ignored) {
+        }
 
-        WebElement registrationButton = driver.findElement(By.id("login_create_form_show"));
+        Thread.sleep(1000);
+        WebElement registrationButton = getDriver().findElement(By.id("login_create_form_show"));
         registrationButton.click();
 
-        WebElement registrationEmailField =driver.findElement(By.id("lgn-usr"));
+        WebElement registrationEmailField = getDriver().findElement(By.id("lgn-usr"));
         registrationEmailField.sendKeys("qw@");
 
-        WebElement registrationPasswordField =driver.findElement(By.id("lgn-pwd"));
+        WebElement registrationPasswordField = getDriver().findElement(By.id("lgn-pwd"));
         registrationPasswordField.click();
 
-        WebElement warningMessage = driver.findElement(By.xpath("//p[@id='err-lgn-usr']"));
-        Assert.assertEquals(warningMessage.getText(),"Your email address is incorrect. Please recheck your input");
-        driver.quit();
+        WebElement warningMessage = getDriver().findElement(By.xpath("//p[@id='err-lgn-usr']"));
+
+        Assert.assertEquals(warningMessage.getText(), "Your email address is incorrect. Please recheck your input");
     }
 }
-
