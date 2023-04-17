@@ -13,7 +13,6 @@ import java.time.Duration;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 public class AlexLeoEpicGroupTest extends BaseTest {
 
@@ -565,16 +564,33 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
         Assert.assertEquals(list.size(), 5);
     }
-        @Test
-        public void testAddProductToCartInscription() {
-            getDriver().get("https://askomdch.com/");
 
-            getDriver().findElement(By.xpath("//a[@class='menu-link'][text()='Store']")).click();
-            getDriver().findElement(By.xpath("//h2[text()='Blue Denim Shorts']")).click();
-            getDriver().findElement(By.xpath("//button[@name='add-to-cart'][text()='Add to cart']")).click();
-            WebElement addInscription = getDriver().findElement(By.xpath("//div[@role='alert']"));
+    @Test
+    public void testAccountButtonOpensLoginPage() {
+        getDriver().get("https://askomdch.com/");
+        String title = getDriver().getTitle();
+        getDriver().findElement(By.xpath("//a[@href=\"https://askomdch.com/account/\"][@class=\"menu-link\"]")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/account/");
+    }
 
-            Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
+    @Test
+    public void testShopNowButtonOpensUpStorePage() {
+        getDriver().get("https://askomdch.com/");
+        String title = getDriver().getTitle();
+        getDriver().findElement(By.cssSelector("a.wp-block-button__link")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
+    }
+
+    @Test
+    public void testAddProductToCartInscription() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[@class='menu-link'][text()='Store']")).click();
+        getDriver().findElement(By.xpath("//h2[text()='Blue Denim Shorts']")).click();
+        getDriver().findElement(By.xpath("//button[@name='add-to-cart'][text()='Add to cart']")).click();
+        WebElement addInscription = getDriver().findElement(By.xpath("//div[@role='alert']"));
+
+        Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
         }
 
     @Test
