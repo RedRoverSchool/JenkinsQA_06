@@ -49,7 +49,7 @@ public class GroupJavaJitsuTest extends BaseTest {
     }
 
     @Test
-    public void testFirst_RedRover() throws InterruptedException {
+    public void testFirstRedRover() throws InterruptedException {
         getDriver().get("https://redrover.school");
         Thread.sleep(2000);
 
@@ -390,6 +390,7 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         WebElement buttonClickMe1 = getDriver().findElement(By.id("alertButton"));
         buttonClickMe1.click();
+        Thread.sleep(1000);
         getDriver().switchTo().alert().accept();
 
         WebElement buttonClickMe2 = getDriver().findElement(By.id("timerAlertButton"));
@@ -414,6 +415,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         buttonClickMe4.click();
         Thread.sleep(1000);
         getDriver().switchTo().alert().sendKeys("RedRover06");
+        Thread.sleep(1000);
         getDriver().switchTo().alert().accept();
         WebElement enterTextResult = getDriver().findElement(By.xpath("//span[@id='promptResult']"));
         Assert.assertEquals(enterTextResult.getText(), "You entered RedRover06");

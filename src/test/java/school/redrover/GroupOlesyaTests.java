@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -60,12 +61,12 @@ public class GroupOlesyaTests extends BaseTest {
         dropdownMenu.selectByVisibleText(visibleText);
     }
 
-    public void choiceItem(String item){
+    public void addToShoppingCart(String item){
         getDriver()
                 .findElement(By.id(String.format("%s", item))).click();
     }
 
-    public void shoppingCart(){
+    public void goToShoppingCartPage(){
         getDriver().findElement(By.className("shopping_cart_link")).click();
     }
 
@@ -320,8 +321,8 @@ public class GroupOlesyaTests extends BaseTest {
     @Test
     public void finishOrderTest(){
         loginToSite(LOGIN);
-        choiceItem("add-to-cart-sauce-labs-bolt-t-shirt");
-        shoppingCart();
+        addToShoppingCart("add-to-cart-sauce-labs-bolt-t-shirt");
+        goToShoppingCartPage();
 
         clickCheckout();
 
@@ -379,8 +380,8 @@ public class GroupOlesyaTests extends BaseTest {
     @Test
     public void testRemoveFromCart() {
         loginToSite(LOGIN);
-        choiceItem("add-to-cart-sauce-labs-backpack");
-        shoppingCart();
+        addToShoppingCart("add-to-cart-sauce-labs-backpack");
+        goToShoppingCartPage();
 
         WebElement removeButton = getDriver().findElement(By.name("remove-sauce-labs-backpack"));
 
@@ -472,7 +473,7 @@ public class GroupOlesyaTests extends BaseTest {
     public void resetAppStateTest() {
         loginToSite(LOGIN);
 
-        choiceItem("add-to-cart-sauce-labs-backpack");
+        addToShoppingCart("add-to-cart-sauce-labs-backpack");
         getDriver().findElement(By.className("shopping_cart_badge")).click();
         reactBurgerMenu();
 
@@ -480,13 +481,35 @@ public class GroupOlesyaTests extends BaseTest {
         getWait().until(ExpectedConditions.visibilityOf(resetSidebarLink));
         resetSidebarLink.click();
 
-        shoppingCart();
+        goToShoppingCartPage();
 
         WebElement cartListAfterRemove = getDriver().findElement(By.className("cart_list"));
         List<WebElement> cartItemsAfterRemove = cartListAfterRemove.findElements(By.className("cart_item"));
 
         Assert.assertTrue(cartItemsAfterRemove.isEmpty());
+    }
 
+    @Test
+    public void flowOfPurchaseTest(){
+        String randomString = RandomStringUtils.randomAlphabetic(5);
+        String randomDigits = RandomStringUtils.randomNumeric(6);
+
+        loginToSite(LOGIN);
+        addToShoppingCart("add-to-cart-sauce-labs-backpack");
+        goToShoppingCartPage();
+
+        getDriver().findElement(By.id("checkout")).click();
+        getDriver().findElement(By.id("first-name")).sendKeys(randomString);
+        getDriver().findElement(By.id("last-name")).sendKeys(randomString);
+        getDriver().findElement(By.id("postal-code")).sendKeys(randomDigits);
+        getDriver().findElement(By.id("continue")).click();
+        getDriver().findElement(By.id("finish")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.id("checkout_complete_container")).getText(),
+                "Thank you for your order!\n" +
+                        "Your order has been dispatched, and will arrive just as fast as the pony can get there!\n" +
+                        "Back Home");
+        Assert.assertTrue(getDriver().findElement(By.id("back-to-products")).isDisplayed());
     }
 }
 
