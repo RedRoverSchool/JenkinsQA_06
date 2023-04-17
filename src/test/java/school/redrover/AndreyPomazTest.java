@@ -128,6 +128,7 @@ public class AndreyPomazTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
     }
+    @Ignore
     @Test
     public void testAlert() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));

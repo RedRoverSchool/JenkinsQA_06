@@ -1,13 +1,11 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -15,8 +13,6 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -211,6 +207,7 @@ public class GroupJasperAutomationTest extends BaseTest {
 
         WebElement chooseColor = getDriver().findElement(By.xpath("//input[@value = 'deeppurple']/following-sibling::label/img"));
         chooseColor.click();
+        Thread.sleep(2000);
 
         WebElement chooseVolume = getDriver().findElement(By.xpath("//input[@value = '128gb']"));
         chooseVolume.click();
