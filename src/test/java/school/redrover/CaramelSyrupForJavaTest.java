@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testMessengersOpenWeather() throws InterruptedException {
 

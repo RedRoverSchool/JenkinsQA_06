@@ -631,7 +631,6 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         for (WebElement elem : productCards) {
             Assert.assertEquals(elem.findElement(By.cssSelector("bdi:last-of-type > span")).getText(), "$");
         }
-
     }
 
     @Test
@@ -644,4 +643,18 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertTrue(pageSource.contains(expectedString));
     }
 
+    public void testSaleIconPresent() {
+        getDriver().get("https://askomdch.com/");
+
+        List<WebElement> listFeaturedProducts = getDriver().findElements(By.className("astra-shop-thumbnail-wrap"));
+        List<WebElement> listFeaturedProductsText = getDriver().findElements(By.className("astra-shop-summary-wrap"));
+
+        for (int i = 0; i < listFeaturedProductsText.size(); i++) {
+            String[] arrProductText = listFeaturedProductsText.get(i).getText().split("\n");
+            if (arrProductText[2].split(" ").length > 1) {
+
+                Assert.assertEquals(listFeaturedProducts.get(i).getText(), "Sale!");
+            }
+        }
     }
+}
