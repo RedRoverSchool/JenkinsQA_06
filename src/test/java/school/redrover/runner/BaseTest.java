@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 
 public abstract class BaseTest {
 
-    private WebDriver driver;
+    private WebDriver getDt;
     private Integer resolutionX;
     private Integer resolutionY;
 
@@ -22,12 +22,12 @@ public abstract class BaseTest {
             chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=" + resolutionX + "," + resolutionY);
         }
 
-        driver = new ChromeDriver(chromeOptions);
+        getDt = new ChromeDriver(chromeOptions);
     }
 
     @AfterMethod
     protected void afterMethod() {
-        driver.quit();
+        getDt.quit();
     }
 
     protected void setResolution(Integer resolutionX,Integer resolutionY) {
@@ -35,6 +35,6 @@ public abstract class BaseTest {
         this.resolutionY = resolutionY;
     }
     protected WebDriver getDriver() {
-        return driver;
+        return getDt;
     }
 }
