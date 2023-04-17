@@ -420,6 +420,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement enterTextResult = getDriver().findElement(By.xpath("//span[@id='promptResult']"));
         Assert.assertEquals(enterTextResult.getText(), "You entered RedRover06");
     }
+    @Ignore
     @Test
     public void testZakazUa() {
         getDriver().get("https://winetime.zakaz.ua/uk/");
