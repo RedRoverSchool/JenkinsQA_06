@@ -285,7 +285,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    void testMissingTrainingVideo() {
+    public void testMissingTrainingVideo() {
         getDriver().get(BASE_URL);
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         WebElement trainingBar = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("ui-id-7")));
@@ -500,5 +500,31 @@ public class GroupHighwayToAqaTest extends BaseTest {
         WebElement numOfItemsInCart = getDriver().findElement(By.xpath("//div[@data-block='minicart']//span[@class='counter-number']"));
 
         assertEquals(numOfItemsInCart.getText(), "1");
+    }
+
+    @Test
+    public void testProductsInComparePageAreVisible() {
+        getDriver().get(BASE_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        WebElement womenBar = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ui-id-4")));
+        WebElement womenTops = getDriver().findElement(By.id("ui-id-9"));
+        WebElement womenHoodies = getDriver().findElement(By.id("ui-id-12"));
+        new Actions(getDriver()).moveToElement(womenBar).moveToElement(womenTops).click(womenHoodies).perform();
+        List<WebElement> foundHoodies = getDriver().findElements(By
+                .xpath("//li[@class='item product product-item']"));
+
+        Assert.assertTrue(foundHoodies.size() > 0);
+
+        new Actions(getDriver()).moveToElement(foundHoodies.get(0)).click(foundHoodies.get(0)).perform();
+        WebElement buttonCompare = getDriver().findElement(By
+                .xpath("//*[@class='product-addto-links']//*[@class='action tocompare']"));
+        buttonCompare.click();
+        WebElement actionCompare = wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//a[text()='comparison list']")));
+        actionCompare.click();
+        List<WebElement> compareList = getDriver().findElements(By
+                .xpath("//*[@class='cell product info']"));
+
+        Assert.assertTrue(compareList.size() > 0);
     }
 }
