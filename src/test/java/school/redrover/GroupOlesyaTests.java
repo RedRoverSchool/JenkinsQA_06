@@ -127,25 +127,29 @@ public class GroupOlesyaTests extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
     }
 
+    public List<String> getTextList (List<WebElement> list) {
+        return list.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public void clickOnEachElement (List<WebElement> list) {
+        for (WebElement w : list) {
+            w.click();
+        }
+    }
+
     @Test
-    public void nsergeevaTest() {
+    public void testAddtoCart() {
         loginToSite(LOGIN);
 
-        WebElement addtocartButton = getDriver().findElement(By.xpath("//*[@id='add-to-cart-sauce-labs-backpack']"));
-        addtocartButton.click();
+        List<WebElement> addproducts  = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
+        List<String> expectedlist= getTextList (addproducts);
 
-        WebElement removeButton = getDriver().findElement(By.xpath("//*[@id='remove-sauce-labs-backpack']"));
-        Assert.assertEquals(removeButton.getText(), "Remove");
+        List<WebElement> addproductstocart  = getDriver().findElements(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
+        clickOnEachElement(addproductstocart);
 
-        WebElement cartbutton = getDriver().findElement(By.xpath("//*[@id='shopping_cart_container']/a"));
-        cartbutton.click();
-        Assert.assertEquals(getDriver().getTitle(), "Swag Labs");
+        goToShoppingCartPage();
 
-        WebElement cartQuantity = getDriver().findElement(By.xpath("//*[@class='cart_quantity']"));
-
-        WebElement cartremovebutton = getDriver().findElement(By.xpath("//*[@id='remove-sauce-labs-backpack']"));
-        cartremovebutton.click();
-        Assert.assertTrue(getDriver().findElements(By.xpath("//*[@id='remove-sauce-labs-backpack']")).isEmpty());
+        Assert.assertEquals(productNames(),expectedlist);
     }
 
     @Test
