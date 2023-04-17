@@ -234,7 +234,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String title = getDriver().getTitle();
 
         Assert.assertEquals(title, "Сurrent weather and forecast - OpenWeatherMap");
-
         Thread.sleep(5000);
 
         WebElement celsiusButton = getDriver().findElement(By.xpath
