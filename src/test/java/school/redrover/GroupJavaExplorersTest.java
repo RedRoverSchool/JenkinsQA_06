@@ -1,18 +1,15 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class GroupJavaExplorersTest {
+public class GroupJavaExplorersTest extends BaseTest {
 
     @Test
     public void testTrelloTitle() {
@@ -31,71 +28,50 @@ public class GroupJavaExplorersTest {
     }
 
     @Test
-    public void vhodTextOnAuthPageTest() throws InterruptedException {
+    public void testEquilateralTriangle() {
+        int triangleSize = 5;
+        final String expectedResult = "Equilateral";
 
-        //проверка того, что на окошке со входом над полями Логина и пасса есть слово Вход
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        //"--remote-allow-origins=*", "--headless" --- params for server
+        getDriver().get("https://testpages.herokuapp.com/styled/apps/triangle/triangle001.html");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        WebElement inputSize1 =  getDriver().findElement(By.id("side1"));
+        inputSize1.click();
+        inputSize1.sendKeys(String.valueOf(triangleSize));
+        WebElement inputSize2 =  getDriver().findElement(By.id("side2"));
+        inputSize2.click();
+        inputSize2.sendKeys(String.valueOf(triangleSize));
+        WebElement inputSize3 =  getDriver().findElement(By.id("side3"));
+        inputSize3.click();
+        inputSize3.sendKeys(String.valueOf(triangleSize));
+        WebElement button =  getDriver().findElement(By.id("identify-triangle-action"));
+        button.sendKeys(Keys.ENTER);
 
-        WebDriver driver = new ChromeDriver(options);
-        driver.get("https://www.21vek.by/");             //проходим на сайт
-
-        Thread.sleep(1000);
-
-        WebElement buttonCookie = driver.findElement(    //прошли выплывашку с куки
-                By.xpath("//button[@class='Button-module__button Button-module__blue-primary']"));
-        buttonCookie.click();
-
-        Thread.sleep(1000);
-
-        WebElement buttonAccount = driver.findElement(   // нажали на Аккаунт
-                By.xpath("//button[@class='styles_userToolsToggler__imcSl']"));
-        buttonAccount.click();
-
-        Thread.sleep(1000);
-
-        WebElement buttonVoiti = driver.findElement(   // нажали на Войти
-                By.xpath("//button[@data-testid='loginButton']"));
-        buttonVoiti.click();
-
-        Thread.sleep(1000);
-
-        WebElement textVhod = driver.findElement(   // нашли текст вверху, в центре, где должно быть ВХОД
-                By.xpath("//h5[@class='style_formTitle__hRNRz']"));
-        Assert.assertEquals(textVhod.getText(), "Вход");
-
-        driver.quit();
+        WebElement actualResult =  getDriver().findElement(By.id("triangle-type"));
+        Assert.assertEquals(actualResult.getText(), expectedResult);
     }
-
 
     @Test
-    public void TestS() {
+    public void testElementWithDynamicId() {
+        getDriver().get("http://uitestingplayground.com/");
+        WebElement buttonClassAttribute = getDriver().findElement(By.cssSelector("a[href='/classattr']"));
+        buttonClassAttribute.click();
+        WebElement buttonPrimary = getDriver().findElement(By.cssSelector("button[class*=btn-primary]"));
+        buttonPrimary.click();
+        Alert alert = getDriver().switchTo().alert();
+        String alertText = alert.getText();
+
+        Assert.assertEquals(alertText, "Primary button pressed");
     }
-    @Ignore
+
     @Test
-    public void testOracleSearch() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--window-size=1920,1080");
+    public void testClickOnButton() {
+        getDriver().get("http://uitestingplayground.com/");
+        WebElement buttonClick = getDriver().findElement(By.xpath("//a[@href='/click']"));
+        buttonClick.click();
+        WebElement buttonPrimary = getDriver().findElement(By.xpath("//button[@id='badButton']"));
+        buttonPrimary.click();
+        String buttonClass = buttonPrimary.getAttribute("class");
 
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get("https://docs.oracle.com/en/");
-
-        WebElement textBox = driver.findElement(By.name("q"));
-        textBox.sendKeys("Java");
-        textBox.sendKeys(Keys.RETURN);
-
-        WebElement text = driver.findElement(By.cssSelector("span[class*='search-title']"));
-        Assert.assertEquals(text.getText(), "Java Management");
-
-        driver.quit();
+        Assert.assertTrue(buttonClass.contains("btn-success"));
     }
-
-    public void TestAfterSet ()
-    {
-        System.out.println("Тест после перенастроек всего и вся");
-    }
-
-
 }
