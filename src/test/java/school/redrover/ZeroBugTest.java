@@ -30,11 +30,12 @@ public class ZeroBugTest extends BaseTest {
         Assert.assertEquals("Received!", value);
     }
     @Test
-    public void testGetTitle() {
+    public void testGetTitle_1() {
         getDriver().get("https://askomdch.com/");
         String expectedHPResult = "AskOmDch";
         String actualHPResultHP = getDriver().findElement(By.xpath("//h1[@class='site-title']/.")).getText();
         Assert.assertEquals(actualHPResultHP,expectedHPResult,"Wrong text from header!");
+
         String expectedTextBtnMen = "Men";
         String actualTextBtnMen = "";
         List<WebElement> list = getDriver().findElements(By.xpath("//li[@id='menu-item-1226']/..//li"));
@@ -50,6 +51,26 @@ public class ZeroBugTest extends BaseTest {
         String textFromMenHeader = "Men";
         String actualTextFromMenPage = getDriver().findElement(By.xpath("//h1[.='Men']")).getText();
         Assert.assertEquals(actualTextFromMenPage,textFromMenHeader,"Wrong text from header");
+    }
+
+    @Test
+    public void testGetTitle_2() throws InterruptedException {
+        getDriver().get("https://askomdch.com/");
+        String expectedHeaderHP = "Featured Products";
+        String actualHeaderHP = getDriver().findElement(By.cssSelector(".wp-block-group__inner-container>h2")).getText();
+        Assert.assertEquals(actualHeaderHP,expectedHeaderHP,"Header from Home Page do not match");
+
+        String expectedMen = "Men";
+        String actualHeaderMen = "";
+        List <WebElement> listTabsHP = getDriver().findElements(By.xpath("//*[@class='site-primary-header-wrap ast-builder-grid-row-container site-header-focus-item ast-container']//li"));
+        for (WebElement tab:listTabsHP){
+            if(tab.getText().equals(expectedMen)){
+                tab.click();
+                actualHeaderMen = getDriver().findElement(By.cssSelector(".woocommerce-products-header>h1")).getText();
+                break;
+            }
+        }
+        Assert.assertEquals(actualHeaderMen,expectedMen,"Text from header of Men Page do not match");
     }
     @Test
     public void testSearchProduct() {
