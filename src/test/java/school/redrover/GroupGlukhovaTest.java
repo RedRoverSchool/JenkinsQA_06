@@ -93,18 +93,15 @@ public class GroupGlukhovaTest extends BaseTest {
 
     @Test
     public void aviaTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.aviasales.ru/");
+        getDriver().get("https://www.aviasales.ru/");
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
 
-        WebElement destinationButton = driver.findElement(By.xpath("//input[@data-test-id='destination-autocomplete-field']"));
+        WebElement destinationButton = getDriver().findElement(By.xpath("//input[@data-test-id='destination-autocomplete-field']"));
         destinationButton.sendKeys("Коломбо");
         Assert.assertEquals(destinationButton.getText(), "");
-        driver.quit();
+        getDriver().quit();
     }
 }
