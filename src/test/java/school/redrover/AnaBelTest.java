@@ -2,15 +2,12 @@ package school.redrover;
 
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import org.openqa.selenium.support.ui.Select;
 
 public class AnaBelTest extends BaseTest {
     String url = "https://openweathermap.org";
@@ -45,5 +42,21 @@ public class AnaBelTest extends BaseTest {
         Assert.assertEquals(footer, "We use cookies which are essential for the site to work. We also use "
                 + "non-essential cookies to help us improve our services. Any data collected is anonymised. "
                 + "You can allow all cookies or manage them individually.");
+    }
+
+    @Test
+    public void testSimpleCalculator() {
+        getDriver().get("https://testpages.herokuapp.com/styled/calculator");
+
+        WebElement num1 = getDriver().findElement(By.id("number1"));
+        num1.sendKeys("5");
+        WebElement num2 = getDriver().findElement(By.id("number2"));
+        num2.sendKeys("5");
+        Select function = new Select(getDriver().findElement(By.id("function")));
+        function.selectByVisibleText("plus");
+        getDriver().findElement(By.id("calculate")).click();
+        String answer = getDriver().findElement(By.id("answer")).getText();
+
+        Assert.assertEquals(answer, "10");
     }
 }

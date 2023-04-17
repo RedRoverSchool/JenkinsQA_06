@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class ZeroBugTest {
 
     @Test
@@ -61,5 +63,29 @@ public class ZeroBugTest {
 
         driver.quit();
 
+    }
+
+    @Test
+    public void testThird () throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://askomdch.com/");
+
+        String expectedHPResult = "AskOmDch";
+        String actualHPResultHP = driver.findElement(By.xpath("//*[@id=\"ast-desktop-header\"]/div[1]/div/div/div/div[1]/div/div/div/h1/a")).getText();
+        Thread.sleep(2000);
+        Assert.assertEquals(actualHPResultHP,expectedHPResult,"Wrong text from header!");
+
+        String textBtnMen = "Men";
+        WebElement men = driver.findElement(By.xpath("//*[@id='menu-item-1228']"));
+        men.click();
+        Thread.sleep(2000);
+        String textFromMenHeader = "Men";
+        String actualTextFromMenPage = driver.findElement(By.xpath("//*[@class='woocommerce-products-header__title page-title']")).getText();
+        Assert.assertEquals(actualTextFromMenPage,textFromMenHeader,"Wrong text from header");
+        driver.quit();
     }
 }
