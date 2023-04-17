@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 public class AlexLeoEpicGroupTest extends BaseTest {
 
@@ -589,6 +590,22 @@ public class AlexLeoEpicGroupTest extends BaseTest {
     }
 
     @Test
+    public void testSaleIconPresent() {
+        getDriver().get("https://askomdch.com/");
+
+        List<WebElement> listFeaturedProducts = getDriver().findElements(By.className("astra-shop-thumbnail-wrap"));
+        List<WebElement> listFeaturedProductsText = getDriver().findElements(By.className("astra-shop-summary-wrap"));
+
+        for (int i = 0; i < listFeaturedProductsText.size(); i++) {
+            String[] arrProductText = listFeaturedProductsText.get(i).getText().split("\n");
+            if (arrProductText[2].split(" ").length > 1) {
+
+                Assert.assertEquals(listFeaturedProducts.get(i).getText(), "Sale!");
+            }
+        }
+    }
+
+    @Test
     public void testVerifyDollarSignIsPresent() {
         getDriver().get("https://askomdch.com/");
 
@@ -610,7 +627,5 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
         Assert.assertTrue(pageSource.contains(expectedString));
     }
-
-
 
 }
