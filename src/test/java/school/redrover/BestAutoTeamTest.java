@@ -156,9 +156,12 @@ public class BestAutoTeamTest extends BaseTest {
     @Test
     public void testLegalNoticeLink() throws InterruptedException {
         driver.get("https://monkkee.com/en");
+
         WebElement Button = driver.findElement(By.xpath("//a[@href='/en/legal_notice']"));
         Button.click();
+
         WebElement Header = driver.findElement(By.xpath("//h1"));
+
         Assert.assertEquals(Header.getText(), "Legal notice");
     }
 }
