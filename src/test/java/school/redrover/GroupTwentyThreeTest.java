@@ -71,6 +71,35 @@ public class GroupTwentyThreeTest extends BaseTest {
         driver.quit();
     }
 
+    @Test
+    public void testBaha1() throws InterruptedException {
+
+        getDriver().get("https://demoqa.com/text-box");
+
+        WebElement fullName = getDriver().findElement(By.id("userName"));
+        fullName.sendKeys("Baktygul");
+        Thread.sleep(2000);
+
+        WebElement email = getDriver().findElement(By.id("userEmail"));
+        email.sendKeys("baktygul.jekshembieva@gmail.com");
+        Thread.sleep(2000);
+
+        WebElement currentAddress = getDriver().findElement(By.id("currentAddress"));
+        currentAddress.sendKeys("Biskek");
+        Thread.sleep(2000);
+
+        WebElement permanentAddress = getDriver().findElement(By.id("permanentAddress"));
+        permanentAddress.sendKeys("Kerben");
+        Thread.sleep(2000);
+
+        WebElement submit = getDriver().findElement(By.id("submit"));
+        submit.click();
+        Thread.sleep(2000);
+
+        WebElement name = getDriver().findElement(By.id("name"));
+        Assert.assertEquals(name.getText(), "Name:Baktygul");
+
+    }
 
 }
 
