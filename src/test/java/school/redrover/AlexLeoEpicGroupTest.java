@@ -577,7 +577,7 @@ public class AlexLeoEpicGroupTest extends BaseTest {
             Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
     }
     @Test
-    public void testAddedProductInTheCartIcon() {
+    public void testAddedProductInTheCart() {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
         getDriver().get("https://askomdch.com/");
@@ -594,6 +594,19 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         WebElement productNameEl = getDriver().findElement(By.cssSelector("td[data-title='Product'] > a"));
 
         Assert.assertEquals(productNameEl.getText(), productNameInList);
+    }
+
+    @Test
+    public void testCountInTheShoppingCartIcon() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//div/h2[text()='Featured Products']/../div/ul/li/div[2]/a[2]"))
+                        .click();
+        String valueInCart = getDriver()
+                .findElement(By.xpath("//div[@class='ast-cart-menu-wrap']/span[@class='count']"))
+                .getText();
+
+        Assert.assertEquals(valueInCart, "0");
     }
 
     }
