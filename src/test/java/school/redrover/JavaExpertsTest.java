@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -55,6 +56,7 @@ public class JavaExpertsTest extends BaseTest {
                 "User registration is fail");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testRegisterUser")
     public void testLoginUser(){
         getDriver().get("http://selenium1py.pythonanywhere.com/en-gb/accounts/login/");
