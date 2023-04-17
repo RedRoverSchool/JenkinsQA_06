@@ -621,6 +621,17 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(symbol,"$");
     }
 
+    @Test
+    public void testVerifyDollarSignIsPresent() {
+        getDriver().get("https://askomdch.com/");
+
+        WebElement featureProductsSection = getDriver()
+                .findElement(By.xpath("//div[@class='wp-block-group__inner-container']/h2[text()='Featured Products']/.."));
+        List<WebElement> productCards = featureProductsSection.findElements(By.cssSelector("li"));
+        for (WebElement elem : productCards) {
+            Assert.assertEquals(elem.findElement(By.cssSelector("bdi:last-of-type > span")).getText(), "$");
+        }
 
     }
 
+    }
