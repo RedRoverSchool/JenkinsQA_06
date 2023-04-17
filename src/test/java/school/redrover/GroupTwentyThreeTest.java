@@ -76,39 +76,31 @@ public class GroupTwentyThreeTest extends BaseTest {
     @Test
     public void testBaha1() throws InterruptedException {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://demoqa.com/text-box");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://demoqa.com/text-box");
-
-        WebElement fullName = driver.findElement(By.id("userName"));
+        WebElement fullName = getDriver().findElement(By.id("userName"));
         fullName.sendKeys("Baktygul");
         Thread.sleep(2000);
 
-        WebElement email = driver.findElement(By.id("userEmail"));
+        WebElement email = getDriver().findElement(By.id("userEmail"));
         email.sendKeys("baktygul.jekshembieva@gmail.com");
         Thread.sleep(2000);
 
-        WebElement currentAddress = driver.findElement(By.id("currentAddress"));
+        WebElement currentAddress = getDriver().findElement(By.id("currentAddress"));
         currentAddress.sendKeys("Biskek");
         Thread.sleep(2000);
 
-        WebElement permanentAddress = driver.findElement(By.id("permanentAddress"));
+        WebElement permanentAddress = getDriver().findElement(By.id("permanentAddress"));
         permanentAddress.sendKeys("Kerben");
         Thread.sleep(2000);
 
-        WebElement submit = driver.findElement(By.id("submit"));
+        WebElement submit = getDriver().findElement(By.id("submit"));
         submit.click();
         Thread.sleep(2000);
 
-        WebElement name = driver.findElement(By.id("name"));
+        WebElement name = getDriver().findElement(By.id("name"));
         Assert.assertEquals(name.getText(), "Name:Baktygul");
 
-        driver.quit();
     }
-}
-
-
 }
 
