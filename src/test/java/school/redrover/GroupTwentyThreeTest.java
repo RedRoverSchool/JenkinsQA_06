@@ -75,6 +75,7 @@ public class GroupTwentyThreeTest extends BaseTest {
     @Test
     public void testBaha1() throws InterruptedException {
 
+        
         getDriver().get("https://demoqa.com/text-box");
 
         WebElement fullName = getDriver().findElement(By.id("userName"));
