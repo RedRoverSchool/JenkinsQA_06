@@ -21,7 +21,6 @@ public class DavidMTest extends BaseTest {
         Assert.assertEquals(text.getText(),"Selenium");
 
          }
-
     @Test
     public void testSecond() throws InterruptedException {
 
