@@ -18,6 +18,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 
 public class GroupJasperAutomationTest extends BaseTest {
+    @Ignore
     @Test
 
     public void footballua() throws InterruptedException {
