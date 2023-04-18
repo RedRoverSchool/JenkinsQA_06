@@ -111,6 +111,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
     }
 
+    @Ignore //The test is unstable, passes locally but fails remotely
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
