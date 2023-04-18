@@ -288,12 +288,12 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
     @Test
     public void testArtyomDulya() {
-        List<String> expectedResult = new ArrayList<>(4);
-        expectedResult.add("https://www.99-bottles-of-beer.net/abc.html");
-        expectedResult.add("https://www.99-bottles-of-beer.net/search.html");
-        expectedResult.add("https://www.99-bottles-of-beer.net/toplist.html");
-        expectedResult.add("https://www.99-bottles-of-beer.net/guestbookv2.html");
-        expectedResult.add("https://www.99-bottles-of-beer.net/submitnewlanguage.html");
+        List<String> expectedResult = Arrays.asList(
+                "https://www.99-bottles-of-beer.net/abc.html",
+                "https://www.99-bottles-of-beer.net/search.html",
+                "https://www.99-bottles-of-beer.net/toplist.html",
+                "https://www.99-bottles-of-beer.net/guestbookv2.html",
+                "https://www.99-bottles-of-beer.net/submitnewlanguage.html");
 
         getDriver().get("https://www.99-bottles-of-beer.net/");
 

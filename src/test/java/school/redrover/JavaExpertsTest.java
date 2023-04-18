@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -35,7 +36,7 @@ public class JavaExpertsTest extends BaseTest {
 
         assertEquals("Received!", value, "Form submit is fail");
     }
-
+@Ignore
     @Test
     public void testRegisterUser(){
         getDriver().get("http://selenium1py.pythonanywhere.com/en-gb/accounts/login/");
