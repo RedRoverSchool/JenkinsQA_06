@@ -197,5 +197,24 @@ public class GroupForwardTest extends BaseTest {
             Assert.assertTrue(element.getText().toUpperCase().startsWith("I"));
         }
     }
+    @Test
+    public void testMaimonidesMedicalCenter() {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.google.com/");
+
+        WebElement textBox = driver.findElement(By.name("q"));
+        textBox.sendKeys("Maimonides Medical Center");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = driver.findElement(By.xpath("//*[@class='g']/div[1]/div/div/div/div/div[1]/a/h3"));
+
+        Assert.assertEquals(text.getText(), "Maimonides Medical Center | Brooklyn, New York Hospital");
+
+        driver.quit();
+    }
 }
 
