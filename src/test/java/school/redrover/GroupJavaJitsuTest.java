@@ -546,6 +546,13 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         WebElement buttonSubmit = getDriver().findElement(By.cssSelector("#gform_submit_button_1"));
         buttonSubmit.click();
+
+        WebElement text=getDriver().findElement(By.cssSelector("body.page-template-default.page.page-id-80.custom-" +
+                "background.wp-custom-logo.group-blog:nth-child(2) div.main-container:nth-child(9) div.single:nth-" +
+                "child(4) div.content article.article div.g.post.post-80.page.type-page.status-publish.hentry " +
+                "div.single_page.single_post.clear div.post-single-content.box.mark-links header:nth-child(1)" +
+                " > h1.title"));
+        Assert.assertEquals(text.getText(), "Contact Us");
     }
 }
 
