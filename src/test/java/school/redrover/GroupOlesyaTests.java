@@ -554,15 +554,7 @@ public class GroupOlesyaTests extends BaseTest {
         double listSum = (double) Math.round((((listOfPrice().stream()
                 .mapToDouble(Double::doubleValue).sum())) * 100) / 100);
 
-        double actualSumResult = listSum + (Math.round(listSum * 0.08)*100 / 100));
-
-        
-
-
-
-
-
-
+        double actualSumResult = listSum + ((Math.round(listSum * 0.08)*100 / 100));
 
     }
 
