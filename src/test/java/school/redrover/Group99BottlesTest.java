@@ -16,6 +16,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Group99BottlesTest extends BaseTest {
 
@@ -257,13 +259,12 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
     }
 
-    @Ignore
     @Test
     public void testLogoNavigateToBaseUrl() {
-        String expectedResult = "https://www.thestar.com/";
+        String expectedResult = "https://ipbase.com/";
 
-        getDriver().get("https://www.thestar.com/");
-        getDriver().findElement(By.xpath("//*[@class='c-main-logo']")).click();
+        getDriver().get("https://ipbase.com/");
+        getDriver().findElement(By.xpath(".//*[@aria-label='Ipbase'][2]")).click();
         String actualResult = getDriver().getCurrentUrl();
 
         Assert.assertEquals(actualResult, expectedResult);
@@ -276,5 +277,27 @@ public class Group99BottlesTest extends BaseTest {
         WebElement discountSign = getDriver().findElement(By.xpath("//a[@class='block-promo home-pants']/span/strong[@class='title']"));
 
         Assert.assertEquals(discountSign.getText(), "20% OFF");
+    }
+
+    @Test
+    public void testButtonsNames() {
+        final List<String> expectedButtonsNames = List.of(
+                "Get Free API Key",
+                "Buy Small",
+                "Buy Medium",
+                "Buy Large",
+                "Contact Us"
+        );
+
+        getDriver().get("https://ipbase.com/");
+        getDriver().manage().window().maximize();
+        getDriver().findElement(By.xpath("//div[starts-with(@class, 'hidden relative')]/child::a[1]"))
+                   .click();
+
+        List<WebElement> buttons = getDriver()
+                .findElements(By.xpath("//*[@class='mt-4']/following-sibling::a"));
+        List<String> actualButtonsNames = WebElementToString(buttons);
+
+        Assert.assertEquals(actualButtonsNames, expectedButtonsNames);
     }
 }
