@@ -1,35 +1,27 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-import java.time.Duration;
+import java.util.List;
 
-public class AlexFTest {
-    @Test
-    public void titleOfTheHomePageCheckedTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+public class AlexFTest extends BaseTest {
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-        driver.get("https://askomdch.com/");
-        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
-        driver.findElement(By.xpath("//a[@class='wp-block-button__link']")).click();
-        WebElement icon = driver.findElement(By.xpath("//span[@class='onsale']"));
-        Assert.assertEquals(icon.getText(), "Sale!");
-        driver.quit();
-    }
+    public final static String[] ARRAY_EXPECTED_TITLES =
+            {"Text input", "Password", "Textarea", "Disabled input", "Readonly input"};
 
     @Test
-    public void printName(){
-        System.out.println("Print name");
+    public void titleOfTheHomePageCheckedTest() throws InterruptedException {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        List<WebElement> textInputField = getDriver().findElements(By.xpath("(//*[@class = 'col-md-4 py-2'][1]/label)"));
+        for (int i = 0; i < textInputField.size(); i++) {
+            for (String s : ARRAY_EXPECTED_TITLES) {
+                Assert.assertTrue(textInputField.get(i).getText().contains(s));
+                i += 1;
+            }
+        }
     }
 }
