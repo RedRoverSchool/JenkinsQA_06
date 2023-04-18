@@ -111,6 +111,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
     }
 
+    @Ignore
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));

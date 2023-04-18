@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.*;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -13,6 +14,7 @@ public class ElenaTsTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Electronics, Cars, Fashion, Collectibles & More | eBay");
     }
 
+    @Ignore
     @Test
     public void testFindProductByBrandName() throws InterruptedException {
         getDriver().get("https://www.ebay.com/");

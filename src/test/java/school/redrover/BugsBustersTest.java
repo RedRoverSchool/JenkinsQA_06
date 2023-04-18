@@ -52,7 +52,7 @@ public class BugsBustersTest extends BaseTest {
         WebElement searchBox = getDriver().findElement(By.id("nav-typeahead-js"));
         searchBox.sendKeys("the phantom of the opera\n");
 
-        WebElement text = getDriver().findElement(By.xpath("//a[@href=\"/shows/the-phantom-of-the-opera/\"]/h3"));
+        WebElement text = getDriver().findElement(By.xpath("//a[@href='/shows/the-phantom-of-the-opera/']/h3"));
 
         Assert.assertEquals(text.getText(), "The Phantom of the Opera");
     }
@@ -181,19 +181,19 @@ public class BugsBustersTest extends BaseTest {
         WebElement firstNameTextBox = getDriver().findElement(By.id("userName"));
         firstNameTextBox.sendKeys("First Last");
 
-        WebElement emailTextBox = getDriver().findElement(By.xpath("//*[@id=\"userEmail\"]"));
+        WebElement emailTextBox = getDriver().findElement(By.xpath("//*[@id='userEmail']"));
         emailTextBox.sendKeys("blablabla@gmail.com");
 
-        WebElement currentAddress = getDriver().findElement(By.xpath("//*[@id=\"currentAddress\"]"));
+        WebElement currentAddress = getDriver().findElement(By.xpath("//*[@id='currentAddress']"));
         currentAddress.sendKeys("2023 New Year St, NY");
 
-        WebElement permanentAddress = getDriver().findElement(By.xpath("//*[@id=\"permanentAddress\"]"));
+        WebElement permanentAddress = getDriver().findElement(By.xpath("//*[@id='permanentAddress']"));
         permanentAddress.sendKeys("2024 New Year St, NY");
 
         WebElement submitButton = getDriver().findElement(By.id("submit"));
         submitButton.click();
 
-        WebElement nameText = getDriver().findElement(By.xpath("//*[@id=\"name\"]"));
+        WebElement nameText = getDriver().findElement(By.xpath("//*[@id='name']"));
 
         Assert.assertEquals(nameText.getText(), "Name:First Last");
     }
@@ -266,4 +266,3 @@ public class BugsBustersTest extends BaseTest {
         Assert.assertEquals(reservationButton.getText(), "Reservation");
     }
 }
-

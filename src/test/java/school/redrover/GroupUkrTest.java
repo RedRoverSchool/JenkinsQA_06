@@ -117,7 +117,6 @@ public class GroupUkrTest extends BaseTest {
 
         driver.quit();
     }
-    @Ignore
     @Test
     public void testAuthorizationAndLogOut() throws InterruptedException {
         getDriver().get("https://www.demoblaze.com/");
@@ -126,7 +125,7 @@ public class GroupUkrTest extends BaseTest {
         WebElement logInButton = getDriver().findElement(By.xpath("//a[@id='login2']"));
         logInButton.click();
 
-        Thread.sleep(1000);
+        Thread.sleep(1100);
         WebElement inputUsernameLogInForm = getDriver().findElement(By.xpath("//input[@id='loginusername']"));
         inputUsernameLogInForm.sendKeys("TestAuthMax");
         WebElement inputPasswordLogInForm = getDriver().findElement(By.xpath("//input[@id='loginpassword']"));
