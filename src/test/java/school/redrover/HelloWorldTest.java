@@ -120,15 +120,16 @@ public class HelloWorldTest extends BaseTest {
     }
 
     @Test
-    public void seleniumTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.google.ru/");
-        WebElement inputField = driver.findElement(By.name("q"));
-        inputField.sendKeys("Selenium");
-        inputField.sendKeys(Keys.ENTER);
-        driver.quit();
+    public void testSearchTitle() {
+
+        getDriver().get("https://askomdch.com/");
+        WebElement shopNowButton = getDriver().findElement(By.xpath("//*[contains(text(),'Shop Now')]"));
+        shopNowButton.click();
+        WebElement searchField = getDriver().findElement(By.xpath("//input"));
+        searchField.sendKeys("shirt");
+        searchField.sendKeys(Keys.ENTER);
+        WebElement searchResultTitle = getDriver().findElement(By.className("woocommerce-products-header"));
+        Assert.assertEquals(searchResultTitle.getText(), "Search results: “shirt”");
     }
 
     @Test

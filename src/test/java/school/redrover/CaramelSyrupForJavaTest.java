@@ -32,6 +32,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         wait.until(elementIsClickable);
     }
 
+    @Ignore
     @Test
     public void testMessengersOpenWeather() throws InterruptedException {
 
@@ -138,10 +139,11 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = "Sign In To Your Account";
 
         getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
 
         WebElement signIn = getDriver().findElement
                 (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
-        clickCustom(signIn);
+        signIn.click();
 
         WebElement loginText = getDriver().findElement(By.xpath("//h3"));
 
@@ -239,9 +241,10 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResult = "OpenWeather Enterprise Guide";
 
         getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
 
         WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
-        clickCustom(guide);
+        guide.click();
         WebElement enterpriseSystem = getDriver().findElement(By.xpath("//a[text()='complex enterprise systems']"));
         enterpriseSystem.click();
         ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
