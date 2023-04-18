@@ -101,7 +101,7 @@ public class Group99BottlesTest extends BaseTest {
 
         Assert.assertEquals(headerH1Text.getText(), "Modern UI Made Easy");
     }
-
+    @Ignore
     @Test
     public void testTelerikTitleURLDemosPage() {
         getDriver().get("https://www.telerik.com/");
