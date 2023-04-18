@@ -217,7 +217,7 @@ driver.quit();
 
     @Test
     public void testReceivedAnswerResult() {
-        
+
         String url = "https://www.w3schools.com/";
         String expectedResult = "Correct!";
 
