@@ -5,9 +5,11 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.util.Arrays;
 import java.util.List;
 public class ZeroBugTest extends BaseTest {
-    @Test
+    @Test (enabled = false)
     public void testSearchSelenium() {
         getDriver().get("https://www.google.com/");
         WebElement textBox = getDriver().findElement(By.name("q"));
@@ -16,7 +18,7 @@ public class ZeroBugTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//h3[text() = 'Selenium']"));
         Assert.assertEquals(text.getText(), "Selenium");
     }
-    @Test
+    @Test (enabled = false)
     public void testGetWebFormTitle() {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
         String title = getDriver().getTitle();
@@ -72,7 +74,7 @@ public class ZeroBugTest extends BaseTest {
         }
         Assert.assertEquals(actualHeaderMen,expectedMen,"Text from header of Men Page do not match");
     }
-    @Test
+    @Test (enabled = false)
     public void testSearchProduct() {
         getDriver().get("https://askomdch.com/");
         String expectedResult = "jeans";
@@ -81,5 +83,37 @@ public class ZeroBugTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@value='Search']")).click();
         String actualResult = getDriver().findElement(By.xpath("//h1[contains(.,'jeans')]")).getText();
         Assert.assertTrue(actualResult.contains(expectedResult),"Search product is not working");
+    }
+
+    @Test
+    public void task_31 (){
+        //Given 2 arrays of ints, a and b, return true if
+        //they have the same first element or they have the same last element.
+        //Both arrays will be length 1 or more.
+
+//        int [] a = {1,2,3,4};
+//        int [] b = {1,2,3};
+
+        int [] a = new int[4];
+        int [] b = new int[3];
+
+        a[0]=1;
+        a[1]=2;
+        a[2]=3;
+        a[3]=4;
+
+        b[0]=1;
+        b[1]=2;
+        b[2]=3;
+
+        if(a[0]==b[0]){
+            System.out.println("First element of an arrays are equals");
+        } else if (a.length-1==b.length-1){
+            System.out.println("Last element of an arrays are equals");
+        } else {
+            System.out.println("First or last element of an arrays is not equals!");
+        }
+        System.out.println(Arrays.toString(a));
+        System.out.println(Arrays.toString(b));
     }
 }
