@@ -26,6 +26,9 @@ public class GroupOlesyaTests extends BaseTest {
     private final String LOGIN = "standard_user";
     private final String MAIN_PAGE = "https://www.saucedemo.com/inventory.html";
     private final String PASSWORD = "secret_sauce";
+
+    private String randomString = RandomStringUtils.randomAlphabetic(5);
+    private String randomDigits = RandomStringUtils.randomNumeric(6);
     private WebDriverWait wait;
 
     protected WebDriverWait getWait() {
@@ -109,11 +112,14 @@ public class GroupOlesyaTests extends BaseTest {
                 .collect(toList());
     }
 
-    @Test
-    public void standardUserLoginTest() {
-        loginToSite(LOGIN);
+    public List<Double> listOfPrice(String className) {
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
+        return getListItems(By.className(className))
+                .stream()
+                .map(WebElement::getText)
+                .map(n -> n.replace("$", ""))
+                .map(s -> Double.parseDouble(s))
+                .collect(toList());
     }
 
     public List<String> getTextList (List<WebElement> list) {
@@ -126,11 +132,17 @@ public class GroupOlesyaTests extends BaseTest {
         }
     }
 
-    public void addItemstoCartbyXpath (By xpath) {
-        List<WebElement> addproductstocart  = getDriver().findElements(xpath);
-        clickOnEachElement(addproductstocart);
+    public void addItemsToCartbyXpath (By xpath) {
+        List<WebElement> addProductsToCart  = getDriver().findElements(xpath);
+        clickOnEachElement(addProductsToCart);
     }
 
+    @Test
+    public void standardUserLoginTest() {
+        loginToSite(LOGIN);
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
+    }
     @Test
     public void testAddtoCart() {
         loginToSite(LOGIN);
@@ -138,7 +150,7 @@ public class GroupOlesyaTests extends BaseTest {
         List<WebElement> addproducts  = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
         List<String> expectedlist= getTextList (addproducts);
 
-        addItemstoCartbyXpath(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
+        addItemsToCartbyXpath(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
 
         goToShoppingCartPage();
         Assert.assertEquals(getListOfItemInCart(),expectedlist);
@@ -149,7 +161,7 @@ public class GroupOlesyaTests extends BaseTest {
     public void testChangeQuantityinCart() {
         loginToSite(LOGIN);
 
-        addItemstoCartbyXpath(By.xpath("//div[@class = 'inventory_item_name']"));
+        addItemsToCartbyXpath(By.xpath("//div[@class = 'inventory_item_name']"));
 
         goToShoppingCartPage();
 
@@ -512,10 +524,8 @@ public class GroupOlesyaTests extends BaseTest {
 
     @Test
     public void flowOfPurchaseTest(){
-        String randomString = RandomStringUtils.randomAlphabetic(5);
-        String randomDigits = RandomStringUtils.randomNumeric(6);
-
         loginToSite(LOGIN);
+
         addToShoppingCart("add-to-cart-sauce-labs-backpack");
         goToShoppingCartPage();
 
@@ -532,5 +542,29 @@ public class GroupOlesyaTests extends BaseTest {
                         "Back Home");
         Assert.assertTrue(getDriver().findElement(By.id("back-to-products")).isDisplayed());
     }
+    //TODO add test to check if the final price is calculate correctly - the tax is 8 %.
+    @Test
+    public void checkTheFinalPriceCalculation() {
+        loginToSite(LOGIN);
+
+        addToShoppingCart("Sauce Labs Backpack");
+        addToShoppingCart("Sauce Labs Fleece Jacket");
+        addToShoppingCart("Sauce Labs Onesie");
+        goToShoppingCartPage();
+        double listSum = (double) Math.round((((listOfPrice().stream()
+                .mapToDouble(Double::doubleValue).sum())) * 100) / 100);
+
+        double actualSumResult = listSum + (Math.round(listSum * 0.08)*100 / 100));
+
+        
+
+
+
+
+
+
+
+    }
+
 }
 
