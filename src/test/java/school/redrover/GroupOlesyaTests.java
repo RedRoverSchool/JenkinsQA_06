@@ -90,6 +90,11 @@ public class GroupOlesyaTests extends BaseTest {
         List<WebElement> cartItems = cartList.findElements(By.className("inventory_item_name"));
         return cartItems.stream().map(WebElement::getText).collect(Collectors.toList());
     }
+    private void goToAllItemsInBurgerMenu() {
+        WebElement allItemsLink = getDriver().findElement(By.id("inventory_sidebar_link"));
+        getWait().until(ExpectedConditions.visibilityOf(allItemsLink));
+        allItemsLink.click();
+    }
 
     public List<Double> getListBeforeSorting(String sortName) {
         List<WebElement> beforeFilterPrice = getDriver().findElements(By.className("inventory_item_price"));
@@ -216,14 +221,11 @@ public class GroupOlesyaTests extends BaseTest {
     public void goToAllItemsTest(){
         loginToSite(LOGIN);
 
-        WebElement shopButton = getDriver().findElement(By.className("shopping_cart_link"));
-        shopButton.click();
+        goToShoppingCartPage();
 
         reactBurgerMenu();
 
-        WebElement allItemsLink = getDriver().findElement(By.id("inventory_sidebar_link"));
-        getWait().until(ExpectedConditions.visibilityOf(allItemsLink));
-        allItemsLink.click();
+        goToAllItemsInBurgerMenu();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
     }
