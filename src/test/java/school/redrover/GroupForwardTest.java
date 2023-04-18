@@ -102,7 +102,6 @@ public class GroupForwardTest extends BaseTest {
     public void TestDemo()  {
 
           getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
-
           String title = getDriver().getTitle();
           assertEquals("Web form", title);
 
