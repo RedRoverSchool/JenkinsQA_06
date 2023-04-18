@@ -97,7 +97,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         } catch (Exception e) {
             clickCustom(guide);
         }
-
         WebElement complexEnterprise = getDriver().findElement(
                 By.xpath("//main//div[2]/div/div/p[1]/a[text()='complex enterprise systems']"));
         complexEnterprise.click();
@@ -371,6 +370,31 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement newCommentsText = getDriver().findElement(By.xpath("//h2[text()='New Comments']"));
         actualResult.add(newCommentsText.getText());
 
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testArtyomDulyaProductToTheCart() throws InterruptedException {
+        String expectedResult = "Выберите размер";
+        getDriver().manage().deleteAllCookies();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        getDriver().get("https://www.wildberries.ru/");
+        Thread.sleep(5000);
+        WebElement lineSearch = getDriver().findElement(By.xpath("//input[contains(@id, 'searchInput')]"));
+        lineSearch.click();
+        lineSearch.sendKeys("джинсы");
+        WebElement buttonSearch = getDriver().findElement(By.xpath("//button[@id='applySearchBtn']"));
+        clickCustom(buttonSearch);
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        Thread.sleep(5000);
+        WebElement jeansBox = getDriver().findElement(By.xpath("//div[@id='c74249381']//div[@class='product-card__price price j-cataloger-price']"));
+        WebElement jeans = getDriver().findElement(By.xpath("//div[@id='c74249381']//a[@href='/lk/basket']"));
+        js.executeScript("window.scrollBy(0,250)");
+        clickCustom(jeansBox);
+        clickCustom(jeans);
+        WebElement jeansSize = getDriver().findElement(By.xpath("//h2[text()='Выберите размер']"));
+
+        String actualResult = jeansSize.getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
 
