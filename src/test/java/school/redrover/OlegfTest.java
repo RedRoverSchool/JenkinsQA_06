@@ -5,31 +5,65 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class OlegfTest {
-
+public class OlegfTest extends BaseTest {
     @Test
     public void dishesTest() throws InterruptedException {
+        
+        getDriver().get("https://www.canvashomestore.com/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://www.canvashomestore.com/");
-
-        driver.findElement(By.name("q")).sendKeys("plate\n");
-        List<WebElement> platesList = driver.findElements(By.xpath("//main//div[@class='grid__item']"));
+        getDriver().findElement(By.name("q")).sendKeys("plate\n");
+        List<WebElement> platesList = getDriver().findElements(By.xpath("//main//div[@class='grid__item']"));
 
         String finalPlate;
         for (int i = 0; i < platesList.size(); i++) {
             finalPlate = platesList.get(i).getText();
             assert finalPlate.contains("Blue");
         }
-        driver.quit();
+    }
+    @Test
+    public void bankTest() throws Exception{
+
+        getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
+        Thread.sleep(300);
+        getDriver().findElement(By.xpath("//button[@class='btn btn-primary btn-lg']")).click();
+
+        Thread.sleep(300);
+        WebElement nameDropDown = getDriver().findElement(By.id("userSelect"));
+        Select optionsName = new Select(nameDropDown);
+        optionsName.selectByVisibleText("Albus Dumbledore");
+
+        getDriver().findElement(By.xpath("//button[text()='Login']")).click();
+
+        Thread.sleep(300);
+        String successfulLogin = getDriver().findElement(By.xpath("//strong[text()=' Welcome ']")).getText();
+        Assert.assertEquals(successfulLogin, "Welcome Albus Dumbledore !!");
+
+        getDriver().findElement(By.xpath("//select[contains(@name,'accountSelect')]")).click();
+        getDriver().findElement(By.xpath("//option[contains(@value,'number:1012')]")).click();
+
+        Boolean valueOption = getDriver().findElement(By.xpath("//option[contains(@value,'number:1012')]")).isSelected();
+        Assert.assertEquals(valueOption, true);
+
+        getDriver().findElement(By.xpath("//button[@ng-class='btnClass2']")).click();
+        Thread.sleep(300);
+        getDriver().findElement(By.xpath("//input[@type='number']")).sendKeys("23000\n");
+        Thread.sleep(300);
+        String depositMessage = getDriver().findElement(By.xpath("//span[@class='error ng-binding']")).getText();
+        Assert.assertEquals(depositMessage, "Deposit Successful");
+
+        getDriver().findElement(By.xpath("//button[@ng-class='btnClass1']")).click();
+
+        Thread.sleep(300);
+        String transactionTime = getDriver().findElement(By.id("anchor0")).getText();
+        Assert.assertTrue(transactionTime.contains(new SimpleDateFormat("h:mm").format(new java.util.Date())));
+
     }
 }
