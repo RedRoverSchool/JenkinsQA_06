@@ -148,6 +148,8 @@ public class GroupOlesyaTests extends BaseTest {
 
     @Test
     public void sortingByPriceLowToHighTest() {
+        loginToSite(LOGIN);
+
         List<Double> pricesBeforeSort = listOfPrice();
         Collections.sort(pricesBeforeSort);
 
