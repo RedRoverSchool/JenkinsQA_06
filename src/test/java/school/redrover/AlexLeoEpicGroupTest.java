@@ -687,4 +687,15 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/contact-us/");
     }
 
+    @Test
+    public void testVerify7productsDisplayedInWoman() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//ul[@id='ast-hf-menu-1']//a[text()='Women']")).click();
+        WebElement productsSection = getDriver().findElement(By.xpath("//main[@id='main']/div/ul"));
+        List<WebElement> products = productsSection.findElements(By.tagName("li"));
+
+        Assert.assertEquals(products.size(), 7);
+    }
+
 }
