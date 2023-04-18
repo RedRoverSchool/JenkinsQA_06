@@ -35,16 +35,16 @@ public class TestTitansGroupTest extends BaseTest {
     public void testFormDemoqaDotCom() throws InterruptedException {
         getDriver().get("https://demoqa.com");
 
+
         WebElement buttonCategoryCards = getDriver().findElement(By.xpath("//div[@class='card mt-4 top-card'][2]"));
         buttonCategoryCards.click();
 
-        WebElement buttonHeaderWrapper = getDriver().findElement(By.xpath("//div[@class='element-group'][2]"));
-        buttonHeaderWrapper.click();
-
-        Thread.sleep(5000);
+        Thread.sleep(2000);
 
         WebElement buttonPracticeForm = getDriver().findElement(By.xpath("//span[@class='text'][text()=\"Practice Form\"]"));
         buttonPracticeForm.click();
+
+        Thread.sleep(2000);
 
         WebElement textBox = getDriver().findElement(By.xpath("//div[@class='main-header']"));
 
