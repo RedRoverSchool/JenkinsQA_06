@@ -78,7 +78,6 @@ public class ComradesAdelanteTest extends BaseTest {
     public void testCountItemsOfCart() throws InterruptedException {
 
         Reporter.log("Tests started 3", true);
-
         getDriver().get("https://www.saucedemo.com");
         WebElement login = getDriver().findElement(By.id("user-name"));
         login.sendKeys("standard_user");
