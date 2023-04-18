@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -8,7 +9,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class BugsBustersTest extends BaseTest {
-    
+
     @Ignore
     @Test
     public void testAngelinaGiftCardSelection() {
@@ -16,15 +17,15 @@ public class BugsBustersTest extends BaseTest {
 
         WebElement giftCardTab = getDriver().findElement(By.linkText("Gift Cards"));
         giftCardTab.click();
-        
+
         WebElement buyNowButton = getDriver().findElement(By.linkText("Buy Now"));
         buyNowButton.click();
-        
+
         WebElement continueToDeliveryButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
         continueToDeliveryButton.click();
-        
+
         WebElement text = getDriver().findElement(By.xpath("//div[@data-qa='subtotal-amount']//strong"));
-        
+
         Assert.assertEquals(text.getText(),"$100.00");
     }
 
@@ -213,6 +214,38 @@ public class BugsBustersTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(),expectedURL);
         Assert.assertEquals(h1Text, expectedHeader);
+    }
+
+    @Ignore
+    @Test
+    public void testMariaAmazonSearch() {
+        getDriver().get("https://www.amazon.com/");
+
+        WebElement searchBox = getDriver().findElement(By.xpath("//input[@id='twotabsearchtextbox']"));
+        searchBox.sendKeys("the marvelous mrs. maisel");
+        searchBox.sendKeys(Keys.RETURN);
+
+        WebElement searchResult = getDriver().findElement(By.xpath("//span[@class='a-size-medium a-color-base a-text-normal']"));
+
+        Assert.assertEquals(searchResult.getText(), "The Marvelous Mrs. Maisel – Season 5");
+    }
+
+    @Test
+    public void testMariaLogin() {
+        getDriver().get("https://www.saucedemo.com/");
+
+        WebElement userName = getDriver().findElement(By.cssSelector("input[placeholder='Username']"));
+        userName.sendKeys("standard_user");
+
+        WebElement password = getDriver().findElement(By.cssSelector("input[placeholder='Password']"));
+        password.sendKeys("secret_sauce");
+
+        WebElement loginButton = getDriver().findElement(By.id("login-button"));
+        loginButton.click();
+
+        WebElement header = getDriver().findElement(By.cssSelector("div[class='app_logo']"));
+
+        Assert.assertEquals(header.getText(), "Swag Labs");
     }
 
     @Test
