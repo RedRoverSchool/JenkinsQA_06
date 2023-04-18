@@ -1,12 +1,7 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
-import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
 import org.openqa.selenium.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -75,44 +70,40 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void MlFirstTest() throws InterruptedException {
+    public void testMyAccountPage() {
         getDriver().get(BASE_URL);
+        WebElement signInLinkAtHeader = getDriver().findElement(By.className("authorization-link"));
+        signInLinkAtHeader.click();
 
-        WebElement textBox = getDriver().findElement(
-                By.xpath("//header//a[normalize-space(text())='Create an Account']"));
-        textBox.click();
-
-        WebElement text = getDriver().findElement(By.xpath("//span[@data-ui-id = 'page-title-wrapper']"));
-
-        Assert.assertEquals(text.getText(), "Create New Customer Account");
-
-        WebElement firstName =getDriver().findElement(By.xpath("//input[@id = 'firstname']"));
-        firstName.sendKeys("Marina");
-        WebElement lastName = getDriver().findElement(By.xpath("//input[@id = 'lastname']"));
-        lastName.sendKeys("Los");
-        WebElement email = getDriver().findElement(By.xpath("//input[@id = 'email_address']"));
-        email.sendKeys("test@google.com");
-        WebElement password1 = getDriver().findElement(By.xpath("//input[@id = 'password']"));
-        password1.sendKeys("123Qwerty+");
-        WebElement password2 = getDriver().findElement(By.xpath("//input[@id = 'password-confirmation']"));
-        password2.sendKeys("123Qwerty+");
-        WebElement submitbutton = getDriver().findElement(
-                By.xpath("//button/span[normalize-space(text())='Create an Account']")
-        );
-        submitbutton.click();
-
-        Thread.sleep(2000);
-
-        WebElement clickHereLink = getDriver().findElement(
-                By.xpath("//div/a[normalize-space(text())='click here']")
-        );
-        clickHereLink.click();
-
-        WebElement forgotPassword = getDriver().findElement(
-                By.xpath("//h1/span[normalize-space(text())='Forgot Your Password?']")
+        WebElement pageTitle = getDriver().findElement(
+                By.xpath("//span[@data-ui-id='page-title-wrapper']")
         );
 
-        Assert.assertEquals(forgotPassword.getText(), "Forgot Your Password?");
+        Assert.assertEquals(pageTitle.getText(), "Customer Login");
+
+        WebElement emailField = getDriver().findElement(By.id("email"));
+        emailField.sendKeys("test@google.com");
+        WebElement passwordField = getDriver().findElement(By.id("pass"));
+        passwordField.sendKeys("123Qwerty+");
+        WebElement signInButton = getDriver().findElement(
+                By.id("send2")
+        );
+        signInButton.click();
+
+        WebElement headerDropdownMenu =getDriver().findElement(
+                By.xpath("//header//button[@data-action='customer-menu-toggle']")
+        );
+        WebElement myAccountInDropdownMenu = getDriver().findElement(
+                By.xpath("//header//ul[@class='header links']/li/a[text()='My Account']")
+        );
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(headerDropdownMenu).click().moveToElement(myAccountInDropdownMenu).click().perform();
+
+        WebElement accountPageTitle =getDriver().findElement(
+                By.xpath("//h1[@class='page-title']/span")
+        );
+
+        Assert.assertEquals(accountPageTitle.getText(), "My Account");
     }
 
     @Test
@@ -550,5 +541,55 @@ public class GroupHighwayToAqaTest extends BaseTest {
         assertEquals(textSuccessAddToWishlist.getText(), "Radiant Tee has been added to your Wish List. Click here to continue shopping.");
 
         driver.quit();
+    }
+
+    @Test
+    public void testToolbarActionsOnWishListPageAreClickable () throws  InterruptedException{
+
+        getDriver().get(BASE_URL);
+
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Sign In')]")).click();
+        getDriver().findElement(By.id("email")).sendKeys(" jka59433@xcoxc.com");
+        getDriver().findElement(By.id("pass")).sendKeys("Tester12#");
+        getDriver().findElement(By.xpath("//span[text()='Sign In']")).click();
+
+        WebElement searchItemField = getDriver().findElement(By.id("search"));
+        searchItemField.click();
+        searchItemField.sendKeys("roller");
+        getDriver().findElement(By.id("search")).sendKeys(Keys.ENTER);
+
+        WebElement productItemLink = getDriver().findElement(
+                By.xpath("//a[contains(text(), 'Sprite Foam Roller')]"));
+        productItemLink.click();
+        Thread.sleep(2000);
+
+        WebElement addToWishListItem = getDriver().findElement(By.xpath("//a[@href='#']/span"));
+        addToWishListItem.click();
+        Thread.sleep(3000);
+
+        WebElement scrollByVisibleElement = getDriver().findElement(By.xpath("//div[@class='primary']"));
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+        jse.executeScript("arguments[0].scrollIntoView(true)", scrollByVisibleElement);
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement toolbarAction1 = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Update Wish List')]")));
+
+        Assert.assertTrue(toolbarAction1.isEnabled(), "Element is not clickable.");
+
+        WebElement toolbarAction2 =wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Share Wish List')]")));
+
+        Assert.assertTrue(toolbarAction2.isEnabled(), "Element is not clickable.");
+
+        WebElement toolbarAction3 = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Add All to Cart')]")));
+
+        Assert.assertTrue(toolbarAction3.isEnabled(), "Element is not clickable.");
+
+        List<WebElement> toolbarActions = getDriver().findElements(
+                By.xpath("//div[@class='primary']/button"));
+
+        Assert.assertTrue(toolbarActions.size() > 0);
     }
 }

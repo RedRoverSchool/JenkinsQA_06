@@ -41,12 +41,12 @@ public class GroupUkrTest extends BaseTest {
     }
 
     @Test
-    public void testRenameBtn() {
+    public void testRenameBtn(){
         final String NAME = "new button name";
 
         getDriver().get("http://uitestingplayground.com/home");
         String title = getDriver().getTitle();
-        Assert.assertEquals(title, "UI Test Automation Playground");
+        Assert.assertEquals(title,"UI Test Automation Playground");
 
         WebElement textInputLink = getDriver().findElement(By.xpath("//section[@id = 'overview']//a[text() = 'Text Input']"));
         textInputLink.click();
@@ -60,7 +60,7 @@ public class GroupUkrTest extends BaseTest {
 
 
     @Test
-    public void OpenElementsTab() {
+    public void OpenElementsTab(){
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -68,7 +68,7 @@ public class GroupUkrTest extends BaseTest {
         WebElement element = driver.findElement(By.className("card-up"));
         element.click();
         WebElement header = driver.findElement(By.className("main-header"));
-        Assert.assertEquals(header.getText(), "Elements");
+        Assert.assertEquals(header.getText(),"Elements");
         WebElement textTab = driver.findElement(By.className("text"));
         textTab.click();
         WebElement fullNameField = driver.findElement(By.id("userName"));
@@ -82,10 +82,9 @@ public class GroupUkrTest extends BaseTest {
         jsExecutor.executeScript("arguments[0].scrollIntoView();", submitButton);
         submitButton.click();
         WebElement output = driver.findElement(By.id("output"));
-        Assert.assertTrue(output.isDisplayed(), "The for is not displayed");
+        Assert.assertTrue(output.isDisplayed(),"The for is not displayed");
         driver.quit();
     }
-
     @Test
     public void firstTest() throws InterruptedException {
 
@@ -112,7 +111,6 @@ public class GroupUkrTest extends BaseTest {
 
         driver.quit();
     }
-
     @Ignore
     @Test
     public void testAuthorizationAndLogOut() throws InterruptedException {
@@ -134,14 +132,13 @@ public class GroupUkrTest extends BaseTest {
         WebElement helloUserNameButton = getDriver()
                 .findElement(By.xpath("//a[@id='nameofuser']"));
         Assert.assertEquals(helloUserNameButton.getText(), "Welcome TestAuthMax");
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.demoblaze.com/");
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://www.demoblaze.com/");
         WebElement logOutButton = getDriver().findElement(By.xpath("//a[@id='logout2']"));
         logOutButton.click();
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.demoblaze.com/index.html");
         WebElement singUpButton = getDriver().findElement(By.xpath("//a[@id='signin2']"));
         Assert.assertEquals(singUpButton.getText(), "Sign up");
     }
-
     @Test
     public void testProductsDisplayInListing() throws InterruptedException {
         getDriver().get("https://www.demoblaze.com/");
