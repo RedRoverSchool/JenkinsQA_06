@@ -6,9 +6,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import org.testng.asserts.Assertion;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
@@ -98,7 +102,8 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         afterMethod();
     }
-@Ignore
+
+    @Ignore
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
 
@@ -226,6 +231,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         driver.quit();
     }
+
     @Test
     public void testAnastasiyaAbramova() {
         String expectedResult = "https://openweathermap.org/";
@@ -235,7 +241,24 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Test
+    public void testRinaGismeteo() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
+        Actions action = new Actions(getDriver());
+        getDriver().get("https://www.gismeteo.com/");
 
+        WebElement searchBar = getDriver().findElement(By.xpath("//*[@class='input js-input']"));
+        searchBar.sendKeys("New York\n");
+        searchBar.sendKeys("\n");
+        wait.until(ExpectedConditions.urlToBe("https://www.gismeteo.com/weather-new-york-7190/"));
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.gismeteo.com/weather-new-york-7190/");
 
+        WebElement newsLink = getDriver().findElement(By.xpath("//a[@href='/news/']"));
+        String initialColor = newsLink.getCssValue("color");
+        action.moveToElement(newsLink).perform();
+        wait.until(ExpectedConditions.elementToBeClickable(newsLink));
+        String changedColour = newsLink.getCssValue("color");
+        Assert.assertNotEquals(initialColor, changedColour);
 
+    }
 }
