@@ -201,7 +201,7 @@ public class GroupForwardTest extends BaseTest {
     public void testMaimonidesMedicalCenter() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        chromeOptions.addArguments("--remote-allow-origins=*", "--heaпdless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.google.com/");
