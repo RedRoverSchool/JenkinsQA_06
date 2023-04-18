@@ -197,5 +197,25 @@ public class GroupForwardTest extends BaseTest {
             Assert.assertTrue(element.getText().toUpperCase().startsWith("I"));
         }
     }
-}
+
+        @Test
+        public void TestOrchidCareIndoors(){
+            WebDriver driver = new ChromeDriver();
+
+            driver.get("https://www.google.com/");
+
+            WebElement textBox = driver.findElement(By.name("q"));
+
+            textBox.sendKeys("orchid care indoors\n");
+
+            WebElement text = driver.findElement(By.xpath
+                    ("//h3 [text() = 'How To Take Care Of Orchid Plants Indoors']"));
+
+            Assert.assertEquals(text.getText(),"How To Take Care Of Orchid Plants Indoors");
+
+            driver.quit();
+        }
+
+    }
+
 
