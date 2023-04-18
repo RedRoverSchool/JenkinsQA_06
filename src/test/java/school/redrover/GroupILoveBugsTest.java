@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -16,8 +18,20 @@ import java.time.Duration;
 import static org.testng.AssertJUnit.assertEquals;
 
 public class GroupILoveBugsTest extends BaseTest {
+    WebDriver driver;
+    Faker faker = new Faker();
+    private String firstName = faker.internet().uuid();
+    private String lastName = faker.internet().uuid();
+    private String postCode = faker.address().zipCode();
+
+    private static final By firstNameField = By.xpath("//input[@placeholder='First Name']");
+    private static final By lastNameField = By.xpath("//input[@placeholder='Last Name']");
+    private static final By postCodeField = By.xpath("//input[@placeholder='Post Code']");
+    private static final By homeButton = By.xpath("//*[@ng-click='home()']");
+    private static final By addCustomerRegistrationButton = By.xpath("//button[@type='submit']");
+
     @Test
-    public void ADFirstTest() throws InterruptedException {
+    public void testAdFirst() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -36,7 +50,7 @@ public class GroupILoveBugsTest extends BaseTest {
     }
 
     @Test
-    public void testSteam(){
+    public void testSteam() {
         final String MAIN_PAGE = "https://store.steampowered.com/";
         final By LOGIN_BUTTON = By.xpath("//a[@class='global_action_link']");
         final By SIGN_IN_BUTTON = By.cssSelector(".newlogindialog_SubmitButton_2QgFE");
@@ -108,5 +122,24 @@ public class GroupILoveBugsTest extends BaseTest {
         assertEquals("Received!", value);
 
         driver.quit();
+    }
+
+    @Test
+    public void testAddCastomerGlobalsqa() throws InterruptedException {
+        getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/manager/addCust");
+        Thread.sleep(1000);
+
+        fillField(firstName, firstNameField);
+        fillField(lastName, lastNameField);
+        fillField(postCode, postCodeField);
+        getDriver().findElement(addCustomerRegistrationButton).click();
+
+        getDriver().switchTo().alert().accept();
+        getDriver().findElement(homeButton).click();
+    }
+
+    private void fillField(String userData, By locator) {
+        getDriver().findElement(locator).click();
+        getDriver().findElement(locator).sendKeys(userData);
     }
 }

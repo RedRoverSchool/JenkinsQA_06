@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -17,6 +18,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class GroupOlesyaTests extends BaseTest {
     private final String URL = "https://www.saucedemo.com/";
@@ -53,7 +56,7 @@ public class GroupOlesyaTests extends BaseTest {
 
     public List<String> productNames(){
         List<WebElement> el = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
-        return el.stream().map(WebElement::getText).collect(Collectors.toList());
+        return el.stream().map(WebElement::getText).collect(toList());
     }
 
     public void sortElements(String visibleText){
@@ -88,37 +91,23 @@ public class GroupOlesyaTests extends BaseTest {
     public List <String> getListOfItemInCart(){
         WebElement cartList = getDriver().findElement(By.className("cart_list"));
         List<WebElement> cartItems = cartList.findElements(By.className("inventory_item_name"));
-        return cartItems.stream().map(WebElement::getText).collect(Collectors.toList());
+        return cartItems.stream().map(WebElement::getText).collect(toList());
+    }
+    private void goToAllItemsInBurgerMenu() {
+        WebElement allItemsLink = getDriver().findElement(By.id("inventory_sidebar_link"));
+        getWait().until(ExpectedConditions.visibilityOf(allItemsLink));
+        allItemsLink.click();
     }
 
-    public List<Double> getListBeforeSorting(String sortName) {
-        List<WebElement> beforeFilterPrice = getDriver().findElements(By.className("inventory_item_price"));
-        List<Double> beforeFilterPriceList = new ArrayList<>();
+    public List<Double> listOfPrice() {
 
-        for (WebElement e : beforeFilterPrice) {
-            beforeFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
-        }
-
-        WebElement funnelIcon = getDriver().findElement(By.className("select_container"));
-        funnelIcon.click();
-
-        Select drpOrder = new Select(getDriver().findElement(By.className("product_sort_container")));
-        drpOrder.selectByVisibleText(sortName);
-        Collections.sort(beforeFilterPriceList);
-
-        return beforeFilterPriceList;
+        return getListItems(By.className("inventory_item_price"))
+                .stream()
+                .map(WebElement::getText)
+                .map(n -> n.replace("$", ""))
+                .map(s -> Double.parseDouble(s))
+                .collect(toList());
     }
-
-    public List<Double> getListAfterSorting() {
-        List<WebElement> afterFilterPrice = getDriver().findElements(By.className("inventory_item_price"));
-        List<Double> afterFilterPriceList = new ArrayList<>();
-
-        for (WebElement e : afterFilterPrice) {
-            afterFilterPriceList.add(Double.valueOf(e.getText().replace("$", "")));
-        }
-        return afterFilterPriceList;
-    }
-
 
     @Test
     public void standardUserLoginTest() {
@@ -127,30 +116,56 @@ public class GroupOlesyaTests extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
     }
 
+    public List<String> getTextList (List<WebElement> list) {
+        return list.stream().map(WebElement::getText).collect(toList());
+    }
+
+    public void clickOnEachElement (List<WebElement> list) {
+        for (WebElement w : list) {
+            w.click();
+        }
+    }
+
+    public void addItemstoCartbyXpath (By xpath) {
+        List<WebElement> addproductstocart  = getDriver().findElements(xpath);
+        clickOnEachElement(addproductstocart);
+    }
+
     @Test
-    public void nsergeevaTest() {
+    public void testAddtoCart() {
         loginToSite(LOGIN);
 
-        WebElement addtocartButton = getDriver().findElement(By.xpath("//*[@id='add-to-cart-sauce-labs-backpack']"));
-        addtocartButton.click();
+        List<WebElement> addproducts  = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
+        List<String> expectedlist= getTextList (addproducts);
 
-        WebElement removeButton = getDriver().findElement(By.xpath("//*[@id='remove-sauce-labs-backpack']"));
-        Assert.assertEquals(removeButton.getText(), "Remove");
+        addItemstoCartbyXpath(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
 
-        WebElement cartbutton = getDriver().findElement(By.xpath("//*[@id='shopping_cart_container']/a"));
-        cartbutton.click();
-        Assert.assertEquals(getDriver().getTitle(), "Swag Labs");
+        goToShoppingCartPage();
+        Assert.assertEquals(getListOfItemInCart(),expectedlist);
+    }
+
+    @Ignore /*Bug!*/
+    @Test
+    public void testChangeQuantityinCart() {
+        loginToSite(LOGIN);
+
+        addItemstoCartbyXpath(By.xpath("//div[@class = 'inventory_item_name']"));
+
+        goToShoppingCartPage();
 
         WebElement cartQuantity = getDriver().findElement(By.xpath("//*[@class='cart_quantity']"));
+        cartQuantity.clear();
+        cartQuantity.sendKeys("2");
 
-        WebElement cartremovebutton = getDriver().findElement(By.xpath("//*[@id='remove-sauce-labs-backpack']"));
-        cartremovebutton.click();
-        Assert.assertTrue(getDriver().findElements(By.xpath("//*[@id='remove-sauce-labs-backpack']")).isEmpty());
+        getDriver().findElement(By.id("continue-shopping")).click();
+        goToShoppingCartPage();
+
+        Assert.assertEquals(cartQuantity.getText(), "2");
+
     }
 
     @Test
     public void continueShoppingTest()  {
-
         loginToSite(LOGIN);
 
         getDriver().findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']")).click();
@@ -163,18 +178,27 @@ public class GroupOlesyaTests extends BaseTest {
     @Test
     public void sortingByPriceLowToHighTest() {
         loginToSite(LOGIN);
-        List<Double> expectedResult = getListBeforeSorting("Price (low to high)");
-        Assert.assertEquals(getListAfterSorting(), expectedResult);
-        getDriver().quit();
+
+        List<Double> pricesBeforeSort = listOfPrice();
+        Collections.sort(pricesBeforeSort);
+
+        sortElements("Price (low to high)");
+        List<Double> pricesAfterSort = listOfPrice();
+
+        Assert.assertEquals(pricesAfterSort, pricesBeforeSort);
     }
 
     @Test
     public void sortingByPriceHighToLowTest() {
         loginToSite(LOGIN);
-        List<Double> expectedResult = getListBeforeSorting("Price (high to low)");
-        Collections.reverse(expectedResult);
-        Assert.assertEquals(getListAfterSorting(), expectedResult);
-        getDriver().quit();
+
+        List<Double> pricesBeforeSort = listOfPrice();
+        pricesBeforeSort.sort(Collections.reverseOrder());
+
+        sortElements("Price (high to low)");
+        List<Double> pricesAfterSort = listOfPrice();
+
+        Assert.assertEquals(pricesAfterSort, pricesBeforeSort);
     }
 
     @Test
@@ -212,14 +236,11 @@ public class GroupOlesyaTests extends BaseTest {
     public void goToAllItemsTest(){
         loginToSite(LOGIN);
 
-        WebElement shopButton = getDriver().findElement(By.className("shopping_cart_link"));
-        shopButton.click();
+        goToShoppingCartPage();
 
         reactBurgerMenu();
 
-        WebElement allItemsLink = getDriver().findElement(By.id("inventory_sidebar_link"));
-        getWait().until(ExpectedConditions.visibilityOf(allItemsLink));
-        allItemsLink.click();
+        goToAllItemsInBurgerMenu();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
     }

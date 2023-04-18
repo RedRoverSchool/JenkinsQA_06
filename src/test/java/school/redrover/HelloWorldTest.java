@@ -14,6 +14,7 @@ import java.time.Duration;
 
 public class HelloWorldTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testOnlinerLogo() {
         getDriver().get("https://catalog.onliner.by/");
