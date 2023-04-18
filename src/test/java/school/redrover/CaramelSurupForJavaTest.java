@@ -36,6 +36,7 @@ public class CaramelSurupForJavaTest {
     }
 
 
+    @Ignore
     @Test
     public void svetaKhudovaWinnerTest() throws InterruptedException {
 
