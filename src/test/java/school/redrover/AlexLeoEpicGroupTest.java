@@ -652,4 +652,14 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/account/");
     }
 
+    @Test
+    public void testShopNowButton() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[@class='wp-block-button__link'][text()='Shop Now']"))
+                .click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
+    }
+
 }
