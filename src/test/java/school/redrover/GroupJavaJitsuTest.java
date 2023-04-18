@@ -471,7 +471,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement text = getDriver().findElement(By.cssSelector(".alertBox-column.alertBox-message"));
         Assert.assertTrue(text.isDisplayed());}
 
-    @Ignore
+
     @Test
     public void testChoiceClothes() throws InterruptedException {
         getDriver().get("https://soccerzone.com/");
@@ -483,7 +483,7 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         WebElement nikePremier = getDriver().findElement(By.cssSelector("img[title='The Nike Premier III FG - WHITE/ROYAL/RED']"));
         nikePremier.click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         WebElement choiceSize = getDriver().findElement(By.cssSelector("label[for='attribute_rectangle__3283_11248']"));
         choiceSize.click();
@@ -493,10 +493,66 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         WebElement addToCart = getDriver().findElement(By.id("form-action-addToCart"));
         addToCart.click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         WebElement text = getDriver().findElement(By.cssSelector("h1[class='modal-header-title']"));
         Assert.assertTrue(text.isDisplayed());
+    }
+
+    @Test
+    public void testActivePictureFanstore(){
+        getDriver().get("https://soccerzone.com/");
+        WebElement picture = getDriver().findElement(By.cssSelector("img[src='images/stencil/original/image-manager/fanstore.png']"));
+        picture.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://soccerzone.com/fan-shop/");
+    }
+
+    @Test
+    public void testActivePictureKeepers(){
+        getDriver().get("https://soccerzone.com/");
+        WebElement pictureKeepers = getDriver().findElement(By.cssSelector("img[src='images/stencil/original/image-manager/keeps.png']"));
+        pictureKeepers.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://soccerzone.com/goalkeeper/gloves/");
+    }
+
+    @Test
+    public void testActivePictureBootroom(){
+        getDriver().get("https://soccerzone.com/");
+        WebElement pictureBootroom = getDriver().findElement(By.cssSelector("img[src='images/stencil/original/image-manager/boots.png']"));
+        pictureBootroom.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://soccerzone.com/footwear/");
+    }
+    @Test
+    public void testWineTimeContact() {
+        getDriver().get("https://www.winetime.com/");
+
+        WebElement buttonEntry = getDriver().findElement(By.xpath("//a[contains(text(),'Contact')]"));
+        buttonEntry.click();
+
+        WebElement textBoxName = getDriver().findElement(By.cssSelector("#input_1_1_3"));
+        textBoxName.sendKeys("Ana");
+
+        WebElement textBoxLast = getDriver().findElement(By.cssSelector("#input_1_1_6"));
+        textBoxLast.sendKeys("Solo");
+
+        WebElement textBoxMail = getDriver().findElement(By.cssSelector("#input_1_2"));
+        textBoxMail.sendKeys("a.olo@gmail.com");
+
+        WebElement textBoxMessage = getDriver().findElement(By.cssSelector("#input_1_3"));
+        textBoxMessage.sendKeys("ASAP");
+
+        WebElement buttonSubmit = getDriver().findElement(By.cssSelector("#gform_submit_button_1"));
+        buttonSubmit.click();
+
+        WebElement text=getDriver().findElement(By.cssSelector("body.page-template-default.page.page-id-80.custom-" +
+                "background.wp-custom-logo.group-blog:nth-child(2) div.main-container:nth-child(9) div.single:nth-" +
+                "child(4) div.content article.article div.g.post.post-80.page.type-page.status-publish.hentry " +
+                "div.single_page.single_post.clear div.post-single-content.box.mark-links header:nth-child(1)" +
+                " > h1.title"));
+        Assert.assertEquals(text.getText(), "Contact Us");
     }
 }
 

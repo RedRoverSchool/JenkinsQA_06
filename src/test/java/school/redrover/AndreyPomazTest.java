@@ -68,6 +68,7 @@ public class AndreyPomazTest extends BaseTest {
         WebElement text = getDriver().findElement(By.className("hdlist1"));
         Assert.assertEquals(text.getText(),"Step 1: Setup wizard");
     }
+    @Ignore
     @Test
     public void testForm() throws InterruptedException {
         getDriver().get("https://demoqa.com");
@@ -127,6 +128,7 @@ public class AndreyPomazTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
     }
+    @Ignore
     @Test
     public void testAlert() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));

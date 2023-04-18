@@ -10,6 +10,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.List;
+
 import static org.testng.Assert.assertEquals;
 
 public class GroupForwardTest extends BaseTest {
@@ -177,6 +179,42 @@ public class GroupForwardTest extends BaseTest {
         Thread.sleep(2000);
 
         driver.quit();
+    }
+
+    @Test
+    public void testBrowseLanguagesLanguageI() {
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+
+        WebElement browseLanguageTab = getDriver().findElement(By.xpath("//a[@href = '/abc.html'][1]"));
+        browseLanguageTab.click();
+        WebElement languageLetterI = getDriver().findElement(By.xpath("//a[@href = 'i.html']"));
+        languageLetterI.click();
+        List<WebElement> languageIList = getDriver().findElements(By.xpath("//table[@id = 'category']/tbody/tr/td[1]/a"));
+
+        Assert.assertTrue(languageIList.size()>0);
+
+        for (WebElement element : languageIList) {
+            Assert.assertTrue(element.getText().toUpperCase().startsWith("I"));
+        }
+    }
+
+    @Test
+    public void testSearchLanguages() {
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+
+        WebElement searchLanguageTab = getDriver().findElement(By.xpath("//a[@href = '/search.html']"));
+        searchLanguageTab.click();
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@name = 'search']"));
+        searchField.sendKeys("ruby");
+        WebElement goButton = getDriver().findElement(By.xpath("//input[@type = 'submit']"));
+        goButton.click();
+        List<WebElement> languageList = getDriver().findElements(By.xpath("//tr//a"));
+
+        Assert.assertTrue(languageList.size() > 0);
+
+        for (WebElement element: languageList) {
+            Assert.assertTrue(element.getText().toLowerCase().contains("ruby"));
+        }
     }
 }
 

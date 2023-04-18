@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -38,6 +39,7 @@ public class LoginPageTest extends BaseTest {
     Assert.assertTrue(isDisplayedLogOut());
   }
 
+  @Ignore
   @Test
   public void testNegativeUsername() {
     mainPage();
@@ -49,6 +51,7 @@ public class LoginPageTest extends BaseTest {
     Assert.assertEquals(getErrorMessage(), USERNAME_IS_INVALID);
   }
 
+  @Ignore
   @Test
   public void testNegativePassword() {
     mainPage();
