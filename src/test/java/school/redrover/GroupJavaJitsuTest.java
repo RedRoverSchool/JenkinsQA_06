@@ -558,55 +558,54 @@ public class GroupJavaJitsuTest extends BaseTest {
     }
 
     @Test
-     public void testFlight(){
+     public void testFlight() {
         getDriver().manage().window().maximize();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         getDriver().get("https://demo.guru99.com/test/newtours/reservation.php");
-        WebElement oneWayBtn =  getDriver().findElement(By.xpath("//input[@value='oneway']"));
+        WebElement oneWayBtn = getDriver().findElement(By.xpath("//input[@value='oneway']"));
         oneWayBtn.click();
 
-        WebElement passAmount =  getDriver().findElement(By.name("passCount"));
+        WebElement passAmount = getDriver().findElement(By.name("passCount"));
         Select pAmount = new Select(passAmount);
         pAmount.selectByValue("3");
 
-        WebElement depAirport =  getDriver().findElement(By.name("fromPort"));
-        Select depAir = new Select (depAirport);
+        WebElement depAirport = getDriver().findElement(By.name("fromPort"));
+        Select depAir = new Select(depAirport);
         depAir.selectByValue("New York");
 
-        WebElement depMonth  =  getDriver().findElement(By.name("fromMonth"));
-        Select dMonth =new Select(depMonth);
+        WebElement depMonth = getDriver().findElement(By.name("fromMonth"));
+        Select dMonth = new Select(depMonth);
         depMonth.click();
         dMonth.selectByVisibleText("July");
 
-        WebElement depDate  =  getDriver().findElement(By.name("fromDay"));
-        Select dDate =new Select(depDate);
+        WebElement depDate = getDriver().findElement(By.name("fromDay"));
+        Select dDate = new Select(depDate);
         dDate.selectByValue("10");
 
-        WebElement aAirport =  getDriver().findElement(By.name("toPort"));
-        Select aAir = new Select (aAirport);
+        WebElement aAirport = getDriver().findElement(By.name("toPort"));
+        Select aAir = new Select(aAirport);
         aAir.selectByValue("Paris");
 
-        WebElement aMonth  =  getDriver().findElement(By.name("toMonth"));
-        Select airMonth =new Select(aMonth);
+        WebElement aMonth = getDriver().findElement(By.name("toMonth"));
+        Select airMonth = new Select(aMonth);
         aMonth.click();
         airMonth.selectByVisibleText("August");
 
-        WebElement deppDate  =  getDriver().findElement(By.name("toDay"));
-        Select deDate =new Select(deppDate);
+        WebElement deppDate = getDriver().findElement(By.name("toDay"));
+        Select deDate = new Select(deppDate);
         deDate.selectByValue("15");
 
-        WebElement busClass =  getDriver().findElement(By.xpath("//input[@value='Business']"));
+        WebElement busClass = getDriver().findElement(By.xpath("//input[@value='Business']"));
         busClass.click();
 
-        WebElement airLine =  getDriver().findElement(By.name("airline"));
+        WebElement airLine = getDriver().findElement(By.name("airline"));
         Select aLine = new Select(airLine);
         airLine.click();
         aLine.selectByVisibleText("Blue Skies Airlines");
 
         getDriver().findElement(By.xpath("//input[@name='findFlights']")).click();
-        Assert.assertEquals( getDriver().getCurrentUrl(),"https://demo.guru99.com/test/newtours/reservation2.php");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://demo.guru99.com/test/newtours/reservation2.php");
     }
-
 }
 
 
