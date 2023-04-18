@@ -282,20 +282,13 @@ public class AlexLeoEpicGroupTest extends BaseTest {
     }
 
     @Test
-    public void dollarSignTest() {
+    public void testDollarSign() {
+        getDriver().get("https://askomdch.com/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        driver.get("https://askomdch.com/");
-        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
-        List<WebElement> prices = driver.findElements(By.xpath("//span[@class='price']"));
+        List<WebElement> prices = getDriver().findElements(By.xpath("//span[@class='price']"));
         for (WebElement price : prices) {
             Assert.assertTrue(price.getText().contains("$"));
         }
-        driver.quit();
     }
 
     @Test
