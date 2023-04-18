@@ -87,4 +87,15 @@ public class GroupGlukhovaTest extends BaseTest {
 
         alert.accept();
     }
+    @Test
+    public void testAviaSales() {
+        getDriver().get("https://www.aviasales.ru/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
+
+        WebElement destinationButton = getDriver().findElement(By.xpath("//input[@data-test-id='destination-autocomplete-field']"));
+        destinationButton.sendKeys("Коломбо");
+
+        Assert.assertEquals(destinationButton.getText(), "");
+    }
 }
