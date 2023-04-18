@@ -54,7 +54,6 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
 
         textBox.sendKeys("Selenium");
-        submitButton.click();
 
         WebElement password = getDriver().findElement(By.name("my-password"));
         Thread.sleep(2000);
