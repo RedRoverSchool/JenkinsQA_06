@@ -80,6 +80,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
             Assert.assertEquals(actualResult, expectedResult);
         } catch (Exception e) {
+            System.out.println("Error!!!");
             getDriver().quit();
         }
     }
@@ -135,7 +136,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
             Assert.assertEquals(actualResult, expectedResult);
         }
     }
-
 
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
