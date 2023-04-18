@@ -211,7 +211,7 @@ public class ComradesAdelanteTest extends BaseTest {
     }
     @Test
 
-    public void testFirstAddRemoveElementsAG() {
+    public void testFirstAddRemoveElementsAnnaG() {
 
         getDriver().get("http://the-internet.herokuapp.com/");
         String title = getDriver().getTitle();
