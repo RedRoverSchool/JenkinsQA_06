@@ -287,7 +287,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testArtyomDulya() {
+    public void testArtyomDulyaHeader99Bottles() {
         List<String> expectedResult = Arrays.asList(
                 "https://www.99-bottles-of-beer.net/abc.html",
                 "https://www.99-bottles-of-beer.net/search.html",
