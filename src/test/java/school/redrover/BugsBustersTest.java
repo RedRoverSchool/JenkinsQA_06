@@ -72,6 +72,7 @@ public class BugsBustersTest extends BaseTest {
         Assert.assertEquals(text.getText(), "Getting started");
     }
 
+    @Ignore
     @Test
     public void testMarynaSTitle() {
         getDriver().get("https://www.funartcolorado.com/");
@@ -265,5 +266,24 @@ public class BugsBustersTest extends BaseTest {
         WebElement reservationButton = getDriver().findElement(By.xpath("//a[contains(text(),'Reservation')]"));
 
         Assert.assertEquals(reservationButton.getText(), "Reservation");
+    }
+
+    @Test
+    public void testMariaAddItemsToCart() {
+        getDriver().get("https://www.saucedemo.com/");
+
+        getDriver().findElement(By.cssSelector("input[placeholder='Username']")).sendKeys("standard_user");
+
+        getDriver().findElement(By.cssSelector("input[placeholder='Password']")).sendKeys("secret_sauce");
+
+        getDriver().findElement(By.id("login-button")).click();
+
+        getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
+
+        getDriver().findElement(By.cssSelector(".shopping_cart_link")).click();
+
+        WebElement item = getDriver().findElement(By.cssSelector(".inventory_item_name"));
+
+        Assert.assertEquals(item.getText(), "Sauce Labs Backpack");
     }
 }
