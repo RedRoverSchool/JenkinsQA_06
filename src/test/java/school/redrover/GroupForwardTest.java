@@ -34,7 +34,6 @@ public class GroupForwardTest extends BaseTest {
         assertEquals(copyrightInformation.getText(), "© 2023 Yummy Market inc. All Rights Reserved.");
         Assert.assertTrue(copyrightInformation.isDisplayed());
 
-        getDriver().quit();
     }
 
     @Test
@@ -55,7 +54,6 @@ public class GroupForwardTest extends BaseTest {
         assertEquals(getDriver().getCurrentUrl(), "https://yummymarket.com/?s=menu&id=5067");
         assertEquals(searchHeader.getText(), "Search Results for: menu");
 
-        getDriver().quit();
     }
 
     @Test
@@ -72,38 +70,38 @@ public class GroupForwardTest extends BaseTest {
         WebElement loginButton = getDriver().findElement(By.cssSelector("#login-button"));
         loginButton.sendKeys(Keys.ENTER);
 
-        assertEquals(getDriver().getCurrentUrl(), link+endpoint_inventory);
-      }
-
-      @Test
-    public void TestDemo() throws InterruptedException {
-
-          ChromeOptions chromeOptions = new ChromeOptions();
-          chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-          WebDriver driver = new ChromeDriver(chromeOptions);
-          driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-          String title = driver.getTitle();
-          assertEquals("Web form", title);
-
-          Thread.sleep(3000);
-
-          WebElement textBox = driver.findElement(By.name("my-text"));
-          WebElement submitButton = driver.findElement(By.cssSelector("button"));
-
-          textBox.sendKeys("Selenium");
-          submitButton.click();
-
-          WebElement message = driver.findElement(By.id("message"));
-          String value = message.getText();
-          assertEquals("Received!", value);
-
-        driver.quit();
-      }
+        assertEquals(getDriver().getCurrentUrl(), link + endpoint_inventory);
+    }
 
     @Test
-    public void testSearchIplayAmerica()  {
+    public void TestDemo() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String title = driver.getTitle();
+        assertEquals("Web form", title);
+
+        Thread.sleep(3000);
+
+        WebElement textBox = driver.findElement(By.name("my-text"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("Selenium");
+        submitButton.click();
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        assertEquals("Received!", value);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testSearchIplayAmerica() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -166,7 +164,7 @@ public class GroupForwardTest extends BaseTest {
         languageLetterI.click();
         List<WebElement> languageIList = getDriver().findElements(By.xpath("//table[@id = 'category']/tbody/tr/td[1]/a"));
 
-        Assert.assertTrue(languageIList.size()>0);
+        Assert.assertTrue(languageIList.size() > 0);
 
         for (WebElement element : languageIList) {
             Assert.assertTrue(element.getText().toUpperCase().startsWith("I"));
