@@ -42,13 +42,13 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
     @Test
-    public void testSecond() throws InterruptedException {
+    public void testRafis() throws InterruptedException {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
         String title = getDriver().getTitle();
         Assert.assertEquals("Web form", title);
 
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         WebElement textBox = getDriver().findElement(By.name("my-text"));
         WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
@@ -56,13 +56,13 @@ public class GroupDreamTeamTest extends BaseTest {
         textBox.sendKeys("Selenium");
 
         WebElement password = getDriver().findElement(By.name("my-password"));
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         textBox.sendKeys("Selenium");
 
         password.sendKeys("WebSel1");
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         submitButton.click();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
