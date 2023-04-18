@@ -156,6 +156,7 @@ public class GroupCATTest extends BaseTest {
         Assert.assertEquals(jetTitle.getText(), "Essential tools for software developers and teams");
 
        getDriver().quit();
+
     }
 
     @Test
