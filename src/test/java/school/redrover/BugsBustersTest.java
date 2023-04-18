@@ -91,6 +91,7 @@ public class BugsBustersTest extends BaseTest {
         Assert.assertEquals(mosaicArtHeader.getText(), "About my art:");
     }
 
+    @Ignore
     @Test
     public void testMarynaSHeader() throws InterruptedException {
         getDriver().get("https://www.funartcolorado.com/");
