@@ -15,7 +15,6 @@ import java.util.List;
 public class AnnaMayBeforeAfterAnnotationTest extends BaseTest {
     final String[] navigationLinks = {"Quick Tools", "Send", "Receive", "Shop", "Business", "International", "Help"};
 
-
     @Test
     public void testUspsWebsiteTitle() {
         getDriver().get("https://www.usps.com/");
@@ -38,6 +37,7 @@ public class AnnaMayBeforeAfterAnnotationTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
     @Ignore
     @Test
     public void testHoverOnSubElement() {
