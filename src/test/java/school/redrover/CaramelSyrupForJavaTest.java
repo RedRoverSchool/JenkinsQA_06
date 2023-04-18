@@ -100,6 +100,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement complexEnterprise = getDriver().findElement(
                 By.xpath("//main//div[2]/div/div/p[1]/a[text()='complex enterprise systems']"));
         complexEnterprise.click();
+
         ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(windows.get(1));
 
