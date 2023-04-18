@@ -33,7 +33,6 @@ public class IolantaFTest {
 
 
     @Test
-
     public void FirstProjectTest(){
 
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -55,7 +54,6 @@ public class IolantaFTest {
     }
 
     @Test
-
     public void SecondProjectTest(){
 
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -75,6 +73,4 @@ public class IolantaFTest {
 
         driver.quit();
     }
-
-
 }
