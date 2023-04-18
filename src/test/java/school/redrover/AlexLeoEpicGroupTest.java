@@ -656,4 +656,16 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
     }
 
+    @Test
+    public void testVerifyNumberOfItemsInFeaturedSection() {
+        getDriver().get("https://askomdch.com/");
+
+        WebElement featuredSection = getDriver()
+                .findElement(By.xpath("//div[@class='wp-block-group__inner-container']" +
+                        "/h2[text()='Featured Products']/.."));
+        List<WebElement> productCards = featuredSection.findElements(By.tagName("li"));
+
+        Assert.assertEquals(productCards.size(), 5);
+    }
+
 }
