@@ -1,9 +1,6 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -82,7 +79,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
             }
 
             Assert.assertEquals(actualResult, expectedResult);
-        } catch (NoSuchElementException e) {
+        } catch (Exception e) {
             getDriver().quit();
         }
     }
@@ -127,7 +124,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
             WebElement paris = getDriver().findElement(By.xpath("//td//b//a[@href='/city/2988507']"));
             String actualResult = paris.getText();
             Assert.assertEquals(actualResult, expectedResult);
-        } catch (NoSuchElementException e) {
+        } catch (Exception e) {
             Thread.sleep(5000);
             WebElement searchLineHeader = getDriver().findElement(
                     By.xpath("//ul[@id='first-level-nav']//div//form//input[@placeholder='Weather in your city']"));
@@ -148,17 +145,12 @@ public class CaramelSyrupForJavaTest extends BaseTest {
             WebElement signIn = getDriver().findElement
                     (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
             clickCustom(signIn);
-        } catch (StaleElementReferenceException e) {
+        } catch (Exception e) {
             Thread.sleep(5000);
             WebElement signIn = getDriver().findElement
                     (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
             clickCustom(signIn);
         }
-        Thread.sleep(5000);
-
-        WebElement signIn = getDriver().findElement
-                (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
-        signIn.click();
 
         WebElement loginText = getDriver().findElement(By.xpath("//h3"));
         String expectedResult = loginText.getText();
@@ -256,16 +248,16 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResult = "OpenWeather Enterprise Guide";
 
         getDriver().get("https://openweathermap.org/");
-        Thread.sleep(5000);
+
 
         WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
-        guide.click();
+        clickCustom(guide);
         WebElement enterpriseSystem = getDriver().findElement(By.xpath("//a[text()='complex enterprise systems']"));
-        enterpriseSystem.click();
+        clickCustom(enterpriseSystem);
         ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(windows.get(1));
         WebElement tailoredToYou = getDriver().findElement(By.xpath("//a[@href='/enterprise-approach']//u[text()='Tailored to you']"));
-        tailoredToYou.click();
+        clickCustom(tailoredToYou);
         WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
         String actualResult = banner.getText();
 
