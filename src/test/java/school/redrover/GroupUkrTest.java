@@ -212,6 +212,7 @@ public class GroupUkrTest extends BaseTest {
         WebElement contentItem = getDriver().findElement(By.xpath("//div[@id='myTabContent']/div[1]/p"));
         Assert.assertEquals(contentItem.getText(), "ASUS VS247H-P 23.6- Inch Full HD");
 
+
     }
 }
 
