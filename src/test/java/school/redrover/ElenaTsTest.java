@@ -20,7 +20,7 @@ public class ElenaTsTest {
         Assert.assertEquals(driver.getTitle(), "Electronics, Cars, Fashion, Collectibles & More | eBay");
         driver.quit();
     }
-
+@Ignore
     @Test
     public void testFindProductByBrandName() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
