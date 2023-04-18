@@ -198,6 +198,7 @@ public class GroupForwardTest extends BaseTest {
         }
     }
 
+ Nika-Ghenzeli
         @Test
         public void TestOrchidCareIndoors(){
             WebDriver driver = new ChromeDriver();
@@ -217,5 +218,26 @@ public class GroupForwardTest extends BaseTest {
         }
 
     }
+
+
+    @Test
+    public void testSearchLanguages() {
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+
+        WebElement searchLanguageTab = getDriver().findElement(By.xpath("//a[@href = '/search.html']"));
+        searchLanguageTab.click();
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@name = 'search']"));
+        searchField.sendKeys("ruby");
+        WebElement goButton = getDriver().findElement(By.xpath("//input[@type = 'submit']"));
+        goButton.click();
+        List<WebElement> languageList = getDriver().findElements(By.xpath("//tr//a"));
+
+        Assert.assertTrue(languageList.size() > 0);
+
+        for (WebElement element: languageList) {
+            Assert.assertTrue(element.getText().toLowerCase().contains("ruby"));
+        }
+    }
+}
 
 
