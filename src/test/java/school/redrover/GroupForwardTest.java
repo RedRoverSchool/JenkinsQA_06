@@ -210,8 +210,6 @@ public class GroupForwardTest extends BaseTest {
                     ("//h3 [text() = 'How To Take Care Of Orchid Plants Indoors']"));
 
             Assert.assertEquals(text.getText(),"How To Take Care Of Orchid Plants Indoors");
-
-            getDriver().quit();
         }
 
     }
