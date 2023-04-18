@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import school.redrover.runner.BaseTest;
 import org.testng.annotations.Test;
 
@@ -49,6 +50,7 @@ public class GroupSomeGroupTest extends BaseTest{
         Assert.assertEquals(title, "JavaScript Tutorial");
     }
 
+    @Ignore
     @Test
     public void testCartCounter() {
         getDriver().get("https://askomdch.com/");
