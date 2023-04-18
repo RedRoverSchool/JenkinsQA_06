@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,20 +9,16 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.openqa.selenium.WebDriver;
 import school.redrover.runner.BaseTest;
-public class GroupAnaBelsTest {
+public class GroupAnaBelsTest extends BaseTest {
 
     @Test
     public void testStasM() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://www.yahoo.com/");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.yahoo.com/");
-
-        WebElement submitButton = driver.findElement(By.xpath("//*[@id='ybarAccountProfile']/a"));
+        WebElement submitButton = getDriver().findElement(By.xpath("//*[@id='ybarAccountProfile']/a"));
         submitButton.click();
 
-        String title = driver.getTitle();
-        Assert.assertEquals("Yahoo", title);
+        String title = getDriver().getTitle();
+        Assert.assertEquals(title, "Yahoo");
     }
 }
