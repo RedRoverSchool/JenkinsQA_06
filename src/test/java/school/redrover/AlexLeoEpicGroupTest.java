@@ -678,4 +678,13 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(searchButton.getCssValue("background-color"), "rgba(49, 151, 214, 1)");
     }
 
+    @Test
+    public void testVerifyContactUsPage() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[text()='Find More']")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/contact-us/");
+    }
+
 }
