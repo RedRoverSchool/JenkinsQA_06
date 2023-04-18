@@ -655,5 +655,49 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
     }
+    @Test
+    public void testVerifySaleIcon(){
+
+        getDriver().get("https://askomdch.com/");
+       WebElement featureProducts= getDriver().findElement(By.xpath("//div[@class='woocommerce columns-5 ']"));
+        for ( WebElement sale: featureProducts.findElements(By.xpath("//span[@class='onsale']"))) {
+
+          Assert.assertEquals(sale.getText(),"Sale!");
+        }
+    }
+    @Test
+    public void testValidate$Sign() {
+
+        getDriver().get("https://askomdch.com/");
+        WebElement featureProducts = getDriver().findElement(By.xpath("//div[@class='woocommerce columns-5 ']"));
+        for (WebElement dollarSign : featureProducts.findElements(By.xpath("//span[@class='woocommerce-Price-currencySymbol']"))) {
+
+            assertTrue(dollarSign.isDisplayed());
+        }
+    }
+    @Test
+    public void testSaleMessageIsPresent(){
+
+        getDriver().get("https://askomdch.com/");
+        WebElement saleMessage=getDriver().findElement(By.xpath("//h3[text()='25% OFF On all products']"));
+
+        Assert.assertEquals(saleMessage.getText(),"25% OFF On all products");
+    }
+    @Test
+    public void testAccountButtonClick(){
+
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//a[@href='https://askomdch.com/account/' and text()='Account']")).click();
+        String accountPage="https://askomdch.com/account/";
+
+        Assert.assertEquals(getDriver().getCurrentUrl(),accountPage);
+    }
+    @Test
+    public void testSearchButtonColorVerification() {
+
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.cssSelector("li[id='menu-item-1228']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@value='Search']")).getCssValue("background-color"), "rgba(49, 151, 214, 1)");
+    }
 
 }

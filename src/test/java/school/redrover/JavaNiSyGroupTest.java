@@ -39,15 +39,13 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testUscis() throws InterruptedException {
+    public void testUscis() {
 
         getDriver().get("https://www.uscis.gov/");
-        WebElement textBox = getDriver().findElement(By.id("gsc-i-id1"));
 
+        WebElement textBox = getDriver().findElement(By.id("gsc-i-id1"));
         textBox.sendKeys("citizenship and naturalization");
         textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
 
         WebElement button = getDriver().findElement(By.name("Search"));
         button.click();
@@ -58,15 +56,13 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testGoogleTransl() throws InterruptedException {
+    public void testGoogleTransl() {
 
         getDriver().get("https://www.google.com/");
 
         WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("гугл переводчик");
         textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
 
         WebElement text = getDriver().findElement(By.xpath("//h3[@class='LC20lb MBeuO DKV0Md']"));
 
@@ -186,5 +182,17 @@ public class JavaNiSyGroupTest extends BaseTest {
         Assert.assertEquals(textFilter.getText(), "чаши");
     }
 
+    @Test
+    public void testYogaShopBtn() {
+
+        getDriver().get("https://magento.softwaretestingboard.com/");
+
+        WebElement yogaShopBtn = getDriver().findElement(By.xpath("//span[@class='action more button']"));
+        yogaShopBtn.click();
+
+        WebElement text = getDriver().findElement(By.xpath("//span[@class='base']"));
+
+        Assert.assertEquals(text.getText(),"New Luma Yoga Collection");
+    }
 }
 
