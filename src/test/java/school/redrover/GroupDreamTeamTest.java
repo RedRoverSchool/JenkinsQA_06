@@ -42,7 +42,7 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
     @Test
-    public void testRafis() {
+    public void testRafis() throws InterruptedException {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
         String title = getDriver().getTitle();
