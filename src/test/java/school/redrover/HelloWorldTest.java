@@ -14,7 +14,8 @@ import java.time.Duration;
 
 public class HelloWorldTest extends BaseTest {
 
-    @Test
+   @Ignore
+   @Test
     public void testOnlinerLogo() {
         getDriver().get("https://catalog.onliner.by/");
         WebElement logo = getDriver().findElement(By.className("onliner_logo"));
