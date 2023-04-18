@@ -197,6 +197,7 @@ public class GroupForwardTest extends BaseTest {
             Assert.assertTrue(element.getText().toUpperCase().startsWith("I"));
         }
     }
+
     @Test
     public void testMaimonidesMedicalCenter() {
 
