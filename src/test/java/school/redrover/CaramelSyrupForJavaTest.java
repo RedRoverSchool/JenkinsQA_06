@@ -50,7 +50,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         int expectedResult = 6;
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
         getDriver().get("https://openweathermap.org/");
 
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
