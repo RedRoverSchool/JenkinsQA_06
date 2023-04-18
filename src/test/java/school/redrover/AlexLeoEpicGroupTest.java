@@ -13,7 +13,6 @@ import java.time.Duration;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 public class AlexLeoEpicGroupTest extends BaseTest {
 
@@ -128,18 +127,14 @@ public class AlexLeoEpicGroupTest extends BaseTest {
     }
 
     @Test
-    public void VerifyTheLoginPage_TC() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-        driver.get("https://askomdch.com/");
-        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
-        driver.findElement(By.xpath("//span[@class='onsale']")).isDisplayed();
-        WebElement shopNowButton = driver.findElement(By.xpath("//a[@class='wp-block-button__link']"));
+    public void testVerifyShopNowButton() {
+
+        getDriver().get("https://askomdch.com/");
+        Assert.assertEquals(getDriver().getTitle(), "AskOmDch – Become a Selenium automation expert!");
+
+        WebElement shopNowButton = getDriver().findElement(By.xpath("//a[@class='wp-block-button__link']"));
         shopNowButton.click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://askomdch.com/store");
-        driver.quit();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
 
     }
 
@@ -565,16 +560,31 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
         Assert.assertEquals(list.size(), 5);
     }
-        @Test
-        public void testAddProductToCartInscription() {
-            getDriver().get("https://askomdch.com/");
 
-            getDriver().findElement(By.xpath("//a[@class='menu-link'][text()='Store']")).click();
-            getDriver().findElement(By.xpath("//h2[text()='Blue Denim Shorts']")).click();
-            getDriver().findElement(By.xpath("//button[@name='add-to-cart'][text()='Add to cart']")).click();
-            WebElement addInscription = getDriver().findElement(By.xpath("//div[@role='alert']"));
+    @Test
+    public void testAccountButtonOpensLoginPage() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//a[@href=\"https://askomdch.com/account/\"][@class=\"menu-link\"]")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/account/");
+    }
 
-            Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
+    @Test
+    public void testShopNowButtonOpensUpStorePage() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.cssSelector("a.wp-block-button__link")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
+    }
+
+    @Test
+    public void testAddProductToCartInscription() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[@class='menu-link'][text()='Store']")).click();
+        getDriver().findElement(By.xpath("//h2[text()='Blue Denim Shorts']")).click();
+        getDriver().findElement(By.xpath("//button[@name='add-to-cart'][text()='Add to cart']")).click();
+        WebElement addInscription = getDriver().findElement(By.xpath("//div[@role='alert']"));
+
+        Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
         }
 
     @Test
@@ -589,5 +599,61 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(symbol,"$");
     }
 
+    @Test
+    public void testSaleIconPresent() {
+        getDriver().get("https://askomdch.com/");
+
+        List<WebElement> listFeaturedProducts = getDriver().findElements(By.className("astra-shop-thumbnail-wrap"));
+        List<WebElement> listFeaturedProductsText = getDriver().findElements(By.className("astra-shop-summary-wrap"));
+
+        for (int i = 0; i < listFeaturedProductsText.size(); i++) {
+            String[] arrProductText = listFeaturedProductsText.get(i).getText().split("\n");
+            if (arrProductText[2].split(" ").length > 1) {
+
+                Assert.assertEquals(listFeaturedProducts.get(i).getText(), "Sale!");
+            }
+        }
+    }
+
+    @Test
+    public void testVerifyDollarSignIsPresent() {
+        getDriver().get("https://askomdch.com/");
+
+        WebElement featureProductsSection = getDriver()
+                .findElement(By.xpath("//div[@class='wp-block-group__inner-container']/h2[text()='Featured Products']/.."));
+        List<WebElement> productCards = featureProductsSection.findElements(By.cssSelector("li"));
+        for (WebElement elem : productCards) {
+            Assert.assertEquals(elem.findElement(By.cssSelector("bdi:last-of-type > span")).getText(), "$");
+        }
 
     }
+
+    @Test
+    public void testVerifyDiscountMessage() {
+        getDriver().get("https://askomdch.com/");
+
+        String pageSource = getDriver().getPageSource();
+        String expectedString = "25% OFF On all products";
+
+        Assert.assertTrue(pageSource.contains(expectedString));
+    }
+
+    @Test
+    public void testVerifyAccountLink() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//li[@id='menu-item-1237']/a")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/account/");
+    }
+
+    @Test
+    public void testShopNowButton() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[@class='wp-block-button__link'][text()='Shop Now']"))
+                .click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
+    }
+
+}

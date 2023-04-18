@@ -35,12 +35,25 @@ public class GroupCATTest extends BaseTest {
     @FindBy(xpath = "//div[@class='row chunks features uniform-height']//h5")
     public List<WebElement> featureListSegment;
 
+    @FindBy(xpath = "//a[@aria-label='Navigate to main page']")
+    public WebElement jetLabel;
+
+    @FindBy(xpath = "//h1[@class='rs-h1 rs-h1_theme_dark home-page__title']")
+    public WebElement jetTitle;
+
     public final static String BASE_URL = "https://www.jenkins.io/";
+    public final static String JET_URL = "https://www.jetbrains.com/";
 
     public WebDriverWait webDriverWait10;
 
     public final void getBaseUrl() {
         getDriver().get(BASE_URL);
+
+        PageFactory.initElements(getDriver(), this);
+    }
+
+    public final void getJetUrl() {
+        getDriver().get(JET_URL);
 
         PageFactory.initElements(getDriver(), this);
     }
@@ -133,25 +146,17 @@ public class GroupCATTest extends BaseTest {
     }
 
     @Test
-    public void testVerifyRedirectFromJetLabel() throws InterruptedException {
+    public void testVerifyRedirectFromJetLabel() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getJetUrl();
+        getWait10();
+        jetLabel.click();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.jetbrains.com/");
+        Assert.assertEquals(getDriver().getCurrentUrl(), JET_URL);
+        Assert.assertEquals(jetTitle.getText(), "Essential tools for software developers and teams");
 
-        Thread.sleep(3000);
+       getDriver().quit();
 
-        WebElement label = driver.findElement(By.xpath("//a[@aria-label='Navigate to main page']"));
-        label.click();
-
-        WebElement title = driver.findElement(By.xpath("//h1[@class='rs-h1 rs-h1_theme_dark home-page__title']"));
-
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.jetbrains.com/");
-        Assert.assertEquals(title.getText(), "Essential tools for software developers and teams");
-
-        driver.quit();
     }
 
     @Test

@@ -43,22 +43,15 @@ public class Group99BottlesTest extends BaseTest {
     @Test
     public void testCheckboxesHeadHerokuApp() throws InterruptedException {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://formy-project.herokuapp.com/");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://formy-project.herokuapp.com/");
-
-        driver.findElement(By.xpath("//li/a[@href='/checkbox']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href='/checkbox']")).click();
 
         Thread.sleep(3000);
 
-        WebElement text = driver.findElement(By.xpath("//h1"));
+        WebElement text = getDriver().findElement(By.xpath("//h1"));
 
         Assert.assertEquals(text.getText(), "Checkboxes");
-
-        driver.quit();
     }
 
     @Test
