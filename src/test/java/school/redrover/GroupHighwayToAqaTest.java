@@ -117,25 +117,18 @@ public class GroupHighwayToAqaTest extends BaseTest {
     public void testNewLinkAR() {
         String expectedPageTitle = "What's New";
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
-
-        WebDriverWait waitForWhatsNewLink = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait waitForWhatsNewLink = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         waitForWhatsNewLink.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='ui-id-3']")));
 
-        WebElement whatsNewLink = driver.findElement(By.xpath("//a[@id='ui-id-3']"));
+        WebElement whatsNewLink = getDriver().findElement(By.xpath("//a[@id='ui-id-3']"));
         whatsNewLink.click();
 
-        WebElement pageTitle = driver.findElement(By.xpath("//h1[@id='page-title-heading']"));
+        WebElement pageTitle = getDriver().findElement(By.xpath("//h1[@id='page-title-heading']"));
         String actualPageTitle = pageTitle.getText();
 
         Assert.assertEquals(actualPageTitle, expectedPageTitle);
-
-        driver.quit();
     }
 
     @Test
