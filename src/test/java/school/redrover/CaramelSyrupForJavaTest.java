@@ -51,38 +51,33 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 
-        try {
-            WebElement facebook = getDriver().findElement(By.xpath("//a[@href='https://www.facebook.com/groups/270748973021342']"));
-            WebElement twitter = getDriver().findElement(By.xpath("//a[@href='https://twitter.com/OpenWeatherMap']"));
-            WebElement linkedin = getDriver().findElement(By.xpath("//a[@href='https://www.linkedin.com/company/9816754']"));
-            WebElement medium = getDriver().findElement(By.xpath("//a[@href='https://medium.com/@openweathermap']"));
-            WebElement telegram = getDriver().findElement(By.xpath("//a[@href='https://t.me/openweathermap']"));
-            WebElement github = getDriver().findElement(By.xpath("//a[@href='https://github.com/search?q=openweathermap&ref=cmdform']"));
+        WebElement facebook = getDriver().findElement(By.xpath("//a[@href='https://www.facebook.com/groups/270748973021342']"));
+        WebElement twitter = getDriver().findElement(By.xpath("//a[@href='https://twitter.com/OpenWeatherMap']"));
+        WebElement linkedin = getDriver().findElement(By.xpath("//a[@href='https://www.linkedin.com/company/9816754']"));
+        WebElement medium = getDriver().findElement(By.xpath("//a[@href='https://medium.com/@openweathermap']"));
+        WebElement telegram = getDriver().findElement(By.xpath("//a[@href='https://t.me/openweathermap']"));
+        WebElement github = getDriver().findElement(By.xpath("//a[@href='https://github.com/search?q=openweathermap&ref=cmdform']"));
 
-            WebElement[] messengers = {facebook, twitter, linkedin, medium, telegram, github};
+        WebElement[] messengers = {facebook, twitter, linkedin, medium, telegram, github};
 
-            String[] messengersUrl = {facebookUrl, twitterUrl, linkedinUrl, mediumUrl, telegramUrl, githubUrl};
+        String[] messengersUrl = {facebookUrl, twitterUrl, linkedinUrl, mediumUrl, telegramUrl, githubUrl};
 
-            int actualResult = 0;
+        int actualResult = 0;
 
-            for (int i = 0; i < messengers.length; i++) {
-                messengers[i].click();
-                ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
-                getDriver().switchTo().window(windows.get(1));
-                getDriver().getCurrentUrl();
-                for (int j = 0; j < messengersUrl.length; j++) {
-                    if (getDriver().getCurrentUrl().equals(messengersUrl[j])) {
-                        actualResult++;
-                    }
+        for (int i = 0; i < messengers.length; i++) {
+            messengers[i].click();
+            ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
+            getDriver().switchTo().window(windows.get(1));
+            getDriver().getCurrentUrl();
+            for (int j = 0; j < messengersUrl.length; j++) {
+                if (getDriver().getCurrentUrl().equals(messengersUrl[j])) {
+                    actualResult++;
                 }
-                getDriver().switchTo().window(windows.get(0));
             }
-
-            Assert.assertEquals(actualResult, expectedResult);
-        } catch (Exception e) {
-            System.out.println("Error!!!");
-            getDriver().quit();
+            getDriver().switchTo().window(windows.get(0));
         }
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -94,7 +89,11 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         getDriver().get("https://openweathermap.org/");
 
         WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
-        clickCustom(guide);
+        try {
+            guide.click();
+        } catch (Exception e) {
+            clickCustom(guide);
+        }
 
         WebElement complexEnterprise = getDriver().findElement(
                 By.xpath("//main//div[2]/div/div/p[1]/a[text()='complex enterprise systems']"));
@@ -112,7 +111,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
     }
 
-
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
@@ -123,7 +121,9 @@ public class CaramelSyrupForJavaTest extends BaseTest {
                     By.xpath("//ul[@id='first-level-nav']//div//form//input[@placeholder='Weather in your city']"));
             searchLineHeader.sendKeys("Paris\n");
             WebElement paris = getDriver().findElement(By.xpath("//td//b//a[@href='/city/2988507']"));
-            String actualResult = paris.getText();
+            paris.click();
+            WebElement parisText = getDriver().findElement(By.tagName("h2"));
+            String actualResult = parisText.getText();
             Assert.assertEquals(actualResult, expectedResult);
         } catch (Exception e) {
             Thread.sleep(5000);
@@ -131,6 +131,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
                     By.xpath("//ul[@id='first-level-nav']//div//form//input[@placeholder='Weather in your city']"));
             searchLineHeader.sendKeys("Paris\n");
             WebElement paris = getDriver().findElement(By.xpath("//td//b//a[@href='/city/2988507']"));
+            paris.click();
             WebElement parisText = getDriver().findElement(By.tagName("h2"));
             String actualResult = parisText.getText();
             Assert.assertEquals(actualResult, expectedResult);
@@ -248,7 +249,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResult = "OpenWeather Enterprise Guide";
 
         getDriver().get("https://openweathermap.org/");
-
 
         WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
         clickCustom(guide);
