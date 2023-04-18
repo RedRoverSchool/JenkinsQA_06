@@ -1,9 +1,6 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
@@ -171,6 +168,49 @@ public class GroupUkrTest extends BaseTest {
         Assert.assertEquals(firstProductTitleMonitor.getText(), "Apple monitor 24");
         WebElement firstProductPriceMonitors = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h5"));
         Assert.assertEquals(firstProductPriceMonitors.getText(), "$400");
+    }
+        @Test
+    public void testListingAndClick() throws InterruptedException {
+
+        getDriver().get("https://www.demoblaze.com/");
+
+        Thread.sleep(2000);
+
+        WebElement fifthItem = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[5]/div/div/h4/a"));
+        Assert.assertEquals(fifthItem.getText(), "Iphone 6 32gb");
+
+        WebElement fifthPriceItem = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[5]/div/div/h5"));
+        Assert.assertEquals(fifthPriceItem.getText(), "$790");
+
+        WebElement linkLaptop = getDriver().findElement(By.xpath("//div[@class='col-lg-3']/div/a[3]"));
+        linkLaptop.click();
+
+        Thread.sleep(2000);
+
+        WebElement sixthElementOfLaptops = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[6]/div/div/h4/a"));
+        Assert.assertEquals(sixthElementOfLaptops.getText(), "MacBook Pro");
+
+        WebElement sixthPriceItemLaptops = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[6]/div/div/h5"));
+        Assert.assertEquals(sixthPriceItemLaptops.getText(), "$1100");
+
+        WebElement linkMonitors = getDriver().findElement(By.xpath("//div[@class='col-lg-3']/div/a[4]"));
+        linkMonitors.click();
+
+        Thread.sleep(2000);
+
+        WebElement secondMonitor = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[2]/div/div/h4/a"));
+        Assert.assertEquals(secondMonitor.getText(), "ASUS Full HD");
+
+        WebElement secondPriceItemMonitors = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[2]/div/div/p"));
+        Assert.assertEquals(secondPriceItemMonitors.getText(), "ASUS VS247H-P 23.6- Inch Full HD");
+
+        WebElement linkOfMonitor = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[2]/div/div/h4/a"));
+        linkOfMonitor.click();
+
+        Thread.sleep(1000);
+
+        WebElement contentItem = getDriver().findElement(By.xpath("//div[@id='myTabContent']/div[1]/p"));
+        Assert.assertEquals(contentItem.getText(), "ASUS VS247H-P 23.6- Inch Full HD");
     }
 }
 
