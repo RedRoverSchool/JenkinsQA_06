@@ -70,5 +70,25 @@ public class DreamTeamTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//div[1]/div/h1/span"));
         Assert.assertEquals(text.getText(), "OpenWeather");
     }
+    @Test
+    public void testMainPageFirstLineText2() {
+        getDriver().get("https://openweathermap.org/");
+
+        WebElement text = getDriver().findElement(By.xpath("//div[1]/div/h1/span"));
+        Assert.assertEquals(text.getText(), "OpenWeather");
+    }
+
+    @Test
+    public void testHerokuappPage(){
+        getDriver().get("https://testpages.herokuapp.com/styled/find-by-playground-test.html");
+        WebElement li1 = getDriver().findElement(By.cssSelector("#p3"));
+        Assert.assertEquals(li1.getText(),"This is c paragraph text");
+
+        WebElement li2 = getDriver().findElement(By.name("aName46"));
+        Assert.assertEquals(li2.getText(), "jump to para 20");
+
+        WebElement li3 = getDriver().findElement(By.cssSelector("div pre"));
+        Assert.assertEquals(li3.getAttribute("name"), "preName1");
+    }
 }
 
