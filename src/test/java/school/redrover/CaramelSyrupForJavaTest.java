@@ -318,4 +318,56 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Test
+    public void testArtyomDulyaTopListsHeader() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        List<String> expectedResult = Arrays.asList("Top Rated", "Top Rated Real Languages",
+                "Top Rated Esoteric Languages", "Top Rated Assembly Languages", "Top Hits",
+                "New Languages this month", "New Comments");
+
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+
+        List<String> actualResult = new ArrayList<>();
+
+        WebElement topLists = getDriver().findElement(
+                By.xpath("//ul[contains(@id, 'menu')]//a[normalize-space(text())='Top Lists']"));
+        topLists.click();
+
+        WebElement topRaterText = getDriver().
+                findElement(By.xpath("//div[contains(@id, main)]//h2[normalize-space(text())='Top Rated']"));
+        actualResult.add(topRaterText.getText());
+
+        WebElement topRatedReal = getDriver().findElement(By.xpath("//ul[@id='submenu']//a[text()='Top Rated Real']"));
+        topRatedReal.click();
+        WebElement topRatedRealText = getDriver().findElement(By.xpath("//h2[text()='Top Rated Real Languages']"));
+        actualResult.add(topRatedRealText.getText());
+
+        WebElement topRatedEsoteric = getDriver().findElement(By.xpath("//a[text()='Top Rated Esoteric']"));
+        topRatedEsoteric.click();
+        WebElement topRatedEsotericText = getDriver().findElement(By.xpath("//h2[text()='Top Rated Esoteric Languages']"));
+        actualResult.add(topRatedEsotericText.getText());
+
+        WebElement topRatedAssembly = getDriver().findElement(By.xpath("//a[@href='./toplist_assembly.html']"));
+        topRatedAssembly.click();
+        WebElement topRatedAssemblyText = getDriver().findElement(By.xpath("//h2[text()='Top Rated Assembly Languages']"));
+        actualResult.add(topRatedAssemblyText.getText());
+
+        WebElement topHits = getDriver().findElement(By.xpath("//a[text()='Top Hits']"));
+        topHits.click();
+        WebElement topHitsText = getDriver().findElement(By.xpath("//h2[text()='Top Hits']"));
+        actualResult.add(topHitsText.getText());
+
+        WebElement newLanguages = getDriver().findElement(By.xpath("//a[text()='New Languages this month']"));
+        newLanguages.click();
+        WebElement newLanguagesText = getDriver().findElement(By.xpath("//h2[text()='New Languages this month']"));
+        actualResult.add(newLanguagesText.getText());
+
+        WebElement newComments = getDriver().findElement(By.xpath("//a[text()='New Comments']"));
+        newComments.click();
+        WebElement newCommentsText = getDriver().findElement(By.xpath("//h2[text()='New Comments']"));
+        actualResult.add(newCommentsText.getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
 }
