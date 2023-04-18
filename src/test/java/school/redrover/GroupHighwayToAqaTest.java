@@ -551,4 +551,54 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         driver.quit();
     }
+
+    @Test
+    public void testToolbarActionsOnWishListPageAreClickable () throws  InterruptedException{
+
+        getDriver().get(BASE_URL);
+
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Sign In')]")).click();
+        getDriver().findElement(By.id("email")).sendKeys(" jka59433@xcoxc.com");
+        getDriver().findElement(By.id("pass")).sendKeys("Tester12#");
+        getDriver().findElement(By.xpath("//span[text()='Sign In']")).click();
+
+        WebElement searchItemField = getDriver().findElement(By.id("search"));
+        searchItemField.click();
+        searchItemField.sendKeys("roller");
+        getDriver().findElement(By.id("search")).sendKeys(Keys.ENTER);
+
+        WebElement productItemLink = getDriver().findElement(
+                By.xpath("//a[contains(text(), 'Sprite Foam Roller')]"));
+        productItemLink.click();
+        Thread.sleep(2000);
+
+        WebElement addToWishListItem = getDriver().findElement(By.xpath("//a[@href='#']/span"));
+        addToWishListItem.click();
+        Thread.sleep(3000);
+
+        WebElement scrollByVisibleElement = getDriver().findElement(By.xpath("//div[@class='primary']"));
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+        jse.executeScript("arguments[0].scrollIntoView(true)", scrollByVisibleElement);
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement toolbarAction1 = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Update Wish List')]")));
+
+        Assert.assertTrue(toolbarAction1.isEnabled(), "Element is not clickable.");
+
+        WebElement toolbarAction2 =wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Share Wish List')]")));
+
+        Assert.assertTrue(toolbarAction2.isEnabled(), "Element is not clickable.");
+
+        WebElement toolbarAction3 = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Add All to Cart')]")));
+
+        Assert.assertTrue(toolbarAction3.isEnabled(), "Element is not clickable.");
+
+        List<WebElement> toolbarActions = getDriver().findElements(
+                By.xpath("//div[@class='primary']/button"));
+
+        Assert.assertTrue(toolbarActions.size() > 0);
+    }
 }
