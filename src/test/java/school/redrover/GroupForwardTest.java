@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -183,6 +182,32 @@ public class GroupForwardTest extends BaseTest {
         Thread.sleep(2000);
 
         driver.quit();
+    }
+
+    public static class PolinaPavlidi {
+
+        @Test
+        public void testFindMaimonidesMedicalCenter() {
+
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+            WebDriver driver = new ChromeDriver();
+
+            driver.get("https://www.google.com/");
+
+            WebElement textBox = driver.findElement(By.name("q"));
+            textBox.sendKeys("Maimonides Medical Center");
+            textBox.sendKeys(Keys.RETURN);
+
+            WebElement text = driver.findElement(By.xpath("//*[@class='g']/div[1]/div/div/div/div/div[1]/a/h3"));
+
+            assertEquals(text.getText(), "Maimonides Medical Center | Brooklyn, New York Hospital");
+
+            driver.quit();
+
+        }
+
     }
 }
 
