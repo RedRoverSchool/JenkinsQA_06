@@ -1,12 +1,10 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -15,6 +13,8 @@ import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class CaramelSyrupForJavaTest extends BaseTest {
@@ -107,44 +107,47 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
     }
 
-    @Ignore
+
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
-
-        String expectedResult = "Paris, FR";
-
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
+        String expectedResult = "Paris, FR";
         getDriver().get("https://openweathermap.org/");
-
-        String selectorSearchLine = "//ul[@id='first-level-nav']//div//form//input[@placeholder='Weather in your city']";
-        WebElement searchLineHeader = getDriver().findElement(By.xpath(selectorSearchLine));
-        searchLineHeader.sendKeys("Paris\n");
-
-        WebElement paris = getDriver().findElement(By.xpath("//td//b//a[@href='/city/2988507']"));
-        paris.click();
-
-        WebElement parisText = getDriver().findElement(By.tagName("h2"));
-
-        String actualResult = parisText.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
+        try {
+            WebElement searchLineHeader = getDriver().findElement(
+                    By.xpath("//ul[@id='first-level-nav']//div//form//input[@placeholder='Weather in your city']"));
+            searchLineHeader.sendKeys("Paris\n");
+            WebElement paris = getDriver().findElement(By.xpath("//td//b//a[@href='/city/2988507']"));
+            String actualResult = paris.getText();
+            Assert.assertEquals(actualResult, expectedResult);
+        } catch (NoSuchElementException e) {
+            Thread.sleep(5000);
+            WebElement searchLineHeader = getDriver().findElement(
+                    By.xpath("//ul[@id='first-level-nav']//div//form//input[@placeholder='Weather in your city']"));
+            searchLineHeader.sendKeys("Paris\n");
+            WebElement paris = getDriver().findElement(By.xpath("//td//b//a[@href='/city/2988507']"));
+            WebElement parisText = getDriver().findElement(By.tagName("h2"));
+            String actualResult = parisText.getText();
+            Assert.assertEquals(actualResult, expectedResult);
+        }
     }
 
-    @Ignore
+
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
-
         String actualResult = "Sign In To Your Account";
-
         getDriver().get("https://openweathermap.org/");
-
-        WebElement signIn = getDriver().findElement
-                (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
-        clickCustom(signIn);
-
+        try {
+            WebElement signIn = getDriver().findElement
+                    (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
+            clickCustom(signIn);
+        } catch (StaleElementReferenceException e) {
+            Thread.sleep(5000);
+            WebElement signIn = getDriver().findElement
+                    (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
+            clickCustom(signIn);
+        }
         WebElement loginText = getDriver().findElement(By.xpath("//h3"));
-
         String expectedResult = loginText.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
@@ -224,6 +227,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         driver.quit();
     }
+
     @Test
     public void testAnastasiyaAbramova() {
         String expectedResult = "https://openweathermap.org/";
@@ -274,6 +278,38 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(phoneNumber2.getText(), "+7 (905) 714-13-70");
 
         driver.quit();
+    }
+
+    @Test
+    public void testArtyomDulya() {
+        List<String> expectedResult = new ArrayList<>(4);
+        expectedResult.add("https://www.99-bottles-of-beer.net/abc.html");
+        expectedResult.add("https://www.99-bottles-of-beer.net/search.html");
+        expectedResult.add("https://www.99-bottles-of-beer.net/toplist.html");
+        expectedResult.add("https://www.99-bottles-of-beer.net/guestbookv2.html");
+        expectedResult.add("https://www.99-bottles-of-beer.net/submitnewlanguage.html");
+
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+
+        List<String> actualResult = new ArrayList<>(4);
+
+        WebElement browseLanguage = getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Browse Languages']"));
+        browseLanguage.click();
+        actualResult.add(getDriver().getCurrentUrl());
+        WebElement searchLanguage = getDriver().findElement(By.xpath("//div[@id='navigation']//a[text()='Search Languages']"));
+        searchLanguage.click();
+        actualResult.add(getDriver().getCurrentUrl());
+        WebElement topListis = getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Top Lists']"));
+        topListis.click();
+        actualResult.add(getDriver().getCurrentUrl());
+        WebElement guestbook = getDriver().findElement(By.xpath("//div[@id='navigation']//a[text()='Guestbook']"));
+        guestbook.click();
+        actualResult.add(getDriver().getCurrentUrl());
+        WebElement submitNewLanguage = getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Submit new Language']"));
+        submitNewLanguage.click();
+        actualResult.add(getDriver().getCurrentUrl());
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
 }
