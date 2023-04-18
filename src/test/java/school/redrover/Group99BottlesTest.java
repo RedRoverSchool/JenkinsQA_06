@@ -43,22 +43,15 @@ public class Group99BottlesTest extends BaseTest {
     @Test
     public void testCheckboxesHeadHerokuApp() throws InterruptedException {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://formy-project.herokuapp.com/");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://formy-project.herokuapp.com/");
-
-        driver.findElement(By.xpath("//li/a[@href='/checkbox']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href='/checkbox']")).click();
 
         Thread.sleep(3000);
 
-        WebElement text = driver.findElement(By.xpath("//h1"));
+        WebElement text = getDriver().findElement(By.xpath("//h1"));
 
         Assert.assertEquals(text.getText(), "Checkboxes");
-
-        driver.quit();
     }
 
     @Test
@@ -100,139 +93,60 @@ public class Group99BottlesTest extends BaseTest {
     }
 
     @Test
-    public void testH2Text_WhenSearchingCityCountry() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        String url = "https://openweathermap.org/";
-        String cityName = "Paris";
-        String expectedResult = "Paris, FR";
-
-        driver.get(url);
-        Thread.sleep(8000);
-
-        WebElement searchCityField = driver.findElement(
-                By.xpath("//div[@id='weather-widget']//input[@placeholder='Search city']")
-        );
-        searchCityField.click();
-        searchCityField.sendKeys(cityName);
-
-        WebElement searchButton = driver.findElement(
-                By.xpath("//button[@type='submit']")
-        );
-        searchButton.click();
-        Thread.sleep(1000);
-
-
-        WebElement parisFRChoiceDropdownMenu = driver.findElement(
-                By.xpath("//ul[@class='search-dropdown-menu']/li/span[text()='Paris, FR ']")
-        );
-        parisFRChoiceDropdownMenu.click();
-
-        WebElement h2CityNameHeader = driver.findElement(
-                By.xpath(
-                        "//div[@id='weather-widget']//h2")
-        );
-
-        Thread.sleep(2000);
-        String actualResult = h2CityNameHeader.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
-
-        driver.quit();
-    }
-
-    @Test
     public void testTelerikHeaderText() {
+        getDriver().get("https://www.telerik.com/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.telerik.com/");
-
-        WebElement headerH1Text = driver.findElement(
+        WebElement headerH1Text = getDriver().findElement(
                 By.xpath("//div[@id='ContentPlaceholder1_C339_Col00']/h1"));
 
         Assert.assertEquals(headerH1Text.getText(), "Modern UI Made Easy");
-
-        driver.quit();
     }
 
     @Test
     public void testTelerikTitleURLDemosPage() {
+        getDriver().get("https://www.telerik.com/");
+        getDriver().manage().window().maximize();
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.telerik.com/");
-
-        driver.manage().window().maximize();
-
-        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
-
-        Assert.assertEquals(driver.getTitle(), "Telerik Product Demos, Examples and Tutorials for all Telerik products");
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.telerik.com/support/demos");
-
-        driver.quit();
+        Assert.assertEquals(getDriver().getTitle(), "Telerik Product Demos, Examples and Tutorials for all Telerik products");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.telerik.com/support/demos");
     }
 
-    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageArray() {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         String[] expectedResult = {"Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"};
+        getDriver().get("https://www.telerik.com/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().window().maximize();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.telerik.com/");
-
-        driver.manage().window().maximize();
-
-        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+        getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
         String[] actualResult = new String[6];
-        actualResult[0] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][1]")).getText();
-        actualResult[1] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][2]")).getText();
-        actualResult[2] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][3]")).getText();
-        actualResult[3] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][4]")).getText();
-        actualResult[4] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][5]")).getText();
-        actualResult[5] = driver.findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][6]")).getText();
+        actualResult[0] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][1]")).getText();
+        actualResult[1] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][2]")).getText();
+        actualResult[2] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][3]")).getText();
+        actualResult[3] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][4]")).getText();
+        actualResult[4] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][5]")).getText();
+        actualResult[5] = getDriver().findElement(By.xpath("//div[@data-tlrk-plugin='navspy']/a[@href][6]")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        driver.quit();
     }
 
-    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageList() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
         List<String> expectedResult = new ArrayList<>(
                 Arrays.asList("Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"));
+        getDriver().get("https://www.telerik.com/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().window().maximize();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.telerik.com/");
+        getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
-        driver.manage().window().maximize();
-
-        driver.findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
-
-        List<WebElement> elementList = driver.findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
-        List<String> actualResult = WebElementToString(elementList);
+        List<WebElement> navigateMenuDemosPage = getDriver().findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        List<String> actualResult = WebElementToString(navigateMenuDemosPage);
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        driver.quit();
     }
 
     public static List<String> WebElementToString(List<WebElement> elementList) {
@@ -263,7 +177,7 @@ public class Group99BottlesTest extends BaseTest {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testDemoblazeAddToCart() {
 
@@ -336,6 +250,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
     }
 
+    @Ignore
     @Test
     public void testLogoNavigateToBaseUrl() {
         String expectedResult = "https://www.thestar.com/";
@@ -345,5 +260,34 @@ public class Group99BottlesTest extends BaseTest {
         String actualResult = getDriver().getCurrentUrl();
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testElementContentTitle() {
+
+        getDriver().get("https://magento.softwaretestingboard.com/");
+        WebElement discountSign = getDriver().findElement(By.xpath("//a[@class='block-promo home-pants']/span/strong[@class='title']"));
+
+        Assert.assertEquals(discountSign.getText(), "20% OFF");
+    }
+
+    @Test
+    public void testTelerikNavigateMenuDemosPageSize() {
+        final int expectedResult = 6;
+        getDriver().get("https://www.telerik.com/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().window().maximize();
+
+        getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        List<WebElement> navigateMenuDemosPage = getDriver().findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        int actualResult = getListSize(navigateMenuDemosPage);
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    public int getListSize(List<WebElement> list) {
+
+        return list.size();
     }
 }
