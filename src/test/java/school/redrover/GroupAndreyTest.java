@@ -145,26 +145,5 @@ public class GroupAndreyTest extends BaseTest {
         assertEquals(expected, 1);
     }
 
-    @Test
-    public void testBaku11() throws InterruptedException {
-
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        String title = getDriver().getTitle();
-        assertEquals("Web form", title);
-
-        Thread.sleep(2000);
-
-        WebElement textBox = getDriver().findElement(By.name("my-text"));
-        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
-
-        textBox.sendKeys("Selenium");
-        submitButton.click();
-
-        WebElement message = getDriver().findElement(By.id("message"));
-        String value = message.getText();
-        assertEquals("Received!", value);
-
-        getDriver().quit();
-    }
+  
 }

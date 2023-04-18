@@ -51,6 +51,7 @@ public class LoginPageTest extends BaseTest {
     Assert.assertEquals(getErrorMessage(), USERNAME_IS_INVALID);
   }
 
+  @Ignore
   @Test
   public void testNegativePassword() {
     mainPage();

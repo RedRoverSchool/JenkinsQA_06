@@ -10,15 +10,18 @@ import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComradesAdelanteTest {
+import static org.testng.Assert.assertEquals;
+
+public class ComradesAdelanteTest extends BaseTest {
 
     @Test
-    public void testHeaderOpenWeather() throws InterruptedException {
+    public void testHeaderOpenWeather() {
         Reporter.log("Tests started 1", true);
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments(
@@ -74,7 +77,7 @@ public class ComradesAdelanteTest {
     }
 
     @Test
-    public void MariaLuchnikovaTest() throws InterruptedException {
+    public void MariaLuchnikovaTest() {
 
         Reporter.log("Tests started 3", true);
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -113,7 +116,7 @@ public class ComradesAdelanteTest {
         driver.quit();
     }
     @Test
-    public void nikolayMarkovTest() throws InterruptedException {
+    public void nikolayMarkovTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -206,4 +209,35 @@ public class ComradesAdelanteTest {
         Reporter.log("Tests stop",true);
         driver.quit();
     }
+    @Test
+
+    public void testFirstAddRemoveElementsAnnaG() {
+
+        getDriver().get("http://the-internet.herokuapp.com/");
+        String title = getDriver().getTitle();
+        assertEquals("The Internet", title);
+
+        WebElement findAddRemoveElementsButtom = getDriver().findElement
+                (By.xpath("//a[@href='/add_remove_elements/']"));
+        findAddRemoveElementsButtom.click();
+        assertEquals("The Internet", title);
+
+        WebElement addElementButton = getDriver().findElement
+                (By.xpath("//div[@class='example']/button[@onclick='addElement()']"));
+        addElementButton.click();
+        addElementButton.click();
+        addElementButton.click();
+
+        WebElement deleteElementButton = getDriver().findElement
+                (By.xpath("//button[@class='added-manually']"));
+        deleteElementButton.click();
+
+        List<WebElement> sizeOfDeleteElementButton = getDriver().findElements(
+                By.className("added-manually"));
+        int actualResultSizeOfDeleteElementButton = sizeOfDeleteElementButton.size();
+        int expectResultSizeOfDeleteElementButton = 2;
+
+        Assert.assertEquals(actualResultSizeOfDeleteElementButton,expectResultSizeOfDeleteElementButton);
+
+        }
 }

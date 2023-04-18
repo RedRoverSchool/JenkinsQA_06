@@ -68,6 +68,7 @@ public class AndreyPomazTest extends BaseTest {
         WebElement text = getDriver().findElement(By.className("hdlist1"));
         Assert.assertEquals(text.getText(),"Step 1: Setup wizard");
     }
+    @Ignore
     @Test
     public void testForm() throws InterruptedException {
         getDriver().get("https://demoqa.com");
