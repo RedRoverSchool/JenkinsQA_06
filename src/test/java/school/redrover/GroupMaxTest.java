@@ -93,6 +93,7 @@ public class GroupMaxTest {
 
         textBox.sendKeys("selenium");
         Thread.sleep(2000);
+
         WebElement button = driver.findElement(By.name("btnK"));
         button.click();
 
