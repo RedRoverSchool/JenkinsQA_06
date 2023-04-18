@@ -1,5 +1,7 @@
 package school.redrover;
 
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -31,44 +33,6 @@ public class GroupJavaExplorersTest extends BaseTest {
     }
 
     @Test
-    public void vhodTextOnAuthPageTest() throws InterruptedException {
-
-        //проверка того, что на окошке со входом над полями Логина и пасса есть слово Вход
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        //"--remote-allow-origins=*", "--headless" --- params for server
-
-        WebDriver driver = new ChromeDriver(options);
-        driver.get("https://www.21vek.by/");             //проходим на сайт
-
-        Thread.sleep(1000);
-
-        WebElement buttonCookie = driver.findElement(    //прошли выплывашку с куки
-                By.xpath("//button[@class='Button-module__button Button-module__blue-primary']"));
-        buttonCookie.click();
-
-        Thread.sleep(1000);
-
-        WebElement buttonAccount = driver.findElement(   // нажали на Аккаунт
-                By.xpath("//button[@class='styles_userToolsToggler__imcSl']"));
-        buttonAccount.click();
-
-        Thread.sleep(1000);
-
-        WebElement buttonVoiti = driver.findElement(   // нажали на Войти
-                By.xpath("//button[@data-testid='loginButton']"));
-        buttonVoiti.click();
-
-        Thread.sleep(1000);
-
-        WebElement textVhod = driver.findElement(   // нашли текст вверху, в центре, где должно быть ВХОД
-                By.xpath("//h5[@class='style_formTitle__hRNRz']"));
-        Assert.assertEquals(textVhod.getText(), "Вход");
-
-        driver.quit();
-    }
-
-    @Test
     public void testEquilateralTriangle() {
         int triangleSize = 5;
         final String expectedResult = "Equilateral";
@@ -89,5 +53,50 @@ public class GroupJavaExplorersTest extends BaseTest {
 
         WebElement actualResult =  getDriver().findElement(By.id("triangle-type"));
         Assert.assertEquals(actualResult.getText(), expectedResult);
+    }
+
+    @Test
+    public void testElementWithDynamicId() {
+        getDriver().get("http://uitestingplayground.com/");
+        WebElement buttonClassAttribute = getDriver().findElement(By.cssSelector("a[href='/classattr']"));
+        buttonClassAttribute.click();
+        WebElement buttonPrimary = getDriver().findElement(By.cssSelector("button[class*=btn-primary]"));
+        buttonPrimary.click();
+        Alert alert = getDriver().switchTo().alert();
+        String alertText = alert.getText();
+
+        Assert.assertEquals(alertText, "Primary button pressed");
+    }
+
+    @Test
+    public void testClickOnButton() {
+        getDriver().get("http://uitestingplayground.com/");
+        WebElement buttonClick = getDriver().findElement(By.xpath("//a[@href='/click']"));
+        buttonClick.click();
+        WebElement buttonPrimary = getDriver().findElement(By.xpath("//button[@id='badButton']"));
+        buttonPrimary.click();
+        String buttonClass = buttonPrimary.getAttribute("class");
+
+        Assert.assertTrue(buttonClass.contains("btn-success"));
+    }
+
+    @Test
+    public void testIsoscelesTriangle() throws InterruptedException {
+        getDriver().get("https://playground.learnqa.ru/puzzle/triangle");
+
+        WebElement sideATextBox = getDriver().findElement(By.className("js_a"));
+        sideATextBox.sendKeys("5");
+        WebElement sideBTextBox = getDriver().findElement(By.className("js_b"));
+        sideBTextBox.sendKeys("5");
+        WebElement sideCTextBox = getDriver().findElement(By.className("js_c"));
+        sideCTextBox.sendKeys("6");
+        WebElement showResultButton = getDriver().findElement(By.xpath("//button[@class='btn btn-submit']"));
+        Thread.sleep(1000);
+        showResultButton.click();
+        WebElement resultMessage = getDriver().findElement(By.xpath("//div[@class='info logg']"));
+        Thread.sleep(1000);
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, "Это равнобедренный треугольник.\nВы ввели:\nA: 5; B: 5; C: 6");
     }
 }

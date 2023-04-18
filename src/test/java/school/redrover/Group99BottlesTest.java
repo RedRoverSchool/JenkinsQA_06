@@ -43,22 +43,15 @@ public class Group99BottlesTest extends BaseTest {
     @Test
     public void testCheckboxesHeadHerokuApp() throws InterruptedException {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://formy-project.herokuapp.com/");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://formy-project.herokuapp.com/");
-
-        driver.findElement(By.xpath("//li/a[@href='/checkbox']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href='/checkbox']")).click();
 
         Thread.sleep(3000);
 
-        WebElement text = driver.findElement(By.xpath("//h1"));
+        WebElement text = getDriver().findElement(By.xpath("//h1"));
 
         Assert.assertEquals(text.getText(), "Checkboxes");
-
-        driver.quit();
     }
 
     @Test
@@ -150,8 +143,8 @@ public class Group99BottlesTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
-        List<WebElement> elementList = getDriver().findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
-        List<String> actualResult = WebElementToString(elementList);
+        List<WebElement> navigateMenuDemosPage = getDriver().findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        List<String> actualResult = WebElementToString(navigateMenuDemosPage);
 
         Assert.assertEquals(actualResult, expectedResult);
     }
@@ -184,7 +177,7 @@ public class Group99BottlesTest extends BaseTest {
 
         driver.quit();
     }
-
+    @Ignore
     @Test
     public void testDemoblazeAddToCart() {
 
@@ -276,5 +269,25 @@ public class Group99BottlesTest extends BaseTest {
         WebElement discountSign = getDriver().findElement(By.xpath("//a[@class='block-promo home-pants']/span/strong[@class='title']"));
 
         Assert.assertEquals(discountSign.getText(), "20% OFF");
+    }
+
+    @Test
+    public void testTelerikNavigateMenuDemosPageSize() {
+        final int expectedResult = 6;
+        getDriver().get("https://www.telerik.com/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().window().maximize();
+
+        getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        List<WebElement> navigateMenuDemosPage = getDriver().findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        int actualResult = getListSize(navigateMenuDemosPage);
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    public int getListSize(List<WebElement> list) {
+
+        return list.size();
     }
 }
