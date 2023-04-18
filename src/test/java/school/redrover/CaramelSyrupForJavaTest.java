@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,11 +14,12 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import javax.swing.*;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.function.Predicate;
 
 
 public class CaramelSyrupForJavaTest extends BaseTest {
@@ -372,5 +374,34 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testArtyomDulyaProductToTheCart() throws InterruptedException {
+        String expectedResult = "Выберите размер";
+        getDriver().manage().deleteAllCookies();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        getDriver().get("https://www.wildberries.ru/");
+        Thread.sleep(5000);
+        WebElement lineSearch = getDriver().findElement(By.xpath("//input[contains(@id, 'searchInput')]"));
+        lineSearch.click();
+        lineSearch.sendKeys("джинсы");
+        WebElement buttonSearch = getDriver().findElement(By.xpath("//button[@id='applySearchBtn']"));
+        clickCustom(buttonSearch);
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        Thread.sleep(5000);
+        WebElement jeansBox = getDriver().findElement(By.xpath("//div[@id='c74249381']//div[@class='product-card__price price j-cataloger-price']"));
+        WebElement jeans = getDriver().findElement(By.xpath("//div[@id='c74249381']//a[@href='/lk/basket']"));
+        js.executeScript("window.scrollBy(0,250)");
+        clickCustom(jeansBox);
+        clickCustom(jeans);
+        WebElement jeansSize = getDriver().findElement(By.xpath("//h2[text()='Выберите размер']"));
+
+        String actualResult = jeansSize.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+
+    }
+
 
 }
