@@ -12,7 +12,7 @@ import school.redrover.runner.BaseTest;
 
 public class LiliaMTest extends BaseTest {
     @Test
-    public void myFirstTest() throws InterruptedException {
+    public void myFirstTest() {
         getDriver().get("https://www.saucedemo.com/");
         WebElement userName = getDriver().findElement(By.xpath("//input[@id='user-name']"));
         userName.sendKeys("standard_user");
