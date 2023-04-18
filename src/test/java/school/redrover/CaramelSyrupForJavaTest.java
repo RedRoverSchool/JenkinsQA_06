@@ -395,7 +395,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement jeansSize = getDriver().findElement(By.xpath("//h2[text()='Выберите размер']"));
 
         String actualResult = jeansSize.getText();
-
         Assert.assertEquals(actualResult, expectedResult);
     }
 
