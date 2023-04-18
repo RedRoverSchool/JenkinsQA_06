@@ -24,7 +24,7 @@ public class Vegas233Test {
 
 
         String title = driver.getTitle();
-        assertEquals("Web form", title);
+        assertEquals(title, "Web form");
 
         WebElement textBox = driver.findElement(By.name("my-text"));
         WebElement submitButton = driver.findElement(By.cssSelector("button"));
@@ -34,7 +34,7 @@ public class Vegas233Test {
 
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
-        assertEquals("Received!", value);
+        assertEquals(value, "Received!");
 
         driver.quit();
     }
