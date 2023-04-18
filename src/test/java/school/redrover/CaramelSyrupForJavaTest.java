@@ -48,7 +48,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String githubUrl = "https://github.com/search?q=openweathermap&ref=cmdform";
 
         int expectedResult = 6;
-
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         getDriver().get("https://openweathermap.org/");
 
