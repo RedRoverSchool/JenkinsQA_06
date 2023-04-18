@@ -90,7 +90,6 @@ public class GroupGlukhovaTest extends BaseTest {
 
     @Test
     public void testAviaSales() {
-
         getDriver().get("https://www.aviasales.ru/");
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
