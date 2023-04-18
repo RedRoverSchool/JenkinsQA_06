@@ -22,11 +22,10 @@ public class DavidMTest extends BaseTest {
 
         WebElement text = getDriver().findElement(By.xpath("//h3[text() = 'Selenium']"));
         Assert.assertEquals(text.getText(),"Selenium");
-
-         }
+        }
 
     @Test
-    public void testSecond() throws InterruptedException {
+    public void TestSecond() throws InterruptedException {
 
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
@@ -44,5 +43,5 @@ public class DavidMTest extends BaseTest {
         WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
-    }
-    }
+        }
+  }
