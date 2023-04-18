@@ -217,6 +217,7 @@ driver.quit();
 
     @Test
     public void testReceivedAnswerResult() {
+        
         String url = "https://www.w3schools.com/";
         String expectedResult = "Correct!";
 
@@ -251,7 +252,5 @@ driver.quit();
         String actualResult = result.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
     }
-
 }
