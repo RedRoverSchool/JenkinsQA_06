@@ -32,17 +32,17 @@ public class OlegfTest extends BaseTest {
     public void bankTest() throws Exception{
 
         getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
-        Thread.sleep(300);
+        Thread.sleep(600);
         getDriver().findElement(By.xpath("//button[@class='btn btn-primary btn-lg']")).click();
 
-        Thread.sleep(300);
+        Thread.sleep(600);
         WebElement nameDropDown = getDriver().findElement(By.id("userSelect"));
         Select optionsName = new Select(nameDropDown);
         optionsName.selectByVisibleText("Albus Dumbledore");
 
         getDriver().findElement(By.xpath("//button[text()='Login']")).click();
 
-        Thread.sleep(300);
+        Thread.sleep(600);
         String successfulLogin = getDriver().findElement(By.xpath("//strong[text()=' Welcome ']")).getText();
         Assert.assertEquals(successfulLogin, "Welcome Albus Dumbledore !!");
 
@@ -53,15 +53,15 @@ public class OlegfTest extends BaseTest {
         Assert.assertEquals(valueOption, true);
 
         getDriver().findElement(By.xpath("//button[@ng-class='btnClass2']")).click();
-        Thread.sleep(300);
-        getDriver().findElement(By.xpath("//input[@type='number']")).sendKeys("23000\n");
-        Thread.sleep(300);
+        Thread.sleep(600);
+        getDriver().findElement(By.xpath("//input[@type='number']")).sendKeys("26000\n");
+        Thread.sleep(600);
         String depositMessage = getDriver().findElement(By.xpath("//span[@class='error ng-binding']")).getText();
         Assert.assertEquals(depositMessage, "Deposit Successful");
 
         getDriver().findElement(By.xpath("//button[@ng-class='btnClass1']")).click();
 
-        Thread.sleep(300);
+        Thread.sleep(1000);
         String transactionTime = getDriver().findElement(By.id("anchor0")).getText();
         Assert.assertTrue(transactionTime.contains(new SimpleDateFormat("h:mm").format(new java.util.Date())));
 
