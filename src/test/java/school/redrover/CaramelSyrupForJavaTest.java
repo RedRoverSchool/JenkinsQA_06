@@ -387,7 +387,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         clickCustom(buttonSearch);
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         Thread.sleep(5000);
-
         WebElement jeansBox = getDriver().findElement(By.xpath("//div[@id='c74249381']//div[@class='product-card__price price j-cataloger-price']"));
         WebElement jeans = getDriver().findElement(By.xpath("//div[@id='c74249381']//a[@href='/lk/basket']"));
         js.executeScript("window.scrollBy(0,250)");
