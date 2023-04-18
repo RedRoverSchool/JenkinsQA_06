@@ -1,6 +1,8 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
+import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
+import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -517,5 +519,36 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Thread.sleep(2000);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']")).getText(),"Hoodies & Sweatshirts");
+    }
+
+    @Test
+    public void testAddWishlist() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        Thread.sleep(3000);
+        driver.findElement(By.className("authorization-link")).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.id("email")).sendKeys("kmgoncharova@ya.ru");
+        driver.findElement(By.id("pass")).sendKeys("qwerty123!");
+        driver.findElement(By.id("send2")).click();
+
+        Thread.sleep(2000);
+        WebElement actionToItem = driver.findElement(By.className("product-image-photo"));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", actionToItem);
+        driver.findElement(By.className("product-image-photo")).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//div[@class='product-addto-links']//a[@class='action towishlist']")).click();
+
+        Thread.sleep(3000);
+        WebElement textSuccessAddToWishlist = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[1]/div[2]/div/div/div"));
+
+        assertEquals(textSuccessAddToWishlist.getText(), "Radiant Tee has been added to your Wish List. Click here to continue shopping.");
+
+        driver.quit();
     }
 }
