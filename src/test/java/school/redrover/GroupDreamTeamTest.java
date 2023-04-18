@@ -11,6 +11,7 @@ import java.time.Duration;
 import static org.testng.Assert.assertEquals;
 
 public class GroupDreamTeamTest extends BaseTest {
+
     @Test
     public void eightComponents() {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
@@ -41,6 +42,7 @@ public class GroupDreamTeamTest extends BaseTest {
         String actualResult = getDriver().getCurrentUrl();
         Assert.assertEquals(actualResult, expectedResult);
     }
+
     @Test
     public void testRafis() throws InterruptedException {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
@@ -67,6 +69,7 @@ public class GroupDreamTeamTest extends BaseTest {
         String value = message.getText();
         Assert.assertEquals("Received!", value);
     }
+
     @Test
     public void testSecondLilia() throws InterruptedException {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
