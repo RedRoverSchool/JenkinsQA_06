@@ -99,9 +99,10 @@ public class GroupForwardTest extends BaseTest {
       }
 
       @Test
-    public void TestDemo()  {
+    public void testDemo()  {
 
           getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+
           String title = getDriver().getTitle();
           assertEquals("Web form", title);
 
@@ -114,8 +115,6 @@ public class GroupForwardTest extends BaseTest {
           WebElement message = getDriver().findElement(By.id("message"));
           String value = message.getText();
           assertEquals("Received!", value);
-
-        getDriver().quit();
       }
 
     @Test
