@@ -107,6 +107,7 @@ public class ZeroBugTest extends BaseTest {
         } else {
             System.out.println("First or last element of an arrays is not equals!");
 
+
         }
     }
 }
