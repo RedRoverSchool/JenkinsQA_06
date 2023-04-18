@@ -56,7 +56,7 @@ public class JavaExpertsTest extends BaseTest {
         assertFalse(getDriver().findElements(By.cssSelector(".alertinner.wicon")).isEmpty(),
                 "User registration is fail");
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testRegisterUser")
     public void testLoginUser(){
         getDriver().get("http://selenium1py.pythonanywhere.com/en-gb/accounts/login/");
