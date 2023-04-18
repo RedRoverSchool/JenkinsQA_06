@@ -9,9 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
-
-public class DavidMTest {
+public class IrinaETest {
 
     @Test
     public void testFirst() throws InterruptedException {
@@ -21,7 +19,7 @@ public class DavidMTest {
 
         WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://www.google.com");
+        driver.get("https://www.google.com/");
 
         WebElement textBox = driver.findElement(By.name("q"));
 
@@ -32,53 +30,30 @@ public class DavidMTest {
 
         WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
 
-        Assert.assertEquals(text.getText(),"Selenium");
+        Assert.assertEquals(text.getText(), "Selenium");
 
         driver.quit();
     }
 
+
     @Test
-    public void TestSecond() throws InterruptedException {
+       public void testMyFirst(){
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+        driver.get("http://www.clouds-travel.ru/");
 
-        String title = driver.getTitle();
-        Assert.assertEquals("Web form", title);
+        WebElement textBox = driver.findElement(By.xpath("//h4[text() = 'Экскурсии Ярославль']"));
 
+        textBox.click();
 
+        WebElement textBox1 = driver.findElement(By.xpath("//h2[text() = 'Прием групп и индивидуальных туристов в Ярославле']"));
 
-        Thread.sleep(2000);
+        Assert.assertEquals(textBox1.getText(), "Прием групп и индивидуальных туристов в Ярославле");
 
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
-
-        textBox.sendKeys("Selenium");
-        submitButton.click();
-
-        WebElement message = driver.findElement(By.id("message"));
-        String value = message.getText();
-        Assert.assertEquals("Received!", value);
-      //test
         driver.quit();
-    }
-    @Test
-    public void testOneMore(){
-        System.out.println("I do not know how to write tests");
 
     }
-
-    @Test
-    public void testTest(){
-        System.out.println("Simple test");
-
-    }
-    @Test
-    public void testShort(){
-        System.out.println("This is short test");
-    }
-
 }

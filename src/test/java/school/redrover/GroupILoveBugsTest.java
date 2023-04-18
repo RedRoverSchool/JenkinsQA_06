@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,10 +10,24 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class GroupILoveBugsTest {
+import static org.testng.AssertJUnit.assertEquals;
+
+public class GroupILoveBugsTest extends BaseTest {
+    WebDriver driver;
+    Faker faker = new Faker();
+    String firstName = faker.internet().uuid();
+    String lastName = faker.internet().uuid();
+    String postCode = faker.address().zipCode();
+
+    By firstNameField = By.xpath("//input[@placeholder='First Name']");
+    By lastNameField = By.xpath("//input[@placeholder='Last Name']");
+    By postCodeField = By.xpath("//input[@placeholder='Post Code']");
+    By homeButton = By.xpath("//*[@ng-click='home()']");
+    By addCustomerRegistrationButton = By.xpath("//button[@type='submit']");
     @Test
     public void ADFirstTest() throws InterruptedException {
 
@@ -33,63 +48,96 @@ public class GroupILoveBugsTest {
     }
 
     @Test
-    public void SteamTest(){
+    public void testSteam(){
         final String MAIN_PAGE = "https://store.steampowered.com/";
         final By LOGIN_BUTTON = By.xpath("//a[@class='global_action_link']");
         final By SIGN_IN_BUTTON = By.cssSelector(".newlogindialog_SubmitButton_2QgFE");
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(4));
 
-        WebDriver driver = new ChromeDriver(options);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4));
-
-        driver.get(MAIN_PAGE);
-        Assert.assertEquals(driver.getCurrentUrl(), MAIN_PAGE, "The page opened is not 'store.steampowered.com' or the URL is invalid");
+        getDriver().get(MAIN_PAGE);
+        Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE, "The page opened is not 'store.steampowered.com' or the URL is invalid");
 
         wait.until(ExpectedConditions.elementToBeClickable(LOGIN_BUTTON));
-        driver.findElement(LOGIN_BUTTON).click();
+        getDriver().findElement(LOGIN_BUTTON).click();
 
         wait.until(ExpectedConditions.elementToBeClickable(SIGN_IN_BUTTON));
-        Assert.assertTrue(driver.findElement(SIGN_IN_BUTTON).isDisplayed(), "The bottom 'Sign In' is not displayed.");
-
-        driver.quit();
+        Assert.assertTrue(getDriver().findElement(SIGN_IN_BUTTON).isDisplayed(), "The bottom 'Sign In' is not displayed.");
     }
+
     @Test
-    public void swagLabsTest() {
+    public void testSwagLabs() {
+        getDriver().get("https://www.saucedemo.com/");
+
+        WebElement nameInput = getDriver().findElement(By.xpath("//*[@placeholder = 'Username']"));
+        nameInput.sendKeys("standard_user");
+
+        WebElement passwordInput = getDriver().findElement(By.id("password"));
+        passwordInput.sendKeys("secret_sauce");
+
+        WebElement loginButton = getDriver().findElement(By.name("login-button"));
+        loginButton.click();
+
+        WebElement firstItem = getDriver().findElement(By.xpath("//*[text() = 'Sauce Labs Backpack']"));
+        String firstItemName = firstItem.getText();
+
+        Assert.assertEquals(firstItemName, "Sauce Labs Backpack", "First Item is not Sauce Labs Backpack");
+
+        WebElement addToCartButton = getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack"));
+        addToCartButton.click();
+
+        WebElement cartButton = getDriver().findElement(By.className("shopping_cart_link"));
+        cartButton.click();
+
+        WebElement cartItem = getDriver().findElement(By.className("inventory_item_name"));
+        String cartItemName = cartItem.getText();
+
+        Assert.assertEquals(cartItemName, firstItemName);
+    }
+
+    @Test
+    public void eightComponentsTest() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.saucedemo.com/");
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
+        String title = driver.getTitle();
+        assertEquals("Web form", title);
 
-        WebElement nameInput = driver.findElement(By.xpath("//*[@placeholder = 'Username']"));
-        nameInput.sendKeys("standard_user");
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
-        WebElement passwordInput = driver.findElement(By.id("password"));
-        passwordInput.sendKeys("secret_sauce");
+        WebElement textBox = driver.findElement(By.name("my-text"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
 
-        WebElement loginButton = driver.findElement(By.name("login-button"));
-        loginButton.click();
+        textBox.sendKeys("Selenium");
+        submitButton.click();
 
-        WebElement firstItem = driver.findElement(By.xpath("//*[text() = 'Sauce Labs Backpack']"));
-        String firstItemName = firstItem.getText();
-
-        Assert.assertEquals(firstItemName, "Sauce Labs Backpack", "First Item is not Sauce Labs Backpack");
-
-        WebElement addToCartButton = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
-        addToCartButton.click();
-
-        WebElement cartButton = driver.findElement(By.className("shopping_cart_link"));
-        cartButton.click();
-
-        WebElement cartItem = driver.findElement(By.className("inventory_item_name"));
-        String cartItemName = cartItem.getText();
-
-        Assert.assertEquals(cartItemName, "Sauce Labs Backpack");
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        assertEquals("Received!", value);
 
         driver.quit();
+    }
+
+    @Test
+    public void testAddCastomerGlobalsqa() throws InterruptedException {
+        getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/manager/addCust");
+        Thread.sleep(1000);
+
+        fillField(firstName, firstNameField);
+        fillField(lastName, lastNameField);
+        fillField(postCode, postCodeField);
+        getDriver().findElement(addCustomerRegistrationButton).click();
+
+        getDriver().switchTo().alert().accept();
+        getDriver().findElement(homeButton).click();
+    }
+
+    private void fillField(String userData, By locator) {
+        getDriver().findElement(locator).click();
+        getDriver().findElement(locator).sendKeys(userData);
     }
 }
