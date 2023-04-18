@@ -12,7 +12,7 @@ import school.redrover.runner.BaseTest;
 public class DmitryGonchTest extends BaseTest {
 
     @Test
-    public void testFirsDg() {
+    public void testFindElement() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
