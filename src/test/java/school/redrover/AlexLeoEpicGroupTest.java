@@ -700,4 +700,46 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//button[@value='Search']")).getCssValue("background-color"), "rgba(49, 151, 214, 1)");
     }
 
+    @Test
+    public void testVerifyNumberOfItemsInFeaturedSection() {
+        getDriver().get("https://askomdch.com/");
+
+        WebElement featuredSection = getDriver()
+                .findElement(By.xpath("//div[@class='wp-block-group__inner-container']" +
+                        "/h2[text()='Featured Products']/.."));
+        List<WebElement> productCards = featuredSection.findElements(By.tagName("li"));
+
+        Assert.assertEquals(productCards.size(), 5);
+    }
+
+    @Test
+    public void testVerifyBackgroundColorSearchButton() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[@class='menu-link'][text()='Men']")).click();
+        WebElement searchButton = getDriver().findElement(By.cssSelector("button[value='Search']"));
+
+        Assert.assertEquals(searchButton.getCssValue("background-color"), "rgba(49, 151, 214, 1)");
+    }
+
+    @Test
+    public void testVerifyContactUsPage() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[text()='Find More']")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/contact-us/");
+    }
+
+    @Test
+    public void testVerify7productsDisplayedInWoman() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//ul[@id='ast-hf-menu-1']//a[text()='Women']")).click();
+        WebElement productsSection = getDriver().findElement(By.xpath("//main[@id='main']/div/ul"));
+        List<WebElement> products = productsSection.findElements(By.tagName("li"));
+
+        Assert.assertEquals(products.size(), 7);
+    }
+
 }
