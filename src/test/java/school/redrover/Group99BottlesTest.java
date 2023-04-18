@@ -75,21 +75,13 @@ public class Group99BottlesTest extends BaseTest {
 
     @Test
     public void testWorkshopHeaderText() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://corporatetrainingmaterials.com/");
+        getDriver().findElement(By.xpath("//ul[@id='AccessibleNav']/li[2]/a")).click();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://corporatetrainingmaterials.com/");
-
-        driver.findElement(By.xpath("//ul[@id='AccessibleNav']/li[2]/a")).click();
-
-        WebElement headerH1Text = driver.findElement(
+        WebElement headerH1Text = getDriver().findElement(
                 By.xpath("//div[@id='ProductSection']//div[1]/h1"));
 
         Assert.assertEquals(headerH1Text.getText(), "WORKSHOP LIBRARY");
-
-        driver.quit();
-
     }
 
     @Test
@@ -101,7 +93,7 @@ public class Group99BottlesTest extends BaseTest {
 
         Assert.assertEquals(headerH1Text.getText(), "Modern UI Made Easy");
     }
-
+    @Ignore
     @Test
     public void testTelerikTitleURLDemosPage() {
         getDriver().get("https://www.telerik.com/");

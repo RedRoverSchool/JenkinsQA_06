@@ -117,25 +117,18 @@ public class GroupHighwayToAqaTest extends BaseTest {
     public void testNewLinkAR() {
         String expectedPageTitle = "What's New";
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
-
-        WebDriverWait waitForWhatsNewLink = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait waitForWhatsNewLink = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         waitForWhatsNewLink.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='ui-id-3']")));
 
-        WebElement whatsNewLink = driver.findElement(By.xpath("//a[@id='ui-id-3']"));
+        WebElement whatsNewLink = getDriver().findElement(By.xpath("//a[@id='ui-id-3']"));
         whatsNewLink.click();
 
-        WebElement pageTitle = driver.findElement(By.xpath("//h1[@id='page-title-heading']"));
+        WebElement pageTitle = getDriver().findElement(By.xpath("//h1[@id='page-title-heading']"));
         String actualPageTitle = pageTitle.getText();
 
         Assert.assertEquals(actualPageTitle, expectedPageTitle);
-
-        driver.quit();
     }
 
     @Test
@@ -227,26 +220,16 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-
     public void testH1TextInWhatIsNew() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
+        getDriver().get("https://magento.softwaretestingboard.com/");
         Thread.sleep(2000);
 
-        WebElement whatIsNew = driver.findElement(By.id("ui-id-3"));
+        WebElement whatIsNew = getDriver().findElement(By.id("ui-id-3"));
         whatIsNew.click();
 
-        WebElement h1InWhatIsNew = driver.findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
+        WebElement h1InWhatIsNew = getDriver().findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
 
         Assert.assertEquals(h1InWhatIsNew.getText(), "What's New");
-
-        driver.quit();
-
     }
 
     @Test
@@ -292,19 +275,13 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testSearching() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
-
-        WebElement textBox = driver.findElement(By.name("q"));
+        WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("watch\n");
-        WebElement searchingResult = driver.findElement(By.className("base"));
+        WebElement searchingResult = getDriver().findElement(By.className("base"));
 
         Assert.assertEquals(searchingResult.getText(), "Search results for: 'watch'");
-
-        driver.quit();
     }
 
     @Test

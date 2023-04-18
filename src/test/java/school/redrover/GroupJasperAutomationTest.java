@@ -90,24 +90,19 @@ public class GroupJasperAutomationTest extends BaseTest {
     }
 
     @Test
-    public void testOlgaMinina() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testWebFormSubmission() throws InterruptedException {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
 
         textBox.sendKeys("Selenium");
         submitButton.click();
 
-        WebElement message = driver.findElement(By.id("message"));
+        WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
-        Assert.assertEquals(value, "Received!");
 
-        driver.quit();
+        Assert.assertEquals(value, "Received!");
     }
 
     @Ignore
@@ -197,6 +192,7 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-test ='error']")));
         Assert.assertEquals(errorMessage.getText(),"Epic sadface: Sorry, this user has been locked out.");
     }
+
     @Ignore
     @Test
     public void testOrderIphone14() throws InterruptedException {
