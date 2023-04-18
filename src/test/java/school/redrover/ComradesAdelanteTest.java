@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-public class ComradesAdelanteTest {
+public class ComradesAdelanteTest extends BaseTest {
 
     @Test
     public void testHeaderOpenWeather() {
@@ -210,37 +211,33 @@ public class ComradesAdelanteTest {
     }
     @Test
 
-    public void testFirstAG (){
+    public void testFirstAddRemoveElementsAG() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("http://the-internet.herokuapp.com/");
-        String title = driver.getTitle();
+        getDriver().get("http://the-internet.herokuapp.com/");
+        String title = getDriver().getTitle();
         assertEquals("The Internet", title);
 
-        WebElement findAddRemoveElementsButtom = driver.findElement
+        WebElement findAddRemoveElementsButtom = getDriver().findElement
                 (By.xpath("//a[@href='/add_remove_elements/']"));
         findAddRemoveElementsButtom.click();
         assertEquals("The Internet", title);
 
-        WebElement addElementButton = driver.findElement
+        WebElement addElementButton = getDriver().findElement
                 (By.xpath("//div[@class='example']/button[@onclick='addElement()']"));
         addElementButton.click();
         addElementButton.click();
         addElementButton.click();
 
-        WebElement deleteElementButton = driver.findElement
+        WebElement deleteElementButton = getDriver().findElement
                 (By.xpath("//button[@class='added-manually']"));
         deleteElementButton.click();
 
-        List<WebElement> sizeOfDeleteElementButton = driver.findElements(
+        List<WebElement> sizeOfDeleteElementButton = getDriver().findElements(
                 By.className("added-manually"));
         int actualResultSizeOfDeleteElementButton = sizeOfDeleteElementButton.size();
         int expectResultSizeOfDeleteElementButton = 2;
 
         Assert.assertEquals(actualResultSizeOfDeleteElementButton,expectResultSizeOfDeleteElementButton);
 
-        driver.quit();
-    }
+        }
 }
