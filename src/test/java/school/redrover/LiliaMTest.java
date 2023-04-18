@@ -20,7 +20,6 @@ public class LiliaMTest extends BaseTest {
         password.sendKeys("secret_sauce");
         WebElement loginButton = getDriver().findElement(By.xpath("//input[@id='login-button']"));
         loginButton.click();
-
     }
     @Test
     public void testSecond() throws InterruptedException {
