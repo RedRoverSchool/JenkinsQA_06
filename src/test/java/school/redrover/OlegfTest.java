@@ -25,7 +25,7 @@ public class OlegfTest extends BaseTest {
         }
     }
     @Test
-    public void bankTest() throws Exception{
+    public void bankTest() throws InterruptedException{
 
         getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
         Thread.sleep(600);
