@@ -88,6 +88,25 @@ public class DreamTeamTest extends BaseTest {
                         ("//a[@href='https://www.jenkins.io/']/div/div/span")));
         Assert.assertEquals(text.getText(), "Jenkins");
     }
+
+    @Test
+    public void ARTest() throws InterruptedException {
+
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        String title = getDriver().getTitle();
+        Assert.assertEquals("Web form", title);
+
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("Selenium");
+        submitButton.click();
+
+        WebElement message = getDriver().findElement(By.id("message"));
+        String value = message.getText();
+        Assert.assertEquals("Received!", value);
+    }
 }
+
 
 
