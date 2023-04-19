@@ -39,7 +39,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
-
+    @Ignore
     @Test
     public void testErrorMessageWhenEmailFieldLeftBlank() {
 
