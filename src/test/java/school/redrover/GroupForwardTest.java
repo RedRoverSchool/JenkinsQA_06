@@ -216,5 +216,15 @@ public class GroupForwardTest extends BaseTest {
             Assert.assertTrue(element.getText().toLowerCase().contains("ruby"));
         }
     }
+
+    @Test void testSwitchToFahrenheit() {
+        getDriver().get("https://openweathermap.org/");
+
+        WebElement imperialButton = getDriver().findElement(By.xpath("//div[text() = 'Imperial: °F, mph']"));
+        imperialButton.click();
+        WebElement currentTemperature = getDriver().findElement(By.xpath("//div[@class = 'current-temp']"));
+
+        Assert.assertTrue(currentTemperature.getText().contains("F"));
+    }
 }
 
