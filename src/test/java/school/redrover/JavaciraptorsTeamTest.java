@@ -1,26 +1,21 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import static org.testng.Assert.assertEquals;
 
 public class JavaciraptorsTeamTest extends BaseTest {
- 
+
     @Test
     public void testReadOnlyInput() {
 
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getGetDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        WebElement readOnlyInput = getDriver().findElement(By.name("my-readonly"));
+        WebElement readOnlyInput = getGetDriver().findElement(By.name("my-readonly"));
         String initial = readOnlyInput.getAttribute("value");
 
         readOnlyInput.click();
@@ -32,29 +27,29 @@ public class JavaciraptorsTeamTest extends BaseTest {
     @Test
     public void testSavichev() {
 
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getGetDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        WebElement textInput = getDriver().findElement(By.name("my-text"));
+        WebElement textInput = getGetDriver().findElement(By.name("my-text"));
         textInput.click();
         textInput.sendKeys("Hello World!");
         String expText = textInput.getAttribute("value");
 
         Assert.assertEquals(expText, "Hello World!");
 
-        WebElement passInput = getDriver().findElement(By.name("my-password"));
+        WebElement passInput = getGetDriver().findElement(By.name("my-password"));
         passInput.click();
         passInput.sendKeys("222222");
         String expPass = passInput.getAttribute("value");
 
         Assert.assertEquals(expPass, "222222");
 
-        WebElement checkBox = getDriver().findElement(By.id("my-check-2"));
+        WebElement checkBox = getGetDriver().findElement(By.id("my-check-2"));
         checkBox.click();
 
-        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
+        WebElement submitButton = getGetDriver().findElement(By.cssSelector("button"));
         submitButton.click();
 
-        WebElement message = getDriver().findElement(By.id("message"));
+        WebElement message = getGetDriver().findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
     }
@@ -62,24 +57,22 @@ public class JavaciraptorsTeamTest extends BaseTest {
     @Test
     public void testBinoeder() {
 
-            WebDriver driver = new ChromeDriver();
-            driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+        getGetDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-            String title = driver.getTitle();
-            assertEquals("Web form", title);
 
-            WebElement textBox = driver.findElement(By.name("my-textarea"));
-            WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        String title = getGetDriver().getTitle();
+        assertEquals("Web form", title);
 
-            textBox.sendKeys("Selenium");
+        WebElement textBox = getGetDriver().findElement(By.name("my-textarea"));
+        WebElement submitButton = getGetDriver().findElement(By.cssSelector("button"));
 
-            submitButton.click();
+        textBox.sendKeys("Selenium");
 
-            WebElement message = driver.findElement(By.id("message"));
-            String value = message.getText();
+        submitButton.click();
 
-            assertEquals("Received!", value);
+        WebElement message = getGetDriver().findElement(By.id("message"));
+        String value = message.getText();
 
-            driver.quit();
-        }
+        assertEquals("Received!", value);
+    }
 }
