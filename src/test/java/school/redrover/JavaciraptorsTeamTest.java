@@ -59,22 +59,18 @@ public class JavaciraptorsTeamTest extends BaseTest {
 
     @Test
     public void testBinoeder() {
-
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless",
+                "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get("https://www.google.ru/");
-
         WebElement button = driver.findElement(By.id("L2AGLb"));
         button.click();
-
         WebElement textBox = driver.findElement(By.name("q"));
-
         textBox.sendKeys("selenium");
         textBox.sendKeys("\n");
-
         WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
-
         Assert.assertEquals(text.getText(), "Selenium");
-
         driver.quit();
     }
 }
