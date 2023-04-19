@@ -74,9 +74,6 @@ public class TatianaTodosevaTest {
         driver.quit();
     }
 
-    @Test
-    public void oneMoreTest (){
-        System.out.println("test test");
-        }
+
 }
 
