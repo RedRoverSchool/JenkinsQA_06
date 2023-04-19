@@ -137,13 +137,6 @@ public class GroupOlesyaTests extends BaseTest {
         List<WebElement> addProductsToCart  = getDriver().findElements(xpath);
         clickOnEachElement(addProductsToCart);
     }
-
-//    @Test
-//    public void standardUserLoginTest() {
-//        loginToSite(LOGIN);
-//
-//        Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
-//    }
     @Test
     public void testAddtoCart() {
         loginToSite(LOGIN);
