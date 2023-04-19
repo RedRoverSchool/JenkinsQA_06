@@ -15,11 +15,10 @@ import java.time.Duration;
 
 public class HelloWorldTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testOnlinerLogo() {
         getDriver().get("https://catalog.onliner.by/");
-        WebElement logo = getDriver().findElement(By.className("onliner_logo"));
+        WebElement logo = getDriver().findElement(By.xpath("//a//img[@class='onliner_logo']"));
         logo.click();
         String url = getDriver().getCurrentUrl();
         Assert.assertEquals(url, "https://www.onliner.by/");
@@ -150,8 +149,9 @@ public class HelloWorldTest extends BaseTest {
         Assert.assertEquals(error3.getText(), "Необходимо выбрать логин");
     }
 
+    @Ignore
     @Test
-    public void TestSlackSignupErrorAleksE() {
+        public void TestSlackSignupErrorAleksE() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -186,5 +186,14 @@ public class HelloWorldTest extends BaseTest {
         WebElement part = driver.findElement(By.xpath("//span[@class = \"mw-page-title-main\"]"));
         Assert.assertEquals(part.getText(), "API");
         driver.quit();
+    }
+
+    @Test
+    public void testTitle() {
+        getDriver().get("https://askomdch.com");
+        WebElement findMore = getDriver().findElement(By.xpath("//*[@id=\"post-61\"]"));
+        findMore.click();
+        String url = getDriver().getTitle();
+        Assert.assertEquals(url, "AskOmDch – Become a Selenium automation expert!");
     }
 }
