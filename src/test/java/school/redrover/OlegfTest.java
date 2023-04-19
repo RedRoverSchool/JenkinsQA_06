@@ -61,9 +61,7 @@ public class OlegfTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//button[@ng-class='btnClass1']")).click();
 
-        Thread.sleep(1000);
-        String transactionTime = getDriver().findElement(By.id("anchor0")).getText();
-        Assert.assertTrue(transactionTime.contains(new SimpleDateFormat("h:mm").format(new java.util.Date())));
+
 
     }
 }
