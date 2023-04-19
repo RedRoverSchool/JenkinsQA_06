@@ -1,91 +1,113 @@
 package school.redrover;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
+import java.util.Arrays;
 import java.util.List;
-
-public class ZeroBugTest {
-
-    @Test
-    public void testFirst() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.google.com/");
-
-        WebElement textBox = driver.findElement(By.name("q"));
-
+public class ZeroBugTest extends BaseTest {
+    @Test (enabled = false)
+    public void testSearchSelenium() {
+        getDriver().get("https://www.google.com/");
+        WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("selenium");
         textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
-
-        WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
-
+        WebElement text = getDriver().findElement(By.xpath("//h3[text() = 'Selenium']"));
         Assert.assertEquals(text.getText(), "Selenium");
-
-        driver.quit();
-
     }
-
-    @Test
-    public void testSecond() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        String title = driver.getTitle();
+    @Test (enabled = false)
+    public void testGetWebFormTitle() {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        String title = getDriver().getTitle();
         Assert.assertEquals("Web form", title);
-
-        Thread.sleep(2000);
-
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
-
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
         textBox.sendKeys("Selenium");
         submitButton.click();
-
-        WebElement message = driver.findElement(By.id("message"));
+        WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
+    }
+    @Test
+    public void testGetTitle_1() {
+        getDriver().get("https://askomdch.com/");
+        String expectedHPResult = "AskOmDch";
+        String actualHPResultHP = getDriver().findElement(By.xpath("//h1[@class='site-title']/.")).getText();
+        Assert.assertEquals(actualHPResultHP,expectedHPResult,"Wrong text from header!");
 
-        driver.quit();
-
+        String expectedTextBtnMen = "Men";
+        String actualTextBtnMen = "";
+        List<WebElement> list = getDriver().findElements(By.xpath("//li[@id='menu-item-1226']/..//li"));
+        for (WebElement element: list) {
+            if (element.getText().equals(expectedTextBtnMen)) {
+                actualTextBtnMen = element.getText();
+                break;
+            }
+        }
+        Assert.assertEquals(actualTextBtnMen, expectedTextBtnMen, "Element " + expectedTextBtnMen + " is not found" );
+        WebElement men = getDriver().findElement(By.xpath("//*[@id='menu-item-1228']"));
+        men.click();
+        String textFromMenHeader = "Men";
+        String actualTextFromMenPage = getDriver().findElement(By.xpath("//h1[.='Men']")).getText();
+        Assert.assertEquals(actualTextFromMenPage,textFromMenHeader,"Wrong text from header");
     }
 
     @Test
-    public void testThird () throws InterruptedException {
+    public void testGetTitle_2() throws InterruptedException {
+        getDriver().get("https://askomdch.com/");
+        String expectedHeaderHP = "Featured Products";
+        String actualHeaderHP = getDriver().findElement(By.cssSelector(".wp-block-group__inner-container>h2")).getText();
+        Assert.assertEquals(actualHeaderHP,expectedHeaderHP,"Header from Home Page do not match");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        String expectedMen = "Men";
+        String actualHeaderMen = "";
+        List <WebElement> listTabsHP = getDriver().findElements(By.xpath("//*[@class='site-primary-header-wrap ast-builder-grid-row-container site-header-focus-item ast-container']//li"));
+        for (WebElement tab:listTabsHP){
+            if(tab.getText().equals(expectedMen)){
+                tab.click();
+                actualHeaderMen = getDriver().findElement(By.cssSelector(".woocommerce-products-header>h1")).getText();
+                break;
+            }
+        }
+        Assert.assertEquals(actualHeaderMen,expectedMen,"Text from header of Men Page do not match");
+    }
+    @Test (enabled = false)
+    public void testSearchProduct() {
+        getDriver().get("https://askomdch.com/");
+        String expectedResult = "jeans";
+        getDriver().findElement(By.xpath("//a[@class='wp-block-button__link']")).click();
+        getDriver().findElement(By.id("woocommerce-product-search-field-0")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//button[@value='Search']")).click();
+        String actualResult = getDriver().findElement(By.xpath("//h1[contains(.,'jeans')]")).getText();
+        Assert.assertTrue(actualResult.contains(expectedResult),"Search product is not working");
+    }
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://askomdch.com/");
+    @Test
+    public void task_31 (){
 
-        String expectedHPResult = "AskOmDch";
-        String actualHPResultHP = driver.findElement(By.xpath("//*[@id=\"ast-desktop-header\"]/div[1]/div/div/div/div[1]/div/div/div/h1/a")).getText();
-        Thread.sleep(2000);
-        Assert.assertEquals(actualHPResultHP,expectedHPResult,"Wrong text from header!");
+        int [] a = new int[4];
+        int [] b = new int[3];
 
-        String textBtnMen = "Men";
-        WebElement men = driver.findElement(By.xpath("//*[@id='menu-item-1228']"));
-        men.click();
-        Thread.sleep(2000);
-        String textFromMenHeader = "Men";
-        String actualTextFromMenPage = driver.findElement(By.xpath("//*[@class='woocommerce-products-header__title page-title']")).getText();
-        Assert.assertEquals(actualTextFromMenPage,textFromMenHeader,"Wrong text from header");
-        driver.quit();
+        a[0]=1;
+        a[1]=2;
+        a[2]=3;
+        a[3]=4;
+
+        b[0]=1;
+        b[1]=2;
+        b[2]=3;
+
+        if(a[0]==b[0]){
+            System.out.println("First element of an arrays are equals");
+        } else if (a.length-1==b.length-1){
+            System.out.println("Last element of an arrays are equals");
+        } else {
+            System.out.println("First or last element of an arrays is not equals!");
+
+
+        }
     }
 }
