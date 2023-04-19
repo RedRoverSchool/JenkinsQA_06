@@ -1,12 +1,7 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
-import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
 import org.openqa.selenium.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -75,9 +70,11 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void MlFirstTest() throws InterruptedException {
+    public void testMyAccountPage() {
         getDriver().get(BASE_URL);
-
+        WebElement signInLinkAtHeader = getDriver().findElement(By.className("authorization-link"));
+        signInLinkAtHeader.click();
+        
         WebElement textBox = getDriver().findElement(
                 By.xpath("//header//a[normalize-space(text())='Create an Account']"));
         textBox.click();
@@ -98,21 +95,35 @@ public class GroupHighwayToAqaTest extends BaseTest {
         password2.sendKeys("123Qwerty+");
         WebElement submitbutton = getDriver().findElement(
                 By.xpath("//button/span[normalize-space(text())='Create an Account']")
-        );
-        submitbutton.click();
-
-        Thread.sleep(2000);
-
-        WebElement clickHereLink = getDriver().findElement(
-                By.xpath("//div/a[normalize-space(text())='click here']")
-        );
-        clickHereLink.click();
-
-        WebElement forgotPassword = getDriver().findElement(
-                By.xpath("//h1/span[normalize-space(text())='Forgot Your Password?']")
+        WebElement pageTitle = getDriver().findElement(
+                By.xpath("//span[@data-ui-id='page-title-wrapper']")
         );
 
-        Assert.assertEquals(forgotPassword.getText(), "Forgot Your Password?");
+        Assert.assertEquals(pageTitle.getText(), "Customer Login");
+
+        WebElement emailField = getDriver().findElement(By.id("email"));
+        emailField.sendKeys("test@google.com");
+        WebElement passwordField = getDriver().findElement(By.id("pass"));
+        passwordField.sendKeys("123Qwerty+");
+        WebElement signInButton = getDriver().findElement(
+                By.id("send2")
+        );
+        signInButton.click();
+
+        WebElement headerDropdownMenu =getDriver().findElement(
+                By.xpath("//header//button[@data-action='customer-menu-toggle']")
+        );
+        WebElement myAccountInDropdownMenu = getDriver().findElement(
+                By.xpath("//header//ul[@class='header links']/li/a[text()='My Account']")
+        );
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(headerDropdownMenu).click().moveToElement(myAccountInDropdownMenu).click().perform();
+
+        WebElement accountPageTitle =getDriver().findElement(
+                By.xpath("//h1[@class='page-title']/span")
+        );
+
+        Assert.assertEquals(accountPageTitle.getText(), "My Account");
     }
 
     @Test
@@ -126,25 +137,18 @@ public class GroupHighwayToAqaTest extends BaseTest {
     public void testNewLinkAR() {
         String expectedPageTitle = "What's New";
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
-
-        WebDriverWait waitForWhatsNewLink = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait waitForWhatsNewLink = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         waitForWhatsNewLink.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='ui-id-3']")));
 
-        WebElement whatsNewLink = driver.findElement(By.xpath("//a[@id='ui-id-3']"));
+        WebElement whatsNewLink = getDriver().findElement(By.xpath("//a[@id='ui-id-3']"));
         whatsNewLink.click();
 
-        WebElement pageTitle = driver.findElement(By.xpath("//h1[@id='page-title-heading']"));
+        WebElement pageTitle = getDriver().findElement(By.xpath("//h1[@id='page-title-heading']"));
         String actualPageTitle = pageTitle.getText();
 
         Assert.assertEquals(actualPageTitle, expectedPageTitle);
-
-        driver.quit();
     }
 
     @Test
@@ -236,26 +240,16 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-
     public void testH1TextInWhatIsNew() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
+        getDriver().get("https://magento.softwaretestingboard.com/");
         Thread.sleep(2000);
 
-        WebElement whatIsNew = driver.findElement(By.id("ui-id-3"));
+        WebElement whatIsNew = getDriver().findElement(By.id("ui-id-3"));
         whatIsNew.click();
 
-        WebElement h1InWhatIsNew = driver.findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
+        WebElement h1InWhatIsNew = getDriver().findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
 
         Assert.assertEquals(h1InWhatIsNew.getText(), "What's New");
-
-        driver.quit();
-
     }
 
     @Test
@@ -301,19 +295,13 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testSearching() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
-
-        WebElement textBox = driver.findElement(By.name("q"));
+        WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("watch\n");
-        WebElement searchingResult = driver.findElement(By.className("base"));
+        WebElement searchingResult = getDriver().findElement(By.className("base"));
 
         Assert.assertEquals(searchingResult.getText(), "Search results for: 'watch'");
-
-        driver.quit();
     }
 
     @Test

@@ -1,16 +1,15 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.Date;
 
 public class JavaNiSyGroupTest extends BaseTest {
     @Ignore
@@ -40,15 +39,13 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testUscis() throws InterruptedException {
+    public void testUscis() {
 
         getDriver().get("https://www.uscis.gov/");
-        WebElement textBox = getDriver().findElement(By.id("gsc-i-id1"));
 
+        WebElement textBox = getDriver().findElement(By.id("gsc-i-id1"));
         textBox.sendKeys("citizenship and naturalization");
         textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
 
         WebElement button = getDriver().findElement(By.name("Search"));
         button.click();
@@ -59,15 +56,13 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testGoogleTransl() throws InterruptedException {
+    public void testGoogleTransl() {
 
         getDriver().get("https://www.google.com/");
 
         WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("гугл переводчик");
         textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
 
         WebElement text = getDriver().findElement(By.xpath("//h3[@class='LC20lb MBeuO DKV0Md']"));
 
@@ -145,7 +140,6 @@ public class JavaNiSyGroupTest extends BaseTest {
 
     @Test
     public void testJava(){
-
         getDriver().get("https://www.google.com");
 
         WebElement textBox =  getDriver().findElement(By.name("q"));
@@ -154,7 +148,51 @@ public class JavaNiSyGroupTest extends BaseTest {
         WebElement text =  getDriver().findElement(By.xpath("//h3[text() = 'Java | Oracle']"));
 
         Assert.assertEquals(text.getText(), "Java | Oracle");
+
     }
 
+    @Test
+    public void testEnglishHome() throws InterruptedException {
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+
+        getDriver().get("https://www.englishhome.bg/");
+        Thread.sleep(1000);
+
+        if(!getDriver().findElements(By.id("img_lightbox_close")).isEmpty()){
+            WebElement  hotAttantion = getDriver().findElement(By.id("img_lightbox_close"));
+            hotAttantion.click();
+        }
+
+        WebElement news = getDriver().findElement(By.id("web_push_hayir"));
+        news.click();
+
+        WebElement  argeeCookies = getDriver().findElement(By.xpath("//div[@class = 'cookie']/a"));
+        argeeCookies.click();
+
+        WebElement textSearch = getDriver().findElement(By.name("search_text"));
+        textSearch.clear();
+        textSearch.sendKeys("чаши");
+
+        WebElement buttonSearch = getDriver().findElement(By.xpath("//button[@class = 'search__button hero-button gray js-search-button']"));
+        buttonSearch.click();
+
+        Thread.sleep(1000);
+        WebElement textFilter = getDriver().findElement(By.xpath("//label[@class = 'list__info__filter']/span"));
+        Assert.assertEquals(textFilter.getText(), "чаши");
+    }
+
+    @Test
+    public void testYogaShopBtn() {
+
+        getDriver().get("https://magento.softwaretestingboard.com/");
+
+        WebElement yogaShopBtn = getDriver().findElement(By.xpath("//span[@class='action more button']"));
+        yogaShopBtn.click();
+
+        WebElement text = getDriver().findElement(By.xpath("//span[@class='base']"));
+
+        Assert.assertEquals(text.getText(),"New Luma Yoga Collection");
+    }
 }
 
