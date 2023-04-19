@@ -189,5 +189,20 @@ public class GroupForwardTest extends BaseTest {
             Assert.assertTrue(element.getText().toLowerCase().contains("ruby"));
         }
     }
+
+    @Test
+    public void testOrchidCareIndoors(){
+
+        getDriver().get("https://www.google.com/");
+
+        WebElement textBox = getDriver().findElement(By.name("q"));
+        textBox.sendKeys("orchid care indoors\n");
+        WebElement text = getDriver().findElement(By.xpath
+                ("//h3 [text() = 'How To Take Care Of Orchid Plants Indoors']"));
+
+        Assert.assertEquals(text.getText(),"How To Take Care Of Orchid Plants Indoors");
+
+    }
+
 }
 
