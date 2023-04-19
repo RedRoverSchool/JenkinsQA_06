@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -267,4 +268,18 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement name = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/header[1]/div[3]/ul[1]/li[3]/a[1]"));
         assertEquals(name.getText(), "JAVA");
         driver.quit();
-}}
+    }
+
+    @Test
+    public void testFindElement() {
+        getDriver().get("https://7745.by/");
+
+        WebElement texBox = getDriver().findElement(By.name("keys"));
+        texBox.sendKeys("процессор");
+        texBox.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//h1[text() = 'Процессоры для компьютеров']"));
+
+        Assert.assertEquals(text.getText(), "Процессоры для компьютеров");
+    }
+}
