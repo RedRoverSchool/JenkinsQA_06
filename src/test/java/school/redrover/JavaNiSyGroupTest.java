@@ -194,5 +194,23 @@ public class JavaNiSyGroupTest extends BaseTest {
 
         Assert.assertEquals(text.getText(),"New Luma Yoga Collection");
     }
+
+    @Test
+    public void testPandaLocation() {
+
+        getDriver().get("https://www.foodpanda.com/");
+
+        WebElement locationImage = getDriver().findElement(By.xpath("//button[@class='btn btn-white']"));
+        locationImage.click();
+
+        WebElement btnSubmit = getDriver().findElement(By.id("gform_submit_button_2"));
+        btnSubmit.click();
+
+        WebElement errorSummary = getDriver().
+                findElement(By.xpath("//*[@id='gform_2_validation_container']/h2"));
+
+        Assert.assertEquals(errorSummary.getText(),
+                "THERE WAS A PROBLEM WITH YOUR SUBMISSION. PLEASE REVIEW THE FIELDS BELOW.");
+    }
 }
 
