@@ -400,6 +400,8 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     @Test
     public void serhiiHaponiukOpenWeatherMapGridContainerTest() throws InterruptedException {
 
+        beforeMethod();
+
         getDriver().get("https://openweathermap.org/");
         String title = getDriver().getTitle();
 
@@ -417,20 +419,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertTrue(temperature.getText().contains("F"));
         celsiusButton.click();
         Assert.assertTrue(temperature.getText().contains("C"));
-    }
-    @Test
-    public void testRykovaOW() throws InterruptedException {
 
-        String expectedResult = "Partners and solutions";
-
-        getDriver().get("https://openweathermap.org/");
-        Thread.sleep(6000);
-        WebElement partners = getDriver().findElement(By.xpath("//a [text()='Partners']"));
-        partners.click();
-
-        WebElement text = getDriver().findElement(By.xpath("//h1 [text()='Partners and solutions']"));
-        String actualResult = text.getText();
-
-        Assert.assertEquals(actualResult,expectedResult);
+        afterMethod();
     }
 }

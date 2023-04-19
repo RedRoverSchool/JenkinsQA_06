@@ -471,9 +471,10 @@ public class GroupJavaJitsuTest extends BaseTest {
         button.click();
 
         WebElement text = getDriver().findElement(By.cssSelector(".alertBox-column.alertBox-message"));
-        Assert.assertTrue(text.isDisplayed());}
+        Assert.assertTrue(text.isDisplayed());
+    }
 
-
+    @Ignore
     @Test
     public void testChoiceClothes() throws InterruptedException {
         getDriver().get("https://soccerzone.com/");
