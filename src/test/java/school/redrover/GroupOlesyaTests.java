@@ -202,15 +202,11 @@ public class GroupOlesyaTests extends BaseTest {
     }
 
     @Test
-    public void sortByNameTest() {
+    public void sortByNameZToATest() {
+
         loginToSite(LOGIN);
-
-        WebElement sortButton = getDriver().findElement(By.className("product_sort_container"));
-        sortButton.click();
-
-        WebElement NameZToA = getDriver().findElement(
-                By.xpath("//*[@id='header_container']/div[2]/div/span/select/option[2]"));
-        NameZToA.click();
+        getDriver().findElement(By.className("product_sort_container")).click();
+        getDriver().findElement(By.xpath("//*[@id='header_container']/div[2]/div/span/select/option[2]")).click();
 
         Assert.assertEquals(getDriver().findElement(By.className("inventory_item_name")).getText(),
                 "Test.allTheThings() T-Shirt (Red)");
