@@ -152,5 +152,23 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(message.getText(), "Registration not successful", "There isn't massage");
 
     }
+    @Test
+    public void emailValidationInSendPasswordReminder() throws InterruptedException {
+        driver.get("https://monkkee.com/en");
+        WebElement loginButton = getDriver().findElement(By.xpath("//a[text()='Login']"));
+        loginButton.click();
+        WebElement sendPasswordRemainderLink = getDriver().findElement(
+                By.xpath("//a[contains(text(), 'Send password reminder')]"));
+        sendPasswordRemainderLink.click();
+        WebElement emailInputField = getDriver().findElement(
+                By.xpath("//input[@name='email'] | //input[@id='email']"));
+        emailInputField.sendKeys("some_email");
+        WebElement submitButton = getDriver().findElement(By.xpath("//input[@type='submit']"));
+        submitButton.click();
+        WebElement validationText = getDriver().findElement(By.xpath("//div[contains(text(), 'Not a valid email address')]"));
+        Assert.assertEquals(validationText.getText(), "Not a valid email address");
+
+
+    }
 }
 
