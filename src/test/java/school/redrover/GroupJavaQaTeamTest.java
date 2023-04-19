@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,6 +14,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 
 import static org.testng.Assert.assertEquals;
 
@@ -211,5 +213,44 @@ driver.quit();
 
         Assert.assertEquals(actualResult,expectedResult);
 
+    }
+
+    @Test
+    public void testReceivedAnswerResult() {
+
+        String url = "https://www.w3schools.com/";
+        String expectedResult = "Correct!";
+
+        getDriver().get(url);
+
+        WebElement searchField = getDriver().findElement(
+                By.xpath("//input[@placeholder ='Search our tutorials, e.g. HTML']"));
+        searchField.sendKeys("Java Tutorial");
+        searchField.sendKeys(Keys.RETURN);
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
+        WebElement inputField1 = getDriver().findElement(By.xpath("//input[@name ='ex1']"));
+        inputField1.sendKeys("System");
+
+        WebElement inputField2 = getDriver().findElement(By.xpath("//input[@name ='ex2']"));
+        inputField2.sendKeys("out");
+
+        WebElement inputField3 = getDriver().findElement(By.xpath("//input[@name ='ex3']"));
+        inputField3.sendKeys("println");
+
+        WebElement findSubmitButton = getDriver().findElement(By.xpath("//button[@type= 'submit']"));
+        findSubmitButton.click();
+
+        ArrayList<String> words = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(words.get(1));
+
+        WebElement submitAnswer = getDriver().findElement(By.xpath("//button[@id ='answerbutton']"));
+        submitAnswer.click();
+
+        WebElement result = getDriver().findElement(By.xpath("//h2[text() = 'Correct!']"));
+        String actualResult = result.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
