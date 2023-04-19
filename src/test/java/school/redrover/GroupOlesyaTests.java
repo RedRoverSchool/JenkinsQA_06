@@ -25,6 +25,9 @@ public class GroupOlesyaTests extends BaseTest {
     private final String LOGIN = "standard_user";
     private final String MAIN_PAGE = "https://www.saucedemo.com/inventory.html";
     private final String PASSWORD = "secret_sauce";
+
+    private String randomString = RandomStringUtils.randomAlphabetic(5);
+    private String randomDigits = RandomStringUtils.randomNumeric(6);
     private WebDriverWait wait;
 
     protected WebDriverWait getWait() {
@@ -130,11 +133,10 @@ public class GroupOlesyaTests extends BaseTest {
         }
     }
 
-    public void addItemstoCartbyXpath (By xpath) {
-        List<WebElement> addproductstocart  = getDriver().findElements(xpath);
-        clickOnEachElement(addproductstocart);
+    public void addItemsToCartbyXpath (By xpath) {
+        List<WebElement> addProductsToCart  = getDriver().findElements(xpath);
+        clickOnEachElement(addProductsToCart);
     }
-
     @Test
     public void testAddtoCart() {
         loginToSite(LOGIN);
@@ -142,7 +144,7 @@ public class GroupOlesyaTests extends BaseTest {
         List<WebElement> addproducts  = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
         List<String> expectedlist= getTextList (addproducts);
 
-        addItemstoCartbyXpath(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
+        addItemsToCartbyXpath(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
 
         goToShoppingCartPage();
         Assert.assertEquals(getListOfItemInCart(),expectedlist);
@@ -153,7 +155,7 @@ public class GroupOlesyaTests extends BaseTest {
     public void testChangeQuantityinCart() {
         loginToSite(LOGIN);
 
-        addItemstoCartbyXpath(By.xpath("//div[@class = 'inventory_item_name']"));
+        addItemsToCartbyXpath(By.xpath("//div[@class = 'inventory_item_name']"));
 
         goToShoppingCartPage();
 
@@ -206,15 +208,11 @@ public class GroupOlesyaTests extends BaseTest {
     }
 
     @Test
-    public void sortByNameTest() {
+    public void sortByNameZToATest() {
+
         loginToSite(LOGIN);
-
-        WebElement sortButton = getDriver().findElement(By.className("product_sort_container"));
-        sortButton.click();
-
-        WebElement NameZToA = getDriver().findElement(
-                By.xpath("//*[@id='header_container']/div[2]/div/span/select/option[2]"));
-        NameZToA.click();
+        getDriver().findElement(By.className("product_sort_container")).click();
+        getDriver().findElement(By.xpath("//*[@id='header_container']/div[2]/div/span/select/option[2]")).click();
 
         Assert.assertEquals(getDriver().findElement(By.className("inventory_item_name")).getText(),
                 "Test.allTheThings() T-Shirt (Red)");
@@ -496,10 +494,8 @@ public class GroupOlesyaTests extends BaseTest {
 
     @Test
     public void flowOfPurchaseTest(){
-        String randomString = RandomStringUtils.randomAlphabetic(5);
-        String randomDigits = RandomStringUtils.randomNumeric(6);
-
         loginToSite(LOGIN);
+
         addToShoppingCart("add-to-cart-sauce-labs-backpack");
         goToShoppingCartPage();
 
@@ -515,6 +511,33 @@ public class GroupOlesyaTests extends BaseTest {
                         "Your order has been dispatched, and will arrive just as fast as the pony can get there!\n" +
                         "Back Home");
         Assert.assertTrue(getDriver().findElement(By.id("back-to-products")).isDisplayed());
+    }
+    @Test
+    public void checkTheFinalPriceCalculation() {
+        loginToSite(LOGIN);
+
+        getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
+        getDriver().findElement(By.id("add-to-cart-sauce-labs-bike-light")).click();
+        getDriver().findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt")).click();
+
+        goToShoppingCartPage();
+
+        double listSum = listOfPrice()
+                .stream()
+                .mapToDouble(Double::doubleValue)
+                .sum();
+        double sum = listSum + (listSum * 0.08);
+        double actualSumResult = (double) Math.round(sum * 100) / 100;
+
+        clickCheckout();
+        fillOutOrderForm(randomString, randomString, randomDigits);
+
+        Double expectedResultSum = Double.valueOf(getDriver()
+                .findElement(By.xpath("//div[@class='summary_info_label summary_total_label']"))
+                .getText()
+                .replace("Total: $", ""));
+
+        Assert.assertEquals(actualSumResult, expectedResultSum);
     }
 }
 

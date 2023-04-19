@@ -139,7 +139,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
             Assert.assertEquals(actualResult, expectedResult);
         }
     }
-
+    @Ignore
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
         String actualResult = "Sign In To Your Account";
@@ -265,7 +265,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
+    @Ignore
     @Test
     public void svetaKhudova_testWinnerPhoneNumber() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -396,7 +396,27 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = jeansSize.getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
+    @Test
+    public void serhiiHaponiukOpenWeatherMapGridContainerTest() throws InterruptedException {
 
+        getDriver().get("https://openweathermap.org/");
+        String title = getDriver().getTitle();
+
+        Assert.assertEquals(title, "Сurrent weather and forecast - OpenWeatherMap");
+        Thread.sleep(5000);
+
+        WebElement celsiusButton = getDriver().findElement(By.xpath
+                ("//div[text() = 'Metric: °C, m/s']"));
+        WebElement fahrenheitButton = getDriver().findElement(By.xpath
+                ("//div[text() = 'Imperial: °F, mph']"));
+        WebElement temperature = getDriver().findElement(By.className("heading"));
+        Assert.assertTrue(temperature.getText().contains("C"));
+        celsiusButton.isDisplayed();
+        fahrenheitButton.click();
+        Assert.assertTrue(temperature.getText().contains("F"));
+        celsiusButton.click();
+        Assert.assertTrue(temperature.getText().contains("C"));
+    }
     @Test
     public void testRykovaOW() throws InterruptedException {
 

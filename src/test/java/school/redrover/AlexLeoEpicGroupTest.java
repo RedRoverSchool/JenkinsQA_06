@@ -776,4 +776,12 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
     }
 
+    @Test
+    public void testVerifyButtonRedirect() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[text() ='Find More']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Contact Us']")).getText(), "Contact Us");
+    }
 }

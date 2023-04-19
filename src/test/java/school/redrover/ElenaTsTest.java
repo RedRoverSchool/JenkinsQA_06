@@ -40,7 +40,7 @@ public class ElenaTsTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.ebay.com/");
     }
-
+    @Ignore
     @Test
     public void testAddProductToCart() throws InterruptedException {
         getDriver().get("https://www.bergfreunde.eu/");

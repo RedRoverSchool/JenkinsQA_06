@@ -58,21 +58,12 @@ public class Group99BottlesTest extends BaseTest {
 
     @Test
     public void testHeaderH1TextOnWomenPage() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.id("menu-item-1229")).click();
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://askomdch.com/");
-
-        driver.findElement(By.id("menu-item-1229")).click();
-
-        WebElement headerText = driver.findElement(
-                By.xpath("//header[@class = 'woocommerce-products-header']/h1"));
+        WebElement headerText = getDriver().findElement(By.xpath("//header[@class = 'woocommerce-products-header']/h1"));
 
         Assert.assertEquals(headerText.getText(), "Women");
-
-        driver.quit();
     }
 
     @Test

@@ -288,34 +288,29 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void TestYogaShop() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testYogaShop() {
 
-        ChromeDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
+        getDriver().get(BASE_URL);
 
-        WebElement buttonShopNewYoga = driver.findElement(By
+        WebElement buttonShopNewYoga = getDriver().findElement(By
                 .xpath("//a [@class = \"block-promo home-main\"]//span[text()=\"Shop New Yoga\"]"));
         buttonShopNewYoga.click();
 
-        WebElement searchField = driver.findElement(By.xpath("//input[@id = \"search\"]"));
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@id = \"search\"]"));
         searchField.sendKeys("jacket for men");
 
-        WebElement searchText = driver.findElement(By.xpath("//button[@title=\"Search\"]"));
+        WebElement searchText = getDriver().findElement(By.xpath("//button[@title=\"Search\"]"));
         searchText.click();
 
-        List<WebElement> searchResult = driver.findElements(By
+        List<WebElement> searchResult = getDriver().findElements(By
                 .xpath("//li[@class =\"item product product-item\"]"));
 
         String fiveElementText = searchResult.get(5).getText();
         assertTrue(fiveElementText.contains("Jacket"));
         searchResult.get(5).click();
 
-        String currentUrl = driver.getCurrentUrl();
+        String currentUrl = getDriver().getCurrentUrl();
         Assert.assertEquals(currentUrl, "https://magento.softwaretestingboard.com/lando-gym-jacket.html");
-
-        driver.quit();
     }
 
     @Test
@@ -571,6 +566,43 @@ public class GroupHighwayToAqaTest extends BaseTest {
                 By.xpath("//div[@class='primary']/button"));
 
         Assert.assertTrue(toolbarActions.size() > 0);
+    }
+
+    @Test
+
+    public void testFormCheckWriteUS() throws  InterruptedException{
+
+        getDriver().get(BASE_URL);
+
+        WebElement footerContactUs = getDriver().findElement(By
+                .cssSelector("a[href*=\"https://magento.softwaretestingboard.com/contact/\"]"));
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();",footerContactUs );
+        footerContactUs.click();
+
+        WebElement nameField = getDriver().findElement(By.cssSelector("#name"));
+        nameField.sendKeys("testName");
+
+        WebElement emailField = getDriver().findElement(By.cssSelector("#email"));
+        emailField.sendKeys("test@gmail.com");
+
+        WebElement telephoneField = getDriver().findElement(By.cssSelector("#telephone"));
+        telephoneField.sendKeys(" 790989990990");
+
+        WebElement textField = getDriver().findElement(By.cssSelector("#comment"));
+        textField.sendKeys("Hello, I'm having trouble paying for an item.");
+
+        WebElement buttonSubmit = getDriver().findElement(By
+                .xpath("//button[@type=\"submit\"][@title=\"Submit\"]/span"));
+        buttonSubmit.click();
+        Thread.sleep(1000);
+
+        WebElement resultSending = getDriver().findElement(By.
+                xpath("//div[@data-bind='html: $parent.prepareMessageForHtml(message.text)']"));
+
+        Assert.assertEquals(resultSending.getText(),
+                "Thanks for contacting us with your comments and questions. We'll respond to you very soon.");
     }
 
     @Test
