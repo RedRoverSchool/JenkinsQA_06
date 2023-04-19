@@ -214,6 +214,21 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
+    public void testDrive2Audi() {
+
+        getDriver().get("https://www.drive2.ru/");
+
+        WebElement textBox = getDriver().findElement(By.name("text"));
+        textBox.sendKeys("Audi Q5");
+
+        WebElement button = getDriver().findElement(By.xpath("/html/body/main/div[1]/form/button"));
+        button.click();
+
+        WebElement text = getDriver().findElement(By.xpath("/html/body/main/div/div[2]/div[1]/div/header/h1"));
+        Assert.assertEquals(text.getText(), "Результаты поиска");
+    }
+
+    @Test
     public void testPandaMap() {
         getDriver().get("https://www.foodpanda.com/");
 
@@ -233,4 +248,3 @@ public class JavaNiSyGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://careers.foodpanda.com/locations/pakistan/");
     }
 }
-
