@@ -604,7 +604,6 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Assert.assertEquals(resultSending.getText(),
                 "Thanks for contacting us with your comments and questions. We'll respond to you very soon.");
     }
-}
 
     @Test
     public void testItemsOnPageSortedByPrice() {
