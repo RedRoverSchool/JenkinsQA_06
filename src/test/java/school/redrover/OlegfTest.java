@@ -16,7 +16,7 @@ import java.util.List;
 public class OlegfTest extends BaseTest {
     @Test
     public void dishesTest() throws InterruptedException {
-        
+
         getDriver().get("https://www.canvashomestore.com/");
 
         getDriver().findElement(By.name("q")).sendKeys("plate\n");
@@ -58,10 +58,6 @@ public class OlegfTest extends BaseTest {
         Thread.sleep(600);
         String depositMessage = getDriver().findElement(By.xpath("//span[@class='error ng-binding']")).getText();
         Assert.assertEquals(depositMessage, "Deposit Successful");
-
-        getDriver().findElement(By.xpath("//button[@ng-class='btnClass1']")).click();
-
-
 
     }
 }
