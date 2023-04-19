@@ -403,7 +403,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResult = "Partners and solutions";
 
         getDriver().get("https://openweathermap.org/");
-        Thread.sleep(4000);
+        Thread.sleep(6000);
         WebElement partners = getDriver().findElement(By.xpath("//a [text()='Partners']"));
         partners.click();
 
