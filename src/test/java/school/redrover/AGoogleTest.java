@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AGoogle {
+public class AGoogleTest {
     @Test
     public void testS () throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
