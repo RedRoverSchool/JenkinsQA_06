@@ -85,6 +85,9 @@ public class DreamTeamTest extends BaseTest {
         WebElement li1 = getDriver().findElement(By.cssSelector("#p3"));
         Assert.assertEquals(li1.getText(),"This is c paragraph text");
 
+        WebElement li5 = getDriver().findElement(By.cssSelector("#p3"));
+        Assert.assertEquals(li5.getText(),"This is c paragraph text");
+
         WebElement li2 = getDriver().findElement(By.name("aName46"));
         Assert.assertEquals(li2.getText(), "jump to para 20");
 
