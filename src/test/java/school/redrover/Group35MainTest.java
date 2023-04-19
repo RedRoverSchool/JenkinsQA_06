@@ -7,6 +7,6 @@ public class Group35MainTest {
 
     @Test
     public void simpleTest_01() {
-        Assert.assertEquals(1, 1);
+        Assert.assertEquals(3, 3);
     }
 }
