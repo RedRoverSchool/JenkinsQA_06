@@ -542,17 +542,18 @@ public class GroupOlesyaTests extends BaseTest {
 
         goToShoppingCartPage();
 
-        double listSum = (listOfPrice().stream()
+        double listSum = listOfPrice()
+                .stream()
                 .mapToDouble(Double::doubleValue)
-                .sum());
+                .sum();
         double sum = listSum + (listSum * 0.08);
         double actualSumResult = (double) Math.round(sum * 100) / 100;
 
         clickCheckout();
         fillOutOrderForm(randomString, randomString, randomDigits);
 
-        Double expectedResultSum = Double.valueOf(
-                getDriver().findElement(By.xpath("//div[@class='summary_info_label summary_total_label']"))
+        Double expectedResultSum = Double.valueOf(getDriver()
+                .findElement(By.xpath("//div[@class='summary_info_label summary_total_label']"))
                 .getText()
                 .replace("Total: $", ""));
 
