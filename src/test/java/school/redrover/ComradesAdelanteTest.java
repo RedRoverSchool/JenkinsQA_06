@@ -10,13 +10,12 @@ import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComradesAdelanteTest extends BaseTest {
+public class ComradesAdelanteTest {
 
     @Test
     public void testHeaderOpenWeather() throws InterruptedException {
@@ -75,34 +74,43 @@ public class ComradesAdelanteTest extends BaseTest {
     }
 
     @Test
-    public void testCountItemsOfCart() throws InterruptedException {
+    public void MariaLuchnikovaTest() throws InterruptedException {
 
         Reporter.log("Tests started 3", true);
-        getDriver().get("https://www.saucedemo.com");
-        WebElement login = getDriver().findElement(By.id("user-name"));
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.saucedemo.com");
+
+        WebElement login = driver.findElement(By.id("user-name"));
         login.sendKeys("standard_user");
-        WebElement password = getDriver().findElement(By.id("password"));
+        WebElement password = driver.findElement(By.id("password"));
         password.sendKeys("secret_sauce");
 
-        WebElement loginButton = getDriver().findElement(By.id("login-button"));
+        WebElement loginButton = driver.findElement(By.id("login-button"));
         loginButton.click();
 
-        WebElement Backpack = getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack"));
+        //Thread.sleep(3000);
+
+        WebElement Backpack = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
         Backpack.click();
 
-        WebElement tShirt = getDriver().findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt"));
+        WebElement tShirt = driver.findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt"));
         tShirt.click();
 
-        WebElement onesie = getDriver().findElement(By.id("add-to-cart-sauce-labs-onesie"));
+        WebElement onesie = driver.findElement(By.id("add-to-cart-sauce-labs-onesie"));
         onesie.click();
 
-        WebElement cart = getDriver().findElement(By.className("shopping_cart_link"));
+        WebElement cart = driver.findElement(By.className("shopping_cart_link"));
         cart.click();
 
-        List<WebElement> items = getDriver().findElements(By.className("cart_item"));
+        List<WebElement> items = driver.findElements(By.className("cart_item"));
 
         int countItems = items.size();
         Assert.assertEquals(countItems, 3);
+        Reporter.log("Tests stop",true);
+        driver.quit();
     }
     @Test
     public void nikolayMarkovTest() throws InterruptedException {

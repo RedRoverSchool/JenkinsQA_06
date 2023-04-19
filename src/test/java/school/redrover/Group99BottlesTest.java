@@ -16,6 +16,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Group99BottlesTest extends BaseTest {
 
@@ -75,21 +77,13 @@ public class Group99BottlesTest extends BaseTest {
 
     @Test
     public void testWorkshopHeaderText() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://corporatetrainingmaterials.com/");
+        getDriver().findElement(By.xpath("//ul[@id='AccessibleNav']/li[2]/a")).click();
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://corporatetrainingmaterials.com/");
-
-        driver.findElement(By.xpath("//ul[@id='AccessibleNav']/li[2]/a")).click();
-
-        WebElement headerH1Text = driver.findElement(
+        WebElement headerH1Text = getDriver().findElement(
                 By.xpath("//div[@id='ProductSection']//div[1]/h1"));
 
         Assert.assertEquals(headerH1Text.getText(), "WORKSHOP LIBRARY");
-
-        driver.quit();
-
     }
 
     @Test
@@ -101,7 +95,7 @@ public class Group99BottlesTest extends BaseTest {
 
         Assert.assertEquals(headerH1Text.getText(), "Modern UI Made Easy");
     }
-
+    @Ignore
     @Test
     public void testTelerikTitleURLDemosPage() {
         getDriver().get("https://www.telerik.com/");
@@ -143,8 +137,8 @@ public class Group99BottlesTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
 
-        List<WebElement> elementList = getDriver().findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
-        List<String> actualResult = WebElementToString(elementList);
+        List<WebElement> navigateMenuDemosPage = getDriver().findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        List<String> actualResult = WebElementToString(navigateMenuDemosPage);
 
         Assert.assertEquals(actualResult, expectedResult);
     }
@@ -250,13 +244,12 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
     }
 
-    @Ignore
     @Test
     public void testLogoNavigateToBaseUrl() {
-        String expectedResult = "https://www.thestar.com/";
+        String expectedResult = "https://ipbase.com/";
 
-        getDriver().get("https://www.thestar.com/");
-        getDriver().findElement(By.xpath("//*[@class='c-main-logo']")).click();
+        getDriver().get("https://ipbase.com/");
+        getDriver().findElement(By.xpath(".//*[@aria-label='Ipbase'][2]")).click();
         String actualResult = getDriver().getCurrentUrl();
 
         Assert.assertEquals(actualResult, expectedResult);
@@ -269,5 +262,47 @@ public class Group99BottlesTest extends BaseTest {
         WebElement discountSign = getDriver().findElement(By.xpath("//a[@class='block-promo home-pants']/span/strong[@class='title']"));
 
         Assert.assertEquals(discountSign.getText(), "20% OFF");
+    }
+
+    @Test
+    public void testTelerikNavigateMenuDemosPageSize() {
+        final int expectedResult = 6;
+        getDriver().get("https://www.telerik.com/");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().window().maximize();
+
+        getDriver().findElement(By.xpath("//nav[@id='js-tlrk-nav']//ul[@class='TK-Context-Menu TK-Menu']/li[1]/a")).click();
+
+        List<WebElement> navigateMenuDemosPage = getDriver().findElements(By.xpath("//div[@data-tlrk-plugin='navspy']/a"));
+        int actualResult = getListSize(navigateMenuDemosPage);
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    public int getListSize(List<WebElement> list) {
+
+        return list.size();
+    }
+
+    @Test
+    public void testButtonsNames() {
+        final List<String> expectedButtonsNames = List.of(
+                "Get Free API Key",
+                "Buy Small",
+                "Buy Medium",
+                "Buy Large",
+                "Contact Us"
+        );
+
+        getDriver().get("https://ipbase.com/");
+        getDriver().manage().window().maximize();
+        getDriver().findElement(By.xpath("//div[starts-with(@class, 'hidden relative')]/child::a[1]"))
+                   .click();
+
+        List<WebElement> buttons = getDriver()
+                .findElements(By.xpath("//*[@class='mt-4']/following-sibling::a"));
+        List<String> actualButtonsNames = WebElementToString(buttons);
+
+        Assert.assertEquals(actualButtonsNames, expectedButtonsNames);
     }
 }
