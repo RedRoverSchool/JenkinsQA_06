@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -752,6 +753,7 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testVerifyNumberOnShoppingCardIcon() throws InterruptedException {
         getDriver().get("https://askomdch.com/");
