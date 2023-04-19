@@ -227,4 +227,23 @@ public class JavaNiSyGroupTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("/html/body/main/div/div[2]/div[1]/div/header/h1"));
         Assert.assertEquals(text.getText(), "Результаты поиска");
     }
+    @Test
+    public void testPandaMap() {
+        getDriver().get("https://www.foodpanda.com/");
+
+        WebElement btnCareers = getDriver().findElement(By.xpath("//a[text()='Careers']"));
+        btnCareers.click();
+
+        WebElement btnLocations = getDriver().findElement(By.xpath("//*[@id='top-menu']/li[3]/a"));
+        btnLocations.click();
+
+        WebElement markerPakistan = getDriver().findElement(By.id("dipl_marker_7"));
+        markerPakistan.click();
+
+        WebElement greetings = getDriver().findElement(By.xpath("//h1[text()='Welcome to Pakistan!']"));
+
+        Assert.assertEquals(greetings.getText(), "Welcome to Pakistan!");
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://careers.foodpanda.com/locations/pakistan/");
+    }
 }
