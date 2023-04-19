@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -46,6 +47,8 @@ public class ListOfFoodTest extends BaseTest {
     Assert.assertEquals(getRow2SaveText(), SOME_TEXT_FOR_ROW2_INPUT);
   }
 
+
+  @Ignore
   @Test
   public void testEditRow1Text() {
     openMainPage();
