@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class GroupQaAutomationJavaTest extends BaseTest {
-
     @Test
     public void testFirst () throws InterruptedException  {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
