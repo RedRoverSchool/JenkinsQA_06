@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 public class NinaYumTest {
     @Test
-    public void NinaYumTest() throws InterruptedException {
+    public void GoogleTest() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -21,18 +21,37 @@ public class NinaYumTest {
         driver.get("https://www.google.com/");
         Thread.sleep(2000);
 
-        WebElement textBox = driver.findElement(By.name("q"));
+                  WebElement textBox = driver.findElement(By.name("q"));
 
-        textBox.sendKeys("selenium");
-        textBox.sendKeys(Keys.RETURN);
+          textBox.sendKeys("selenium");
+          textBox.sendKeys(Keys.RETURN);
 
-        Thread.sleep(2000);
+          Thread.sleep(2000);
 
-        WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
+          WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
 
-        Assert.assertEquals(text.getText(), "Selenium");
+          Assert.assertEquals(text.getText(), "Selenium");
 
-        driver.quit();
-    }
+          driver.quit();
+      }
+    @Test
+    public void NinaYumTest2() throws InterruptedException {
 
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.whitmorepestcontrol.com/");
+
+        WebElement but = driver.findElement(By.partialLinkText("Contact"));
+        Assert.assertNotNull(but);
+         but.click();
+        WebElement FirstName = driver.findElement(By.xpath("//*[@name=\"fname\"]"));
+        Assert.assertNotNull(FirstName);
+        WebElement LastName = driver.findElement(By.xpath("//*[@name=\"lname\"]"));
+        Assert.assertNotNull(LastName);
+
+
+
+      }
 }
