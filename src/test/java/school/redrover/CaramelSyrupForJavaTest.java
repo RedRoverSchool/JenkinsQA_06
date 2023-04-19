@@ -6,6 +6,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -15,6 +17,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 
 
 public class CaramelSyrupForJavaTest extends BaseTest {
@@ -87,14 +90,13 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
 
         getDriver().get("https://openweathermap.org/");
-
+        Thread.sleep(5000);
         WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
         try {
             guide.click();
         } catch (Exception e) {
             clickCustom(guide);
         }
-
         WebElement complexEnterprise = getDriver().findElement(
                 By.xpath("//main//div[2]/div/div/p[1]/a[text()='complex enterprise systems']"));
         complexEnterprise.click();
@@ -368,6 +370,31 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement newCommentsText = getDriver().findElement(By.xpath("//h2[text()='New Comments']"));
         actualResult.add(newCommentsText.getText());
 
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testArtyomDulyaProductToTheCart() throws InterruptedException {
+        String expectedResult = "Выберите размер";
+        getDriver().manage().deleteAllCookies();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        getDriver().get("https://www.wildberries.ru/");
+        Thread.sleep(5000);
+        WebElement lineSearch = getDriver().findElement(By.xpath("//input[contains(@id, 'searchInput')]"));
+        lineSearch.click();
+        lineSearch.sendKeys("джинсы");
+        WebElement buttonSearch = getDriver().findElement(By.xpath("//button[@id='applySearchBtn']"));
+        clickCustom(buttonSearch);
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        Thread.sleep(5000);
+        WebElement jeansBox = getDriver().findElement(By.xpath("//div[@id='c74249381']//div[@class='product-card__price price j-cataloger-price']"));
+        WebElement jeans = getDriver().findElement(By.xpath("//div[@id='c74249381']//a[@href='/lk/basket']"));
+        js.executeScript("window.scrollBy(0,250)");
+        clickCustom(jeansBox);
+        clickCustom(jeans);
+        WebElement jeansSize = getDriver().findElement(By.xpath("//h2[text()='Выберите размер']"));
+
+        String actualResult = jeansSize.getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
 

@@ -26,7 +26,7 @@ public class BugsBustersTest extends BaseTest {
 
         WebElement text = getDriver().findElement(By.xpath("//div[@data-qa='subtotal-amount']//strong"));
 
-        Assert.assertEquals(text.getText(),"$100.00");
+        Assert.assertEquals(text.getText(), "$100.00");
     }
 
     @Test
@@ -58,7 +58,7 @@ public class BugsBustersTest extends BaseTest {
     }
 
     @Test
-    public void testGetSeleniumWebDriverPageTitle(){
+    public void testGetSeleniumWebDriverPageTitle() {
         getDriver().get("https://www.selenium.dev/");
 
         WebElement readMoreButton = getDriver().findElement(By.xpath("//a[@href='/documentation/webdriver/']"));
@@ -123,7 +123,7 @@ public class BugsBustersTest extends BaseTest {
         WebElement h1 = getDriver().findElement(By.xpath("//h1"));
         String h1Text = h1.getText().toLowerCase();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),expectedURL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
         Assert.assertEquals(h1Text, expectedHeader);
     }
 
@@ -177,7 +177,7 @@ public class BugsBustersTest extends BaseTest {
     }
 
     @Test
-    public void testAnastasiyaFirstTest () {
+    public void testAnastasiyaFirstTest() {
         getDriver().get("https://demoqa.com/text-box");
 
         WebElement firstNameTextBox = getDriver().findElement(By.id("userName"));
@@ -203,7 +203,7 @@ public class BugsBustersTest extends BaseTest {
     @Ignore
     @Test
     public void testOurServicesHeader() throws InterruptedException {
-        String expectedURL = "https://www.ohiofamilypractice.com/services" ;
+        String expectedURL = "https://www.ohiofamilypractice.com/services";
         String expectedHeader = "Our Services".toLowerCase();
 
         getDriver().get("https://www.ohiofamilypractice.com/");
@@ -214,7 +214,7 @@ public class BugsBustersTest extends BaseTest {
         WebElement h1 = getDriver().findElement(By.xpath("//h1"));
         String h1Text = h1.getText().toLowerCase();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),expectedURL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
         Assert.assertEquals(h1Text, expectedHeader);
     }
 
