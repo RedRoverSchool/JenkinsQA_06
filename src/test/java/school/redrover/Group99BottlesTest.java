@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -84,6 +85,7 @@ public class Group99BottlesTest extends BaseTest {
 
         Assert.assertEquals(headerH1Text.getText(), "Modern UI Made Easy");
     }
+
     @Ignore
     @Test
     public void testTelerikTitleURLDemosPage() {
@@ -280,12 +282,57 @@ public class Group99BottlesTest extends BaseTest {
         getDriver().get("https://ipbase.com/");
         getDriver().manage().window().maximize();
         getDriver().findElement(By.xpath("//div[starts-with(@class, 'hidden relative')]/child::a[1]"))
-                   .click();
+                .click();
 
         List<WebElement> buttons = getDriver()
                 .findElements(By.xpath("//*[@class='mt-4']/following-sibling::a"));
         List<String> actualButtonsNames = WebElementToString(buttons);
 
         Assert.assertEquals(actualButtonsNames, expectedButtonsNames);
+    }
+
+    @Test
+    public void testNumberOfButtonsAndTextsInSideMenu() throws InterruptedException {
+        final int expectedNumberOfSideMenuButtons = 11;
+        final List<String> expectedSideMenuTexts = List.of(
+                "Dashboard",
+                "Request Playground",
+                "Latest Requests",
+                "API Keys",
+                "API Settings",
+                "Team",
+                "Subscription",
+                "Payment",
+                "Invoices",
+                "Documentation",
+                "Support"
+        );
+
+        getDriver().get("https://ipbase.com/");
+        getDriver().manage().window().maximize();
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Login')]")).click();
+        Thread.sleep(2000);
+
+        WebElement emailField = getDriver().findElement(By.xpath("//input[@id='email']"));
+
+        emailField.clear();
+        emailField.sendKeys("mojowi1692@raotus.com");
+        emailField.sendKeys(Keys.RETURN);
+
+        WebElement passwordField = getDriver().findElement(By.xpath("//input[@id='password']"));
+
+        passwordField.clear();
+        passwordField.sendKeys("12345@Hello");
+        passwordField.sendKeys(Keys.RETURN);
+
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        Thread.sleep(2000);
+
+        List<WebElement> sideMenuButtons = getDriver().findElements(By.xpath("//*[@class='grow']"));
+        int actualNumberOfSideMenuButtons = getListSize(sideMenuButtons);
+        List<String> actualSideMenuTexts = WebElementToString(sideMenuButtons);
+
+        Assert.assertEquals(actualNumberOfSideMenuButtons, expectedNumberOfSideMenuButtons);
+        Assert.assertEquals(actualSideMenuTexts, expectedSideMenuTexts);
     }
 }
