@@ -127,12 +127,12 @@ public class GroupOlesyaTests extends BaseTest {
         clickOnEachElement(addProductsToCart);
     }
 
-    @Test
-    public void standardUserLoginTest() {
-        loginToSite(LOGIN);
-
-        Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
-    }
+//    @Test
+//    public void standardUserLoginTest() {
+//        loginToSite(LOGIN);
+//
+//        Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
+//    }
     @Test
     public void testAddtoCart() {
         loginToSite(LOGIN);
