@@ -90,6 +90,7 @@ public class GroupGlukhovaTest extends BaseTest {
 
         alert.accept();
     }
+
     @Test
     public void testAviaSales() {
         getDriver().get("https://www.aviasales.ru/");
