@@ -217,8 +217,9 @@ public class GroupForwardTest extends BaseTest {
         }
     }
 
-    @Test void testSwitchToFahrenheit() {
+    @Test void testSwitchToFahrenheit() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
+        Thread.sleep(2000);
 
         WebElement imperialButton = getDriver().findElement(By.xpath("//div[text() = 'Imperial: °F, mph']"));
         imperialButton.click();
