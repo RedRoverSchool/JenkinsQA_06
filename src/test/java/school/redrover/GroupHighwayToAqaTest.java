@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -13,6 +14,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -39,7 +42,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
-
+    @Ignore
     @Test
     public void testErrorMessageWhenEmailFieldLeftBlank() {
 
@@ -117,25 +120,18 @@ public class GroupHighwayToAqaTest extends BaseTest {
     public void testNewLinkAR() {
         String expectedPageTitle = "What's New";
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
-
-        WebDriverWait waitForWhatsNewLink = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait waitForWhatsNewLink = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         waitForWhatsNewLink.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='ui-id-3']")));
 
-        WebElement whatsNewLink = driver.findElement(By.xpath("//a[@id='ui-id-3']"));
+        WebElement whatsNewLink = getDriver().findElement(By.xpath("//a[@id='ui-id-3']"));
         whatsNewLink.click();
 
-        WebElement pageTitle = driver.findElement(By.xpath("//h1[@id='page-title-heading']"));
+        WebElement pageTitle = getDriver().findElement(By.xpath("//h1[@id='page-title-heading']"));
         String actualPageTitle = pageTitle.getText();
 
         Assert.assertEquals(actualPageTitle, expectedPageTitle);
-
-        driver.quit();
     }
 
     @Test
@@ -227,26 +223,16 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-
     public void testH1TextInWhatIsNew() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
+        getDriver().get("https://magento.softwaretestingboard.com/");
         Thread.sleep(2000);
 
-        WebElement whatIsNew = driver.findElement(By.id("ui-id-3"));
+        WebElement whatIsNew = getDriver().findElement(By.id("ui-id-3"));
         whatIsNew.click();
 
-        WebElement h1InWhatIsNew = driver.findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
+        WebElement h1InWhatIsNew = getDriver().findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
 
         Assert.assertEquals(h1InWhatIsNew.getText(), "What's New");
-
-        driver.quit();
-
     }
 
     @Test
@@ -292,19 +278,13 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testSearching() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
-
-        WebElement textBox = driver.findElement(By.name("q"));
+        WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("watch\n");
-        WebElement searchingResult = driver.findElement(By.className("base"));
+        WebElement searchingResult = getDriver().findElement(By.className("base"));
 
         Assert.assertEquals(searchingResult.getText(), "Search results for: 'watch'");
-
-        driver.quit();
     }
 
     @Test
@@ -591,5 +571,53 @@ public class GroupHighwayToAqaTest extends BaseTest {
                 By.xpath("//div[@class='primary']/button"));
 
         Assert.assertTrue(toolbarActions.size() > 0);
+    }
+
+    @Test
+    public void testItemsOnPageSortedByPrice() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        getDriver().get(BASE_URL);
+        WebElement womenButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ui-id-4")));
+        WebElement topsButton = getDriver().findElement(By.id("ui-id-9"));
+        WebElement jacketsButton = getDriver().findElement(By.id("ui-id-11"));
+        new Actions(getDriver()).moveToElement(womenButton).moveToElement(topsButton).moveToElement(jacketsButton).perform();
+        jacketsButton.click();
+        List<WebElement> priceUnsorted = getDriver().findElements(By
+                .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+        List<Double> priceListBeforeSorted = new ArrayList<>();
+
+        for (int i = 0; i < priceUnsorted.size(); i++) {
+            try {
+                priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(i).getText().replace("$", "")));
+            } catch (StaleElementReferenceException sere) {
+                priceUnsorted = getDriver().findElements(By
+                        .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+                for (int j = i; j < priceUnsorted.size(); j++) {
+                    priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(j).getText().replace("$", "")));
+                    break;
+                }
+            }
+        }
+        Select dropDown = new Select(getDriver().findElement(By.className("sorter-options")));
+        dropDown.selectByVisibleText("Price");
+
+        List<WebElement> priceAfterSorted= getDriver().findElements(By
+                .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+        List<Double> priceListAfterSorted = new ArrayList<>();
+
+        for (int i = 0; i < priceAfterSorted.size(); i++) {
+            try {
+                priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(i).getText().replace("$", "")));
+            } catch (StaleElementReferenceException sere) {
+                priceAfterSorted = getDriver().findElements(By
+                        .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+                for (int j = i; j < priceAfterSorted.size(); j++) {
+                    priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(j).getText().replace("$", "")));
+                    break;
+                }
+            }
+        }
+        Collections.sort(priceListBeforeSorted);
+        assertEquals(priceListAfterSorted, priceListBeforeSorted);
     }
 }

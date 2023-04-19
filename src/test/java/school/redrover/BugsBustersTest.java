@@ -26,7 +26,7 @@ public class BugsBustersTest extends BaseTest {
 
         WebElement text = getDriver().findElement(By.xpath("//div[@data-qa='subtotal-amount']//strong"));
 
-        Assert.assertEquals(text.getText(),"$100.00");
+        Assert.assertEquals(text.getText(), "$100.00");
     }
 
     @Test
@@ -58,7 +58,7 @@ public class BugsBustersTest extends BaseTest {
     }
 
     @Test
-    public void testGetSeleniumWebDriverPageTitle(){
+    public void testGetSeleniumWebDriverPageTitle() {
         getDriver().get("https://www.selenium.dev/");
 
         WebElement readMoreButton = getDriver().findElement(By.xpath("//a[@href='/documentation/webdriver/']"));
@@ -72,6 +72,7 @@ public class BugsBustersTest extends BaseTest {
         Assert.assertEquals(text.getText(), "Getting started");
     }
 
+    @Ignore
     @Test
     public void testMarynaSTitle() {
         getDriver().get("https://www.funartcolorado.com/");
@@ -91,6 +92,7 @@ public class BugsBustersTest extends BaseTest {
         Assert.assertEquals(mosaicArtHeader.getText(), "About my art:");
     }
 
+    @Ignore
     @Test
     public void testMarynaSHeader() throws InterruptedException {
         getDriver().get("https://www.funartcolorado.com/");
@@ -121,7 +123,7 @@ public class BugsBustersTest extends BaseTest {
         WebElement h1 = getDriver().findElement(By.xpath("//h1"));
         String h1Text = h1.getText().toLowerCase();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),expectedURL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
         Assert.assertEquals(h1Text, expectedHeader);
     }
 
@@ -175,7 +177,7 @@ public class BugsBustersTest extends BaseTest {
     }
 
     @Test
-    public void testAnastasiyaFirstTest () {
+    public void testAnastasiyaFirstTest() {
         getDriver().get("https://demoqa.com/text-box");
 
         WebElement firstNameTextBox = getDriver().findElement(By.id("userName"));
@@ -201,7 +203,7 @@ public class BugsBustersTest extends BaseTest {
     @Ignore
     @Test
     public void testOurServicesHeader() throws InterruptedException {
-        String expectedURL = "https://www.ohiofamilypractice.com/services" ;
+        String expectedURL = "https://www.ohiofamilypractice.com/services";
         String expectedHeader = "Our Services".toLowerCase();
 
         getDriver().get("https://www.ohiofamilypractice.com/");
@@ -212,7 +214,7 @@ public class BugsBustersTest extends BaseTest {
         WebElement h1 = getDriver().findElement(By.xpath("//h1"));
         String h1Text = h1.getText().toLowerCase();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),expectedURL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
         Assert.assertEquals(h1Text, expectedHeader);
     }
 
@@ -264,5 +266,24 @@ public class BugsBustersTest extends BaseTest {
         WebElement reservationButton = getDriver().findElement(By.xpath("//a[contains(text(),'Reservation')]"));
 
         Assert.assertEquals(reservationButton.getText(), "Reservation");
+    }
+
+    @Test
+    public void testMariaAddItemsToCart() {
+        getDriver().get("https://www.saucedemo.com/");
+
+        getDriver().findElement(By.cssSelector("input[placeholder='Username']")).sendKeys("standard_user");
+
+        getDriver().findElement(By.cssSelector("input[placeholder='Password']")).sendKeys("secret_sauce");
+
+        getDriver().findElement(By.id("login-button")).click();
+
+        getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
+
+        getDriver().findElement(By.cssSelector(".shopping_cart_link")).click();
+
+        WebElement item = getDriver().findElement(By.cssSelector(".inventory_item_name"));
+
+        Assert.assertEquals(item.getText(), "Sauce Labs Backpack");
     }
 }

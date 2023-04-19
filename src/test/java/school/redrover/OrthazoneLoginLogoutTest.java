@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class OrthazoneLoginLogoutTest extends BaseTest{
+
     @Test
     public void testLogin() throws InterruptedException{
         getDriver().get("https://www.orthazone.com/");
@@ -26,6 +27,5 @@ public class OrthazoneLoginLogoutTest extends BaseTest{
 
         WebElement textOnLogoutPage = getDriver().findElement(By.xpath("//div[@class='asteps__head']"));
         Assert.assertEquals(textOnLogoutPage.getText(),"ACCOUNT LOGOUT");
-
     }
 }

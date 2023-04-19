@@ -56,6 +56,7 @@ public class JavaExpertsTest extends BaseTest {
         assertFalse(getDriver().findElements(By.cssSelector(".alertinner.wicon")).isEmpty(),
                 "User registration is fail");
     }
+
     @Ignore
     @Test(dependsOnMethods = "testRegisterUser")
     public void testLoginUser(){
