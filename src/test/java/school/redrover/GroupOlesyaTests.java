@@ -112,16 +112,6 @@ public class GroupOlesyaTests extends BaseTest {
                 .collect(toList());
     }
 
-    public List<Double> listOfPrice(String className) {
-
-        return getListItems(By.className(className))
-                .stream()
-                .map(WebElement::getText)
-                .map(n -> n.replace("$", ""))
-                .map(s -> Double.parseDouble(s))
-                .collect(toList());
-    }
-
     public List<String> getTextList (List<WebElement> list) {
         return list.stream().map(WebElement::getText).collect(toList());
     }
@@ -542,21 +532,31 @@ public class GroupOlesyaTests extends BaseTest {
                         "Back Home");
         Assert.assertTrue(getDriver().findElement(By.id("back-to-products")).isDisplayed());
     }
-    //TODO add test to check if the final price is calculate correctly - the tax is 8 %.
     @Test
     public void checkTheFinalPriceCalculation() {
         loginToSite(LOGIN);
 
-        addToShoppingCart("Sauce Labs Backpack");
-        addToShoppingCart("Sauce Labs Fleece Jacket");
-        addToShoppingCart("Sauce Labs Onesie");
+        getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
+        getDriver().findElement(By.id("add-to-cart-sauce-labs-bike-light")).click();
+        getDriver().findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt")).click();
+
         goToShoppingCartPage();
-        double listSum = (double) Math.round((((listOfPrice().stream()
-                .mapToDouble(Double::doubleValue).sum())) * 100) / 100);
 
-        double actualSumResult = listSum + ((Math.round(listSum * 0.08)*100 / 100));
+        double listSum = (listOfPrice().stream()
+                .mapToDouble(Double::doubleValue)
+                .sum());
+        double sum = listSum + (listSum * 0.08);
+        double actualSumResult = (double) Math.round(sum * 100) / 100;
 
+        clickCheckout();
+        fillOutOrderForm(randomString, randomString, randomDigits);
+
+        Double expectedResultSum = Double.valueOf(
+                getDriver().findElement(By.xpath("//div[@class='summary_info_label summary_total_label']"))
+                .getText()
+                .replace("Total: $", ""));
+
+        Assert.assertEquals(actualSumResult, expectedResultSum);
     }
-
 }
 
