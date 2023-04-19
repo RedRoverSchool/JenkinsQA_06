@@ -16,8 +16,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Group99BottlesTest extends BaseTest {
 
@@ -145,23 +143,17 @@ public class Group99BottlesTest extends BaseTest {
     @Test
     public void testH1Text_WhenChooseLevelLanguage() throws InterruptedException {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://www.w3schools.com/");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://www.w3schools.com/");
-
-        driver.findElement(By.xpath("//a[@href = 'where_to_start.asp']")).click();
+        getDriver().findElement(By.xpath("//a[@href = 'where_to_start.asp']")).click();
 
         Thread.sleep(3000);
 
-        WebElement text = driver.findElement(By.xpath("//h1[text() = 'Where To Start']"));
+        WebElement text = getDriver().findElement(By.xpath("//h1[text() = 'Where To Start']"));
 
         Assert.assertEquals(text.getText(), "Where To Start");
-
-        driver.quit();
     }
+
     @Ignore
     @Test
     public void testDemoblazeAddToCart() {
