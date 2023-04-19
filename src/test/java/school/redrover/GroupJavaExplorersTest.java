@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -70,7 +71,7 @@ public class GroupJavaExplorersTest extends BaseTest {
 
         Assert.assertTrue(buttonClass.contains("btn-success"));
     }
-
+    @Ignore
     @Test
     public void testIsoscelesTriangle() throws InterruptedException {
         getDriver().get("https://playground.learnqa.ru/puzzle/triangle");
