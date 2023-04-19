@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 public class AGoogleTest {
     @Test
-    public void testS () throws InterruptedException {
+    public void testS() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -24,11 +24,7 @@ public class AGoogleTest {
         textBox.sendKeys(Keys.RETURN);
         Thread.sleep(2000);
 
-//        WebElement button = driver.findElement(By.name("btnK"));
-//        button.click();
-
         WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
-
 
         Assert.assertEquals(text.getText(),"Selenium");
 
