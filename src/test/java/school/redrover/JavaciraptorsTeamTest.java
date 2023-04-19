@@ -56,4 +56,25 @@ public class JavaciraptorsTeamTest extends BaseTest {
         String value = message.getText();
         Assert.assertEquals("Received!", value);
     }
+
+    @Test
+    public void testBinoeder() {
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.google.ru/");
+
+        WebElement button = driver.findElement(By.id("L2AGLb"));
+        button.click();
+
+        WebElement textBox = driver.findElement(By.name("q"));
+
+        textBox.sendKeys("selenium");
+        textBox.sendKeys("\n");
+
+        WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
+
+        Assert.assertEquals(text.getText(), "Selenium");
+
+        driver.quit();
+    }
 }
