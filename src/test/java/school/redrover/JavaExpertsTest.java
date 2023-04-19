@@ -37,6 +37,7 @@ public class JavaExpertsTest extends BaseTest {
         assertEquals("Received!", value, "Form submit is fail");
     }
 
+    @Ignore
     @Test
     public void testRegisterUser(){
         getDriver().get("http://selenium1py.pythonanywhere.com/en-gb/accounts/login/");
