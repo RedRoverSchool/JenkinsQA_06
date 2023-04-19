@@ -137,6 +137,11 @@ public class GroupOlesyaTests extends BaseTest {
         List<WebElement> addProductsToCart  = getDriver().findElements(xpath);
         clickOnEachElement(addProductsToCart);
     }
+
+    public void clickOnContinueShopping() {
+        getDriver().findElement(By.id("continue-shopping")).click();
+    }
+
     @Test
     public void testAddtoCart() {
         loginToSite(LOGIN);
@@ -163,7 +168,7 @@ public class GroupOlesyaTests extends BaseTest {
         cartQuantity.clear();
         cartQuantity.sendKeys("2");
 
-        getDriver().findElement(By.id("continue-shopping")).click();
+        clickOnContinueShopping();
         goToShoppingCartPage();
 
         Assert.assertEquals(cartQuantity.getText(), "2");
@@ -175,8 +180,8 @@ public class GroupOlesyaTests extends BaseTest {
         loginToSite(LOGIN);
 
         getDriver().findElement(By.xpath("//button[@id='add-to-cart-sauce-labs-backpack']")).click();
-        getDriver().findElement(By.xpath("//span[@class='shopping_cart_badge']")).click();
-        getDriver().findElement(By.id("continue-shopping")).click();
+        goToShoppingCartPage();
+        clickOnContinueShopping();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
     }
