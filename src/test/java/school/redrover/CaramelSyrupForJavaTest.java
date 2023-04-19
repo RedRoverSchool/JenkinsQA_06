@@ -3,10 +3,9 @@ package school.redrover;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -396,6 +395,28 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         String actualResult = jeansSize.getText();
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testRinaGismeteo() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        Actions action = new Actions(getDriver());
+        getDriver().get("https://www.gismeteo.com/");
+
+        WebElement searchBar = getDriver().findElement(By.xpath("//*[@class='input js-input']"));
+        String expectedUrl = "https://www.gismeteo.com/weather-new-york-7190/";
+        searchBar.sendKeys("New York");
+        searchBar.sendKeys(Keys.ENTER);
+        String actualUrl = getDriver().getCurrentUrl();
+        wait.until(ExpectedConditions.urlToBe(expectedUrl));
+        Assert.assertEquals(actualUrl, expectedUrl);
+
+        WebElement newsLink = getDriver().findElement(By.xpath("//a[@href='/news/']"));
+        String initialColor = newsLink.getCssValue("color");
+        action.moveToElement(newsLink).perform();
+        wait.until(ExpectedConditions.elementToBeClickable(newsLink));
+        String changedColour = newsLink.getCssValue("color");
+        Assert.assertNotEquals(initialColor, changedColour);
     }
 
 }
