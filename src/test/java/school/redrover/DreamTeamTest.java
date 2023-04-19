@@ -114,7 +114,6 @@ public class DreamTeamTest extends BaseTest {
         WebElement linkPeople= getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a\n"));
         linkPeople.click();
         WebElement textPeople= getDriver().findElement(By.xpath("//*[@id='main-panel']/div[1]/div/h1"));
-
         Assert.assertEquals(textPeople.getText(),"People");
 
     }
