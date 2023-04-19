@@ -139,13 +139,13 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testJava(){
+    public void testJava() {
         getDriver().get("https://www.google.com");
 
-        WebElement textBox =  getDriver().findElement(By.name("q"));
+        WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("java\n");
 
-        WebElement text =  getDriver().findElement(By.xpath("//h3[text() = 'Java | Oracle']"));
+        WebElement text = getDriver().findElement(By.xpath("//h3[text() = 'Java | Oracle']"));
 
         Assert.assertEquals(text.getText(), "Java | Oracle");
 
@@ -159,15 +159,15 @@ public class JavaNiSyGroupTest extends BaseTest {
         getDriver().get("https://www.englishhome.bg/");
         Thread.sleep(1000);
 
-        if(!getDriver().findElements(By.id("img_lightbox_close")).isEmpty()){
-            WebElement  hotAttantion = getDriver().findElement(By.id("img_lightbox_close"));
+        if (!getDriver().findElements(By.id("img_lightbox_close")).isEmpty()) {
+            WebElement hotAttantion = getDriver().findElement(By.id("img_lightbox_close"));
             hotAttantion.click();
         }
 
         WebElement news = getDriver().findElement(By.id("web_push_hayir"));
         news.click();
 
-        WebElement  argeeCookies = getDriver().findElement(By.xpath("//div[@class = 'cookie']/a"));
+        WebElement argeeCookies = getDriver().findElement(By.xpath("//div[@class = 'cookie']/a"));
         argeeCookies.click();
 
         WebElement textSearch = getDriver().findElement(By.name("search_text"));
@@ -192,7 +192,25 @@ public class JavaNiSyGroupTest extends BaseTest {
 
         WebElement text = getDriver().findElement(By.xpath("//span[@class='base']"));
 
-        Assert.assertEquals(text.getText(),"New Luma Yoga Collection");
+        Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
+    }
+
+    @Test
+    public void testPandaLocation() {
+
+        getDriver().get("https://www.foodpanda.com/");
+
+        WebElement locationImage = getDriver().findElement(By.xpath("//button[@class='btn btn-white']"));
+        locationImage.click();
+
+        WebElement btnSubmit = getDriver().findElement(By.id("gform_submit_button_2"));
+        btnSubmit.click();
+
+        WebElement errorSummary = getDriver().
+                findElement(By.xpath("//*[@id='gform_2_validation_container']/h2"));
+
+        Assert.assertEquals(errorSummary.getText(),
+                "THERE WAS A PROBLEM WITH YOUR SUBMISSION. PLEASE REVIEW THE FIELDS BELOW.");
     }
 }
 

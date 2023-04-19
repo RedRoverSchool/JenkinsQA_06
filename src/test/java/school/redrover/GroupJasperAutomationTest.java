@@ -18,20 +18,14 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 
 public class GroupJasperAutomationTest extends BaseTest {
-    @Ignore
+
     @Test
+    public void testFootballua() throws InterruptedException {
 
-    public void footballua() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://football.ua/");
-        WebElement element = driver.findElement(By.xpath("//*[text()='Україна']"));
+        getDriver().get("https://football.ua/");
+        WebElement element = getDriver().findElement(By.xpath("//*[text()='Україна']"));
         Assert.assertEquals(element.getText(), "Україна");
-        driver.quit();
     }
-
 
     @Test
     public void testTitle() throws InterruptedException {

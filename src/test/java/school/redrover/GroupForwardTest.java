@@ -19,68 +19,41 @@ public class GroupForwardTest extends BaseTest {
     @Test
     public void testCommonComponents() throws InterruptedException {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://yummymarket.com/");
+        getDriver().get("https://yummymarket.com/");
         Thread.sleep(3000);
-        String actualResultTitle = driver.getTitle();
 
-        WebElement searchField = driver.findElement(
-                By.xpath("//input[@type = 'search']")
-        );
-        WebElement label = driver.findElement(
-                By.xpath("//img[@alt= 'Yummy Market']")
-        );
-        WebElement navigationBar = driver.findElement(
-                By.xpath("//nav[@id = 'site-navigation']")
-        );
-        WebElement copyrightInformation = driver.findElement(
-                By.xpath("//div[@class='copyright-bar']")
-        );
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@type = 'search']"));
+        WebElement label = getDriver().findElement(By.xpath("//img[@alt= 'Yummy Market']"));
+        WebElement navigationBar = getDriver().findElement(By.xpath("//nav[@id = 'site-navigation']"));
+        WebElement copyrightInformation = getDriver().findElement(By.xpath("//div[@class='copyright-bar']"));
 
-        assertEquals(actualResultTitle, "Home - Yummy Market");
+        assertEquals(getDriver().getTitle(), "Home - Yummy Market");
         Assert.assertTrue(searchField.isDisplayed());
         Assert.assertTrue(label.isDisplayed());
         Assert.assertTrue(navigationBar.isDisplayed());
         assertEquals(copyrightInformation.getText(), "© 2023 Yummy Market inc. All Rights Reserved.");
         Assert.assertTrue(copyrightInformation.isDisplayed());
 
-        driver.quit();
     }
 
     @Test
     public void testAbleToSearch() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
 
-        driver.get("https://yummymarket.com/");
-
-        WebElement searchField = driver.findElement(
-                By.xpath("//input[@type = 'search']")
-        );
+        getDriver().get("https://yummymarket.com/");
+        Thread.sleep(3000);
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@type = 'search']"));
         searchField.click();
         searchField.sendKeys("menu");
 
-        WebElement searchButton = driver.findElement(
-                By.xpath("//button[@class = 'is-search-submit']")
-        );
+        WebElement searchButton = getDriver().findElement(By.xpath("//button[@class = 'is-search-submit']"));
         searchButton.click();
         Thread.sleep(3000);
 
-        WebElement searchHeader = driver.findElement(
-                By.xpath("//header[@class = 'page-header']/h1")
-        );
+        WebElement searchHeader = getDriver().findElement(By.xpath("//header[@class = 'page-header']/h1"));
 
-
-        assertEquals(driver.getCurrentUrl(), "https://yummymarket.com/?s=menu&id=5067");
-
+        assertEquals(getDriver().getCurrentUrl(), "https://yummymarket.com/?s=menu&id=5067");
         assertEquals(searchHeader.getText(), "Search Results for: menu");
 
-        driver.quit();
     }
 
     @Test
@@ -97,38 +70,38 @@ public class GroupForwardTest extends BaseTest {
         WebElement loginButton = getDriver().findElement(By.cssSelector("#login-button"));
         loginButton.sendKeys(Keys.ENTER);
 
-        assertEquals(getDriver().getCurrentUrl(), link+endpoint_inventory);
-      }
-
-      @Test
-    public void TestDemo() throws InterruptedException {
-
-          ChromeOptions chromeOptions = new ChromeOptions();
-          chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-          WebDriver driver = new ChromeDriver(chromeOptions);
-          driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-          String title = driver.getTitle();
-          assertEquals("Web form", title);
-
-          Thread.sleep(3000);
-
-          WebElement textBox = driver.findElement(By.name("my-text"));
-          WebElement submitButton = driver.findElement(By.cssSelector("button"));
-
-          textBox.sendKeys("Selenium");
-          submitButton.click();
-
-          WebElement message = driver.findElement(By.id("message"));
-          String value = message.getText();
-          assertEquals("Received!", value);
-
-        driver.quit();
-      }
+        assertEquals(getDriver().getCurrentUrl(), link + endpoint_inventory);
+    }
 
     @Test
-    public void testSearchIplayAmerica()  {
+    public void TestDemo() throws InterruptedException {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String title = driver.getTitle();
+        assertEquals("Web form", title);
+
+        Thread.sleep(3000);
+
+        WebElement textBox = driver.findElement(By.name("my-text"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("Selenium");
+        submitButton.click();
+
+        WebElement message = driver.findElement(By.id("message"));
+        String value = message.getText();
+        assertEquals("Received!", value);
+
+        driver.quit();
+    }
+
+    @Test
+    public void testSearchIplayAmerica() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
 
@@ -191,7 +164,7 @@ public class GroupForwardTest extends BaseTest {
         languageLetterI.click();
         List<WebElement> languageIList = getDriver().findElements(By.xpath("//table[@id = 'category']/tbody/tr/td[1]/a"));
 
-        Assert.assertTrue(languageIList.size()>0);
+        Assert.assertTrue(languageIList.size() > 0);
 
         for (WebElement element : languageIList) {
             Assert.assertTrue(element.getText().toUpperCase().startsWith("I"));
@@ -216,5 +189,50 @@ public class GroupForwardTest extends BaseTest {
             Assert.assertTrue(element.getText().toLowerCase().contains("ruby"));
         }
     }
+
+    @Test
+    public void testOrchidCareIndoors(){
+
+        getDriver().get("https://www.google.com/");
+
+        WebElement textBox = getDriver().findElement(By.name("q"));
+        textBox.sendKeys("orchid care indoors\n");
+        WebElement text = getDriver().findElement(By.xpath
+                ("//h3 [text() = 'How To Take Care Of Orchid Plants Indoors']"));
+
+        Assert.assertEquals(text.getText(),"How To Take Care Of Orchid Plants Indoors");
+
+    }
+    @Test
+    public void testMaimonidesMedicalCenter() {
+
+        getDriver().get("https://www.google.com/");
+
+        WebElement textBox = getDriver().findElement(By.name("q"));
+        textBox.sendKeys("Maimonides Medical Center");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//*[@class='g']/div[1]/div/div/div/div/div[1]/a/h3"));
+
+        Assert.assertEquals(text.getText(), "Maimonides Medical Center | Brooklyn, New York Hospital");
+
+    }
+
+    @Test
+    public void testSearchIplayAmerica1() {
+
+        getDriver().get("https://www.google.com/");
+
+        WebElement textBox = getDriver().findElement(By.name("q"));
+        textBox.sendKeys("i play america");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//h3[contains(text(),\"Home - iPlay America" +
+                " - NJ's Premier Indoor Amuseme\")]"));
+
+        Assert.assertEquals(text.getText(), "Home - iPlay America - NJ's Premier Indoor Amusement Park");
+
+    }
+
 }
 

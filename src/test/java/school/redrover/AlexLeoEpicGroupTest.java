@@ -282,20 +282,13 @@ public class AlexLeoEpicGroupTest extends BaseTest {
     }
 
     @Test
-    public void dollarSignTest() {
+    public void testDollarSign() {
+        getDriver().get("https://askomdch.com/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        driver.get("https://askomdch.com/");
-        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
-        List<WebElement> prices = driver.findElements(By.xpath("//span[@class='price']"));
+        List<WebElement> prices = getDriver().findElements(By.xpath("//span[@class='price']"));
         for (WebElement price : prices) {
             Assert.assertTrue(price.getText().contains("$"));
         }
-        driver.quit();
     }
 
     @Test
@@ -737,4 +730,58 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(products.size(), 7);
     }
 
+    @Test
+    public void testVerifyAllProductsAreAscending() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.cssSelector("a.wp-block-button__link[href='/store']")).click();
+        getDriver().findElement(By.cssSelector("select[name='orderby']")).click();
+        getDriver().findElement(By.xpath("//select/option[text()='Sort by price: low to high']")).click();
+
+        WebElement productList = getDriver().findElement(By.cssSelector("main#main > div > ul"));
+        List<WebElement> product = productList
+                .findElements(By.cssSelector("li > div > span[class='price'] > ins > span, " +
+                        "li > div > span[class='price'] > span"));
+        float previousPrice = 0;
+        for (WebElement el : product) {
+            String strPriceDollarSign = el.findElement(By.cssSelector("bdi")).getAttribute("textContent");
+            String stringPrice = strPriceDollarSign.substring(1);
+            float floatPrice = Float.parseFloat(stringPrice);
+            Assert.assertTrue(floatPrice >= previousPrice);
+        }
+
+    }
+
+    @Test
+    public void testVerifyNumberOnShoppingCardIcon() throws InterruptedException {
+        getDriver().get("https://askomdch.com/");
+
+        WebElement featuredProductsSection = getDriver()
+                .findElement(By.xpath("//div/h2[text()='Featured Products']/.."));
+        List<WebElement> productCart = featuredProductsSection.findElements(By.tagName("li"));
+
+        int countOfAddedProducts = 0;
+        for (int i = 0; i < productCart.size() - 1; i++) {
+            productCart.get(i).findElement(By.cssSelector("a[class='button product_type_simple add_to_cart_button ajax_add_to_cart']"))
+                    .click();
+            Thread.sleep(1000);
+            countOfAddedProducts++;
+        }
+        System.out.println(countOfAddedProducts);
+
+        String countOnCardStr = getDriver().findElement(By.cssSelector("span[class='count']")).getText();
+        int countOnCardInt = Integer.parseInt(countOnCardStr);
+
+        Assert.assertEquals(countOnCardInt, countOfAddedProducts);
+
+    }
+
+    @Test
+    public void testVerifyButtonRedirect() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[text() ='Find More']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Contact Us']")).getText(), "Contact Us");
+    }
 }

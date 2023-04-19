@@ -2,10 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.Ignore;
@@ -23,15 +20,10 @@ public class ComradesAdelanteTest extends BaseTest {
     @Test
     public void testHeaderOpenWeather() {
         Reporter.log("Tests started 1", true);
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments(
-                "--remote-allow-origins=*", "--headless", "--window-size=1920,1080"
-        );
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("https://openweathermap.org");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().get("https://openweathermap.org");
 
-        WebElement textHeader = driver.findElement(
+        WebElement textHeader = getDriver().findElement(
                 By.xpath("//h1/span[@class='white-text']")
         );
 
@@ -40,30 +32,23 @@ public class ComradesAdelanteTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
         Reporter.log("Tests stop",true);
-        driver.quit();
     }
 
     @Ignore
     @Test
     public void testHeaderSignInPage() throws InterruptedException {
-
         Reporter.log("Tests started 2", true);
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments(
-                "--remote-allow-origins=*", "--headless", "--window-size=1920,1080"
-        );
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        driver.get("https://openweathermap.org");
+        getDriver().get("https://openweathermap.org");
 
-        WebElement linkSignIn = driver.findElement(
+        WebElement linkSignIn = getDriver().findElement(
                 By.xpath("//div/ul/li[@class='user-li']/a")
         );
         linkSignIn.sendKeys(Keys.RETURN);
         Thread.sleep(1500);
 
-        WebElement textHeader = driver.findElement(
+        WebElement textHeader = getDriver().findElement(
                 By.xpath("//h3[@class='first-child']")
         );
         Thread.sleep(500);
@@ -73,126 +58,117 @@ public class ComradesAdelanteTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
         Reporter.log("Tests stop",true);
-        driver.quit();
     }
 
     @Test
     public void MariaLuchnikovaTest() {
 
         Reporter.log("Tests started 3", true);
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://www.saucedemo.com");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.saucedemo.com");
-
-        WebElement login = driver.findElement(By.id("user-name"));
+        WebElement login = getDriver().findElement(By.id("user-name"));
         login.sendKeys("standard_user");
-        WebElement password = driver.findElement(By.id("password"));
+        WebElement password = getDriver().findElement(By.id("password"));
         password.sendKeys("secret_sauce");
 
-        WebElement loginButton = driver.findElement(By.id("login-button"));
+        WebElement loginButton = getDriver().findElement(By.id("login-button"));
         loginButton.click();
 
         //Thread.sleep(3000);
 
-        WebElement Backpack = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
+        WebElement Backpack = getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack"));
         Backpack.click();
 
-        WebElement tShirt = driver.findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt"));
+        WebElement tShirt = getDriver().findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt"));
         tShirt.click();
 
-        WebElement onesie = driver.findElement(By.id("add-to-cart-sauce-labs-onesie"));
+        WebElement onesie = getDriver().findElement(By.id("add-to-cart-sauce-labs-onesie"));
         onesie.click();
 
-        WebElement cart = driver.findElement(By.className("shopping_cart_link"));
+        WebElement cart = getDriver().findElement(By.className("shopping_cart_link"));
         cart.click();
 
-        List<WebElement> items = driver.findElements(By.className("cart_item"));
+        List<WebElement> items = getDriver().findElements(By.className("cart_item"));
 
         int countItems = items.size();
         Assert.assertEquals(countItems, 3);
         Reporter.log("Tests stop",true);
-        driver.quit();
     }
     @Test
     public void nikolayMarkovTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.w3schools.com/");
+        getDriver().get("https://www.w3schools.com/");
 
         Reporter.log("Tests started 4", true);
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         WebElement search;
-        search = driver.findElement(By.xpath("//form/input[@id = 'search2']"));
+        search = getDriver().findElement(By.xpath("//form/input[@id = 'search2']"));
         search.sendKeys("HTML Tutorial");
         search.sendKeys(Keys.RETURN);
 
         WebElement textBox;
-        textBox = driver.findElement(By.xpath("//input[@name = 'ex1']"));
+        textBox = getDriver().findElement(By.xpath("//input[@name = 'ex1']"));
         textBox.sendKeys("title");
         textBox.sendKeys(Keys.RETURN);
 
-        ArrayList<String> words = new ArrayList<>(driver.getWindowHandles());// Записываем  открытые вкладки {0,1,...}
-        driver.switchTo().window(words.get(1));// Выбираем вкладку
+        ArrayList<String> words = new ArrayList<>(getDriver().getWindowHandles());// Записываем  открытые вкладки {0,1,...}
+        getDriver().switchTo().window(words.get(1));// Выбираем вкладку
 
         WebElement submit;
-        submit = driver.findElement(By.xpath("//button[@id='answerbutton']"));
+        submit = getDriver().findElement(By.xpath("//button[@id='answerbutton']"));
         submit.click();
         WebElement result;
-        result = driver.findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
+        result = getDriver().findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
 
         String actualResultOne = result.getText();
 
         WebElement submitConfirm;
-        submitConfirm = driver.findElement(By.xpath("//div[@class='exercisemenuinner']//a[2]"));
+        submitConfirm = getDriver().findElement(By.xpath("//div[@class='exercisemenuinner']//a[2]"));
         submitConfirm.click();
 
-        textBox = driver.findElement(By.xpath("//*[@id='assignmentcontainer']/input[1]"));
+        textBox = getDriver().findElement(By.xpath("//*[@id='assignmentcontainer']/input[1]"));
         textBox.sendKeys("250");
-        WebElement textBoxOne = driver.findElement(By.xpath("//*[@id='assignmentcontainer']/input[2]"));
+        WebElement textBoxOne = getDriver().findElement(By.xpath("//*[@id='assignmentcontainer']/input[2]"));
         textBoxOne.sendKeys("400");
         textBoxOne.sendKeys(Keys.RETURN);
 
-        result = driver.findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
+        result = getDriver().findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
 
         String actualResultTwo = result.getText();
 
-        submitConfirm = driver.findElement(By.xpath("//div[@class='exercisemenuinner']//a[3]"));
+        submitConfirm = getDriver().findElement(By.xpath("//div[@class='exercisemenuinner']//a[3]"));
         submitConfirm.click();
 
-        textBox = driver.findElement(By.xpath("//*[@id='assignmentcontainer']/input"));
+        textBox = getDriver().findElement(By.xpath("//*[@id='assignmentcontainer']/input"));
         textBox.sendKeys("href=");
         textBox.sendKeys(Keys.RETURN);
 
-        result = driver.findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
+        result = getDriver().findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
 
         String actualResultThree = result.getText();
 
-        submitConfirm = driver.findElement(By.xpath("//div[@class='exercisemenuinner']//a[4]"));
+        submitConfirm = getDriver().findElement(By.xpath("//div[@class='exercisemenuinner']//a[4]"));
         submitConfirm.click();
 
-        textBox = driver.findElement(By.xpath("//*[@id='assignmentcontainer']/input"));
+        textBox = getDriver().findElement(By.xpath("//*[@id='assignmentcontainer']/input"));
         textBox.sendKeys("alt");
         textBox.sendKeys(Keys.RETURN);
 
-        result = driver.findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
+        result = getDriver().findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
 
         String actualResultFour = result.getText();
 
         String expectResult = "Correct!";
 
-        List<WebElement> exerciseNamesList = driver.findElements(
+        List<WebElement> exerciseNamesList = getDriver().findElements(
                 By.xpath("//*[@id=\"exercisemenu\"]/div[4]/div[1]/div[2]/a/i")
         );
 
         int actualResultNamesList = exerciseNamesList.size();
         int expectResultNamesList = 4;
 
-        List<WebElement> exerciseTextList = driver.findElements(
+        List<WebElement> exerciseTextList = getDriver().findElements(
                 By.xpath("//*[@id=\"exercisemenu\"]/div[4]/div[1]/div[2]/a/text")
         );
 
@@ -207,10 +183,8 @@ public class ComradesAdelanteTest extends BaseTest {
         Assert.assertEquals(actualResultNamesList, expectResultNamesList);
 
         Reporter.log("Tests stop",true);
-        driver.quit();
     }
     @Test
-
     public void testFirstAddRemoveElementsAnnaG() {
 
         getDriver().get("http://the-internet.herokuapp.com/");
@@ -239,5 +213,6 @@ public class ComradesAdelanteTest extends BaseTest {
 
         Assert.assertEquals(actualResultSizeOfDeleteElementButton,expectResultSizeOfDeleteElementButton);
 
-        }
+    }
 }
+

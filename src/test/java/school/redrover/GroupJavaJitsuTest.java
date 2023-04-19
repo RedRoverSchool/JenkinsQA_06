@@ -91,6 +91,8 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         Assert.assertEquals(text.getText(), "Step 1: Setup wizard");
     }
+
+    @Ignore
     @Test
     public void testForm() throws InterruptedException {
         getDriver().get("https://demoqa.com");

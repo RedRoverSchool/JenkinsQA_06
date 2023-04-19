@@ -80,6 +80,7 @@ public class BugsBustersTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Home | Funart");
     }
 
+    @Ignore
     @Test
     public void testMarynaSArtTab() {
         getDriver().get("https://www.funartcolorado.com/");

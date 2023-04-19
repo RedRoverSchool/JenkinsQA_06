@@ -18,18 +18,18 @@ public class LoginPageTest extends BaseTest {
   private final String EXPECTED_COLOR = "rgba(227, 72, 72, 1)";
   private final String PASSWORD = "Password123";
   private final String USERNAME = "student";
-  private final By userNameID = By.id("username");
-  private final By passwordID = By.id("password");
-  private final By submitID = By.id("submit");
-  private final By errorID = By.id("error");
-  private final By post_text = By.xpath("//h1[@class=\"post-title\"]");
-  private final By log_out = By.xpath(
+  private final By userNameId = By.id("username");
+  private final By passwordId = By.id("password");
+  private final By submitId = By.id("submit");
+  private final By errorId = By.id("error");
+  private final By postText = By.xpath("//h1[@class=\"post-title\"]");
+  private final By logOut = By.xpath(
     "//a[@class=\"wp-block-button__link has-text-color has-background has-very-dark-gray-background-color\"]");
 
 
   @Test
   public void testPositiveLogin() {
-    mainPage();
+    openMainPage();
     sendUsername(USERNAME);
     sendPassword(PASSWORD);
     clickSubmitButton();
@@ -42,7 +42,7 @@ public class LoginPageTest extends BaseTest {
   @Ignore
   @Test
   public void testNegativeUsername() {
-    mainPage();
+    openMainPage();
     sendUsername(INCORRECT_USER);
     sendPassword(PASSWORD);
     clickSubmitButton();
@@ -54,7 +54,7 @@ public class LoginPageTest extends BaseTest {
   @Ignore
   @Test
   public void testNegativePassword() {
-    mainPage();
+    openMainPage();
     sendUsername(USERNAME);
     sendPassword(INCORRECT_PASS);
     clickSubmitButton();
@@ -63,28 +63,28 @@ public class LoginPageTest extends BaseTest {
     Assert.assertEquals(getErrorMessage(), PASSWORD_IS_INVALID);
   }
 
-  private void mainPage() {
+  private void openMainPage() {
     getDriver().get(PAGE);
   }
 
   private void sendUsername(String username) {
-    getDriver().findElement(userNameID).sendKeys(username);
+    getDriver().findElement(userNameId).sendKeys(username);
   }
 
   private void sendPassword(String password) {
-    getDriver().findElement(passwordID).sendKeys(password);
+    getDriver().findElement(passwordId).sendKeys(password);
   }
 
   private void clickSubmitButton() {
-    getDriver().findElement(submitID).click();
+    getDriver().findElement(submitId).click();
   }
 
   private boolean isDisplayedLogOut() {
-    return getDriver().findElement(log_out).isDisplayed();
+    return getDriver().findElement(logOut).isDisplayed();
   }
 
   private String getActualText() {
-    return getDriver().findElement(post_text).getText();
+    return getDriver().findElement(postText).getText();
   }
 
   private String getCurrentUrl() {
@@ -92,10 +92,10 @@ public class LoginPageTest extends BaseTest {
   }
 
   private String getErrorMessage() {
-    return getDriver().findElement(errorID).getText();
+    return getDriver().findElement(errorId).getText();
   }
 
   private String getBackgroundColor() {
-    return getDriver().findElement(errorID).getCssValue("background-color");
+    return getDriver().findElement(errorId).getCssValue("background-color");
   }
 }
