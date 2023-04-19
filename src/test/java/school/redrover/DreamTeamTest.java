@@ -81,6 +81,7 @@ public class DreamTeamTest extends BaseTest {
     @Test
     public void testHerokuappPage(){
         getDriver().get("https://testpages.herokuapp.com/styled/find-by-playground-test.html");
+
         WebElement li1 = getDriver().findElement(By.cssSelector("#p3"));
         Assert.assertEquals(li1.getText(),"This is c paragraph text");
 
