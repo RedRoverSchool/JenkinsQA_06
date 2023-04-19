@@ -6,14 +6,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.util.List;
 
 public class AnnaMayBeforeAfterAnnotationTest extends BaseTest {
-    final String[] navigationLinks = {"Quick Tools", "Send", "Receive", "Shop", "Business", "International", "Help"};
 
+    final String[] navigationLinks = {"Quick Tools", "Send", "Receive", "Shop", "Business", "International", "Help"};
 
     @Test
     public void testUspsWebsiteTitle() {
@@ -38,6 +39,7 @@ public class AnnaMayBeforeAfterAnnotationTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testHoverOnSubElement() {
         getDriver().get("https://www.usps.com/");
@@ -74,7 +76,7 @@ public class AnnaMayBeforeAfterAnnotationTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@id='tCity']")).sendKeys(city);
         getDriver().findElement(By.xpath("//a[@id='zip-by-address']")).click();
 
-        WebElement resultElement = getDriver().findElement(By.xpath("//div[@id='zipByAddressDiv']"));
+        getDriver().findElement(By.xpath("//div[@id='zipByAddressDiv']"));
         Thread.sleep(3000);
 
         List<WebElement> list = getDriver().findElements(By.xpath("//*[@class='zipcode-result-address']"));

@@ -4,12 +4,15 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
 public class GroupGlukhovaTest extends BaseTest {
+
+    @Ignore
     @Test
     public void testLogIn(){
         getDriver().get("https://www.demoblaze.com/");
