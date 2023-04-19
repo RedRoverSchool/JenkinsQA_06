@@ -752,4 +752,28 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
     }
 
+    @Test
+    public void testVerifyNumberOnShoppingCardIcon() throws InterruptedException {
+        getDriver().get("https://askomdch.com/");
+
+        WebElement featuredProductsSection = getDriver()
+                .findElement(By.xpath("//div/h2[text()='Featured Products']/.."));
+        List<WebElement> productCart = featuredProductsSection.findElements(By.tagName("li"));
+
+        int countOfAddedProducts = 0;
+        for (int i = 0; i < productCart.size() - 1; i++) {
+            productCart.get(i).findElement(By.cssSelector("a[class='button product_type_simple add_to_cart_button ajax_add_to_cart']"))
+                    .click();
+            Thread.sleep(1000);
+            countOfAddedProducts++;
+        }
+        System.out.println(countOfAddedProducts);
+
+        String countOnCardStr = getDriver().findElement(By.cssSelector("span[class='count']")).getText();
+        int countOnCardInt = Integer.parseInt(countOnCardStr);
+
+        Assert.assertEquals(countOnCardInt, countOfAddedProducts);
+
+    }
+
 }
