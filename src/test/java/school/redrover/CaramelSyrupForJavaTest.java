@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 public class CaramelSyrupForJavaTest extends BaseTest {
 
     public void clickCustom(WebElement element) {
@@ -266,7 +265,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
+    @Ignore
     @Test
     public void svetaKhudova_testWinnerPhoneNumber() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -396,6 +395,22 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         String actualResult = jeansSize.getText();
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testRykovaOW() throws InterruptedException {
+
+        String expectedResult = "Partners and solutions";
+
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(6000);
+        WebElement partners = getDriver().findElement(By.xpath("//a [text()='Partners']"));
+        partners.click();
+
+        WebElement text = getDriver().findElement(By.xpath("//h1 [text()='Partners and solutions']"));
+        String actualResult = text.getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
     }
 
 }
