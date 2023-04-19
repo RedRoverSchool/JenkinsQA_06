@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -27,6 +28,27 @@ public class TestTitansGroupTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//h3[text() = 'Selenium']"));
 
         Assert.assertEquals(text.getText(), "Selenium");
+
+    }
+
+    @Test
+    public void testFormDemoqaDotCom() throws InterruptedException {
+        getDriver().get("https://demoqa.com");
+
+
+        WebElement buttonCategoryCards = getDriver().findElement(By.xpath("//div[@class='card mt-4 top-card'][2]"));
+        buttonCategoryCards.click();
+
+        Thread.sleep(2000);
+
+        WebElement buttonPracticeForm = getDriver().findElement(By.xpath("//span[@class='text'][text()=\"Practice Form\"]"));
+        buttonPracticeForm.click();
+
+        Thread.sleep(2000);
+
+        WebElement textBox = getDriver().findElement(By.xpath("//div[@class='main-header']"));
+
+        Assert.assertEquals(textBox.getText(), "Practice Form");
 
     }
 

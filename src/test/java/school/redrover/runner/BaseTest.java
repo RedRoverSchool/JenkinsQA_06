@@ -34,6 +34,7 @@ public abstract class BaseTest {
         this.resolutionX = resolutionX;
         this.resolutionY = resolutionY;
     }
+
     protected WebDriver getDriver() {
         return driver;
     }

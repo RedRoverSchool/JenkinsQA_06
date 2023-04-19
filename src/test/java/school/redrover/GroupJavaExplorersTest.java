@@ -1,9 +1,15 @@
 package school.redrover;
 
-import org.openqa.selenium.*;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -13,18 +19,9 @@ public class GroupJavaExplorersTest extends BaseTest {
 
     @Test
     public void testTrelloTitle() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://trello.com/");
 
-        String url = "https://trello.com/";
-        String expTitle = "Manage Your Team’s Projects From Anywhere | Trello";
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(url);
-
-        Assert.assertEquals(driver.getTitle(), expTitle);
-
-        driver.quit();
+        Assert.assertEquals(getDriver().getTitle(), "Manage Your Team’s Projects From Anywhere | Trello");
     }
 
     @Test
@@ -73,5 +70,25 @@ public class GroupJavaExplorersTest extends BaseTest {
         String buttonClass = buttonPrimary.getAttribute("class");
 
         Assert.assertTrue(buttonClass.contains("btn-success"));
+    }
+    @Ignore
+    @Test
+    public void testIsoscelesTriangle() throws InterruptedException {
+        getDriver().get("https://playground.learnqa.ru/puzzle/triangle");
+
+        WebElement sideATextBox = getDriver().findElement(By.className("js_a"));
+        sideATextBox.sendKeys("5");
+        WebElement sideBTextBox = getDriver().findElement(By.className("js_b"));
+        sideBTextBox.sendKeys("5");
+        WebElement sideCTextBox = getDriver().findElement(By.className("js_c"));
+        sideCTextBox.sendKeys("6");
+        WebElement showResultButton = getDriver().findElement(By.xpath("//button[@class='btn btn-submit']"));
+        Thread.sleep(1000);
+        showResultButton.click();
+        WebElement resultMessage = getDriver().findElement(By.xpath("//div[@class='info logg']"));
+        Thread.sleep(1000);
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, "Это равнобедренный треугольник.\nВы ввели:\nA: 5; B: 5; C: 6");
     }
 }

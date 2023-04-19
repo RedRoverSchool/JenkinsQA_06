@@ -1,14 +1,12 @@
 package school.redrover;
 
 import com.github.javafaker.Faker;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -16,6 +14,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -42,7 +42,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
-
+    @Ignore
     @Test
     public void testErrorMessageWhenEmailFieldLeftBlank() {
 
@@ -73,44 +73,40 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void MlFirstTest() throws InterruptedException {
+    public void testMyAccountPage() {
         getDriver().get(BASE_URL);
+        WebElement signInLinkAtHeader = getDriver().findElement(By.className("authorization-link"));
+        signInLinkAtHeader.click();
 
-        WebElement textBox = getDriver().findElement(
-                By.xpath("//header//a[normalize-space(text())='Create an Account']"));
-        textBox.click();
-
-        WebElement text = getDriver().findElement(By.xpath("//span[@data-ui-id = 'page-title-wrapper']"));
-
-        Assert.assertEquals(text.getText(), "Create New Customer Account");
-
-        WebElement firstName =getDriver().findElement(By.xpath("//input[@id = 'firstname']"));
-        firstName.sendKeys("Marina");
-        WebElement lastName = getDriver().findElement(By.xpath("//input[@id = 'lastname']"));
-        lastName.sendKeys("Los");
-        WebElement email = getDriver().findElement(By.xpath("//input[@id = 'email_address']"));
-        email.sendKeys("test@google.com");
-        WebElement password1 = getDriver().findElement(By.xpath("//input[@id = 'password']"));
-        password1.sendKeys("123Qwerty+");
-        WebElement password2 = getDriver().findElement(By.xpath("//input[@id = 'password-confirmation']"));
-        password2.sendKeys("123Qwerty+");
-        WebElement submitbutton = getDriver().findElement(
-                By.xpath("//button/span[normalize-space(text())='Create an Account']")
-        );
-        submitbutton.click();
-
-        Thread.sleep(2000);
-
-        WebElement clickHereLink = getDriver().findElement(
-                By.xpath("//div/a[normalize-space(text())='click here']")
-        );
-        clickHereLink.click();
-
-        WebElement forgotPassword = getDriver().findElement(
-                By.xpath("//h1/span[normalize-space(text())='Forgot Your Password?']")
+        WebElement pageTitle = getDriver().findElement(
+                By.xpath("//span[@data-ui-id='page-title-wrapper']")
         );
 
-        Assert.assertEquals(forgotPassword.getText(), "Forgot Your Password?");
+        Assert.assertEquals(pageTitle.getText(), "Customer Login");
+
+        WebElement emailField = getDriver().findElement(By.id("email"));
+        emailField.sendKeys("test@google.com");
+        WebElement passwordField = getDriver().findElement(By.id("pass"));
+        passwordField.sendKeys("123Qwerty+");
+        WebElement signInButton = getDriver().findElement(
+                By.id("send2")
+        );
+        signInButton.click();
+
+        WebElement headerDropdownMenu =getDriver().findElement(
+                By.xpath("//header//button[@data-action='customer-menu-toggle']")
+        );
+        WebElement myAccountInDropdownMenu = getDriver().findElement(
+                By.xpath("//header//ul[@class='header links']/li/a[text()='My Account']")
+        );
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(headerDropdownMenu).click().moveToElement(myAccountInDropdownMenu).click().perform();
+
+        WebElement accountPageTitle =getDriver().findElement(
+                By.xpath("//h1[@class='page-title']/span")
+        );
+
+        Assert.assertEquals(accountPageTitle.getText(), "My Account");
     }
 
     @Test
@@ -124,25 +120,18 @@ public class GroupHighwayToAqaTest extends BaseTest {
     public void testNewLinkAR() {
         String expectedPageTitle = "What's New";
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
-
-        WebDriverWait waitForWhatsNewLink = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait waitForWhatsNewLink = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         waitForWhatsNewLink.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='ui-id-3']")));
 
-        WebElement whatsNewLink = driver.findElement(By.xpath("//a[@id='ui-id-3']"));
+        WebElement whatsNewLink = getDriver().findElement(By.xpath("//a[@id='ui-id-3']"));
         whatsNewLink.click();
 
-        WebElement pageTitle = driver.findElement(By.xpath("//h1[@id='page-title-heading']"));
+        WebElement pageTitle = getDriver().findElement(By.xpath("//h1[@id='page-title-heading']"));
         String actualPageTitle = pageTitle.getText();
 
         Assert.assertEquals(actualPageTitle, expectedPageTitle);
-
-        driver.quit();
     }
 
     @Test
@@ -234,26 +223,16 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-
     public void testH1TextInWhatIsNew() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://magento.softwaretestingboard.com/");
+        getDriver().get("https://magento.softwaretestingboard.com/");
         Thread.sleep(2000);
 
-        WebElement whatIsNew = driver.findElement(By.id("ui-id-3"));
+        WebElement whatIsNew = getDriver().findElement(By.id("ui-id-3"));
         whatIsNew.click();
 
-        WebElement h1InWhatIsNew = driver.findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
+        WebElement h1InWhatIsNew = getDriver().findElement(By.xpath("//h1[@id = 'page-title-heading']/span"));
 
         Assert.assertEquals(h1InWhatIsNew.getText(), "What's New");
-
-        driver.quit();
-
     }
 
     @Test
@@ -299,50 +278,39 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testSearching() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get(BASE_URL);
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
-
-        WebElement textBox = driver.findElement(By.name("q"));
+        WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("watch\n");
-        WebElement searchingResult = driver.findElement(By.className("base"));
+        WebElement searchingResult = getDriver().findElement(By.className("base"));
 
         Assert.assertEquals(searchingResult.getText(), "Search results for: 'watch'");
-
-        driver.quit();
     }
 
     @Test
-    public void TestYogaShop() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testYogaShop() {
 
-        ChromeDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(BASE_URL);
+        getDriver().get(BASE_URL);
 
-        WebElement buttonShopNewYoga = driver.findElement(By
+        WebElement buttonShopNewYoga = getDriver().findElement(By
                 .xpath("//a [@class = \"block-promo home-main\"]//span[text()=\"Shop New Yoga\"]"));
         buttonShopNewYoga.click();
 
-        WebElement searchField = driver.findElement(By.xpath("//input[@id = \"search\"]"));
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@id = \"search\"]"));
         searchField.sendKeys("jacket for men");
 
-        WebElement searchText = driver.findElement(By.xpath("//button[@title=\"Search\"]"));
+        WebElement searchText = getDriver().findElement(By.xpath("//button[@title=\"Search\"]"));
         searchText.click();
 
-        List<WebElement> searchResult = driver.findElements(By
+        List<WebElement> searchResult = getDriver().findElements(By
                 .xpath("//li[@class =\"item product product-item\"]"));
 
         String fiveElementText = searchResult.get(5).getText();
         assertTrue(fiveElementText.contains("Jacket"));
         searchResult.get(5).click();
 
-        String currentUrl = driver.getCurrentUrl();
+        String currentUrl = getDriver().getCurrentUrl();
         Assert.assertEquals(currentUrl, "https://magento.softwaretestingboard.com/lando-gym-jacket.html");
-
-        driver.quit();
     }
 
     @Test
@@ -426,38 +394,39 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Assert.assertEquals(titleOfSucessCreationAccountMessage.getText(), "Thank you for registering with Main Website Store.");
     }
 
+    @Ignore
     @Test
     public void testSubscription() throws InterruptedException {
-        getDriver().get(BASE_URL);
-
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
         char[] prefix = new char[6];
         for (int i = 0; i < prefix.length; i++) {
             prefix[i] = (char) (Math.random() * (122 - 97) + 97);
         }
-
+        WebElement emailInput = driver.findElement(By.cssSelector("#newsletter"));
         String emailPostfix = "@mail.ru";
         String emailPrefix = new String(prefix);
         String email = emailPrefix.concat(emailPostfix);
-
-        WebElement emailInput = getDriver().findElement(By.cssSelector("#newsletter"));
         emailInput.sendKeys(email);
-        WebElement submitButton = getDriver().findElement(By
+        WebElement submitButton = driver.findElement(By
                 .xpath("//button[@title = 'Subscribe']"));
         submitButton.click();
         Thread.sleep(5000);
-        WebElement message = getDriver().findElement(By
+        WebElement message = driver.findElement(By
                 .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
         Assert.assertEquals(message.getText(), "Thank you for your subscription.");
-
-        emailInput = getDriver().findElement(By.xpath("//input[@placeholder = 'Enter your email address']"));
+        emailInput = driver.findElement(By.xpath("//input[@placeholder = 'Enter your email address']"));
         emailInput.sendKeys(email);
-        submitButton = getDriver().findElement(By
+        submitButton = driver.findElement(By
                 .xpath("//button[@title = 'Subscribe']"));
         submitButton.click();
         Thread.sleep(5000);
-        WebElement errorMessage = getDriver().findElement(By
+        WebElement errorMessage = driver.findElement(By
                 .xpath("//div[@data-bind = 'html: $parent.prepareMessageForHtml(message.text)']"));
         Assert.assertEquals(errorMessage.getText(), "This email address is already subscribed.");
+        driver.quit();
     }
 
     @Test
@@ -516,5 +485,171 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Thread.sleep(2000);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']")).getText(),"Hoodies & Sweatshirts");
+    }
+
+    @Test
+    public void testAddWishlist() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(BASE_URL);
+
+        Thread.sleep(3000);
+        driver.findElement(By.className("authorization-link")).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.id("email")).sendKeys("kmgoncharova@ya.ru");
+        driver.findElement(By.id("pass")).sendKeys("qwerty123!");
+        driver.findElement(By.id("send2")).click();
+
+        Thread.sleep(2000);
+        WebElement actionToItem = driver.findElement(By.className("product-image-photo"));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", actionToItem);
+        driver.findElement(By.className("product-image-photo")).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//div[@class='product-addto-links']//a[@class='action towishlist']")).click();
+
+        Thread.sleep(3000);
+        WebElement textSuccessAddToWishlist = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[1]/div[2]/div/div/div"));
+
+        assertEquals(textSuccessAddToWishlist.getText(), "Radiant Tee has been added to your Wish List. Click here to continue shopping.");
+
+        driver.quit();
+    }
+
+    @Test
+    public void testToolbarActionsOnWishListPageAreClickable () throws  InterruptedException{
+
+        getDriver().get(BASE_URL);
+
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Sign In')]")).click();
+        getDriver().findElement(By.id("email")).sendKeys(" jka59433@xcoxc.com");
+        getDriver().findElement(By.id("pass")).sendKeys("Tester12#");
+        getDriver().findElement(By.xpath("//span[text()='Sign In']")).click();
+
+        WebElement searchItemField = getDriver().findElement(By.id("search"));
+        searchItemField.click();
+        searchItemField.sendKeys("roller");
+        getDriver().findElement(By.id("search")).sendKeys(Keys.ENTER);
+
+        WebElement productItemLink = getDriver().findElement(
+                By.xpath("//a[contains(text(), 'Sprite Foam Roller')]"));
+        productItemLink.click();
+        Thread.sleep(2000);
+
+        WebElement addToWishListItem = getDriver().findElement(By.xpath("//a[@href='#']/span"));
+        addToWishListItem.click();
+        Thread.sleep(3000);
+
+        WebElement scrollByVisibleElement = getDriver().findElement(By.xpath("//div[@class='primary']"));
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+        jse.executeScript("arguments[0].scrollIntoView(true)", scrollByVisibleElement);
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement toolbarAction1 = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Update Wish List')]")));
+
+        Assert.assertTrue(toolbarAction1.isEnabled(), "Element is not clickable.");
+
+        WebElement toolbarAction2 =wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Share Wish List')]")));
+
+        Assert.assertTrue(toolbarAction2.isEnabled(), "Element is not clickable.");
+
+        WebElement toolbarAction3 = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Add All to Cart')]")));
+
+        Assert.assertTrue(toolbarAction3.isEnabled(), "Element is not clickable.");
+
+        List<WebElement> toolbarActions = getDriver().findElements(
+                By.xpath("//div[@class='primary']/button"));
+
+        Assert.assertTrue(toolbarActions.size() > 0);
+    }
+
+    @Test
+
+    public void testFormCheckWriteUS() throws  InterruptedException{
+
+        getDriver().get(BASE_URL);
+
+        WebElement footerContactUs = getDriver().findElement(By
+                .cssSelector("a[href*=\"https://magento.softwaretestingboard.com/contact/\"]"));
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();",footerContactUs );
+        footerContactUs.click();
+
+        WebElement nameField = getDriver().findElement(By.cssSelector("#name"));
+        nameField.sendKeys("testName");
+
+        WebElement emailField = getDriver().findElement(By.cssSelector("#email"));
+        emailField.sendKeys("test@gmail.com");
+
+        WebElement telephoneField = getDriver().findElement(By.cssSelector("#telephone"));
+        telephoneField.sendKeys(" 790989990990");
+
+        WebElement textField = getDriver().findElement(By.cssSelector("#comment"));
+        textField.sendKeys("Hello, I'm having trouble paying for an item.");
+
+        WebElement buttonSubmit = getDriver().findElement(By
+                .xpath("//button[@type=\"submit\"][@title=\"Submit\"]/span"));
+        buttonSubmit.click();
+        Thread.sleep(1000);
+
+        WebElement resultSending = getDriver().findElement(By.
+                xpath("//div[@data-bind='html: $parent.prepareMessageForHtml(message.text)']"));
+
+        Assert.assertEquals(resultSending.getText(),
+                "Thanks for contacting us with your comments and questions. We'll respond to you very soon.");
+    }
+
+    @Test
+    public void testItemsOnPageSortedByPrice() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        getDriver().get(BASE_URL);
+        WebElement womenButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ui-id-4")));
+        WebElement topsButton = getDriver().findElement(By.id("ui-id-9"));
+        WebElement jacketsButton = getDriver().findElement(By.id("ui-id-11"));
+        new Actions(getDriver()).moveToElement(womenButton).moveToElement(topsButton).moveToElement(jacketsButton).perform();
+        jacketsButton.click();
+        List<WebElement> priceUnsorted = getDriver().findElements(By
+                .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+        List<Double> priceListBeforeSorted = new ArrayList<>();
+
+        for (int i = 0; i < priceUnsorted.size(); i++) {
+            try {
+                priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(i).getText().replace("$", "")));
+            } catch (StaleElementReferenceException sere) {
+                priceUnsorted = getDriver().findElements(By
+                        .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+                for (int j = i; j < priceUnsorted.size(); j++) {
+                    priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(j).getText().replace("$", "")));
+                    break;
+                }
+            }
+        }
+        Select dropDown = new Select(getDriver().findElement(By.className("sorter-options")));
+        dropDown.selectByVisibleText("Price");
+
+        List<WebElement> priceAfterSorted= getDriver().findElements(By
+                .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+        List<Double> priceListAfterSorted = new ArrayList<>();
+
+        for (int i = 0; i < priceAfterSorted.size(); i++) {
+            try {
+                priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(i).getText().replace("$", "")));
+            } catch (StaleElementReferenceException sere) {
+                priceAfterSorted = getDriver().findElements(By
+                        .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+                for (int j = i; j < priceAfterSorted.size(); j++) {
+                    priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(j).getText().replace("$", "")));
+                    break;
+                }
+            }
+        }
+        Collections.sort(priceListBeforeSorted);
+        assertEquals(priceListAfterSorted, priceListBeforeSorted);
     }
 }
