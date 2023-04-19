@@ -9,9 +9,9 @@ import school.redrover.runner.BaseTest;
 
 import java.util.List;
 
-public class OlegfTest extends BaseTest {
+public class TestOleg extends BaseTest {
     @Test
-    public void dishesTest() throws InterruptedException {
+    public void testDishes() throws InterruptedException {
 
         getDriver().get("https://www.canvashomestore.com/");
 
@@ -25,7 +25,7 @@ public class OlegfTest extends BaseTest {
         }
     }
     @Test
-    public void bankTest() throws InterruptedException{
+    public void testBank() throws InterruptedException{
 
         getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
         Thread.sleep(600);
