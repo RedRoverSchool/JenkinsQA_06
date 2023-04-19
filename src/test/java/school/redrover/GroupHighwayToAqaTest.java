@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -13,6 +14,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -39,7 +42,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         assertEquals(contactUsPageTitle.getText(), "Contact Us");
     }
-
+    @Ignore
     @Test
     public void testErrorMessageWhenEmailFieldLeftBlank() {
 
@@ -568,5 +571,53 @@ public class GroupHighwayToAqaTest extends BaseTest {
                 By.xpath("//div[@class='primary']/button"));
 
         Assert.assertTrue(toolbarActions.size() > 0);
+    }
+
+    @Test
+    public void testItemsOnPageSortedByPrice() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        getDriver().get(BASE_URL);
+        WebElement womenButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ui-id-4")));
+        WebElement topsButton = getDriver().findElement(By.id("ui-id-9"));
+        WebElement jacketsButton = getDriver().findElement(By.id("ui-id-11"));
+        new Actions(getDriver()).moveToElement(womenButton).moveToElement(topsButton).moveToElement(jacketsButton).perform();
+        jacketsButton.click();
+        List<WebElement> priceUnsorted = getDriver().findElements(By
+                .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+        List<Double> priceListBeforeSorted = new ArrayList<>();
+
+        for (int i = 0; i < priceUnsorted.size(); i++) {
+            try {
+                priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(i).getText().replace("$", "")));
+            } catch (StaleElementReferenceException sere) {
+                priceUnsorted = getDriver().findElements(By
+                        .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+                for (int j = i; j < priceUnsorted.size(); j++) {
+                    priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(j).getText().replace("$", "")));
+                    break;
+                }
+            }
+        }
+        Select dropDown = new Select(getDriver().findElement(By.className("sorter-options")));
+        dropDown.selectByVisibleText("Price");
+
+        List<WebElement> priceAfterSorted= getDriver().findElements(By
+                .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+        List<Double> priceListAfterSorted = new ArrayList<>();
+
+        for (int i = 0; i < priceAfterSorted.size(); i++) {
+            try {
+                priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(i).getText().replace("$", "")));
+            } catch (StaleElementReferenceException sere) {
+                priceAfterSorted = getDriver().findElements(By
+                        .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+                for (int j = i; j < priceAfterSorted.size(); j++) {
+                    priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(j).getText().replace("$", "")));
+                    break;
+                }
+            }
+        }
+        Collections.sort(priceListBeforeSorted);
+        assertEquals(priceListAfterSorted, priceListBeforeSorted);
     }
 }

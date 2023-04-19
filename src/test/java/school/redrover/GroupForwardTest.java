@@ -189,5 +189,50 @@ public class GroupForwardTest extends BaseTest {
             Assert.assertTrue(element.getText().toLowerCase().contains("ruby"));
         }
     }
+
+    @Test
+    public void testOrchidCareIndoors(){
+
+        getDriver().get("https://www.google.com/");
+
+        WebElement textBox = getDriver().findElement(By.name("q"));
+        textBox.sendKeys("orchid care indoors\n");
+        WebElement text = getDriver().findElement(By.xpath
+                ("//h3 [text() = 'How To Take Care Of Orchid Plants Indoors']"));
+
+        Assert.assertEquals(text.getText(),"How To Take Care Of Orchid Plants Indoors");
+
+    }
+    @Test
+    public void testMaimonidesMedicalCenter() {
+
+        getDriver().get("https://www.google.com/");
+
+        WebElement textBox = getDriver().findElement(By.name("q"));
+        textBox.sendKeys("Maimonides Medical Center");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//*[@class='g']/div[1]/div/div/div/div/div[1]/a/h3"));
+
+        Assert.assertEquals(text.getText(), "Maimonides Medical Center | Brooklyn, New York Hospital");
+
+    }
+
+    @Test
+    public void testSearchIplayAmerica1() {
+
+        getDriver().get("https://www.google.com/");
+
+        WebElement textBox = getDriver().findElement(By.name("q"));
+        textBox.sendKeys("i play america");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//h3[contains(text(),\"Home - iPlay America" +
+                " - NJ's Premier Indoor Amuseme\")]"));
+
+        Assert.assertEquals(text.getText(), "Home - iPlay America - NJ's Premier Indoor Amusement Park");
+
+    }
+
 }
 

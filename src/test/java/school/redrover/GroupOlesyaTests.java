@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -54,7 +53,7 @@ public class GroupOlesyaTests extends BaseTest {
         return getDriver().findElements(by);
     }
 
-    public List<String> productNames(){
+    public List<String> getListOfProductNames(){
         List<WebElement> el = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
         return el.stream().map(WebElement::getText).collect(toList());
     }
@@ -107,6 +106,11 @@ public class GroupOlesyaTests extends BaseTest {
                 .map(n -> n.replace("$", ""))
                 .map(s -> Double.parseDouble(s))
                 .collect(toList());
+    }
+
+    public void selectTypeOfSortingItems(String typeOfSorting){
+        Select sorting = new Select(getDriver().findElement(By.xpath("//select[@class = 'product_sort_container']")));
+        sorting.selectByVisibleText(typeOfSorting);
     }
 
     @Test
@@ -282,15 +286,9 @@ public class GroupOlesyaTests extends BaseTest {
                 "Test.allTheThings() T-Shirt (Red)");
 
         loginToSite(LOGIN);
+        selectTypeOfSortingItems("Name (A to Z)");
 
-        List<WebElement> itemsList =  getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
-        List<String> itemsNamesList = new ArrayList<>();
-
-        for (WebElement w : itemsList) {
-            itemsNamesList.add(w.getText());
-        }
-
-        Assert.assertEquals(itemsNamesList, expectedResults);
+        Assert.assertEquals(getListOfProductNames(), expectedResults);
     }
 
     @Test
@@ -304,23 +302,9 @@ public class GroupOlesyaTests extends BaseTest {
                 "Sauce Labs Backpack");
 
         loginToSite(LOGIN);
+        selectTypeOfSortingItems("Name (Z to A)");
 
-        WebElement sortingButton = getDriver().findElement(By.xpath("//span[@class = 'active_option']"));
-        if (!getDriver().findElement(By.xpath("//span[@class = 'active_option']")).getText().equals("Name (A to Z)")) {
-            sortingButton.click();
-        }
-
-        Select sorting = new Select(getDriver().findElement(By.xpath("//select[@class = 'product_sort_container']")));
-        sorting.selectByIndex(1);
-
-        List<WebElement> itemsList = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
-        List<String> itemsNamesList = new ArrayList<>();
-
-        for (WebElement w : itemsList) {
-            itemsNamesList.add(w.getText());
-        }
-
-        Assert.assertEquals(itemsNamesList, expectedResults);
+        Assert.assertEquals(getListOfProductNames(), expectedResults);
     }
 
     @Test
@@ -362,11 +346,11 @@ public class GroupOlesyaTests extends BaseTest {
         loginToSite(LOGIN);
 
         sortElements("Price (low to high)");
-        List<String> firstOrderItems = productNames();
+        List<String> firstOrderItems = getListOfProductNames();
         Collections.sort(firstOrderItems);
 
         sortElements("Name (A to Z)");
-        List<String> sortOrderItems = productNames();
+        List<String> sortOrderItems = getListOfProductNames();
 
         Assert.assertEquals(firstOrderItems, sortOrderItems);
     }
@@ -375,11 +359,11 @@ public class GroupOlesyaTests extends BaseTest {
     public void sortByNameZATest(){
         loginToSite(LOGIN);
 
-        List<String> firstOrderItems = productNames();
+        List<String> firstOrderItems = getListOfProductNames();
         firstOrderItems.sort(Collections.reverseOrder());
 
         sortElements("Name (Z to A)");
-        List<String> sortOrderItems = productNames();
+        List<String> sortOrderItems = getListOfProductNames();
 
         Assert.assertEquals(firstOrderItems, sortOrderItems);
         getDriver().quit();
