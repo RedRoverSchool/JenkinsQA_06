@@ -329,7 +329,7 @@ public class Group99BottlesTest extends BaseTest {
         getDriver().get("https://ipbase.com/");
         getDriver().manage().window().maximize();
         getDriver().findElement(By.xpath("//a[contains(text(), 'Login')]")).click();
-        Thread.sleep(500);
+        Thread.sleep(2000);
 
         WebElement emailField = getDriver().findElement(By.xpath("//input[@id='email']"));
 
@@ -344,7 +344,7 @@ public class Group99BottlesTest extends BaseTest {
         passwordField.sendKeys(Keys.RETURN);
 
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        Thread.sleep(500);
+        Thread.sleep(2000);
 
         List<WebElement> sideMenuButtons = getDriver().findElements(By.xpath("//*[@class='grow']"));
         int actualNumberOfSideMenuButtons = getListSize(sideMenuButtons);
