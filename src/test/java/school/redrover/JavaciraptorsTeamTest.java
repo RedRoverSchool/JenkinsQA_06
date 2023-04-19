@@ -11,6 +11,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import static org.testng.Assert.assertEquals;
+
 public class JavaciraptorsTeamTest extends BaseTest {
  
     @Test
@@ -59,18 +61,25 @@ public class JavaciraptorsTeamTest extends BaseTest {
 
     @Test
     public void testBinoeder() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless",
-                "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.google.ru/");
-        WebElement button = driver.findElement(By.id("L2AGLb"));
-        button.click();
-        WebElement textBox = driver.findElement(By.name("q"));
-        textBox.sendKeys("selenium");
-        textBox.sendKeys("\n");
-        WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
-        Assert.assertEquals(text.getText(), "Selenium");
-        driver.quit();
-    }
+
+            WebDriver driver = new ChromeDriver();
+            driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+
+            String title = driver.getTitle();
+            assertEquals("Web form", title);
+
+            WebElement textBox = driver.findElement(By.name("my-textarea"));
+            WebElement submitButton = driver.findElement(By.cssSelector("button"));
+
+            textBox.sendKeys("Selenium");
+
+            submitButton.click();
+
+            WebElement message = driver.findElement(By.id("message"));
+            String value = message.getText();
+
+            assertEquals("Received!", value);
+
+            driver.quit();
+        }
 }
