@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -75,13 +76,14 @@ public class DreamTeamTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//div[1]/div/h1/span"));
         Assert.assertEquals(text.getText(), "OpenWeather");
     }
+
     @Test
     public void testWorkWithWaits() {
         getDriver().get("https://google.com/ncr");
         WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("jenkins" + Keys.ENTER);
 
-        WebElement text = new WebDriverWait(getDriver(), Duration.ofSeconds(3))
+        WebElement text = new WebDriverWait(getDriver(), Duration.ofSeconds(15))
                 .until(ExpectedConditions.elementToBeClickable(By.xpath
                         ("//a[@href='https://www.jenkins.io/']/div/div/span")));
         Assert.assertEquals(text.getText(), "Jenkins");
