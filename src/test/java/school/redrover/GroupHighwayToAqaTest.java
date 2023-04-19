@@ -30,7 +30,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     String firstName = faker.name().firstName();
     String lastName = faker.name().lastName();
     String email = faker.internet().emailAddress();
-    String password = faker.internet().password(11,12,true,
+    String password = faker.internet().password(11, 12, true,
             true, true);
 
 
@@ -86,7 +86,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         Assert.assertEquals(text.getText(), "Create New Customer Account");
 
-        WebElement firstName =getDriver().findElement(By.xpath("//input[@id = 'firstname']"));
+        WebElement firstName = getDriver().findElement(By.xpath("//input[@id = 'firstname']"));
         firstName.sendKeys("Marina");
         WebElement lastName = getDriver().findElement(By.xpath("//input[@id = 'lastname']"));
         lastName.sendKeys("Los");
@@ -423,7 +423,8 @@ public class GroupHighwayToAqaTest extends BaseTest {
         WebElement buttonForCreationAccout = getDriver().findElement(By.xpath("//form[@id='form-validate']//button/span[text()='Create an Account']"));
         buttonForCreationAccout.click();
         Thread.sleep(2000);
-        WebElement titleOfSucessCreationAccountMessage = getDriver().findElement(By.xpath("//div[@class='message-success success message']"));;
+        WebElement titleOfSucessCreationAccountMessage = getDriver().findElement(By.xpath("//div[@class='message-success success message']"));
+        ;
 
         Assert.assertEquals(titleOfSucessCreationAccountMessage.getText(), "Thank you for registering with Main Website Store.");
     }
@@ -473,7 +474,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
         WebElement cartDropDownDialog = getDriver().findElement(
                 By.xpath("//div[@id='ui-id-1']//div[@class='block-content']//strong"));
 
-        assertEquals(cartDropDownDialog.getText(),"You have no items in your shopping cart.");
+        assertEquals(cartDropDownDialog.getText(), "You have no items in your shopping cart.");
     }
 
     @Test
@@ -518,7 +519,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         Thread.sleep(2000);
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']")).getText(),"Hoodies & Sweatshirts");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-ui-id='page-title-wrapper']")).getText(), "Hoodies & Sweatshirts");
     }
 
     @Test
@@ -538,7 +539,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         Thread.sleep(2000);
         WebElement actionToItem = driver.findElement(By.className("product-image-photo"));
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", actionToItem);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", actionToItem);
         driver.findElement(By.className("product-image-photo")).click();
 
         Thread.sleep(2000);
@@ -553,9 +554,9 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void testToolbarActionsOnWishListPageAreClickable () throws  InterruptedException{
-
+    public void testToolbarActionsOnWishListPageAreClickable() throws InterruptedException {
         getDriver().get(BASE_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
         getDriver().findElement(By.xpath("//a[contains(text(), 'Sign In')]")).click();
         getDriver().findElement(By.id("email")).sendKeys(" jka59433@xcoxc.com");
@@ -580,13 +581,12 @@ public class GroupHighwayToAqaTest extends BaseTest {
         JavascriptExecutor jse = (JavascriptExecutor) getDriver();
         jse.executeScript("arguments[0].scrollIntoView(true)", scrollByVisibleElement);
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         WebElement toolbarAction1 = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//span[contains(text(), 'Update Wish List')]")));
 
         Assert.assertTrue(toolbarAction1.isEnabled(), "Element is not clickable.");
 
-        WebElement toolbarAction2 =wait.until(ExpectedConditions.elementToBeClickable(
+        WebElement toolbarAction2 = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//span[contains(text(), 'Share Wish List')]")));
 
         Assert.assertTrue(toolbarAction2.isEnabled(), "Element is not clickable.");
@@ -600,5 +600,37 @@ public class GroupHighwayToAqaTest extends BaseTest {
                 By.xpath("//div[@class='primary']/button"));
 
         Assert.assertTrue(toolbarActions.size() > 0);
+    }
+
+    @Test
+    public void testRank_EvaluatingProductRanking() throws InterruptedException {
+        getDriver().get(BASE_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        WebElement searchItemField = getDriver().findElement(By.id("search"));
+        searchItemField.click();
+        searchItemField.sendKeys("v-neck hoodie");
+        getDriver().findElement(By.id("search")).sendKeys(Keys.ENTER);
+
+        WebElement productItemLink = getDriver().findElement(By.xpath("//a[contains(text(), 'Eos V-Neck Hoodie')]"));
+        productItemLink.click();
+        Thread.sleep(2000);
+
+        WebElement reviewActionLink = getDriver().findElement(By.xpath("//a[contains(text(), 'Be the first to review this product')]"));
+        reviewActionLink.click();
+        Thread.sleep(2000);
+
+        WebElement ratingFiveLabel = getDriver().findElement(By.xpath("//div/label[@class='rating-5']"));
+        new Actions(getDriver()).moveToElement(ratingFiveLabel).click(ratingFiveLabel).perform();
+
+        getDriver().findElement(By.xpath("//div/input[@id='nickname_field']")).sendKeys("Anonymous");
+        getDriver().findElement(By.xpath("//div/input[@id='summary_field']")).sendKeys("Eos V-Neck Hoodie");
+        getDriver().findElement(By.xpath("//textarea[@id='review_field']")).sendKeys("Nice hoodie");
+        getDriver().findElement(By.xpath("//span[text()='Submit Review']")).click();
+        
+        WebElement messageConfirmation = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[contains(@data-bind, 'html: $parent.prepareMessageForHtml(message.text)')]")));
+
+        Assert.assertEquals(messageConfirmation.getText(), "You submitted your review for moderation.");
     }
 }
