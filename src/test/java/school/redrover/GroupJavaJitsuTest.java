@@ -591,6 +591,33 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement nikePage = getDriver().findElement(By.xpath("//h1[@class='page-heading'][text()='Nike']"));
         Assert.assertTrue(nikePage.isDisplayed());
     }
+
+    @Test
+    public void testAriumContactForm() throws InterruptedException {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
+
+        getDriver().get("https://ariumliving.com/jacksonville/ponte-vedra-beach/arium-seaglass-at-ponte-vedra-beach/");
+
+        WebElement contactBtn = getDriver().findElement(By.xpath("//a[@href='https://ariumliving.com/contact/?q=426\']"));
+        contactBtn.click();
+        Thread.sleep(2000);
+
+        WebElement inputFirstName = getDriver().findElement(By.xpath("//input[@id='fname']"));
+        inputFirstName.sendKeys("Test");
+
+        WebElement inputLastName = getDriver().findElement(By.xpath("//input[@id='lname']"));
+        inputLastName.sendKeys("Test1");
+
+        WebElement inputEmail = getDriver().findElement(By.xpath("//input[@id='cemail']"));
+        inputEmail.sendKeys("test1gmail.com");
+
+        WebElement inputMessage = getDriver().findElement(By.xpath("//textarea[@id='cmessage']"));
+        inputMessage.sendKeys("This is a test text");
+
+        WebElement disabled = getDriver().findElement(By.xpath("//*[@class='arium-btn disable']"));
+
+        Assert.assertTrue(disabled.isDisplayed());
+    }
 }
 
 
