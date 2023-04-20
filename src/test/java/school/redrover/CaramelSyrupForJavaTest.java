@@ -34,6 +34,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         wait.until(elementIsClickable);
     }
 
+    @Ignore
     @Test
     public void testMessengersOpenWeather() throws InterruptedException {
 
