@@ -12,6 +12,7 @@ import school.redrover.runner.BaseTest;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.DriverManager.getDriver;
 import static org.testng.Assert.*;
 
 public class JavaExpertsNationTest extends BaseTest {
