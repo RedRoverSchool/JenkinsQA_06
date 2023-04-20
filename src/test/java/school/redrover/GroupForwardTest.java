@@ -218,5 +218,40 @@ public class GroupForwardTest extends BaseTest {
 
     }
 
+    @Test
+    public void testSearchIplayAmerica1() {
+
+        getDriver().get("https://www.google.com/");
+
+        WebElement textBox = getDriver().findElement(By.name("q"));
+        textBox.sendKeys("i play america");
+        textBox.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//h3[contains(text(),\"Home - iPlay America" +
+                " - NJ's Premier Indoor Amuseme\")]"));
+
+        Assert.assertEquals(text.getText(), "Home - iPlay America - NJ's Premier Indoor Amusement Park");
+
+    }
+
+    @Test
+    public void testFirst1() throws InterruptedException {
+
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        WebElement textBox = getDriver().findElement(By.cssSelector("#my-text-id"));
+        textBox.sendKeys("Selenium");
+        Thread.sleep(2000);
+
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
+        submitButton.click();
+        Thread.sleep(2000);
+
+        WebElement message = getDriver().findElement(By.id("message"));
+
+        assertEquals(getDriver().getTitle(),"Web form - target page");
+        assertEquals(message.getText(), "Received!");
+
+    }
 }
 

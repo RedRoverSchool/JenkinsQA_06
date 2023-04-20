@@ -47,7 +47,6 @@ public class ListOfFoodTest extends BaseTest {
     Assert.assertEquals(getRow2SaveText(), SOME_TEXT_FOR_ROW2_INPUT);
   }
 
-
   @Ignore
   @Test
   public void testEditRow1Text() {

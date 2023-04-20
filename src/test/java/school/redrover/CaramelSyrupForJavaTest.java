@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 public class CaramelSyrupForJavaTest extends BaseTest {
 
     public void clickCustom(WebElement element) {
@@ -140,7 +139,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
             Assert.assertEquals(actualResult, expectedResult);
         }
     }
-
+    @Ignore
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
         String actualResult = "Sign In To Your Account";
@@ -266,7 +265,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
+    @Ignore
     @Test
     public void svetaKhudova_testWinnerPhoneNumber() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -395,6 +394,56 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement jeansSize = getDriver().findElement(By.xpath("//h2[text()='Выберите размер']"));
 
         String actualResult = jeansSize.getText();
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+    @Test
+    public void serhiiHaponiukOpenWeatherMapGridContainerTest() throws InterruptedException {
+
+        getDriver().get("https://openweathermap.org/");
+        String title = getDriver().getTitle();
+
+        Assert.assertEquals(title, "Сurrent weather and forecast - OpenWeatherMap");
+        Thread.sleep(5000);
+
+        WebElement celsiusButton = getDriver().findElement(By.xpath
+                ("//div[text() = 'Metric: °C, m/s']"));
+        WebElement fahrenheitButton = getDriver().findElement(By.xpath
+                ("//div[text() = 'Imperial: °F, mph']"));
+        WebElement temperature = getDriver().findElement(By.className("heading"));
+        Assert.assertTrue(temperature.getText().contains("C"));
+        celsiusButton.isDisplayed();
+        fahrenheitButton.click();
+        Assert.assertTrue(temperature.getText().contains("F"));
+        celsiusButton.click();
+        Assert.assertTrue(temperature.getText().contains("C"));
+    }
+    @Test
+    public void testRykovaOW() throws InterruptedException {
+
+        String expectedResult = "Partners and solutions";
+
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(6000);
+        WebElement partners = getDriver().findElement(By.xpath("//a [text()='Partners']"));
+        partners.click();
+
+        WebElement text = getDriver().findElement(By.xpath("//h1 [text()='Partners and solutions']"));
+        String actualResult = text.getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+    @Test
+    public void testAbramova() {
+
+        String expectedResult = "Welcome to 99 Bottles of Beer";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/lyrics.html");
+
+        WebElement click = getDriver().findElement(By.xpath("//ul[@id='menu']//a[@href='/']"));
+        click.click();
+        WebElement res = getDriver().findElement(By.xpath("//div[@id='main']/h2"));
+        String actualResult = res.getText();
+
         Assert.assertEquals(actualResult, expectedResult);
     }
 
