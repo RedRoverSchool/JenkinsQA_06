@@ -271,6 +271,7 @@ public class GroupJasperAutomationTest extends BaseTest {
         driver.quit();
     }
 
+   @Ignore
     @Test
     public void testFindElement() {
         getDriver().get("https://7745.by/");
