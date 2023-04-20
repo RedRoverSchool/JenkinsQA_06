@@ -617,15 +617,17 @@ public class GroupHighwayToAqaTest extends BaseTest {
                 .xpath("//span[contains(@class, 'price-wrapper')]/span"));
         List<Double> priceListBeforeSorted = new ArrayList<>();
 
-        for (int i = 0; i < priceUnsorted.size(); i++) {
-            try {
-                priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(i).getText().replace("$", "")));
-            } catch (StaleElementReferenceException sere) {
-                priceUnsorted = getDriver().findElements(By
-                        .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+        while (!(priceUnsorted.size() == priceListBeforeSorted.size())) {
+            for (int i = 0; i < priceUnsorted.size(); i++) {
+                try {
+                    priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(i).getText().replace("$", "")));
+                } catch (StaleElementReferenceException sere) {
+                    priceUnsorted = getDriver().findElements(By
+                            .xpath("//span[contains(@class, 'price-wrapper')]/span"));
                     priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(i).getText().replace("$", "")));
                 }
             }
+        }
         Select dropDown = new Select(getDriver().findElement(By.className("sorter-options")));
         dropDown.selectByVisibleText("Price");
 
@@ -633,15 +635,17 @@ public class GroupHighwayToAqaTest extends BaseTest {
                 .xpath("//span[contains(@class, 'price-wrapper')]/span"));
         List<Double> priceListAfterSorted = new ArrayList<>();
 
-        for (int i = 0; i < priceAfterSorted.size(); i++) {
-            try {
-                priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(i).getText().replace("$", "")));
-            } catch (StaleElementReferenceException sere) {
-                priceAfterSorted = getDriver().findElements(By
-                        .xpath("//span[contains(@class, 'price-wrapper')]/span"));
+        while (!(priceAfterSorted.size() == priceListAfterSorted.size())) {
+            for (int i = 0; i < priceAfterSorted.size(); i++) {
+                try {
+                    priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(i).getText().replace("$", "")));
+                } catch (StaleElementReferenceException sere) {
+                    priceAfterSorted = getDriver().findElements(By
+                            .xpath("//span[contains(@class, 'price-wrapper')]/span"));
                     priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(i).getText().replace("$", "")));
                 }
             }
+        }
         Collections.sort(priceListBeforeSorted);
         assertEquals(priceListAfterSorted, priceListBeforeSorted);
     }
