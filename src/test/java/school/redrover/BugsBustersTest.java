@@ -316,6 +316,5 @@ public class BugsBustersTest extends BaseTest {
         WebElement shippingAddress = getDriver().findElement(By.xpath("//div[normalize-space()='Shipping Address']"));
 
         Assert.assertEquals(shippingAddress.getText(), "Shipping Address");
-
     }
 }
