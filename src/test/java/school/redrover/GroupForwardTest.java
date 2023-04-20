@@ -234,5 +234,24 @@ public class GroupForwardTest extends BaseTest {
 
     }
 
+    @Test
+    public void testFirst1() throws InterruptedException {
+
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        WebElement textBox = getDriver().findElement(By.cssSelector("#my-text-id"));
+        textBox.sendKeys("Selenium");
+        Thread.sleep(2000);
+
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
+        submitButton.click();
+        Thread.sleep(2000);
+
+        WebElement message = getDriver().findElement(By.id("message"));
+
+        assertEquals(getDriver().getTitle(),"Web form - target page");
+        assertEquals(message.getText(), "Received!");
+
+    }
 }
 
