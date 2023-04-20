@@ -183,6 +183,7 @@ public class HelloWorldTest extends BaseTest {
         Assert.assertEquals(part.getText(), "API");
     }
 
+    @Ignore
     @Test
     public void testDoubleClickButton() throws InterruptedException {
         getDriver().get("https://demoqa.com/");

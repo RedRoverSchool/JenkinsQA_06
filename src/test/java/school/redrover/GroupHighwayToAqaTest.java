@@ -647,7 +647,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void testRank_EvaluatingProductRanking() throws InterruptedException {
+    public void testEvaluateProductRanking() throws InterruptedException {
         getDriver().get(BASE_URL);
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
