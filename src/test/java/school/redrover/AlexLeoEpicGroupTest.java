@@ -791,4 +791,50 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Contact Us']")).getText(), "Contact Us");
     }
+
+    @Test
+    public void testVerifyDiscountedPriceLessStandard() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.cssSelector("li#menu-item-1230 > a.menu-link")).click();
+        WebElement bestSellersSection = getDriver().findElement(By.id("woocommerce_top_rated_products-3"));
+        List<WebElement> prices = bestSellersSection.findElements(By.cssSelector("ul > li"));
+        for (WebElement el : prices) {
+            String tempStr1 = el.findElement(By.cssSelector("del > span > bdi")).getText().substring(1);
+            String tempStr2 = el.findElement(By.cssSelector("ins > span > bdi")).getText().substring(1);
+            float tempFloat1 = Float.parseFloat(tempStr1);
+            float tempFloat2 = Float.parseFloat(tempStr2);
+
+            Assert.assertTrue(tempFloat1 > tempFloat2);
+        }
+    }
+
+    @Test
+    public void testProductsWithPriceOver33() throws InterruptedException {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.xpath("//a[text()='Store']")).click();
+        WebElement productList = getDriver().findElement(By.xpath("//main/div/ul"));
+        List<WebElement> products = productList.findElements(By.tagName("li"));
+        int count = 0;
+        for(WebElement el : products) {
+            String temp = el.findElement(By.cssSelector("div > span.price > span > bdi, " +
+                    "div > span.price > ins > span > bdi")).getText();
+            String tempCut = temp.substring(1);
+            float tempFloat = Float.parseFloat(tempCut);
+            if (tempFloat > 33) {
+                el.findElement(By.cssSelector("a[class='button product_type_simple add_to_cart_button ajax_add_to_cart']"))
+                        .click();
+                count++;
+            }
+        }
+        Thread.sleep(2000);
+        String countOnCardStr = getDriver().findElement(By.cssSelector("span[class='count']")).getText();
+        System.out.println(countOnCardStr);
+        int countOnCardInt = Integer.parseInt(countOnCardStr);
+        System.out.println(countOnCardInt);
+
+        Assert.assertEquals(countOnCardInt, count);
+    }
+
 }
