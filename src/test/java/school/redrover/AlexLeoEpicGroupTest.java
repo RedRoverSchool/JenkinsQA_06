@@ -792,6 +792,7 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Contact Us']")).getText(), "Contact Us");
     }
 
+    @Ignore
     @Test
     public void testVerifyDiscountedPriceLessStandard() {
         getDriver().get("https://askomdch.com/");

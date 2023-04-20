@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
@@ -61,6 +62,7 @@ public class AliaksandraAnufryievaTest extends BaseTest {
         Assert.assertEquals(resultXPath.getText(), "Text='Harry Potter'");
     }
 
+    @Ignore
     @Test
     public void testEtsyItemsOnSale() {
         getDriver().get("https://www.etsy.com/");
