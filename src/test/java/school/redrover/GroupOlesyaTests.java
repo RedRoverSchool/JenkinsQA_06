@@ -124,7 +124,7 @@ public class GroupOlesyaTests extends BaseTest {
         }
     }
 
-    public void addItemsToCartbyXpath (By xpath) {
+    public void addItemsToCartByXpath(By xpath) {
         List<WebElement> addProductsToCart  = getDriver().findElements(xpath);
         clickOnEachElement(addProductsToCart);
     }
@@ -143,25 +143,31 @@ public class GroupOlesyaTests extends BaseTest {
         }
     }
 
+    public void clickLogOut(){
+        WebElement logOut = getDriver().findElement(By.id("logout_sidebar_link"));
+        getWait().until(ExpectedConditions.visibilityOf(logOut));
+        logOut.click();
+    }
+
     @Test
-    public void testAddtoCart() {
+    public void testAddToCart() {
         loginToSite(LOGIN);
 
-        List<WebElement> addproducts  = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
-        List<String> expectedlist= getTextList (addproducts);
+        List<WebElement> addProducts  = getDriver().findElements(By.xpath("//div[@class = 'inventory_item_name']"));
+        List<String> expectedList= getTextList (addProducts);
 
-        addItemsToCartbyXpath(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
+        addItemsToCartByXpath(By.xpath("//button[@class='btn btn_primary btn_small btn_inventory']"));
 
         clickIconShoppingCart();
-        Assert.assertEquals(listProductNames(),expectedlist);
+        Assert.assertEquals(listProductNames(),expectedList);
     }
 
     @Ignore /*Bug!*/
     @Test
-    public void testChangeQuantityinCart() {
+    public void testChangeQuantityInCart() {
         loginToSite(LOGIN);
 
-        addItemsToCartbyXpath(By.xpath("//div[@class = 'inventory_item_name']"));
+        addItemsToCartByXpath(By.xpath("//div[@class = 'inventory_item_name']"));
 
         clickIconShoppingCart();
 
@@ -374,12 +380,8 @@ public class GroupOlesyaTests extends BaseTest {
     @Test
     public void testLogOut() {
         loginToSite(LOGIN);
-
         clickBurgerMenu();
-
-        WebElement logOut = getDriver().findElement(By.id("logout_sidebar_link"));
-        getWait().until(ExpectedConditions.visibilityOf(logOut));
-        logOut.click();
+        clickLogOut();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/");
     }
@@ -418,12 +420,8 @@ public class GroupOlesyaTests extends BaseTest {
     @Test
     public void testUGLogOut(){
         loginToSite(LOGIN);
-
         clickBurgerMenu();
-
-        WebElement logOut = getDriver().findElement(By.id("logout_sidebar_link"));
-        getWait().until(ExpectedConditions.visibilityOf(logOut));
-        logOut.click();
+        clickLogOut();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/");
     }
@@ -452,12 +450,8 @@ public class GroupOlesyaTests extends BaseTest {
     @Test
     public void logOutUlTest() {
         loginToSite(LOGIN);
-
         clickBurgerMenu();
-
-        WebElement logOut = getDriver().findElement(By.id("logout_sidebar_link"));
-        getWait().until(ExpectedConditions.visibilityOf(logOut));
-        logOut.click();
+        clickLogOut();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/");
     }
