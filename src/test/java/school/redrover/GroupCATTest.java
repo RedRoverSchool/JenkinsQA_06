@@ -251,4 +251,25 @@ public class GroupCATTest extends BaseTest {
         Assert.assertEquals(actualNamesOfNamesOfFeatureListSegment, expectedNamesOfFeatureListSegment);
         getDriver().quit();
     }
+
+    @Test
+
+    public void testClickStoreButton() throws InterruptedException{
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://blingrus.azurewebsites.net");
+
+        Thread.sleep(3000);
+
+        WebElement store = driver.findElement(By.cssSelector("body > nav.navbar.navbar-default > div > ul:nth-child(1) > li:nth-child(1) > a"));
+        store.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(), "https://blingrus.azurewebsites.net/Store/index");
+
+        driver.quit();
+    }
 }
+

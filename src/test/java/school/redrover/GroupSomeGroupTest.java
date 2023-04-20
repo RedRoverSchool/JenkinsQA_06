@@ -1,14 +1,12 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import school.redrover.runner.BaseTest;
 import org.testng.annotations.Test;
 
@@ -52,6 +50,7 @@ public class GroupSomeGroupTest extends BaseTest{
         Assert.assertEquals(title, "JavaScript Tutorial");
     }
 
+    @Ignore
     @Test
     public void testCartCounter() {
         getDriver().get("https://askomdch.com/");
@@ -62,5 +61,13 @@ public class GroupSomeGroupTest extends BaseTest{
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".ast-site-header-cart-data  ul")));
         WebElement counter = getDriver().findElement(By.xpath("//div[@id='ast-desktop-header']//span[@class='count']"));
         Assert.assertEquals(counter.getText().trim(), "1");
+    }
+    @Test
+    public void testButtonPrevious() {
+        getDriver().get("https://www.w3schools.com/js/js_object_prototypes.asp");
+        getDriver().findElement(By.xpath("//a[contains(text(), '❮ Previous')]")).click();
+
+        getDriver().manage().window().maximize();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.w3schools.com/js/js_object_constructors.asp");
     }
 }

@@ -39,15 +39,13 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testUscis() throws InterruptedException {
+    public void testUscis() {
 
         getDriver().get("https://www.uscis.gov/");
-        WebElement textBox = getDriver().findElement(By.id("gsc-i-id1"));
 
+        WebElement textBox = getDriver().findElement(By.id("gsc-i-id1"));
         textBox.sendKeys("citizenship and naturalization");
         textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
 
         WebElement button = getDriver().findElement(By.name("Search"));
         button.click();
@@ -58,15 +56,13 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testGoogleTransl() throws InterruptedException {
+    public void testGoogleTransl() {
 
         getDriver().get("https://www.google.com/");
 
         WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("гугл переводчик");
         textBox.sendKeys(Keys.RETURN);
-
-        Thread.sleep(2000);
 
         WebElement text = getDriver().findElement(By.xpath("//h3[@class='LC20lb MBeuO DKV0Md']"));
 
@@ -143,13 +139,13 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testJava(){
+    public void testJava() {
         getDriver().get("https://www.google.com");
 
-        WebElement textBox =  getDriver().findElement(By.name("q"));
+        WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("java\n");
 
-        WebElement text =  getDriver().findElement(By.xpath("//h3[text() = 'Java | Oracle']"));
+        WebElement text = getDriver().findElement(By.xpath("//h3[text() = 'Java | Oracle']"));
 
         Assert.assertEquals(text.getText(), "Java | Oracle");
 
@@ -163,15 +159,15 @@ public class JavaNiSyGroupTest extends BaseTest {
         getDriver().get("https://www.englishhome.bg/");
         Thread.sleep(1000);
 
-        if(!getDriver().findElements(By.id("img_lightbox_close")).isEmpty()){
-            WebElement  hotAttantion = getDriver().findElement(By.id("img_lightbox_close"));
+        if (!getDriver().findElements(By.id("img_lightbox_close")).isEmpty()) {
+            WebElement hotAttantion = getDriver().findElement(By.id("img_lightbox_close"));
             hotAttantion.click();
         }
 
         WebElement news = getDriver().findElement(By.id("web_push_hayir"));
         news.click();
 
-        WebElement  argeeCookies = getDriver().findElement(By.xpath("//div[@class = 'cookie']/a"));
+        WebElement argeeCookies = getDriver().findElement(By.xpath("//div[@class = 'cookie']/a"));
         argeeCookies.click();
 
         WebElement textSearch = getDriver().findElement(By.name("search_text"));
@@ -186,5 +182,49 @@ public class JavaNiSyGroupTest extends BaseTest {
         Assert.assertEquals(textFilter.getText(), "чаши");
     }
 
-}
+    @Test
+    public void testYogaShopBtn() {
 
+        getDriver().get("https://magento.softwaretestingboard.com/");
+
+        WebElement yogaShopBtn = getDriver().findElement(By.xpath("//span[@class='action more button']"));
+        yogaShopBtn.click();
+
+        WebElement text = getDriver().findElement(By.xpath("//span[@class='base']"));
+
+        Assert.assertEquals(text.getText(), "New Luma Yoga Collection");
+    }
+
+    @Test
+    public void testPandaLocation() {
+
+        getDriver().get("https://www.foodpanda.com/");
+
+        WebElement locationImage = getDriver().findElement(By.xpath("//button[@class='btn btn-white']"));
+        locationImage.click();
+
+        WebElement btnSubmit = getDriver().findElement(By.id("gform_submit_button_2"));
+        btnSubmit.click();
+
+        WebElement errorSummary = getDriver().
+                findElement(By.xpath("//*[@id='gform_2_validation_container']/h2"));
+
+        Assert.assertEquals(errorSummary.getText(),
+                "THERE WAS A PROBLEM WITH YOUR SUBMISSION. PLEASE REVIEW THE FIELDS BELOW.");
+    }
+
+    @Test
+    public void testDrive2Audi() {
+
+        getDriver().get("https://www.drive2.ru/");
+
+        WebElement textBox = getDriver().findElement(By.name("text"));
+        textBox.sendKeys("Audi Q5");
+
+        WebElement button = getDriver().findElement(By.xpath("/html/body/main/div[1]/form/button"));
+        button.click();
+
+        WebElement text = getDriver().findElement(By.xpath("/html/body/main/div/div[2]/div[1]/div/header/h1"));
+        Assert.assertEquals(text.getText(), "Результаты поиска");
+    }
+}

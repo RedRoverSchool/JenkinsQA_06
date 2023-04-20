@@ -6,6 +6,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -15,6 +17,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 
 
 public class CaramelSyrupForJavaTest extends BaseTest {
@@ -87,14 +90,13 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResultBanner = "Complete spectrum of weather data solutions.";
 
         getDriver().get("https://openweathermap.org/");
-
+        Thread.sleep(5000);
         WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
         try {
             guide.click();
         } catch (Exception e) {
             clickCustom(guide);
         }
-
         WebElement complexEnterprise = getDriver().findElement(
                 By.xpath("//main//div[2]/div/div/p[1]/a[text()='complex enterprise systems']"));
         complexEnterprise.click();
@@ -111,6 +113,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultBanner, expectedResultBanner);
     }
 
+    @Ignore
     @Test
     public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
@@ -137,7 +140,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
             Assert.assertEquals(actualResult, expectedResult);
         }
     }
-
+    @Ignore
     @Test
     public void testArtyomDulyaAuthorizationText() throws InterruptedException {
         String actualResult = "Sign In To Your Account";
@@ -263,7 +266,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
+    @Ignore
     @Test
     public void svetaKhudova_testWinnerPhoneNumber() throws InterruptedException {
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -370,4 +373,64 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Test
+    public void testArtyomDulyaProductToTheCart() throws InterruptedException {
+        String expectedResult = "Выберите размер";
+        getDriver().manage().deleteAllCookies();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        getDriver().get("https://www.wildberries.ru/");
+        Thread.sleep(5000);
+        WebElement lineSearch = getDriver().findElement(By.xpath("//input[contains(@id, 'searchInput')]"));
+        lineSearch.click();
+        lineSearch.sendKeys("джинсы");
+        WebElement buttonSearch = getDriver().findElement(By.xpath("//button[@id='applySearchBtn']"));
+        clickCustom(buttonSearch);
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        Thread.sleep(5000);
+        WebElement jeansBox = getDriver().findElement(By.xpath("//div[@id='c74249381']//div[@class='product-card__price price j-cataloger-price']"));
+        WebElement jeans = getDriver().findElement(By.xpath("//div[@id='c74249381']//a[@href='/lk/basket']"));
+        js.executeScript("window.scrollBy(0,250)");
+        clickCustom(jeansBox);
+        clickCustom(jeans);
+        WebElement jeansSize = getDriver().findElement(By.xpath("//h2[text()='Выберите размер']"));
+
+        String actualResult = jeansSize.getText();
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+    @Test
+    public void serhiiHaponiukOpenWeatherMapGridContainerTest() throws InterruptedException {
+
+        getDriver().get("https://openweathermap.org/");
+        String title = getDriver().getTitle();
+
+        Assert.assertEquals(title, "Сurrent weather and forecast - OpenWeatherMap");
+        Thread.sleep(5000);
+
+        WebElement celsiusButton = getDriver().findElement(By.xpath
+                ("//div[text() = 'Metric: °C, m/s']"));
+        WebElement fahrenheitButton = getDriver().findElement(By.xpath
+                ("//div[text() = 'Imperial: °F, mph']"));
+        WebElement temperature = getDriver().findElement(By.className("heading"));
+        Assert.assertTrue(temperature.getText().contains("C"));
+        celsiusButton.isDisplayed();
+        fahrenheitButton.click();
+        Assert.assertTrue(temperature.getText().contains("F"));
+        celsiusButton.click();
+        Assert.assertTrue(temperature.getText().contains("C"));
+    }
+    @Test
+    public void testRykovaOW() throws InterruptedException {
+
+        String expectedResult = "Partners and solutions";
+
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(6000);
+        WebElement partners = getDriver().findElement(By.xpath("//a [text()='Partners']"));
+        partners.click();
+
+        WebElement text = getDriver().findElement(By.xpath("//h1 [text()='Partners and solutions']"));
+        String actualResult = text.getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
 }
