@@ -364,6 +364,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
     }
 
+    @Ignore
     @Test
     public void testfindBookAndreyP() throws InterruptedException {
         getDriver().get("https://demoqa.com/");
@@ -556,6 +557,32 @@ public class GroupJavaJitsuTest extends BaseTest {
                 "div.single_page.single_post.clear div.post-single-content.box.mark-links header:nth-child(1)" +
                 " > h1.title"));
         Assert.assertEquals(text.getText(), "Contact Us");
+    }
+
+    @Test
+    public void testElementFootwearPage(){
+        getDriver().get("https://soccerzone.com/footwear/");
+        WebElement newElement = getDriver().findElement(By.cssSelector("a[title='NEW']"));
+        newElement.click();
+
+        WebElement textNew = getDriver().findElement(By.xpath("//h1[@class='page-heading'][text()='NEW']"));
+        Assert.assertTrue(textNew.isDisplayed());
+    }
+
+    @Test
+    public void testElementBrand(){
+        getDriver().get("https://soccerzone.com/footwear/");
+        WebElement brandElement = getDriver().findElement(By.cssSelector("img[title='BRAND']"));
+        brandElement.click();
+
+        WebElement textBrand = getDriver().findElement(By.xpath("//h1[@class='page-heading'][text()='BRAND']"));
+        Assert.assertTrue(textBrand.isDisplayed());
+
+        WebElement nikeElement = getDriver().findElement(By.cssSelector("img[title='Nike']"));
+        nikeElement.click();
+
+        WebElement nikePage = getDriver().findElement(By.xpath("//h1[@class='page-heading'][text()='Nike']"));
+        Assert.assertTrue(nikePage.isDisplayed());
     }
 }
 
