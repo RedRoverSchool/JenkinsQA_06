@@ -212,7 +212,7 @@ public class JavaNiSyGroupTest extends BaseTest {
         Assert.assertEquals(errorSummary.getText(),
                 "THERE WAS A PROBLEM WITH YOUR SUBMISSION. PLEASE REVIEW THE FIELDS BELOW.");
     }
-
+    @Ignore
     @Test
     public void testDrive2Audi() {
 

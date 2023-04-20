@@ -101,30 +101,23 @@ public class GroupJavaQaTeamTest extends BaseTest {
     }
 
     @Test
-    public void KHTest1 () throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testFormReceived() throws InterruptedException {
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        String title = driver.getTitle();
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        String title = getDriver().getTitle();
         assertEquals("Web form", title);
 
         Thread.sleep(2000);
 
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
 
         textBox.sendKeys("Selenium");
         submitButton.click();
 
-        WebElement message = driver.findElement(By.id("message"));
+        WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
         assertEquals("Received!", value);
-
-        driver.quit();
-
     }
     @Test
     public void testBookingTitle() {

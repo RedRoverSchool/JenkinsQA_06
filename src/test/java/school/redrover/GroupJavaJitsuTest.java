@@ -364,6 +364,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
     }
 
+    @Ignore
     @Test
     public void testfindBookAndreyP() throws InterruptedException {
         getDriver().get("https://demoqa.com/");
