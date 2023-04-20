@@ -3,6 +3,9 @@ package school.redrover;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,6 +16,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import javax.swing.*;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -214,26 +218,17 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void dimaKFirstTest() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
+    public void testDimaKFirst() throws InterruptedException {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
         String exp = "One Call API 3.0 - OpenWeatherMap";
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://openweathermap.org");
-        Thread.sleep(5000);
-        WebElement oneCallApi = driver.findElement(By.xpath("//div [@class='section']//h2/a"));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        getDriver().get("https://openweathermap.org");
+        WebElement oneCallApi = getDriver().findElement(By.xpath("//div [@class='section']//h2/a"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("window.scrollBy(0,1000)");
-        Thread.sleep(3000);
         oneCallApi.click();
 
-        String act = driver.getTitle();
-
+        String act = getDriver().getTitle();
         Assert.assertEquals(exp, act);
-
-        driver.quit();
     }
 
     @Test
@@ -447,5 +442,19 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
-}
+    @Test
+    public void testDimaHW() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        List<String> expRes = Arrays.asList("FAQ","How to start","Ask a question");
+        getDriver().get("https://openweathermap.org/");
+        WebElement sup = getDriver().findElement(By.cssSelector("#support-dropdown"));
+        sup.click();
+        List<String> acSel = Arrays.asList("#support-dropdown-menu>li:nth-child(1)>a",
+                "#support-dropdown-menu>li:nth-child(2)>a",
+                "#support-dropdown-menu>li:nth-child(3)>a");
+                for (int i = 0; i < expRes.size(); i++) {
+                    WebElement supFAQ = getDriver().findElement(By.cssSelector(acSel.get(i)));
+                    Assert.assertEquals(supFAQ.getText(), expRes.get(i));
+                }
+            }
+    }
