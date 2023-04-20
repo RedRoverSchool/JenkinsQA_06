@@ -60,7 +60,7 @@ public class JavaciraptorsTeamTest extends BaseTest {
     }
 
     @Test
-    public void testBinoeder() {
+    public void testLadaBinoeder() {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
         String title = getDriver().getTitle();
