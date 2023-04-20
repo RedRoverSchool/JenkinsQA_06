@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -9,8 +10,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-public class KayratTest {
+public class KayratTest extends BaseTest {
 
     @Ignore
     @Test
@@ -62,6 +64,16 @@ public class KayratTest {
         Assert.assertEquals("Received!", value);
 
         driver.quit();
+    }
+    @Test
+    public void testTextBox(){
+        getDriver().get("https://thehostbest.ru/");
+
+        WebElement textBox = getDriver().findElement(By.xpath("//input[@placeholder='Поиск...пасхалки']"));
+        textBox.sendKeys("the host");
+        textBox.submit();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://thehostbest.ru/?s=the+host");
     }
 
 }
