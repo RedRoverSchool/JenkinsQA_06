@@ -335,4 +335,17 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(actualNumberOfSideMenuButtons, expectedNumberOfSideMenuButtons);
         Assert.assertEquals(actualSideMenuTexts, expectedSideMenuTexts);
     }
+    
+    @Test
+    public void testHeaderTextOnSalePage() {
+        getDriver().get("https://magento.softwaretestingboard.com/");
+        getDriver()
+                .findElement(By.xpath("//a[@href='https://magento.softwaretestingboard.com/sale.html']"))
+                .click();
+
+        WebElement headerH1Text = getDriver()
+                .findElement(By.xpath("//h1[@id='page-title-heading']"));
+
+        Assert.assertEquals(headerH1Text.getText(), "Sale");
+    }
 }

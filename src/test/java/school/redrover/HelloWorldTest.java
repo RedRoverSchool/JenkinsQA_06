@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -169,22 +170,37 @@ public class HelloWorldTest extends BaseTest {
     }
 
     @Test
-    public void newTest() throws InterruptedException {
+    public void testPageTitle() throws InterruptedException {
+        getDriver().get("https://www.wikipedia.org/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.wikipedia.org/");
-
-        WebElement searchField = driver.findElement(By.name("search"));
+        WebElement searchField = getDriver().findElement(By.name("search"));
         searchField.sendKeys("API");
         searchField.sendKeys(Keys.RETURN);
 
         Thread.sleep(3000);
 
-        WebElement part = driver.findElement(By.xpath("//span[@class = \"mw-page-title-main\"]"));
+        WebElement part = getDriver().findElement(By.xpath("//span[@class = \"mw-page-title-main\"]"));
         Assert.assertEquals(part.getText(), "API");
-        driver.quit();
+    }
+
+    @Test
+    public void testDoubleClickButton() throws InterruptedException {
+        getDriver().get("https://demoqa.com/");
+
+        WebElement fieldElements = getDriver().findElement(By.xpath("//h5[text() = 'Elements']"));
+        fieldElements.click();
+
+        WebElement fieldButtons = getDriver().findElement(By.xpath("//span[text() = 'Buttons']"));
+        fieldButtons.click();
+
+        WebElement dblClickBtn = getDriver().findElement(By.xpath("//button[text() = 'Double Click Me']"));
+        Actions action = new Actions(getDriver());
+        Actions dblClick = action.doubleClick(dblClickBtn);
+        dblClick.perform();
+
+        Thread.sleep(1000);
+
+        WebElement dblClickMessage = getDriver().findElement(By.xpath("//p[text() = 'You have done a double click']"));
+        Assert.assertEquals(dblClickMessage.getText(), "You have done a double click");
     }
 }

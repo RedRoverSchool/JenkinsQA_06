@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 public class CaramelSyrupForJavaTest extends BaseTest {
 
     public void clickCustom(WebElement element) {
@@ -433,4 +432,19 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult,expectedResult);
     }
+    @Test
+    public void testAbramova() {
+
+        String expectedResult = "Welcome to 99 Bottles of Beer";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/lyrics.html");
+
+        WebElement click = getDriver().findElement(By.xpath("//ul[@id='menu']//a[@href='/']"));
+        click.click();
+        WebElement res = getDriver().findElement(By.xpath("//div[@id='main']/h2"));
+        String actualResult = res.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
 }

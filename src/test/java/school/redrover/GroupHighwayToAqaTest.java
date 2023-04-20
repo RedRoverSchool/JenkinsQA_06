@@ -624,12 +624,9 @@ public class GroupHighwayToAqaTest extends BaseTest {
             } catch (StaleElementReferenceException sere) {
                 priceUnsorted = getDriver().findElements(By
                         .xpath("//span[contains(@class, 'price-wrapper')]/span"));
-                for (int j = i; j < priceUnsorted.size(); j++) {
-                    priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(j).getText().replace("$", "")));
-                    break;
+                    priceListBeforeSorted.add(Double.valueOf(priceUnsorted.get(i).getText().replace("$", "")));
                 }
             }
-        }
         Select dropDown = new Select(getDriver().findElement(By.className("sorter-options")));
         dropDown.selectByVisibleText("Price");
 
@@ -643,12 +640,9 @@ public class GroupHighwayToAqaTest extends BaseTest {
             } catch (StaleElementReferenceException sere) {
                 priceAfterSorted = getDriver().findElements(By
                         .xpath("//span[contains(@class, 'price-wrapper')]/span"));
-                for (int j = i; j < priceAfterSorted.size(); j++) {
-                    priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(j).getText().replace("$", "")));
-                    break;
+                    priceListAfterSorted.add(Double.valueOf(priceAfterSorted.get(i).getText().replace("$", "")));
                 }
             }
-        }
         Collections.sort(priceListBeforeSorted);
         assertEquals(priceListAfterSorted, priceListBeforeSorted);
     }
