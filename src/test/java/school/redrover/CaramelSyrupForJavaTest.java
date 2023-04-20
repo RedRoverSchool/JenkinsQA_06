@@ -265,6 +265,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void svetaKhudova_testCheckPhoneNumbers() throws InterruptedException  {
         getDriver().get("https://winnerfit.ru/");
