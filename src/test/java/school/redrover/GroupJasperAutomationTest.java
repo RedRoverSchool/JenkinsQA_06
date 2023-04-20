@@ -40,23 +40,14 @@ public class GroupJasperAutomationTest extends BaseTest {
     }
 
     @Test
-    public void testBiletskayaA() throws InterruptedException {
+    public void testFindElementSearch(){
+        getDriver().get("https://new.uschess.org/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://new.uschess.org/");
-
-        WebElement textLink = driver.findElement(By.className("clo-image"));
+        WebElement textLink = getDriver().findElement(By.className("clo-image"));
         textLink.click();
 
-        Thread.sleep(2000);
-
-        WebElement element = driver.findElement(By.xpath("//*[text()='Search Articles']"));
+        WebElement element = getDriver().findElement(By.xpath("//*[text()='Search Articles']"));
         Assert.assertEquals(element.getText(), "Search Articles");
-
-        driver.quit();
     }
 
     @Test

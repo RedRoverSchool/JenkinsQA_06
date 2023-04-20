@@ -4,9 +4,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -266,27 +263,21 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-    @Ignore
+
     @Test
-    public void svetaKhudova_testWinnerPhoneNumber() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+    public void svetaKhudova_testCheckPhoneNumbers() throws InterruptedException  {
+        getDriver().get("https://winnerfit.ru/");
 
-        driver.get("https://winnerfit.ru/");
-
-        WebElement fitnessTekstil = driver.findElement(By.xpath("//div[@class='t694__overlay '][1]"));
+        WebElement fitnessTekstil = getDriver().findElement(By.xpath("//div[@class='t694__overlay '][1]"));
         fitnessTekstil.click();
 
         Thread.sleep(2000);
 
-        WebElement phoneNumber1 = driver.findElement(By.xpath("//div[@class='t228__right_descr']/a[1]"));
-        WebElement phoneNumber2 = driver.findElement(By.xpath("//div[@class='t228__right_descr']/a[2]"));
+        WebElement phoneNumber1 = getDriver().findElement(By.xpath("//div[@class='t228__right_descr']/a[1]"));
+        WebElement phoneNumber2 = getDriver().findElement(By.xpath("//div[@class='t228__right_descr']/a[2]"));
 
         Assert.assertEquals(phoneNumber1.getText(), "+7 (499) 178-60-18");
         Assert.assertEquals(phoneNumber2.getText(), "+7 (905) 714-13-70");
-
-        driver.quit();
     }
 
     @Test
