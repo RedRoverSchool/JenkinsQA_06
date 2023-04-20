@@ -107,13 +107,6 @@ public class GroupOlesyaTests extends BaseTest {
         getDriver().findElement(By.name(String.format("remove-%s", item))).click();
     }
 
-    @Test
-    public void standardUserLoginTest() {
-        loginToSite(LOGIN);
-
-        Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
-    }
-
     public List<String> getTextList (List<WebElement> list) {
         return list.stream().map(WebElement::getText).collect(toList());
     }
@@ -133,7 +126,6 @@ public class GroupOlesyaTests extends BaseTest {
         getDriver().findElement(By.id("continue-shopping")).click();
     }
 
-
     public boolean isElementPresent(By by) {
         try {
             getDriver().findElement(by);
@@ -141,6 +133,29 @@ public class GroupOlesyaTests extends BaseTest {
         } catch (NoSuchElementException e) {
             return false;
         }
+    }
+
+    public Double sumOfPrices(){
+        double listSum = listOfPrice()
+                .stream()
+                .mapToDouble(Double::doubleValue)
+                .sum();
+        double sum = listSum + (listSum * 0.08);
+        return (double) Math.round(sum * 100) / 100;
+    }
+
+    public Double actualSumOfPrice(){
+        return Double.valueOf(getDriver()
+                .findElement(By.xpath("//div[@class='summary_info_label summary_total_label']"))
+                .getText()
+                .replace("Total: $", ""));
+    }
+
+    @Test
+    public void standardUserLoginTest() {
+        loginToSite(LOGIN);
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), MAIN_PAGE);
     }
 
     @Test
@@ -504,30 +519,20 @@ public class GroupOlesyaTests extends BaseTest {
     }
 
     @Test
-    public void checkTheFinalPriceCalculation() {
+    public void checkTheFinalPriceCalculationTest() {
         loginToSite(LOGIN);
 
-        getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
-        getDriver().findElement(By.id("add-to-cart-sauce-labs-bike-light")).click();
-        getDriver().findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt")).click();
+        addToShoppingCart("sauce-labs-backpack");
+        addToShoppingCart("sauce-labs-bike-light");
+        addToShoppingCart("sauce-labs-bolt-t-shirt");
 
         clickIconShoppingCart();
 
-        double listSum = listOfPrice()
-                .stream()
-                .mapToDouble(Double::doubleValue)
-                .sum();
-        double sum = listSum + (listSum * 0.08);
-        double actualSumResult = (double) Math.round(sum * 100) / 100;
+        Double expectedResultSum = sumOfPrices();
 
         clickCheckout();
         fillOutOrderForm(RANDOM_STRING, RANDOM_STRING, RANDOM_DIGITS);
 
-        Double expectedResultSum = Double.valueOf(getDriver()
-                .findElement(By.xpath("//div[@class='summary_info_label summary_total_label']"))
-                .getText()
-                .replace("Total: $", ""));
-
-        Assert.assertEquals(actualSumResult, expectedResultSum);
+        Assert.assertEquals(expectedResultSum, actualSumOfPrice());
     }
 }
