@@ -467,7 +467,6 @@ public class GroupOlesyaTests extends BaseTest {
         WebElement resetSidebarLink = getDriver().findElement(By.id("reset_sidebar_link"));
         getWait().until(ExpectedConditions.visibilityOf(resetSidebarLink));
         resetSidebarLink.click();
-
         clickIconShoppingCart();
 
         WebElement cartListAfterRemove = getDriver().findElement(By.className("cart_list"));
