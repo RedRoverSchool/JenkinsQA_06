@@ -353,4 +353,14 @@ public class Group99BottlesTest extends BaseTest {
 
         Assert.assertEquals(headerH1Text.getText(), "Sale");
     }
+
+    @Test
+    public void testMenuNamesText() {
+        final List<String> expectedSideMenuNames = List.of("Solutions","About Us", "Services", "Products", "Locations", "Admin Page");
+
+        getDriver().get("https://parabank.parasoft.com/parabank/index.htm");
+        List<WebElement> sideMenuList = getDriver().findElements(By.xpath("//ul[@class = 'leftmenu']/li"));
+
+        Assert.assertEquals(WebElementToString(sideMenuList), expectedSideMenuNames);
+    }
 }
