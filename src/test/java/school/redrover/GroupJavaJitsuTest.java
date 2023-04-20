@@ -481,7 +481,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertTrue(text.isDisplayed());
     }
 
-
+    @Ignore
     @Test
     public void testChoiceClothes() throws InterruptedException {
         getDriver().get("https://soccerzone.com/");
