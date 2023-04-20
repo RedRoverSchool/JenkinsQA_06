@@ -52,6 +52,7 @@ public class GroupCodeProTest extends BaseTest {
 
         Assert.assertEquals(pageEvents.getText(), "EVENT LIST");
     }
+
     @Ignore
     @Test
     public void testSSregistration() throws InterruptedException {
