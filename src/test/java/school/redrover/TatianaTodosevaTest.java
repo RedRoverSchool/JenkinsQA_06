@@ -2,14 +2,13 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import static org.testng.Assert.assertEquals;
 
 public class TatianaTodosevaTest extends BaseTest {
 
-    private String email;
+    private String email = "test" + Math.random()*1000 + "@mail.com";
     @Test
     public void firstTest() {
 
