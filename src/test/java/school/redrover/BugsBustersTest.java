@@ -287,4 +287,36 @@ public class BugsBustersTest extends BaseTest {
 
         Assert.assertEquals(item.getText(), "Sauce Labs Backpack");
     }
+
+    @Test
+    public void testMarynaLTitle() {
+        getDriver().get("https://invoice-generator.com/");
+
+        String title = getDriver().getTitle();
+
+        Assert.assertEquals(title, "Free Invoice Generator");
+
+    }
+
+    @Test
+    public void testMarynaLBuy() {
+        getDriver().get("https://nightowlsp.com/");
+
+        WebElement wireless = getDriver().findElement(By.xpath("//*[@id='maincontent']/div[2]/div/div[4]/div/div/div/div[2]/a"));
+        wireless.click();
+
+        WebElement shopAllWirelessSystem = getDriver().findElement(By.xpath("//*[@id='maincontent']/div[2]/div/div[3]/div[2]/a"));
+        shopAllWirelessSystem.click();
+
+        WebElement addToCart = getDriver().findElement(By.xpath("//*[@id='product-item-info_836']/div[2]/div[2]/div[2]/div/div[1]/form/button/span"));
+        addToCart.click();
+
+        WebElement proceedToCheckout = getDriver().findElement(By.xpath("//*[@id='maincontent']/div[3]/div/div[2]/div[1]/ul/li/button/span"));
+        proceedToCheckout.click();
+
+        WebElement shippingAddress = getDriver().findElement(By.xpath("(//div[normalize-space()='Shipping Address'])[1]"));
+
+        Assert.assertEquals(shippingAddress.getText(), "Shipping Address");
+
+    }
 }
