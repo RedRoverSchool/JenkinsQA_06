@@ -253,4 +253,36 @@ driver.quit();
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testSiteBirchBros()  {
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("http://www.birchbrothers.com/index.html");
+
+        WebElement aboutUsLink = driver.findElement(By.cssSelector("a[href='/aboutus.html']"));
+        aboutUsLink.click();
+
+        WebElement contactUsLink = driver.findElement(By.cssSelector("a[href='/contactus.html']"));
+        contactUsLink.click();
+
+        WebElement heading = driver.findElement(By.tagName("h1"));
+        Assert.assertEquals("Contact Us", heading.getText());
+
+        WebElement infoMessage = driver.findElement(By.xpath("//strong[contains(text(),'Please use the form below to contact us for more information')]"));
+        assertEquals("Please use the form below to contact us for more information", infoMessage.getText());
+
+        WebElement firstNameInput = driver.findElement(By.id("fname"));
+        assertEquals("FirstName", firstNameInput.getAttribute("name"));
+
+        WebElement emailInput = driver.findElement(By.name("formmail_mail_email"));
+        assertEquals("16", emailInput.getAttribute("size"));
+
+        driver.quit();
+    }
+
+
 }
