@@ -784,4 +784,21 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Contact Us']")).getText(), "Contact Us");
     }
+
+    @Test
+    public void testVerifyDiscountedPriceLessStandard() {
+        getDriver().get("https://askomdch.com/");
+
+        getDriver().findElement(By.cssSelector("li#menu-item-1230 > a.menu-link")).click();
+        WebElement bestSellersSection = getDriver().findElement(By.id("woocommerce_top_rated_products-3"));
+        List<WebElement> prices = bestSellersSection.findElements(By.cssSelector("ul > li"));
+        for (WebElement el : prices) {
+            String tempStr1 = el.findElement(By.cssSelector("del > span > bdi")).getText().substring(1);
+            String tempStr2 = el.findElement(By.cssSelector("ins > span > bdi")).getText().substring(1);
+            float tempFloat1 = Float.parseFloat(tempStr1);
+            float tempFloat2 = Float.parseFloat(tempStr2);
+            Assert.assertTrue(tempFloat1 > tempFloat2);
+        }
+    }
+
 }
