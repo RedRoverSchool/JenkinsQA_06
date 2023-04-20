@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.Color;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -783,5 +784,19 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[text() ='Find More']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Contact Us']")).getText(), "Contact Us");
+    }
+
+    @Test
+
+    public void testVerifyButtonBackgroundColor() {
+
+        getDriver().get("https://askomdch.com/product-category/men/");
+
+        String expected = "#3197d6";
+        WebElement SearchButton = getDriver().findElement(By.xpath("//button[@value='Search']"));
+        String btnColor = SearchButton.getCssValue("background-color");
+        String hexColor = Color.fromString(btnColor).asHex();
+        Assert.assertEquals(hexColor, "#3197d6");
+
     }
 }
