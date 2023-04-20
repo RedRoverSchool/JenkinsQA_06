@@ -7,26 +7,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-public class Katy1313Test {
+public class Katy1313Test extends BaseTest {
 
     @Test
     public void testGoogleSearch() {
+        getDriver().get("https://google.com");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://google.com");
-
-        WebElement searchBox = driver.findElement(By.name("q"));
+        WebElement searchBox = getDriver().findElement(By.name("q"));
         searchBox.sendKeys("dracena\n");
-
-        WebElement text = driver.findElement(
-                By.xpath("//h3[contains (text(),'How to Care for Dracaena: Types & Growing Tips')]"));
+        WebElement text = getDriver().findElement(By.xpath("//h3[contains (text(),'How to Care for Dracaena: Types & Growing Tips')]"));
 
         Assert.assertEquals(text.getText(), "How to Care for Dracaena: Types & Growing Tips");
-
     }
-
 }

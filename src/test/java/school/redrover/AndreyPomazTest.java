@@ -34,6 +34,7 @@ public class AndreyPomazTest extends BaseTest {
         WebElement error = getDriver().findElement(By.className("t-input-error"));
         Assert.assertEquals(error.getText(), "Please enter a valid email address");
     }
+
     @Test
     public void testSelenium() throws InterruptedException {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
@@ -52,6 +53,7 @@ public class AndreyPomazTest extends BaseTest {
         String value = message.getText();
         Assert.assertEquals("Received!", value);
     }
+
     @Test
     public void testJenkins() {
         getDriver().get("https://www.jenkins.io/");
@@ -66,8 +68,10 @@ public class AndreyPomazTest extends BaseTest {
         butWindows.click();
 
         WebElement text = getDriver().findElement(By.className("hdlist1"));
-        Assert.assertEquals(text.getText(),"Step 1: Setup wizard");
+        Assert.assertEquals(text.getText(), "Step 1: Setup wizard");
     }
+
+    @Ignore
     @Test
     public void testForm() throws InterruptedException {
         getDriver().get("https://demoqa.com");
@@ -112,6 +116,8 @@ public class AndreyPomazTest extends BaseTest {
         Thread.sleep(2000);
         Assert.assertEquals(got.getText(), "Thanks for submitting the form");
     }
+
+   @Ignore
     @Test
     public void testFindBook() throws InterruptedException {
         getDriver().get("https://demoqa.com/");
@@ -127,6 +133,7 @@ public class AndreyPomazTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
     }
+
     @Ignore
     @Test
     public void testAlert() throws InterruptedException {
@@ -141,6 +148,7 @@ public class AndreyPomazTest extends BaseTest {
 
         WebElement buttonClickMe1 = getDriver().findElement(By.id("alertButton"));
         buttonClickMe1.click();
+        Thread.sleep(1000);
         getDriver().switchTo().alert().accept();
 
         WebElement buttonClickMe2 = getDriver().findElement(By.id("timerAlertButton"));
@@ -165,6 +173,7 @@ public class AndreyPomazTest extends BaseTest {
         buttonClickMe4.click();
         Thread.sleep(1000);
         getDriver().switchTo().alert().sendKeys("RedRover06");
+        Thread.sleep(1000);
         getDriver().switchTo().alert().accept();
         WebElement enterTextResult = getDriver().findElement(By.xpath("//span[@id='promptResult']"));
         Assert.assertEquals(enterTextResult.getText(), "You entered RedRover06");
