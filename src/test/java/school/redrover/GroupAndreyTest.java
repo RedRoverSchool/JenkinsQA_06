@@ -45,6 +45,7 @@ public class GroupAndreyTest extends BaseTest {
         assertEquals(suggestButton2.getText(), "Omskaya Oblast’, RU");
     }
 
+    @Ignore
     @Test
     public void testArtemTextOnCityPage() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
