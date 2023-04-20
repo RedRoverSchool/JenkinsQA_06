@@ -295,7 +295,6 @@ public class BugsBustersTest extends BaseTest {
         String title = getDriver().getTitle();
 
         Assert.assertEquals(title, "Free Invoice Generator");
-
     }
 
     @Test
@@ -317,6 +316,5 @@ public class BugsBustersTest extends BaseTest {
         WebElement shippingAddress = getDriver().findElement(By.xpath("(//div[normalize-space()='Shipping Address'])[1]"));
 
         Assert.assertEquals(shippingAddress.getText(), "Shipping Address");
-
     }
 }
