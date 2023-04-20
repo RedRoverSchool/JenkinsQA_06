@@ -313,7 +313,7 @@ public class BugsBustersTest extends BaseTest {
         WebElement proceedToCheckout = getDriver().findElement(By.xpath("//*[@id='maincontent']/div[3]/div/div[2]/div[1]/ul/li/button/span"));
         proceedToCheckout.click();
 
-        WebElement shippingAddress = getDriver().findElement(By.xpath("(//div[normalize-space()='Shipping Address'])[1]"));
+        WebElement shippingAddress = getDriver().findElement(By.xpath("//div[normalize-space()='Shipping Address']"));
 
         Assert.assertEquals(shippingAddress.getText(), "Shipping Address");
     }
