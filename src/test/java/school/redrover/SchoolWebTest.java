@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 public class SchoolWebTest {
 
     String[] links = {"Courses", "Training", "About school", "Teachers"};
-
     @Ignore
     @Test
     public void testCopyright() throws InterruptedException {

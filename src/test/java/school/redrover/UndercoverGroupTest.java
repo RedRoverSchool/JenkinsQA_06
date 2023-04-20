@@ -4,10 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class UndercoverGroupTest extends BaseTest {
 
@@ -62,5 +66,43 @@ public class UndercoverGroupTest extends BaseTest {
         Actions action = new Actions(getDriver());
 
         action.dragAndDrop(element1, element2).build().perform();
+    }
+
+    @Test
+    public void seleniumWebFormTest() throws InterruptedException {
+
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        assertEquals("Web form", getDriver().getTitle());
+
+        Thread.sleep(2000);
+
+        WebElement password = getDriver().findElement(By.name("my-password"));
+        password.click();
+        password.sendKeys("123456");
+
+        WebElement textArea = getDriver().findElement(By.name("my-textarea"));
+        textArea.click();
+        textArea.sendKeys("lorem ipsum ...");
+
+        Select dropdown = new Select(getDriver().findElement(By.className("form-select")));
+        dropdown.selectByVisibleText("Two");
+
+        WebElement checkbox1 = getDriver().findElement(By.id("my-check-1"));
+        if(checkbox1.isDisplayed()){
+            checkbox1.click();
+        }
+        WebElement checkbox2 = getDriver().findElement(By.id("my-check-2"));
+        if(checkbox2.isDisplayed()){
+            checkbox2.click();
+        }
+        assertFalse(getDriver().findElement(By.id("my-check-1")).isSelected());
+        assertTrue(getDriver().findElement(By.id("my-check-2")).isSelected());
+
+        getDriver().findElement(By.cssSelector("button")).click();
+
+        WebElement message = getDriver().findElement(By.id("message"));
+        String value = message.getText();
+        assertEquals("Received!", value);
     }
 }

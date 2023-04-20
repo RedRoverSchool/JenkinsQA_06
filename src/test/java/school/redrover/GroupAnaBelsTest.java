@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class GroupAnaBelsTest extends BaseTest {
-
     @Test
     public void testStasM() {
         getDriver().get("https://www.yahoo.com/");
@@ -16,6 +15,7 @@ public class GroupAnaBelsTest extends BaseTest {
         submitButton.click();
 
         String title = getDriver().getTitle();
-        Assert.assertEquals("Yahoo", title);
+        Assert.assertEquals(title, "Yahoo");
     }
 }
+
