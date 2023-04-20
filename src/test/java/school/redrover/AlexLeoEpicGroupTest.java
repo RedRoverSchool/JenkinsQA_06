@@ -797,6 +797,7 @@ public class AlexLeoEpicGroupTest extends BaseTest {
             String tempStr2 = el.findElement(By.cssSelector("ins > span > bdi")).getText().substring(1);
             float tempFloat1 = Float.parseFloat(tempStr1);
             float tempFloat2 = Float.parseFloat(tempStr2);
+
             Assert.assertTrue(tempFloat1 > tempFloat2);
         }
     }
@@ -825,6 +826,7 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         System.out.println(countOnCardStr);
         int countOnCardInt = Integer.parseInt(countOnCardStr);
         System.out.println(countOnCardInt);
+
         Assert.assertEquals(countOnCardInt, count);
     }
 
