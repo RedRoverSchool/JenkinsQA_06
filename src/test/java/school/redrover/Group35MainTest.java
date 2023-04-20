@@ -34,4 +34,15 @@ public class Group35MainTest {
     public void aLugovskayaTest2(){
         Assert.assertEquals("Test", "Test");
     }
+    @Test
+    public void uBrehovaTest(){
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get("https://javarush.com/");
+        WebElement element = driver.findElement(By.id("button_menu_start_learning_unauthorized_user"));
+        element.click();
+        driver.quit();
+    }
+
 }
