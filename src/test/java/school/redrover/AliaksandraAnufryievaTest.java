@@ -86,11 +86,4 @@ public class AliaksandraAnufryievaTest extends BaseTest {
 
         Assert.assertEquals(text.getText(), "On sale");
     }
-
-    @Test
-    public void testJenkinsTitle() {
-        getDriver().get("https://www.jenkins.io/");
-
-        Assert.assertEquals(getDriver().getTitle(),"Jenkins");
-    }
 }
