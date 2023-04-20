@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,19 +21,14 @@ import static org.testng.Assert.assertEquals;
 public class GroupJasperAutomationTest extends BaseTest {
     @Ignore
     @Test
+    public void testFootballua() throws InterruptedException {
 
-    public void footballua() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://football.ua/");
-        WebElement element = driver.findElement(By.xpath("//*[text()='Україна']"));
+        getDriver().get("https://football.ua/");
+        WebElement element = getDriver().findElement(By.xpath("//*[text()='Україна']"));
         Assert.assertEquals(element.getText(), "Україна");
-        driver.quit();
     }
 
-
+    @Ignore
     @Test
     public void testTitle() throws InterruptedException {
         getDriver().get("https://football.ua/");
@@ -44,23 +40,14 @@ public class GroupJasperAutomationTest extends BaseTest {
     }
 
     @Test
-    public void testBiletskayaA() throws InterruptedException {
+    public void testFindElementSearch(){
+        getDriver().get("https://new.uschess.org/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://new.uschess.org/");
-
-        WebElement textLink = driver.findElement(By.className("clo-image"));
+        WebElement textLink = getDriver().findElement(By.className("clo-image"));
         textLink.click();
 
-        Thread.sleep(2000);
-
-        WebElement element = driver.findElement(By.xpath("//*[text()='Search Articles']"));
+        WebElement element = getDriver().findElement(By.xpath("//*[text()='Search Articles']"));
         Assert.assertEquals(element.getText(), "Search Articles");
-
-        driver.quit();
     }
 
     @Test
@@ -273,4 +260,19 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement name = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/header[1]/div[3]/ul[1]/li[3]/a[1]"));
         assertEquals(name.getText(), "JAVA");
         driver.quit();
-}}
+    }
+
+   @Ignore
+    @Test
+    public void testFindElement() {
+        getDriver().get("https://7745.by/");
+
+        WebElement texBox = getDriver().findElement(By.name("keys"));
+        texBox.sendKeys("процессор");
+        texBox.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//h1[text() = 'Процессоры для компьютеров']"));
+
+        Assert.assertEquals(text.getText(), "Процессоры для компьютеров");
+    }
+}

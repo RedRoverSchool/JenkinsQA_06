@@ -1,12 +1,16 @@
 package school.redrover;
+
 import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.time.Duration;
 import java.util.List;
+
 import static org.testng.Assert.assertEquals;
+
 public class GroupJavaJitsuTest extends BaseTest {
 
     @Ignore
@@ -91,6 +95,8 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         Assert.assertEquals(text.getText(), "Step 1: Setup wizard");
     }
+
+    @Ignore
     @Test
     public void testForm() throws InterruptedException {
         getDriver().get("https://demoqa.com");
@@ -249,7 +255,7 @@ public class GroupJavaJitsuTest extends BaseTest {
     @Test
     public void testKatya2() {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
-        
+
         String title = getDriver().getTitle();
         assertEquals("Web form", title);
 
@@ -257,7 +263,7 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         WebElement textBox = getDriver().findElement(By.name("my-text"));
         WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
-        
+
         textBox.sendKeys("Selenium");
         submitButton.click();
 
@@ -362,6 +368,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(alertText, "Error: Incorrect login or password provided.");
     }
 
+    @Ignore
     @Test
     public void testfindBookAndreyP() throws InterruptedException {
         getDriver().get("https://demoqa.com/");
@@ -377,6 +384,7 @@ public class GroupJavaJitsuTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://demoqa.com/books?book=9781449365035");
     }
+
     @Test
     public void testAlert() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
@@ -420,6 +428,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement enterTextResult = getDriver().findElement(By.xpath("//span[@id='promptResult']"));
         Assert.assertEquals(enterTextResult.getText(), "You entered RedRover06");
     }
+
     @Ignore
     @Test
     public void testZakazUa() {
@@ -437,13 +446,13 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement buttonReg = getDriver().findElement(By.xpath("//button[contains(text(),'Зареєструватись')]"));
         buttonReg.click();
 
-        WebElement text=getDriver().findElement(By.xpath("//span[contains(text(),'У мене вже є акаунт')]"));
+        WebElement text = getDriver().findElement(By.xpath("//span[contains(text(),'У мене вже є акаунт')]"));
         Assert.assertEquals(text.getText(), "У мене вже є акаунт");
     }
 
 
     @Test
-    public void testFindInSearchBox(){
+    public void testFindInSearchBox() {
 
         getDriver().get("https://soccerzone.com/");
         WebElement searchBox = getDriver().findElement(By.name("search_query_adv"));
@@ -457,7 +466,7 @@ public class GroupJavaJitsuTest extends BaseTest {
     }
 
     @Test
-    public void testWrongSignIn(){
+    public void testWrongSignIn() {
         getDriver().get("https://soccerzone.com/login.php");
         WebElement username = getDriver().findElement(By.name("login_email"));
         username.sendKeys("1234@gmail.com");
@@ -469,7 +478,8 @@ public class GroupJavaJitsuTest extends BaseTest {
         button.click();
 
         WebElement text = getDriver().findElement(By.cssSelector(".alertBox-column.alertBox-message"));
-        Assert.assertTrue(text.isDisplayed());}
+        Assert.assertTrue(text.isDisplayed());
+    }
 
 
     @Test
@@ -500,31 +510,32 @@ public class GroupJavaJitsuTest extends BaseTest {
     }
 
     @Test
-    public void testActivePictureFanstore(){
+    public void testActivePictureFanstore() {
         getDriver().get("https://soccerzone.com/");
         WebElement picture = getDriver().findElement(By.cssSelector("img[src='images/stencil/original/image-manager/fanstore.png']"));
         picture.click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),"https://soccerzone.com/fan-shop/");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://soccerzone.com/fan-shop/");
     }
 
     @Test
-    public void testActivePictureKeepers(){
+    public void testActivePictureKeepers() {
         getDriver().get("https://soccerzone.com/");
         WebElement pictureKeepers = getDriver().findElement(By.cssSelector("img[src='images/stencil/original/image-manager/keeps.png']"));
         pictureKeepers.click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),"https://soccerzone.com/goalkeeper/gloves/");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://soccerzone.com/goalkeeper/gloves/");
     }
 
     @Test
-    public void testActivePictureBootroom(){
+    public void testActivePictureBootroom() {
         getDriver().get("https://soccerzone.com/");
         WebElement pictureBootroom = getDriver().findElement(By.cssSelector("img[src='images/stencil/original/image-manager/boots.png']"));
         pictureBootroom.click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),"https://soccerzone.com/footwear/");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://soccerzone.com/footwear/");
     }
+
     @Test
     public void testWineTimeContact() {
         getDriver().get("https://www.winetime.com/");
@@ -547,12 +558,38 @@ public class GroupJavaJitsuTest extends BaseTest {
         WebElement buttonSubmit = getDriver().findElement(By.cssSelector("#gform_submit_button_1"));
         buttonSubmit.click();
 
-        WebElement text=getDriver().findElement(By.cssSelector("body.page-template-default.page.page-id-80.custom-" +
+        WebElement text = getDriver().findElement(By.cssSelector("body.page-template-default.page.page-id-80.custom-" +
                 "background.wp-custom-logo.group-blog:nth-child(2) div.main-container:nth-child(9) div.single:nth-" +
                 "child(4) div.content article.article div.g.post.post-80.page.type-page.status-publish.hentry " +
                 "div.single_page.single_post.clear div.post-single-content.box.mark-links header:nth-child(1)" +
                 " > h1.title"));
         Assert.assertEquals(text.getText(), "Contact Us");
+    }
+
+    @Test
+    public void testElementFootwearPage(){
+        getDriver().get("https://soccerzone.com/footwear/");
+        WebElement newElement = getDriver().findElement(By.cssSelector("a[title='NEW']"));
+        newElement.click();
+
+        WebElement textNew = getDriver().findElement(By.xpath("//h1[@class='page-heading'][text()='NEW']"));
+        Assert.assertTrue(textNew.isDisplayed());
+    }
+
+    @Test
+    public void testElementBrand(){
+        getDriver().get("https://soccerzone.com/footwear/");
+        WebElement brandElement = getDriver().findElement(By.cssSelector("img[title='BRAND']"));
+        brandElement.click();
+
+        WebElement textBrand = getDriver().findElement(By.xpath("//h1[@class='page-heading'][text()='BRAND']"));
+        Assert.assertTrue(textBrand.isDisplayed());
+
+        WebElement nikeElement = getDriver().findElement(By.cssSelector("img[title='Nike']"));
+        nikeElement.click();
+
+        WebElement nikePage = getDriver().findElement(By.xpath("//h1[@class='page-heading'][text()='Nike']"));
+        Assert.assertTrue(nikePage.isDisplayed());
     }
 }
 

@@ -11,6 +11,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import static org.testng.Assert.assertEquals;
+
 public class JavaciraptorsTeamTest extends BaseTest {
  
     @Test
@@ -55,5 +57,27 @@ public class JavaciraptorsTeamTest extends BaseTest {
         WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
         Assert.assertEquals("Received!", value);
+    }
+
+    @Test
+    public void testLadaBinoeder() {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+
+        String title = getDriver().getTitle();
+        assertEquals("Web form", title);
+
+        WebElement textBox = getDriver().findElement(By.name("my-textarea"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
+
+        textBox.sendKeys("Selenium");
+
+        submitButton.click();
+
+
+        WebElement message = getDriver().findElement(By.id("message"));
+        String value = message.getText();
+
+        assertEquals("Received!", value);
+
     }
 }

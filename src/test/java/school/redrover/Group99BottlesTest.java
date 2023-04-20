@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,8 +17,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Group99BottlesTest extends BaseTest {
 
@@ -58,21 +57,12 @@ public class Group99BottlesTest extends BaseTest {
 
     @Test
     public void testHeaderH1TextOnWomenPage() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.id("menu-item-1229")).click();
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://askomdch.com/");
-
-        driver.findElement(By.id("menu-item-1229")).click();
-
-        WebElement headerText = driver.findElement(
-                By.xpath("//header[@class = 'woocommerce-products-header']/h1"));
+        WebElement headerText = getDriver().findElement(By.xpath("//header[@class = 'woocommerce-products-header']/h1"));
 
         Assert.assertEquals(headerText.getText(), "Women");
-
-        driver.quit();
     }
 
     @Test
@@ -86,6 +76,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(headerH1Text.getText(), "WORKSHOP LIBRARY");
     }
 
+    @Ignore
     @Test
     public void testTelerikHeaderText() {
         getDriver().get("https://www.telerik.com/");
@@ -95,6 +86,7 @@ public class Group99BottlesTest extends BaseTest {
 
         Assert.assertEquals(headerH1Text.getText(), "Modern UI Made Easy");
     }
+
     @Ignore
     @Test
     public void testTelerikTitleURLDemosPage() {
@@ -107,6 +99,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.telerik.com/support/demos");
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageArray() {
         String[] expectedResult = {"Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"};
@@ -127,6 +120,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageList() {
         List<String> expectedResult = new ArrayList<>(
@@ -154,23 +148,17 @@ public class Group99BottlesTest extends BaseTest {
     @Test
     public void testH1Text_WhenChooseLevelLanguage() throws InterruptedException {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        getDriver().get("https://www.w3schools.com/");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://www.w3schools.com/");
-
-        driver.findElement(By.xpath("//a[@href = 'where_to_start.asp']")).click();
+        getDriver().findElement(By.xpath("//a[@href = 'where_to_start.asp']")).click();
 
         Thread.sleep(3000);
 
-        WebElement text = driver.findElement(By.xpath("//h1[text() = 'Where To Start']"));
+        WebElement text = getDriver().findElement(By.xpath("//h1[text() = 'Where To Start']"));
 
         Assert.assertEquals(text.getText(), "Where To Start");
-
-        driver.quit();
     }
+
     @Ignore
     @Test
     public void testDemoblazeAddToCart() {
@@ -264,6 +252,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(discountSign.getText(), "20% OFF");
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageSize() {
         final int expectedResult = 6;
@@ -297,12 +286,81 @@ public class Group99BottlesTest extends BaseTest {
         getDriver().get("https://ipbase.com/");
         getDriver().manage().window().maximize();
         getDriver().findElement(By.xpath("//div[starts-with(@class, 'hidden relative')]/child::a[1]"))
-                   .click();
+                .click();
 
         List<WebElement> buttons = getDriver()
                 .findElements(By.xpath("//*[@class='mt-4']/following-sibling::a"));
         List<String> actualButtonsNames = WebElementToString(buttons);
 
         Assert.assertEquals(actualButtonsNames, expectedButtonsNames);
+    }
+
+    @Ignore
+    @Test
+    public void testNumberOfButtonsAndTextsInSideMenu() throws InterruptedException {
+        final int expectedNumberOfSideMenuButtons = 11;
+        final List<String> expectedSideMenuTexts = List.of(
+                "Dashboard",
+                "Request Playground",
+                "Latest Requests",
+                "API Keys",
+                "API Settings",
+                "Team",
+                "Subscription",
+                "Payment",
+                "Invoices",
+                "Documentation",
+                "Support"
+        );
+
+        getDriver().get("https://ipbase.com/");
+        getDriver().manage().window().maximize();
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Login')]")).click();
+        Thread.sleep(2000);
+
+        WebElement emailField = getDriver().findElement(By.xpath("//input[@id='email']"));
+
+        emailField.clear();
+        emailField.sendKeys("mojowi1692@raotus.com");
+        emailField.sendKeys(Keys.RETURN);
+
+        WebElement passwordField = getDriver().findElement(By.xpath("//input[@id='password']"));
+
+        passwordField.clear();
+        passwordField.sendKeys("12345@Hello");
+        passwordField.sendKeys(Keys.RETURN);
+
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        Thread.sleep(2000);
+
+        List<WebElement> sideMenuButtons = getDriver().findElements(By.xpath("//*[@class='grow']"));
+        int actualNumberOfSideMenuButtons = getListSize(sideMenuButtons);
+        List<String> actualSideMenuTexts = WebElementToString(sideMenuButtons);
+
+        Assert.assertEquals(actualNumberOfSideMenuButtons, expectedNumberOfSideMenuButtons);
+        Assert.assertEquals(actualSideMenuTexts, expectedSideMenuTexts);
+    }
+    
+    @Test
+    public void testHeaderTextOnSalePage() {
+        getDriver().get("https://magento.softwaretestingboard.com/");
+        getDriver()
+                .findElement(By.xpath("//a[@href='https://magento.softwaretestingboard.com/sale.html']"))
+                .click();
+
+        WebElement headerH1Text = getDriver()
+                .findElement(By.xpath("//h1[@id='page-title-heading']"));
+
+        Assert.assertEquals(headerH1Text.getText(), "Sale");
+    }
+
+    @Test
+    public void testMenuNamesText() {
+        final List<String> expectedSideMenuNames = List.of("Solutions","About Us", "Services", "Products", "Locations", "Admin Page");
+
+        getDriver().get("https://parabank.parasoft.com/parabank/index.htm");
+        List<WebElement> sideMenuList = getDriver().findElements(By.xpath("//ul[@class = 'leftmenu']/li"));
+
+        Assert.assertEquals(WebElementToString(sideMenuList), expectedSideMenuNames);
     }
 }

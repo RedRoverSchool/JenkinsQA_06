@@ -11,7 +11,9 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class GroupCodeProTest extends BaseTest {
-    @Ignore
+
+
+   @Ignore
     @Test
     public void testKravisRegistration() throws InterruptedException {
 
