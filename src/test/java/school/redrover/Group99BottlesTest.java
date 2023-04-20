@@ -363,4 +363,21 @@ public class Group99BottlesTest extends BaseTest {
 
         Assert.assertEquals(WebElementToString(sideMenuList), expectedSideMenuNames);
     }
+
+    @Test
+    public void testAddToCartButtonChangesTextWhenClick() {
+        getDriver().get("https://www.saucedemo.com/");
+        getDriver().findElement(By.id("user-name")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.id("login-button")).click();
+
+        WebElement backpackAddToCartButton =  getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack"));
+        String backpackAddToCartButtonText = backpackAddToCartButton.getText();
+        backpackAddToCartButton.click();
+
+        String backpackRemoveButtonText = getDriver().findElement(By.id("remove-sauce-labs-backpack")).getText();
+
+        Assert.assertNotEquals(backpackRemoveButtonText, backpackAddToCartButtonText);
+        Assert.assertEquals(backpackRemoveButtonText, "Remove");
+    }
 }
