@@ -11,6 +11,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
@@ -837,6 +839,103 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         System.out.println(countOnCardInt);
 
         Assert.assertEquals(countOnCardInt, count);
+    }
+
+    @Test
+    public void testNumberOfProductsDisplayedVerification() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.cssSelector("li[id='menu-item-1229']>a")).click();
+        List<WebElement> products = getListOfProducts(getDriver()).findElements(By.xpath("li"));
+
+        Assert.assertEquals(products.size(), 7);
+    }
+
+    @Test
+    public void testPriceSortingVerification() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//a[@class='wp-block-button__link']")).click();
+        getDriver().findElement(By.xpath("//select[@name='orderby']")).click();
+        getDriver().findElement(By.xpath("//option[@value='price']")).click();
+
+        WebElement products1 = getListOfProducts(getDriver());
+        List<Double> pageList1 = getPrices(products1);
+
+        getDriver().findElement(By.xpath("//a[@class='page-numbers']")).click();
+        WebElement products2 = getListOfProducts(getDriver());
+        List<Double> pageList2 = getPrices(products2);
+
+        List<Double> result = new ArrayList<>(pageList1);
+        result.addAll(pageList2);
+
+        Assert.assertEquals(result.size(), 13);
+
+        Iterator<Double> iter = result.iterator();
+        Double current, previous = iter.next();
+        while (iter.hasNext()) {
+            current = iter.next();
+            Assert.assertTrue(previous.compareTo(current) <= 0);
+            previous = current;
+        }
+    }
+
+    @Test
+    public void testNumberOfProductsInCartVerification() throws InterruptedException {
+        getDriver().get("https://askomdch.com/");
+        WebElement featuredProductsElement = getDriver().findElement(By.xpath("//h2[@class='has-text-align-center']"));
+        List<WebElement> featuredProducts = featuredProductsElement.findElements(By.xpath(
+                "//div[@class='astra-shop-thumbnail-wrap']/parent::li"));
+
+        int numItemsInCart = 0;
+        for (int i = 0; i < featuredProducts.size() - 1; i++) {
+            featuredProducts.get(i).findElement(By.xpath("//div[@class='astra-shop-summary-wrap']/a[contains(@href, " +
+                    "'add-to-cart')]")).click();
+            numItemsInCart++;
+        }
+        Thread.sleep(3000);
+
+        String expectedQuantity = getDriver().findElement(By.xpath("//div[@class='ast-cart-menu-wrap']/span")).getText();
+        Assert.assertEquals(Integer.parseInt(expectedQuantity), numItemsInCart);
+    }
+
+    @Test
+    public void testDiscountedPriceVerification() {
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//li[@id='menu-item-1230']/a[@href='https://askomdch.com/product-category/" +
+                "accessories/']")).click();
+        List<WebElement> elements = getDriver().findElements(By.xpath("//div[@id='woocommerce_top_rated_products-3']/" +
+                "ul/li"));
+
+        for (WebElement element : elements) {
+            String isDiscounted = "false";
+            try {
+                isDiscounted = element.findElement(By.cssSelector("li > del[aria-hidden*='true']"))
+                        .getAttribute("aria-hidden");
+            } catch (Exception e) {}
+
+            if (isDiscounted.equals("true")) {
+                double discountedPrice = Double.parseDouble(element.findElement(By.cssSelector("ins > span > bdi"))
+                        .getText().substring(1));
+                double price = Double.parseDouble(element.findElement(By.cssSelector("del > span > bdi"))
+                        .getText().substring(1));
+                Assert.assertTrue(discountedPrice < price);
+            }
+        }
+    }
+
+    private List<Double> getPrices(WebElement products) {
+        List<WebElement> priceList = products.findElements(By.xpath("//span[@class='price']//ins//bdi | " +
+                "//span[@class='price']/span/bdi"));
+
+        List<Double> prices = new ArrayList<>();
+        for (WebElement element : priceList) {
+            prices.add(Double.parseDouble(element.getText().substring(1)));
+        }
+        return prices;
+    }
+
+    private WebElement getListOfProducts(WebDriver driver) {
+        return driver.findElement(By.xpath("//div[@class='ast-woocommerce-container']" +
+                "//ul[@class='products columns-4']"));
     }
 
 }
