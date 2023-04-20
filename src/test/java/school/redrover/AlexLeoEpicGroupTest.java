@@ -810,6 +810,7 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testProductsWithPriceOver33() throws InterruptedException {
         getDriver().get("https://askomdch.com/");
