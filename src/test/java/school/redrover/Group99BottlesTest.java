@@ -295,7 +295,6 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(actualButtonsNames, expectedButtonsNames);
     }
 
-    @Ignore
     @Test
     public void testNumberOfButtonsAndTextsInSideMenu() throws InterruptedException {
         final int expectedNumberOfSideMenuButtons = 11;
@@ -316,7 +315,7 @@ public class Group99BottlesTest extends BaseTest {
         getDriver().get("https://ipbase.com/");
         getDriver().manage().window().maximize();
         getDriver().findElement(By.xpath("//a[contains(text(), 'Login')]")).click();
-        Thread.sleep(2000);
+        Thread.sleep(3000);
 
         WebElement emailField = getDriver().findElement(By.xpath("//input[@id='email']"));
 
@@ -331,7 +330,7 @@ public class Group99BottlesTest extends BaseTest {
         passwordField.sendKeys(Keys.RETURN);
 
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        Thread.sleep(2000);
+        Thread.sleep(3000);
 
         List<WebElement> sideMenuButtons = getDriver().findElements(By.xpath("//*[@class='grow']"));
         int actualNumberOfSideMenuButtons = getListSize(sideMenuButtons);
@@ -340,7 +339,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(actualNumberOfSideMenuButtons, expectedNumberOfSideMenuButtons);
         Assert.assertEquals(actualSideMenuTexts, expectedSideMenuTexts);
     }
-    
+
     @Test
     public void testHeaderTextOnSalePage() {
         getDriver().get("https://magento.softwaretestingboard.com/");
@@ -352,5 +351,22 @@ public class Group99BottlesTest extends BaseTest {
                 .findElement(By.xpath("//h1[@id='page-title-heading']"));
 
         Assert.assertEquals(headerH1Text.getText(), "Sale");
+    }
+
+    public WebDriverWait webDriverWait20;
+    public WebDriverWait webDriverWait30;
+
+    public final WebDriverWait getWait20() {
+        if (webDriverWait20 == null) {
+            webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        }
+        return webDriverWait20;
+    }
+
+    public final WebDriverWait getWait30() {
+        if (webDriverWait30 == null) {
+            webDriverWait30 = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
+        }
+        return webDriverWait30;
     }
 }
