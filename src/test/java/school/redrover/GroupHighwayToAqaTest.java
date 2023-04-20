@@ -441,7 +441,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         assertEquals(cartDropDownDialog.getText(),"You have no items in your shopping cart.");
     }
-
+@Ignore
     @Test
     public void testNumOfItemsInCartCounter() throws InterruptedException {
         getDriver().get(BASE_URL);

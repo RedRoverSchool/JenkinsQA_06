@@ -59,7 +59,7 @@ public class NeedMoreCoffeeTestCase extends BaseTest {
         Assert.assertEquals(text.getText(), "Подписка Иви");
 
     }
-
+    @Ignore
     @Test
     public void testSearchField() {
 

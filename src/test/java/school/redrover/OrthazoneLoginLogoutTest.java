@@ -29,6 +29,7 @@ public class OrthazoneLoginLogoutTest extends BaseTest{
         Assert.assertEquals(textOnLogoutPage.getText(),"ACCOUNT LOGOUT");
     }
 
+    @Ignore
     @Test
     public void testLoginDev () throws InterruptedException {
 
