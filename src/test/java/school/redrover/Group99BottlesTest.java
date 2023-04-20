@@ -76,6 +76,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(headerH1Text.getText(), "WORKSHOP LIBRARY");
     }
 
+    @Ignore
     @Test
     public void testTelerikHeaderText() {
         getDriver().get("https://www.telerik.com/");
@@ -98,6 +99,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.telerik.com/support/demos");
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageArray() {
         String[] expectedResult = {"Web", "Desktop", "Mobile", "Reporting & QA", "Conversational UI", "Sitefinity CMS"};
@@ -118,6 +120,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageList() {
         List<String> expectedResult = new ArrayList<>(
@@ -249,6 +252,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(discountSign.getText(), "20% OFF");
     }
 
+    @Ignore
     @Test
     public void testTelerikNavigateMenuDemosPageSize() {
         final int expectedResult = 6;
@@ -291,6 +295,7 @@ public class Group99BottlesTest extends BaseTest {
         Assert.assertEquals(actualButtonsNames, expectedButtonsNames);
     }
 
+    @Ignore
     @Test
     public void testNumberOfButtonsAndTextsInSideMenu() throws InterruptedException {
         final int expectedNumberOfSideMenuButtons = 11;

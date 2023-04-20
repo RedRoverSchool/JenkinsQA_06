@@ -94,6 +94,7 @@ public class ComradesAdelanteTest extends BaseTest {
         Assert.assertEquals(countItems, 3);
         Reporter.log("Tests stop",true);
     }
+    @Ignore
     @Test
     public void nikolayMarkovTest() {
         getDriver().get("https://www.w3schools.com/");

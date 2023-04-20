@@ -119,6 +119,7 @@ public class GroupJavaQaTeamTest extends BaseTest {
         String value = message.getText();
         assertEquals("Received!", value);
     }
+
     @Test
     public void testBookingTitle() {
 
@@ -155,12 +156,12 @@ public class GroupJavaQaTeamTest extends BaseTest {
         String actualResultTitle = getDriver().getTitle();
 
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
-        Assert.assertEquals(actualResultTitle,expectedResultTitle);
+        Assert.assertEquals(actualResultTitle, expectedResultTitle);
 
     }
 
     @Test
-    public void tutorialsFeature(){
+    public void tutorialsFeature() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);

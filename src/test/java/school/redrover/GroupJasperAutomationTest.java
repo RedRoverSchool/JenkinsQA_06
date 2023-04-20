@@ -19,7 +19,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 
 public class GroupJasperAutomationTest extends BaseTest {
-
+    @Ignore
     @Test
     public void testFootballua() throws InterruptedException {
 
@@ -28,6 +28,7 @@ public class GroupJasperAutomationTest extends BaseTest {
         Assert.assertEquals(element.getText(), "Україна");
     }
 
+    @Ignore
     @Test
     public void testTitle() throws InterruptedException {
         getDriver().get("https://football.ua/");

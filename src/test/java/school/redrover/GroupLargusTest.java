@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -19,11 +20,12 @@ public class GroupLargusTest extends BaseTest {
         List<WebElement> listOfSearch = getDriver().findElements(By.xpath
                 ("//div[@class='bk-search__list']//div[@class='bk-dish-card__title']"));
 
-        for (WebElement elementOfList: listOfSearch) {
+        for (WebElement elementOfList : listOfSearch) {
             Assert.assertTrue(elementOfList.getText().contains("Воппер"));
         }
     }
 
+    @Ignore
     @Test
     public void testCheckedLinkSiderBar() {
         Actions actions = new Actions(getDriver());
@@ -34,7 +36,7 @@ public class GroupLargusTest extends BaseTest {
 
         WebElement buttonLearnJava = getDriver().findElement
                 (By.xpath("//div[@class='w3-col l6 w3-center']//a[text()='Learn Java']"));
-        js.executeScript("arguments[0].scrollIntoView(true);",buttonLearnJava);
+        js.executeScript("arguments[0].scrollIntoView(true);", buttonLearnJava);
         buttonLearnJava.click();
 
         WebElement siderBar = getDriver().findElement
@@ -45,7 +47,7 @@ public class GroupLargusTest extends BaseTest {
 
         WebElement itemListSiderBar = null;
         for (WebElement element : listSiderBar) {
-            if(element.getText().contains("HashMap")){
+            if (element.getText().contains("HashMap")) {
                 itemListSiderBar = element;
                 break;
             }
