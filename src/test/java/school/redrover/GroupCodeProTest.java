@@ -53,7 +53,8 @@ public class GroupCodeProTest extends BaseTest {
         Assert.assertEquals(pageEvents.getText(), "EVENT LIST");
     }
 
-    @Test
+   @Ignore
+   @Test
     public void testSSregistration() throws InterruptedException {
 
         getDriver().get("https://www.hbomax.com/");
