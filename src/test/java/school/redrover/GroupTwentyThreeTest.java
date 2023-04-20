@@ -102,5 +102,24 @@ public class GroupTwentyThreeTest extends BaseTest {
         Assert.assertEquals(name.getText(), "Name:Baktygul");
 
     }
+
+    @Test
+    public void testShurminDenis() throws InterruptedException {
+
+        getDriver().get("https://translate.google.com/");
+
+        WebElement mainMenuButton = getDriver().findElement(By.xpath("//div[@class = 'gb_Kc']"));
+        mainMenuButton.click();
+
+        WebElement privacyTermsButton = getDriver().findElement(By.xpath("//div/a[normalize-space()='Privacy & Terms']"));
+        privacyTermsButton.click();
+        Thread.sleep(2000);
+
+        WebElement text = getDriver().findElement(By.xpath("//h2[normalize-space()='Terms of Service']"));
+
+        Assert.assertEquals(text.getText(), "Terms of Service");
+
+    }
+
 }
 
