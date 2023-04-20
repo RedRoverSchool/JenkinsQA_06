@@ -268,7 +268,7 @@ driver.quit();
         contactUsLink.click();
 
         WebElement heading = driver.findElement(By.tagName("h1"));
-        Assert.assertEquals("Contact Us", heading.getText());
+        assertEquals("Contact Us", heading.getText());
 
         WebElement infoMessage = driver.findElement(By.xpath("//strong[contains(text(),'Please use the form below to contact us for more information')]"));
         assertEquals("Please use the form below to contact us for more information", infoMessage.getText());
