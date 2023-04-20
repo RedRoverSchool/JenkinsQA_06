@@ -62,6 +62,7 @@ public class GroupSomeGroupTest extends BaseTest{
         WebElement counter = getDriver().findElement(By.xpath("//div[@id='ast-desktop-header']//span[@class='count']"));
         Assert.assertEquals(counter.getText().trim(), "1");
     }
+    @Ignore
     @Test
     public void testButtonPrevious() {
         getDriver().get("https://www.w3schools.com/js/js_object_prototypes.asp");

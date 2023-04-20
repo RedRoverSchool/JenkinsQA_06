@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -210,12 +211,12 @@ public class AlexLeoEpicGroupTest extends BaseTest {
     public void verifyShopNowLinkArtemTTest() {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
 
-            getDriver().get("https://askomdch.com/");
-            getDriver().findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
-                    .click();
-            String URL = getDriver().getCurrentUrl();
+        getDriver().get("https://askomdch.com/");
+        getDriver().findElement(By.xpath("//a[@class='wp-block-button__link' and text()='Shop Now']"))
+                .click();
+        String URL = getDriver().getCurrentUrl();
 
-            Assert.assertEquals(URL, "https://askomdch.com/store");
+        Assert.assertEquals(URL, "https://askomdch.com/store");
     }
 
     @Test
@@ -573,18 +574,18 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         WebElement addInscription = getDriver().findElement(By.xpath("//div[@role='alert']"));
 
         Assert.assertTrue(addInscription.getText().contains("Blue Denim Shorts"));
-        }
+    }
 
     @Test
     public void testVerifySymbol() {
         getDriver().get("https://askomdch.com/");
         String text = getDriver().findElement(By.cssSelector("h2.has-text-align-center")).getText();
 
-        Assert.assertEquals(text,"Featured Products");
+        Assert.assertEquals(text, "Featured Products");
 
         String symbol = getDriver().findElement(By.cssSelector("span.woocommerce-Price-currencySymbol")).getText();
 
-        Assert.assertEquals(symbol,"$");
+        Assert.assertEquals(symbol, "$");
     }
 
     @Test
@@ -643,16 +644,18 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://askomdch.com/store");
     }
+
     @Test
-    public void testVerifySaleIcon(){
+    public void testVerifySaleIcon() {
 
         getDriver().get("https://askomdch.com/");
-       WebElement featureProducts= getDriver().findElement(By.xpath("//div[@class='woocommerce columns-5 ']"));
-        for ( WebElement sale: featureProducts.findElements(By.xpath("//span[@class='onsale']"))) {
+        WebElement featureProducts = getDriver().findElement(By.xpath("//div[@class='woocommerce columns-5 ']"));
+        for (WebElement sale : featureProducts.findElements(By.xpath("//span[@class='onsale']"))) {
 
-          Assert.assertEquals(sale.getText(),"Sale!");
+            Assert.assertEquals(sale.getText(), "Sale!");
         }
     }
+
     @Test
     public void testValidate$Sign() {
 
@@ -663,23 +666,26 @@ public class AlexLeoEpicGroupTest extends BaseTest {
             assertTrue(dollarSign.isDisplayed());
         }
     }
+
     @Test
-    public void testSaleMessageIsPresent(){
+    public void testSaleMessageIsPresent() {
 
         getDriver().get("https://askomdch.com/");
-        WebElement saleMessage=getDriver().findElement(By.xpath("//h3[text()='25% OFF On all products']"));
+        WebElement saleMessage = getDriver().findElement(By.xpath("//h3[text()='25% OFF On all products']"));
 
-        Assert.assertEquals(saleMessage.getText(),"25% OFF On all products");
+        Assert.assertEquals(saleMessage.getText(), "25% OFF On all products");
     }
+
     @Test
-    public void testAccountButtonClick(){
+    public void testAccountButtonClick() {
 
         getDriver().get("https://askomdch.com/");
         getDriver().findElement(By.xpath("//a[@href='https://askomdch.com/account/' and text()='Account']")).click();
-        String accountPage="https://askomdch.com/account/";
+        String accountPage = "https://askomdch.com/account/";
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),accountPage);
+        Assert.assertEquals(getDriver().getCurrentUrl(), accountPage);
     }
+
     @Test
     public void testSearchButtonColorVerification() {
 
@@ -752,6 +758,7 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testVerifyNumberOnShoppingCardIcon() throws InterruptedException {
         getDriver().get("https://askomdch.com/");

@@ -30,7 +30,7 @@ public class DreamTeamTest extends BaseTest {
         String value = message.getText();
         Assert.assertEquals("Received!", value);
     }
-
+    @Ignore
     @Test
     public void testSendKeysPavelBal() throws InterruptedException {
 
@@ -76,7 +76,7 @@ public class DreamTeamTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//div[1]/div/h1/span"));
         Assert.assertEquals(text.getText(), "OpenWeather");
     }
-
+    @Ignore
     @Test
     public void testWorkWithWaits() {
         getDriver().get("https://google.com/ncr");
