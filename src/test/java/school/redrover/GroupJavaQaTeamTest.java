@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,6 +14,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 
 import static org.testng.Assert.assertEquals;
 
@@ -99,31 +101,25 @@ public class GroupJavaQaTeamTest extends BaseTest {
     }
 
     @Test
-    public void KHTest1 () throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testFormReceived() throws InterruptedException {
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        String title = driver.getTitle();
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        String title = getDriver().getTitle();
         assertEquals("Web form", title);
 
         Thread.sleep(2000);
 
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
 
         textBox.sendKeys("Selenium");
         submitButton.click();
 
-        WebElement message = driver.findElement(By.id("message"));
+        WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
         assertEquals("Received!", value);
-
-        driver.quit();
-
     }
+
     @Test
     public void testBookingTitle() {
 
@@ -160,12 +156,12 @@ public class GroupJavaQaTeamTest extends BaseTest {
         String actualResultTitle = getDriver().getTitle();
 
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
-        Assert.assertEquals(actualResultTitle,expectedResultTitle);
+        Assert.assertEquals(actualResultTitle, expectedResultTitle);
 
     }
 
     @Test
-    public void tutorialsFeature(){
+    public void tutorialsFeature() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -211,5 +207,44 @@ driver.quit();
 
         Assert.assertEquals(actualResult,expectedResult);
 
+    }
+
+    @Test
+    public void testReceivedAnswerResult() {
+
+        String url = "https://www.w3schools.com/";
+        String expectedResult = "Correct!";
+
+        getDriver().get(url);
+
+        WebElement searchField = getDriver().findElement(
+                By.xpath("//input[@placeholder ='Search our tutorials, e.g. HTML']"));
+        searchField.sendKeys("Java Tutorial");
+        searchField.sendKeys(Keys.RETURN);
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
+        WebElement inputField1 = getDriver().findElement(By.xpath("//input[@name ='ex1']"));
+        inputField1.sendKeys("System");
+
+        WebElement inputField2 = getDriver().findElement(By.xpath("//input[@name ='ex2']"));
+        inputField2.sendKeys("out");
+
+        WebElement inputField3 = getDriver().findElement(By.xpath("//input[@name ='ex3']"));
+        inputField3.sendKeys("println");
+
+        WebElement findSubmitButton = getDriver().findElement(By.xpath("//button[@type= 'submit']"));
+        findSubmitButton.click();
+
+        ArrayList<String> words = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(words.get(1));
+
+        WebElement submitAnswer = getDriver().findElement(By.xpath("//button[@id ='answerbutton']"));
+        submitAnswer.click();
+
+        WebElement result = getDriver().findElement(By.xpath("//h2[text() = 'Correct!']"));
+        String actualResult = result.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }

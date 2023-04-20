@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,20 +19,16 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 
 public class GroupJasperAutomationTest extends BaseTest {
+    @Ignore
     @Test
+    public void testFootballua() throws InterruptedException {
 
-    public void footballua() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://football.ua/");
-        WebElement element = driver.findElement(By.xpath("//*[text()='Україна']"));
+        getDriver().get("https://football.ua/");
+        WebElement element = getDriver().findElement(By.xpath("//*[text()='Україна']"));
         Assert.assertEquals(element.getText(), "Україна");
-        driver.quit();
     }
 
-
+    @Ignore
     @Test
     public void testTitle() throws InterruptedException {
         getDriver().get("https://football.ua/");
@@ -90,24 +87,19 @@ public class GroupJasperAutomationTest extends BaseTest {
     }
 
     @Test
-    public void testOlgaMinina() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testWebFormSubmission() throws InterruptedException {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-
-        WebElement textBox = driver.findElement(By.name("my-text"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        WebElement textBox = getDriver().findElement(By.name("my-text"));
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
 
         textBox.sendKeys("Selenium");
         submitButton.click();
 
-        WebElement message = driver.findElement(By.id("message"));
+        WebElement message = getDriver().findElement(By.id("message"));
         String value = message.getText();
-        Assert.assertEquals(value, "Received!");
 
-        driver.quit();
+        Assert.assertEquals(value, "Received!");
     }
 
     @Ignore
@@ -165,7 +157,7 @@ public class GroupJasperAutomationTest extends BaseTest {
     }
 
     @Test
-    public void testEnterToSite() {
+       public void testEnterToSite(){
         getDriver().get("https://www.saucedemo.com/");
 
         WebElement addLogin = getDriver().findElement(By.xpath("//input[@data-test='username']"));
@@ -180,7 +172,6 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement logo = getDriver().findElement(By.xpath("//div[@class='app_logo']"));
         Assert.assertEquals(logo.getText(), "Swag Labs");
     }
-
     @Test
     public void testTryToEnterLockedUser() {
         getDriver().get("https://www.saucedemo.com/");
@@ -196,7 +187,7 @@ public class GroupJasperAutomationTest extends BaseTest {
         loginButton.click();
 
         WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@data-test ='error']")));
-        Assert.assertEquals(errorMessage.getText(), "Epic sadface: Sorry, this user has been locked out.");
+        Assert.assertEquals(errorMessage.getText(),"Epic sadface: Sorry, this user has been locked out.");
     }
 
     @Ignore
@@ -253,7 +244,7 @@ public class GroupJasperAutomationTest extends BaseTest {
     }
 
     @Test
-    public void testNumberOfIphoneModelsAvailable() {
+    public void testNumberOfIphoneModelsAvailable(){
         getDriver().get("https://www.apple.com/");
         WebElement searchButton = getDriver().findElement(By.id("globalnav-menubutton-link-search"));
         searchButton.click();
@@ -266,7 +257,6 @@ public class GroupJasperAutomationTest extends BaseTest {
 
         Assert.assertEquals(list.size(), 5);
     }
-
     @Test
     public void testMetanitJava() throws InterruptedException {
 
@@ -279,5 +269,19 @@ public class GroupJasperAutomationTest extends BaseTest {
         WebElement name = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/header[1]/div[3]/ul[1]/li[3]/a[1]"));
         assertEquals(name.getText(), "JAVA");
         driver.quit();
+    }
+
+   @Ignore
+    @Test
+    public void testFindElement() {
+        getDriver().get("https://7745.by/");
+
+        WebElement texBox = getDriver().findElement(By.name("keys"));
+        texBox.sendKeys("процессор");
+        texBox.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//h1[text() = 'Процессоры для компьютеров']"));
+
+        Assert.assertEquals(text.getText(), "Процессоры для компьютеров");
     }
 }

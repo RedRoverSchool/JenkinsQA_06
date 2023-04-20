@@ -6,10 +6,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.time.Duration;
 
 public class HelloWorldTest extends BaseTest {
@@ -22,10 +24,10 @@ public class HelloWorldTest extends BaseTest {
         logo.click();
         String url = getDriver().getCurrentUrl();
         Assert.assertEquals(url, "https://www.onliner.by/");
-     }
+    }
 
     @Test
-    public void wikiSeleniumTest(){
+    public void wikiSeleniumTest() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(chromeOptions);
@@ -44,7 +46,7 @@ public class HelloWorldTest extends BaseTest {
 
     @Test
 
-    public void wikTest(){
+    public void wikTest() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -55,7 +57,7 @@ public class HelloWorldTest extends BaseTest {
         textBox.sendKeys(Keys.RETURN);
 
         WebElement text = driver.findElement(By.xpath("//*[@id=\"firstHeading\"]/span"));
-        Assert.assertEquals(text.getText(),"XPath");
+        Assert.assertEquals(text.getText(), "XPath");
 
         driver.quit();
     }
@@ -78,26 +80,17 @@ public class HelloWorldTest extends BaseTest {
         driver.quit();
     }
 
-
-
     @Test
-    public void bazhTestZoolegenda() throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://zoolegenda.ru/");
-
-        WebElement button = driver.findElement(By.cssSelector("[href='/catalog/koshki']"));
-        Thread.sleep(3000);
+    public void testZoolegendaTitle() throws InterruptedException {
+        getDriver().get("https://zoolegenda.ru/");
+        WebElement button = getDriver().findElement(By.cssSelector("[href='/catalog/koshki']"));
+        Thread.sleep(2000);
         button.click();
 
-        WebElement text = driver.findElement(By.tagName("h1"));
+        WebElement text = getDriver().findElement(By.tagName("h1"));
         Assert.assertEquals(text.getText(), "КОШКИ");
-
-        driver.quit();
     }
+
     @Ignore
     @Test
     public void youtubeTest() throws InterruptedException {
@@ -116,10 +109,6 @@ public class HelloWorldTest extends BaseTest {
         driver.quit();
     }
 
-    public void SimpleTest() {
-        System.out.println("It's work");
-    }
-
     @Test
     public void testSearchTitle() {
 
@@ -134,49 +123,36 @@ public class HelloWorldTest extends BaseTest {
     }
 
     @Test
-    public void bazhTestYandexSignInError() throws InterruptedException {
+    public void testYandexSignInError() throws InterruptedException {
+        getDriver().get("https://passport.yandex.ru/registration?retpath=https%3A%2F%2Fsso.passport.yandex.ru%2Fprepare%3Fuuid%3Db258193d-7833-453a-882c-4c071ee1a3a9%26goal%3Dhttps%253A%252F%252Fya.ru%252F%26finish%3Dhttps%253A%252F%252Fpassport.yandex.ru%252F&process_uuid=6e0d6f36-3d71-4915-bbc6-18cf579d4abe");
+        Thread.sleep(1000);
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://passport.yandex.ru/registration?retpath=https%3A%2F%2Fsso.passport.yandex.ru%2Fprepare%3Fuuid%3Db258193d-7833-453a-882c-4c071ee1a3a9%26goal%3Dhttps%253A%252F%252Fya.ru%252F%26finish%3Dhttps%253A%252F%252Fpassport.yandex.ru%252F&process_uuid=6e0d6f36-3d71-4915-bbc6-18cf579d4abe");
-        Thread.sleep(3000);
-
-        // allow cookies
-//        WebElement cookies = driver.findElement(By.cssSelector("[data-id=\"button-all\"]"));
-//        cookies.click();
-
-        // test name
-        WebElement firstname = driver.findElement(By.cssSelector("[data-t=\"field:input-firstname\"]"));
+        WebElement firstname = getDriver().findElement(By.cssSelector("[data-t=\"field:input-firstname\"]"));
         firstname.sendKeys(" " + "\n");
 
-        WebElement error = driver.findElement(By.cssSelector("[class=\"error-message\"]"));
-        Thread.sleep(3000);
+        WebElement error = getDriver().findElement(By.cssSelector("[class=\"error-message\"]"));
+        Thread.sleep(1000);
         Assert.assertEquals(error.getText(), "Пожалуйста, укажите имя");
 
-        // test lastname
-        WebElement lastname = driver.findElement(By.cssSelector("[data-t=\"field:input-lastname\"]"));
+        WebElement lastname = getDriver().findElement(By.cssSelector("[data-t=\"field:input-lastname\"]"));
         lastname.sendKeys(" ");
         lastname.click();
 
-        WebElement error2 = driver.findElement(By.cssSelector("[class=\"error-message\"]"));
-        Thread.sleep(3000);
+        WebElement error2 = getDriver().findElement(By.cssSelector("[class=\"error-message\"]"));
+        Thread.sleep(1000);
         Assert.assertEquals(error2.getText(), "Пожалуйста, укажите фамилию");
 
-        // test login
-        WebElement login = driver.findElement(By.cssSelector("[data-t=\"field:input-login\"]"));
+        WebElement login = getDriver().findElement(By.cssSelector("[data-t=\"field:input-login\"]"));
         login.sendKeys(" ");
         login.click();
-        Thread.sleep(3000);
+        Thread.sleep(1000);
 
-        WebElement error3 = driver.findElement(By.cssSelector("[data-t=\"login-error\"]"));
+        WebElement error3 = getDriver().findElement(By.cssSelector("[data-t=\"login-error\"]"));
         Assert.assertEquals(error3.getText(), "Необходимо выбрать логин");
-}
-   
-    
+    }
+
     @Test
-    public void TestSlackSignupErrorAleksE(){
+    public void TestSlackSignupErrorAleksE() {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -190,26 +166,42 @@ public class HelloWorldTest extends BaseTest {
 
         WebElement error = driver.findElement(By.xpath("//div[@id='creator_signup_email_error']/span"));
         Assert.assertEquals(error.getText(), "This is required — you’ll need to enter an email.");
- 
+
     }
+
     @Test
-    public void newTest() throws InterruptedException {
+    public void testPageTitle() throws InterruptedException {
+        getDriver().get("https://www.wikipedia.org/");
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://www.wikipedia.org/");
-
-        WebElement searchField = driver.findElement(By.name("search"));
+        WebElement searchField = getDriver().findElement(By.name("search"));
         searchField.sendKeys("API");
         searchField.sendKeys(Keys.RETURN);
 
         Thread.sleep(3000);
 
-        WebElement part = driver.findElement(By.xpath("//span[@class = \"mw-page-title-main\"]"));
+        WebElement part = getDriver().findElement(By.xpath("//span[@class = \"mw-page-title-main\"]"));
         Assert.assertEquals(part.getText(), "API");
-        driver.quit();
+    }
 
-}
+    @Ignore
+    @Test
+    public void testDoubleClickButton() throws InterruptedException {
+        getDriver().get("https://demoqa.com/");
+
+        WebElement fieldElements = getDriver().findElement(By.xpath("//h5[text() = 'Elements']"));
+        fieldElements.click();
+
+        WebElement fieldButtons = getDriver().findElement(By.xpath("//span[text() = 'Buttons']"));
+        fieldButtons.click();
+
+        WebElement dblClickBtn = getDriver().findElement(By.xpath("//button[text() = 'Double Click Me']"));
+        Actions action = new Actions(getDriver());
+        Actions dblClick = action.doubleClick(dblClickBtn);
+        dblClick.perform();
+
+        Thread.sleep(1000);
+
+        WebElement dblClickMessage = getDriver().findElement(By.xpath("//p[text() = 'You have done a double click']"));
+        Assert.assertEquals(dblClickMessage.getText(), "You have done a double click");
+    }
 }
