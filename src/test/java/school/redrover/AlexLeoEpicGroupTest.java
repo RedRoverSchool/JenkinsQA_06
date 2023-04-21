@@ -18,20 +18,17 @@ import static org.testng.Assert.assertTrue;
 public class AlexLeoEpicGroupTest extends BaseTest {
 
     @Test
-    public void titleOfTheHomePageCheckedTest() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testTitleOfTheHomePageChecked() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(3000));
+        getDriver().get("https://askomdch.com/");
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
+        Assert.assertEquals(getDriver().getTitle(), "AskOmDch – Become a Selenium automation expert!");
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
-        driver.get("https://askomdch.com/");
-        Assert.assertEquals(driver.getTitle(), "AskOmDch – Become a Selenium automation expert!");
-        driver.findElement(By.xpath("//a[@class='wp-block-button__link']")).click();
-        WebElement icon = driver.findElement(By.xpath("//span[@class='onsale']"));
+        getDriver().findElement(By.xpath("//a[@class='wp-block-button__link']")).click();
+        WebElement icon = getDriver().findElement(By.xpath("//span[@class='onsale']"));
+
         Assert.assertEquals(icon.getText(), "Sale!");
-        driver.quit();
+        getDriver().quit();
     }
 
     @Test
