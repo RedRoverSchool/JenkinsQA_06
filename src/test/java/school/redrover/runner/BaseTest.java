@@ -1,38 +1,70 @@
 package school.redrover.runner;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+
+import java.lang.reflect.Method;
 
 public abstract class BaseTest {
 
     private WebDriver driver;
-    private Integer resolutionX;
-    private Integer resolutionY;
 
     @BeforeMethod
-    protected void beforeMethod() {
-        ChromeOptions chromeOptions = new ChromeOptions();
+    protected void beforeMethod(Method method) {
+        BaseUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
+        try {
+            clearData();
+            startDriver();
+            getWeb();
+            loginWeb();
+        } catch (Exception e) {
+            closeDriver();
+            throw new RuntimeException(e);
+        }
+    }
 
-        if (resolutionX == null || resolutionY == null){
-            chromeOptions.addArguments("--remote-allow-origins=*", "--headless=new", "--window-size=1920,1080");
-        } else {
-            chromeOptions.addArguments("--remote-allow-origins=*", "--headless=new", "--window-size=" + resolutionX + "," + resolutionY);
+    protected void clearData() {
+        BaseUtils.log("Clear data");
+        JenkinsUtils.clearData();
+    }
+
+    protected void loginWeb() {
+        BaseUtils.log("Login");
+        ProjectUtils.login(driver);
+    }
+
+    protected void getWeb() {
+        BaseUtils.log("Get web page");
+        ProjectUtils.get(driver);
+    }
+
+    protected void startDriver() {
+        BaseUtils.log("Browser open");
+        driver = BaseUtils.createDriver();
+    }
+
+    protected void stopDriver() {
+        try {
+            ProjectUtils.logout(driver);
+        } catch (Exception ignore) {
         }
 
-        driver = new ChromeDriver(chromeOptions);
+        closeDriver();
+    }
+
+    protected void closeDriver() {
+        if (driver != null) {
+            driver.quit();
+            BaseUtils.log("Browser closed");
+        }
     }
 
     @AfterMethod
-    protected void afterMethod() {
-        driver.quit();
-    }
-
-    protected void setResolution(Integer resolutionX,Integer resolutionY) {
-        this.resolutionX = resolutionX;
-        this.resolutionY = resolutionY;
+    protected void afterMethod(Method method, ITestResult testResult) {
+        stopDriver();
+        BaseUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
     }
 
     protected WebDriver getDriver() {
