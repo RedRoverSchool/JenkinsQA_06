@@ -154,6 +154,7 @@ public class JavaExpertsNationTest extends BaseTest {
         watchBasketButton.click();
 
         WebElement inputField = getDriver().findElement(By.id("id_form-0-quantity"));
+        inputField.clear();
         inputField.sendKeys("10");
 
         WebElement updateButton = getDriver().findElement(By.cssSelector("span button.btn-default[type='submit']"));
