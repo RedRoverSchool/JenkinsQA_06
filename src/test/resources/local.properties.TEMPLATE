@@ -1,0 +1,4 @@
+default.admin.username=<>
+default.admin.password=<>
+default.port=8080
+default.chrome_options=--window-size=1920,1080
