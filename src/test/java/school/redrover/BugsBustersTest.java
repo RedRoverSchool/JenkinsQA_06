@@ -300,4 +300,31 @@ public class BugsBustersTest extends BaseTest {
 
         Assert.assertEquals(actualUrl, expectedUrl);
     }
+
+    @Test
+    public void testMarynaLTitle() {
+        getDriver().get("https://invoice-generator.com/");
+
+        String title = getDriver().getTitle();
+
+        Assert.assertEquals(title, "Free Invoice Generator");
+    }
+
+    @Test
+    public void testMarynaLBuy() {
+        getDriver().get("https://nightowlsp.com/");
+
+        WebElement wireless = getDriver().findElement(By.xpath("//*[@id='maincontent']/div[2]/div/div[4]/div/div/div/div[2]/a"));
+        wireless.click();
+
+        WebElement shopAllWirelessSystem = getDriver().findElement(By.xpath("//*[@id='maincontent']/div[2]/div/div[3]/div[2]/a"));
+        shopAllWirelessSystem.click();
+
+        WebElement addToCart = getDriver().findElement(By.xpath("//*[@id='product-item-info_836']/div[2]/div[2]/div[2]/div/div[1]/form/button/span"));
+        addToCart.click();
+
+        WebElement proceedToCheckout = getDriver().findElement(By.xpath("//*[@id='maincontent']/div[3]/div/div[2]/div[1]/ul/li/button/span"));
+
+        Assert.assertEquals(proceedToCheckout.getText(), "Proceed to Checkout");
+    }
 }
