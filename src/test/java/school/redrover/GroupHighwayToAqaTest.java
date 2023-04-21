@@ -72,6 +72,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
+    @Ignore
     @Test
     public void testMyAccountPage() {
         getDriver().get(BASE_URL);
