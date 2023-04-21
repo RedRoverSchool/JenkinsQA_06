@@ -164,13 +164,9 @@ public class GroupUkrTest extends BaseTest {
         WebElement firstProductPriceMonitors = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h5"));
         Assert.assertEquals(firstProductPriceMonitors.getText(), "$400");
     }
-        @Test
-    public void testListingAndClick() throws InterruptedException {
-
+    @Test
+    public void testListingAndClick(){
         getDriver().get("https://www.demoblaze.com/");
-
-        Thread.sleep(2000);
-
         WebElement fifthItem = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[5]/div/div/h4/a"));
         Assert.assertEquals(fifthItem.getText(), "Iphone 6 32gb");
 
@@ -179,8 +175,6 @@ public class GroupUkrTest extends BaseTest {
 
         WebElement linkLaptop = getDriver().findElement(By.xpath("//div[@class='col-lg-3']/div/a[3]"));
         linkLaptop.click();
-
-        Thread.sleep(2000);
 
         WebElement sixthElementOfLaptops = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[6]/div/div/h4/a"));
         Assert.assertEquals(sixthElementOfLaptops.getText(), "MacBook Pro");
@@ -191,8 +185,6 @@ public class GroupUkrTest extends BaseTest {
         WebElement linkMonitors = getDriver().findElement(By.xpath("//div[@class='col-lg-3']/div/a[4]"));
         linkMonitors.click();
 
-        Thread.sleep(2000);
-
         WebElement secondMonitor = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[2]/div/div/h4/a"));
         Assert.assertEquals(secondMonitor.getText(), "ASUS Full HD");
 
@@ -201,8 +193,6 @@ public class GroupUkrTest extends BaseTest {
 
         WebElement linkOfMonitor = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[2]/div/div/h4/a"));
         linkOfMonitor.click();
-
-        Thread.sleep(1000);
 
         WebElement contentItem = getDriver().findElement(By.xpath("//div[@id='myTabContent']/div[1]/p"));
         Assert.assertEquals(contentItem.getText(), "ASUS VS247H-P 23.6- Inch Full HD");
