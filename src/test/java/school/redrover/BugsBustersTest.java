@@ -287,4 +287,17 @@ public class BugsBustersTest extends BaseTest {
 
         Assert.assertEquals(item.getText(), "Sauce Labs Backpack");
     }
+
+    @Test
+    public void testMariaVerifyLogoHome() {
+        getDriver().get("https://mydeluxeflowers.com/");
+
+        WebElement logo = getDriver().findElement(By.cssSelector("a[rel='home']"));
+        logo.click();
+
+        String expectedUrl = "https://mydeluxeflowers.com/";
+        String actualUrl = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualUrl, expectedUrl);
+    }
 }

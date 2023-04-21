@@ -1,9 +1,6 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -271,5 +268,45 @@ public class GroupCATTest extends BaseTest {
 
         driver.quit();
     }
-}
 
+    public void waitForButton(String element) {
+        WebDriverWait wait = new WebDriverWait(getDriver(),Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(element)));
+    }
+
+    @Test
+    public void testAddCustomer() {
+        String firstName = "Jack", lastName = "Black", postCode = "77333";
+        getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
+
+        waitForButton("button[ng-click = 'manager()']");
+        getDriver().findElement(By.cssSelector("button[ng-click = 'manager()']")).click();
+
+        waitForButton("button[ng-click = 'addCust()']");
+        getDriver().findElement(By.cssSelector("button[ng-click = 'addCust()']")).click();
+
+        waitForButton("button[type = 'submit']");
+        getDriver().findElement(By.cssSelector("input[placeholder = 'First Name']")).sendKeys(firstName);
+        getDriver().findElement(By.cssSelector("input[placeholder = 'Last Name']")).sendKeys(lastName);
+        getDriver().findElement(By.cssSelector("input[placeholder = 'Post Code']")).sendKeys(postCode);
+
+        getDriver().findElement(By.cssSelector("button[type = 'submit']")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        getDriver().findElement(By.cssSelector("button[ng-click = 'home()']")).click();
+        waitForButton("button[ng-click = 'customer()']");
+        getDriver().findElement(By.cssSelector("button[ng-click = 'customer()']")).click();
+        waitForButton("select[id = 'userSelect']");
+        List<WebElement> customersList = getDriver().findElements(By.cssSelector("select[id = 'userSelect']" + ">*"));
+
+        List<String> namesList = new ArrayList<>();
+        for (int i = 1; i < customersList.size(); i++) {
+            namesList.add(customersList.get(i).getText());
+        }
+
+        boolean check = namesList.contains(firstName + " " + lastName);
+
+        Assert.assertEquals(check, true);
+    }
+}
