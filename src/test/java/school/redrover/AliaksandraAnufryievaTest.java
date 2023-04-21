@@ -1,55 +1,89 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
+import java.time.Duration;
 
-public class AliaksandraAnufryievaTest {
-    @Ignore
+public class AliaksandraAnufryievaTest extends BaseTest {
+
     @Test
-    public void jenkinsTest() throws InterruptedException{
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+    public void testWikipediaSearch() {
+        getDriver().get("https://www.wikipedia.org/");
 
-        driver.get("https://www.jenkins.io/");
+        WebElement search = getDriver().findElement(By.name("search"));
+        search.sendKeys("Jenkins");
+        search.sendKeys(Keys.RETURN);
 
-        //System.out.println(driver.getTitle());
+        WebElement text = getDriver().findElement(By.id("firstHeading"));
 
-        Assert.assertEquals(driver.getTitle(),"Jenkins");
-
-        driver.quit();
+        Assert.assertEquals(text.getText(), "Jenkins");
     }
 
-    @Ignore
     @Test
-    public void weatherTest() throws InterruptedException{
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
+    public void testWikipediaLanguage() {
+        getDriver().get("https://www.wikipedia.org/");
 
-        driver.get("https://www.foxcarolina.com/");
+        WebElement languageButton = getDriver().findElement(By.className("lang-list-button"));
+        languageButton.click();
 
-        WebElement element1 = driver.findElement(By.linkText("Weather"));
-        element1.click();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(1000));
 
-        WebElement element2 = driver.findElement(By.className("form-control"));
+        WebElement chooseBelLanguage = getDriver().findElement(By.xpath("//a[@title='Belaruskaya']"));
+        chooseBelLanguage.click();
 
-        element2.sendKeys("29365");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(1000));
 
-        //Thread.sleep(3000);
+        Assert.assertEquals(getDriver().getTitle(), "Вікіпедыя");
+    }
 
-        //WebElement text = driver.findElement(By.className("location-name"));
+    @Test
+    public void testFreeFormatterXPath() {
+        getDriver().get("https://freeformatter.com/");
 
-        //System.out.println(text.getText());
+        WebElement xpathTesterSearch = getDriver().findElement(By.xpath("//a[@title='XPath Tester']"));
+        xpathTesterSearch.click();
 
-        //Assert.assertEquals(text.getText(), "LYMAN, SC");
+        WebElement textXML = getDriver().findElement(By.xpath("//textarea[@placeholder='Copy-paste your XML here']"));
+        textXML.sendKeys("<title lang='en'>Harry Potter</title>");
 
-        driver.quit();
+        WebElement textXPath = getDriver().findElement(By.xpath("//input[@placeholder='Copy-paste your XPath expression here']"));
+        textXPath.sendKeys("//text()");
+
+        WebElement evaluateXPath = getDriver().findElement(By.id("formatBtn"));
+        evaluateXPath.click();
+
+        WebElement resultXPath = getDriver().findElement(By.xpath("//code[text()]"));
+
+        Assert.assertEquals(resultXPath.getText(), "Text='Harry Potter'");
+    }
+
+    @Test
+    public void testEtsyItemsOnSale() {
+        getDriver().get("https://www.etsy.com/");
+
+        WebElement search = getDriver().findElement(By.name("search_query"));
+        search.sendKeys("easter gifts");
+        search.sendKeys(Keys.RETURN);
+
+        WebElement filterButton = getDriver().findElement(By.id("search-filter-button"));
+        filterButton.click();
+
+        WebElement onSaleCheckbox = getDriver().findElement(By.xpath("//label[@for='special-offers-on-sale']"));
+        onSaleCheckbox.click();
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(1000));
+
+        WebElement applyButton = getDriver().findElement(By.xpath("//button[@aria-label='Apply']"));
+        applyButton.click();
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(2000));
+
+        WebElement text = getDriver().findElement(By.xpath("//a[@aria-label='Remove On sale Filter']"));
+
+        Assert.assertEquals(text.getText(), "On sale");
     }
 }
