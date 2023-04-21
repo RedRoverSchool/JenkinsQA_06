@@ -825,7 +825,7 @@ public class AlexLeoEpicGroupTest extends BaseTest {
                 count++;
             }
         }
-        Thread.sleep(2000);
+        Thread.sleep(4000);
         String countOnCardStr = getDriver().findElement(By.cssSelector("span[class='count']")).getText();
         int countOnCardInt = Integer.parseInt(countOnCardStr);
 
