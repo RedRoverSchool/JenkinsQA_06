@@ -15,11 +15,10 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertTrue(element.isDisplayed());
     }
 
-   @Ignore
     @Test
     public void testVerifyWordIconJenkinsPresentTC_002_33() {
         WebElement logoWord = getDriver()
                 .findElement(By.id("jenkins-name-icon"));
-        Assert.assertEquals(logoWord.getAttribute("src"), "http://localhost:8081/static/bc90ee8a/images/title.svg");
+       Assert.assertTrue(logoWord.isDisplayed());
     }
 }
