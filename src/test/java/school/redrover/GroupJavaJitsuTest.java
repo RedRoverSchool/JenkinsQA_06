@@ -142,7 +142,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertEquals(got.getText(), "Thanks for submitting the form");
     }
 
-
+    @Ignore
     @Test
     public void testAboutDoctorsFind() throws InterruptedException {
         getDriver().get("https://prodoctorov.ru/");

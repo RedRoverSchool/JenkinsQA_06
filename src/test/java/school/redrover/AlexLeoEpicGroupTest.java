@@ -758,7 +758,6 @@ public class AlexLeoEpicGroupTest extends BaseTest {
 
     }
 
-    @Ignore
     @Test
     public void testVerifyNumberOnShoppingCardIcon() throws InterruptedException {
         getDriver().get("https://askomdch.com/");
@@ -771,16 +770,13 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         for (int i = 0; i < productCart.size() - 1; i++) {
             productCart.get(i).findElement(By.cssSelector("a[class='button product_type_simple add_to_cart_button ajax_add_to_cart']"))
                     .click();
-            Thread.sleep(1000);
             countOfAddedProducts++;
         }
-        System.out.println(countOfAddedProducts);
-
+        Thread.sleep(4000);
         String countOnCardStr = getDriver().findElement(By.cssSelector("span[class='count']")).getText();
         int countOnCardInt = Integer.parseInt(countOnCardStr);
 
         Assert.assertEquals(countOnCardInt, countOfAddedProducts);
-
     }
 
     @Test
@@ -792,15 +788,15 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Contact Us']")).getText(), "Contact Us");
     }
 
-    @Ignore
     @Test
-    public void testVerifyDiscountedPriceLessStandard() {
+    public void testVerifyDiscountedPriceLessStandardTC_012_33() throws InterruptedException {
         getDriver().get("https://askomdch.com/");
 
         getDriver().findElement(By.cssSelector("li#menu-item-1230 > a.menu-link")).click();
-        WebElement bestSellersSection = getDriver().findElement(By.id("woocommerce_top_rated_products-3"));
-        List<WebElement> prices = bestSellersSection.findElements(By.cssSelector("ul > li"));
-        for (WebElement el : prices) {
+        Thread.sleep(500);
+        List<WebElement> productsWithDiscount = getDriver()
+                .findElements(By.xpath("//div[@id='woocommerce_top_rated_products-3']/ul/li/del/.."));
+        for (WebElement el : productsWithDiscount) {
             String tempStr1 = el.findElement(By.cssSelector("del > span > bdi")).getText().substring(1);
             String tempStr2 = el.findElement(By.cssSelector("ins > span > bdi")).getText().substring(1);
             float tempFloat1 = Float.parseFloat(tempStr1);
@@ -810,9 +806,8 @@ public class AlexLeoEpicGroupTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
-    public void testProductsWithPriceOver33() throws InterruptedException {
+    public void testProductsWithPriceOver33_TC_013_33() throws InterruptedException {
         getDriver().get("https://askomdch.com/");
 
         getDriver().findElement(By.xpath("//a[text()='Store']")).click();
@@ -830,11 +825,9 @@ public class AlexLeoEpicGroupTest extends BaseTest {
                 count++;
             }
         }
-        Thread.sleep(2000);
+        Thread.sleep(4000);
         String countOnCardStr = getDriver().findElement(By.cssSelector("span[class='count']")).getText();
-        System.out.println(countOnCardStr);
         int countOnCardInt = Integer.parseInt(countOnCardStr);
-        System.out.println(countOnCardInt);
 
         Assert.assertEquals(countOnCardInt, count);
     }
