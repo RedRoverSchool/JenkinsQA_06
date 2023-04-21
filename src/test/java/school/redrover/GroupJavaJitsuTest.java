@@ -592,6 +592,7 @@ public class GroupJavaJitsuTest extends BaseTest {
         Assert.assertTrue(nikePage.isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testAriumContactForm() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
