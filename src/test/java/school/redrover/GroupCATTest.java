@@ -309,4 +309,30 @@ public class GroupCATTest extends BaseTest {
 
         Assert.assertEquals(check, true);
     }
+
+    @Test
+    public void testSuccessfulLogin(){
+        String userName = "standard_user", password = "secret_sauce";
+        getDriver().get("https://www.saucedemo.com/");
+
+        getDriver().findElement(By.id("user-name")).sendKeys(userName);
+        getDriver().findElement(By.id("password")).sendKeys(password);
+        getDriver().findElement(By.id("login-button")).click();
+
+        String headerText = getDriver().findElement(By.cssSelector("div[class = 'app_logo']")).getText();
+        Assert.assertEquals(headerText, "Swag Labs");
+    }
+
+    @Test
+    public void testLockedOutLogin(){
+        String userName = "locked_out_user", password = "secret_sauce";
+        getDriver().get("https://www.saucedemo.com/");
+
+        getDriver().findElement(By.id("user-name")).sendKeys(userName);
+        getDriver().findElement(By.id("password")).sendKeys(password);
+        getDriver().findElement(By.id("login-button")).click();
+
+        String errorText = getDriver().findElement(By.cssSelector("div[class = 'error-message-container error']")).getText();
+        Assert.assertEquals(errorText, "Epic sadface: Sorry, this user has been locked out.");
+    }
 }
