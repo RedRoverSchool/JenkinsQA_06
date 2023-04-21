@@ -164,7 +164,7 @@ public class GroupUkrTest extends BaseTest {
         WebElement firstProductPriceMonitors = getDriver().findElement(By.xpath("//div[@id='tbodyid']/div[1]/div/div/h5"));
         Assert.assertEquals(firstProductPriceMonitors.getText(), "$400");
     }
-        @Test
+    @Test
     public void testListingAndClick() throws InterruptedException {
 
         getDriver().get("https://www.demoblaze.com/");
