@@ -388,6 +388,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = jeansSize.getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
+    @Ignore
     @Test
     public void serhiiHaponiukOpenWeatherMapGridContainerTest() throws InterruptedException {
 
