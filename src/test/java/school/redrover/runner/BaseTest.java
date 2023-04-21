@@ -10,8 +10,6 @@ import java.lang.reflect.Method;
 public abstract class BaseTest {
 
     private WebDriver driver;
-    private Integer resolutionX;
-    private Integer resolutionY;
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
@@ -66,7 +64,6 @@ public abstract class BaseTest {
     @AfterMethod
     protected void afterMethod(Method method, ITestResult testResult) {
         stopDriver();
-
         BaseUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
     }
 

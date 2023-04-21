@@ -16,7 +16,7 @@ public final class BaseUtils {
 
     private static final String ENV_APP_OPTIONS = "APP_OPTIONS";
 
-    static final String PREFIX_PROP = "default.";
+    static final String PREFIX_PROP = "local.";
 
     private static final String PROP_CHROME_OPTIONS = PREFIX_PROP + ENV_CHROME_OPTIONS.toLowerCase();
 
