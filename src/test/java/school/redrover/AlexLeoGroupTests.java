@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 public class AlexLeoGroupTests extends BaseTest {
 
     @Test
-    public void testVerifyLogoJenkinsIsPresent() {
+    public void testVerifyLogoJenkinsIsPresentTC_001_33() {
         WebElement element = getDriver().findElement(By.cssSelector("img#jenkins-head-icon"));
         Assert.assertTrue(element.isDisplayed());
     }
