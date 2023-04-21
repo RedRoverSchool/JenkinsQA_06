@@ -5,17 +5,20 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.Reporter;
-import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.testng.Assert.assertEquals;
 
 public class ComradesAdelanteTest extends BaseTest {
+
+    @BeforeMethod
+   private void createTimer() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
+
 
     @Test
     public void testHeaderOpenWeather() {
@@ -38,7 +41,6 @@ public class ComradesAdelanteTest extends BaseTest {
     @Test
     public void testHeaderSignInPage() throws InterruptedException {
         Reporter.log("Tests started 2", true);
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         getDriver().get("https://openweathermap.org");
 
@@ -46,12 +48,10 @@ public class ComradesAdelanteTest extends BaseTest {
                 By.xpath("//div/ul/li[@class='user-li']/a")
         );
         linkSignIn.sendKeys(Keys.RETURN);
-        Thread.sleep(1500);
 
         WebElement textHeader = getDriver().findElement(
                 By.xpath("//h3[@class='first-child']")
         );
-        Thread.sleep(500);
 
         String expectedResult = "Sign In To Your Account";
         String actualResult = textHeader.getText();
@@ -94,43 +94,39 @@ public class ComradesAdelanteTest extends BaseTest {
         Assert.assertEquals(countItems, 3);
         Reporter.log("Tests stop",true);
     }
-    @Ignore
+
     @Test
-    public void nikolayMarkovTest() {
+    public void testNikolayMarkov() {
         getDriver().get("https://www.w3schools.com/");
 
         Reporter.log("Tests started 4", true);
 
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        WebElement search = getDriver().findElement(By.xpath("//form/input[@id = 'search2']"));
 
-        WebElement search;
-        search = getDriver().findElement(By.xpath("//form/input[@id = 'search2']"));
         search.sendKeys("HTML Tutorial");
         search.sendKeys(Keys.RETURN);
 
-        WebElement textBox;
-        textBox = getDriver().findElement(By.xpath("//input[@name = 'ex1']"));
+        WebElement textBox = getDriver().findElement(By.xpath("//input[@name = 'ex1']"));
+
         textBox.sendKeys("title");
         textBox.sendKeys(Keys.RETURN);
+        ArrayList<String> words = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(words.get(1));
 
-        ArrayList<String> words = new ArrayList<>(getDriver().getWindowHandles());// Записываем  открытые вкладки {0,1,...}
-        getDriver().switchTo().window(words.get(1));// Выбираем вкладку
+        WebElement submit = getDriver().findElement(By.xpath("//button[@id='answerbutton']"));
 
-        WebElement submit;
-        submit = getDriver().findElement(By.xpath("//button[@id='answerbutton']"));
         submit.click();
-        WebElement result;
-        result = getDriver().findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
+        WebElement result = getDriver().findElement(By.xpath("//*[@id='assignmentCorrect']/h2"));
 
         String actualResultOne = result.getText();
 
-        WebElement submitConfirm;
-        submitConfirm = getDriver().findElement(By.xpath("//div[@class='exercisemenuinner']//a[2]"));
-        submitConfirm.click();
+        WebElement submitConfirm = getDriver().findElement(By.xpath("//div[@class='exercisemenuinner']//a[2]"));
 
+        submitConfirm.click();
         textBox = getDriver().findElement(By.xpath("//*[@id='assignmentcontainer']/input[1]"));
         textBox.sendKeys("250");
         WebElement textBoxOne = getDriver().findElement(By.xpath("//*[@id='assignmentcontainer']/input[2]"));
+
         textBoxOne.sendKeys("400");
         textBoxOne.sendKeys(Keys.RETURN);
 
@@ -163,18 +159,23 @@ public class ComradesAdelanteTest extends BaseTest {
         String expectResult = "Correct!";
 
         List<WebElement> exerciseNamesList = getDriver().findElements(
-                By.xpath("//*[@id=\"exercisemenu\"]/div[4]/div[1]/div[2]/a/i")
+                By.xpath("//*[@id='exercisemenu']/div[4]/div[1]/div[2]/a/i")
         );
 
         int actualResultNamesList = exerciseNamesList.size();
         int expectResultNamesList = 4;
 
         List<WebElement> exerciseTextList = getDriver().findElements(
-                By.xpath("//*[@id=\"exercisemenu\"]/div[4]/div[1]/div[2]/a/text")
+                By.xpath("//*[@id='exercisemenu']/div[4]/div[1]/div[2]/a")
         );
+        List<String> textList = new ArrayList<>();
 
-        for (WebElement webElement : exerciseTextList) {
-            Assert.assertTrue(webElement.getText().contains("Exercise"));
+        for (WebElement element : exerciseTextList) {
+            textList.add(element.getText());
+        }
+
+        for (int i = 0; i < exerciseNamesList.size(); i++) {
+            Assert.assertEquals(textList.get(i), "Exercise " + (i + 1));
         }
 
         Assert.assertEquals(actualResultOne, expectResult);
