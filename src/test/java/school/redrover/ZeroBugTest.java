@@ -1,17 +1,20 @@
 package school.redrover;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
-import java.util.Arrays;
+import java.time.Duration;
 import java.util.List;
+import java.util.Set;
+
 public class ZeroBugTest extends BaseTest {
     @Test (enabled = false)
     public void testSearchSelenium() {
+
         getDriver().get("https://www.google.com/");
+
         WebElement textBox = getDriver().findElement(By.name("q"));
         textBox.sendKeys("selenium");
         textBox.sendKeys(Keys.RETURN);
@@ -20,7 +23,9 @@ public class ZeroBugTest extends BaseTest {
     }
     @Test (enabled = false)
     public void testGetWebFormTitle() {
+
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+
         String title = getDriver().getTitle();
         Assert.assertEquals("Web form", title);
         WebElement textBox = getDriver().findElement(By.name("my-text"));
@@ -33,7 +38,9 @@ public class ZeroBugTest extends BaseTest {
     }
     @Test
     public void testGetTitle_1() {
+
         getDriver().get("https://askomdch.com/");
+
         String expectedHPResult = "AskOmDch";
         String actualHPResultHP = getDriver().findElement(By.xpath("//h1[@class='site-title']/.")).getText();
         Assert.assertEquals(actualHPResultHP,expectedHPResult,"Wrong text from header!");
@@ -56,8 +63,10 @@ public class ZeroBugTest extends BaseTest {
     }
 
     @Test
-    public void testGetTitle_2() throws InterruptedException {
+    public void testGetTitle_2() {
+
         getDriver().get("https://askomdch.com/");
+
         String expectedHeaderHP = "Featured Products";
         String actualHeaderHP = getDriver().findElement(By.cssSelector(".wp-block-group__inner-container>h2")).getText();
         Assert.assertEquals(actualHeaderHP,expectedHeaderHP,"Header from Home Page do not match");
@@ -74,9 +83,11 @@ public class ZeroBugTest extends BaseTest {
         }
         Assert.assertEquals(actualHeaderMen,expectedMen,"Text from header of Men Page do not match");
     }
-    @Test (enabled = false)
+    @Test
     public void testSearchProduct() {
+
         getDriver().get("https://askomdch.com/");
+
         String expectedResult = "jeans";
         getDriver().findElement(By.xpath("//a[@class='wp-block-button__link']")).click();
         getDriver().findElement(By.id("woocommerce-product-search-field-0")).sendKeys(expectedResult);
@@ -86,28 +97,63 @@ public class ZeroBugTest extends BaseTest {
     }
 
     @Test
-    public void task_31 (){
+    public void testPublixOrderWrap() throws InterruptedException {
 
-        int [] a = new int[4];
-        int [] b = new int[3];
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-        a[0]=1;
-        a[1]=2;
-        a[2]=3;
-        a[3]=4;
+        //built instance javascript executor
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 
-        b[0]=1;
-        b[1]=2;
-        b[2]=3;
+        //open Chore and go to the test link
+        getDriver().manage().window().maximize();
+        getDriver().get("https://www.publix.com/pd/boars-head-italian-wrap/BMO-DSB-600561/builder?origin=collections5");
 
-        if(a[0]==b[0]){
-            System.out.println("First element of an arrays are equals");
-        } else if (a.length-1==b.length-1){
-            System.out.println("Last element of an arrays are equals");
-        } else {
-            System.out.println("First or last element of an arrays is not equals!");
-
-
+        //Add Cookie to get the Location available in headless mode
+        Set<Cookie> cookies = getDriver().manage().getCookies();
+        for(Cookie temp : cookies)    {
+            System.out.println("Set-Cookie: " + temp.getName()+"="+temp.getValue() + "; " + "path=" + temp.getPath() + ";");
         }
+        Cookie storeCookie1 = new Cookie("Store", "{%22CreationDate%22:%222023-04-20T19:02:09.690Z%22%2C%22ForceRefreshed%22:false%2C%22Option%22:%22ACFJLNORTY%22%2C%22ShortStoreName%22:%22Grandover%20Village%22%2C%22StoreName%22:%22Grandover%20Village%22%2C%22StoreNumber%22:1658}");
+        Cookie storeCookie2 = new Cookie( "store_rpt","1");
+        getDriver().manage().addCookie(storeCookie1);
+        getDriver().manage().addCookie(storeCookie2);
+
+
+        //Add ingredients in the wrap
+        getDriver().navigate().refresh();
+        WebElement elementSpinach = getDriver().findElement(By.xpath("//*[@data-id = 'Wrap']//p[.='Spinach']"));
+        elementSpinach.click();
+
+        WebElement elementCheddar = getDriver().findElement(By.xpath("//*[@data-id = 'Cheese']//p[.='Cheddar']"));
+        jse.executeScript("window.scrollTo(0, 100)"); //scroll page
+        elementCheddar.click();
+
+        WebElement elementBacon = getDriver().findElement(By.xpath("//*[@data-id = 'Extras']//p[.='Bacon']"));
+        jse.executeScript("window.scrollTo(100, 1200)");
+        elementBacon.click();
+
+        //verify ingredients
+        String expectedArrIngredients = "Includes Genoa Salami, Tavern Ham, Cappacolla, Wrap, Spinach, Cheddar, Bacon, Lettuce, Tomato";
+        String actualArrIngredients = getDriver().findElement(By.cssSelector("p[class='p-text paragraph-sm normal context--default color--null line-clamp']")).getText();
+        Assert.assertEquals(actualArrIngredients,expectedArrIngredients,"Ingredients are incorrect");
+
+        // Please Help!
+        //Comment because this part of code method testPublixOrderWrap() does not work in headless mode chromeDriver.
+
+        //click add order
+/*
+        jse.executeScript("window.scrollTo(0, 10)");
+        WebElement addOrder = getDriver().findElement(By.cssSelector("button[id= 'builder-add-to-order-btn']"));
+        wait.until(ExpectedConditions.elementToBeClickable(addOrder));
+        addOrder.click();
+        Thread.sleep(2000);
+        String actualText = getDriver().findElement(By.cssSelector("button[id= 'builder-add-to-order-btn']>span")).getText();
+
+        //verify order in the cart
+        String expectedOrder = "Boar's Head® Italian Wrap";
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-expanded='true']/span[@class='button__icon']")));
+        String actualOrder = getDriver().findElement(By.xpath("//div[@class = 'title-wrapper']/a")).getText();
+        Assert.assertEquals(actualOrder,expectedOrder,"The wrap is not in the cart");
+*/
     }
 }
