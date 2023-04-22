@@ -74,6 +74,8 @@ public class CatGroupTest extends BaseTest {
     @Test
     public void testNameOfItemsOfLabels() {
 
+        getDriver().manage().window().maximize();
+
         final List<String> expectedNamesOfItems = Arrays.asList("Freestyle project", "Pipeline",
                 "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder");
 
