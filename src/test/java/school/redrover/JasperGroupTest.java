@@ -14,7 +14,7 @@ import java.time.Duration;
 public class JasperGroupTest extends BaseTest {
 
     @Test
-    public void jenkinsFirstTest() {
+    public void testFindElement() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement searchField = getDriver().findElement(By.xpath("//input[@name = 'q']"));
         searchField.sendKeys("admin");
@@ -25,7 +25,8 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void createNewItem() {
+
+    public void testCreateNewItem() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement createItem = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
         createItem.click();
