@@ -51,4 +51,5 @@ public class JasperGroupTest extends BaseTest {
         WebElement actualResult = getDriver().findElement(By.xpath("//*[@class=\"job-index-headline page-headline\"]"));
         Assert.assertEquals(actualResult.getText(),"Project New Item");
     }
+
 }
