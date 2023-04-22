@@ -20,8 +20,9 @@ public class NewItemFreestyleProjectTest extends BaseTest {
         String text = "FirstJob";
 
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        WebElement enterField = getDriver().findElement(By.cssSelector(".jenkins-input"));
-        enterField.sendKeys(text);
+
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable
+                (By.cssSelector(".jenkins-input"))).sendKeys(text);
         getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']")).click();
         getDriver().findElement(By.id("ok-button")).click();
 
