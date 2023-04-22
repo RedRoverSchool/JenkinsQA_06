@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 
 public class HelloWorldGroupTests extends BaseTest{
     @Test
-    public void testVersion() {
+    public void testJenkVersion() {
         WebElement version = getDriver().findElement(By.xpath("//a[@rel='noopener noreferrer']"));
         Assert.assertEquals(version.getText(),"Jenkins 2.387.2");
     }
