@@ -21,4 +21,11 @@ public class AlexLeoGroupTests extends BaseTest {
                 .findElement(By.id("jenkins-name-icon"));
        Assert.assertTrue(logoWord.isDisplayed());
     }
+
+    @Test
+    public void validateJenkinsLoginTest() {
+        String verify = getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1")).getText();
+        Assert.assertEquals(verify, "Welcome to Jenkins!");
+    }
+
 }
