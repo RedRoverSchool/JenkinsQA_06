@@ -11,7 +11,7 @@ public class FuOpyatJavaTest extends BaseTest {
     @Test
     public void testTitle() {
 
-        WebElement title = getDriver().findElement(By.id("id=\"jenkins-name-icon\""));
+        WebElement title = getDriver().findElement(By.id("jenkins-name-icon"));
 
         Assert.assertEquals(title.getText(), "Jenkins");
     }
