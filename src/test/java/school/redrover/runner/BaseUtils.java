@@ -39,7 +39,7 @@ public final class BaseUtils {
                     InputStream inputStream = BaseUtils.class.getClassLoader().getResourceAsStream("local.properties");
                     if (inputStream == null) {
                         System.out.println("ERROR: The \u001B[31mlocal.properties\u001B[0m file not found in src/test/resources/ directory.");
-                        System.out.println("You need to create it from local.properties file.");
+                        System.out.println("You need to create it from local.properties.TEMPLATE file.");
                         System.exit(1);
                     }
                     properties.load(inputStream);
