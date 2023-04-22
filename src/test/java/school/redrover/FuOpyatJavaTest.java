@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class FuOpyatJavaTest extends BaseTest {
-
     @Test
     public void testTitle() {
 
@@ -23,5 +22,4 @@ public class FuOpyatJavaTest extends BaseTest {
 
         Assert.assertTrue(logo.isDisplayed());
     }
-
 }
