@@ -14,5 +14,10 @@ public class JavaExpertsNationTest extends BaseTest {
         WebElement manageTitle = getDriver().findElement(By.tagName("h1"));
 
         Assert.assertEquals(manageTitle.getText(), "Manage Jenkins");
+
+        WebElement systemConfigurationTitle = getDriver().
+                findElement(By.xpath("//*[@id=\"main-panel\"]/section[2]/h2"));
+
+        Assert.assertEquals(systemConfigurationTitle.getText(), "System Configuration");
     }
 }
