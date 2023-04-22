@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,12 +25,15 @@ public class CatGroupTest extends BaseTest {
     @FindBy(xpath = "//div[@id='items']//span[@class='label']")
     private List<WebElement> itemsNameOfLabels;
 
+    @FindBy(xpath = "//button[@id='ok-button']")
+    private WebElement okButton;
+
     public WebDriverWait webDriverWait10;
 
 
     public final WebDriverWait getWait10() {
         if (webDriverWait10 == null) {
-            webDriverWait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+            webDriverWait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         }
         return webDriverWait10;
     }
@@ -82,7 +86,7 @@ public class CatGroupTest extends BaseTest {
         PageFactory.initElements(getDriver(), this);
         clickCreateAJobButton();
 
-        getWait10();
+        verifyElementVisible(okButton);
         List<String> actualNameOfItems = getNamesOfLists(itemsNameOfLabels);
 
         Assert.assertEquals(actualNameOfItems, expectedNamesOfItems);
