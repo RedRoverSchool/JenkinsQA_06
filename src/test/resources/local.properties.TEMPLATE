@@ -1,0 +1,4 @@
+local.admin.username=<>
+local.admin.password=<>
+local.port=8080
+local.chrome_options=--window-size=1920,1080
