@@ -14,4 +14,10 @@ public class AnaBelGroupTest extends BaseTest {
         Assert.assertTrue(logo.isDisplayed());
     }
 
+    @Test
+    public void testBuildHistory() {
+        WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href ='/view/all/builds']"));
+
+        Assert.assertEquals(buildHistory.getText(), "Build History");
+    }
 }

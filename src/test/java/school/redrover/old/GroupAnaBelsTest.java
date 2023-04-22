@@ -8,16 +8,21 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 @Ignore
 public class GroupAnaBelsTest extends BaseTest {
-    @Ignore
+
     @Test
-    public void testStasM() {
-        getDriver().get("https://www.yahoo.com/");
+    public void testTitle(){
+        WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
 
-        WebElement submitButton = getDriver().findElement(By.xpath("//*[@id='ybarAccountProfile']/a"));
-        submitButton.click();
-
-        String title = getDriver().getTitle();
-        Assert.assertEquals(title, "Yahoo");
+        Assert.assertEquals(welcomeElement.getText(), "Welcome to Jenkins!");
     }
+
+    @Test
+    public void testBuildHistory(){
+        WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href ='/view/all/builds']"));
+
+        Assert.assertEquals(buildHistory.getText(),"Build History");
+
+    }
+
 }
 
