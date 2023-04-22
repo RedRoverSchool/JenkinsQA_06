@@ -15,6 +15,5 @@ public class TestMainPage extends BaseTest {
 
         WebElement setElement = getDriver().findElement(By.xpath("//div/section[2]/h2[@class = 'h4']"));
         Assert.assertEquals(setElement.getText(), "Set up a distributed build");
-
     }
 }
