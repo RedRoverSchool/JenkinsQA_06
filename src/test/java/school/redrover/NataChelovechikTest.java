@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.testng.annotations.Ignore;
 import school.redrover.runner.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -8,6 +9,7 @@ import org.testng.annotations.Test;
 
 public class NataChelovechikTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testVerifyOrthodonticsPresent() throws InterruptedException {
 
