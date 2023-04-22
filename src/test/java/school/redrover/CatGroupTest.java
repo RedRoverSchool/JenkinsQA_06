@@ -82,6 +82,7 @@ public class CatGroupTest extends BaseTest {
         PageFactory.initElements(getDriver(), this);
         clickCreateAJobButton();
 
+        getWait10();
         List<String> actualNameOfItems = getNamesOfLists(itemsNameOfLabels);
 
         Assert.assertEquals(actualNameOfItems, expectedNamesOfItems);
