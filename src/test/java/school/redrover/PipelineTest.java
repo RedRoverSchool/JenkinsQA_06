@@ -13,7 +13,7 @@ public class PipelineTest extends BaseTest {
     private static final String PIPELINE_NAME = "pipeline1";
 
     @Test
-    public void TestCreatePipelineWithoutParameters() throws InterruptedException {
+    public void testCreatePipelineWithoutParameters() throws InterruptedException {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).click();
         getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
