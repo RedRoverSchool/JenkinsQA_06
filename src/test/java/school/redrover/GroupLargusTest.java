@@ -2,22 +2,30 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 
 public class GroupLargusTest extends BaseTest {
+
+    private final String projectName = "TestProject_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
     @Test
     public void testCreatedOrgFolderIsDisplayedInProjectListOnMainPage() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
         getDriver().findElement(By.xpath("//div[@id='tasks']//a[contains(@href, 'newJob')]")).click();
 
-        String projectName = "TestProject_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-
         WebElement inputProjectName = getDriver()
-                .findElement(By.xpath("//input[@name='name']"));
+                .findElement(By.xpath("//input[@id='name']"));
+
+        wait.until(ExpectedConditions.visibilityOf(inputProjectName));
         inputProjectName.sendKeys(projectName);
 
         WebElement itemOrgFolder = getDriver()
@@ -34,15 +42,19 @@ public class GroupLargusTest extends BaseTest {
 
         Assert.assertEquals(fieldNameInTable.getText(), projectName);
     }
+
     @Test
     public void testToChangeOfDiscription() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
         getDriver().findElement(By.xpath("//div[@id='tasks']//a[contains(@href, 'newJob')]")).click();
 
-        String projectName = "TestProject_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String newProjectName = "TestProject_new";
 
         WebElement inputProjectName = getDriver()
-                .findElement(By.xpath("//input[@name='name']"));
+                .findElement(By.xpath("//input[@id='name']"));
+
+        wait.until(ExpectedConditions.visibilityOf(inputProjectName));
         inputProjectName.sendKeys(projectName);
 
         WebElement itemFolder = getDriver()
@@ -52,8 +64,7 @@ public class GroupLargusTest extends BaseTest {
                 .findElement(By.cssSelector("button.jenkins-button"));
         buttonOK.click();
 
-        WebElement buttonHome = getDriver()
-                .findElement(By.id("jenkins-home-link"));
+        WebElement buttonHome = getDriver().findElement(By.id("jenkins-home-link"));
         buttonHome.click();
 
         String locatorCreatedProject = "//a[@href='job/" + projectName + "/']";
@@ -67,6 +78,8 @@ public class GroupLargusTest extends BaseTest {
 
         WebElement inputDisplayName = getDriver()
                 .findElement(By.xpath("//input[@name = '_.displayNameOrNull']"));
+
+        wait.until(ExpectedConditions.visibilityOf(inputDisplayName));
         inputDisplayName.sendKeys(newProjectName);
 
         WebElement buttonSave = getDriver()
