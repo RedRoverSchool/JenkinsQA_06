@@ -72,7 +72,7 @@ public class CatGroupTest extends BaseTest {
     }
 
     @Test
-    public void testClickDocumentationButton() {
+    public void testNameOfItemsOfLabels() {
 
         final List<String> expectedNamesOfItems = Arrays.asList("Freestyle project", "Pipeline",
                 "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder");
