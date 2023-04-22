@@ -21,4 +21,16 @@ public class AlexLeoGroupTests extends BaseTest {
                 .findElement(By.id("jenkins-name-icon"));
        Assert.assertTrue(logoWord.isDisplayed());
     }
+
+    @Test
+    public void testVerifySearchFieldPresent() {
+        WebElement searchField = getDriver().findElement(By.id("search-box"));
+        Assert.assertTrue(searchField.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogoutTextPresent() {
+        String textLogout = getDriver().findElement(By.xpath("//span[contains(text(),'log out')]")).getText();
+        Assert.assertEquals(textLogout, "log out");
+    }
 }
