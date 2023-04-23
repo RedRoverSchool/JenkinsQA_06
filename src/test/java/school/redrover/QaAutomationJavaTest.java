@@ -10,6 +10,7 @@ public class QaAutomationJavaTest extends BaseTest {
     @Test
     public void testVerifyWordIconJenkins() {
         WebElement logo = getDriver().findElement(By.id("jenkins-name-icon"));
+
         Assert.assertTrue(logo.isDisplayed());
     }
     @Test
