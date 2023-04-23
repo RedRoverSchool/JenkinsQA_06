@@ -25,6 +25,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     private static final String BASE_URL = "https://magento.softwaretestingboard.com/";
     Faker faker = new Faker();
+
     String firstName = faker.name().firstName();
     String lastName = faker.name().lastName();
     String email = faker.internet().emailAddress();
