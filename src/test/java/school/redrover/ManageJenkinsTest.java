@@ -8,17 +8,16 @@ import school.redrover.runner.BaseTest;
 
 public class ManageJenkinsTest extends BaseTest {
 
-
     @Test
     public void testAddNewNode() {
-        final String testNameNewNode = "testNameNewNode";
+        final String NAME_NEW_NODE = "testNameNewNode";
 
         WebElement buildExecutorStatus = getDriver().findElement(By.xpath("//a[@href='/computer/']"));
         buildExecutorStatus.click();
         WebElement newNodeButton = getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='new']"));
         newNodeButton.click();
         WebElement inputNodeName = getDriver().findElement(By.xpath("//input[@id='name']"));
-        inputNodeName.sendKeys(testNameNewNode);
+        inputNodeName.sendKeys(NAME_NEW_NODE);
         WebElement permanentAgentRadioButton = getDriver().findElement(By.xpath("//label"));
         permanentAgentRadioButton.click();
         WebElement createButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
@@ -26,6 +25,6 @@ public class ManageJenkinsTest extends BaseTest {
         WebElement nameField = getDriver().findElement(By.xpath("//input[@name='name']"));
         String actualValueName = nameField.getAttribute("value");
 
-        Assert.assertEquals(actualValueName, testNameNewNode);
+        Assert.assertEquals(actualValueName, NAME_NEW_NODE);
     }
 }
