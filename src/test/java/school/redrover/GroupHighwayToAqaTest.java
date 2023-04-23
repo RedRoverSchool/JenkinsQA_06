@@ -83,6 +83,16 @@ public class GroupHighwayToAqaTest extends BaseTest {
                 .xpath("//div[@id='description']/div")));
 
         Assert.assertEquals(descriptionAfterEdit.getText(), send);
+
+        addDescription = wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//a[@href='editDescription']")));
+        addDescription.click();
+        textArea = wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//textarea[@name='description']")));
+        textArea.click();
+        textArea.clear();
+        saveBtn = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveBtn.click();
     }
 }
 
