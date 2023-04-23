@@ -45,7 +45,7 @@ public class PipelineTest extends BaseTest {
         return webDriverWait10;
     }
 
-    @Ignore
+
     @Test
     public void testCreatePipeline() throws InterruptedException {
 
@@ -61,9 +61,13 @@ public class PipelineTest extends BaseTest {
         WebElement buttonOk = getDriver().findElement(By.cssSelector("#ok-button"));
         buttonOk.click();
 
+        getWait10();
+
         scrollByElement(By.cssSelector(".page-footer__links.page-footer__links--white.jenkins_ver>a"));
         WebElement save = getDriver().findElement(By.cssSelector(".jenkins-button.jenkins-button--primary"));
         save.click();
+
+        getWait10();
 
         WebElement pipelinePipe= getDriver().findElement(By.cssSelector("#main-panel>h1"));
 
