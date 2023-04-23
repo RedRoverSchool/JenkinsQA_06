@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -16,17 +17,45 @@ public class GroupLargusTest extends BaseTest {
 
     private final String projectName = "TestProject_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
+    @FindBy(xpath = "//div[@id='tasks']//a[contains(@href, 'newJob')]")
+    private WebElement linkNewJob;
+
+    @FindBy(id = "jenkins-home-link")
+    private WebElement buttonHome;
+
+    private WebDriverWait wait10;
+
+    public final WebDriverWait getWait10() {
+        if (wait10 == null) {
+            wait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        }
+        return wait10;
+    }
+
+    public WebElement waitElementVisibile(WebElement elem) {
+        getWait10().until(ExpectedConditions.visibilityOf(elem));
+        return elem;
+    }
+
+    public WebElement waitForClickOnElement(WebElement elem) {
+        getWait10().until(ExpectedConditions.elementToBeClickable(elem));
+        return elem;
+
+    }
     @Test
     public void testCreatedOrgFolderIsDisplayedInProjectListOnMainPage() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+//        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-        getDriver().findElement(By.xpath("//div[@id='tasks']//a[contains(@href, 'newJob')]")).click();
+//        getDriver().findElement(By.xpath("//div[@id='tasks']//a[contains(@href, 'newJob')]")).click();
+//        linkNewJob.click();
+        waitForClickOnElement(linkNewJob).click();
 
         WebElement inputProjectName = getDriver()
                 .findElement(By.xpath("//input[@id='name']"));
 
-        wait.until(ExpectedConditions.visibilityOf(inputProjectName));
-        inputProjectName.sendKeys(projectName);
+//        wait.until(ExpectedConditions.visibilityOf(inputProjectName));
+//        inputProjectName.sendKeys(projectName);
+        waitElementVisibile(inputProjectName).sendKeys(projectName);
 
         WebElement itemOrgFolder = getDriver()
                 .findElement(By.xpath("//span[text()='Organization Folder']/../.."));
@@ -34,7 +63,7 @@ public class GroupLargusTest extends BaseTest {
         WebElement buttonOK = getDriver().findElement(By.cssSelector("button.jenkins-button"));
         buttonOK.click();
 
-        WebElement buttonHome = getDriver().findElement(By.id("jenkins-home-link"));
+        //WebElement buttonHome = getDriver().findElement(By.id("jenkins-home-link"));
         buttonHome.click();
 
         WebElement fieldNameInTable = getDriver()
