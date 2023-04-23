@@ -15,6 +15,12 @@ public class AnaBelGroupTest extends BaseTest {
     }
 
     @Test
+    public void testBuildHistory() {
+        WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href ='/view/all/builds']"));
+
+        Assert.assertEquals(buildHistory.getText(), "Build History");
+    }
+
     public void testAddDescription() {
         WebElement button = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         button.click();
@@ -30,5 +36,4 @@ public class AnaBelGroupTest extends BaseTest {
 
         Assert.assertEquals(verify.getText(), "testDesctiprion1");
     }
-
 }
