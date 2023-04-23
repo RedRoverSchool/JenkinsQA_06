@@ -19,13 +19,25 @@ public class AlexLeoGroupTests extends BaseTest {
     public void testVerifyWordIconJenkinsPresent() {
         WebElement logoWord = getDriver()
                 .findElement(By.id("jenkins-name-icon"));
-       Assert.assertTrue(logoWord.isDisplayed());
+        Assert.assertTrue(logoWord.isDisplayed());
     }
 
     @Test
     public void validateJenkinsLoginTest() {
         String verify = getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1")).getText();
         Assert.assertEquals(verify, "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testLogoJenkinsIsPresent() {
+        WebElement logoJenkins = getDriver().findElement(By.xpath("//img[@id='jenkins-head-icon']"));
+        Assert.assertTrue(logoJenkins.isDisplayed());
+    }
+
+    @Test
+    public void testWordIconJenkinsIsPresent() {
+        WebElement wordJenkins = getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
+        Assert.assertTrue(wordJenkins.isDisplayed());
     }
 
 }
