@@ -1,32 +1,35 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-public class Katy1313Test {
+public class Katy1313Test extends BaseTest {
 
     @Test
-    public void testGoogleSearch() {
+    public void testAddDescription() {
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebElement adminDropDown = getDriver().findElement(By.xpath("//a [@href='editDescription']"));
+        adminDropDown.click();
+        WebElement textArea = getDriver().findElement(By.xpath("//textarea[@name = 'description']"));
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://google.com");
-
-        WebElement searchBox = driver.findElement(By.name("q"));
-        searchBox.sendKeys("dracena\n");
-
-        WebElement text = driver.findElement(
-                By.xpath("//h3[contains (text(),'How to Care for Dracaena: Types & Growing Tips')]"));
-
-        Assert.assertEquals(text.getText(), "How to Care for Dracaena: Types & Growing Tips");
-
+        Assert.assertTrue(textArea.isDisplayed());
     }
 
+    @Test
+    public void testSaveDescription() {
+
+        WebElement addDescriptionButton = getDriver().findElement(By.xpath("//a [@href='editDescription']"));
+        addDescriptionButton.click();
+        WebElement textArea = getDriver().findElement(By.xpath("//textarea[@name = 'description']"));
+        textArea.clear();
+        textArea.sendKeys("Some text is here");
+        WebElement submitButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        submitButton.click();
+        WebElement description = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
+
+        Assert.assertEquals(description.getText(),"Some text is here");
+    }
 }
