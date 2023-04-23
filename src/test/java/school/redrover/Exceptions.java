@@ -15,7 +15,5 @@ public class Exceptions {
         } finally {
             System.out.println("Everything can do here after error happened");
         }
-
         }
-
     }
