@@ -15,8 +15,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreatePipelineWithoutParameters() throws InterruptedException {
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).click();
-        getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
+        new WebDriverWait(getDriver(), Duration.ofMillis(1500)).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(PIPELINE_NAME);
         getDriver().findElement(By.xpath("//span[text() = 'Pipeline']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         new WebDriverWait(getDriver(), Duration.ofMillis(2000)).until(ExpectedConditions.elementToBeClickable(By.
