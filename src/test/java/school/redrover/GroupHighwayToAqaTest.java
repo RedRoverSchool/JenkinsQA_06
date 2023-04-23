@@ -31,7 +31,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void createNegativeJobWithSpecialDollSign() {
+    public void testNegativeJobWithSpecialDollSign() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         WebElement createJob = wait.until(ExpectedConditions.visibilityOfElementLocated(By
                 .xpath("//span[normalize-space(.)='Create a job']")));
@@ -60,7 +60,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void createDescriptionOnMainPage() {
+    public void testDescriptionOnMainPage() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         WebElement addDescription = wait.until(ExpectedConditions.visibilityOfElementLocated(By
                 .xpath("//a[@href='editDescription']")));
