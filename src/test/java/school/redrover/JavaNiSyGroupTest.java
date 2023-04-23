@@ -15,7 +15,6 @@ public class JavaNiSyGroupTest extends BaseTest {
 
     @Test
     public void testFullNameVerification(){
-
         Actions actions = new Actions(getDriver());
 
         WebElement dropBox = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
@@ -32,7 +31,6 @@ public class JavaNiSyGroupTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='_.fullName']")).getAttribute("value");
 
         Assert.assertEquals(inputFullName, "admin");
-
     }
 }
 
