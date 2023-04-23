@@ -33,7 +33,6 @@ public class BestAutoTeamTest extends BaseTest {
                 getDriver().findElement(By.xpath("//div[@id='description']/*[1]")).getText()
                 , "TestDescription");
     }
-
     
     @Test
     public void editDescriptionTest() throws InterruptedException {
