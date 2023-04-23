@@ -13,7 +13,6 @@ public class SimpleTest extends BaseTest {
         //getDriver().findElement(By.cssSelector(".empty-state-block > h1"))
         WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
 
-        System.out.println(welcomeElement.getText());
         Assert.assertEquals(welcomeElement.getText(), "Welcome to Jenkins!");
     }
 }
