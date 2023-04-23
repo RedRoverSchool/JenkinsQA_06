@@ -13,9 +13,9 @@ public class GroupJavaJitsuTest extends BaseTest {
     @Test
     public void testCheckingConfiguration() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        WebElement dropDownElement = getDriver().findElement(By.xpath("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']"));
+        WebElement dropDownEl = getDriver().findElement(By.xpath("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']"));
         Actions act = new Actions(getDriver());
-        act.click(dropDownElement).perform();
+        act.click(dropDownEl).perform();
 
         WebElement configure = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Configure']")));
         configure.click();
