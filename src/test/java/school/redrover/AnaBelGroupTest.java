@@ -15,7 +15,6 @@ public class AnaBelGroupTest extends BaseTest {
     }
 
     @Test
- AnaBelGroupTest
     public void testBuildHistory() {
         WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href ='/view/all/builds']"));
 
