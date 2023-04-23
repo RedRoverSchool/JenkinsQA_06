@@ -17,21 +17,21 @@ public class JavaNiSyGroupTest extends BaseTest {
     public void testFullNameVerification() throws InterruptedException {
 
        Actions actions = new Actions(getDriver());
-
+ 
        WebElement dropBox = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
                .until(ExpectedConditions.presenceOfElementLocated(
                        By.xpath("//a[@href='/user/admin']//button"))));
        actions.moveToElement(dropBox).click().build().perform();
 
-       WebElement btnConfigure = getDriver().findElement(
-                By.xpath("//ul[@class='first-of-type']//a[@href = '/user/admin/configure']"));
+        WebElement btnConfigure = getDriver().findElement(
+                By.xpath("//span[text()='Configure']//parent::a"));
        actions.moveToElement(btnConfigure).click().build().perform();
-
+ 
        String inputFullName = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='_.fullName']"))).getAttribute("value"));
       getDriver().findElement(By.xpath("//input[@name='_.fullName']")).getAttribute("value");
+ 
        Assert.assertEquals(inputFullName, "admin");
-
 
     }
 }
