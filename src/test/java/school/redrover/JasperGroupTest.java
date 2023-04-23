@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -25,7 +26,6 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-
     public void testCreateNewItem() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement createItem = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
@@ -53,4 +53,20 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(actualResult.getText(),"Project New Item");
     }
 
+    @Test
+    public void testValidationOfCreateNewItem(){
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        WebElement newItem = getDriver().findElement(By.cssSelector("[href*='/view/all/newJob']"));
+        newItem.click();
+
+        WebElement freestyleProject = getDriver().findElement(By.cssSelector("[class*='FreeStyleProject']"));
+        freestyleProject.click();
+
+        WebElement okButton = getDriver().findElement(By.cssSelector("#ok-button"));
+        WebElement errorText = getDriver().findElement(By.cssSelector("#itemname-required"));
+
+        Assert.assertEquals(okButton.getAttribute("disabled"), "true");
+        Assert.assertEquals(errorText.getText(), "» This field cannot be empty, please enter a valid name");
+    }
 }
