@@ -35,7 +35,6 @@ public class AlexLeoGroupTests extends BaseTest {
         String PeopleText = elems.get(1).getText();
 
         Assert.assertEquals(PeopleText, "People");
-
     }
 
     @Test
@@ -66,3 +65,4 @@ public class AlexLeoGroupTests extends BaseTest {
         }
     }
 }
+
