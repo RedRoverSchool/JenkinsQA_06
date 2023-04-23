@@ -12,4 +12,11 @@ public class QaAutomationJavaTest extends BaseTest {
         WebElement logo = getDriver().findElement(By.id("jenkins-name-icon"));
         Assert.assertTrue(logo.isDisplayed());
     }
+
+    @Test
+    public void testTwo() {
+        WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
+
+        Assert.assertEquals(welcomeElement.getText(), "Welcome to Jenkins!");
+    }
 }
