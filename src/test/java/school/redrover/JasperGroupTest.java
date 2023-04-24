@@ -11,6 +11,9 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class JasperGroupTest extends BaseTest {
 
@@ -68,5 +71,28 @@ public class JasperGroupTest extends BaseTest {
 
         Assert.assertEquals(okButton.getAttribute("disabled"), "true");
         Assert.assertEquals(errorText.getText(), "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
+    public void testChangeName() {
+        WebElement settingsMenuButton = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']"));
+        settingsMenuButton.click();
+
+        WebElement configureButton = getDriver().findElement(By.xpath("//span[text() = 'Configure']/.."));
+        configureButton.click();
+
+        WebElement fullNameTextBox = getDriver().findElement(By.xpath("//input[@name = '_.fullName']"));
+        fullNameTextBox.clear();
+        fullNameTextBox.sendKeys("User");
+        WebElement submitButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        submitButton.click();
+
+        WebElement h1Name = getDriver().findElement(By.xpath("//div[@id = 'main-panel']/h1"));
+        WebElement headerMenuName = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']/span"));
+        List<WebElement> names = new ArrayList<>(Arrays.asList(h1Name, headerMenuName));
+
+        for(WebElement name : names){
+            Assert.assertEquals(name.getText(), "User");
+        }
     }
 }
