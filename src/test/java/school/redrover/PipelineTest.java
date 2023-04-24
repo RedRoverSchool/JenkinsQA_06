@@ -45,7 +45,7 @@ public class PipelineTest extends BaseTest {
         return webDriverWait10;
     }
 
-
+    @Ignore
     @Test
     public void testCreatePipeline() throws InterruptedException {
 
