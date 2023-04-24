@@ -72,7 +72,7 @@ public class JavaJitsuGroupTest extends BaseTest {
         WebElement okBtn = getDriver().findElement(By.id("ok-button"));
         okBtn.click();
         Thread.sleep(2000);
-        WebElement myDropDown = getDriver().findElement(By.xpath("//span[normalize-space()='Mariana Gevorkyan']"));
+        WebElement myDropDown = getDriver().findElement(By.cssSelector("a[class='model-link'] span[class='hidden-xs hidden-sm']"));
         myDropDown.click();
 
         getDriver().findElement(By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[1]"));
