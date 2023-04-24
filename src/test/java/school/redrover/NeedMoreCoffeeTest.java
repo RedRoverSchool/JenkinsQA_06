@@ -3,9 +3,13 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.time.Duration;
 
 public class NeedMoreCoffeeTest extends BaseTest {
 
@@ -63,6 +67,10 @@ public class NeedMoreCoffeeTest extends BaseTest {
         newItem.sendKeys(Keys.RETURN);
         WebElement newField = getDriver().findElement(By.xpath("//input[@id='name']"));
         newField.sendKeys("$",Keys.ENTER);
+
+        WebElement element = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='itemname-invalid']"))));
+
         WebElement textError = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
 
         Assert.assertEquals(textError.getText(), "» ‘$’ is an unsafe character");
