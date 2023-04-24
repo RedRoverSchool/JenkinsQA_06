@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.*;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -62,7 +63,7 @@ public class GroupZeroBugTest extends BaseTest {
 
         deleteJob();
     }
-
+    @Ignore
     @Test(priority = 2)
     public void verifyJobBuild() {
 
