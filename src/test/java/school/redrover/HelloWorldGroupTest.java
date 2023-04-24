@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 
-public class HelloWorldGroupTests extends BaseTest{
+public class HelloWorldGroupTest extends BaseTest{
     @Test
     public void testJenkinsVersion() {
         WebElement version = getDriver().findElement(By.xpath("//a[@rel='noopener noreferrer']"));
