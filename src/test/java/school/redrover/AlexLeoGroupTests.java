@@ -62,10 +62,11 @@ public class AlexLeoGroupTests extends BaseTest {
         WebElement elem = getDriver().findElement(By.id("items"));
         List<WebElement> items = elem.findElements(By.cssSelector("li span"));
 
-        for ( WebElement element  : items) {
+        for (WebElement element : items) {
             Assert.assertTrue(element.getAttribute("baseURI").contains("newJob"));
         }
     }
+
     @Test
     public void testLogoJenkinsIsPresent() {
         WebElement logoJenkins = getDriver().findElement(By.xpath("//img[@id='jenkins-head-icon']"));
@@ -137,6 +138,25 @@ public class AlexLeoGroupTests extends BaseTest {
         String actualWebPage = getDriver().getCurrentUrl();
         String expectedWebPage = "https://www.jenkins.io/";
         Assert.assertEquals(actualWebPage, expectedWebPage);
+    }
+
+    @Test
+    public void testSearchFieldIsPresent() {
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@id='search-box']"));
+        Assert.assertTrue(searchField.isDisplayed());
+    }
+
+    @Test
+    public void testLogOutIconIsPresent() {
+        WebElement logoutIcon = getDriver().findElement(By.xpath("//a[@href='/logout']"));
+        Assert.assertTrue(logoutIcon.isDisplayed());
+    }
+
+    @Test
+    public void testLogOutTextIsPresentInLogOutLink() {
+        WebElement logOutText = getDriver().findElement(By.xpath("//span[normalize-space()='log out']"));
+        String textLogOut = logOutText.getText();
+        Assert.assertEquals(textLogOut, "log out");
     }
 
 }
