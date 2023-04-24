@@ -85,4 +85,18 @@ public class GroupZeroBugTest extends BaseTest {
         deleteJob();
 
     }
+
+    @Test
+    public void testVerifyLogoJenkinsIsPresent() {
+        WebElement element = getDriver().findElement(By.cssSelector("img#jenkins-head-icon"));
+        Assert.assertTrue(element.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyWordIconJenkinsPresent() {
+        WebElement logoWord = getDriver().findElement(By.id("jenkins-name-icon"));
+        Assert.assertTrue(logoWord.isDisplayed());
+    }
+
+
 }
