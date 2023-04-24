@@ -12,7 +12,7 @@ public class GroupGlukhovaTest extends BaseTest {
 
     @Test
     public void testAddDescriptionOnMainScreen() {
-        String testText = "Start building a software project.";
+        String testText = "Start building a new software project.";
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(6000));
 
