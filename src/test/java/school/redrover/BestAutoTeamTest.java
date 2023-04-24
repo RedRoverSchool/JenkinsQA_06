@@ -50,4 +50,19 @@ public class BestAutoTeamTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/*[1]")).getText(), "EditedTestDescription");
     }
+
+    @Test
+    public void testNavigationPanelElementsDashboard() {
+        WebElement newItem = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[1]//span[@class = 'task-link-text']"));
+        WebElement people = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[2]//span[@class = 'task-link-text']"));
+        WebElement buildHistory = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[3]//span[@class = 'task-link-text']"));
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[4]//span[@class = 'task-link-text']"));
+        WebElement myViews = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[5]//span[@class = 'task-link-text']"));
+
+        Assert.assertEquals(newItem.getText(), "New Item");
+        Assert.assertEquals(people.getText(), "People");
+        Assert.assertEquals(buildHistory.getText(), "Build History");
+        Assert.assertEquals(manageJenkins.getText(), "Manage Jenkins");
+        Assert.assertEquals(myViews.getText(), "My Views");
+    }
 }
