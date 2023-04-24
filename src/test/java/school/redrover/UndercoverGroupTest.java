@@ -11,6 +11,6 @@ public class UndercoverGroupTest extends BaseTest {
     @Test
     public void testCheckMainPage() {
         WebElement mainPageTitle = getDriver().findElement(By.xpath("//div[@class='empty-state-block'] /h1"));
-        Assert.assertEquals(mainPageTitle.getText(), "Добро пожаловать в Jenkins!");
+        Assert.assertEquals(mainPageTitle.getText(), "Welcome to Jenkins!");
     }
 }
