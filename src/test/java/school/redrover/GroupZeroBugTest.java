@@ -106,4 +106,14 @@ public class GroupZeroBugTest extends BaseTest {
         deleteJob();
 
     }
+
+    @Test
+    public void testJenkinsVersionCheck() {
+
+        String expectedResult = "Jenkins 2.387.2";
+        WebElement versionNumber = getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+
+        String actualResult = versionNumber.getText();
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
