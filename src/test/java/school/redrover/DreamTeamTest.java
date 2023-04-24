@@ -56,10 +56,11 @@ public class DreamTeamTest extends BaseTest {
 
         Assert.assertEquals(projectDetailsList.get(2).getText(), "Project1");
     }
+
     @Test
     public void testJenkinsMainPageLilia() {
         WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
-        Assert.assertEquals(headerWelcome.getText(),"Welcome to Jenkins!");
+        Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
 
         WebElement addDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         addDescription.click();
@@ -68,7 +69,8 @@ public class DreamTeamTest extends BaseTest {
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveButton.click();
     }
-}
+
+
 
     @Test
     public void testDashboardSidePanelItemsList() {
