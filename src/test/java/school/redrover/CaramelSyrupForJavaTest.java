@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -14,13 +15,11 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     public void testAbramovaHotKeys() {
 
         WebElement body = getDriver().findElement(By.tagName("body"));
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         body.sendKeys(Keys.chord(Keys.CONTROL, "k"));
         WebElement searchBox = getDriver().findElement(By.xpath("//input[@role]"));
         WebElement currentElement = getDriver().switchTo().activeElement();
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
-        Assert.assertEquals(searchBox, currentElement);
+        Assert.assertEquals(currentElement, searchBox);
     }
 
     @Test
@@ -46,7 +45,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         WebElement newItem = getDriver().findElement(By.cssSelector("#side-panel>div>div"));
         newItem.click();
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
         WebElement freestyleProject =
                 getDriver().findElement(By.className("hudson_model_FreeStyleProject"));
         freestyleProject.click();
@@ -58,6 +57,33 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertTrue(error.isDisplayed());
         Assert.assertFalse(notError.isDisplayed());
+    }
+
+    @Test
+    public void testDimaKFirst() {
+        String expResFol = "Folder";
+        String expResName = "First item";
+
+        WebElement newItem = getDriver().findElement(By.cssSelector("#side-panel>div>div"));
+        newItem.click();
+        WebElement send = getDriver().findElement(By.className("jenkins-input"));
+        send.sendKeys("First item");
+        WebElement folder = getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']//span"));
+        folder.click();
+        WebElement okey = getDriver().findElement(By.id("ok-button"));
+        okey.click();
+        WebElement board = getDriver().findElement(By.xpath("//ol[@id = 'breadcrumbs']//a"));
+        board.click();
+        Actions act = new Actions(getDriver());
+        WebElement boardfold = getDriver().findElement(By.xpath("(//*[name()='svg'][@title='Folder'])[1]\n"));
+        act.moveToElement(boardfold).perform();
+        WebElement nav = getDriver().findElement(By.className("tippy-content"));
+        String actResFol = nav.getText();
+        WebElement nameF = getDriver().findElement(By.xpath("//a[@class = 'jenkins-table__link model-link inside']/span"));
+        String actResName = nameF.getText();
+
+        Assert.assertEquals(actResFol, expResFol);
+        Assert.assertEquals(actResName, expResName);
     }
 }
 
