@@ -28,12 +28,8 @@ public class GroupJavaciraptorsTest extends BaseTest {
         WebElement addDescription = getDriver().findElement(By.xpath("//*[@id='description-link']"));
         addDescription.click();
 
-        Thread.sleep(2000);
-
         WebElement textArea = getDriver().findElement(By.xpath("//textarea[@name='description']"));
         textArea.sendKeys("It`s my 1st Jenkins!");
-
-        Thread.sleep(2000);
 
         WebElement buttonSave = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         buttonSave.click();
@@ -41,6 +37,5 @@ public class GroupJavaciraptorsTest extends BaseTest {
         WebElement textDescription = getDriver().findElement(By.xpath("//*[@id='description']/div[1]"));
 
         Assert.assertEquals(textDescription.getText(), "It`s my 1st Jenkins!");
-        Thread.sleep(2000);
     }
 }
