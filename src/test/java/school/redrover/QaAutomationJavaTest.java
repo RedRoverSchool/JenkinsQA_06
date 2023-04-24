@@ -19,7 +19,6 @@ public class QaAutomationJavaTest extends BaseTest {
 
         Assert.assertEquals(welcomeElement.getText(), "Welcome to Jenkins!");
     }
-
     @Test
     public void testCreatJob() throws InterruptedException {
         Thread.sleep(1000);
