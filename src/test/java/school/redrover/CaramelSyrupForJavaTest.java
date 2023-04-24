@@ -20,6 +20,24 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(searchBox, currentElement);
     }
 
+    @Test
+    public void testKhudovaEditDescriptionButtonChanges() {
+
+        WebElement editDescriptionButton = getDriver().findElement(By.id("description-link"));
+        editDescriptionButton.click();
+
+        WebElement inputWindow = getDriver().findElement(By.xpath("//textarea[@class = 'jenkins-input   ']"));
+        inputWindow.sendKeys("New Description");
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name= 'Submit']"));
+        saveButton.click();
+
+        WebElement changedDescriptionButton = getDriver().findElement(By.id("description-link"));
+        String newButtonText = changedDescriptionButton.getText();
+
+        Assert.assertEquals(newButtonText, "Edit description");
+    }
+
 }
 
 
