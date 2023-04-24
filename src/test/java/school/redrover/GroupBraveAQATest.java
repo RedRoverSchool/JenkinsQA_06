@@ -46,7 +46,6 @@ public class GroupBraveAQATest extends BaseTest {
         return getText(newItemPage_header);
     }
     public void clickWelcomePage_createAJobLink(){
-        verifyElementVisible(welcomePage_createAJobLink);
         verifyElementIsClickable(welcomePage_createAJobLink).click();
     }
     @Test
