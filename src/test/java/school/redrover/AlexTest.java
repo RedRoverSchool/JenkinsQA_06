@@ -22,7 +22,7 @@ public class AlexTest extends BaseTest {
         action.click(dashBoardDropDown).perform();
 
 
-        WebElement addNewItem = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[id='yui-gen1'] span")));
+        WebElement addNewItem = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='breadcrumb-menu']//span[text()='New Item']")));
         addNewItem.click();
 
         WebElement itemNameField = getDriver().findElement(By.xpath("//input[@id='name']"));
