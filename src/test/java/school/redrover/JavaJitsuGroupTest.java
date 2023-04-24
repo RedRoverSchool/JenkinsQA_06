@@ -8,7 +8,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.time.Duration;
+
 public class JavaJitsuGroupTest extends BaseTest {
     @Test
     public void testCheckingConfiguration() {
@@ -26,8 +28,23 @@ public class JavaJitsuGroupTest extends BaseTest {
 
     @Test
     public void logoCheckingTest() {
-        WebElement logoCheck =getDriver().findElement(By.xpath("//img[@id='jenkins-head-icon']"));
+        WebElement logoCheck = getDriver().findElement(By.xpath("//img[@id='jenkins-head-icon']"));
         Assert.assertTrue(logoCheck.isDisplayed());
 
+    }
+
+    @Test
+    public void newItem() {
+        WebElement newItem = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
+        newItem.click();
+        WebElement nameInput = getDriver().findElement(By.xpath("//input[@id=\"name\"]"));
+
+        nameInput.sendKeys("JavaTest");
+        WebElement freProject = getDriver().findElement(By.xpath("//span[text() =\"Freestyle project\"]"));
+        freProject.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        WebElement configElement = getDriver().findElement(By.xpath("//div[@class = 'jenkins-app-bar__content']/h1"));
+        Assert.assertEquals(configElement.getText(),"Configure");
     }
 }
