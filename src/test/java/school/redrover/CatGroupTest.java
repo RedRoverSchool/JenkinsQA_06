@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,7 +7,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -19,18 +17,17 @@ import java.util.List;
 
 public class CatGroupTest extends BaseTest {
 
-
     @FindBy(xpath = "//section[@class='empty-state-section']//span[text()='Create a job']")
     private WebElement createAJobButton;
-
     @FindBy(xpath = "//div[@id='items']//span[@class='label']")
     private List<WebElement> itemsNameOfLabels;
-
     @FindBy(xpath = "//button[@id='ok-button']")
     private WebElement okButton;
-
+    @FindBy(xpath = "//a[@href='https://www.jenkins.io/']")
+    private WebElement versionOfJenkins;
+    @FindBy(xpath = "//div[@id='tasks']//div[4]/span")
+    private WebElement manageJenkinsButton;
     public WebDriverWait webDriverWait10;
-
 
     public final WebDriverWait getWait10() {
         if (webDriverWait10 == null) {
@@ -51,6 +48,11 @@ public class CatGroupTest extends BaseTest {
     public final void clickCreateAJobButton() {
         verifyElementVisible(createAJobButton);
         verifyElementIsClickable(createAJobButton).click();
+    }
+
+    public final void clickManageJenkinsButton() {
+        verifyElementVisible(manageJenkinsButton);
+        verifyElementIsClickable(manageJenkinsButton).click();
     }
 
     public void scrollByElement(WebElement element) {
@@ -91,5 +93,21 @@ public class CatGroupTest extends BaseTest {
         List<String> actualNameOfItems = getNamesOfLists(itemsNameOfLabels);
 
         Assert.assertEquals(actualNameOfItems, expectedNamesOfItems);
+    }
+
+    @Test
+    public void testVersionOfJenkins() {
+
+        final String expectedVersionOfJenkins = "Jenkins 2.387.2";
+        PageFactory.initElements(getDriver(), this);
+
+        clickManageJenkinsButton();
+        getWait10();
+        scrollByElement(versionOfJenkins);
+        getWait10();
+        String actualVersionOfJenkins = versionOfJenkins.getText();
+
+        Assert.assertEquals(actualVersionOfJenkins, expectedVersionOfJenkins);
+
     }
 }

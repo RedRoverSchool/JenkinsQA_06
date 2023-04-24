@@ -1,4 +1,4 @@
-local.admin.username=<>
-local.admin.password=<>
-local.port=8080
+local.admin.username=admin
+local.admin.password=5ad51e1da4094c89a76ba8b8c5483fa8
+local.port=9090
 local.chrome_options=--window-size=1920,1080
