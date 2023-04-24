@@ -33,7 +33,7 @@ public class TestWaitOnDropDown extends BaseTest {
         actions.click(topMenuUserDropDown).perform();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfNestedElementsLocatedBy(By.xpath("//div[@id='breadcrumb-menu-target']"), By.xpath("//a[contains(@href,'/user/')]")));
-        List<WebElement> listTopElements = getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
+        List<WebElement> listTopElements = getDriver().findElements(By.xpath("//a[contains(@href, '/user/') and @class = 'yuimenuitemlabel']"));
         List<String> expected = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
         List<String>  actual = getNamesOfLists(listTopElements);
 
