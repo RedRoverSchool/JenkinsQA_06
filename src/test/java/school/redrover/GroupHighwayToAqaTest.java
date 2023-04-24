@@ -3,15 +3,14 @@ package school.redrover;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
+import java.util.List;
 
 
 public class GroupHighwayToAqaTest extends BaseTest {
@@ -135,6 +134,20 @@ public class GroupHighwayToAqaTest extends BaseTest {
         WebElement multiConfigProjectDescription = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
         Assert.assertEquals(multiConfigProjectDescription.getText(), expectedDescription);
+    }
+
+    @Test
+    public void testSideBar() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+        String[] titles = new String[]{"New Item", "People", "Build History", "Manage Jenkins", "My Views"};
+
+        List<WebElement> sideBarItems = getDriver().findElements(By.xpath("//div[@id = 'tasks']//div[@class = 'task ']"));
+
+        Assert.assertEquals(titles.length, sideBarItems.size());
+
+        for (int i = 0; i < titles.length; i++) {
+            Assert.assertEquals(sideBarItems.get(i).getText(), titles[i]);
+        }
     }
 }
 
