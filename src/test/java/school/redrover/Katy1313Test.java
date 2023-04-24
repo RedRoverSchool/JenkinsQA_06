@@ -17,4 +17,19 @@ public class Katy1313Test extends BaseTest {
 
         Assert.assertTrue(textArea.isDisplayed());
     }
+
+    @Test
+    public void testSaveDescription() {
+
+        WebElement addDescriptionButton = getDriver().findElement(By.xpath("//a [@href='editDescription']"));
+        addDescriptionButton.click();
+        WebElement textArea = getDriver().findElement(By.xpath("//textarea[@name = 'description']"));
+        textArea.clear();
+        textArea.sendKeys("Some text is here");
+        WebElement submitButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        submitButton.click();
+        WebElement description = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
+
+        Assert.assertEquals(description.getText(),"Some text is here");
+    }
 }

@@ -392,8 +392,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     @Test
     public void serhiiHaponiukOpenWeatherMapGridContainerTest() throws InterruptedException {
 
-        beforeMethod();
-
         getDriver().get("https://openweathermap.org/");
         String title = getDriver().getTitle();
 
@@ -412,7 +410,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         celsiusButton.click();
         Assert.assertTrue(temperature.getText().contains("C"));
 
-        afterMethod();
     }
     @Test
     public void testAbramova() {
