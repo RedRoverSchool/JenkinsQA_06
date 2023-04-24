@@ -26,7 +26,8 @@ public class GroupHighwayToAqaTest extends BaseTest {
         addDescriptionButton.click();
 
         WebElement inputForm = getDriver().findElement(By.xpath("//div[@class = 'setting-main help-sibling']/textarea"));
-        inputForm.sendKeys(Keys.chord(Keys.COMMAND, "a"), Keys.DELETE, description);
+        inputForm.clear();
+        inputForm.sendKeys(description);
 
         WebElement saveButton = getDriver().findElement(By.xpath("//div/button[@name = 'Submit']"));
         saveButton.click();
