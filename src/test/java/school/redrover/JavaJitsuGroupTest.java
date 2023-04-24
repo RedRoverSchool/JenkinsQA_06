@@ -47,4 +47,16 @@ public class JavaJitsuGroupTest extends BaseTest {
         WebElement configElement = getDriver().findElement(By.xpath("//div[@class = 'jenkins-app-bar__content']/h1"));
         Assert.assertEquals(configElement.getText(),"Configure");
     }
+
+    @Test
+    public void testManagePlugins(){
+        WebElement manageJ = getDriver().findElement(By.xpath("//body/div[@id='page-body']/div[@id='side-panel']/div[@id='tasks']/div[4]/span[1]/a[1]"));
+        manageJ.click();
+
+        WebElement managePlugins = getDriver().findElement(By.xpath("//dt[contains(text(),'Manage Plugins')]"));
+        managePlugins.click();
+
+        WebElement text = getDriver().findElement(By.xpath("//h1[contains(text(),'Plugins')]"));
+        Assert.assertEquals(text.getText(),"Plugins");
+    }
 }
