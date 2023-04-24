@@ -22,4 +22,11 @@ public class BugsBustersGroupTest extends BaseTest {
 
         Assert.assertTrue(dashboardButton.isDisplayed());
     }
+
+   @Test
+    public void testMariaSearchBoxPresent() {
+        WebElement searchBox = getDriver().findElement(By.xpath("//input[@name='q']"));
+
+        Assert.assertTrue(searchBox.isDisplayed());
+    }
 }
