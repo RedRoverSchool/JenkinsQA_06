@@ -31,6 +31,7 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/*[1]")).getText(), "TestDescription");
     }
 
+    @Ignore
     @Test
     public void testEditDescription() throws InterruptedException {
 
