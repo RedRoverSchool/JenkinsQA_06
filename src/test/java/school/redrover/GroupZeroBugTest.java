@@ -65,7 +65,7 @@ public class GroupZeroBugTest extends BaseTest {
     }
 
     @Test(priority = 1)
-    public void verifyNewJobCreated() {
+    public void testNewJobCreated() {
 
         newJob();
 
@@ -77,7 +77,7 @@ public class GroupZeroBugTest extends BaseTest {
     }
 
     @Test(priority = 2)
-    public void verifyJobBuild() {
+    public void testJobBuild() {
 
         newJob();
         mainPage();
