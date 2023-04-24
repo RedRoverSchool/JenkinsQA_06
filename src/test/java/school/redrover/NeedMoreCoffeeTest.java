@@ -55,4 +55,17 @@ public class NeedMoreCoffeeTest extends BaseTest {
 
         Assert.assertEquals(textFolder.getText(), "folder");
     }
+
+    @Test
+    public void testNegativeNewItemSpecialSymbolDollar() {
+
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItem.sendKeys(Keys.RETURN);
+        WebElement newField = getDriver().findElement(By.xpath("//input[@id='name']"));
+        newField.sendKeys("$",Keys.ENTER);
+        WebElement textError = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+
+        Assert.assertEquals(textError.getText(), "» ‘$’ is an unsafe character");
+
+    }
 }
