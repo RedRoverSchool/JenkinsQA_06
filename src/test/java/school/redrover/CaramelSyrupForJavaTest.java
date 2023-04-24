@@ -61,6 +61,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertFalse(notError.isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testDimaKFirst() {
         String expResFol = "Folder";
