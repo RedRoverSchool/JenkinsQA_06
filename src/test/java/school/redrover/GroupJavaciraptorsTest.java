@@ -24,7 +24,7 @@ public class GroupJavaciraptorsTest extends BaseTest {
     }
 
     @Test
-    public void addDescriptionTest() throws InterruptedException {
+    public void addDescriptionTest() {
         WebElement addDescription = getDriver().findElement(By.xpath("//*[@id='description-link']"));
         addDescription.click();
 
