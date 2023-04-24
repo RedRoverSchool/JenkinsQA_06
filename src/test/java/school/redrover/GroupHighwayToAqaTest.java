@@ -2,7 +2,9 @@ package school.redrover;
 
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -96,6 +98,39 @@ public class GroupHighwayToAqaTest extends BaseTest {
         textArea.clear();
         saveBtn = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveBtn.click();
+    }
+
+    @Test
+    public void testCreateMultiConfigurationProjectWithDescription() {
+        final String expectedDescription = "Web-application project";
+
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItem.click();
+        WebElement setNewItemName = getDriver().findElement(By.id("name"));
+        setNewItemName.sendKeys("Project1_MultiConfigJob");
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement selectMultiConfigProject = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[text()='Multi-configuration project']")));
+        new Actions(getDriver()).moveToElement(selectMultiConfigProject).click(selectMultiConfigProject).perform();
+
+        WebElement okButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div/button[@id= 'ok-button']")));
+        new Actions(getDriver()).moveToElement(okButton).click(okButton).perform();
+
+        WebElement textAreaDescription = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        textAreaDescription.sendKeys("Web-application project");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2000));
+
+        WebElement scrollBySubmitButton = getDriver().findElement(
+                By.xpath("//div/button[contains(@class,'jenkins-button jenkins-button--primary')]"));
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+        jse.executeScript("arguments[0].scrollIntoView(true)", scrollBySubmitButton);
+        scrollBySubmitButton.click();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2000));
+
+        WebElement multiConfigProjectDescription = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
+
+        Assert.assertEquals(multiConfigProjectDescription.getText(), expectedDescription);
     }
 }
 
