@@ -11,6 +11,6 @@ public class GroupJavaciraptorsTest extends BaseTest {
     public void simpleTest() {
        WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
 
-        Assert.assertEquals(welcomeElement.getText(),"Добро пожаловать в Jenkins!");
+        Assert.assertEquals(welcomeElement.getText(),"Welcome to Jenkins!");
     }
 }
