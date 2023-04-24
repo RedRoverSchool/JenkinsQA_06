@@ -18,8 +18,8 @@ public class AlexTest extends BaseTest {
         Actions action = new Actions(getDriver());
         WebElement dashBoard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
         action.moveToElement(dashBoard).build().perform();
-        WebElement dashBoardDropDown = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[2]")));
-        dashBoardDropDown.click();
+        WebElement dashBoardDropDown = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[normalize-space()='Dashboard']/button")));
+        action.click(dashBoardDropDown).perform();
 
 
         WebElement addNewItem = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.cssSelector("li[id='yui-gen1'] span")));
