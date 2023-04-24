@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
 public class JavaJitsuGroupTest extends BaseTest {
     @Test
@@ -23,5 +22,12 @@ public class JavaJitsuGroupTest extends BaseTest {
         actions.click(configure).perform();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//textarea[@name='_.description']")).isDisplayed());
+    }
+
+    @Test
+    public void logoCheckingTest() {
+        WebElement logoCheck =getDriver().findElement(By.xpath("//img[@id='jenkins-head-icon']"));
+        Assert.assertTrue(logoCheck.isDisplayed());
+
     }
 }
