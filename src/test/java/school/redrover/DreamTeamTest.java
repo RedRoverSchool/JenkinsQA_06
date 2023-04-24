@@ -1,112 +1,82 @@
 package school.redrover;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.List;
 
 public class DreamTeamTest extends BaseTest {
 
     @Test
-    public void testSecond() throws InterruptedException {
-
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
-        String title = getDriver().getTitle();
-        Assert.assertEquals("Web form", title);
-
-        WebElement textBox = getDriver().findElement(By.name("my-text"));
-        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
-
-        textBox.sendKeys("Selenium");
-        submitButton.click();
-
-        WebElement message = getDriver().findElement(By.id("message"));
-        String value = message.getText();
-        Assert.assertEquals("Received!", value);
+    public void testWelcomeToJenkinsPresent() {
+        WebElement welcome = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]/div/h1"));
+        Assert.assertEquals(welcome.getText(), "Welcome to Jenkins!");
     }
 
     @Test
-    public void testSendKeysPavelBal() throws InterruptedException {
+    public void testNewFreestyleProjectCreated() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2000));
 
-        final String START_LINK = "http://uitestingplayground.com/";
-        getDriver().get(START_LINK);
-        WebElement textInput = getDriver().findElement(By.cssSelector("[href='/textinput']"));
-        textInput.click();
-        String title = getDriver().getTitle();
-        Thread.sleep(2000);
-        Assert.assertEquals("Text Input", title);
+        WebElement createAJobArrow = getDriver().findElement(
+                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")
+        );
+        createAJobArrow.click();
 
-        String myButtonName = "Push me";
-        WebElement button = getDriver().findElement(By.id("updatingButton"));
-        Assert.assertNotEquals(button.getText(), myButtonName);
+        WebElement inputItemName = getDriver().findElement(By.id("name"));
+        wait.until(ExpectedConditions.elementToBeClickable(inputItemName)).sendKeys("Project1");
 
-        WebElement field = getDriver().findElement(By.id("newButtonName"));
-        field.click();
-        field.sendKeys(myButtonName);
-        button.click();
-        Assert.assertEquals(button.getText(), myButtonName);
+        WebElement freestyleProjectTab = getDriver().findElement(
+                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']")
+        );
+        freestyleProjectTab.click();
 
+        WebElement okButton = getDriver().findElement(By.className("btn-decorator"));
+        okButton.click();
+
+        WebElement dashboardLink = getDriver().findElement(
+                By.xpath("//ol[@id='breadcrumbs']/li/a[text() = 'Dashboard']")
+        );
+        dashboardLink.click();
+
+        Assert.assertTrue(getDriver().findElement(By.id("projectstatus")).isDisplayed());
+
+        List<WebElement> newProjectsList = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr"));
+
+        Assert.assertEquals(newProjectsList.size(), 1);
+
+        List<WebElement> projectDetailsList = getDriver().findElements(
+                By.xpath("//table[@id='projectstatus']/tbody/tr/td")
+        );
+
+        Assert.assertEquals(projectDetailsList.get(2).getText(), "Project1");
     }
 
     @Test
-    public void testZoom(){
-        getDriver().get("https://zoom.us");
+    public void testJenkinsMainPageLilia() {
+        WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
+        Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
 
-        String title = getDriver().getTitle();
-        Assert.assertEquals("One platform to connect | Zoom", title);
-
-        WebElement solutionButton = getDriver().findElement(By.id("btnNewSolutions"));
-        solutionButton.click();
-
-        WebElement discoverButton = getDriver().findElement(By.id("discoverZoom"));
-        String link = discoverButton.getAttribute("href");
-        Assert.assertEquals(link, "https://explore.zoom.us/en/industry/");
+        WebElement addDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        addDescription.click();
+        WebElement textBox = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        textBox.sendKeys("Hello Jenkins!");
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton.click();
     }
 
-    @Test
-    public void testMainPageFirstLineText() {
-        getDriver().get("https://openweathermap.org/");
 
-        WebElement text = getDriver().findElement(By.xpath("//div[1]/div/h1/span"));
-        Assert.assertEquals(text.getText(), "OpenWeather");
-    }
 
     @Test
-    public void testWorkWithWaits() {
-        getDriver().get("https://google.com/ncr");
-        WebElement textBox = getDriver().findElement(By.name("q"));
-        textBox.sendKeys("jenkins" + Keys.ENTER);
+    public void testDashboardSidePanelItemsList() {
+        List<WebElement> sidePanelItems = getDriver().findElements(By.xpath("//*[@id=\"tasks\"]/div"));
+        int itemsQuantity = sidePanelItems.size();
 
-        WebElement text = new WebDriverWait(getDriver(), Duration.ofSeconds(15))
-                .until(ExpectedConditions.elementToBeClickable(By.xpath
-                        ("//a[@href='https://www.jenkins.io/']/div/div/span")));
-        Assert.assertEquals(text.getText(), "Jenkins");
-    }
-
-    @Test
-    public void ARTest() throws InterruptedException {
-
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
-        String title = getDriver().getTitle();
-        Assert.assertEquals("Web form", title);
-
-        WebElement textBox = getDriver().findElement(By.name("my-text"));
-        WebElement submitButton = getDriver().findElement(By.cssSelector("button"));
-
-        textBox.sendKeys("Selenium");
-        submitButton.click();
-
-        WebElement message = getDriver().findElement(By.id("message"));
-        String value = message.getText();
-        Assert.assertEquals("Received!", value);
+        Assert.assertEquals(itemsQuantity, 5);
     }
 }
-
-
-
