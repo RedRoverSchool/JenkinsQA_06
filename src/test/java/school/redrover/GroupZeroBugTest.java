@@ -7,16 +7,21 @@ import school.redrover.runner.BaseTest;
 
 public class GroupZeroBugTest extends BaseTest {
 
-    @Test
-    public void verifyNewJobCreated() {
+    private void mainPage() {
+        getDriver().get("http://localhost:8080/");
+    }
 
-        String expectedNameJob = "ZeroBugJavaPractice";
+    private void jobPage() {
+        getDriver().get("http://localhost:8080/me/my-views/view/all/job/ZeroBugJavaPractice/");
+    }
+
+    private void newJob() {
 
         WebElement newJob = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']/.."));
         newJob.click();
 
         WebElement inputField = getDriver().findElement(By.id("name"));
-        inputField.sendKeys(expectedNameJob);
+        inputField.sendKeys("ZeroBugJavaPractice");
 
         WebElement freestyleProject = getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject"));
         freestyleProject.click();
@@ -31,9 +36,9 @@ public class GroupZeroBugTest extends BaseTest {
         urlField.sendKeys("https://github.com/Lighter888/ZeroBugJavaPractice");
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
-        String actualNameJob = getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText();
+    }
 
-        Assert.assertEquals(actualNameJob,"Project "+ expectedNameJob," The name of job is not equal");
+    private void deleteJob() {
 
         WebElement deleteJob = getDriver().findElement(By.cssSelector(".task-link.confirmation-link"));
         deleteJob.click();
@@ -44,5 +49,40 @@ public class GroupZeroBugTest extends BaseTest {
         } catch (NoAlertPresentException e) {
             System.out.println("No alert is present.");
         }
+    }
+
+    @Test(priority = 1)
+    public void verifyNewJobCreated() {
+
+        newJob();
+
+        String actualNameJob = getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText();
+        String expectedNameJob = "ZeroBugJavaPractice";
+        Assert.assertEquals(actualNameJob,"Project "+ expectedNameJob," The name of job is not equal");
+
+        deleteJob();
+    }
+
+    @Test(priority = 2)
+    public void verifyJobBuild() {
+
+        newJob();
+        mainPage();
+
+        for (int trial = 1; trial <=3; trial++) {
+
+            WebElement scheduleBuild = getDriver().findElement(By.xpath("//a[@title='Schedule a Build for ZeroBugJavaPractice']"));
+            scheduleBuild.click();
+            WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']/.."));
+            buildHistory.click();
+            String actualNumberBuild = getDriver().findElement(By.xpath("//a[.='#%s']".formatted(trial))).getText();
+            String expectedNumberBuild = "#" + trial;
+            Assert.assertEquals(actualNumberBuild,expectedNumberBuild, "Build has been scheduled incorrectly");
+            mainPage();
+        }
+
+        jobPage();
+        deleteJob();
+
     }
 }
