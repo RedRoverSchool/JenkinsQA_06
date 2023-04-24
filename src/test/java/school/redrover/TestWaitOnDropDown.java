@@ -28,6 +28,7 @@ public class TestWaitOnDropDown extends BaseTest {
 
     @Test
     public void testTopMenuUserDropDown() {
+        getDriver().manage().window().maximize();
         Actions actions = new Actions(getDriver());
         WebElement topMenuUserDropDown = getDriver().findElement(By.xpath("//div/a[@class='model-link']/button[@class='jenkins-menu-dropdown-chevron']"));
         actions.click(topMenuUserDropDown).perform();
