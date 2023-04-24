@@ -21,8 +21,8 @@ public class AlexTest extends BaseTest {
         WebElement dashBoardDropDown = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[normalize-space()='Dashboard']/button")));
         action.click(dashBoardDropDown).perform();
 
-        WebElement addNewItem = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='breadcrumb-menu']//span[text()='New Item']")));
-        addNewItem.click();
+        WebElement addNewItem = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='breadcrumb-menu-target']//a[@href='/view/all/newJob']")));
+        action.moveToElement(addNewItem).click().build().perform();
 
         WebElement itemNameField = getDriver().findElement(By.xpath("//input[@id='name']"));
         itemNameField.sendKeys("Sample project");
