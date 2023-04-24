@@ -22,4 +22,24 @@ public class BugsBustersGroupTest extends BaseTest {
 
         Assert.assertTrue(dashboardButton.isDisplayed());
     }
+
+    @Test
+    public void testCreateAJobPageTitle(){
+        WebElement createAJob = getDriver().findElement(By.xpath("//a[@href='newJob']/span"));
+        createAJob.click();
+
+        WebElement createAJobGetTitleText = getDriver().findElement(By.xpath("//div[@class='add-item-name']/label"));
+
+        Assert.assertEquals(createAJobGetTitleText.getText(), "Enter an item name");
+    }
+
+    @Test
+    public void testGetPeoplePage(){
+        WebElement peoplePageMenu = getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']"));
+        peoplePageMenu.click();
+
+        WebElement PeoplePageTitle = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(PeoplePageTitle.getText(), "People");
+    }
 }
