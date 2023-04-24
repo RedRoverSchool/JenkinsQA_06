@@ -56,5 +56,12 @@ public class DreamTeamTest extends BaseTest {
 
         Assert.assertEquals(projectDetailsList.get(2).getText(), "Project1");
     }
-}
 
+    @Test
+    public void testDashboardSidePanelItemsList() {
+        List<WebElement> sidePanelItems = getDriver().findElements(By.xpath("//*[@id=\"tasks\"]/div"));
+        int itemsQuantity = sidePanelItems.size();
+
+        Assert.assertEquals(itemsQuantity, 5);
+    }
+}
