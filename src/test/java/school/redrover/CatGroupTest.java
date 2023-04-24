@@ -20,7 +20,7 @@ import java.util.List;
 public class CatGroupTest extends BaseTest {
 
 
-    @FindBy(xpath = "//section[@class='empty-state-section']//span[text()='Create a job']")
+    @FindBy(xpath = "//a[@href='newJob']")
     private WebElement createAJobButton;
 
     @FindBy(xpath = "//div[@id='items']//span[@class='label']")
@@ -28,6 +28,16 @@ public class CatGroupTest extends BaseTest {
 
     @FindBy(xpath = "//button[@id='ok-button']")
     private WebElement okButton;
+    @FindBy(xpath = "//div[@class='add-item-name']/input[@id='name']")
+    private WebElement inputFieldToCreateJob;
+    @FindBy(xpath = "//span[text()='Freestyle project']")
+    private WebElement sectionFreestyleProject;
+    @FindBy(xpath = "//button[@id='ok-button']")
+    private WebElement submitButton;
+    @FindBy(xpath = "//button[@class='jenkins-button jenkins-button--primary ']")
+    private WebElement saveButton;
+    @FindBy(xpath = "//h1[@class='job-index-headline page-headline']")
+    private WebElement h1CreatedProject;
 
     public WebDriverWait webDriverWait10;
 
@@ -75,6 +85,30 @@ public class CatGroupTest extends BaseTest {
 
         return texts;
     }
+    public void printNameOfProject(){
+        String inputText = "Project";
+        verifyElementVisible(inputFieldToCreateJob);
+        verifyElementIsClickable(inputFieldToCreateJob).sendKeys(inputText);
+    }
+    public void clickFreestyleProject(){
+        verifyElementIsClickable(sectionFreestyleProject).click();
+    }
+    public void clickSubmitButton(){
+        verifyElementVisible(submitButton);
+        verifyElementIsClickable(submitButton).click();
+    }
+    public void clickSaveButton(){
+        verifyElementVisible(saveButton);
+        verifyElementIsClickable(saveButton).click();
+    }
+    public String getH1CreatedProject(){
+        verifyElementVisible(h1CreatedProject);
+        return getText(h1CreatedProject);
+    }
+
+
+
+
 
     @Test
     public void testNameOfItemsOfLabels() {
@@ -91,5 +125,20 @@ public class CatGroupTest extends BaseTest {
         List<String> actualNameOfItems = getNamesOfLists(itemsNameOfLabels);
 
         Assert.assertEquals(actualNameOfItems, expectedNamesOfItems);
+    }
+
+    @Test
+    public void testH1ContainsNameOfNewPriject(){
+        String expectedH1NameOfProject = "Project Project";
+
+        PageFactory.initElements(getDriver(), this);
+        clickCreateAJobButton();
+        printNameOfProject();
+        clickFreestyleProject();
+        clickSubmitButton();
+        clickSaveButton();
+        String actualH1NameOfProject = getH1CreatedProject();
+
+        Assert.assertEquals(actualH1NameOfProject,expectedH1NameOfProject);
     }
 }
