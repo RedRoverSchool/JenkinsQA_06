@@ -32,7 +32,7 @@ public class TestWaitOnDropDown extends BaseTest {
         WebElement topMenuUserDropDown = getDriver().findElement(By.xpath("//div/a[@class='model-link']/button[@class='jenkins-menu-dropdown-chevron']"));
         actions.click(topMenuUserDropDown).perform();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu']")));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu']")));
         List<WebElement> listTopElements = getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
         List<String> expected = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
         List<String>  actual = getNamesOfLists(listTopElements);
