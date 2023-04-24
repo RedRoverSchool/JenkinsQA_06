@@ -17,10 +17,9 @@ public class AlexTest extends BaseTest {
     public void testAddMultiConfProject() {
         Actions action = new Actions(getDriver());
         WebElement dashBoard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
-        action.moveToElement(dashBoard).build().perform();
+        action.moveToElement(dashBoard).perform();
         WebElement dashBoardDropDown = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[normalize-space()='Dashboard']/button")));
         action.click(dashBoardDropDown).perform();
-
 
         WebElement addNewItem = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='breadcrumb-menu']//span[text()='New Item']")));
         addNewItem.click();
