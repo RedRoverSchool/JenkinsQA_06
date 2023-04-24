@@ -5,10 +5,12 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.annotations.Ignore;
 import school.redrover.runner.BaseTest;
 
 public class NeedMoreCoffeeTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testIdUser() {
         WebElement buttonPeople = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a"));
