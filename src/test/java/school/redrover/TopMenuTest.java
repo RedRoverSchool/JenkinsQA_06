@@ -27,4 +27,14 @@ public class TopMenuTest extends BaseTest {
 
         Assert.assertEquals(userID, "admin");
     }
+    @Test
+    public void testSetOfElementsPeople() {
+        WebElement buttonPeople = getDriver().findElement(By.linkText("People"));
+        buttonPeople.click();
+
+        WebElement fourElements = getDriver().findElement(By.xpath("//table[@id = \"people\"]"));
+        boolean actualResult = fourElements.isDisplayed();
+
+        Assert.assertTrue(actualResult);
+    }
 }
