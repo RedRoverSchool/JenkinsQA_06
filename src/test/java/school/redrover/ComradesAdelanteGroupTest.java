@@ -25,6 +25,6 @@ public class ComradesAdelanteGroupTest extends BaseTest {
         buttonConfirmation.click();
 
         WebElement generalInfoField = getDriver().findElement(By.xpath("//*[@class = 'jenkins-app-bar__content']/child::h2"));
-        Assert.assertEquals(generalInfoField.getText(), "General");
+        Assert.assertEquals(generalInfoField.getText(),  "General");
     }
 }
