@@ -9,9 +9,9 @@ import school.redrover.runner.BaseTest;
 public class AnaBelGroupTest extends BaseTest {
 
     @Test
-    public void testLogo() {
-        WebElement logo = getDriver().findElement(By.id("jenkins-name-icon"));
-        Assert.assertTrue(logo.isDisplayed());
+    public void testItem() throws InterruptedException {
+        WebElement button = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        button.click();
+        Thread.sleep(2000);
     }
-
 }
