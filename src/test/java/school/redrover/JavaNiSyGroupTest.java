@@ -35,5 +35,32 @@ public class JavaNiSyGroupTest extends BaseTest {
 
         Assert.assertEquals(inputFullName, "admin");
     }
+
+    @Test
+    public void testCreateNewItem() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement newItemBtn = getDriver().findElement(By.xpath("//span[text() = 'New Item']//ancestor::a"));
+        newItemBtn.click();
+
+        WebElement textOnOpenedPage = getDriver().findElement(By.xpath("//div[@class='header']//label"));
+
+        Assert.assertEquals(textOnOpenedPage.getText(), "Enter an item name");
+
+        WebElement fieldNewFolder = getDriver().findElement(By.xpath("//div[@class='header']//input"));
+        fieldNewFolder.sendKeys("ThisIsMyFolder");
+
+        WebElement FolderBtn = getDriver().findElement(By.xpath("//input[contains(@value, '.Folder')]//ancestor::li"));
+        FolderBtn.click();
+
+        WebElement okBtn = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        okBtn.click();
+
+        WebElement saveBtn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@name='Submit']")));
+        saveBtn.click();
+
+        WebElement confirmation = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='description']/following-sibling::div//h2")));
+
+        Assert.assertEquals(confirmation.getText(), "This folder is empty");
+    }
 }
 
