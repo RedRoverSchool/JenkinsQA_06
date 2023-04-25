@@ -2,33 +2,41 @@ package school.redrover;
 
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
+import java.util.List;
+
 
 public class GroupHighwayToAqaTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testAddBoardDescription() {
         String description = "Some text about dashboard";
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+
         WebElement addDescriptionButton = getDriver().findElement(By.xpath("//div/a [@id = 'description-link']"));
         addDescriptionButton.click();
+
         WebElement inputForm = getDriver().findElement(By.xpath("//div[@class = 'setting-main help-sibling']/textarea"));
+        inputForm.clear();
         inputForm.sendKeys(description);
+
         WebElement saveButton = getDriver().findElement(By.xpath("//div/button[@name = 'Submit']"));
         saveButton.click();
+
         WebElement descriptionText = getDriver().findElement(By.xpath("//*[@id='description']/div[1]"));
         Assert.assertEquals(descriptionText.getText(), description);
+
         addDescriptionButton = getDriver().findElement(By.xpath("//div/a [@id = 'description-link']"));
         addDescriptionButton.click();
         getDriver().findElement(By.xpath("//div[@class = 'setting-main help-sibling']/textarea")).clear();
+
         saveButton = getDriver().findElement(By.xpath("//div/button[@name = 'Submit']"));
         saveButton.click();
     }
@@ -96,6 +104,50 @@ public class GroupHighwayToAqaTest extends BaseTest {
         textArea.clear();
         saveBtn = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveBtn.click();
+    }
+
+    @Test
+    public void testCreateMultiConfigurationProjectWithDescription() {
+        final String expectedDescription = "Web-application project";
+
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItem.click();
+        WebElement setNewItemName = getDriver().findElement(By.id("name"));
+        setNewItemName.sendKeys("Project1_MultiConfigJob");
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement selectMultiConfigProject = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[text()='Multi-configuration project']")));
+        selectMultiConfigProject.click();
+        WebElement okButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div/button[@id= 'ok-button']")));
+        okButton.click();
+
+        WebElement textAreaDescription = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        textAreaDescription.sendKeys("Web-application project");
+
+        WebElement scrollBySubmitButton = getDriver().findElement(
+                By.xpath("//div/button[contains(@class,'jenkins-button jenkins-button--primary')]"));
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+        jse.executeScript("arguments[0].scrollIntoView(true)", scrollBySubmitButton);
+        scrollBySubmitButton.click();
+
+        WebElement multiConfigProjectDescription = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
+
+        Assert.assertEquals(multiConfigProjectDescription.getText(), expectedDescription);
+    }
+
+    @Test
+    public void testSideBar() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+        String[] titles = new String[]{"New Item", "People", "Build History", "Manage Jenkins", "My Views"};
+
+        List<WebElement> sideBarItems = getDriver().findElements(By.xpath("//div[@id = 'tasks']//div[@class = 'task ']"));
+
+        Assert.assertEquals(titles.length, sideBarItems.size());
+
+        for (int i = 0; i < titles.length; i++) {
+            Assert.assertEquals(sideBarItems.get(i).getText(), titles[i]);
+        }
     }
 }
 
