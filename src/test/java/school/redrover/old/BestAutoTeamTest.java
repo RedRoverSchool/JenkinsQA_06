@@ -152,5 +152,7 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(message.getText(), "Registration not successful", "There isn't massage");
 
     }
+
+
 }
 
