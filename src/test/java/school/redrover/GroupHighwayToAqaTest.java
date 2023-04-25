@@ -235,9 +235,5 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         String sucessMesageOfNewProject=getDriver().findElement(By.className("job-index-headline")).getText();
         Assert.assertEquals(sucessMesageOfNewProject,"Project Мой проект");
-        Thread.sleep(3000);
-            }
+         }
 }
-
-
-
