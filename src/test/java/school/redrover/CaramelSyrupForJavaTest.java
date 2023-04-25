@@ -87,6 +87,36 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actResFol, expResFol);
         Assert.assertEquals(actResName, expResName);
     }
+
+    @Test
+    public void testCreateJobProject() {
+        String expectedResultSummary = "Project Engineer";
+        String expectedResultDescription = "New Project";
+
+        WebElement createJob = getDriver().findElement(By.xpath("//span[text()='Create a job']"));
+        createJob.click();
+        WebElement inputLine = getDriver().findElement(By.xpath("//input[@id='name']"));
+        inputLine.click();
+        inputLine.sendKeys("Engineer");
+        WebElement freestyleProject = getDriver().findElement(By.xpath("//span[text()='Freestyle project']"));
+        freestyleProject.click();
+        WebElement buttonOk = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        buttonOk.click();
+
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        description.click();
+        description.sendKeys("New Project");
+        WebElement buttonSubmit = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        buttonSubmit.click();
+
+        WebElement newSummaryProject = getDriver().findElement(By.xpath("//h1[text()='Project Engineer']"));
+        String actualResultSummary = newSummaryProject.getText();
+        WebElement newDescription = getDriver().findElement(By.xpath("//div[@id='description']//div[text()='New Project']"));
+        String actualResultDescription = newDescription.getText();
+
+        Assert.assertEquals(actualResultSummary, expectedResultSummary);
+        Assert.assertEquals(actualResultDescription, expectedResultDescription);
+    }
 }
 
 
