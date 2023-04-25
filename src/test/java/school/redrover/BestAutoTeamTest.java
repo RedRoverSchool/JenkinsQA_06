@@ -91,4 +91,18 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(titleOfPage.getText(), "Project New Item adding test");
         Assert.assertEquals(buttonAddDescription.getText(), "Add description");
     }
+
+    @Test
+    public  void testJenkinsUser(){
+
+        WebElement usernameFromPageHeader=getDriver().findElement(By.xpath("//div[@class='login page-header__hyperlinks']//a[@class='model-link']//span"));
+        String actualUsername=usernameFromPageHeader.getText();
+        WebElement linkPeople=getDriver().findElement(By.xpath("//div[@class='task '][2]//a"));
+        linkPeople.click();
+        WebElement usernameFromTablePeople=getDriver().findElement(By.xpath("//div[@id='main-panel']//td[3]"));
+        String usernameFromTable=usernameFromTablePeople.getText();
+
+        Assert.assertEquals(usernameFromTable, actualUsername, "Usernames sre different");
+
+    }
 }
