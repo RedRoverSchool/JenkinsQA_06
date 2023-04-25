@@ -162,11 +162,11 @@ public class JavaJitsuGroupTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescription() throws InterruptedException {
+    public void testAddDescription() {
         WebElement addLink = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         addLink.click();
-        Thread.sleep(2000);
         WebElement textInput = getDriver().findElement(By.cssSelector("textarea[name='description']"));
+        textInput.clear();
         textInput.sendKeys("text");
         WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
         buttonSave.click();
