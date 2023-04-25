@@ -1,7 +1,9 @@
 package school.redrover;
 
+import jdk.jfr.Description;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -205,6 +207,17 @@ public class AlexLeoGroupTests extends BaseTest {
     public void testLinkContainsText(){
         String logoutLink = getDriver().findElement(By.xpath("//a[@href='/logout']/span")).getText();
         Assert.assertEquals(logoutLink, "log out");
+    }
+
+    @Description("Verify to the search field functionality")
+    @Test
+    public void testSearchField(){
+        WebElement searchBox = getDriver().findElement(By.id("search-box"));
+        searchBox.sendKeys("");
+        searchBox.sendKeys(Keys.RETURN);
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
+                (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
     }
 
 }
