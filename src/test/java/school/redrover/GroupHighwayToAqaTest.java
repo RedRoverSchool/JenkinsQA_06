@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -149,6 +150,40 @@ public class GroupHighwayToAqaTest extends BaseTest {
             Assert.assertEquals(sideBarItems.get(i).getText(), titles[i]);
         }
     }
-}
 
+    @Test
+    public void testNegativeSymbolForFreestyleProjectItemsName() {
+        final String[] NegativeSymbol = {"!", "@", "#", "$", "%", "^", "&", "*", ";", ":", "?", "/", "<", ">", "\\", "[", "]", "|", "."};
+
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        newItem.click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement freestyleProjectItem = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[text() = 'Freestyle project']")));
+        freestyleProjectItem.click();
+        WebElement inputFieldItemName = getDriver().findElement(By.id("name"));
+
+        for (String symbol : NegativeSymbol) {
+            inputFieldItemName.click();
+            inputFieldItemName.sendKeys((symbol));
+
+            String expectedResult = "» " + "‘" + symbol + "’" + " is an unsafe character";
+
+            if (symbol.equals(".")) {
+                expectedResult = "» " + "“" + symbol + "”" + " is not an allowed name";
+            }
+            if (symbol.equals("")) {
+                expectedResult = "» This field cannot be empty, please enter a valid name";
+            }
+
+            WebElement itemInvalidName = getDriver().findElement(By.id("itemname-invalid"));
+            itemInvalidName.getText();
+
+            Assert.assertEquals(itemInvalidName.getText(), expectedResult);
+
+            inputFieldItemName.click();
+            inputFieldItemName.clear();
+        }
+    }
+}
 

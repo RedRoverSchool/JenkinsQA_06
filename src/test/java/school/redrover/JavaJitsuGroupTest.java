@@ -33,11 +33,11 @@ public class JavaJitsuGroupTest extends BaseTest {
     }
 
     @Test
-    public void newItem() {
+    public void testNewItem() throws InterruptedException {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
         newItem.click();
         WebElement nameInput = getDriver().findElement(By.xpath("//input[@id=\"name\"]"));
-
+        Thread.sleep(2000);
         nameInput.sendKeys("JavaTest");
         WebElement freProject = getDriver().findElement(By.xpath("//span[text() =\"Freestyle project\"]"));
         freProject.click();
@@ -143,4 +143,22 @@ public class JavaJitsuGroupTest extends BaseTest {
         submit.click();
         Assert.assertEquals("NewUser", getDriver().findElement(By.xpath("//tbody/tr[2]/td[2]")).getText());
     }
+
+    @Test
+    public void testCreateJob() throws InterruptedException {
+        WebElement creJob = getDriver().findElement(By.xpath("//span[text()=\"Create a job\"]"));
+        creJob.click();
+        WebElement nameInput = getDriver().findElement(By.cssSelector("input#name"));
+        Thread.sleep(2000);
+        nameInput.sendKeys("JavaTest");
+        WebElement pipeLine = getDriver().findElement(By.xpath("//span[text() =\"Pipeline\"]"));
+        pipeLine.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        WebElement butSave = getDriver().findElement(By.cssSelector("button[name=\"Submit\"]"));
+        butSave.click();
+        WebElement nameJob = getDriver().findElement(By.xpath("//h1[text() =\"Pipeline JavaTest\"]"));
+        Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
+    }
+
 }
