@@ -162,6 +162,19 @@ public class JavaJitsuGroupTest extends BaseTest {
     }
 
     @Test
+    public void testAddDescription() {
+        WebElement addLink = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        addLink.click();
+        WebElement textInput = getDriver().findElement(By.cssSelector("textarea[name='description']"));
+        textInput.clear();
+        textInput.sendKeys("text");
+        WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
+        buttonSave.click();
+        WebElement inputAdd = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
+        Assert.assertEquals(inputAdd.getText(), "text");
+    }
+
+    @Test
     public void testCreateAJob() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement createAJob = getDriver().findElement(By.xpath("//span[text()='Create a job']"));
