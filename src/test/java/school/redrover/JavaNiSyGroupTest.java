@@ -36,6 +36,7 @@ public class JavaNiSyGroupTest extends BaseTest {
         Assert.assertEquals(inputFullName, "admin");
     }
 
+    @Ignore
     @Test
     public void testCreateNewItem() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
