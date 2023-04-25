@@ -161,4 +161,18 @@ public class JavaJitsuGroupTest extends BaseTest {
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
 
+    @Test
+    public void testAddDescription() throws InterruptedException {
+        WebElement addLink = getDriver().findElement(By.xpath("//a[@id=\"description-link\"]"));
+        addLink.click();
+        Thread.sleep(2000);
+        WebElement textInput = getDriver().findElement(By.cssSelector("textarea[name='description']"));
+        textInput.sendKeys("text");
+        WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate=\"formNoValidate\" ]"));
+        buttonSave.click();
+        WebElement inputAdd = getDriver().findElement(By.xpath("//div[text() = \"text\"]"));
+        Assert.assertEquals(inputAdd.getText(), "text");
+    }
+
+
 }
