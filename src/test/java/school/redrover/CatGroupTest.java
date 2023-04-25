@@ -8,7 +8,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -91,5 +90,25 @@ public class CatGroupTest extends BaseTest {
         List<String> actualNameOfItems = getNamesOfLists(itemsNameOfLabels);
 
         Assert.assertEquals(actualNameOfItems, expectedNamesOfItems);
+    }
+
+    @Test
+    public void testBuildHistoryText() {
+        WebElement buttonBuildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buttonBuildHistory.click();
+
+        WebElement buildHistoryText = getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__content']/h1"));
+        String actualResult = buildHistoryText.getText();
+        String expectedResult = "Build History of Jenkins";
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testBuildHistoryButton() {
+        WebElement buttonBuildHistory = getDriver().findElement(By.linkText("Build History"));
+        boolean actualResult = buttonBuildHistory.isDisplayed();
+
+        Assert.assertTrue(actualResult);
     }
 }
