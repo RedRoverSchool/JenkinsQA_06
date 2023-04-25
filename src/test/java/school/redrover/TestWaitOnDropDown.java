@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,13 +28,12 @@ public class TestWaitOnDropDown extends BaseTest {
 
     @Test
     public void testTopMenuUserDropDown() {
-        getDriver().manage().window().setSize(new Dimension(1920, 1080));
         Actions actions = new Actions(getDriver());
         WebElement topMenuUserDropDown = getDriver().findElement(By.xpath("//div/a[@class='model-link']/button[@class='jenkins-menu-dropdown-chevron']"));
         actions.click(topMenuUserDropDown).perform();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(By.xpath("//div/a[@class='model-link']/button[@class='jenkins-menu-dropdown-chevron']")));
-        List<WebElement> listTopElements = getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfNestedElementsLocatedBy(By.xpath("//ul[@class = 'first-of-type']"), By.xpath("li[@groupindex = '0']")));
+        List<WebElement> listTopElements = getDriver().findElements(By.xpath("//li[@groupindex = '0']/a/span"));
         List<String> expected = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
         List<String>  actual = getNamesOfLists(listTopElements);
 
