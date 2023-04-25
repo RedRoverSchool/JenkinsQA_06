@@ -1,6 +1,8 @@
 package school.redrover;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -145,6 +147,18 @@ public class CatGroupTest extends BaseTest {
     }
 
     @Test
+    public void testBuildHistoryText() {
+        WebElement buttonBuildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buttonBuildHistory.click();
+
+        WebElement buildHistoryText = getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__content']/h1"));
+        String actualResult = buildHistoryText.getText();
+        String expectedResult = "Build History of Jenkins";
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
     public void testVersionOfJenkins() {
 
         final String expectedVersionOfJenkins = "Jenkins 2.387.2";
@@ -156,5 +170,47 @@ public class CatGroupTest extends BaseTest {
         String actualVersionOfJenkins = versionOfJenkins.getText();
 
         Assert.assertEquals(actualVersionOfJenkins, expectedVersionOfJenkins);
+    }
+    @Test
+    public void testBuildHistoryButton() {
+        WebElement buttonBuildHistory = getDriver().findElement(By.linkText("Build History"));
+        boolean actualResult = buttonBuildHistory.isDisplayed();
+
+        Assert.assertTrue(actualResult);
+    }
+
+    @Test
+    public void testUserAdd() {
+        WebElement manageJenkinsLink = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
+        manageJenkinsLink.click();
+
+        WebElement manageUsersLink = getDriver().findElement(By.xpath("//a[@href = 'securityRealm/']"));
+        manageUsersLink.click();
+
+        WebElement createUserLink = getDriver().findElement(By.xpath("//a[@href = 'addUser']"));
+        createUserLink.click();
+
+        WebElement userNameField = getDriver().findElement(By.xpath("//input[@name = 'username']"));
+        userNameField.sendKeys("UserNameTest");
+        WebElement passwordFieild = getDriver().findElement(By.xpath("//input[@name = 'password1']"));
+        passwordFieild.sendKeys("qwerty");
+        WebElement passwordConfirmField = getDriver().findElement(By.xpath("//input[@name = 'password2']"));
+        passwordConfirmField.sendKeys("qwerty");
+        WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name = 'fullname']"));
+        fullNameField.sendKeys("Jack Black");
+        WebElement emailField = getDriver().findElement(By.xpath("//input[@name = 'email']"));
+        emailField.sendKeys("JB@jb.tre");
+        WebElement createUserButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        createUserButton.click();
+
+        List<WebElement> listOfUsers = getDriver().findElements(By.xpath("//table[@id = 'people']/tbody/tr/td[2]"));
+        String actualResult = null;
+        for (WebElement listOfUser : listOfUsers) {
+            if (listOfUser.getText().equals("UserNameTest")) {
+                actualResult = listOfUser.getText();
+            }
+        }
+
+        Assert.assertEquals(actualResult, "UserNameTest");
     }
 }
