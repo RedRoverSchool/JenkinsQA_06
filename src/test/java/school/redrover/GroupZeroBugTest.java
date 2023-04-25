@@ -99,7 +99,7 @@ public class GroupZeroBugTest extends BaseTest {
 
             String actualNumberBuild = numberBuild.getText();
             String expectedNumberBuild = "#" + trial;
-            BaseUtils.log("Check Build #%s".formatted(trial));
+             BaseUtils.log("Check Build #%s".formatted(trial));
             Assert.assertEquals(actualNumberBuild,expectedNumberBuild, "Build has been scheduled incorrectly");
             mainPage();
         }

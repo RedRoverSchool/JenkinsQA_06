@@ -216,6 +216,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testCreateNewProject() throws InterruptedException {
+        String name="Мой проект";
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
 
         WebElement createNewItemButton= wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath
@@ -223,7 +224,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
         createNewItemButton.click();
 
         WebElement writeNameOfItem = getDriver().findElement(By.id("name"));
-        writeNameOfItem.sendKeys("Мой проект");
+        writeNameOfItem.sendKeys(name);
         WebElement chooseProject = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
         chooseProject.click();
         WebElement pushOkButton=wait.until(ExpectedConditions.visibilityOfElementLocated
@@ -233,6 +234,6 @@ public class GroupHighwayToAqaTest extends BaseTest {
         saveChanges.click();
 
         String sucessMesageOfNewProject=getDriver().findElement(By.className("job-index-headline")).getText();
-        Assert.assertEquals(sucessMesageOfNewProject,"Project Мой проект");
+        Assert.assertEquals(sucessMesageOfNewProject,"Project "+ name);
          }
 }
