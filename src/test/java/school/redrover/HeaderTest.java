@@ -1,29 +1,15 @@
 package school.redrover;
 
-import jdk.jfr.Description;
+<<<<<<<<< Temporary merge branch 1
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import static org.testng.Assert.assertEquals;
 
 public class HeaderTest extends BaseTest {
-
-    @Description("Verify the placeholder text in the search field")
-    @Test
-    public void testSearchFieldPlaceholder(){
-        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("placeholder"), "Search (CTRL+K)");
-    }
-
-    @Description("Verify the status of autocomplete in the search field")
-    @Test
-    public void testSearchFieldAutocomplete(){
-        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
-    }
-
     @Test
     public void testHeaderLogoIcon() {
         WebElement logoIcon = getDriver().findElement(By.xpath("//*[@id=\"jenkins-head-icon\"]"));
@@ -60,3 +46,25 @@ public class HeaderTest extends BaseTest {
         assertEquals(hoverHelpButtonColor, "rgba(64, 64, 64, 1)");
     }
 }
+=========
+import jdk.jfr.Description;
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
+
+public class HeaderTest extends BaseTest {
+
+    @Description("Verify the placeholder text in the search field")
+    @Test
+    public void testSearchFieldPlaceholder(){
+        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("placeholder"), "Search (CTRL+K)");
+    }
+
+    @Description("Verify the status of autocomplete in the search field")
+    @Test
+    public void testSearchFieldAutocomplete(){
+        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
+    }
+}
+>>>>>>>>> Temporary merge branch 2
