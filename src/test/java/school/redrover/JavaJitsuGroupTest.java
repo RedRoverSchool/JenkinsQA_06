@@ -160,7 +160,6 @@ public class JavaJitsuGroupTest extends BaseTest {
         WebElement nameJob = getDriver().findElement(By.xpath("//h1[text() =\"Pipeline JavaTest\"]"));
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
-
     @Test
     public void testAddDescription() throws InterruptedException {
         WebElement addLink = getDriver().findElement(By.xpath("//a[@id=\"description-link\"]"));
