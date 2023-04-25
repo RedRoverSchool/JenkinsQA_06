@@ -95,4 +95,37 @@ public class JasperGroupTest extends BaseTest {
             Assert.assertEquals(name.getText(), "User");
         }
     }
+
+    @Test
+    public void testFolderEmptyNameChange() {
+        WebElement newItemButton = getDriver().findElement(By.xpath("//span[text()='New Item']/.."));
+        newItemButton.click();
+
+        WebElement nameBox = getDriver().findElement(By.xpath("//input[@name = 'name']"));
+        nameBox.sendKeys("Folder");
+
+        WebElement modeFolder = getDriver().findElement(By.xpath("//li[@class = 'com_cloudbees_hudson_plugins_folder_Folder']"));
+        modeFolder.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
+        okButton.click();
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        saveButton.click();
+
+        WebElement renameButton = getDriver().findElement(By.xpath("//span[text()='Rename']/.."));
+        renameButton.click();
+
+        WebElement newNameBox = getDriver().findElement(By.xpath("//input[@name = 'newName']"));
+        newNameBox.clear();
+
+        WebElement submitButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        submitButton.click();
+
+        WebElement headerError = getDriver().findElement(By.xpath("//h1"));
+        WebElement messageError = getDriver().findElement(By.xpath("//p"));
+
+        Assert.assertEquals(headerError.getText(), "Error");
+        Assert.assertEquals(messageError.getText(),"No name is specified");
+    }
 }
