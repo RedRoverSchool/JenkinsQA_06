@@ -173,6 +173,4 @@ public class JavaJitsuGroupTest extends BaseTest {
         WebElement inputAdd = getDriver().findElement(By.xpath("//div[text() = \"text\"]"));
         Assert.assertEquals(inputAdd.getText(), "text");
     }
-
-
 }
