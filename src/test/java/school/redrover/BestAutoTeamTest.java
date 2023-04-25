@@ -88,9 +88,5 @@ public class BestAutoTeamTest extends BaseTest {
 
         Assert.assertEquals(titleOfPage.getText(), "Project New Item adding test");
         Assert.assertEquals(buttonAddDescription.getText(), "Add description");
-
-
-
-
     }
 }
