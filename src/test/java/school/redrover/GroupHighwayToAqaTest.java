@@ -255,4 +255,13 @@ public class GroupHighwayToAqaTest extends BaseTest {
         String sucessMesageOfNewProject=getDriver().findElement(By.className("job-index-headline")).getText();
         Assert.assertEquals(sucessMesageOfNewProject,"Project "+ name);
          }
+
+    @Test
+    public void testTitle() {
+        WebElement header = getDriver().findElement(By.xpath("//h1"));
+
+        String h1 = header.getText();
+
+        Assert.assertEquals(h1, "Welcome to Jenkins!");
+    }
 }
