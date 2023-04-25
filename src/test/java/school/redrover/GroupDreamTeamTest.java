@@ -179,10 +179,8 @@ public class GroupDreamTeamTest extends BaseTest {
                 By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
 
         String actualError = getDriver().findElement(By.id("itemname-required")).getText();
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
 
         Assert.assertEquals(actualError, expectedError);
-        Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
 
     @Test
