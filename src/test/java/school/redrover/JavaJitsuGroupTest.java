@@ -170,7 +170,7 @@ public class JavaJitsuGroupTest extends BaseTest {
         textInput.sendKeys("text");
         WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate=\"formNoValidate\" ]"));
         buttonSave.click();
-        WebElement inputAdd = getDriver().findElement(By.xpath("//div[text() = \"text\"]"));
+        WebElement inputAdd = getDriver().findElement(By.xpath("//*[@id=\"description\"]/div[1]\n"));
         Assert.assertEquals(inputAdd.getText(), "text");
     }
 }
