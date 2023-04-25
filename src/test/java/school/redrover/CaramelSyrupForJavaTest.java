@@ -24,7 +24,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(currentElement, searchBox);
     }
 
-
     @Test
     public void testKhudovaEditDescriptionButtonChanges() {
 
@@ -61,7 +60,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertTrue(error.isDisplayed());
         Assert.assertFalse(notError.isDisplayed());
     }
-
 
     @Test
     public void testDimaKFirst() {
