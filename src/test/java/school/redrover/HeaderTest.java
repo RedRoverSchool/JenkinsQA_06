@@ -44,4 +44,16 @@ public class HeaderTest extends BaseTest {
 
         assertEquals(hoverHelpButtonColor, "rgba(64, 64, 64, 1)");
     }
+
+    @Description("Verify the placeholder text in the search field")
+    @Test
+    public void testSearchFieldPlaceholder(){
+        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("placeholder"), "Search (CTRL+K)");
+    }
+
+    @Description("Verify the status of autocomplete in the search field")
+    @Test
+    public void testSearchFieldAutocomplete(){
+        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
+    }
 }
