@@ -214,5 +214,30 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Assert.assertEquals(statusProject.getText(), expectedResult);
     }
 
+    @Test
+    public void testCreateNewProject() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+
+        WebElement createNewItemButton= wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath
+                ("//span[@class='task-icon-link']")));
+        createNewItemButton.click();
+
+        WebElement writeNameOfItem = getDriver().findElement(By.id("name"));
+        writeNameOfItem.sendKeys("Мой проект");
+        WebElement chooseProject = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
+        chooseProject.click();
+        WebElement pushOkButton=wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class='btn-decorator']")));
+        pushOkButton.click();
+        WebElement saveChanges=getDriver().findElement(By.className("jenkins-button--primary"));
+        saveChanges.click();
+        Thread.sleep(3000);
+
+        String sucessMesageOfNewProject=getDriver().findElement(By.className("job-index-headline")).getText();
+        Assert.assertEquals(sucessMesageOfNewProject,"Project Мой проект");
+        Thread.sleep(3000);
+    }
 }
+
+
 
