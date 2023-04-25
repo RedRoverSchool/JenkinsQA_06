@@ -1,6 +1,4 @@
 package school.redrover;
-
-<<<<<<<<< Temporary merge branch 1
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -8,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import static org.testng.Assert.assertEquals;
+import jdk.jfr.Description;
 
 public class HeaderTest extends BaseTest {
     @Test
@@ -45,15 +44,6 @@ public class HeaderTest extends BaseTest {
 
         assertEquals(hoverHelpButtonColor, "rgba(64, 64, 64, 1)");
     }
-}
-=========
-import jdk.jfr.Description;
-import org.openqa.selenium.By;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import school.redrover.runner.BaseTest;
-
-public class HeaderTest extends BaseTest {
 
     @Description("Verify the placeholder text in the search field")
     @Test
@@ -67,4 +57,3 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
     }
 }
->>>>>>>>> Temporary merge branch 2
