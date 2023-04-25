@@ -22,4 +22,23 @@ public class JavaExpertsNationTest extends BaseTest {
 
         Assert.assertEquals(systemConfigurationTitle.getText(), "System Configuration");
     }
+    @Test
+    public void testPeopleTitle() {
+        WebElement people = getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']"));
+        people.click();
+
+        WebElement peopleTitle = getDriver().findElement(By.tagName("h1"));
+
+        Assert.assertEquals(peopleTitle.getText(), "People");
+    }
+
+    @Test
+    public void BuildHistoryTitle() {
+        WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buildHistory.click();
+
+        WebElement peopleTitle = getDriver().findElement(By.tagName("h1"));
+
+        Assert.assertEquals(peopleTitle.getText(), "Build History of Jenkins");
+    }
 }
