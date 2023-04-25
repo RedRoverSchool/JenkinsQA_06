@@ -171,4 +171,10 @@ public class AlexLeoGroupTests extends BaseTest {
         }
     }
 
+    @Test
+    public void testVerifyLogoJenkinsIsPresentInMenuBar() {
+        WebElement logoJenkins = getDriver().findElement(By.id("jenkins-name-icon"));
+        Assert.assertTrue(logoJenkins.isDisplayed());
+    }
+
 }

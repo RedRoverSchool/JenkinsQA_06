@@ -1,6 +1,8 @@
 package school.redrover;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -145,6 +147,18 @@ public class CatGroupTest extends BaseTest {
     }
 
     @Test
+    public void testBuildHistoryText() {
+        WebElement buttonBuildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buttonBuildHistory.click();
+
+        WebElement buildHistoryText = getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__content']/h1"));
+        String actualResult = buildHistoryText.getText();
+        String expectedResult = "Build History of Jenkins";
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
     public void testVersionOfJenkins() {
 
         final String expectedVersionOfJenkins = "Jenkins 2.387.2";
@@ -156,5 +170,12 @@ public class CatGroupTest extends BaseTest {
         String actualVersionOfJenkins = versionOfJenkins.getText();
 
         Assert.assertEquals(actualVersionOfJenkins, expectedVersionOfJenkins);
+    }
+    @Test
+    public void testBuildHistoryButton() {
+        WebElement buttonBuildHistory = getDriver().findElement(By.linkText("Build History"));
+        boolean actualResult = buttonBuildHistory.isDisplayed();
+
+        Assert.assertTrue(actualResult);
     }
 }
