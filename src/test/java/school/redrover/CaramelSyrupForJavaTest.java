@@ -1,14 +1,17 @@
 package school.redrover;
 
+import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
+import java.util.*;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
 
@@ -88,6 +91,21 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actResFol, expResFol);
         Assert.assertEquals(actResName, expResName);
     }
+   @Test
+    public  void testAbramovaDropDownList() {
+
+        List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
+
+        WebElement dropDownButton = getDriver().findElement(
+                By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[1]"));
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(dropDownButton).perform();
+        dropDownButton.click();
+        List<WebElement> folder = getDriver().findElements(By.xpath("//a[@class='yuimenuitemlabel']"));
+        List<String> actualResult = Arrays.asList(folder.get(0).getText(), folder.get(1).getText(), folder.get(2).getText(),folder.get(3).getText());
+        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(folder.size(), 4);
+   }
 }
 
 
