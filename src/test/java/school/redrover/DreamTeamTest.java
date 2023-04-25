@@ -104,20 +104,20 @@ public class DreamTeamTest extends BaseTest {
                 "Build Steps",
                 "Post-build Actions");
 
-        WebElement createNewProject = getDriver().findElement(By.xpath("//div[@id=\"tasks\"]/div[1]/span/a"));
+        WebElement createNewProject = getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a"));
         createNewProject.click();
 
         WebElement inputItemName = getDriver().findElement(By.id("name"));
         wait.until(ExpectedConditions.elementToBeClickable(inputItemName)).sendKeys("First Project");
 
         WebElement freestyleProjectTab =
-                getDriver().findElement(By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"));
+                getDriver().findElement(By.xpath("//ul[@class ='j-item-options']/li[@tabindex='0']"));
         freestyleProjectTab.click();
 
-        WebElement okButton = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
         okButton.click();
 
-        List<WebElement> configureMenu = getDriver().findElements(By.xpath("//div[@id=\"tasks\"]/div"));
+        List<WebElement> configureMenu = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
 
         List<String> actualConfigureMenuNames = new ArrayList<>();
         for (WebElement element: configureMenu){
