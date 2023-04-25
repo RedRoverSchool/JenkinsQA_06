@@ -178,4 +178,39 @@ public class CatGroupTest extends BaseTest {
 
         Assert.assertTrue(actualResult);
     }
+
+    @Test
+    public void testUserAdd() {
+        WebElement manageJenkinsLink = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
+        manageJenkinsLink.click();
+
+        WebElement manageUsersLink = getDriver().findElement(By.xpath("//a[@href = 'securityRealm/']"));
+        manageUsersLink.click();
+
+        WebElement createUserLink = getDriver().findElement(By.xpath("//a[@href = 'addUser']"));
+        createUserLink.click();
+
+        WebElement userNameField = getDriver().findElement(By.xpath("//input[@name = 'username']"));
+        userNameField.sendKeys("UserNameTest");
+        WebElement passwordFieild = getDriver().findElement(By.xpath("//input[@name = 'password1']"));
+        passwordFieild.sendKeys("qwerty");
+        WebElement passwordConfirmField = getDriver().findElement(By.xpath("//input[@name = 'password2']"));
+        passwordConfirmField.sendKeys("qwerty");
+        WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name = 'fullname']"));
+        fullNameField.sendKeys("Jack Black");
+        WebElement emailField = getDriver().findElement(By.xpath("//input[@name = 'email']"));
+        emailField.sendKeys("JB@jb.tre");
+        WebElement createUserButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        createUserButton.click();
+
+        List<WebElement> listOfUsers = getDriver().findElements(By.xpath("//table[@id = 'people']/tbody/tr/td[2]"));
+        String actualResult = null;
+        for (WebElement listOfUser : listOfUsers) {
+            if (listOfUser.getText().equals("UserNameTest")) {
+                actualResult = listOfUser.getText();
+            }
+        }
+
+        Assert.assertEquals(actualResult, "UserNameTest");
+    }
 }
