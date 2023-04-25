@@ -1,6 +1,8 @@
 package school.redrover;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -156,5 +158,31 @@ public class CatGroupTest extends BaseTest {
         String actualVersionOfJenkins = versionOfJenkins.getText();
 
         Assert.assertEquals(actualVersionOfJenkins, expectedVersionOfJenkins);
+    }
+    @Test
+    public void testDescriptionOfStatus() {
+        WebElement buttonPeople = getDriver().findElement(By.linkText("People"));
+        buttonPeople.click();
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = '/user/admin/']")));
+        WebElement admin = getDriver().findElement(By.xpath("//a[@href = '/user/admin/']"));
+        admin.click();
+
+        WebElement elementDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        elementDescription.click();
+
+        String expectedResult = "Hello!";
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//textarea[@name = 'description']")));
+        WebElement textDescription = getDriver().findElement(By.xpath("//textarea[@name = 'description']"));
+        textDescription.clear();
+        textDescription.sendKeys(expectedResult);
+
+        WebElement buttonSave = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        buttonSave.click();
+
+        WebElement textBlock = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
+        String actualResult = textBlock.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
