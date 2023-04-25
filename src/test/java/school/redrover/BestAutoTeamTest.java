@@ -1,73 +1,70 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-import java.util.concurrent.TimeUnit;
+public class BestAutoTeamTest extends BaseTest {
 
-public class BestAutoTeamTest {
-    public static final long IMPLICITLYWAIT = 15;
-    public static final long PAGELOADTIMEOUT = 15;
-    public static final long SCRIPTRUMTIMEOUT = 15;
+    @Test
+    public void testIsJenkinsLoad() throws InterruptedException {
 
-    protected WebDriver driver;
-    @Ignore
-    @BeforeTest
-    public void beforeTest() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+        WebElement jenkinsLogo = getDriver().findElement(By.xpath("//*[@id='jenkins-home-link']"));
 
-        driver = new ChromeDriver(chromeOptions);
-        driver.manage().deleteAllCookies();
-        driver.manage().timeouts().implicitlyWait(IMPLICITLYWAIT,
-                TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(PAGELOADTIMEOUT,
-                TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(SCRIPTRUMTIMEOUT,
-                TimeUnit.SECONDS);
+        Assert.assertTrue(jenkinsLogo.isDisplayed());
     }
-    @Ignore
-    @AfterTest
-    public void afterTest() throws InterruptedException {
-        driver.quit();
-    }
+  
     @Ignore
     @Test
-    public void testFirst() throws InterruptedException {
+    public void testAddDescription() throws InterruptedException {
 
-        driver.get("https://www.google.com/");
+        getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
 
-        WebElement textBox = driver.findElement(By.name("q"));
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
 
-        textBox.sendKeys("selenium");
-        textBox.sendKeys(Keys.RETURN);
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("TestDescription");
 
-        WebElement text = driver.findElement(By.xpath("//h3[text() = 'Selenium']"));
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
-        Assert.assertEquals(text.getText(), "Selenium");
-
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/*[1]")).getText(), "TestDescription");
     }
+
     @Ignore
     @Test
-    public void testLoginButton() throws InterruptedException {
+    public void testEditDescription() throws InterruptedException {
 
-        driver.get("https://monkkee.com/en");
+        getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
 
-        WebElement Button = driver.findElement(By.xpath("//div[@class='user-menu']/a[@href='/app/']"));
-        Button.click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
 
-        WebElement Header = driver.findElement(By.xpath("//h1[@class='login__heading']"));
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("TestDescription");
 
-        Assert.assertEquals(Header.getText(), "Login");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
+
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Edited");
+
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/*[1]")).getText(), "EditedTestDescription");
+    }
+
+    @Test
+    public void testNavigationPanelElementsDashboard() {
+        WebElement newItem = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[1]//span[@class = 'task-link-text']"));
+        WebElement people = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[2]//span[@class = 'task-link-text']"));
+        WebElement buildHistory = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[3]//span[@class = 'task-link-text']"));
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[4]//span[@class = 'task-link-text']"));
+        WebElement myViews = getDriver().findElement(By.xpath("//div[@id = 'tasks']//descendant::div[5]//span[@class = 'task-link-text']"));
+
+        Assert.assertEquals(newItem.getText(), "New Item");
+        Assert.assertEquals(people.getText(), "People");
+        Assert.assertEquals(buildHistory.getText(), "Build History");
+        Assert.assertEquals(manageJenkins.getText(), "Manage Jenkins");
+        Assert.assertEquals(myViews.getText(), "My Views");
     }
 }
-

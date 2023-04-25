@@ -1,72 +1,70 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-public class GroupJavaExplorersTest {
+import java.time.Duration;
+
+public class GroupJavaExplorersTest extends BaseTest {
 
     @Test
-    public void testTrelloTitle(){
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
+    public void testCreatingNewFolder() {
+        final String testFolderName = "First folder";
 
-        String url = "https://trello.com/";
-        String expTitle = "Manage Your Team’s Projects From Anywhere | Trello";
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(url);
+        WebElement buttonCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        buttonCreateItem.click();
 
-        Assert.assertEquals(driver.getTitle(), expTitle);
+        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        fieldInputName.click();
+        fieldInputName.sendKeys(testFolderName);
 
-        driver.quit();
+        WebElement buttonFolder = getDriver().findElement(By.xpath("//span[text()='Folder']"));
+        buttonFolder.click();
+
+        WebElement buttonOk = getDriver().findElement(By.xpath("//button[@type='submit']"));
+        buttonOk.click();
+
+        WebElement buttonSave = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        buttonSave.click();
+
+        WebElement titleName = getDriver().findElement(By.xpath("//h1"));
+        String actualFolderName = titleName.getText();
+        Assert.assertEquals(actualFolderName, testFolderName);
     }
 
     @Test
-    public void vhodTextOnAuthPageTest() throws InterruptedException {
+    public void testCreateMultibranchPipeline() {
+        final String expectedNameOfMultibranchPipeline = "MyPipeline";
 
-        //проверка того, что на окошке со входом над полями Логина и пасса есть слово Вход
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        //"--remote-allow-origins=*", "--headless" --- params for server
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
-        WebDriver driver = new ChromeDriver(options);
-        driver.get("https://www.21vek.by/");             //проходим на сайт
+        WebElement buttonCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        buttonCreateItem.click();
 
-        Thread.sleep(1000);
+        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        fieldInputName.click();
+        fieldInputName.sendKeys(expectedNameOfMultibranchPipeline);
 
-        WebElement buttonCookie = driver.findElement(    //прошли выплывашку с куки
-                By.xpath("//button[@class='Button-module__button Button-module__blue-primary']"));
-        buttonCookie.click();
+        WebElement buttonMultibranchPipeline = getDriver().findElement(By.xpath("//span[text() = 'Multibranch Pipeline']"));
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
+        js.executeScript("arguments[0].click()", buttonMultibranchPipeline);
 
-        Thread.sleep(1000);
+        WebElement buttonOk = getDriver().findElement(By.xpath("//button[@type='submit']"));
+        buttonOk.click();
 
-        WebElement buttonAccount = driver.findElement(   // нажали на Аккаунт
-                By.xpath("//button[@class='styles_userToolsToggler__imcSl']"));
-        buttonAccount.click();
+        WebElement buttonSave = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        buttonSave.click();
 
-        Thread.sleep(1000);
-
-        WebElement buttonVoiti = driver.findElement(   // нажали на Войти
-                By.xpath("//button[@data-testid='loginButton']"));
-        buttonVoiti.click();
-
-        Thread.sleep(1000);
-
-        WebElement textVhod = driver.findElement(   // нашли текст вверху, в центре, где должно быть ВХОД
-                By.xpath("//h5[@class='style_formTitle__hRNRz']"));
-        Assert.assertEquals(textVhod.getText(), "Вход");
-
-        driver.quit();
+        WebElement titleName = getDriver().findElement(By.xpath("//h1"));
+        String actualNameOfMultibranchPipeline = titleName.getText();
+        Assert.assertEquals(actualNameOfMultibranchPipeline, expectedNameOfMultibranchPipeline);
     }
 
-
-    @Test
-    public void TestS (){
-    }
 
 }
