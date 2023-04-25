@@ -39,7 +39,7 @@ public class PeoplePageTest extends BaseTest {
     }
 
     @Test
-    public void testAppearanceChangeDisappearanceSortArrowAfterPressingSortHeaderButton() {
+    public void testSortArrowModeChangesAfterClickingSortHeaderButton() {
         getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
 
         WebElement userIdBtnNoSortArrowBeforeClick = getDriver().findElement(
