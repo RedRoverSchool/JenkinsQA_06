@@ -196,7 +196,6 @@ public class JavaJitsuGroupTest extends BaseTest {
         WebElement projectTitle = getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"));
 
         Assert.assertEquals(projectTitle.getText(),"Project NewProject");
-
     }
 
 }
