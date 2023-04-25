@@ -2,17 +2,21 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import java.time.Duration;
 
 public class TestCreateJob extends BaseTest {
 
     @Test
-    public void createFreestyleProject() {
+    public void testCreateFreestyleProject() {
         WebElement createJobButton = getDriver().findElement(By.linkText("New Item"));
         createJobButton.click();
 
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@value = 'hudson.model.FreeStyleProject']//parent::label")));
         WebElement jobNameInput = getDriver().findElement(By.xpath("//input[@id = 'name']"));
         jobNameInput.sendKeys("TestJob");
         WebElement freestyleProjectSelect = getDriver().findElement(By.xpath("//input[@value = 'hudson.model.FreeStyleProject']//parent::label"));
