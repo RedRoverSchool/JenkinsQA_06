@@ -47,7 +47,7 @@ public class QaAutomationJavaTest extends BaseTest {
     }
 
     @Test
-    public void testJobCreation(){
+    public void testJobCreation() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
         By createJob = By.xpath("//div//a[@href='newJob']");
@@ -59,6 +59,7 @@ public class QaAutomationJavaTest extends BaseTest {
         WebElement jenkinsInputButton = getDriver().findElement(jenkinsInput);
         wait.until(ExpectedConditions.visibilityOfElementLocated(jenkinsInput));
         jenkinsInputButton.sendKeys("First_Jenkins_Job");
+        Thread.sleep(1000);
         WebElement freeConfigurationButton = getDriver().findElement(By.xpath("//div//span[text()='Создать задачу со свободной конфигурацией']"));
         freeConfigurationButton.click();
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
