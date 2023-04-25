@@ -45,11 +45,11 @@ public class JavaJitsuGroupTest extends BaseTest {
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
         okButton.click();
         WebElement configElement = getDriver().findElement(By.xpath("//div[@class = 'jenkins-app-bar__content']/h1"));
-        Assert.assertEquals(configElement.getText(),"Configure");
+        Assert.assertEquals(configElement.getText(), "Configure");
     }
 
     @Test
-    public void testManagePlugins(){
+    public void testManagePlugins() {
         WebElement manageJ = getDriver().findElement(By.xpath("//body/div[@id='page-body']/div[@id='side-panel']/div[@id='tasks']/div[4]/span[1]/a[1]"));
         manageJ.click();
 
@@ -57,6 +57,31 @@ public class JavaJitsuGroupTest extends BaseTest {
         managePlugins.click();
 
         WebElement text = getDriver().findElement(By.xpath("//h1[contains(text(),'Plugins')]"));
-        Assert.assertEquals(text.getText(),"Plugins");
+        Assert.assertEquals(text.getText(), "Plugins");
+    }
+
+    @Test
+    public void testAddNew1Item() throws InterruptedException {
+
+        WebElement newItemBtn = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItemBtn.click();
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@id='name']"));
+        searchField.sendKeys("Mari5");
+        WebElement freestyleProject = getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']//label"));
+        freestyleProject.click();
+        WebElement okBtn = getDriver().findElement(By.id("ok-button"));
+        okBtn.click();
+        Thread.sleep(2000);
+        WebElement myDropDown = getDriver().findElement(By.cssSelector("a[class='model-link'] span[class='hidden-xs hidden-sm']"));
+        myDropDown.click();
+
+        getDriver().findElement(By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[1]"));
+        getDriver().findElement(By.xpath("(//span[contains(text(),'Configure')])[1]"));
+
+        WebElement myViews = getDriver().findElement(By.xpath("//div[5]//span[1]//a[1]"));
+        Thread.sleep(2000);
+        Assert.assertEquals(myViews.getText(), "My Views");
+
+
     }
 }

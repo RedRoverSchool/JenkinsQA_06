@@ -45,4 +45,15 @@ public class FuOpyatJavaTest extends BaseTest {
         deleteProject.click();
 
     }
+
+    @Test
+    public void testHeaderOfNewItem004() {
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        WebElement h3Header = new WebDriverWait(getDriver(), Duration.ofMillis(3000))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@class = 'h3']")));
+        String actualResult004 = h3Header.getText();
+
+        Assert.assertEquals(actualResult004, "Enter an item name");
+    }
 }
