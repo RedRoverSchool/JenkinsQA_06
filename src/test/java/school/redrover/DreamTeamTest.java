@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -129,5 +130,22 @@ public class DreamTeamTest extends BaseTest {
         int configureMenuQuantity = actualConfigureMenuNames.size();
 
         Assert.assertEquals(configureMenuQuantity, 6);
+    }
+
+    @Test
+    public void testErrorWhenCreatingJobWithEmptyName() {
+        String expectedError ="» This field cannot be empty, please enter a valid name";
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+
+        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
+
+        String actualError = getDriver().findElement(By.id("itemname-required")).getText();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+
+        Assert.assertEquals(actualError, expectedError);
+        Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
 }
