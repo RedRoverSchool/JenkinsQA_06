@@ -229,9 +229,8 @@ public class GroupHighwayToAqaTest extends BaseTest {
         WebElement pushOkButton=wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@class='btn-decorator']")));
         pushOkButton.click();
-        WebElement saveChanges=getDriver().findElement(By.className("jenkins-button--primary"));
+        WebElement saveChanges=wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
         saveChanges.click();
-        Thread.sleep(3000);
 
         String sucessMesageOfNewProject=getDriver().findElement(By.className("job-index-headline")).getText();
         Assert.assertEquals(sucessMesageOfNewProject,"Project Мой проект");
