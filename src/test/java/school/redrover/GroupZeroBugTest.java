@@ -118,4 +118,27 @@ public class GroupZeroBugTest extends BaseTest {
         String actualResult = versionNumber.getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testSearchFieldIsPresent() {
+
+        String expectedResult = "Welcome to Jenkins!";
+        WebElement result = getDriver().findElement(By.xpath("//h1[.='Welcome to Jenkins!']"));
+        String actualResult = result.getText();
+        Assert.assertEquals(actualResult, expectedResult);
+
+        WebElement searchField = getDriver().findElement(By.cssSelector("#search-box"));
+        Assert.assertTrue(searchField.isDisplayed());
+    }
+
+    @Test
+    public void testDashboardIsPresent() {
+
+        String dashboardExpected = "Dashboard";
+        WebElement dashboard = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
+        String dashboardActual = dashboard.getText();
+
+        Assert.assertEquals(dashboardActual, dashboardExpected);
+    }
+
 }
