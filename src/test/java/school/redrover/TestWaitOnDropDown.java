@@ -34,7 +34,7 @@ public class TestWaitOnDropDown extends BaseTest {
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = '/user/admin/configure']")));
         List<WebElement> listTopElements = getDriver().findElements(By.xpath("//li[@groupindex = '0']/a/span"));
-        System.out.println("OLEGTEST: " + listTopElements.size());
+        System.out.println("OLEGTEST: " + getDriver().findElement(By.xpath("//a[@href = '/user/admin/configure']")).getText());
         List<String> expected = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
         List<String> actual = getNamesOfLists(listTopElements);
 
