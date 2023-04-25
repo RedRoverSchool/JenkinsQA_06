@@ -1,6 +1,5 @@
 package school.redrover;
 
-import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -94,5 +93,12 @@ public class JasperGroupTest extends BaseTest {
         for(WebElement name : names){
             Assert.assertEquals(name.getText(), "User");
         }
+    }
+
+    @Test
+    public void testFindUsers() {
+        WebElement users = getDriver().findElement(By.xpath("//span[text()= \"Пользователи\"]"));
+
+        Assert.assertEquals(users.getText(),"Пользователи");
     }
 }
