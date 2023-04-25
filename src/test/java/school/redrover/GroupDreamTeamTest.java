@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DreamTeamTest extends BaseTest {
+public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testWelcomeToJenkinsPresent() {
@@ -129,5 +129,70 @@ public class DreamTeamTest extends BaseTest {
         int configureMenuQuantity = actualConfigureMenuNames.size();
 
         Assert.assertEquals(configureMenuQuantity, 6);
+    }
+
+    @Test
+    public void testDoesManageJenkinsMenuItemExist() {
+        final String expectedMenuItemName = "Manage Jenkins";
+        WebElement manageJenkinsMenuItem = getDriver().findElement(By.xpath("//a[@href='/manage']/span[contains(text(), 'Manage')]"));
+
+        Assert.assertEquals(manageJenkinsMenuItem.getText(), expectedMenuItemName);
+    }
+
+    @Test
+    public void testIsManageJenkinsMenuItemClickable() {
+        final String expectedPageHeader = "Manage Jenkins";
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        WebElement manageJenkinsMenuItem = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        manageJenkinsMenuItem.click();
+
+        WebElement pageHeader = getDriver().findElement(By.tagName("h1"));
+
+        Assert.assertEquals(pageHeader.getText(), expectedPageHeader);
+    }
+
+    @Test
+    public void testDoesSysConfSectionContain4Items() {
+        List<String> expSysConfItemNames = List.of("Configure System", "Global Tool Configuration", "Manage Plugins", "Manage Nodes and Clouds");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+
+        getDriver().get(getDriver().getCurrentUrl() + "/manage/");
+        List<WebElement> sysConfItems = getDriver().findElements(By.xpath("//section[@class='jenkins-section jenkins-section--bottom-padding'][1]/descendant::dt"));
+
+        List<String> actSysConfItemNames = new ArrayList<>();
+        for (WebElement sysConfItem: sysConfItems) {
+            actSysConfItemNames.add(sysConfItem.getText());
+        }
+
+        Assert.assertEquals(actSysConfItemNames, expSysConfItemNames);
+   }
+
+   @Test
+    public void testErrorWhenCreatingJobWithEmptyName() {
+        String expectedError ="» This field cannot be empty, please enter a valid name";
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+
+        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
+
+        String actualError = getDriver().findElement(By.id("itemname-required")).getText();
+
+        Assert.assertEquals(actualError, expectedError);
+    }
+
+    @Test
+    public void testOKButtonIsDisabledWhenCreatingJobWithEmptyName() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+
+        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+
+        Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
 }
