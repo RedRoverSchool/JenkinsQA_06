@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+
 public class TopMenuTest extends BaseTest {
 
     @Test
@@ -27,6 +28,7 @@ public class TopMenuTest extends BaseTest {
 
         Assert.assertEquals(userID, "admin");
     }
+
     @Test
     public void testSetOfElementsPeople() {
         WebElement buttonPeople = getDriver().findElement(By.linkText("People"));
@@ -36,5 +38,14 @@ public class TopMenuTest extends BaseTest {
         boolean actualResult = fourElements.isDisplayed();
 
         Assert.assertTrue(actualResult);
+    }
+
+    @Test
+    public void testTopMenuUser(){
+        WebElement topMenuUser = getDriver().findElement(By.xpath("//span[@class='hidden-xs hidden-sm'][text()='admin']"));
+
+        String actualResult1 = topMenuUser.getText();
+
+        Assert.assertEquals(actualResult1, "admin");
     }
 }

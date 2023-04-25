@@ -17,7 +17,6 @@ public class FooterTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > h1")).getText(), "REST API");
     }
 
-    @Ignore
     @Test
     public void testJenkinsFooterLink() {
         getDriver().findElement(By.cssSelector("a[rel='noopener noreferrer']")).click();
@@ -27,5 +26,11 @@ public class FooterTest extends BaseTest {
         }
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("h1[class='page-title'] > span")).getText().trim(), "Jenkins");
+    }
+
+    @Test
+    public void testVerifyJenkinsVersion() {
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/']")).getText(), "Jenkins 2.387.2");
     }
 }
