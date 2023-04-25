@@ -84,4 +84,17 @@ public class JavaJitsuGroupTest extends BaseTest {
 
 
     }
+
+    @Test
+    public void testManageCredentials() {
+
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a"));
+        manageJenkins.click();
+
+        WebElement manageCredentials = getDriver().findElement(By.xpath("//div[@id='main-panel']/section[3]/div/div[2]/a/dl/dt"));
+        manageCredentials.click();
+
+        WebElement credentialsPage = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
+        Assert.assertEquals(credentialsPage.getText(), "Credentials");
+    }
 }
