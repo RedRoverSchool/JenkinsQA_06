@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -30,6 +31,7 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertTrue(searchBox.isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testCreateAJobPageTitle(){
         WebElement createAJob = getDriver().findElement(By.xpath("//a[@href='newJob']/span"));

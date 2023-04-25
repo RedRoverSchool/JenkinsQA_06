@@ -38,4 +38,11 @@ public class GroupJavaciraptorsTest extends BaseTest {
 
         Assert.assertEquals(textDescription.getText(), "It`s my 1st Jenkins!");
     }
+
+    @Test
+    public void binoederTest() {
+        WebElement firstSubtitleElement = getDriver().findElement(By.xpath("//section[@class = 'empty-state-section']/h2"));
+
+        Assert.assertEquals(firstSubtitleElement.getText(), "Start building your software project");
+    }
 }
