@@ -19,4 +19,26 @@ public class QaAutomationJavaTest extends BaseTest {
 
         Assert.assertEquals(welcomeElement.getText(), "Welcome to Jenkins!");
     }
+    @Test
+    public void testCreatJob() throws InterruptedException {
+        Thread.sleep(1000);
+        WebElement createJob = getDriver().findElement(By.xpath("//div[@id='tasks']//a[contains(@href, 'newJob')]"));
+        createJob.click();
+
+        WebElement newProjectName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        newProjectName.sendKeys("First");
+
+        WebElement selectFolder = getDriver().findElement(By.xpath("//span[text()='Organization Folder']/../.."));
+        selectFolder.click();
+
+        WebElement buttonOK = getDriver().findElement(By.cssSelector("button.jenkins-button"));
+        buttonOK.click();
+
+        WebElement buttonHome = getDriver().findElement(By.id("jenkins-home-link"));
+        buttonHome.click();
+
+        WebElement fieldNameInTable = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//span"));
+
+        Assert.assertEquals(fieldNameInTable.getText(), "First");
+    }
 }

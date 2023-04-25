@@ -3,13 +3,30 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 
 public class AlexLeoGroupTests extends BaseTest {
+
+    private WebDriverWait webDriverWait5;
+
+    private final WebDriverWait getWait5() {
+        if (webDriverWait5 == null) {
+            webDriverWait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        }
+        return webDriverWait5;
+    }
+
+    private final void verifyElementVisible(WebElement element) {
+        getWait5().until(ExpectedConditions.visibilityOf(element));
+    }
 
     @Test
     public void testVerifyLogoJenkinsIsPresent() {
@@ -137,6 +154,27 @@ public class AlexLeoGroupTests extends BaseTest {
         String actualWebPage = getDriver().getCurrentUrl();
         String expectedWebPage = "https://www.jenkins.io/";
         Assert.assertEquals(actualWebPage, expectedWebPage);
+    }
+
+    @Test
+    public void testNewItemListVerification() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        verifyElementVisible(getDriver().findElement(By.xpath("//div[@id='items']")));
+
+        List<WebElement> newItemProjectTypes = getDriver().findElements(By.xpath("//ul/li/label/span[@class='label']"));
+        List<String> expectedProjectTypes = Arrays.asList("Freestyle project", "Pipeline", "Multi-configuration project",
+                "Folder", "Multibranch Pipeline", "Organization Folder");
+
+        for (int i = 0; i < newItemProjectTypes.size(); i++) {
+            String actualProjectType = newItemProjectTypes.get(i).getText();
+            Assert.assertEquals(actualProjectType, expectedProjectTypes.get(i));
+        }
+    }
+
+    @Test
+    public void testVerifyLogoJenkinsIsPresentInMenuBar() {
+        WebElement logoJenkins = getDriver().findElement(By.id("jenkins-name-icon"));
+        Assert.assertTrue(logoJenkins.isDisplayed());
     }
 
 }

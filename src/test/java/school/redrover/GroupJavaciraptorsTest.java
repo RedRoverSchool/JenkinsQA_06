@@ -22,4 +22,27 @@ public class GroupJavaciraptorsTest extends BaseTest {
         WebElement textElement = getDriver().findElement(By.xpath("//h2[normalize-space()='Set up a distributed build']"));
         Assert.assertEquals(textElement.getText(), "Set up a distributed build");
     }
+
+    @Test
+    public void addDescriptionTest() {
+        WebElement addDescription = getDriver().findElement(By.xpath("//*[@id='description-link']"));
+        addDescription.click();
+
+        WebElement textArea = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        textArea.sendKeys("It`s my 1st Jenkins!");
+
+        WebElement buttonSave = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        buttonSave.click();
+
+        WebElement textDescription = getDriver().findElement(By.xpath("//*[@id='description']/div[1]"));
+
+        Assert.assertEquals(textDescription.getText(), "It`s my 1st Jenkins!");
+    }
+
+    @Test
+    public void binoederTest() {
+        WebElement firstSubtitleElement = getDriver().findElement(By.xpath("//section[@class = 'empty-state-section']/h2"));
+
+        Assert.assertEquals(firstSubtitleElement.getText(), "Start building your software project");
+    }
 }
