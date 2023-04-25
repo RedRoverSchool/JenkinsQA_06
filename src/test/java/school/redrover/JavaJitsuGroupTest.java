@@ -161,4 +161,17 @@ public class JavaJitsuGroupTest extends BaseTest {
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
 
+    @Test
+    public void testAddDescription() {
+        WebElement addLink = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        addLink.click();
+        WebElement textInput = getDriver().findElement(By.cssSelector("textarea[name='description']"));
+        textInput.clear();
+        textInput.sendKeys("text");
+        WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
+        buttonSave.click();
+        WebElement inputAdd = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
+        Assert.assertEquals(inputAdd.getText(), "text");
+    }
+
 }
