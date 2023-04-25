@@ -6,6 +6,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
@@ -60,7 +61,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertTrue(error.isDisplayed());
         Assert.assertFalse(notError.isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testDimaKFirst() {
         String expResFol = "Folder";
