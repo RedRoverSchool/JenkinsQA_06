@@ -30,7 +30,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement editDescriptionButton = getDriver().findElement(By.id("description-link"));
         editDescriptionButton.click();
 
-        WebElement inputWindow = getDriver().findElement(By.xpath("//textarea[@class = 'jenkins-input   ']"));
+        WebElement inputWindow = getDriver().findElement(By.xpath("//textarea"));
         inputWindow.sendKeys("New Description");
 
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@name= 'Submit']"));
