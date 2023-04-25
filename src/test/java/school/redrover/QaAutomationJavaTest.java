@@ -59,7 +59,7 @@ public class QaAutomationJavaTest extends BaseTest {
         WebElement jenkinsInputButton = getDriver().findElement(jenkinsInput);
         wait.until(ExpectedConditions.visibilityOfElementLocated(jenkinsInput));
         jenkinsInputButton.sendKeys("First_Jenkins_Job");
-        WebElement freeConfigurationButton = getDriver().findElement(By.xpath("//div//span[contains(text(),'свободной')]"));
+        WebElement freeConfigurationButton = getDriver().findElement(By.xpath("//div//span[text()='Создать задачу со свободной конфигурацией']"));
         freeConfigurationButton.click();
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
         okButton.click();
