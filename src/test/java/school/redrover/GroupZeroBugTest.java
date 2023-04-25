@@ -1,12 +1,26 @@
 package school.redrover;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.BaseUtils;
+
+import java.time.Duration;
 
 public class GroupZeroBugTest extends BaseTest {
+
+    private WebDriverWait webDriverWait3;
+
+    public final WebDriverWait getWait3() {
+        if (webDriverWait3 == null) {
+            webDriverWait3 = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
+        }
+        return webDriverWait3;
+    }
 
     private void mainPage() {
         getDriver().get("http://localhost:8080/");
@@ -36,7 +50,6 @@ public class GroupZeroBugTest extends BaseTest {
         WebElement urlField = getDriver().findElement((By.xpath("//input[@name='_.projectUrlStr']")));
         urlField.sendKeys("https://github.com/Lighter888/ZeroBugJavaPractice");
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
     }
 
     private void deleteJob() {
@@ -53,7 +66,7 @@ public class GroupZeroBugTest extends BaseTest {
     }
 
     @Test(priority = 1)
-    public void verifyNewJobCreated() {
+    public void testNewJobCreated() {
 
         newJob();
 
@@ -63,9 +76,10 @@ public class GroupZeroBugTest extends BaseTest {
 
         deleteJob();
     }
+
     @Ignore
     @Test(priority = 2)
-    public void verifyJobBuild() {
+    public void testJobBuild() {
 
         newJob();
         mainPage();
@@ -73,11 +87,19 @@ public class GroupZeroBugTest extends BaseTest {
         for (int trial = 1; trial <=3; trial++) {
 
             WebElement scheduleBuild = getDriver().findElement(By.xpath("//a[@title='Schedule a Build for ZeroBugJavaPractice']"));
+            getWait3().until(ExpectedConditions.elementToBeClickable(scheduleBuild));
             scheduleBuild.click();
+
             WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']/.."));
+            getWait3().until(ExpectedConditions.elementToBeClickable(buildHistory));
             buildHistory.click();
-            String actualNumberBuild = getDriver().findElement(By.xpath("//a[.='#%s']".formatted(trial))).getText();
+
+            getWait3().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[.='#%s']".formatted(trial))));
+            WebElement numberBuild = getDriver().findElement(By.xpath("//a[.='#%s']".formatted(trial)));
+
+            String actualNumberBuild = numberBuild.getText();
             String expectedNumberBuild = "#" + trial;
+            BaseUtils.log("Check Build #%s".formatted(trial));
             Assert.assertEquals(actualNumberBuild,expectedNumberBuild, "Build has been scheduled incorrectly");
             mainPage();
         }
@@ -86,4 +108,37 @@ public class GroupZeroBugTest extends BaseTest {
         deleteJob();
 
     }
+
+    @Test
+    public void testJenkinsVersionCheck() {
+
+        String expectedResult = "Jenkins 2.387.2";
+        WebElement versionNumber = getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+
+        String actualResult = versionNumber.getText();
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSearchFieldIsPresent() {
+
+        String expectedResult = "Welcome to Jenkins!";
+        WebElement result = getDriver().findElement(By.xpath("//h1[.='Welcome to Jenkins!']"));
+        String actualResult = result.getText();
+        Assert.assertEquals(actualResult, expectedResult);
+
+        WebElement searchField = getDriver().findElement(By.cssSelector("#search-box"));
+        Assert.assertTrue(searchField.isDisplayed());
+    }
+
+    @Test
+    public void testDashboardIsPresent() {
+
+        String dashboardExpected = "Dashboard";
+        WebElement dashboard = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
+        String dashboardActual = dashboard.getText();
+
+        Assert.assertEquals(dashboardActual, dashboardExpected);
+    }
+
 }
