@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DreamTeamTest extends BaseTest {
@@ -70,8 +71,6 @@ public class DreamTeamTest extends BaseTest {
         saveButton.click();
     }
 
-
-
     @Test
     public void testDashboardSidePanelItemsList() {
         List<WebElement> sidePanelItems = getDriver().findElements(By.xpath("//*[@id=\"tasks\"]/div"));
@@ -79,4 +78,45 @@ public class DreamTeamTest extends BaseTest {
 
         Assert.assertEquals(itemsQuantity, 5);
     }
+
+    @Test
+    public void testConfigureItemsMenu() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2000));
+
+        List <String> expectedConfigureMenuNames = List.of(
+                "General",
+                "Source Code Management",
+                "Build Triggers",
+                "Build Environment",
+                "Build Steps",
+                "Post-build Actions");
+
+        WebElement createNewProject = getDriver().findElement(By.xpath("//div[@id=\"tasks\"]/div[1]/span/a"));
+        createNewProject.click();
+
+        WebElement inputItemName = getDriver().findElement(By.id("name"));
+        wait.until(ExpectedConditions.elementToBeClickable(inputItemName)).sendKeys("First Project");
+
+        WebElement freestyleProjectTab =
+                getDriver().findElement(By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"));
+        freestyleProjectTab.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
+        okButton.click();
+
+        List<WebElement> configureMenu = getDriver().findElements(By.xpath("//div[@id=\"tasks\"]/div"));
+
+        List<String> actualConfigureMenuNames = new ArrayList<>();
+        for (WebElement element: configureMenu){
+            actualConfigureMenuNames.add(element.getText());
+        }
+
+        Assert.assertEquals(actualConfigureMenuNames, expectedConfigureMenuNames);
+
+        int configureMenuQuantity = actualConfigureMenuNames.size();
+
+        Assert.assertEquals(configureMenuQuantity, 6);
+    }
 }
+
+
