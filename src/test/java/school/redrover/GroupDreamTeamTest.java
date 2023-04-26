@@ -227,4 +227,27 @@ public class GroupDreamTeamTest extends BaseTest {
 
 
     }
+
+    @Test
+    public void testUserSidePanelMenu() {
+        List<String> expectedUserSidePanelMenu = List.of(
+                "People",
+                "Status",
+                "Builds",
+                "Configure",
+                "My Views",
+                "Credentials");
+
+        WebElement userSidePanelMenu = getDriver().findElement(By.xpath("//a[@href='/user/admin']"));
+        userSidePanelMenu.click();
+
+        List<WebElement> sidePanelMenu = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
+
+        List<String> actualUserSidePanelMenu = new ArrayList<>();
+        for (WebElement element: sidePanelMenu){
+            actualUserSidePanelMenu.add(element.getText());
+        }
+
+        Assert.assertEquals(actualUserSidePanelMenu, expectedUserSidePanelMenu);
+    }
 }
