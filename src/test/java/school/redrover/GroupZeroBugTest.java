@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class GroupZeroBugTest extends BaseTest {
 
     @Test
-    public void testFirstJobIsCreated(){
+    public void testFirstJobIsCreated() throws InterruptedException {
 
         int iteration = 3;
 
@@ -28,6 +28,7 @@ public class GroupZeroBugTest extends BaseTest {
             WebElement createBtn = getDriver().findElement(By.xpath("//span[text()='New Item']/../.."));
             createBtn.click();
 
+            Thread.sleep(2000);
             String expectedHeaderItemName = "Enter an item name";
             getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             String actualHeaderItemName = getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText();
@@ -39,14 +40,14 @@ public class GroupZeroBugTest extends BaseTest {
             WebElement createJobBtn = getDriver().findElement(By.xpath("//span[text()='Freestyle project']/../.."));
             createJobBtn.click();
 
-            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            Thread.sleep(2000);
             WebElement oKBtn = getDriver().findElement(By.id("ok-button"));
             oKBtn.click();
 
-            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            Thread.sleep(2000);
             WebElement jenkinsIcon = getDriver().findElement(By.cssSelector("#jenkins-name-icon"));
             jenkinsIcon.click();
-            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            Thread.sleep(2000);
             String expectedHPTitle = "Dashboard [Jenkins]";
             String actualHPTitle = getDriver().getTitle();
             Assert.assertEquals(actualHPTitle, expectedHPTitle, "Wrong Title");
@@ -54,6 +55,7 @@ public class GroupZeroBugTest extends BaseTest {
         WebElement jenkinsIcon = getDriver().findElement(By.cssSelector("#jenkins-name-icon"));
         jenkinsIcon.click();
 
+        Thread.sleep(2000);
         List<WebElement> jobList = getDriver().findElements(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]"));
         System.out.println(jobList.size());
         int count = 1;
@@ -70,13 +72,13 @@ public class GroupZeroBugTest extends BaseTest {
             WebElement dropDownElement = getDriver().findElement(By.xpath("//span[text()='Job" + countDelete + "']/../button"));
             Actions actions = new Actions(getDriver());
             actions.moveToElement(jobNameElement)
-                    .pause(1000)
+                    .pause(2000)
                     .moveToElement(dropDownElement)
                     .click()
-                    .pause(1000)
+                    .pause(2000)
                     .build()
                     .perform();
-            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            Thread.sleep(2000);
             WebElement deleteProjectDdEl = getDriver().findElement(By.xpath("//span[text()='Delete Project']"));
             actions.moveToElement(deleteProjectDdEl)
                     .click()
