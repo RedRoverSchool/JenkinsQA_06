@@ -286,4 +286,12 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertEquals(dashboardLink.getText(), "Dashboard");
     }
 
+    @Test
+    public void testVerifyNewItemSectionPresent() {
+        WebElement spanNewItem = getDriver()
+                .findElement(By.xpath("//div[@id='tasks']/div[1]/span/a/span[2]"));
+
+        Assert.assertEquals(spanNewItem.getText(), "New Item");
+    }
+
 }
