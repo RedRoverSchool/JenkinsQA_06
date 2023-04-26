@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -14,11 +13,14 @@ import java.time.Duration;
 
 public class NeedMoreCoffeeTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testIdUser() {
         WebElement buttonPeople = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a"));
         buttonPeople.sendKeys(Keys.RETURN);
+
+        WebElement element = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"person-admin\"]/td[2]/a"))));
+
         WebElement buttonAdmin = getDriver().findElement(By.xpath("//*[@id=\"person-admin\"]/td[2]/a"));
         buttonAdmin.sendKeys(Keys.RETURN);
         WebElement textUserId = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]"));
