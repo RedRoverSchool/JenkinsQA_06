@@ -219,4 +219,27 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertTrue(folder2.isDisplayed());
     }
+
+    @Test
+    public void newFreeProjectTest(){
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+
+        WebElement page = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
+        page.click();
+
+        WebElement nameProjectField = getDriver().findElement(By.xpath("//*[@id=\"name\"]"));
+        WebElement freeStyleProject = getDriver().findElement(By.xpath("//*[@id=\"j-add-item-type-standalone-projects\"]/ul/li[1]"));
+
+        nameProjectField.sendKeys("First project");
+        freeStyleProject.click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//*[@id=\"ok-button\"]"))).click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//*[@id=\"bottom-sticker\"]/div/button[1]"))).click();
+        WebElement elementProject = getDriver().findElement(By.xpath("//*[@id=\"breadcrumbs\"]/li[3]/a"));
+
+        Assert.assertTrue(elementProject.isDisplayed());
+    }
 }
