@@ -14,8 +14,11 @@ import java.time.Duration;
 import java.util.Date;
 
 public class GroupLargusTest extends BaseTest {
-
-    private final String projectName = "TestProject_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    private static class StringUtility {
+        private static String uniqueStr(String str) {
+            return str + " " + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        }
+    }
 
     @FindBy(xpath = "//div[@id='tasks']//a[contains(@href, 'newJob')]")
     private WebElement linkNewJob;
@@ -32,7 +35,7 @@ public class GroupLargusTest extends BaseTest {
         return wait10;
     }
 
-    public WebElement waitElementVisibile(WebElement elem) {
+    public WebElement waitElementVisible(WebElement elem) {
         getWait10().until(ExpectedConditions.visibilityOf(elem));
         return elem;
     }
@@ -55,7 +58,8 @@ public class GroupLargusTest extends BaseTest {
 
 //        wait.until(ExpectedConditions.visibilityOf(inputProjectName));
 //        inputProjectName.sendKeys(projectName);
-        waitElementVisibile(inputProjectName).sendKeys(projectName);
+        String projectName = StringUtility.uniqueStr("TestProject");
+        waitElementVisible(inputProjectName).sendKeys(projectName);
 
         WebElement itemOrgFolder = getDriver()
                 .findElement(By.xpath("//span[text()='Organization Folder']/../.."));
@@ -84,6 +88,7 @@ public class GroupLargusTest extends BaseTest {
                 .findElement(By.xpath("//input[@id='name']"));
 
         wait.until(ExpectedConditions.visibilityOf(inputProjectName));
+        String projectName = StringUtility.uniqueStr("TestProject");
         inputProjectName.sendKeys(projectName);
 
         WebElement itemFolder = getDriver()
