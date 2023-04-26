@@ -3,7 +3,6 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -40,18 +39,18 @@ public class AnaBelGroupTest extends BaseTest {
 
     @Test
 
-    public  void testCreateaJob() throws InterruptedException {
+    public  void testRequieredField() throws InterruptedException {
         WebElement button = getDriver().findElement(By.xpath("//a[@href='newJob']"));
         button.click();
 
         Thread.sleep(1000);
 
-        WebElement buttonProject = getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]"));
+        WebElement buttonProject = getDriver().findElement(By.cssSelector(".label"));
         buttonProject.click();
 
-        WebElement errormessage = getDriver().findElement(By.xpath("//div[@class='input-validation-message']"));
+        WebElement errorMessage = getDriver().findElement(By.cssSelector("#itemname-required"));
 
-        Assert.assertEquals(errormessage.getText(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(errorMessage.getText(), "» This field cannot be empty, please enter a valid name");
     }
 
         @Test
