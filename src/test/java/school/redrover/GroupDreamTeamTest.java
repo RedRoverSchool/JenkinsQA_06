@@ -245,7 +245,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
    @Test
-   public void testItemTypeIcons() {
+   public void testItemTypeIconsQuantity() {
        final String expectedURL = "http://127.0.0.1:8080/view/all/newJob";
 
        WebElement newItemLink = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
