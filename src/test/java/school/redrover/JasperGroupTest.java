@@ -163,6 +163,5 @@ public class JasperGroupTest extends BaseTest {
 
         List<WebElement> usersList = getDriver().findElements(By.xpath("//*[@id=\"people\"]"));
         Assert.assertTrue(usersList.size() > 0, "List of users are empty");
-
     }
 }
