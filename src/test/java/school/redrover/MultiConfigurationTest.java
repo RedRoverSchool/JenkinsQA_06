@@ -8,20 +8,17 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class MultiConfigurationTest extends BaseTest {
-   @Ignore
+
     @Test
     public void testCreateMultiConfig() {
-       WebElement newItem = getDriver().findElement(By.xpath("//span[text()='New Item']"));
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.id("name")).sendKeys("test");
+        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("test");
+        getDriver().findElement(By.name("Submit")).click();
 
-       newItem.getText();
-
-       Assert.assertEquals(newItem, "New Item");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='description']")).isDisplayed());
     }
 
-    @Test
-    public void testSimple() {
-        WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
-
-        Assert.assertEquals(welcomeElement.getText(), "Welcome to Jenkins!");
-    }
 }
