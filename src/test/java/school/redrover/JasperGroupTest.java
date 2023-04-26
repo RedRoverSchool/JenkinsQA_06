@@ -95,4 +95,64 @@ public class JasperGroupTest extends BaseTest {
             Assert.assertEquals(name.getText(), "User");
         }
     }
+
+    @Test
+    public void testFolderEmptyNameChange() {
+        WebElement newItemButton = getDriver().findElement(By.xpath("//span[text()='New Item']/.."));
+        newItemButton.click();
+
+        WebElement nameBox = getDriver().findElement(By.xpath("//input[@name = 'name']"));
+        nameBox.sendKeys("Folder");
+
+        WebElement modeFolder = getDriver().findElement(By.xpath("//li[@class = 'com_cloudbees_hudson_plugins_folder_Folder']"));
+        modeFolder.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
+        okButton.click();
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        saveButton.click();
+
+        WebElement renameButton = getDriver().findElement(By.xpath("//span[text()='Rename']/.."));
+        renameButton.click();
+
+        WebElement newNameBox = getDriver().findElement(By.xpath("//input[@name = 'newName']"));
+        newNameBox.clear();
+
+        WebElement submitButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        submitButton.click();
+
+        WebElement headerError = getDriver().findElement(By.xpath("//h1"));
+        WebElement messageError = getDriver().findElement(By.xpath("//p"));
+
+        Assert.assertEquals(headerError.getText(), "Error");
+        Assert.assertEquals(messageError.getText(),"No name is specified");
+    }
+
+    @Test
+    public void testCreatingNewProject() throws InterruptedException {
+        WebElement newJobButton = getDriver().findElement(By.xpath("//a[@href='newJob']"));
+        newJobButton.click();
+
+        Thread.sleep(2000);
+
+        WebElement name = getDriver().findElement(By.xpath("//input[@id='name']"));
+        name.sendKeys("TestProject");
+
+        WebElement projectButton = getDriver().findElement(By.xpath("(//label)[2]"));
+        projectButton.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath(" //button[@id='ok-button']"));
+        okButton.click();
+
+        WebElement saveButton = getDriver().findElement(By.xpath("(//button[normalize-space()='Save'])[1]"));
+        saveButton.click();
+
+        WebElement mainImage = getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
+        mainImage.click();
+
+        WebElement textElement = getDriver().findElement(By.xpath("//tr[@id='job_TestProject']//td[3]"));
+        Assert.assertEquals(textElement.getText(), "TestProject");
+    }
+
 }

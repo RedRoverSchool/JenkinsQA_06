@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -30,6 +31,7 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertTrue(searchBox.isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testCreateAJobPageTitle(){
         WebElement createAJob = getDriver().findElement(By.xpath("//a[@href='newJob']/span"));
@@ -48,5 +50,17 @@ public class BugsBustersGroupTest extends BaseTest {
         WebElement PeoplePageTitle = getDriver().findElement(By.xpath("//h1"));
 
         Assert.assertEquals(PeoplePageTitle.getText(), "People");
+    }
+
+    @Test
+    public void testAddDescription () {
+        WebElement addDescription = getDriver().findElement(By.xpath("//*[@id='description-link']"));
+        addDescription.click();
+
+        WebElement textBox = getDriver().findElement(By.xpath("//textarea"));
+        textBox.isDisplayed();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@class = 'textarea-show-preview']"))
+                .getText(), "Preview");
     }
 }

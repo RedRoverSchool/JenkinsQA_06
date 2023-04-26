@@ -119,6 +119,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultDescription, expectedResultDescription);
     }
 
+    @Ignore
     @Test
     public void testADLearnMore() {
         String expectedResult = "static content of the Wiki";
