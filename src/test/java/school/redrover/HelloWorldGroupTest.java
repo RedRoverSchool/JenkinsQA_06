@@ -38,4 +38,18 @@ public class HelloWorldGroupTest extends BaseTest{
 
         Assert.assertEquals(nameFolder.getText(),"Name");
     }
+
+    @Test
+    public void testUserName(){
+        WebElement peopleElement = getDriver().findElement(By.xpath("//span[contains(text(), 'People')]/ancestor::a"));
+        peopleElement.click();
+
+        WebElement userIDElement = getDriver().findElement(By.xpath("//tr[@id='person-admin']/td/a"));
+        userIDElement.click();
+
+        WebElement userName = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(userName.getText(), "admin");
+    }
+
 }
