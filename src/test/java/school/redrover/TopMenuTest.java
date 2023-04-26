@@ -2,12 +2,24 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
+
 
 public class TopMenuTest extends BaseTest {
+    public WebDriverWait webDriverWait10;
+
+    public final WebDriverWait getWait10(){
+        if (webDriverWait10 == null) {
+            webDriverWait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        }
+        return webDriverWait10;
+    }
+
 
     @Test
     public void testCheckPeopleButton() {
@@ -47,5 +59,33 @@ public class TopMenuTest extends BaseTest {
         String actualResult1 = topMenuUser.getText();
 
         Assert.assertEquals(actualResult1, "admin");
+    }
+
+    @Test
+    public void testCreateNewItem() throws InterruptedException {
+        WebElement newItem = getDriver().findElement(By.linkText("New Item"));
+        newItem.click();
+
+        WebElement enterItemNameField = getDriver().findElement(By.xpath("//input[@id='name']"));
+        enterItemNameField.sendKeys("TestFirst");
+
+        WebElement folderType = getDriver().findElement(By.xpath("//span[text()='Folder']"));
+        folderType.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        okButton.click();
+
+        WebElement displayName = getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']"));
+        displayName.sendKeys("FirstFolder");
+
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name='_.description']"));
+        description.sendKeys("Test");
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton.click();
+
+        WebElement folderArea = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(folderArea.getText(), "FirstFolder");
     }
 }
