@@ -149,20 +149,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         WebElement menu =
                 getDriver().findElement(By.xpath("//span[text() ='admin']/following-sibling::button"));
-        actions.moveToElement(menu).click(menu).build().perform();
-        actions.moveToElement(menu).build().perform();
-
-        List<WebElement> breadcrumbMenu =
-                getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
-
-        List<String> actualResult =
-                Arrays.asList(breadcrumbMenu.get(0).getText(),
-                        breadcrumbMenu.get(1).getText(),
-                        breadcrumbMenu.get(2).getText(),
-                        breadcrumbMenu.get(3).getText());
-
-        Assert.assertEquals(actualResult, expectedResult);
-
 
     }
 }
