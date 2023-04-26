@@ -272,4 +272,11 @@ public class AlexLeoGroupTests extends BaseTest {
                 .findElement(By.cssSelector("header#page-header > div > a:last-of-type > svg")).isDisplayed());
     }
 
+    @Test
+    public void testVerifyLogOutLink() {
+        WebElement spanLogOut = getDriver().findElement(By.xpath("//header/div/a[@href='/logout']/span"));
+
+        Assert.assertEquals(spanLogOut.getText(), "log out");
+    }
+
 }
