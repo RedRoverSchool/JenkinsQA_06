@@ -30,15 +30,10 @@ public class GroupGlukhovaTest extends BaseTest {
 
         Assert.assertEquals(description.getText(), testText);
     }
+
     @Test
-    public void testAviaSales() {
-        getDriver().get("https://www.aviasales.ru/");
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(4000));
-        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofMillis(5000));
-
-        WebElement destinationButton = getDriver().findElement(By.xpath("//input[@data-test-id='destination-autocomplete-field']"));
-        destinationButton.sendKeys("Коломбо");
-
-        Assert.assertEquals(destinationButton.getText(), "");
+    public void testUser() {
+        WebElement userElement = getDriver().findElement(By.xpath("//a[contains(@href,'asynchPeople')]"));
+        Assert.assertEquals(userElement.getText(), "People");
     }
 }
