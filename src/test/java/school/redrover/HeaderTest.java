@@ -36,7 +36,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(searchIcon.isDisplayed());
         assertEquals(placeholder, "Search (CTRL+K)");
         Assert.assertTrue(helpButtonIcon.isDisplayed());
-        assertEquals(defaultHelpButtonColor,"rgba(115, 115, 140, 1)");
+        assertEquals(defaultHelpButtonColor, "rgba(115, 115, 140, 1)");
 
         hover.moveToElement(helpButton).perform();
         Thread.sleep(500);
@@ -47,13 +47,74 @@ public class HeaderTest extends BaseTest {
 
     @Description("Verify the placeholder text in the search field")
     @Test
-    public void testSearchFieldPlaceholder(){
+    public void testSearchFieldPlaceholder() {
         Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("placeholder"), "Search (CTRL+K)");
     }
 
     @Description("Verify the status of autocomplete in the search field")
     @Test
-    public void testSearchFieldAutocomplete(){
+    public void testSearchFieldAutocomplete() {
         Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
     }
+
+    @Test
+    public void testSecurityButton() throws InterruptedException {
+        Actions hover = new Actions(getDriver());
+
+        WebElement securityButton = getDriver()
+                .findElement(By.xpath("//*[@id=\"visible-sec-am-button\"]"));
+        WebElement securityButtonIcon = getDriver().findElement(By.cssSelector("#visible-sec-am-button > svg"));
+
+        Assert.assertTrue(securityButtonIcon.isDisplayed());
+
+        hover.moveToElement(securityButton).perform();
+        Thread.sleep(500);
+        String hoverSecurityButtonBackground = securityButton.getCssValue("background-color");
+        assertEquals(hoverSecurityButtonBackground, "rgba(64, 64, 64, 1)");
+    }
+
+    @Test
+    public void testUserButton() throws InterruptedException {
+        Actions hover = new Actions(getDriver());
+
+        WebElement userButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[1]"));
+        WebElement userButtonIcon = getDriver()
+                .findElement(By.cssSelector("#page-header > div.login.page-header__hyperlinks > a.model-link > svg"));
+        WebElement dropDownButton = getDriver()
+                .findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[1]/button"));
+
+        Assert.assertTrue(userButtonIcon.isDisplayed());
+        Assert.assertTrue(dropDownButton.isDisplayed());
+
+        hover.moveToElement(userButton).perform();
+        Thread.sleep(700);
+        String hoverUserButtonBackground = userButton.getCssValue("background-color");
+        String hoverUserButtonUnderline = userButton.getCssValue("text-decoration-line");
+
+        assertEquals(hoverUserButtonBackground, "rgba(64, 64, 64, 1)");
+        assertEquals(hoverUserButtonUnderline, "underline");
+    }
+
+    @Test
+    public void testExitButton() throws InterruptedException {
+        Actions hover = new Actions(getDriver());
+
+        WebElement exitButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[2]"));
+        WebElement exitButtonIcon = getDriver()
+                .findElement(By.cssSelector("#page-header > div.login.page-header__hyperlinks > a:nth-child(4) > svg"));
+
+        Assert.assertTrue(exitButtonIcon.isDisplayed());
+
+        hover.moveToElement(exitButton).perform();
+        Thread.sleep(500);
+        String hoverExitButtonBackground = exitButton.getCssValue("background-color");
+        String hoverExitButtonUnderline = exitButton.getCssValue("text-decoration-line");
+
+        assertEquals(hoverExitButtonBackground, "rgba(64, 64, 64, 1)");
+        assertEquals(hoverExitButtonUnderline, "underline");
+    }
 }
+
+
+
+
