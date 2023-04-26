@@ -46,13 +46,15 @@ public class AnaBelGroupTest extends BaseTest {
 
         Thread.sleep(1000);
 
-        WebElement buttonProject =getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]"));
+        WebElement buttonProject = getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]"));
         buttonProject.click();
 
         WebElement errormessage = getDriver().findElement(By.xpath("//div[@class='input-validation-message']"));
 
         Assert.assertEquals(errormessage.getText(), "» This field cannot be empty, please enter a valid name");
+    }
 
+        @Test
     public void testItem() {
 
         WebElement button = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
@@ -72,7 +74,7 @@ public class AnaBelGroupTest extends BaseTest {
 
         WebElement general = getDriver().findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"));
         Assert.assertEquals(general.getText(), "Project Item");
-
     }
+
 }
 
