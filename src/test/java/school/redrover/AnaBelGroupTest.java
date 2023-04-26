@@ -14,12 +14,12 @@ public class AnaBelGroupTest extends BaseTest {
         WebElement logo = getDriver().findElement(By.id("jenkins-name-icon"));
         Assert.assertTrue(logo.isDisplayed());
     }
-    @Ignore
+
     @Test
     public void testBuildHistory() {
         WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href ='/view/all/builds']"));
 
-        Assert.assertEquals(buildHistory.getText(), "Build History");
+        Assert.assertEquals(buildHistory.getText(), "Build history");
     }
 
     public void testAddDescription() {
@@ -40,17 +40,27 @@ public class AnaBelGroupTest extends BaseTest {
 
     @Test
     public void testItem() throws InterruptedException {
+
         WebElement button = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
         button.click();
 
         WebElement textBox = getDriver().findElement(By.xpath("//input[@name='name']"));
-        textBox.sendKeys("Prodjekt-Item");
+        textBox.sendKeys("Item");
 
-        WebElement lablebutton = getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']"));
-        lablebutton.click();
+        WebElement lableButton = getDriver().findElement(By.xpath("//span[contains(text(),'Multi-configuration project')]"));
+        lableButton.click();
+        Thread.sleep(2000);
 
-        WebElement Okbutton = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
-        Okbutton.click();
+        WebElement okButton = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
+        okButton.click();
 
+        WebElement validateButton = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate'][@name='Submit']"));
+        validateButton.click();
+
+        Thread.sleep(5000);
+
+        WebElement general = getDriver().findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"));
+        Assert.assertEquals(general.getText(), "Project Item");
     }
 }
+
