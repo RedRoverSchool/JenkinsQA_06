@@ -74,6 +74,7 @@ public class GroupJavaExplorersTest extends BaseTest {
         addDescriptionButton.click();
 
         WebElement descriptionInput = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        descriptionInput.clear();
         descriptionInput.sendKeys("Hello Jenkins!");
 
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']"));
