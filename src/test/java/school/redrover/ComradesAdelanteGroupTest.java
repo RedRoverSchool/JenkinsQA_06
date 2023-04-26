@@ -64,4 +64,24 @@ public class ComradesAdelanteGroupTest extends BaseTest {
 
         Assert.assertEquals(actualHeader, expectedHeader);
     }
+    @Test
+    public void testCreateNewBuild() {
+        WebElement taskLinkText = getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]/span/a"));
+
+        taskLinkText.click();
+        WebElement nameItem = getDriver().findElement(By.xpath("//*[@name='name']"));
+
+        nameItem.sendKeys("Hello world");
+        WebElement buttonFreestyleProj = getDriver().findElement(By.xpath("//*[@class='label']"));
+
+        buttonFreestyleProj.click();
+        WebElement buttonOk = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
+
+        buttonOk.click();
+        WebElement buttonSave = getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']"));
+
+        buttonSave.click();
+
+        Assert.assertEquals( getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),"Project Hello world");
+    }
 }
