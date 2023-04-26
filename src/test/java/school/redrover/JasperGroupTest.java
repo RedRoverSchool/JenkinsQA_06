@@ -128,7 +128,6 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(headerError.getText(), "Error");
         Assert.assertEquals(messageError.getText(),"No name is specified");
     }
-
     @Test
     public void testCreatingNewProject() throws InterruptedException {
         WebElement newJobButton = getDriver().findElement(By.xpath("//a[@href='newJob']"));
@@ -154,5 +153,13 @@ public class JasperGroupTest extends BaseTest {
         WebElement textElement = getDriver().findElement(By.xpath("//tr[@id='job_TestProject']//td[3]"));
         Assert.assertEquals(textElement.getText(), "TestProject");
     }
+    @Test
+    public void testCountUsers() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement users = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a")));
+        users.click();
 
+        List<WebElement> usersList = getDriver().findElements(By.xpath("//*[@id=\"people\"]"));
+        Assert.assertTrue(usersList.size() > 0, "List of users are empty");
+    }
 }
