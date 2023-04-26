@@ -219,4 +219,12 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertTrue(folder2.isDisplayed());
     }
+
+    @Test
+    public void testAndreijenkins(){
+        WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
+        Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
+
+
+    }
 }
