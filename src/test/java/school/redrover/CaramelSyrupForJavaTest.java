@@ -144,7 +144,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
     @Ignore
     @Test
-    public  void testAbramovaDropDownList() {
+    public void testAbramovaDropDownList() {
         List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
         WebElement dropDownButton = getDriver().findElement(
                By.xpath("(//button[@class = 'jenkins-menu-dropdown-chevron'])[1]"));
@@ -158,6 +158,32 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
         Assert.assertEquals(folder.size(), 4);
+    }
+
+    @Test
+    public void testSHFirstJenkins() {
+        String expectedResult = "Project AQA";
+
+        WebElement createAJob = getDriver().findElement(By.xpath("//span[text() = 'Create a job']"));
+        createAJob.click();
+        WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
+        itemName.click();
+        itemName.sendKeys("AQA");
+
+        WebElement freestyleProject = getDriver().findElement(
+                By.xpath("//span[text() = 'Freestyle project']"));
+        freestyleProject.click();
+        WebElement buttonOK = getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
+        buttonOK.click();
+
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name = 'description']"));
+        description.click();
+        description.sendKeys("Description for AQA");
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        saveButton.click();
+        WebElement createdProjectName = getDriver().findElement(By.xpath("//h1[text() = 'Project AQA']"));
+
+        Assert.assertEquals(createdProjectName.getText(), expectedResult);
     }
 }
 
