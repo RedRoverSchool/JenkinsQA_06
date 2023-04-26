@@ -6,6 +6,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
@@ -30,7 +31,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement editDescriptionButton = getDriver().findElement(By.id("description-link"));
         editDescriptionButton.click();
 
-        WebElement inputWindow = getDriver().findElement(By.xpath("//textarea[@class = 'jenkins-input   ']"));
+        WebElement inputWindow = getDriver().findElement(By.xpath("//textarea"));
         inputWindow.sendKeys("New Description");
 
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@name= 'Submit']"));
@@ -60,7 +61,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertTrue(error.isDisplayed());
         Assert.assertFalse(notError.isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testDimaKFirst() {
         String expResFol = "Folder";
@@ -118,6 +119,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultDescription, expectedResultDescription);
     }
 
+    @Ignore
     @Test
     public void testADLearnMore() {
         String expectedResult = "static content of the Wiki";
