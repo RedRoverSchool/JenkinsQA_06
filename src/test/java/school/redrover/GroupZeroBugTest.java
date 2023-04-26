@@ -1,27 +1,21 @@
 package school.redrover;
 
-import org.apache.commons.compress.archivers.zip.X0017_StrongEncryptionHeader;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.BaseUtils;
-
-import java.sql.SQLOutput;
 import java.time.Duration;
-
-import java.sql.Time;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GroupZeroBugTest extends BaseTest {
 
     @Test
-    public void testFirstJobIsCreated() throws InterruptedException {
+    public void testFirstJobIsCreated(){
 
         int iteration = 3;
 
@@ -78,6 +72,7 @@ public class GroupZeroBugTest extends BaseTest {
                     .pause(1000)
                     .build()
                     .perform();
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             WebElement deleteProjectDdEl = getDriver().findElement(By.xpath("//span[text()='Delete Project']"));
             actions.moveToElement(deleteProjectDdEl)
                     .click()
