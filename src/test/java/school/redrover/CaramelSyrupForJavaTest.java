@@ -1,16 +1,16 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
 
@@ -44,7 +44,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testRykovaEmptyRequiredField(){
+    public void testRykovaEmptyRequiredField() {
 
         WebElement newItem = getDriver().findElement(By.cssSelector("#side-panel>div>div"));
         newItem.click();
@@ -61,6 +61,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertTrue(error.isDisplayed());
         Assert.assertFalse(notError.isDisplayed());
     }
+
     @Ignore
     @Test
     public void testDimaKFirst() {
@@ -119,13 +120,13 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultDescription, expectedResultDescription);
     }
 
-    @Ignore
+
     @Test
     public void testADLearnMore() {
         String expectedResult = "static content of the Wiki";
         WebElement learnMoreHref = getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/redirect/distributed-builds']"));
         learnMoreHref.click();
-        ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
+        List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(windows.get(1));
 
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
@@ -137,8 +138,32 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = wikiJenkinsHref.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
     }
+
+    @Test
+    public void testADLearnMoreHeaders() {
+
+        List<String> expectedResult = Arrays.asList("Enter an item name", "New node", "Configure Clouds", "Jenkins");
+
+        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText(), expectedResult.get(0));
+        getDriver().navigate().back();
+
+        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='computer/new']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='New node']")).getText(), expectedResult.get(1));
+        getDriver().navigate().back();
+
+        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='configureClouds']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Configure Clouds']")).getText(), expectedResult.get(2));
+        getDriver().navigate().back();
+
+        getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")).click();
+        List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(windows.get(1));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[text()='Jenkins']")).getText(), expectedResult.get(3));
+    }
+
+
 }
 
 
