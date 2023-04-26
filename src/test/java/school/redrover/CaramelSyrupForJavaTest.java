@@ -11,6 +11,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
 
@@ -61,6 +63,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertTrue(error.isDisplayed());
         Assert.assertFalse(notError.isDisplayed());
     }
+
     @Ignore
     @Test
     public void testDimaKFirst() {
@@ -138,6 +141,23 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
 
+    }
+
+    @Test
+    public  void testAbramovaDropDownList() {
+        List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
+        WebElement dropDownButton = getDriver().findElement(
+               By.xpath("(//button[@class = 'jenkins-menu-dropdown-chevron'])[1]"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", dropDownButton);
+        List<WebElement> folder = getDriver().findElements(By.xpath("//a[@class='yuimenuitemlabel']"));
+        List<String> actualResult = new ArrayList<>();
+        for (int i = 0; i < folder.size(); i++) {
+            actualResult.add(folder.get(i).getText());
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(folder.size(), 4);
     }
 }
 
