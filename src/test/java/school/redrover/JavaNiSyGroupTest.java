@@ -77,8 +77,9 @@ public class JavaNiSyGroupTest extends BaseTest {
         Actions action = new Actions(getDriver());
         WebElement toolBarFolder =  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/job/ThisIsMyFolder/']")));
         WebElement toolBarArrow = getDriver().findElement(By.xpath("//a[@href='/job/ThisIsMyFolder/']/button"));
-        action.moveToElement(toolBarFolder).pause(500).moveToElement(toolBarArrow).click().build().perform();
-        action.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/ThisIsMyFolder/delete']"))))
+        action.moveToElement(toolBarFolder).build().perform();
+        action.moveToElement(toolBarArrow).click().pause(500).build().perform();
+        action.moveToElement(wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/ThisIsMyFolder/delete']"))))
                 .click().build().perform();
 
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
