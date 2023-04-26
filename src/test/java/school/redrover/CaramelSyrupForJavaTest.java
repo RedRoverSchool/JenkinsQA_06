@@ -148,7 +148,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Actions actions = new Actions(getDriver());
 
         WebElement menu =
-                getDriver().findElement(By.xpath("//span[text() ='admin']/following-sibling::button"));
+                getDriver().findElement(By.xpath("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']"));
 
     }
 }
