@@ -200,6 +200,7 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
+
     @Test
     public void newItemTest() {
         WebElement nItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
@@ -242,4 +243,20 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertEquals(actualUserSidePanelMenu, expectedUserSidePanelMenu);
     }
+
+   @Test
+   public void testItemTypeIcons() {
+       final String expectedURL = "http://127.0.0.1:8080/view/all/newJob";
+
+       WebElement newItemLink = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+       newItemLink.click();
+
+       String currentURL = getDriver().getCurrentUrl();
+       Assert.assertTrue(currentURL.contains("newJob"), expectedURL);
+
+       List<WebElement> itemTypeIcons = getDriver().findElements(By.xpath("//div[@class='icon']"));
+       int iconsQuantity = itemTypeIcons.size();
+
+       Assert.assertEquals(iconsQuantity, 6);
+   }
 }
