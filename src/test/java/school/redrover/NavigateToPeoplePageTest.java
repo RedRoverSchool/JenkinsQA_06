@@ -9,16 +9,17 @@ public class NavigateToPeoplePageTest extends BaseTest {
 
     @Test
     public void testNavigateToPeoplePage() throws InterruptedException {
-        final String expectedPeoplePageUrl = "http://localhost:8080/asynchPeople/";
         final String expectedPeoplePageTitle = "People - [Jenkins]";
+        final String expectedPeoplePageText = "People";
 
         getDriver().findElement(By.xpath("//a[contains(@href, 'People')]")).click();
         Thread.sleep(2000);
 
         String actualPeoplePageTitle = getDriver().getTitle();
-        String actualPeoplePageUrl = getDriver().getCurrentUrl();
+        String actualPeoplePageText = getDriver().findElement(By.xpath("//h1[contains(text(),'People')]"))
+                .getText();
 
         Assert.assertEquals(actualPeoplePageTitle, expectedPeoplePageTitle);
-        Assert.assertEquals(actualPeoplePageUrl, expectedPeoplePageUrl);
+        Assert.assertEquals(actualPeoplePageText, expectedPeoplePageText);
     }
 }

@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -38,4 +39,19 @@ public class HelloWorldGroupTest extends BaseTest{
 
         Assert.assertEquals(nameFolder.getText(),"Name");
     }
+
+    @Ignore
+    @Test
+    public void testUserName(){
+        WebElement peopleElement = getDriver().findElement(By.xpath("//span[contains(text(), 'People')]/ancestor::a"));
+        peopleElement.click();
+
+        WebElement userIDElement = getDriver().findElement(By.xpath("//tr[@id='person-admin']/td/a"));
+        userIDElement.click();
+
+        WebElement userName = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(userName.getText(), "admin");
+    }
+
 }
