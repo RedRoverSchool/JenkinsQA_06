@@ -11,6 +11,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
 
@@ -44,7 +46,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testRykovaEmptyRequiredField(){
+    public void testRMEmptyRequiredField(){
 
         WebElement newItem = getDriver().findElement(By.cssSelector("#side-panel>div>div"));
         newItem.click();
@@ -61,6 +63,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertTrue(error.isDisplayed());
         Assert.assertFalse(notError.isDisplayed());
     }
+
     @Ignore
     @Test
     public void testDimaKFirst() {
@@ -137,6 +140,28 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String actualResult = wikiJenkinsHref.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testRMMenuDropdownChevron() throws InterruptedException {
+        List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
+
+        WebElement menu =
+                getDriver().findElement(By.xpath("//span[text() ='admin']/following-sibling::button"));
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(menu).click(menu).moveToElement(menu).build().perform();
+
+        List<WebElement> breadcrumbMenu =
+                getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
+
+        List<String> actualResult =
+                Arrays.asList(breadcrumbMenu.get(0).getText(),
+                        breadcrumbMenu.get(1).getText(),
+                        breadcrumbMenu.get(2).getText(),
+                        breadcrumbMenu.get(3).getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
+
 
     }
 }
