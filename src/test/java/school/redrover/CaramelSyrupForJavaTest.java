@@ -180,7 +180,18 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(folder.size(), 4);
     }
 
+    @Test
+    public void testADConfogureCloud() throws InterruptedException {
 
+        String expectedResult = "No updates";
+
+        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='configureClouds']")).click();
+        getDriver().findElement(By.xpath("//a[text()='Go to plugin manager.']")).click();
+        getDriver().findElement(By.xpath("//span[@class='task-link-wrapper ']//a[@href='/manage/pluginManager/']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[text()='No updates']")).getText(), expectedResult);
+
+    }
 
 
 }
