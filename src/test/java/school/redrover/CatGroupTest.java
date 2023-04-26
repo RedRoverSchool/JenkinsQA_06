@@ -231,6 +231,5 @@ public class CatGroupTest extends BaseTest {
         Thread.sleep(5000);
         String strUrl = getDriver().getCurrentUrl();
         Assert.assertEquals(strUrl,"http://localhost:8080/job/First%20folder/configure");
-
     }
 }
