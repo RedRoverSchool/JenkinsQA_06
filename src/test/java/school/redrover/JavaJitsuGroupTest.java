@@ -163,6 +163,7 @@ public class JavaJitsuGroupTest extends BaseTest {
     }
 
     @Ignore
+
     @Test
     public void testAddDescription() {
         WebElement addLink = getDriver().findElement(By.xpath("//a[@id='description-link']"));

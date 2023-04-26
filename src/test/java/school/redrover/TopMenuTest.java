@@ -42,6 +42,7 @@ public class TopMenuTest extends BaseTest {
     }
 
     @Ignore
+
     @Test
     public void testTopMenuUser(){
         WebElement topMenuUser = getDriver().findElement(By.xpath("//span[@class='hidden-xs hidden-sm'][text()='admin']"));

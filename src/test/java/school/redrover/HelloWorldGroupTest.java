@@ -40,6 +40,7 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(nameFolder.getText(),"Name");
     }
     @Ignore
+
     @Test
     public void testUserName(){
         WebElement peopleElement = getDriver().findElement(By.xpath("//span[contains(text(), 'People')]/ancestor::a"));
