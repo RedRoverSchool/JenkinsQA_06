@@ -145,11 +145,12 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     @Test
     public void testRMMenuDropdownChevron() throws InterruptedException {
         List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
+        Actions actions = new Actions(getDriver());
 
         WebElement menu =
                 getDriver().findElement(By.xpath("//span[text() ='admin']/following-sibling::button"));
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(menu).click(menu).moveToElement(menu).build().perform();
+        actions.moveToElement(menu).click(menu).build().perform();
+        actions.moveToElement(menu).build().perform();
 
         List<WebElement> breadcrumbMenu =
                 getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
