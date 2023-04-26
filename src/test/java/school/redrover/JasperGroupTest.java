@@ -53,11 +53,11 @@ public class JasperGroupTest extends BaseTest {
         saveButton.click();
 
         WebElement actualResult = getDriver().findElement(By.xpath("//*[@class=\"job-index-headline page-headline\"]"));
-        Assert.assertEquals(actualResult.getText(),"Project New Item");
+        Assert.assertEquals(actualResult.getText(), "Project New Item");
     }
 
     @Test
-    public void testValidationOfCreateNewItem(){
+    public void testValidationOfCreateNewItem() {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         WebElement newItem = getDriver().findElement(By.cssSelector("[href*='/view/all/newJob']"));
@@ -91,7 +91,7 @@ public class JasperGroupTest extends BaseTest {
         WebElement headerMenuName = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']/span"));
         List<WebElement> names = new ArrayList<>(Arrays.asList(h1Name, headerMenuName));
 
-        for(WebElement name : names){
+        for (WebElement name : names) {
             Assert.assertEquals(name.getText(), "User");
         }
     }
@@ -126,7 +126,7 @@ public class JasperGroupTest extends BaseTest {
         WebElement messageError = getDriver().findElement(By.xpath("//p"));
 
         Assert.assertEquals(headerError.getText(), "Error");
-        Assert.assertEquals(messageError.getText(),"No name is specified");
+        Assert.assertEquals(messageError.getText(), "No name is specified");
     }
 
     @Test
@@ -155,4 +155,14 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(textElement.getText(), "TestProject");
     }
 
+    @Test
+    public void testCountUsers() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement users = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a")));
+        users.click();
+
+        List<WebElement> usersList = getDriver().findElements(By.xpath("//*[@id=\"people\"]"));
+        Assert.assertTrue(usersList.size() > 0, "List of users are empty");
+
+    }
 }
