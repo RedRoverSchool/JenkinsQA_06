@@ -61,7 +61,7 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteFolder() {
+    public void testDeleteFolder()  {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(4));
         WebElement newItemBtn = getDriver().findElement(By.xpath("//span[text() = 'New Item']//ancestor::a"));
         newItemBtn.click();
@@ -77,17 +77,16 @@ public class JavaNiSyGroupTest extends BaseTest {
         Actions action = new Actions(getDriver());
         WebElement toolBarFolder =  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/job/ThisIsMyFolder/']")));
         WebElement toolBarArrow = getDriver().findElement(By.xpath("//a[@href='/job/ThisIsMyFolder/']/button"));
-        action.moveToElement(toolBarFolder).build().perform();
-        action.moveToElement(toolBarArrow).click().pause(500).build().perform();
+        action.moveToElement(toolBarFolder, 45, 0).pause(2000).click().build().perform();
         action.moveToElement(wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/ThisIsMyFolder/delete']"))))
                 .click().build().perform();
 
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
-
         WebElement textAfterDeletion = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
 
         Assert.assertEquals(textAfterDeletion.getText(), "Welcome to Jenkins!");
     }
 }
+
 
 
