@@ -99,7 +99,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         WebElement createJob = getDriver().findElement(By.xpath("//span[text()='Create a job']"));
         createJob.click();
-        WebElement inputLine = getDriver().findElement(By.xpath("//input[@id='name']"));
+        WebElement inputLine = getDriver().findElement(By.xpath("//div[@class='add-item-name']//input[@class='jenkins-input']"));
         inputLine.click();
         inputLine.sendKeys("Engineer");
         WebElement freestyleProject = getDriver().findElement(By.xpath("//span[text()='Freestyle project']"));
@@ -122,7 +122,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultDescription, expectedResultDescription);
     }
 
-    @Ignore
     @Test
     public void testADLearnMore() {
         String expectedResult = "static content of the Wiki";
@@ -184,6 +183,41 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement createdProjectName = getDriver().findElement(By.xpath("//h1[text() = 'Project AQA']"));
 
         Assert.assertEquals(createdProjectName.getText(), expectedResult);
+    }
+
+    @Test
+    public void testADLearnMoreHeaders() {
+
+        List<String> expectedResult = Arrays.asList("Enter an item name", "New node", "Configure Clouds", "Jenkins");
+
+        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText(), expectedResult.get(0));
+        getDriver().navigate().back();
+
+        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='computer/new']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='New node']")).getText(), expectedResult.get(1));
+        getDriver().navigate().back();
+
+        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='configureClouds']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Configure Clouds']")).getText(), expectedResult.get(2));
+        getDriver().navigate().back();
+
+        getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")).click();
+        List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(windows.get(1));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[text()='Jenkins']")).getText(), expectedResult.get(3));
+    }
+
+    @Test
+    public void testADConfigureCloud() throws InterruptedException {
+
+        String expectedResult = "No updates";
+
+        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='configureClouds']")).click();
+        getDriver().findElement(By.xpath("//a[text()='Go to plugin manager.']")).click();
+        getDriver().findElement(By.xpath("//span[@class='task-link-wrapper ']//a[@href='/manage/pluginManager/']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[text()='No updates']")).getText(), expectedResult);
     }
 }
 
