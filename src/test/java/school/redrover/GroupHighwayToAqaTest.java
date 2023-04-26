@@ -269,14 +269,13 @@ public class GroupHighwayToAqaTest extends BaseTest {
     public void testSearchItemWithEmptyFieldNegative() {
         getDriver().findElement(NEW_ITEM).click();
 
-        WebDriverWait waitForSearchFieldTitle = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        waitForSearchFieldTitle.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='name']")));
+        WebDriverWait waitFor = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        waitFor.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='name']")));
 
         WebElement itemNameField = getDriver().findElement(By.xpath("//div[@class='add-item-name']"));
         itemNameField.click();
 
-        WebDriverWait waitForEmptyFieldNotification = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        waitForEmptyFieldNotification.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='itemname-required']")));
+        waitFor.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='itemname-required']")));
 
         WebElement emptyFieldNotification = getDriver().findElement(By.xpath("//div[@id='itemname-required']"));
         String actualEmptyFieldNotificationText = emptyFieldNotification.getText();
