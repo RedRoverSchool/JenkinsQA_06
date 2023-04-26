@@ -35,21 +35,23 @@ public class GroupBraveAQATest extends BaseTest {
         return getWait10().until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public String getText(WebElement element){
-       if(!element.getText().isEmpty()){
-           verifyElementVisible(element);
-       }
-       return element.getText();
+    public String getText(WebElement element) {
+        if (!element.getText().isEmpty()) {
+            verifyElementVisible(element);
+        }
+        return element.getText();
     }
 
-    public String getNewItemPage_header(){
+    public String getNewItemPage_header() {
         return getText(newItemPage_header);
     }
-    public void clickWelcomePage_createAJobLink(){
+
+    public void clickWelcomePage_createAJobLink() {
         verifyElementIsClickable(welcomePage_createAJobLink).click();
     }
+
     @Test
-    public void test_NewItemPageOpensByClickingCreateAJobLink_Successfully(){
+    public void test_NewItemPageOpensByClickingCreateAJobLink_Successfully() {
         PageFactory.initElements(getDriver(), this);
         clickWelcomePage_createAJobLink();
         String actualHeader = getNewItemPage_header();
