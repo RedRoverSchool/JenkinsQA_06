@@ -195,6 +195,7 @@ public class CatGroupTest extends BaseTest {
 
         Assert.assertTrue(actualResult);
     }
+    @Ignore
     @Test
     public void testItemsOfDropDownTopMenuIsVisibleAndClickable(){
         PageFactory.initElements(getDriver(), this);

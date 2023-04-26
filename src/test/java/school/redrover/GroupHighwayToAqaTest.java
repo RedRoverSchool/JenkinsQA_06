@@ -264,4 +264,22 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         Assert.assertEquals(h1, "Welcome to Jenkins!");
     }
+
+    @Test
+    public void testSearchItemWithEmptyFieldNegative() {
+        getDriver().findElement(NEW_ITEM).click();
+
+        WebDriverWait waitFor = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        waitFor.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='name']")));
+
+        WebElement itemNameField = getDriver().findElement(By.xpath("//div[@class='add-item-name']"));
+        itemNameField.click();
+
+        waitFor.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='itemname-required']")));
+
+        WebElement emptyFieldNotification = getDriver().findElement(By.xpath("//div[@id='itemname-required']"));
+        String actualEmptyFieldNotificationText = emptyFieldNotification.getText();
+
+        Assert.assertEquals(actualEmptyFieldNotificationText, "» This field cannot be empty, please enter a valid name");
+    }
 }
