@@ -46,8 +46,8 @@ public class JavaNiSyGroupTest extends BaseTest {
         WebElement fieldNewFolder = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='header']//input")));
         fieldNewFolder.sendKeys("ThisIsMyFolder");
 
-        WebElement FolderBtn = getDriver().findElement(By.xpath("//input[contains(@value, '.Folder')]//ancestor::li"));
-        FolderBtn.click();
+        WebElement folderBtn = getDriver().findElement(By.xpath("//input[contains(@value, '.Folder')]//ancestor::li"));
+        folderBtn.click();
 
         WebElement okBtn = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
         okBtn.click();
@@ -59,5 +59,34 @@ public class JavaNiSyGroupTest extends BaseTest {
 
         Assert.assertEquals(confirmation.getText(), "This folder is empty");
     }
+
+    @Test
+    public void testDeleteFolder()  {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(4));
+        WebElement newItemBtn = getDriver().findElement(By.xpath("//span[text() = 'New Item']//ancestor::a"));
+        newItemBtn.click();
+
+        WebElement fieldNewFolder = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='header']//input")));
+        fieldNewFolder.sendKeys("ThisIsMyFolder");
+
+        WebElement folderBtn = getDriver().findElement(By.xpath("//input[contains(@value, '.Folder')]//ancestor::li"));
+        folderBtn.click();
+
+        WebElement okBtn = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        okBtn.click();
+        Actions action = new Actions(getDriver());
+        WebElement toolBarFolder =  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/job/ThisIsMyFolder/']")));
+        WebElement toolBarArrow = getDriver().findElement(By.xpath("//a[@href='/job/ThisIsMyFolder/']/button"));
+        action.moveToElement(toolBarFolder, 45, 0).click().build().perform();
+        action.moveToElement(wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/ThisIsMyFolder/delete']"))))
+                .click().build().perform();
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
+        WebElement textAfterDeletion = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
+
+        Assert.assertEquals(textAfterDeletion.getText(), "Welcome to Jenkins!");
+    }
 }
+
+
 
