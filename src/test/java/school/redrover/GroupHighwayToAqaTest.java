@@ -155,6 +155,25 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
+    public void testCreateAJobWithAnErrorMessageAsAResult(){
+        WebElement myViewsTask = getDriver().findElement(
+                By.xpath("//a[@href='/me/my-views']")
+        );
+        myViewsTask.click();
+        WebElement messageOnThePage = getDriver().findElement(By.xpath("//div[@id='main-panel']//h2"));
+
+        Assert.assertEquals(messageOnThePage.getText(), "This folder is empty");
+
+        WebElement createAJobBlock = getDriver().findElement(By.xpath("//span[text()='Create a job']"));
+        createAJobBlock.click();
+        WebElement okButton = getDriver().findElement(By.xpath("//div[@class='btn-decorator']"));
+        okButton.click();
+        WebElement messageInRed = getDriver().findElement(By.xpath("//div[@id='itemname-required']"));
+
+        Assert.assertEquals(messageInRed.getText(), "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
     public void testNegativeSymbolForFreestyleProjectItemsName() {
         final String[] NegativeSymbol = {"!", "@", "#", "$", "%", "^", "&", "*", ";", ":", "?", "/", "<", ">", "\\", "[", "]", "|", "."};
 
@@ -214,5 +233,35 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Assert.assertEquals(statusProject.getText(), expectedResult);
     }
 
-}
+    @Test
+    public void testCreateNewProject() throws InterruptedException {
+        String name="Мой проект";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
 
+        WebElement createNewItemButton= wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath
+                ("//span[@class='task-icon-link']")));
+        createNewItemButton.click();
+
+        WebElement writeNameOfItem = getDriver().findElement(By.id("name"));
+        writeNameOfItem.sendKeys(name);
+        WebElement chooseProject = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
+        chooseProject.click();
+        WebElement pushOkButton=wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class='btn-decorator']")));
+        pushOkButton.click();
+        WebElement saveChanges=wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
+        saveChanges.click();
+
+        String sucessMesageOfNewProject=getDriver().findElement(By.className("job-index-headline")).getText();
+        Assert.assertEquals(sucessMesageOfNewProject,"Project "+ name);
+         }
+
+    @Test
+    public void testTitle() {
+        WebElement header = getDriver().findElement(By.xpath("//h1"));
+
+        String h1 = header.getText();
+
+        Assert.assertEquals(h1, "Welcome to Jenkins!");
+    }
+}

@@ -22,7 +22,7 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testNewFreestyleProjectCreated() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2000));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
         WebElement createAJobArrow = getDriver().findElement(
                 By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")
@@ -94,8 +94,9 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testConfigureItemsMenu() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2000));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
+        String expectedPageHeader = "Configure";
         List <String> expectedConfigureMenuNames = List.of(
                 "General",
                 "Source Code Management",
@@ -116,6 +117,10 @@ public class GroupDreamTeamTest extends BaseTest {
 
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
         okButton.click();
+
+        WebElement actualPageHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualPageHeader.getText(), expectedPageHeader);
 
         List<WebElement> configureMenu = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
 
@@ -194,5 +199,24 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
+    }
+    @Test
+    public void newItemTest() {
+        WebElement nItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        nItem.click();
+        WebElement nameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
+        nameBox.sendKeys("Folder2");
+        WebElement folder = getDriver().findElement(By.xpath("//span[text()='Folder']"));
+        folder.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        WebElement folder2 = getDriver().findElement(By.xpath("//a[@href='/job/Folder2/']"));
+
+        Assert.assertTrue(folder2.isDisplayed());
     }
 }

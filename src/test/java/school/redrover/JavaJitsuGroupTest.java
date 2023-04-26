@@ -161,4 +161,41 @@ public class JavaJitsuGroupTest extends BaseTest {
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
 
+    @Test
+    public void testAddDescription() {
+        WebElement addLink = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        addLink.click();
+        WebElement textInput = getDriver().findElement(By.cssSelector("textarea[name='description']"));
+        textInput.clear();
+        textInput.sendKeys("text");
+        WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
+        buttonSave.click();
+        WebElement inputAdd = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
+        Assert.assertEquals(inputAdd.getText(), "text");
+    }
+
+    @Test
+    public void testCreateAJob() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement createAJob = getDriver().findElement(By.xpath("//span[text()='Create a job']"));
+        createAJob.click();
+        WebElement inputName = getDriver().findElement(By.id("name"));
+        inputName.sendKeys("NewProject");
+        WebElement selectFreestyleProject = getDriver().findElement(By.xpath("//span[text() = 'Freestyle project']"));
+        selectFreestyleProject.click();
+        WebElement okBtn = getDriver().findElement(By.id("ok-button"));
+        okBtn.click();
+        Thread.sleep(2000);
+
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        description.sendKeys("My first Jenkins project");
+        WebElement submitBtn = getDriver().findElement(By.cssSelector("button[name='Submit']"));
+        submitBtn.click();
+        Thread.sleep(2000);
+
+        WebElement projectTitle = getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"));
+
+        Assert.assertEquals(projectTitle.getText(),"Project NewProject");
+    }
+
 }
