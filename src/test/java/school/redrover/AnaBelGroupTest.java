@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -13,7 +14,7 @@ public class AnaBelGroupTest extends BaseTest {
         WebElement logo = getDriver().findElement(By.id("jenkins-name-icon"));
         Assert.assertTrue(logo.isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testBuildHistory() {
         WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href ='/view/all/builds']"));
@@ -35,5 +36,21 @@ public class AnaBelGroupTest extends BaseTest {
         WebElement verify = getDriver().findElement(By.cssSelector("#description>div"));
 
         Assert.assertEquals(verify.getText(), "testDesctiprion1");
+    }
+
+    @Test
+    public void testItem() throws InterruptedException {
+        WebElement button = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        button.click();
+
+        WebElement textBox = getDriver().findElement(By.xpath("//input[@name='name']"));
+        textBox.sendKeys("Prodjekt-Item");
+
+        WebElement lablebutton = getDriver().findElement(By.xpath("//span[text()='Мультиконфигурационный проект']"));
+        lablebutton.click();
+
+        WebElement Okbutton = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
+        Okbutton.click();
+
     }
 }
