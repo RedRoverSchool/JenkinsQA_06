@@ -263,4 +263,23 @@ public class CatGroupTest extends BaseTest {
 
        Assert.assertEquals(recorderName, expectedResult);
     }
+    @Test
+    public void testEnterItemTable() throws InterruptedException {
+        WebElement createAJob = getDriver().findElement(By.xpath("//a[@href='newJob']"));
+        createAJob.click();
+
+        String nameOfFolder = "First folder";
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name = 'name']")));
+        WebElement enterAnItemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
+        enterAnItemName.sendKeys(nameOfFolder);
+        WebElement freestyleProject = getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']"));
+        freestyleProject.click();
+
+        WebElement buttonSubmit = getDriver().findElement(By.xpath("//div[@class = 'btn-decorator']"));
+        buttonSubmit.click();
+
+        Thread.sleep(5000);
+        String strUrl = getDriver().getCurrentUrl();
+        Assert.assertEquals(strUrl,"http://localhost:8080/job/First%20folder/configure");
+    }
 }
