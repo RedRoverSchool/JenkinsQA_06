@@ -151,9 +151,18 @@ public class CaramelSyrupForJavaTest extends BaseTest {
                 getDriver().findElement(By.xpath
                         ("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']"));
 
-        actions.moveToElement(menu).click(menu).moveToElement(menu).build().perform();
+        actions.moveToElement(menu).click(menu).build().perform();
+        actions.moveToElement(menu).build().perform();
         List<WebElement> breadcrumbMenu =
-                getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
+                getDriver().findElements(By.xpath("//div[@id='breadcrumb-menu']/div/ul/li/a/span"));
+
+        List <String> actualResult = new ArrayList<>();
+        actualResult.add(breadcrumbMenu.get(0).getText());
+        actualResult.add(breadcrumbMenu.get(1).getText());
+        actualResult.add(breadcrumbMenu.get(2).getText());
+        actualResult.add(breadcrumbMenu.get(3).getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
 
