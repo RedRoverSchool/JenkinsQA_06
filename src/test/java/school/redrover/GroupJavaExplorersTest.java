@@ -66,5 +66,24 @@ public class GroupJavaExplorersTest extends BaseTest {
         Assert.assertEquals(actualNameOfMultibranchPipeline, expectedNameOfMultibranchPipeline);
     }
 
+    @Test
+    public void testAddDescription() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        WebElement addDescriptionButton = getDriver().findElement(By.xpath("//a[@href='editDescription']"));
+        addDescriptionButton.click();
+
+        WebElement descriptionInput = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        descriptionInput.clear();
+        descriptionInput.sendKeys("Hello Jenkins!");
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']"));
+        saveButton.click();
+
+        WebElement resultMessage = getDriver().findElement(By.xpath("//div[@id='description']/div"));
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, "Hello Jenkins!");
+    }
 
 }
