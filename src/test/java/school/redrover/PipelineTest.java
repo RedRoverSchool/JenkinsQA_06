@@ -18,12 +18,14 @@ public class PipelineTest extends BaseTest {
 
     private final By newItem = By.linkText("New Item");
     private final By name = By.id("name");
-    private final By pipeline = By.xpath("//span[text() = 'Pipeline']");
+    private final By pipelineItem = By.xpath("//span[text() = 'Pipeline']");
+    private final By pipelineJob = By.xpath("//span[text() = '"+PIPELINE_NAME+"']");
     private final By okButton = By.id("ok-button");
     private final By saveButton = By.xpath("//button[contains(@class,'jenkins-button jenkins-button--primary')]");
     private final By jenkinsIconHeader = By.id("jenkins-name-icon");
     private final By textAreaDescription = By.xpath("//textarea[@name='description']");
     private final By pipelineDescription = By.xpath("//div[@id = 'description']/div[1]");
+    private final By editDescription = By.xpath("//a[@id='description-link']");
 
     private WebDriverWait getWait(int seconds) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
@@ -78,7 +80,7 @@ public class PipelineTest extends BaseTest {
     public void testCreatedPipelineIsDisplayedOnDashboard() {
         getDriver().findElement(newItem).click();
         getWait(1).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipeline).click();
+        getDriver().findElement(pipelineItem).click();
         getDriver().findElement(okButton).click();
         getWait(2).until(ExpectedConditions.elementToBeClickable(saveButton)).click();
         getDriver().findElement(jenkinsIconHeader).click();
@@ -93,12 +95,34 @@ public class PipelineTest extends BaseTest {
         String pipelineDescriptionText = "description text";
         getDriver().findElement(newItem).click();
         getWait(1).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipeline).click();
+        getDriver().findElement(pipelineItem).click();
         getDriver().findElement(okButton).click();
         getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
         getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionText);
         getDriver().findElement(saveButton).click();
 
         Assert.assertEquals(getDriver().findElement(pipelineDescription).getText(), pipelineDescriptionText);
+    }
+
+    @Test
+    public void testEditPipelineDescription() {
+        String pipelineDescriptionText = "description text";
+        String pipelineDescriptionTextEdited = "Edited description text";
+        getDriver().findElement(newItem).click();
+        getWait(1).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
+        getDriver().findElement(pipelineItem).click();
+        getDriver().findElement(okButton).click();
+        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
+        getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionText);
+        getDriver().findElement(saveButton).click();
+        getDriver().findElement(jenkinsIconHeader).click();
+        getDriver().findElement(pipelineJob).click();
+        getDriver().findElement(editDescription).click();
+        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
+        getDriver().findElement(textAreaDescription).clear();
+        getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionTextEdited);
+        getDriver().findElement(saveButton).click();
+
+        Assert.assertEquals(getDriver().findElement(pipelineDescription).getText(), pipelineDescriptionTextEdited);
     }
 }

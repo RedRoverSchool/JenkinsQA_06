@@ -261,4 +261,37 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Remote API [Jenkins]");
     }
 
+    @Test
+    public void testVerifySearchField() {
+        Assert.assertTrue(getDriver().findElement(By.id("search-box")).isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogOutIcon() {
+        Assert.assertTrue(getDriver()
+                .findElement(By.cssSelector("header#page-header > div > a:last-of-type > svg")).isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogOutLink() {
+        WebElement spanLogOut = getDriver().findElement(By.xpath("//header/div/a[@href='/logout']/span"));
+
+        Assert.assertEquals(spanLogOut.getText(), "log out");
+    }
+
+    @Test
+    public void testVerifyTextInDropDownMenu() {
+        WebElement dashboardLink = getDriver().findElement(By.cssSelector("#breadcrumbs > li > a"));
+
+        Assert.assertEquals(dashboardLink.getText(), "Dashboard");
+    }
+
+    @Test
+    public void testVerifyNewItemSectionPresent() {
+        WebElement spanNewItem = getDriver()
+                .findElement(By.xpath("//div[@id='tasks']/div[1]/span/a/span[2]"));
+
+        Assert.assertEquals(spanNewItem.getText(), "New Item");
+    }
+
 }
