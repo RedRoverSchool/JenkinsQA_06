@@ -67,7 +67,7 @@ public class TopMenuTest extends BaseTest {
         displayName.sendKeys("FirstFolder");
 
         WebElement description = getDriver().findElement(By.xpath("//textarea[@name='_.description']"));
-        description.sendKeys("Test");
+        description.sendKeys("TestOne");
 
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveButton.click();
