@@ -279,4 +279,11 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertEquals(spanLogOut.getText(), "log out");
     }
 
+    @Test
+    public void testVerifyTextInDropDownMenu() {
+        WebElement dashboardLink = getDriver().findElement(By.cssSelector("#breadcrumbs > li > a"));
+
+        Assert.assertEquals(dashboardLink.getText(), "Dashboard");
+    }
+
 }
