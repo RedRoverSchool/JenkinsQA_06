@@ -44,6 +44,8 @@ public class CatGroupTest extends BaseTest {
     private WebElement dropDownTopMenu;
     @FindBy(xpath = "//ul[@class='first-of-type']//li")
     private List<WebElement> dropDownItemsTopMenu;
+    @FindBy(xpath = "//div[@id='tasks']//div")
+    private List<WebElement> featureListSidePanel;
 
     public WebDriverWait webDriverWait10;
 
@@ -95,38 +97,46 @@ public class CatGroupTest extends BaseTest {
 
         return texts;
     }
-    public void printNameOfProject(){
+
+    public void printNameOfProject() {
         String inputText = "Project";
         verifyElementVisible(inputFieldToCreateJob);
         verifyElementIsClickable(inputFieldToCreateJob).sendKeys(inputText);
     }
-    public void clickFreestyleProject(){
+
+    public void clickFreestyleProject() {
         verifyElementIsClickable(sectionFreestyleProject).click();
     }
-    public void clickSubmitButton(){
+
+    public void clickSubmitButton() {
         verifyElementVisible(submitButton);
         verifyElementIsClickable(submitButton).click();
     }
-    public void clickSaveButton(){
+
+    public void clickSaveButton() {
         verifyElementVisible(saveButton);
         verifyElementIsClickable(saveButton).click();
     }
-    public String getH1CreatedProject(){
+
+    public String getH1CreatedProject() {
         verifyElementVisible(h1CreatedProject);
         return getText(h1CreatedProject);
     }
+
     public void clickByJavaScript(WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", element);
     }
-    public boolean isAllItemsAreVisibleAndClickable(List<WebElement> elements){
+
+    public boolean isAllItemsAreVisibleAndClickable(List<WebElement> elements) {
+        System.out.println("test " + elements);
         List<WebElement> allItemsDropDown = new ArrayList<>(elements);
         int count = 0;
-        for (WebElement dropDownItem: allItemsDropDown){
-          if(dropDownItem.isDisplayed()){
-              verifyElementIsClickable(dropDownItem);
-              count ++;
-          }
+        for (WebElement dropDownItem : allItemsDropDown) {
+            if (dropDownItem.isDisplayed()) {
+                verifyElementIsClickable(dropDownItem);
+                count++;
+            }
         }
         return elements.size() == count;
     }
@@ -149,7 +159,7 @@ public class CatGroupTest extends BaseTest {
     }
 
     @Test
-    public void testH1ContainsNameOfNewPriject(){
+    public void testH1ContainsNameOfNewPriject() {
         String expectedH1NameOfProject = "Project Project";
 
         PageFactory.initElements(getDriver(), this);
@@ -160,7 +170,7 @@ public class CatGroupTest extends BaseTest {
         clickSaveButton();
         String actualH1NameOfProject = getH1CreatedProject();
 
-        Assert.assertEquals(actualH1NameOfProject,expectedH1NameOfProject);
+        Assert.assertEquals(actualH1NameOfProject, expectedH1NameOfProject);
     }
 
     @Test
@@ -188,6 +198,7 @@ public class CatGroupTest extends BaseTest {
 
         Assert.assertEquals(actualVersionOfJenkins, expectedVersionOfJenkins);
     }
+
     @Test
     public void testBuildHistoryButton() {
         WebElement buttonBuildHistory = getDriver().findElement(By.linkText("Build History"));
@@ -195,8 +206,9 @@ public class CatGroupTest extends BaseTest {
 
         Assert.assertTrue(actualResult);
     }
+
     @Test
-    public void testItemsOfDropDownTopMenuIsVisibleAndClickable(){
+    public void testItemsOfDropDownTopMenuIsVisibleAndClickable() {
         PageFactory.initElements(getDriver(), this);
         clickByJavaScript(dropDownTopMenu);
         Assert.assertTrue(isAllItemsAreVisibleAndClickable(dropDownItemsTopMenu));
@@ -261,6 +273,17 @@ public class CatGroupTest extends BaseTest {
         WebElement addedRecorderName = getDriver().findElement(By.xpath("//div[@id = 'main-panel']/h1"));
         String expectedResult = addedRecorderName.getText();
 
-       Assert.assertEquals(recorderName, expectedResult);
+        Assert.assertEquals(recorderName, expectedResult);
+    }
+
+    @Test
+    public void testSidePanelNames() {
+
+        final List<String> expectedSidePanelNames = Arrays.asList("New Item", "People", "Build History",
+                "Manage Jenkins", "My Views", "Open Blue Ocean");
+        PageFactory.initElements(getDriver(), this);
+        List<String> actualSidePanelNames = getNamesOfLists(featureListSidePanel);
+
+        Assert.assertEquals(actualSidePanelNames, expectedSidePanelNames);
     }
 }
