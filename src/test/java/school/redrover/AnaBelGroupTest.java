@@ -37,7 +37,7 @@ public class AnaBelGroupTest extends BaseTest {
         Assert.assertEquals(verify.getText(), "testDesctiprion1");
     }
     @Test
-    public void IndicatorTest(){
+    public void testIndicator(){
         WebElement indicator = getDriver().findElement(By.xpath("//*[@id='visible-sec-am-button']/span"));
         Assert.assertTrue(indicator.isDisplayed());
     }
