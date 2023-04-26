@@ -16,7 +16,7 @@ public class BestAutoTeamTest extends BaseTest {
 
         Assert.assertTrue(jenkinsLogo.isDisplayed());
     }
-  
+
     @Ignore
     @Test
     public void testAddDescription() throws InterruptedException {
@@ -67,8 +67,9 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(manageJenkins.getText(), "Manage Jenkins");
         Assert.assertEquals(myViews.getText(), "My Views");
     }
+
     @Test
-    public void testAddNewItem(){
+    public void testAddNewItem() {
 
         WebElement buttonNewItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
         buttonNewItem.click();
@@ -90,5 +91,19 @@ public class BestAutoTeamTest extends BaseTest {
 
         Assert.assertEquals(titleOfPage.getText(), "Project New Item adding test");
         Assert.assertEquals(buttonAddDescription.getText(), "Add description");
+    }
+
+    @Test
+    public void testJenkinsUser() {
+
+        WebElement usernameFromPageHeader = getDriver().findElement(By.xpath("//div[@class='login page-header__hyperlinks']//a[@class='model-link']//span"));
+        String actualUsername = usernameFromPageHeader.getText();
+        WebElement linkPeople = getDriver().findElement(By.xpath("//div[@class='task '][2]//a"));
+        linkPeople.click();
+        WebElement usernameFromTablePeople = getDriver().findElement(By.xpath("//div[@id='main-panel']//td[3]"));
+        String usernameFromTable = usernameFromTablePeople.getText();
+
+        Assert.assertEquals(usernameFromTable, actualUsername, "Usernames are different");
+
     }
 }
