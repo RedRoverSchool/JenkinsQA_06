@@ -25,9 +25,9 @@ public class MarishaSkyTest extends BaseTest{
             WebElement buttonSubmit = getDriver().findElement(By.xpath("//button[@name='Submit']"));
             buttonSubmit.click();
 
-            WebElement text = getDriver().findElement(By.xpath("//h1[text()='Project Test']"));
+            WebElement text = getDriver().findElement(By.xpath("//h1[text()='Проект Test']"));
 
-            Assert.assertEquals(text.getText(), "Project Test");
+            Assert.assertEquals(text.getText(), "Проект Test");
         }
     }
 
