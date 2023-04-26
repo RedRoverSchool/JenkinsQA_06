@@ -3,6 +3,7 @@ package school.redrover;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -263,5 +264,24 @@ public class GroupHighwayToAqaTest extends BaseTest {
         String h1 = header.getText();
 
         Assert.assertEquals(h1, "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testSearchItemWithEmptyFieldNegative() {
+        getDriver().findElement(NEW_ITEM).click();
+
+        WebDriverWait waitForSearchFieldTitle = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        waitForSearchFieldTitle.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='name']")));
+
+        WebElement itemNameField = getDriver().findElement(By.xpath("//div[@class='add-item-name']"));
+        itemNameField.click();
+
+        WebDriverWait waitForEmptyFieldNotification = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        waitForEmptyFieldNotification.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='itemname-required']")));
+
+        WebElement emptyFieldNotification = getDriver().findElement(By.xpath("//div[@id='itemname-required']"));
+        String actualEmptyFieldNotificationText = emptyFieldNotification.getText();
+
+        Assert.assertEquals(actualEmptyFieldNotificationText, "» This field cannot be empty, please enter a valid name");
     }
 }
