@@ -19,7 +19,7 @@ public class AnaBelGroupTest extends BaseTest {
     public void testBuildHistory() {
         WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href ='/view/all/builds']"));
 
-        Assert.assertEquals(buildHistory.getText(), "Build history");
+        Assert.assertEquals(buildHistory.getText(), "Build History");
     }
 
     public void testAddDescription() {
