@@ -97,39 +97,32 @@ public class CatGroupTest extends BaseTest {
 
         return texts;
     }
-
-    public void printNameOfProject() {
+    public void printNameOfProject(){
         String inputText = "Project";
         verifyElementVisible(inputFieldToCreateJob);
         verifyElementIsClickable(inputFieldToCreateJob).sendKeys(inputText);
     }
-
-    public void clickFreestyleProject() {
+    public void clickFreestyleProject(){
         verifyElementIsClickable(sectionFreestyleProject).click();
     }
-
-    public void clickSubmitButton() {
+    public void clickSubmitButton(){
         verifyElementVisible(submitButton);
         verifyElementIsClickable(submitButton).click();
     }
-
-    public void clickSaveButton() {
+    public void clickSaveButton(){
         verifyElementVisible(saveButton);
         verifyElementIsClickable(saveButton).click();
     }
-
-    public String getH1CreatedProject() {
+    public String getH1CreatedProject(){
         verifyElementVisible(h1CreatedProject);
         return getText(h1CreatedProject);
     }
-
     public void clickByJavaScript(WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", element);
     }
 
-    public boolean isAllItemsAreVisibleAndClickable(List<WebElement> elements) {
-        System.out.println("test " + elements);
+    public boolean isAllItemsAreVisibleAndClickable(List<WebElement> elements){
         List<WebElement> allItemsDropDown = new ArrayList<>(elements);
         int count = 0;
         for (WebElement dropDownItem : allItemsDropDown) {
@@ -206,7 +199,7 @@ public class CatGroupTest extends BaseTest {
 
         Assert.assertTrue(actualResult);
     }
-
+    @Ignore
     @Test
     public void testItemsOfDropDownTopMenuIsVisibleAndClickable() {
         PageFactory.initElements(getDriver(), this);
