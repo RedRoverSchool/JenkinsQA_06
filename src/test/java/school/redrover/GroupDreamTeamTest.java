@@ -200,4 +200,23 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
+    @Test
+    public void newItemTest() {
+        WebElement nItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        nItem.click();
+        WebElement nameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
+        nameBox.sendKeys("Folder2");
+        WebElement folder = getDriver().findElement(By.xpath("//span[text()='Folder']"));
+        folder.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        WebElement folder2 = getDriver().findElement(By.xpath("//a[@href='/job/Folder2/']"));
+
+        Assert.assertTrue(folder2.isDisplayed());
+    }
 }

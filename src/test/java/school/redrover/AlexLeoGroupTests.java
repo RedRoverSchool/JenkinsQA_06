@@ -253,5 +253,12 @@ public class AlexLeoGroupTests extends BaseTest {
 
         Assert.assertEquals(actualString, expectedString);
     }
+    @Test
+    public void testAPILinkInTheFooter() {
+        WebElement apiLinkButton = getDriver().findElement(By.xpath("//a[text()='REST API']"));
+        apiLinkButton.click();
+
+        Assert.assertEquals(getDriver().getTitle(), "Remote API [Jenkins]");
+    }
 
 }
