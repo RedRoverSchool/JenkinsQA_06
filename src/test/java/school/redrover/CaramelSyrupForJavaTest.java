@@ -157,6 +157,10 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Configure Clouds']")).getText(), expectedResult.get(2));
         getDriver().navigate().back();
 
+        getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")).click();
+        List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(windows.get(1));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[text()='Jenkins']")).getText(), expectedResult.get(3));
     }
 
     @Test
@@ -174,11 +178,9 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
         Assert.assertEquals(folder.size(), 4);
-        getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")).click();
-        List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(windows.get(1));
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[text()='Jenkins']")).getText(), expectedResult.get(3));
     }
+
+
 
 
 }
