@@ -141,4 +141,26 @@ public class GroupZeroBugTest extends BaseTest {
         Assert.assertEquals(dashboardActual, dashboardExpected);
     }
 
+    @Test
+    public void testCreateJob() {
+
+        WebElement createButton = getDriver().findElement(By.xpath("//span[text()= 'Create a job']"));
+        createButton.click();
+
+        WebElement textBox = getDriver().findElement(By.name("name"));
+        textBox.sendKeys("Project_1");
+
+        WebElement freestyleProject = getDriver().findElement(By.xpath("//span[.='Freestyle project']"));
+        freestyleProject.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        WebElement dashboard = getDriver().findElement(By.xpath("//a[@href='/'][@class ='model-link']"));
+        dashboard.click();
+
+        WebElement projectName = getDriver().findElement(By.xpath("//a[@href = 'job/Project_1/']"));
+
+        Assert.assertTrue(projectName.isDisplayed());
+    }
 }
