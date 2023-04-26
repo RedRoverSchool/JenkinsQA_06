@@ -10,7 +10,7 @@ import school.redrover.runner.BaseTest;
 public class ComradesAdelanteGroupTest extends BaseTest {
 
     @Test
-    public void CreateJobJenkinsTest() {
+    public void testCreateJobJenkins() {
         WebElement createJobLink = getDriver().findElement(By.xpath("//span[contains(text(), 'Create a job')]"));
         createJobLink.click();
 
@@ -28,7 +28,7 @@ public class ComradesAdelanteGroupTest extends BaseTest {
         Assert.assertEquals(generalInfoField.getText(), "General");
     }
     @Test
-    public void verifyNameOfFreestyleProjectTest() {
+    public void testVerifyNameOfFreestyleProject() {
         String nameOfJob = "Simple test";
         String expectedHeader = "Project ".concat(nameOfJob);
 
