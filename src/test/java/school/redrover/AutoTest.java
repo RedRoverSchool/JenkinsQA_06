@@ -18,48 +18,32 @@ public class AutoTest extends BaseTest {
         }
         return webDriverWait10;
     }
-
     public final void verifyElementVisible(WebElement element) {
 
         getWait10().until(ExpectedConditions.visibilityOf(element));
     }
 
-@Test
+    @Test
     public void testCreateMultibranchPipeline() {
-    getDriver().manage().window().maximize();
-
-    WebElement createJob = getDriver().findElement(By.cssSelector(".content-block__link>span"));
-
-    verifyElementVisible(createJob);
-
-    createJob.click();
-
-    WebElement jobName = getDriver().findElement(By.cssSelector(".jenkins-input"));
-    jobName.sendKeys("Free");
-
-    verifyElementVisible(jobName);
-
-    WebElement freeStyle = getDriver().findElement(By.xpath("//span[text()='Freestyle project']"));
-    freeStyle.click();
-
-    WebElement clickOkButton = getDriver().findElement(By.id("ok-button"));
-    verifyElementVisible(clickOkButton);
-
-    clickOkButton.click();
-
-    WebElement clickApplyButton = getDriver().findElement(By.xpath("//button[@class='jenkins-button apply-button']"));
-
-    verifyElementVisible(clickApplyButton );
-
-    clickApplyButton.click();
-
-    verifyElementVisible(clickApplyButton );
-
-    WebElement clickDashboard = getDriver().findElement(By.linkText("Dashboard"));
-    clickDashboard.click();
-
-    String getJobNames = getDriver().findElement(By.cssSelector(".jenkins-table__link.model-link.inside")).getText();
-
+        getDriver().manage().window().maximize();
+        WebElement createJob = getDriver().findElement(By.cssSelector(".content-block__link>span"));
+        verifyElementVisible(createJob);
+        createJob.click();
+        WebElement jobName = getDriver().findElement(By.cssSelector(".jenkins-input"));
+        jobName.sendKeys("Free");
+        verifyElementVisible(jobName);
+        WebElement freeStyle = getDriver().findElement(By.xpath("//span[text()='Freestyle project']"));
+        freeStyle.click();
+        WebElement clickOkButton = getDriver().findElement(By.id("ok-button"));
+        verifyElementVisible(clickOkButton);
+        clickOkButton.click();
+        WebElement clickApplyButton = getDriver().findElement(By.xpath("//button[@class='jenkins-button apply-button']"));
+        verifyElementVisible(clickApplyButton );
+        clickApplyButton.click();
+        verifyElementVisible(clickApplyButton );
+        WebElement clickDashboard = getDriver().findElement(By.linkText("Dashboard"));
+        clickDashboard.click();
+        String getJobNames = getDriver().findElement(By.cssSelector(".jenkins-table__link.model-link.inside")).getText();
 
         Assert.assertTrue(getJobNames.contains("Free"));
     }
