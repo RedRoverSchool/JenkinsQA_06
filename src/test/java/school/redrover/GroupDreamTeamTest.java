@@ -221,7 +221,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void newFreeProjectTest(){
+    public void testFreeProject(){
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
         WebElement page = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
