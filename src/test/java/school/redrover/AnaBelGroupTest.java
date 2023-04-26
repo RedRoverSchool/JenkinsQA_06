@@ -46,7 +46,7 @@ public class AnaBelGroupTest extends BaseTest {
         WebElement textBox = getDriver().findElement(By.xpath("//input[@name='name']"));
         textBox.sendKeys("Prodjekt-Item");
 
-        WebElement lablebutton = getDriver().findElement(By.xpath("//span[text()='Мультиконфигурационный проект']"));
+        WebElement lablebutton = getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']"));
         lablebutton.click();
 
         WebElement Okbutton = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
