@@ -261,4 +261,9 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Remote API [Jenkins]");
     }
 
+    @Test
+    public void verifySearchField() {
+        Assert.assertTrue(getDriver().findElement(By.id("search-box")).isDisplayed());
+    }
+
 }
