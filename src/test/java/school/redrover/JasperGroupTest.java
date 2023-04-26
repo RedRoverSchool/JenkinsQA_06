@@ -157,7 +157,7 @@ public class JasperGroupTest extends BaseTest {
 
     @Test
     public void testFindUsersJenkins() {
-        WebElement users = getDriver().findElement(By.xpath("//span[text()= \"Пользователи\"]"));
+        WebElement users = getDriver().findElement(By.xpath("//span[text()= 'Пользователи']"));
 
         Assert.assertEquals(users.getText(),"Пользователи");
     }
