@@ -29,6 +29,7 @@ public class GroupZeroBugTest extends BaseTest {
             createBtn.click();
 
             String expectedHeaderItemName = "Enter an item name";
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             String actualHeaderItemName = getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText();
             Assert.assertEquals(actualHeaderItemName, expectedHeaderItemName, "Wrong text from Item HP");
 
@@ -38,11 +39,14 @@ public class GroupZeroBugTest extends BaseTest {
             WebElement createJobBtn = getDriver().findElement(By.xpath("//span[text()='Freestyle project']/../.."));
             createJobBtn.click();
 
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             WebElement oKBtn = getDriver().findElement(By.id("ok-button"));
             oKBtn.click();
 
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             WebElement jenkinsIcon = getDriver().findElement(By.cssSelector("#jenkins-name-icon"));
             jenkinsIcon.click();
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             String expectedHPTitle = "Dashboard [Jenkins]";
             String actualHPTitle = getDriver().getTitle();
             Assert.assertEquals(actualHPTitle, expectedHPTitle, "Wrong Title");
