@@ -1,3 +1,5 @@
+package school.redrover;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -6,6 +8,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.util.List;
+import java.util.Set;
 
 
 public class GroupGoogleItTest extends BaseTest {
@@ -19,6 +22,21 @@ public class GroupGoogleItTest extends BaseTest {
             }
         }
         return result;
+    }
+
+    private WebElement findAboutJenkinsElementByText() {
+        List<WebElement> listOfWebElements = getDriver().findElements(By.xpath("//div[@class = 'jenkins-section__item']//dl/dt"));
+        WebElement result = null;
+        for (WebElement element : listOfWebElements){
+            if (element.getText().equals("About Jenkins")){
+                result = element;
+            }
+        }
+        return result;
+    }
+
+    private void switchToWindow(String windowDescriptor) {
+        getDriver().switchTo().window(windowDescriptor);
     }
 
     @Test
@@ -60,8 +78,53 @@ public class GroupGoogleItTest extends BaseTest {
 
         Assert.assertEquals(errorMessage.getText(), expectedResult);
 
+    }
 
+    @Test
+    public void TestIfTheCorrectPageIsOpenedWhenClickOnJavaConcurrencyOnAboutJenkinsPage() throws InterruptedException {
+        String expectedResult = "https://jcip.net/";
+        String window1 = getDriver().getWindowHandle();
 
+        Thread.sleep(3000);
 
+        WebElement manageJenkinsLink = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
+        manageJenkinsLink.click();
+        Thread.sleep(2000);
+        WebElement aboutJenkinsLink = findAboutJenkinsElementByText();
+        aboutJenkinsLink.click();
+        Thread.sleep(2000);
+        WebElement javaConcurrencyInPracticeLink = getDriver().findElement(By.xpath("//a[@href = 'http://jcip.net/']"));
+        javaConcurrencyInPracticeLink.click();
+        String window2 = "";
+        Set<String> currentWindows = getDriver().getWindowHandles();
+
+        for (String window : currentWindows){
+            if (!window.equals(window1)) {
+                window2 = window;
+                break;
+            }
+        }
+        switchToWindow(window2);
+
+        Thread.sleep(2000);
+
+        getDriver().switchTo();
+        String actualResult = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+    }
+
+    @Test
+    public void testIfOkButtonIsDisabledWhenAddNewItemWithEmptyName() throws InterruptedException {
+        String expectedResult = "true";
+        WebElement newItemIcon = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        Thread.sleep(2000);
+        newItemIcon.click();
+        Thread.sleep(2000);
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
+        String actualResult = okButton.getAttribute("disabled");
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }

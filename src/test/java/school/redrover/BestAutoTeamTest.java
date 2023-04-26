@@ -16,7 +16,7 @@ public class BestAutoTeamTest extends BaseTest {
 
         Assert.assertTrue(jenkinsLogo.isDisplayed());
     }
-  
+
     @Ignore
     @Test
     public void testAddDescription() throws InterruptedException {
@@ -66,5 +66,44 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(buildHistory.getText(), "Build History");
         Assert.assertEquals(manageJenkins.getText(), "Manage Jenkins");
         Assert.assertEquals(myViews.getText(), "My Views");
+    }
+
+    @Test
+    public void testAddNewItem() {
+
+        WebElement buttonNewItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        buttonNewItem.click();
+
+        WebElement inputName = getDriver().findElement(By.xpath("//input[@name='name']"));
+        inputName.sendKeys("New Item adding test");
+
+        WebElement buttonFreestyleProject = getDriver().findElement(By.xpath("//li[@class ='hudson_model_FreeStyleProject']"));
+        buttonFreestyleProject.click();
+
+        WebElement buttonOk = getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']"));
+        buttonOk.click();
+
+        WebElement buttonSave = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        buttonSave.click();
+
+        WebElement titleOfPage = getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"));
+        WebElement buttonAddDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+
+        Assert.assertEquals(titleOfPage.getText(), "Project New Item adding test");
+        Assert.assertEquals(buttonAddDescription.getText(), "Add description");
+    }
+
+    @Test
+    public void testJenkinsUser() {
+
+        WebElement usernameFromPageHeader = getDriver().findElement(By.xpath("//div[@class='login page-header__hyperlinks']//a[@class='model-link']//span"));
+        String actualUsername = usernameFromPageHeader.getText();
+        WebElement linkPeople = getDriver().findElement(By.xpath("//div[@class='task '][2]//a"));
+        linkPeople.click();
+        WebElement usernameFromTablePeople = getDriver().findElement(By.xpath("//div[@id='main-panel']//td[3]"));
+        String usernameFromTable = usernameFromTablePeople.getText();
+
+        Assert.assertEquals(usernameFromTable, actualUsername, "Usernames are different");
+
     }
 }
