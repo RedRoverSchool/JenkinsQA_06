@@ -44,7 +44,7 @@ public class AnaBelGroupTest extends BaseTest {
 
         Thread.sleep(1000);
 
-        WebElement buttonProject =getDriver().findElement(By.xpath("//*[@id=\"j-add-item-type-standalone-projects\"]/ul/li[1]"));
+        WebElement buttonProject =getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]"));
         buttonProject.click();
 
         WebElement errormessage = getDriver().findElement(By.xpath("//div[@class='input-validation-message']"));
