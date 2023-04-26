@@ -2,9 +2,13 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.time.Duration;
 
 public class QaAutomationJavaTest extends BaseTest {
     @Test
@@ -40,5 +44,50 @@ public class QaAutomationJavaTest extends BaseTest {
         WebElement fieldNameInTable = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//span"));
 
         Assert.assertEquals(fieldNameInTable.getText(), "First");
+    }
+
+    @Test
+    public void testJobCreation() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        By createJob = By.xpath("//div//a[@href='newJob']");
+        WebElement createJobButton = getDriver().findElement(createJob);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(createJob));
+        createJobButton.click();
+
+        By jenkinsInput = By.xpath("//div//input[@class='jenkins-input']");
+        WebElement jenkinsInputButton = getDriver().findElement(jenkinsInput);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(jenkinsInput));
+        jenkinsInputButton.sendKeys("First_Jenkins_Job");
+        Thread.sleep(1000);
+        WebElement freeConfigurationButton = getDriver().findElement(By.cssSelector("[class*='hudson_model']"));
+        freeConfigurationButton.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        By freeTextIn = By.cssSelector("textarea[name='description']");
+        WebElement freeTextInput = getDriver().findElement(freeTextIn);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(freeTextIn));
+        freeTextInput.sendKeys("First_description is here!");
+        WebElement submitButton = getDriver().findElement(By.cssSelector("button[name='Submit']"));
+        submitButton.click();
+
+        getDriver().get("http://localhost:8080/");
+        WebElement actualResult = getDriver().findElement(By.xpath("//div//td/a/span"));
+        String expectedResult = "First_Jenkins_Job";
+
+        Assert.assertEquals(actualResult.getText(),expectedResult);
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
