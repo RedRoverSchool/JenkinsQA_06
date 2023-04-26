@@ -19,7 +19,7 @@ public class PipelineTest extends BaseTest {
     private final By newItem = By.linkText("New Item");
     private final By name = By.id("name");
     private final By pipelineItem = By.xpath("//span[text() = 'Pipeline']");
-    private final By pipelineJob = By.xpath("//span[text() = '"+PIPELINE_NAME+"']");
+    private final By pipelineJob = By.xpath("//span[text() = '" + PIPELINE_NAME + "']");
     private final By okButton = By.id("ok-button");
     private final By saveButton = By.xpath("//button[contains(@class,'jenkins-button jenkins-button--primary')]");
     private final By jenkinsIconHeader = By.id("jenkins-name-icon");
@@ -34,7 +34,7 @@ public class PipelineTest extends BaseTest {
     public WebDriverWait webDriverWait10;
 
     public void scrollByElement(By by) throws InterruptedException {
-        WebElement scroll =getDriver().findElement(by);
+        WebElement scroll = getDriver().findElement(by);
         new Actions(getDriver())
                 .scrollToElement(scroll)
                 .perform();
@@ -71,7 +71,7 @@ public class PipelineTest extends BaseTest {
 
         getWait10();
 
-        WebElement pipelinePipe= getDriver().findElement(By.cssSelector("#main-panel>h1"));
+        WebElement pipelinePipe = getDriver().findElement(By.cssSelector("#main-panel>h1"));
 
         Assert.assertEquals(pipelinePipe.getText(), "Pipeline Pipe");
     }
