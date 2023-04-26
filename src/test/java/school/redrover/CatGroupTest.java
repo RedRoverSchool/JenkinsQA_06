@@ -228,7 +228,6 @@ public class CatGroupTest extends BaseTest {
         WebElement buttonSubmit = getDriver().findElement(By.xpath("//div[@class = 'btn-decorator']"));
         buttonSubmit.click();
 
-
         Thread.sleep(5000);
         String strUrl = getDriver().getCurrentUrl();
         Assert.assertEquals(strUrl,"http://localhost:8080/job/First%20folder/configure");
