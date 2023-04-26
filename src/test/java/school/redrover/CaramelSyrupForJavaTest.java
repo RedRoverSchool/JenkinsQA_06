@@ -157,6 +157,23 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Configure Clouds']")).getText(), expectedResult.get(2));
         getDriver().navigate().back();
 
+    }
+
+    @Test
+    public  void testAbramovaDropDownList() {
+        List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
+        WebElement dropDownButton = getDriver().findElement(
+               By.xpath("(//button[@class = 'jenkins-menu-dropdown-chevron'])[1]"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", dropDownButton);
+        List<WebElement> folder = getDriver().findElements(By.xpath("//a[@class='yuimenuitemlabel']"));
+        List<String> actualResult = new ArrayList<>();
+        for (int i = 0; i < folder.size(); i++) {
+            actualResult.add(folder.get(i).getText());
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(folder.size(), 4);
         getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")).click();
         List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(windows.get(1));
