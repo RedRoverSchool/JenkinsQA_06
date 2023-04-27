@@ -69,4 +69,14 @@ public class Katy1313Test extends BaseTest {
         Assert.assertTrue(searchResult.getText().toLowerCase().contains("configure"), "configure");
 
     }
-}
+
+    @Test
+    public void testStatusButtonIsDisplayed() {
+       WebElement statusButton = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]"));
+
+       Assert.assertTrue(statusButton.isDisplayed());
+
+    }
+
+    }
+
