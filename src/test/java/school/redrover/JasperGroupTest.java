@@ -155,4 +155,13 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(textElement.getText(), "TestProject");
     }
 
+    @Test
+    public void testCountUsers() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement users = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a")));
+        users.click();
+
+        List<WebElement> usersList = getDriver().findElements(By.xpath("//*[@id=\"people\"]"));
+        Assert.assertTrue(usersList.size() > 0, "List of users are empty");
+    }
 }

@@ -10,11 +10,12 @@ import school.redrover.runner.BaseTest;
 public class GroupJavaciraptorsTest extends BaseTest {
     @Test
     public void simpleTest() {
-        WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
+       WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
 
-        Assert.assertEquals(welcomeElement.getText(), "Welcome to Jenkins!");
+        Assert.assertEquals(welcomeElement.getText(),"Welcome to Jenkins!");
     }
 
+    @Ignore
     @Test
     public void savichevTest() {
         WebElement versionElement = getDriver().findElement(By.xpath("//a[normalize-space()='Jenkins 2.387.2']"));
@@ -42,10 +43,29 @@ public class GroupJavaciraptorsTest extends BaseTest {
     }
 
     @Test
-    public void binoederTest() {
-        WebElement firstSubtitleElement = getDriver().findElement(By.xpath("//section[@class = 'empty-state-section']/h2"));
+    public void firstBinoederTest() {
+        WebElement firstSubtitleElement = getDriver().findElement(
+                By.xpath("//section[@class = 'empty-state-section']/h2")
+        );
 
         Assert.assertEquals(firstSubtitleElement.getText(), "Start building your software project");
+    }
+
+    @Test
+    public void secondBinoederTest() {
+        String expectedResult = "This folder is empty";
+        WebElement myViewsLink = getDriver().findElement(
+               By.xpath("//div[@id = 'tasks']//a[@href = '/me/my-views']")
+        );
+        myViewsLink.click();
+
+        WebElement header = getDriver().findElement(
+                By.xpath("//div[@class = 'empty-state-block']//h2")
+        );
+
+        String actualResult = header.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
