@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -100,26 +101,17 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(element.getText(), projectName);
     }
     @Test
-    public void buttonStoreTest() {
+    public void fieldSearchSettingTest() {
+        WebElement settings = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        settings.click();
 
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get("https://askomdch.com/");
+        WebElement fieldSearch = getDriver().findElement(By.id("settings-search-bar"));
+        fieldSearch.click();
+        fieldSearch.sendKeys("users");
+        fieldSearch.sendKeys(Keys.ENTER);
 
-        WebElement buttonShopNow = driver.findElement(By.xpath("//a[@class='wp-block-button__link']"));
-        buttonShopNow.click();
+        WebElement element = getDriver().findElement(By.xpath("//h1[text()='Пользователи']"));
+        Assert.assertEquals(element.getText(), "Пользователи");
 
-        WebElement fildSearch = driver.findElement(By.xpath("//input[@type='search']"));
-        fildSearch.click();
-        fildSearch.sendKeys("Jeans");
-
-        WebElement buttonSearch = driver.findElement(By.xpath("//button[@value='Search']"));
-        buttonSearch.click();
-
-        WebElement pageResults = driver.findElement(By.xpath("//h1[@class='woocommerce-products-header__title page-title']"));
-        String value = pageResults.getText();
-        assertEquals("Search results: “Jeans”",value);
-
-        driver.quit();
     }
 }
