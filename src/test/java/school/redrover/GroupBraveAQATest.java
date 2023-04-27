@@ -17,6 +17,10 @@ public class GroupBraveAQATest extends BaseTest {
     private WebElement welcomePage_createAJobLink;
     @FindBy(css = ".add-item-name .h3")
     private WebElement newItemPage_header;
+    @FindBy(xpath = "//li[@class='com_cloudbees_hudson_plugins_folder_Folder']")
+    private WebElement newItemFolderLink;
+    @FindBy(xpath = "//div[@class='input-validation-message']")
+    private WebElement newItemInputValidationMessage;
 
     private WebDriverWait webDriverWait10;
 
@@ -55,5 +59,18 @@ public class GroupBraveAQATest extends BaseTest {
         String actualHeader = getNewItemPage_header();
 
         Assert.assertEquals(actualHeader, "Enter an item name");
+    }
+
+    @Test
+    public void testCreateFolderWithEmptyName() {
+        PageFactory.initElements(getDriver(), this);
+        clickWelcomePage_createAJobLink();
+        verifyElementVisible(newItemFolderLink);
+        newItemFolderLink.click();
+        verifyElementVisible(newItemInputValidationMessage);
+
+        Assert.assertEquals(newItemInputValidationMessage.getText(),
+                "» This field cannot be empty, please enter a valid name",
+                "The validation message is incorrect");
     }
 }
