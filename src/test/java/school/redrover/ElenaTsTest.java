@@ -55,6 +55,7 @@ public class ElenaTsTest extends BaseTest {
             itemNameField.sendKeys(specialCharacter);
 
             WebElement warningMessage = getDriver().findElement(By.id("itemname-invalid"));
+
             Thread.sleep(500);
             String actualResultWarningMessage = warningMessage.getText();
             itemNameField.clear();
