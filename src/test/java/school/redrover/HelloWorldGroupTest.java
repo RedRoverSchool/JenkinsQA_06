@@ -53,5 +53,20 @@ public class HelloWorldGroupTest extends BaseTest{
 
         Assert.assertEquals(userName.getText(), "admin");
     }
+    @Test
+    public void testDescriptionEdit() {
+        final String text = "HelloWorld";
+        WebElement descr = getDriver().findElement(By.xpath("//*[@id='description-link']"));
+        descr.click();
 
+        WebElement descrArea = getDriver().findElement(By.xpath("//div[@id='description']//textarea"));
+        descrArea.clear();
+        descrArea.sendKeys(text);
+
+        WebElement saveBtn = getDriver().findElement(By.xpath("//*[@id='description']/form/div[2]/button"));
+        saveBtn.click();
+
+        WebElement descrText = getDriver().findElement(By.xpath("//*[@id='description']/div"));
+        Assert.assertEquals(descrText.getText(), text);
+    }
 }
