@@ -1,17 +1,88 @@
 package school.redrover;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.BaseUtils;
-
 import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class GroupZeroBugTest extends BaseTest {
+
+    @Test
+    public void testFirstJobIsCreated() throws InterruptedException {
+
+        int iteration = 3;
+
+        String expectedHeaderHP = "Welcome to Jenkins!";
+        String actualHeaderHP = getDriver().findElement(By.xpath("//h1[.='Welcome to Jenkins!']")).getText();
+        Assert.assertEquals(actualHeaderHP, expectedHeaderHP, "Wrong text from header HP");
+
+        for (int i = 1; i <= iteration; i++) {
+            String jobName = "Job" + i + "";
+            WebElement createBtn = getDriver().findElement(By.xpath("//span[text()='New Item']/../.."));
+            createBtn.click();
+
+            Thread.sleep(2000);
+            String expectedHeaderItemName = "Enter an item name";
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            String actualHeaderItemName = getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText();
+            Assert.assertEquals(actualHeaderItemName, expectedHeaderItemName, "Wrong text from Item HP");
+
+            WebElement field = getDriver().findElement(By.cssSelector("#name"));
+            field.sendKeys(jobName);
+
+            WebElement createJobBtn = getDriver().findElement(By.xpath("//span[text()='Freestyle project']/../.."));
+            createJobBtn.click();
+
+            Thread.sleep(2000);
+            WebElement oKBtn = getDriver().findElement(By.id("ok-button"));
+            oKBtn.click();
+
+            Thread.sleep(2000);
+            WebElement jenkinsIcon = getDriver().findElement(By.cssSelector("#jenkins-name-icon"));
+            jenkinsIcon.click();
+            Thread.sleep(2000);
+            String expectedHPTitle = "Dashboard [Jenkins]";
+            String actualHPTitle = getDriver().getTitle();
+            Assert.assertEquals(actualHPTitle, expectedHPTitle, "Wrong Title");
+        }
+        WebElement jenkinsIcon = getDriver().findElement(By.cssSelector("#jenkins-name-icon"));
+        jenkinsIcon.click();
+
+        Thread.sleep(2000);
+        List<WebElement> jobList = getDriver().findElements(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]"));
+        System.out.println(jobList.size());
+        int count = 1;
+        for (WebElement job : jobList) {
+            String jobExpectedName = "Job" + count + "";
+            String jobActualName = job.getText();
+            Assert.assertEquals(jobActualName, jobExpectedName, "Wrong job name");
+            count++;
+        }
+
+        int countJob = 1;
+        for (int i=0; i< jobList.size(); i++) {
+            WebElement jobNameElement = getDriver().findElement(By.xpath("//tr[@id='job_Job"+countJob+"']/td[3]/a/span"));
+            jobNameElement.click();
+            Thread.sleep(2000);
+            WebElement deleteBtn = getDriver().findElement(By.xpath("//*[@class='icon-edit-delete icon-md']"));
+            deleteBtn.click();
+            Thread.sleep(2000);
+            Alert alert = getDriver().switchTo().alert();
+            alert.accept();
+            Thread.sleep(2000);
+            countJob++;
+        }
+
+        Assert.assertEquals(actualHeaderHP, expectedHeaderHP, "Wrong text from header HP");
+    }
+
 
     private WebDriverWait webDriverWait3;
 
@@ -72,19 +143,18 @@ public class GroupZeroBugTest extends BaseTest {
 
         String actualNameJob = getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText();
         String expectedNameJob = "ZeroBugJavaPractice";
-        Assert.assertEquals(actualNameJob,"Project "+ expectedNameJob," The name of job is not equal");
+        Assert.assertEquals(actualNameJob, "Project " + expectedNameJob, " The name of job is not equal");
 
         deleteJob();
     }
 
-    @Ignore
     @Test(priority = 2)
     public void testJobBuild() {
 
         newJob();
         mainPage();
 
-        for (int trial = 1; trial <=3; trial++) {
+        for (int trial = 1; trial <= 3; trial++) {
 
             WebElement scheduleBuild = getDriver().findElement(By.xpath("//a[@title='Schedule a Build for ZeroBugJavaPractice']"));
             getWait3().until(ExpectedConditions.elementToBeClickable(scheduleBuild));
@@ -100,7 +170,7 @@ public class GroupZeroBugTest extends BaseTest {
             String actualNumberBuild = numberBuild.getText();
             String expectedNumberBuild = "#" + trial;
              BaseUtils.log("Check Build #%s".formatted(trial));
-            Assert.assertEquals(actualNumberBuild,expectedNumberBuild, "Build has been scheduled incorrectly");
+            Assert.assertEquals(actualNumberBuild, expectedNumberBuild, "Build has been scheduled incorrectly");
             mainPage();
         }
 
