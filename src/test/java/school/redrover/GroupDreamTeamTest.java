@@ -61,7 +61,7 @@ public class GroupDreamTeamTest extends BaseTest {
     @Test
     public void testJenkinsMainPageLilia() {
         WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
-        Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!"); 
+        Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
 
         WebElement addDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         addDescription.click();
