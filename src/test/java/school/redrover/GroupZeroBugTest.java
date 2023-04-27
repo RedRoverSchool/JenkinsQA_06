@@ -233,4 +233,13 @@ public class GroupZeroBugTest extends BaseTest {
 
         Assert.assertTrue(projectName.isDisplayed());
     }
+    @Test
+    public void testLogOutIconIsPresent() {
+
+        String dashboardExpected = "log out";
+        WebElement dashboard = getDriver().findElement(By.xpath("//a[@href='/logout']"));
+        String dashboardActual = dashboard.getText();
+
+        Assert.assertEquals(dashboardActual, dashboardExpected);
+    }
 }
