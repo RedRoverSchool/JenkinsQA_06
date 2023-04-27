@@ -31,9 +31,6 @@ public class FolderTest extends BaseTest {
         getWait(2).until(ExpectedConditions.elementToBeClickable(ENTER_ITEM_NAME)).sendKeys(name);
         getDriver().findElement(FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_FIELD)).click();
-        getDriver().findElement(DISPLAY_NAME_FIELD).sendKeys(name);
-        getDriver().findElement(SAVE_BUTTON).click();
     }
 
     private void jsClick(WebElement element) {
@@ -47,13 +44,9 @@ public class FolderTest extends BaseTest {
         String name = "NewFolder";
         String description = "Created new folder";
 
-        getDriver().findElement(NEW_ITEM).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(ENTER_ITEM_NAME)).sendKeys(folderName);
-        getDriver().findElement(FOLDER).click();
-        getDriver().findElement(OK_BUTTON).click();
-        WebElement displayNameField = getDriver().findElement(By.name("_.displayNameOrNull"));
-        getWait(2).until(ExpectedConditions.elementToBeClickable(displayNameField)).click();
-        displayNameField.sendKeys(name);
+        createFolder(folderName);
+        getWait(2).until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_FIELD)).click();
+        getDriver().findElement(DISPLAY_NAME_FIELD).sendKeys(name);
         WebElement descriptionField = getDriver().findElement(By.name("_.description"));
         descriptionField.sendKeys(description);
         getDriver().findElement(SAVE_BUTTON).click();
