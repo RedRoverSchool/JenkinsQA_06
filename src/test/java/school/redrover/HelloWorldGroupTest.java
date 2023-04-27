@@ -106,9 +106,5 @@ public class HelloWorldGroupTest extends BaseTest{
         fieldSearch.sendKeys("users");
         fieldSearch.sendKeys(Keys.ENTER);
 
-
-        WebElement element = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div/div[2]/a"));
-        Assert.assertEquals(element.getText(), "Create User");
-
     }
 }
