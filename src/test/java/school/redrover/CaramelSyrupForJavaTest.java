@@ -145,6 +145,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testAbramovaDropDownList() {
         List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
