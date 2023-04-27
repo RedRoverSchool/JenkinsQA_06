@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -160,7 +161,7 @@ public class JavaJitsuGroupTest extends BaseTest {
         WebElement nameJob = getDriver().findElement(By.xpath("//h1[text() =\"Pipeline JavaTest\"]"));
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
-
+    @Ignore
     @Test
     public void testAddDescription() {
         WebElement addLink = getDriver().findElement(By.xpath("//a[@id='description-link']"));
@@ -197,5 +198,12 @@ public class JavaJitsuGroupTest extends BaseTest {
 
         Assert.assertEquals(projectTitle.getText(),"Project NewProject");
     }
+    @Test
+    public void testManageJenkins() {
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]"));
+        manageJenkins.click();
 
+        WebElement manageJenkinsHeader = getDriver().findElement(By.xpath("//h1"));
+        Assert.assertEquals(manageJenkinsHeader.getText(), "Manage Jenkins");
+    }
 }

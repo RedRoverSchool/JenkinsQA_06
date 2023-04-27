@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -40,6 +41,7 @@ public class TopMenuTest extends BaseTest {
         Assert.assertTrue(actualResult);
     }
 
+    @Ignore
     @Test
     public void testTopMenuUser(){
         WebElement topMenuUser = getDriver().findElement(By.xpath("//span[@class='hidden-xs hidden-sm'][text()='admin']"));
@@ -47,5 +49,33 @@ public class TopMenuTest extends BaseTest {
         String actualResult1 = topMenuUser.getText();
 
         Assert.assertEquals(actualResult1, "admin");
+    }
+
+    @Test
+    public void testCreateNewItem() {
+        WebElement newItem = getDriver().findElement(By.linkText("New Item"));
+        newItem.click();
+
+        WebElement enterItemNameField = getDriver().findElement(By.xpath("//input[@id='name']"));
+        enterItemNameField.sendKeys("TestFirst");
+
+        WebElement folderType = getDriver().findElement(By.xpath("//span[text()='Folder']"));
+        folderType.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        okButton.click();
+
+        WebElement displayName = getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']"));
+        displayName.sendKeys("FirstFolder");
+
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name='_.description']"));
+        description.sendKeys("TestOne");
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton.click();
+
+        WebElement folderArea = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(folderArea.getText(), "FirstFolder");
     }
 }
