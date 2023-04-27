@@ -54,7 +54,7 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(userName.getText(), "admin");
     }
     @Test
-    public void testDescriptionEdit(){
+    public void testDescriptionEdit() {
         final String text = "HelloWorld";
         WebElement descr = getDriver().findElement(By.xpath("//*[@id='description-link']"));
         descr.click();
