@@ -76,7 +76,7 @@ public class AlexLeoGroupTests extends BaseTest {
 
     @Test
     public void testVerifyFolderLabelFont() {
-        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
+        getDriver().findElement(By.xpath("//a[contains(@href,'newJob')]")).click();
         WebElement elem = getDriver().findElement(By.id("items"));
         List<WebElement> items = elem.findElements(By.cssSelector("li span"));
 
