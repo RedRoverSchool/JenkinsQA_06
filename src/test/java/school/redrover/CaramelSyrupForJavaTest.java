@@ -1,374 +1,238 @@
 package school.redrover;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class CaramelSyrupForJavaTest extends BaseTest {
 
-    public void clickCustom(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        ExpectedCondition<Boolean> elementIsClickable = arg0 -> {
-            try {
-                element.click();
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
-        };
-        wait.until(elementIsClickable);
+    @Test
+    public void testAbramovaHotKeys() {
+
+        WebElement body = getDriver().findElement(By.tagName("body"));
+        body.sendKeys(Keys.chord(Keys.CONTROL, "k"));
+        WebElement searchBox = getDriver().findElement(By.xpath("//input[@role]"));
+        WebElement currentElement = getDriver().switchTo().activeElement();
+
+        Assert.assertEquals(currentElement, searchBox);
     }
 
     @Test
-    public void testMessengersOpenWeather() throws InterruptedException {
+    public void testKhudovaEditDescriptionButtonChanges() {
 
-        String facebookUrl = "https://www.facebook.com/groups/270748973021342";
-        String twitterUrl = "https://twitter.com/OpenWeatherMap";
-        String linkedinUrl = "https://www.linkedin.com/company/openweathermap/";
-        String mediumUrl = "https://medium.com/@openweathermap";
-        String telegramUrl = "https://t.me/openweathermap";
-        String githubUrl = "https://github.com/search?q=openweathermap&ref=cmdform";
+        WebElement editDescriptionButton = getDriver().findElement(By.id("description-link"));
+        editDescriptionButton.click();
 
-        int expectedResult = 6;
+        WebElement inputWindow = getDriver().findElement(By.xpath("//textarea"));
+        inputWindow.sendKeys("New Description");
 
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name= 'Submit']"));
+        saveButton.click();
 
-        getDriver().get("https://openweathermap.org/");
+        WebElement changedDescriptionButton = getDriver().findElement(By.id("description-link"));
+        String newButtonText = changedDescriptionButton.getText();
 
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-
-        WebElement facebook = getDriver().findElement(By.xpath("//a[@href='https://www.facebook.com/groups/270748973021342']"));
-        WebElement twitter = getDriver().findElement(By.xpath("//a[@href='https://twitter.com/OpenWeatherMap']"));
-        WebElement linkedin = getDriver().findElement(By.xpath("//a[@href='https://www.linkedin.com/company/9816754']"));
-        WebElement medium = getDriver().findElement(By.xpath("//a[@href='https://medium.com/@openweathermap']"));
-        WebElement telegram = getDriver().findElement(By.xpath("//a[@href='https://t.me/openweathermap']"));
-        WebElement github = getDriver().findElement(By.xpath("//a[@href='https://github.com/search?q=openweathermap&ref=cmdform']"));
-
-        WebElement[] messengers = {facebook, twitter, linkedin, medium, telegram, github};
-
-        String[] messengersUrl = {facebookUrl, twitterUrl, linkedinUrl, mediumUrl, telegramUrl, githubUrl};
-
-        int actualResult = 0;
-
-        for (int i = 0; i < messengers.length; i++) {
-            messengers[i].click();
-            ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
-            getDriver().switchTo().window(windows.get(1));
-            getDriver().getCurrentUrl();
-            for (int j = 0; j < messengersUrl.length; j++) {
-                if (getDriver().getCurrentUrl().equals(messengersUrl[j])) {
-                    actualResult++;
-                }
-            }
-            getDriver().switchTo().window(windows.get(0));
-        }
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(newButtonText, "Edit description");
     }
 
     @Test
-    public void testArtyomDulyaOpenWeatherGuideClick() throws InterruptedException {
+    public void testRykovaEmptyRequiredField(){
 
-        String expectedResultUrl = "https://openweather.co.uk/";
-        String expectedResultBanner = "Complete spectrum of weather data solutions.";
+        WebElement newItem = getDriver().findElement(By.cssSelector("#side-panel>div>div"));
+        newItem.click();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+        WebElement freestyleProject =
+                getDriver().findElement(By.className("hudson_model_FreeStyleProject"));
+        freestyleProject.click();
 
-        getDriver().get("https://openweathermap.org/");
+        WebElement error = getDriver().findElement(By.id("itemname-required"));
 
-        WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
-        try {
-            guide.click();
-        } catch (Exception e) {
-            clickCustom(guide);
+        WebElement notError =
+                getDriver().findElement(By.xpath("//div[@class = 'add-item-name']/div[1]"));
+
+        Assert.assertTrue(error.isDisplayed());
+        Assert.assertFalse(notError.isDisplayed());
+    }
+    @Ignore
+    @Test
+    public void testDimaKFirst() {
+        String expResFol = "Folder";
+        String expResName = "First item";
+
+        WebElement newItem = getDriver().findElement(By.cssSelector("#side-panel>div>div"));
+        newItem.click();
+        WebElement send = getDriver().findElement(By.className("jenkins-input"));
+        send.sendKeys("First item");
+        WebElement folder = getDriver().findElement(By.xpath("//span[@class = 'label'][text()='Folder']"));
+        folder.click();
+        WebElement ok = getDriver().findElement(By.id("ok-button"));
+        ok.click();
+        WebElement board = getDriver().findElement(By.xpath("//ol[@id = 'breadcrumbs']//a"));
+        board.click();
+        Actions act = new Actions(getDriver());
+        String actResFol = "";
+        WebElement boardFold = getDriver().findElement(By.cssSelector(".jenkins-table__cell__button-wrapper>[tooltip='Folder']"));
+        act.moveToElement(boardFold).perform();
+        while (actResFol.equals("")){
+        WebElement nav = getDriver().findElement(By.cssSelector("div:nth-child(9)>div>div"));
+        actResFol = nav.getText();
         }
+        WebElement nameF = getDriver().findElement(By.xpath("//a[@class = 'jenkins-table__link model-link inside']/span"));
+        String actResName = nameF.getText();
 
-        WebElement complexEnterprise = getDriver().findElement(
-                By.xpath("//main//div[2]/div/div/p[1]/a[text()='complex enterprise systems']"));
-        complexEnterprise.click();
+        Assert.assertEquals(actResFol, expResFol);
+        Assert.assertEquals(actResName, expResName);
+    }
+    @Ignore
+    @Test
+    public void testADCreateJobProject() {
+        String expectedResultSummary = "Project Engineer";
+        String expectedResultDescription = "New Project";
 
-        ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(windows.get(1));
+        WebElement createJob = getDriver().findElement(By.xpath("//span[text()='Create a job']"));
+        createJob.click();
+        WebElement inputLine = getDriver().findElement(By.xpath("//input[@id='name']"));
+        inputLine.click();
+        inputLine.sendKeys("Engineer");
+        WebElement freestyleProject = getDriver().findElement(By.xpath("//span[text()='Freestyle project']"));
+        freestyleProject.click();
+        WebElement buttonOk = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        buttonOk.click();
 
-        WebElement text = getDriver().findElement(By.xpath("//h1//span[@class='white-text']"));
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        description.click();
+        description.sendKeys("New Project");
+        WebElement buttonSubmit = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        buttonSubmit.click();
 
-        String actualResultUrl = getDriver().getCurrentUrl();
-        String actualResultBanner = text.getText();
+        WebElement newSummaryProject = getDriver().findElement(By.xpath("//h1[text()='Project Engineer']"));
+        String actualResultSummary = newSummaryProject.getText();
+        WebElement newDescription = getDriver().findElement(By.xpath("//div[@id='description']//div[text()='New Project']"));
+        String actualResultDescription = newDescription.getText();
 
-        Assert.assertEquals(actualResultUrl, expectedResultUrl);
-        Assert.assertEquals(actualResultBanner, expectedResultBanner);
+        Assert.assertEquals(actualResultSummary, expectedResultSummary);
+        Assert.assertEquals(actualResultDescription, expectedResultDescription);
     }
 
     @Ignore
     @Test
-    public void testArtyomDulyaSearchLineHeader() throws InterruptedException {
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-        String expectedResult = "Paris, FR";
-        getDriver().get("https://openweathermap.org/");
-        try {
-            WebElement searchLineHeader = getDriver().findElement(
-                    By.xpath("//ul[@id='first-level-nav']//div//form//input[@placeholder='Weather in your city']"));
-            searchLineHeader.sendKeys("Paris\n");
-            WebElement paris = getDriver().findElement(By.xpath("//td//b//a[@href='/city/2988507']"));
-            paris.click();
-            WebElement parisText = getDriver().findElement(By.tagName("h2"));
-            String actualResult = parisText.getText();
-            Assert.assertEquals(actualResult, expectedResult);
-        } catch (Exception e) {
-            Thread.sleep(5000);
-            WebElement searchLineHeader = getDriver().findElement(
-                    By.xpath("//ul[@id='first-level-nav']//div//form//input[@placeholder='Weather in your city']"));
-            searchLineHeader.sendKeys("Paris\n");
-            WebElement paris = getDriver().findElement(By.xpath("//td//b//a[@href='/city/2988507']"));
-            paris.click();
-            WebElement parisText = getDriver().findElement(By.tagName("h2"));
-            String actualResult = parisText.getText();
-            Assert.assertEquals(actualResult, expectedResult);
-        }
-    }
-
-    @Test
-    public void testArtyomDulyaAuthorizationText() throws InterruptedException {
-        String actualResult = "Sign In To Your Account";
-        getDriver().get("https://openweathermap.org/");
-        try {
-            WebElement signIn = getDriver().findElement
-                    (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
-            clickCustom(signIn);
-        } catch (Exception e) {
-            Thread.sleep(5000);
-            WebElement signIn = getDriver().findElement
-                    (By.xpath("//div[@id='desktop-menu']//ul//li[11]//a[text()='Sign in']"));
-            clickCustom(signIn);
-        }
-
-        WebElement loginText = getDriver().findElement(By.xpath("//h3"));
-        String expectedResult = loginText.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
-    }
-
-    @Test
-    public void testArtyomDulyaWildberries() {
-
-        int expectedResult = 26;
-
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-
-        getDriver().get("https://www.wildberries.ru/");
-
-        WebElement burgerMenu = getDriver().findElement(By.xpath("//button[@data-wba-header-name='Catalog']"));
-        burgerMenu.click();
-
-        WebElement women = getDriver().findElement(By.xpath("//li[@data-menu-id='306']"));
-        WebElement boot = getDriver().findElement(By.xpath("//li[@data-menu-id='629']"));
-        WebElement kids = getDriver().findElement(By.xpath("//li[@data-menu-id='115']"));
-        WebElement mens = getDriver().findElement(By.xpath("//li[@data-menu-id='566']"));
-        WebElement hays = getDriver().findElement(By.xpath("//li[@data-menu-id='258']"));
-        WebElement beauty = getDriver().findElement(By.xpath("//li[@data-menu-id='543']"));
-        WebElement accessories = getDriver().findElement(By.xpath("//li[@data-menu-id='1']"));
-        WebElement electronics = getDriver().findElement(By.xpath("//li[@data-menu-id='4830']"));
-        WebElement toys = getDriver().findElement(By.xpath("//li[@data-menu-id='481']"));
-        WebElement furniture = getDriver().findElement(By.xpath("//li[@data-menu-id='62827']"));
-        WebElement adults = getDriver().findElement(By.xpath("//li[@data-menu-id='62057']"));
-        WebElement products = getDriver().findElement(By.xpath("//li[@data-menu-id='10296']"));
-        WebElement appliances = getDriver().findElement(By.xpath("//li[@data-menu-id='16107']"));
-        WebElement petSupplies = getDriver().findElement(By.xpath("//li[@data-menu-id='6119']"));
-        WebElement sports = getDriver().findElement(By.xpath("//li[@data-menu-id='784']"));
-        WebElement autoProducts = getDriver().findElement(By.xpath("//li[@data-menu-id='6994']"));
-        WebElement books = getDriver().findElement(By.xpath("//li[@data-menu-id='519']"));
-        WebElement jewelry = getDriver().findElement(By.xpath("//li[@data-menu-id='1023']"));
-        WebElement tools = getDriver().findElement(By.xpath("//li[@data-menu-id='17006']"));
-        WebElement garden = getDriver().findElement(By.xpath("//li[@data-menu-id='4863']"));
-        WebElement health = getDriver().findElement(By.xpath("//li[@data-menu-id='10326']"));
-        WebElement stationery = getDriver().findElement(By.xpath("//li[@data-menu-id='5486']"));
-        WebElement stock = getDriver().findElement(By.xpath("//li[@data-menu-id='2192']"));
-        WebElement digitalGoods = getDriver().findElement(By.xpath("//li[@data-menu-id='12']"));
-        WebElement madeInMoscow = getDriver().findElement(By.xpath("//li[@data-menu-id='130255']"));
-        WebElement trips = getDriver().findElement(By.xpath("//li[@data-menu-id='61037']"));
-
-        WebElement[] categories = {women, boot, kids, mens, hays, beauty, accessories, electronics, toys,
-                furniture, adults, products, appliances, petSupplies, sports, autoProducts, books, jewelry,
-                tools, garden, health, stationery, stock, digitalGoods, madeInMoscow, trips};
-
-        int actualResult = 0;
-
-        for (int i = 0; i < categories.length; i++) {
-            actualResult++;
-        }
-
-        Assert.assertEquals(actualResult, expectedResult);
-    }
-
-    @Test
-    public void dimaKFirstTest() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        String exp = "One Call API 3.0 - OpenWeatherMap";
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get("https://openweathermap.org");
-        Thread.sleep(5000);
-        WebElement oneCallApi = driver.findElement(By.xpath("//div [@class='section']//h2/a"));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollBy(0,1000)");
-        Thread.sleep(3000);
-        oneCallApi.click();
-
-        String act = driver.getTitle();
-
-        Assert.assertEquals(exp, act);
-
-        driver.quit();
-    }
-
-    @Test
-    public void testAnastasiyaAbramova() {
-        String expectedResult = "https://openweathermap.org/";
-        beforeMethod();
-        getDriver().get("https://openweathermap.org/");
-        String actualResult = getDriver().getCurrentUrl();
-        Assert.assertEquals(actualResult, expectedResult);
-    }
-
-    @Test
-    public void testArtyomDulyaEnterpriseGuide() throws InterruptedException {
-
-        String expectedResult = "OpenWeather Enterprise Guide";
-
-        getDriver().get("https://openweathermap.org/");
-
-        WebElement guide = getDriver().findElement(By.xpath("//ul//div//ul/li//a[@href='/guide']"));
-        clickCustom(guide);
-        WebElement enterpriseSystem = getDriver().findElement(By.xpath("//a[text()='complex enterprise systems']"));
-        clickCustom(enterpriseSystem);
+    public void testADLearnMore() {
+        String expectedResult = "static content of the Wiki";
+        WebElement learnMoreHref = getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/redirect/distributed-builds']"));
+        learnMoreHref.click();
         ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(windows.get(1));
-        WebElement tailoredToYou = getDriver().findElement(By.xpath("//a[@href='/enterprise-approach']//u[text()='Tailored to you']"));
-        clickCustom(tailoredToYou);
-        WebElement banner = getDriver().findElement(By.xpath("//span[text()='OpenWeather Enterprise Guide']"));
-        String actualResult = banner.getText();
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        WebElement atlassianHref = getDriver().findElement(By.xpath("//a[@href='/display/']"));
+        atlassianHref.click();
+        WebElement wikiJenkinsHref = getDriver().findElement(By.xpath("//a[text()='static content of the Wiki']"));
+        String actualResult = wikiJenkinsHref.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+
     }
 
+    @Ignore
     @Test
-    public void svetaKhudova_testWinnerPhoneNumber() throws InterruptedException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(chromeOptions);
-
-        driver.get("https://winnerfit.ru/");
-
-        WebElement fitnessTekstil = driver.findElement(By.xpath("//div[@class='t694__overlay '][1]"));
-        fitnessTekstil.click();
-
-        Thread.sleep(2000);
-
-        WebElement phoneNumber1 = driver.findElement(By.xpath("//div[@class='t228__right_descr']/a[1]"));
-        WebElement phoneNumber2 = driver.findElement(By.xpath("//div[@class='t228__right_descr']/a[2]"));
-
-        Assert.assertEquals(phoneNumber1.getText(), "+7 (499) 178-60-18");
-        Assert.assertEquals(phoneNumber2.getText(), "+7 (905) 714-13-70");
-
-        driver.quit();
-    }
-
-    @Test
-    public void testArtyomDulyaHeader99Bottles() {
-        List<String> expectedResult = Arrays.asList(
-                "https://www.99-bottles-of-beer.net/abc.html",
-                "https://www.99-bottles-of-beer.net/search.html",
-                "https://www.99-bottles-of-beer.net/toplist.html",
-                "https://www.99-bottles-of-beer.net/guestbookv2.html",
-                "https://www.99-bottles-of-beer.net/submitnewlanguage.html");
-
-        getDriver().get("https://www.99-bottles-of-beer.net/");
-
-        List<String> actualResult = new ArrayList<>(4);
-
-        WebElement browseLanguage = getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Browse Languages']"));
-        browseLanguage.click();
-        actualResult.add(getDriver().getCurrentUrl());
-        WebElement searchLanguage = getDriver().findElement(By.xpath("//div[@id='navigation']//a[text()='Search Languages']"));
-        searchLanguage.click();
-        actualResult.add(getDriver().getCurrentUrl());
-        WebElement topListis = getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Top Lists']"));
-        topListis.click();
-        actualResult.add(getDriver().getCurrentUrl());
-        WebElement guestbook = getDriver().findElement(By.xpath("//div[@id='navigation']//a[text()='Guestbook']"));
-        guestbook.click();
-        actualResult.add(getDriver().getCurrentUrl());
-        WebElement submitNewLanguage = getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Submit new Language']"));
-        submitNewLanguage.click();
-        actualResult.add(getDriver().getCurrentUrl());
-
-        Assert.assertEquals(actualResult, expectedResult);
-    }
-
-    @Test
-    public void testArtyomDulyaTopListsHeader() {
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(10000));
-        List<String> expectedResult = Arrays.asList("Top Rated", "Top Rated Real Languages",
-                "Top Rated Esoteric Languages", "Top Rated Assembly Languages", "Top Hits",
-                "New Languages this month", "New Comments");
-
-        getDriver().get("https://www.99-bottles-of-beer.net/");
-
+    public void testAbramovaDropDownList() {
+        List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
+        WebElement dropDownButton = getDriver().findElement(
+               By.xpath("(//button[@class = 'jenkins-menu-dropdown-chevron'])[1]"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", dropDownButton);
+        List<WebElement> folder = getDriver().findElements(By.xpath("//div[@class = 'bd']//a"));
         List<String> actualResult = new ArrayList<>();
-
-        WebElement topLists = getDriver().findElement(
-                By.xpath("//ul[contains(@id, 'menu')]//a[normalize-space(text())='Top Lists']"));
-        topLists.click();
-
-        WebElement topRaterText = getDriver().
-                findElement(By.xpath("//div[contains(@id, main)]//h2[normalize-space(text())='Top Rated']"));
-        actualResult.add(topRaterText.getText());
-
-        WebElement topRatedReal = getDriver().findElement(By.xpath("//ul[@id='submenu']//a[text()='Top Rated Real']"));
-        topRatedReal.click();
-        WebElement topRatedRealText = getDriver().findElement(By.xpath("//h2[text()='Top Rated Real Languages']"));
-        actualResult.add(topRatedRealText.getText());
-
-        WebElement topRatedEsoteric = getDriver().findElement(By.xpath("//a[text()='Top Rated Esoteric']"));
-        topRatedEsoteric.click();
-        WebElement topRatedEsotericText = getDriver().findElement(By.xpath("//h2[text()='Top Rated Esoteric Languages']"));
-        actualResult.add(topRatedEsotericText.getText());
-
-        WebElement topRatedAssembly = getDriver().findElement(By.xpath("//a[@href='./toplist_assembly.html']"));
-        topRatedAssembly.click();
-        WebElement topRatedAssemblyText = getDriver().findElement(By.xpath("//h2[text()='Top Rated Assembly Languages']"));
-        actualResult.add(topRatedAssemblyText.getText());
-
-        WebElement topHits = getDriver().findElement(By.xpath("//a[text()='Top Hits']"));
-        topHits.click();
-        WebElement topHitsText = getDriver().findElement(By.xpath("//h2[text()='Top Hits']"));
-        actualResult.add(topHitsText.getText());
-
-        WebElement newLanguages = getDriver().findElement(By.xpath("//a[text()='New Languages this month']"));
-        newLanguages.click();
-        WebElement newLanguagesText = getDriver().findElement(By.xpath("//h2[text()='New Languages this month']"));
-        actualResult.add(newLanguagesText.getText());
-
-        WebElement newComments = getDriver().findElement(By.xpath("//a[text()='New Comments']"));
-        newComments.click();
-        WebElement newCommentsText = getDriver().findElement(By.xpath("//h2[text()='New Comments']"));
-        actualResult.add(newCommentsText.getText());
+        for (int i = 0; i < folder.size(); i++) {
+            actualResult.add(folder.get(i).getText());
+        }
 
         Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(folder.size(), 4);
     }
 
+    @Test
+    public void testSHFirstJenkins() {
+        String expectedResult = "Project AQA";
+
+        WebElement createAJob = getDriver().findElement(By.xpath("//span[text() = 'Create a job']"));
+        createAJob.click();
+        WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
+        itemName.click();
+        itemName.sendKeys("AQA");
+
+        WebElement freestyleProject = getDriver().findElement(
+                By.xpath("//span[text() = 'Freestyle project']"));
+        freestyleProject.click();
+        WebElement buttonOK = getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
+        buttonOK.click();
+
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name = 'description']"));
+        description.click();
+        description.sendKeys("Description for AQA");
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        saveButton.click();
+        WebElement createdProjectName = getDriver().findElement(By.xpath("//h1[text() = 'Project AQA']"));
+
+        Assert.assertEquals(createdProjectName.getText(), expectedResult);
+    }
+
+    @Test
+    public void testSmallSizeIconDimensions() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        Dimension smallDimension = new Dimension(13, 13);
+
+        WebElement buttonPeople = getDriver().findElement(By.xpath("//*[local-name()='svg' and @class='icon-user icon-md']"));
+        buttonPeople.click();
+
+        WebElement iconSizeSmall = getDriver().findElement(By.xpath("//a[@class='jenkins-button jenkins-button--tertiary' and @title='Small']"));
+        iconSizeSmall.click();
+        WebElement iconPerson = getDriver().findElement(By.xpath("//div[@class='jenkins-table__cell__button-wrapper']/*[name()='svg']/*[local-name()='path']"));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(iconPerson)));
+
+        Assert.assertEquals(iconPerson.getRect().getDimension(), smallDimension);
+    }
+
+    @Test
+    public void testMediumSizeIconDimensions() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        Dimension mediumDimension = new Dimension(16, 16);
+
+        WebElement buttonPeople = getDriver().findElement(By.xpath("//*[local-name()='svg' and @class='icon-user icon-md']"));
+        buttonPeople.click();
+        WebElement iconSizeMeduim = getDriver().findElement(By.xpath("//a[@class='jenkins-button jenkins-button--tertiary' and @title='Medium']"));
+        iconSizeMeduim.click();
+        WebElement iconPerson = getDriver().findElement(By.xpath("//div[@class='jenkins-table__cell__button-wrapper']/*[name()='svg']/*[local-name()='path']"));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(iconPerson)));
+
+        Assert.assertEquals(iconPerson.getRect().getDimension(), mediumDimension);
+    }
+
+    @Test
+    public void testLargeSizeIconDimensions() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        Dimension largeDimension = new Dimension(19, 19);
+
+        WebElement buttonPeople = getDriver().findElement(By.xpath("//*[local-name()='svg' and @class='icon-user icon-md']"));
+        buttonPeople.click();
+        WebElement iconSizeLarge = getDriver().findElement(By.xpath("//li[@class='jenkins-icon-size__items-item' and @title='Large']"));
+        iconSizeLarge.click();
+        WebElement iconPerson = getDriver().findElement(By.xpath("//div[@class='jenkins-table__cell__button-wrapper']/*[name()='svg']/*[local-name()='path']"));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(iconPerson)));
+
+        Assert.assertEquals(iconPerson.getRect().getDimension(), largeDimension);
+    }
 }
+
+

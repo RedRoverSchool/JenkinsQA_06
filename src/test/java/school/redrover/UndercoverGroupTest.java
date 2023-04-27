@@ -1,66 +1,55 @@
 package school.redrover;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
+
 public class UndercoverGroupTest extends BaseTest {
 
-    // Params
-    @BeforeMethod
-    private void BeforeMethod(){
-        setResolution(2560,1440);
-    }
-
-    // Tests
     @Test
-    public void testGoogleSearch() {
-        getDriver().get("https://www.google.com/");
-
-        WebElement searchbox = getDriver().findElement(By.name("q"));
-        searchbox.sendKeys("selenium\n");
-
-        WebElement text = getDriver().findElement(By.xpath("//h3[text() = 'Selenium']"));
-        Assert.assertEquals(text.getText(), "Selenium");
-    }
-    @Test
-    public void testGoogleSearchWithRETURN() {
-        getDriver().get("https://google.com");
-
-        WebElement searchField = getDriver().findElement(By.name("q"));
-        searchField.sendKeys("Selenium");
-        searchField.sendKeys(Keys.RETURN);
-
-        WebElement actual = getDriver().findElement(By.xpath("//h3[text() = \"Selenium\"]"));
-
-        Assert.assertEquals(actual.getText(), "Selenium");
+    public void testCheckMainPage() {
+        WebElement mainPageTitle = getDriver().findElement(By.xpath("//div[@class='empty-state-block'] /h1"));
+        Assert.assertEquals(mainPageTitle.getText(), "Welcome to Jenkins!");
     }
 
     @Test
-    public void testCheckboxClick() {
-        getDriver().get("https://crossbrowsertesting.github.io/todo-app.html");
+    public void testCheckLogOut() {
+        WebElement logOutButton = getDriver().findElement(By.xpath("//a[@href='/logout']/*[@class='icon-md']"));
+        logOutButton.click();
 
-        WebElement checkboxOne = getDriver().findElement(By.name("todo-1"));
-        checkboxOne.click();
-
-        WebElement check = getDriver().findElement(By.cssSelector("ul.list-unstyled span.done-true"));
-        check.isDisplayed();
+        WebElement mainPageTitle = getDriver().findElement(By.xpath("//*[@id='loginIntroDefault']/h1"));
+        Assert.assertEquals(mainPageTitle.getText(), "Welcome to Jenkins!");
     }
 
     @Test
-    public void testDragAndDrop() {
-        getDriver().get("https://crossbrowsertesting.github.io/drag-and-drop.html");
+    public void testLogInWithNoData() {
+        WebElement logOutButton = getDriver().findElement(By.xpath("//a[@href='/logout']/*[@class='icon-md']"));
+        logOutButton.click();
 
-        WebElement element1 = getDriver().findElement(By.id("draggable"));
-        WebElement element2 = getDriver().findElement(By.id("droppable"));
+        WebElement signInButton = getDriver().findElement(By.name("Submit"));
+        signInButton.click();
 
-        Actions action = new Actions(getDriver());
+        WebElement signInErrorMsg = getDriver().findElement(By.xpath("/html/body/div/div/form/div[1]"));
+        Assert.assertEquals(signInErrorMsg.getText(), "Invalid username or password");
+    }
 
-        action.dragAndDrop(element1, element2).build().perform();
+    @Test
+    public void testSearchForm() {
+        String query = "test";
+
+        WebElement searchForm = getDriver().findElement(By.id("search-box"));
+        searchForm.sendKeys(query);
+        searchForm.sendKeys(Keys.RETURN);
+
+        WebElement searchResultsTitle = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
+        Assert.assertEquals(searchResultsTitle.getText(), String.format("Search for '%s'", query));
     }
 }
