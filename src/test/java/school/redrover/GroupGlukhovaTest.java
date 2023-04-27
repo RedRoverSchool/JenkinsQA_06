@@ -30,4 +30,10 @@ public class GroupGlukhovaTest extends BaseTest {
 
         Assert.assertEquals(description.getText(), testText);
     }
+
+    @Test
+    public void testUser() {
+        WebElement userElement = getDriver().findElement(By.xpath("//a[contains(@href,'asynchPeople')]"));
+        Assert.assertEquals(userElement.getText(), "People");
+    }
 }

@@ -51,4 +51,16 @@ public class BugsBustersGroupTest extends BaseTest {
 
         Assert.assertEquals(PeoplePageTitle.getText(), "People");
     }
+
+    @Test
+    public void testAddDescription () {
+        WebElement addDescription = getDriver().findElement(By.xpath("//*[@id='description-link']"));
+        addDescription.click();
+
+        WebElement textBox = getDriver().findElement(By.xpath("//textarea"));
+        textBox.isDisplayed();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@class = 'textarea-show-preview']"))
+                .getText(), "Preview");
+    }
 }

@@ -200,4 +200,46 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
+    @Test
+    public void newItemTest() {
+        WebElement nItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        nItem.click();
+        WebElement nameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
+        nameBox.sendKeys("Folder2");
+        WebElement folder = getDriver().findElement(By.xpath("//span[text()='Folder']"));
+        folder.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        WebElement folder2 = getDriver().findElement(By.xpath("//a[@href='/job/Folder2/']"));
+
+        Assert.assertTrue(folder2.isDisplayed());
+    }
+
+    @Test
+    public void testUserSidePanelMenu() {
+        List<String> expectedUserSidePanelMenu = List.of(
+                "People",
+                "Status",
+                "Builds",
+                "Configure",
+                "My Views",
+                "Credentials");
+
+        WebElement userSidePanelMenu = getDriver().findElement(By.xpath("//a[@href='/user/admin']"));
+        userSidePanelMenu.click();
+
+        List<WebElement> sidePanelMenu = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
+
+        List<String> actualUserSidePanelMenu = new ArrayList<>();
+        for (WebElement element: sidePanelMenu){
+            actualUserSidePanelMenu.add(element.getText());
+        }
+
+        Assert.assertEquals(actualUserSidePanelMenu, expectedUserSidePanelMenu);
+    }
 }
