@@ -68,6 +68,24 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
+    public void testLogOut () {
+        WebElement logOutIcon = getDriver().findElement(By.xpath("//a[@href = '/logout']"));
+        logOutIcon.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),
+                "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testCreateJobPage () {
+        WebElement createJobButton = getDriver().findElement(By.xpath("//a[@href = 'newJob']"));
+        createJobButton.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'add-item-name']/label"))
+                        .getText(), "Enter an item name");
+    }
+
+    @Test
     public void testOkButtonIsDisabled() {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id='tasks']//a"));
         newItem.click();
