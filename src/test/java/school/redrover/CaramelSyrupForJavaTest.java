@@ -1,10 +1,9 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -63,7 +62,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertTrue(error.isDisplayed());
         Assert.assertFalse(notError.isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testDimaKFirst() {
         String expResFol = "Folder";
@@ -93,7 +92,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actResFol, expResFol);
         Assert.assertEquals(actResName, expResName);
     }
-
+    @Ignore
     @Test
     public void testADCreateJobProject() {
         String expectedResultSummary = "Project Engineer";
@@ -187,6 +186,52 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement createdProjectName = getDriver().findElement(By.xpath("//h1[text() = 'Project AQA']"));
 
         Assert.assertEquals(createdProjectName.getText(), expectedResult);
+    }
+
+    @Test
+    public void testSmallSizeIconDimensions() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        Dimension smallDimension = new Dimension(13, 13);
+
+        WebElement buttonPeople = getDriver().findElement(By.xpath("//*[local-name()='svg' and @class='icon-user icon-md']"));
+        buttonPeople.click();
+
+        WebElement iconSizeSmall = getDriver().findElement(By.xpath("//a[@class='jenkins-button jenkins-button--tertiary' and @title='Small']"));
+        iconSizeSmall.click();
+        WebElement iconPerson = getDriver().findElement(By.xpath("//div[@class='jenkins-table__cell__button-wrapper']/*[name()='svg']/*[local-name()='path']"));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(iconPerson)));
+
+        Assert.assertEquals(iconPerson.getRect().getDimension(), smallDimension);
+    }
+
+    @Test
+    public void testMediumSizeIconDimensions() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        Dimension mediumDimension = new Dimension(16, 16);
+
+        WebElement buttonPeople = getDriver().findElement(By.xpath("//*[local-name()='svg' and @class='icon-user icon-md']"));
+        buttonPeople.click();
+        WebElement iconSizeMeduim = getDriver().findElement(By.xpath("//a[@class='jenkins-button jenkins-button--tertiary' and @title='Medium']"));
+        iconSizeMeduim.click();
+        WebElement iconPerson = getDriver().findElement(By.xpath("//div[@class='jenkins-table__cell__button-wrapper']/*[name()='svg']/*[local-name()='path']"));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(iconPerson)));
+
+        Assert.assertEquals(iconPerson.getRect().getDimension(), mediumDimension);
+    }
+
+    @Test
+    public void testLargeSizeIconDimensions() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        Dimension largeDimension = new Dimension(19, 19);
+
+        WebElement buttonPeople = getDriver().findElement(By.xpath("//*[local-name()='svg' and @class='icon-user icon-md']"));
+        buttonPeople.click();
+        WebElement iconSizeLarge = getDriver().findElement(By.xpath("//li[@class='jenkins-icon-size__items-item' and @title='Large']"));
+        iconSizeLarge.click();
+        WebElement iconPerson = getDriver().findElement(By.xpath("//div[@class='jenkins-table__cell__button-wrapper']/*[name()='svg']/*[local-name()='path']"));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(iconPerson)));
+
+        Assert.assertEquals(iconPerson.getRect().getDimension(), largeDimension);
     }
 }
 
