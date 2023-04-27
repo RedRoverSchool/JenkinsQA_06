@@ -97,7 +97,7 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(element.getText(), projectName);
     }
     @Test
-    public void fieldSearchSettingTest() throws InterruptedException {
+    public void fieldSearchSettingTest() {
         WebElement settings = getDriver().findElement(By.xpath("//a[@href='/manage']"));
         settings.click();
 
@@ -105,7 +105,7 @@ public class HelloWorldGroupTest extends BaseTest{
         fieldSearch.click();
         fieldSearch.sendKeys("users");
         fieldSearch.sendKeys(Keys.ENTER);
-        Thread.sleep(100);
+
 
         WebElement element = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div/div[2]/a"));
         Assert.assertEquals(element.getText(), "Create User");
