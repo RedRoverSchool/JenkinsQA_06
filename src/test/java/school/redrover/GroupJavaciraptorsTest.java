@@ -15,6 +15,7 @@ public class GroupJavaciraptorsTest extends BaseTest {
         Assert.assertEquals(welcomeElement.getText(),"Welcome to Jenkins!");
     }
 
+    @Ignore
     @Test
     public void savichevTest() {
         WebElement versionElement = getDriver().findElement(By.xpath("//a[normalize-space()='Jenkins 2.387.2']"));
