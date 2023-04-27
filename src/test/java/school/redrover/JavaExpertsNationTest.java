@@ -33,7 +33,7 @@ public class JavaExpertsNationTest extends BaseTest {
     }
 
     @Test
-    public void BuildHistoryTitle() {
+    public void testBuildHistoryTitle() {
         WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
         buildHistory.click();
 
@@ -58,5 +58,23 @@ public class JavaExpertsNationTest extends BaseTest {
         WebElement actualResult = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
         Assert.assertEquals(actualResult.getText(), text);
 
+    }
+
+    @Test
+    public void testAddNewItem() {
+        WebElement newItem = getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']"));
+        newItem.click();
+
+        WebElement inputField = getDriver().findElement(By.id("name"));
+        String firstJob = "First Job";
+        inputField.sendKeys(firstJob);
+
+        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]/label/span")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+
+        getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
+        WebElement projectTitle = getDriver().findElement(By.tagName("h1"));
+
+        Assert.assertEquals(projectTitle.getText(), "Project " + firstJob, "projectTitle does not match inputted text");
     }
 }
