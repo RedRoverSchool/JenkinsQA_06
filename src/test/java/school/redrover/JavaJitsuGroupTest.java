@@ -161,7 +161,6 @@ public class JavaJitsuGroupTest extends BaseTest {
         WebElement nameJob = getDriver().findElement(By.xpath("//h1[text() =\"Pipeline JavaTest\"]"));
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
-
     @Ignore
     @Test
     public void testAddDescription() {
