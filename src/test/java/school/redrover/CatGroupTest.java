@@ -284,7 +284,7 @@ public class CatGroupTest extends BaseTest {
         WebElement manageJenkins = getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']"));
         WebElement myViews = getDriver().findElement(By.xpath("//span[text() = 'My Views']"));
 
-        ArrayList <String> actualResult = new ArrayList<>();
+        ArrayList <String> actualResult = new ArrayList<>();;
         actualResult.add(newItem.getText());
         actualResult.add(people.getText());
         actualResult.add(buildHistory.getText());
