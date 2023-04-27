@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,6 +14,17 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GroupZeroBugTest extends BaseTest {
+    private WebDriverWait webDriverWait;
+    private final Faker faker = new Faker();
+    private void clickHomePage() {
+        getDriver().findElement(By.id("jenkins-home-link")).click();
+    }
+    public final WebDriverWait getWait() {
+        if (webDriverWait == null) {
+            webDriverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        }
+        return webDriverWait;
+    }
 
     @Test
     public void testFirstJobIsCreated() throws InterruptedException {
@@ -84,23 +96,6 @@ public class GroupZeroBugTest extends BaseTest {
     }
 
 
-    private WebDriverWait webDriverWait3;
-
-    public final WebDriverWait getWait3() {
-        if (webDriverWait3 == null) {
-            webDriverWait3 = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
-        }
-        return webDriverWait3;
-    }
-
-    private void mainPage() {
-        getDriver().get("http://localhost:8080/");
-    }
-
-    private void jobPage() {
-        getDriver().get("http://localhost:8080/me/my-views/view/all/job/ZeroBugJavaPractice/");
-    }
-
     private void newJob() {
 
         WebElement newJob = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']/.."));
@@ -122,6 +117,29 @@ public class GroupZeroBugTest extends BaseTest {
         urlField.sendKeys("https://github.com/Lighter888/ZeroBugJavaPractice");
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
     }
+    private void newJob(String jobName) {
+
+        WebElement newJob = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']/.."));
+        newJob.click();
+
+        WebElement inputField = getDriver().findElement(By.id("name"));
+        inputField.sendKeys(jobName);
+
+        WebElement freestyleProject = getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject"));
+        freestyleProject.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        WebElement gitProject = getDriver().findElement((By.xpath("//label[text()='GitHub project']")));
+        gitProject.click();
+
+        WebElement urlField = getDriver().findElement((By.xpath("//input[@name='_.projectUrlStr']")));
+        urlField.sendKeys("https://github.com/Lighter888/ZeroBugJavaPractice");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        clickHomePage();
+
+    }
 
     private void deleteJob() {
 
@@ -137,13 +155,16 @@ public class GroupZeroBugTest extends BaseTest {
     }
 
     @Test(priority = 1)
-    public void testNewJobCreated() {
+    public void testNewJobCreated() throws InterruptedException {
 
-        newJob();
+        String name = "Job" + faker.name().firstName();
+        newJob(name);
 
+        getDriver().findElement(By.xpath("//a[@href='job/%s/']".formatted(name))).click();
+        Thread.sleep(2000);
         String actualNameJob = getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText();
-        String expectedNameJob = "ZeroBugJavaPractice";
-        Assert.assertEquals(actualNameJob, "Project " + expectedNameJob, " The name of job is not equal");
+        String expectedNameJob = "Project %s".formatted(name);
+        Assert.assertEquals(actualNameJob,expectedNameJob," The name of job is not equal");
 
         deleteJob();
     }
@@ -151,34 +172,79 @@ public class GroupZeroBugTest extends BaseTest {
     @Test(priority = 2)
     public void testJobBuild() {
 
-        newJob();
-        mainPage();
+        String name = "Job" + faker.name().firstName();
+        newJob(name);
 
-        for (int trial = 1; trial <= 3; trial++) {
+        for (int trial = 1; trial <=3; trial++) {
 
-            WebElement scheduleBuild = getDriver().findElement(By.xpath("//a[@title='Schedule a Build for ZeroBugJavaPractice']"));
-            getWait3().until(ExpectedConditions.elementToBeClickable(scheduleBuild));
+            getDriver().findElement(By.id("jenkins-home-link")).click();
+
+            String scheduleBuildXpath = "//a[@title='Schedule a Build for %s']".formatted(name);
+            getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(scheduleBuildXpath)));
+            WebElement scheduleBuild = getDriver().findElement(By.xpath(scheduleBuildXpath));
+            getWait().until(ExpectedConditions.elementToBeClickable(scheduleBuild));
             scheduleBuild.click();
 
             WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']/.."));
-            getWait3().until(ExpectedConditions.elementToBeClickable(buildHistory));
+            getWait().until(ExpectedConditions.elementToBeClickable(buildHistory));
             buildHistory.click();
 
-            getWait3().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[.='#%s']".formatted(trial))));
-            WebElement numberBuild = getDriver().findElement(By.xpath("//a[.='#%s']".formatted(trial)));
+            String numberBuildXpath = "//a[.='#%s']".formatted(trial);
+            getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(numberBuildXpath)));
+            WebElement numberBuild = getDriver().findElement(By.xpath(numberBuildXpath));
 
             String actualNumberBuild = numberBuild.getText();
             String expectedNumberBuild = "#" + trial;
-             BaseUtils.log("Check Build #%s".formatted(trial));
-            Assert.assertEquals(actualNumberBuild, expectedNumberBuild, "Build has been scheduled incorrectly");
-            mainPage();
+            BaseUtils.log("Check Build #%s with %s".formatted(trial, name));
+            Assert.assertEquals(actualNumberBuild,expectedNumberBuild, "Build has been scheduled incorrectly");
+            getDriver().navigate().back();
         }
-
-        jobPage();
+        getDriver().navigate().back();
         deleteJob();
-
     }
 
+    @Test(priority = 3)
+    public void testRenameJobViaDropDownMenu () throws InterruptedException {
+
+        String name = "Job" + faker.name().firstName();
+        newJob(name);
+
+        WebElement jobName = getDriver().findElement(By.xpath("//span[text()='%s']".formatted(name)));
+        WebElement dropDownBtn = getDriver().findElement(By.xpath("//span[text()='%s']/../button".formatted(name)));
+
+        Actions action = new Actions(getDriver());
+        action.moveToElement(jobName)
+                .pause(1000)
+                .moveToElement(dropDownBtn)
+                .click()
+                .pause(2000)
+                .build()
+                .perform();
+
+        String renameJobXpath = "//span[text()='Rename']";
+        WebElement renameJob = getDriver().findElement(By.xpath(renameJobXpath));
+        getWait().until(ExpectedConditions.elementToBeClickable(renameJob));
+        renameJob.click();
+
+        WebElement warning = getDriver().findElement(By.className("warning"));
+        Assert.assertTrue(warning.isDisplayed());
+        WebElement inputRename = getDriver().findElement(By.xpath("//input[@name='newName']"));
+
+        String newNameJob = faker.name().suffix();
+        inputRename.sendKeys(newNameJob);
+
+        WebElement submitBtn = getDriver().findElement(By.name("Submit"));
+        getWait().until(ExpectedConditions.elementToBeClickable(submitBtn));
+        submitBtn.click();
+
+        String expectResultRenameJob = "Project %s%s".formatted(name,newNameJob);
+        Thread.sleep(1000);
+        String actualResultRenameJob = getDriver().findElement(By.xpath("//h1[text()='Project " + name + newNameJob + "']"))
+                .getText();
+        Assert.assertEquals(actualResultRenameJob,expectResultRenameJob,"The function rename Job is not working");
+
+        deleteJob();
+    }
     @Test
     public void testJenkinsVersionCheck() {
 
