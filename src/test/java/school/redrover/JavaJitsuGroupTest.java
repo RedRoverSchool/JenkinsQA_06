@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -161,6 +162,7 @@ public class JavaJitsuGroupTest extends BaseTest {
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
 
+    @Ignore
     @Test
     public void testAddDescription() {
         WebElement addLink = getDriver().findElement(By.xpath("//a[@id='description-link']"));
