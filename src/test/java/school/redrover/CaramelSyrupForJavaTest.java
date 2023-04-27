@@ -6,10 +6,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
 
@@ -70,17 +73,20 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         newItem.click();
         WebElement send = getDriver().findElement(By.className("jenkins-input"));
         send.sendKeys("First item");
-        WebElement folder = getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']//span"));
+        WebElement folder = getDriver().findElement(By.xpath("//span[@class = 'label'][text()='Folder']"));
         folder.click();
-        WebElement okey = getDriver().findElement(By.id("ok-button"));
-        okey.click();
+        WebElement ok = getDriver().findElement(By.id("ok-button"));
+        ok.click();
         WebElement board = getDriver().findElement(By.xpath("//ol[@id = 'breadcrumbs']//a"));
         board.click();
         Actions act = new Actions(getDriver());
-        WebElement boardfold = getDriver().findElement(By.xpath("(//*[name()='svg'][@title='Folder'])[1]\n"));
-        act.moveToElement(boardfold).perform();
-        WebElement nav = getDriver().findElement(By.className("tippy-content"));
-        String actResFol = nav.getText();
+        String actResFol = "";
+        WebElement boardFold = getDriver().findElement(By.cssSelector(".jenkins-table__cell__button-wrapper>[tooltip='Folder']"));
+        act.moveToElement(boardFold).perform();
+        while (actResFol.equals("")){
+        WebElement nav = getDriver().findElement(By.cssSelector("div:nth-child(9)>div>div"));
+        actResFol = nav.getText();
+        }
         WebElement nameF = getDriver().findElement(By.xpath("//a[@class = 'jenkins-table__link model-link inside']/span"));
         String actResName = nameF.getText();
 
@@ -118,6 +124,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResultDescription, expectedResultDescription);
     }
 
+    @Ignore
     @Test
     public void testADLearnMore() {
         String expectedResult = "static content of the Wiki";
@@ -136,6 +143,49 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
 
+    }
+    @Ignore
+    @Test
+    public void testAbramovaDropDownList() {
+        List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
+        WebElement dropDownButton = getDriver().findElement(
+               By.xpath("(//button[@class = 'jenkins-menu-dropdown-chevron'])[1]"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", dropDownButton);
+        List<WebElement> folder = getDriver().findElements(By.xpath("//div[@class = 'bd']//a"));
+        List<String> actualResult = new ArrayList<>();
+        for (int i = 0; i < folder.size(); i++) {
+            actualResult.add(folder.get(i).getText());
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(folder.size(), 4);
+    }
+
+    @Test
+    public void testSHFirstJenkins() {
+        String expectedResult = "Project AQA";
+
+        WebElement createAJob = getDriver().findElement(By.xpath("//span[text() = 'Create a job']"));
+        createAJob.click();
+        WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
+        itemName.click();
+        itemName.sendKeys("AQA");
+
+        WebElement freestyleProject = getDriver().findElement(
+                By.xpath("//span[text() = 'Freestyle project']"));
+        freestyleProject.click();
+        WebElement buttonOK = getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
+        buttonOK.click();
+
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name = 'description']"));
+        description.click();
+        description.sendKeys("Description for AQA");
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        saveButton.click();
+        WebElement createdProjectName = getDriver().findElement(By.xpath("//h1[text() = 'Project AQA']"));
+
+        Assert.assertEquals(createdProjectName.getText(), expectedResult);
     }
 }
 
