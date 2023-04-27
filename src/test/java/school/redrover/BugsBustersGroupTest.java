@@ -179,6 +179,5 @@ public class BugsBustersGroupTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'main-panel']/h1")).getText(),
                 "Project " + text);
-
     }
 }
