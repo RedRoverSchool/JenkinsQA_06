@@ -65,6 +65,6 @@ public class HelloWorldGroupTest extends BaseTest{
         saveBtn.click();
 
         WebElement descrText = getDriver().findElement(By.xpath("//*[@id='description']/div"));
-        Assert.assertEquals(descrText.getText(), "hello");
+        Assert.assertEquals(descrText.getText(), "helloStart building a software project.");
     }
 }
