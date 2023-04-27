@@ -222,6 +222,7 @@ public class GroupZeroBugTest extends BaseTest {
                 .perform();
 
         String renameJobXpath = "//span[text()='Rename']";
+        Thread.sleep(2000);
         WebElement renameJob = getDriver().findElement(By.xpath(renameJobXpath));
         getWait().until(ExpectedConditions.elementToBeClickable(renameJob));
         renameJob.click();
