@@ -97,7 +97,7 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(element.getText(), projectName);
     }
     @Test
-    public void fieldSearchSettingTest() {
+    public void testFieldSearchSetting() {
         WebElement settings = getDriver().findElement(By.xpath("//a[@href='/manage']"));
         settings.click();
 
