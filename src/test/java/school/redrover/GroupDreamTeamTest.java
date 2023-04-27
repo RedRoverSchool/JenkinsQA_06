@@ -221,7 +221,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testAndreijenkins(){
+    public void testAndreijenkins() {
         WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
         Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
 
