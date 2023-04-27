@@ -95,28 +95,6 @@ public class GroupZeroBugTest extends BaseTest {
         Assert.assertEquals(actualHeaderHP, expectedHeaderHP, "Wrong text from header HP");
     }
 
-
-    private void newJob() {
-
-        WebElement newJob = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']/.."));
-        newJob.click();
-
-        WebElement inputField = getDriver().findElement(By.id("name"));
-        inputField.sendKeys("ZeroBugJavaPractice");
-
-        WebElement freestyleProject = getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject"));
-        freestyleProject.click();
-
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-        okButton.click();
-
-        WebElement gitProject = getDriver().findElement((By.xpath("//label[text()='GitHub project']")));
-        gitProject.click();
-
-        WebElement urlField = getDriver().findElement((By.xpath("//input[@name='_.projectUrlStr']")));
-        urlField.sendKeys("https://github.com/Lighter888/ZeroBugJavaPractice");
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-    }
     private void newJob(String jobName) {
 
         WebElement newJob = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']/.."));
@@ -138,7 +116,6 @@ public class GroupZeroBugTest extends BaseTest {
         urlField.sendKeys("https://github.com/Lighter888/ZeroBugJavaPractice");
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         clickHomePage();
-
     }
 
     private void deleteJob() {
@@ -161,8 +138,7 @@ public class GroupZeroBugTest extends BaseTest {
         newJob(name);
 
         getDriver().findElement(By.xpath("//a[@href='job/%s/']".formatted(name))).click();
-        Thread.sleep(2000);
-        String actualNameJob = getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText();
+        String actualNameJob = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText();
         String expectedNameJob = "Project %s".formatted(name);
         Assert.assertEquals(actualNameJob,expectedNameJob," The name of job is not equal");
 
@@ -221,8 +197,7 @@ public class GroupZeroBugTest extends BaseTest {
                 .build()
                 .perform();
 
-        String renameJobXpath = "//span[text()='Rename']";
-        Thread.sleep(2000);
+        String renameJobXpath = "//ul[@class='first-of-type']//a[@href='/job/%s/confirm-rename']".formatted(name);
         WebElement renameJob = getDriver().findElement(By.xpath(renameJobXpath));
         getWait().until(ExpectedConditions.elementToBeClickable(renameJob));
         renameJob.click();
@@ -239,9 +214,8 @@ public class GroupZeroBugTest extends BaseTest {
         submitBtn.click();
 
         String expectResultRenameJob = "Project %s%s".formatted(name,newNameJob);
-        Thread.sleep(1000);
-        String actualResultRenameJob = getDriver().findElement(By.xpath("//h1[text()='Project " + name + newNameJob + "']"))
-                .getText();
+
+        String actualResultRenameJob = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText();
         Assert.assertEquals(actualResultRenameJob,expectResultRenameJob,"The function rename Job is not working");
 
         deleteJob();
