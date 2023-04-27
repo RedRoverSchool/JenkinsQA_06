@@ -1,4 +1,5 @@
 package school.redrover;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -7,18 +8,40 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import static org.testng.Assert.assertEquals;
 import jdk.jfr.Description;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class HeaderTest extends BaseTest {
     @Test
-    public void testHeaderLogoIcon() {
+    public void testHeaderLogoIcon() throws IOException {
         WebElement logoIcon = getDriver().findElement(By.xpath("//*[@id=\"jenkins-head-icon\"]"));
         Assert.assertTrue(logoIcon.isDisplayed());
+
+        String imageSrc = logoIcon.getAttribute("src");
+        URL imageUrl = new URL(imageSrc);
+        URLConnection urlConnection = imageUrl.openConnection();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
+        httpURLConnection.connect();
+        httpURLConnection.setConnectTimeout(1000);
+
+        assertEquals(httpURLConnection.getResponseCode(), 200);
     }
 
     @Test
-    public void testHeaderLogoText() {
+    public void testHeaderLogoText() throws IOException {
         WebElement logoText = getDriver().findElement(By.xpath("//*[@id=\"jenkins-name-icon\"]"));
         Assert.assertTrue(logoText.isDisplayed());
+
+        String imageSrc = logoText.getAttribute("src");
+        URL imageUrl = new URL(imageSrc);
+        URLConnection urlConnection = imageUrl.openConnection();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
+        httpURLConnection.connect();
+        httpURLConnection.setConnectTimeout(1000);
+
+        assertEquals(httpURLConnection.getResponseCode(), 200);
     }
 
     @Test
@@ -114,7 +137,3 @@ public class HeaderTest extends BaseTest {
         assertEquals(hoverExitButtonUnderline, "underline");
     }
 }
-
-
-
-
