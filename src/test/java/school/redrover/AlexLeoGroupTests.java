@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -294,5 +295,93 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertEquals(spanNewItem.getText(), "New Item");
     }
 
+    @Test
+    public void testVerifyJenkinsLogoIsPresent() {
+        WebElement logo = getDriver().findElement(By.id("jenkins-head-icon"));
+        Assert.assertTrue(logo.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyWordIconJenkinsIsPresent() {
+        WebElement wordIcon = getDriver().findElement(By.id("jenkins-name-icon"));
+        Assert.assertTrue(wordIcon.isDisplayed());
+    }
+
+    @Test
+    public void testVerifySearchFieldIsPresent() {
+        WebElement searchField = getDriver().findElement(By.id("searchform"));
+        Assert.assertTrue(searchField.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogoutIconIsPresent() {
+        WebElement logoutIcon = getDriver().findElement(By.xpath("//a[@href = '/logout']/*[local-name()='svg']"));
+        Assert.assertTrue(logoutIcon.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogoutLinkText() {
+        WebElement logout = getDriver().findElement(By.xpath("//a[@href = '/logout']/span"));
+        Assert.assertEquals(logout.getText(), "log out");
+    }
+
+    @Test
+    public void testVerifyDashboardDropDownText() {
+        WebElement dashboardDropDown = getDriver().findElement(By.xpath("//li[@class = 'jenkins-breadcrumbs__list-item']/a"));
+        Assert.assertEquals(dashboardDropDown.getText(), "Dashboard");
+    }
+
+    @Test
+    public void testVerifyNewItemIcon() {
+        WebElement newItem = getDriver().findElement(By.linkText("New Item"));
+        Assert.assertTrue(newItem.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyRestApiLink() {
+        WebElement restApiButton = getDriver().findElement(By.linkText("REST API"));
+        restApiButton.click();
+        WebElement restApiHeader = getDriver().findElement(By.xpath(".//h1[text() = 'REST API']"));
+
+        Assert.assertTrue(getDriver().getCurrentUrl().endsWith("/api/"));
+        Assert.assertTrue(restApiHeader.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyJenkinsLink() {
+        WebElement jenkinsLink = getDriver().findElement(By.linkText("Jenkins 2.387.2"));
+
+        String originalWindow = getDriver().getWindowHandle();
+        jenkinsLink.click();
+
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                if (getDriver().getTitle().equals("Jenkins"))
+                    break;
+            }
+        }
+        WebElement jenkinsHeader = getDriver().findElement(By.xpath(".//h1[@class = 'page-title']/span[contains(text(), 'Jenkins')]"));
+
+        Assert.assertTrue(jenkinsHeader.isDisplayed());
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.jenkins.io/");
+    }
+
+    @Test
+    public void testVerifyNewItemsList() {
+        List<String> expectedItems = new ArrayList<>(Arrays.asList("Freestyle project", "Pipeline",
+                "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder"));
+        WebElement newItem = getDriver().findElement(By.linkText("New Item"));
+        newItem.click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(15));
+        List<WebElement> items = wait.
+                until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(".//div[@id = 'items']//li//span")));
+
+        Assert.assertEquals(items.size(), expectedItems.size());
+
+        for (int i = 0; i < items.size(); i++) {
+            Assert.assertEquals(items.get(i).getText(), expectedItems.get(i));
+        }
+    }
 }
 
