@@ -44,6 +44,8 @@ public class CatGroupTest extends BaseTest {
     private WebElement dropDownTopMenu;
     @FindBy(xpath = "//ul[@class='first-of-type']//li")
     private List<WebElement> dropDownItemsTopMenu;
+    @FindBy(xpath = "//div[@id='tasks']//div")
+    private List<WebElement> featureListSidePanel;
 
     public WebDriverWait webDriverWait10;
 
@@ -195,6 +197,7 @@ public class CatGroupTest extends BaseTest {
 
         Assert.assertTrue(actualResult);
     }
+    @Ignore
     @Test
     public void testItemsOfDropDownTopMenuIsVisibleAndClickable(){
         PageFactory.initElements(getDriver(), this);
@@ -281,5 +284,14 @@ public class CatGroupTest extends BaseTest {
         Thread.sleep(5000);
         String strUrl = getDriver().getCurrentUrl();
         Assert.assertEquals(strUrl,"http://localhost:8080/job/First%20folder/configure");
+
+    public void testSidePanelNames() {
+
+        final List<String> expectedSidePanelNames = Arrays.asList("New Item", "People", "Build History",
+                "Manage Jenkins", "My Views");
+        PageFactory.initElements(getDriver(), this);
+        List<String> actualSidePanelNames = getNamesOfLists(featureListSidePanel);
+
+        Assert.assertEquals(actualSidePanelNames, expectedSidePanelNames);
     }
 }

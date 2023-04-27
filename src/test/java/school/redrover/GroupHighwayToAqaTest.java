@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -19,6 +20,8 @@ public class GroupHighwayToAqaTest extends BaseTest {
     private static final By SAVE_BUTTON = By.name("Submit");
     private static final By OK_BUTTON = By.xpath("//*[@id='ok-button']");
     private static final By DASHBOARD = By.xpath("//*[@id='jenkins-head-icon']");
+    private static final By SET_ITEM_NAME = By.id("name");
+
     @Test
     public void testAddBoardDescription() {
         String description = "Some text about dashboard";
@@ -263,5 +266,52 @@ public class GroupHighwayToAqaTest extends BaseTest {
         String h1 = header.getText();
 
         Assert.assertEquals(h1, "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testSearchItemWithEmptyFieldNegative() {
+        getDriver().findElement(NEW_ITEM).click();
+
+        WebDriverWait waitFor = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        waitFor.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='name']")));
+
+        WebElement itemNameField = getDriver().findElement(By.xpath("//div[@class='add-item-name']"));
+        itemNameField.click();
+
+        waitFor.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='itemname-required']")));
+
+        WebElement emptyFieldNotification = getDriver().findElement(By.xpath("//div[@id='itemname-required']"));
+        String actualEmptyFieldNotificationText = emptyFieldNotification.getText();
+
+        Assert.assertEquals(actualEmptyFieldNotificationText, "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
+    public void testNotificationFreestyleProjectBuiltSuccessfullyByGreenMark() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        WebDriverWait waitForSvgIcon = new WebDriverWait(getDriver(), Duration.ofSeconds(5), Duration.ofSeconds(2));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        getDriver().findElement(NEW_ITEM).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(SET_ITEM_NAME)).sendKeys("first-jenkins-job");
+        WebElement selectFreestyleProject = getDriver().findElement(By.xpath("//span[text()='Freestyle project']"));
+        selectFreestyleProject.click();
+
+        getDriver().findElement(OK_BUTTON).click();
+
+        WebElement descriptionArea = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        descriptionArea.sendKeys("First jenkins job");
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        js.executeScript("arguments[0].click();", saveButton);
+
+        WebElement buildNowButton = getDriver().findElement(By.xpath("//span[text() = 'Build Now']"));
+        js.executeScript("arguments[0].click();", buildNowButton);
+
+        waitForSvgIcon.until(ExpectedConditions.presenceOfElementLocated(By
+                .xpath("//span[@class = 'build-status-icon__outer']/*[local-name() = 'svg']")));
+        WebElement svgIcon = getDriver().findElement(By
+                .xpath("//span[@class = 'build-status-icon__outer']/*[local-name() = 'svg']"));
+
+        Assert.assertEquals(Color.fromString(svgIcon.getCssValue("color")).asHex(), "#1ea64b");
     }
 }
