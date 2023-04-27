@@ -10,9 +10,9 @@ import school.redrover.runner.BaseTest;
 public class GroupJavaciraptorsTest extends BaseTest {
     @Test
     public void simpleTest() {
-       WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
+        WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"));
 
-        Assert.assertEquals(welcomeElement.getText(),"Welcome to Jenkins!");
+        Assert.assertEquals(welcomeElement.getText(), "Welcome to Jenkins!");
     }
 
     @Test
@@ -46,5 +46,34 @@ public class GroupJavaciraptorsTest extends BaseTest {
         WebElement firstSubtitleElement = getDriver().findElement(By.xpath("//section[@class = 'empty-state-section']/h2"));
 
         Assert.assertEquals(firstSubtitleElement.getText(), "Start building your software project");
+    }
+
+    @Test
+    public void createNewItemTest() {
+        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItemButton.click();
+
+        WebElement nameItemInput = getDriver().findElement(By.xpath("//input[@name='name']"));
+        nameItemInput.sendKeys("Name of test item");
+
+        WebElement typeItem = getDriver().findElement(By.xpath("//span[@class='label' and text()='Pipeline']"));
+        typeItem.click();
+
+        WebElement okBtn = getDriver().findElement(By.cssSelector("#ok-button"));
+        okBtn.click();
+
+        WebElement submitBtn = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        submitBtn.click();
+
+        WebElement title = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
+        Assert.assertEquals(title.getText(), "Pipeline Name of test item");
+
+        WebElement deleteItem = getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']"));
+        deleteItem.click();
+
+        getDriver().switchTo().alert().accept();
+
+        WebElement welcomeTitle = getDriver().findElement(By.xpath("//*[text()='Welcome to Jenkins!']"));
+        Assert.assertEquals(welcomeTitle.getText(), "Welcome to Jenkins!");
     }
 }
