@@ -196,7 +196,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         WebElement buttonPeople = getDriver().findElement(By.xpath("//*[local-name()='svg' and @class='icon-user icon-md']"));
         buttonPeople.click();
-
         WebElement iconSizeSmall = getDriver().findElement(By.xpath("//a[@class='jenkins-button jenkins-button--tertiary' and @title='Small']"));
         iconSizeSmall.click();
         WebElement iconPerson = getDriver().findElement(By.xpath("//div[@class='jenkins-table__cell__button-wrapper']/*[name()='svg']/*[local-name()='path']"));
@@ -259,6 +258,25 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(names.size(),expectedResult.size());
         Assert.assertEquals(actualResult,expectedResult);
+    }
+
+    @Test
+    public void testIconSizeChanges() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+
+        WebElement buttonPeople = getDriver().findElement(By.xpath("//*[local-name()='svg' and @class='icon-user icon-md']"));
+        buttonPeople.click();
+        WebElement iconPerson = getDriver().findElement(By.xpath("//div[@class='jenkins-table__cell__button-wrapper']/*[name()='svg']/*[local-name()='path']"));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(iconPerson)));
+        Dimension initialDimension = iconPerson.getRect().getDimension();
+
+        WebElement iconSizeSmall = getDriver().findElement(By.xpath("//a[@class='jenkins-button jenkins-button--tertiary' and @title='Small']"));
+        iconSizeSmall.click();
+        WebElement smallIconPerson = getDriver().findElement(By.xpath("//*[@class='jenkins-table__cell__button-wrapper']/*[name()='svg']/*[local-name()='path']"));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(smallIconPerson)));
+        Dimension changedDimension = smallIconPerson.getRect().getDimension();
+
+        Assert.assertNotEquals(changedDimension, initialDimension);
     }
 }
 
