@@ -64,7 +64,7 @@ public class HelloWorldGroupTest extends BaseTest{
         WebElement saveBtn = getDriver().findElement(By.xpath("//*[@id='description']/form/div[2]/button"));
         saveBtn.click();
 
-        WebElement descrText = getDriver().findElement(By.xpath("//*[@id='description']/div[1]"));
+        WebElement descrText = getDriver().findElement(By.xpath("//*[@id='description']/div"));
         Assert.assertEquals(descrText.getText(), "hello");
     }
 }
