@@ -21,8 +21,7 @@ public class PeoplePageTest extends BaseTest {
 
     @Test
     public void testViewPeoplePage() {
-        WebElement peopleSideMenu = getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']"));
-        peopleSideMenu.click();
+        getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
         WebElement nameOfPeoplePageHeader = getDriver().findElement(By.xpath("//h1"));
 
         Assert.assertEquals(nameOfPeoplePageHeader.getText(), "People");
@@ -30,13 +29,39 @@ public class PeoplePageTest extends BaseTest {
 
     @Test
     public void testViewIconButtonsPeoplePage() {
-        List expectedIconButtonsNames = List.of("S\n" + "mall", "M\n" + "edium", "L\n" + "arge");
+        List expectedIconButtonsNames = List.of("S" + "\n" + "mall", "M" + "\n" + "edium", "L" + "\n" + "arge");
 
-        WebElement peopleSideMenu = getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']"));
-        peopleSideMenu.click();
+        getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
         List<WebElement> iconButtons = getDriver().findElements(By.xpath("//div[@class='jenkins-icon-size']//ol/li"));
         List<String> actualIconButtonsNames = ListText(iconButtons);
 
         Assert.assertEquals(actualIconButtonsNames, expectedIconButtonsNames);
+    }
+
+    @Test
+    public void testSortArrowModeChangesAfterClickingSortHeaderButton() {
+        getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
+
+        WebElement userIdBtnNoSortArrowBeforeClick = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
+        Assert.assertTrue(userIdBtnNoSortArrowBeforeClick.getText().isEmpty());
+
+        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]")).click();
+
+        String userIdBtnSortArrowUpAfterFirstClick = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
+        Assert.assertEquals(userIdBtnSortArrowUpAfterFirstClick, "  ↑");
+
+        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]")).click();
+
+        String userIdBtnSortArrowDownAfterSecondClick = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
+        Assert.assertEquals(userIdBtnSortArrowDownAfterSecondClick, "  ↓");
+
+        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'Name')]")).click();
+
+        WebElement userIdBtnNoArrowAfterAnotherButtonClick = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
+        Assert.assertTrue(userIdBtnNoArrowAfterAnotherButtonClick.getText().isEmpty());
     }
 }

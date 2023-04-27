@@ -128,4 +128,31 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(headerError.getText(), "Error");
         Assert.assertEquals(messageError.getText(),"No name is specified");
     }
+
+    @Test
+    public void testCreatingNewProject() throws InterruptedException {
+        WebElement newJobButton = getDriver().findElement(By.xpath("//a[@href='newJob']"));
+        newJobButton.click();
+
+        Thread.sleep(2000);
+
+        WebElement name = getDriver().findElement(By.xpath("//input[@id='name']"));
+        name.sendKeys("TestProject");
+
+        WebElement projectButton = getDriver().findElement(By.xpath("(//label)[2]"));
+        projectButton.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath(" //button[@id='ok-button']"));
+        okButton.click();
+
+        WebElement saveButton = getDriver().findElement(By.xpath("(//button[normalize-space()='Save'])[1]"));
+        saveButton.click();
+
+        WebElement mainImage = getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
+        mainImage.click();
+
+        WebElement textElement = getDriver().findElement(By.xpath("//tr[@id='job_TestProject']//td[3]"));
+        Assert.assertEquals(textElement.getText(), "TestProject");
+    }
+
 }
