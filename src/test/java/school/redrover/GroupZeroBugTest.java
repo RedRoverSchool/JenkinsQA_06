@@ -66,28 +66,21 @@ public class GroupZeroBugTest extends BaseTest {
             count++;
         }
 
-        int countDelete = 1;
+        int countJob = 1;
         for (int i=0; i< jobList.size(); i++) {
-            WebElement jobNameElement = getDriver().findElement(By.xpath("//span[text()='Job" + countDelete + "']"));
-            WebElement dropDownElement = getDriver().findElement(By.xpath("//span[text()='Job" + countDelete + "']/../button"));
-            Actions actions = new Actions(getDriver());
-            actions.moveToElement(jobNameElement)
-                    .pause(2000)
-                    .moveToElement(dropDownElement)
-                    .click()
-                    .pause(2000)
-                    .build()
-                    .perform();
+            WebElement jobNameElement = getDriver().findElement(By.xpath("//tr[@id='job_Job"+countJob+"']/td[3]/a/span"));
+            jobNameElement.click();
             Thread.sleep(2000);
-            WebElement deleteProjectDdEl = getDriver().findElement(By.xpath("//span[text()='Delete Project']"));
-            actions.moveToElement(deleteProjectDdEl)
-                    .click()
-                    .build()
-                    .perform();
+            WebElement deleteBtn = getDriver().findElement(By.xpath("//*[@class='icon-edit-delete icon-md']"));
+            deleteBtn.click();
+            Thread.sleep(2000);
             Alert alert = getDriver().switchTo().alert();
             alert.accept();
-            countDelete++;
+            Thread.sleep(2000);
+            countJob++;
         }
+
+        Assert.assertEquals(actualHeaderHP, expectedHeaderHP, "Wrong text from header HP");
     }
 
 
