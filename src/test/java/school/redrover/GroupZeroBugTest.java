@@ -198,6 +198,7 @@ public class GroupZeroBugTest extends BaseTest {
                 .perform();
 
         String renameJobXpath = "//ul[@class='first-of-type']//a[@href='/job/%s/confirm-rename']".formatted(name);
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(renameJobXpath)));
         WebElement renameJob = getDriver().findElement(By.xpath(renameJobXpath));
         getWait().until(ExpectedConditions.elementToBeClickable(renameJob));
         renameJob.click();
@@ -214,7 +215,7 @@ public class GroupZeroBugTest extends BaseTest {
         submitBtn.click();
 
         String expectResultRenameJob = "Project %s%s".formatted(name,newNameJob);
-
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='main-panel']/h1")));
         String actualResultRenameJob = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText();
         Assert.assertEquals(actualResultRenameJob,expectResultRenameJob,"The function rename Job is not working");
 
