@@ -1,11 +1,15 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import org.testng.annotations.Ignore;
+
+import static org.testng.AssertJUnit.assertEquals;
 
 public class HelloWorldGroupTest extends BaseTest{
     @Test
@@ -94,5 +98,28 @@ public class HelloWorldGroupTest extends BaseTest{
         WebElement element = getDriver().findElement(By.xpath("//tr[@id='job_" + projectName + "']//td/a"));
 
         Assert.assertEquals(element.getText(), projectName);
+    }
+    @Test
+    public void buttonStoreTest() {
+
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://askomdch.com/");
+
+        WebElement buttonShopNow = driver.findElement(By.xpath("//a[@class='wp-block-button__link']"));
+        buttonShopNow.click();
+
+        WebElement fildSearch = driver.findElement(By.xpath("//input[@type='search']"));
+        fildSearch.click();
+        fildSearch.sendKeys("Jeans");
+
+        WebElement buttonSearch = driver.findElement(By.xpath("//button[@value='Search']"));
+        buttonSearch.click();
+
+        WebElement pageResults = driver.findElement(By.xpath("//h1[@class='woocommerce-products-header__title page-title']"));
+        String value = pageResults.getText();
+        assertEquals("Search results: “Jeans”",value);
+
+        driver.quit();
     }
 }
