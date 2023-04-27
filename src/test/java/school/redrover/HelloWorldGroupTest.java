@@ -3,7 +3,6 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -40,7 +39,6 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(nameFolder.getText(),"Name");
     }
 
-    @Ignore
     @Test
     public void testUserName(){
         WebElement peopleElement = getDriver().findElement(By.xpath("//span[contains(text(), 'People')]/ancestor::a"));
@@ -68,5 +66,32 @@ public class HelloWorldGroupTest extends BaseTest{
 
         WebElement descrText = getDriver().findElement(By.xpath("//*[@id='description']/div"));
         Assert.assertEquals(descrText.getText(), text);
+    }
+
+    @Test
+    public void testCreateNewFreestyleProject() {
+        String projectName = "My new project";
+
+        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItemButton.click();
+
+        WebElement itemNameInput = getDriver().findElement(By.xpath("//input[@id='name']"));
+        itemNameInput.sendKeys(projectName);
+
+        WebElement freeStyleProjectButton = getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']"));
+        freeStyleProjectButton.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//div[@class='btn-decorator']"));
+        okButton.click();
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton.click();
+
+        WebElement dashboardCrumbs = getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href='/']"));
+        dashboardCrumbs.click();
+
+        WebElement element = getDriver().findElement(By.xpath("//tr[@id='job_" + projectName + "']//td/a"));
+
+        Assert.assertEquals(element.getText(), projectName);
     }
 }
