@@ -64,7 +64,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertFalse(notError.isDisplayed());
     }
 
-    @Ignore
     @Test
     public void testDimaKFirst() {
         String expResFol = "Folder";
@@ -74,17 +73,20 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         newItem.click();
         WebElement send = getDriver().findElement(By.className("jenkins-input"));
         send.sendKeys("First item");
-        WebElement folder = getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']//span"));
+        WebElement folder = getDriver().findElement(By.xpath("//span[@class = 'label'][text()='Folder']"));
         folder.click();
-        WebElement okey = getDriver().findElement(By.id("ok-button"));
-        okey.click();
+        WebElement ok = getDriver().findElement(By.id("ok-button"));
+        ok.click();
         WebElement board = getDriver().findElement(By.xpath("//ol[@id = 'breadcrumbs']//a"));
         board.click();
         Actions act = new Actions(getDriver());
-        WebElement boardfold = getDriver().findElement(By.xpath("(//*[name()='svg'][@title='Folder'])[1]\n"));
-        act.moveToElement(boardfold).perform();
-        WebElement nav = getDriver().findElement(By.className("tippy-content"));
-        String actResFol = nav.getText();
+        String actResFol = "";
+        WebElement boardFold = getDriver().findElement(By.cssSelector(".jenkins-table__cell__button-wrapper>[tooltip='Folder']"));
+        act.moveToElement(boardFold).perform();
+        while (actResFol.equals("")){
+        WebElement nav = getDriver().findElement(By.cssSelector("div:nth-child(9)>div>div"));
+        actResFol = nav.getText();
+        }
         WebElement nameF = getDriver().findElement(By.xpath("//a[@class = 'jenkins-table__link model-link inside']/span"));
         String actResName = nameF.getText();
 
