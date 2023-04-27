@@ -150,7 +150,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
                By.xpath("(//button[@class = 'jenkins-menu-dropdown-chevron'])[1]"));
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].click();", dropDownButton);
-        List<WebElement> folder = getDriver().findElements(By.xpath("//a[@class='yuimenuitemlabel']"));
+        List<WebElement> folder = getDriver().findElements(By.xpath("//div[@class = 'bd']//a"));
         List<String> actualResult = new ArrayList<>();
         for (int i = 0; i < folder.size(); i++) {
             actualResult.add(folder.get(i).getText());
