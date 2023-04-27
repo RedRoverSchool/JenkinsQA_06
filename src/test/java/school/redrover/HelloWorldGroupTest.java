@@ -44,7 +44,7 @@ public class HelloWorldGroupTest extends BaseTest{
         WebElement peopleElement = getDriver().findElement(By.xpath("//span[contains(text(), 'People')]/ancestor::a"));
         peopleElement.click();
 
-        WebElement userIDElement = getDriver().findElement(By.xpath("//tr[@id='person-admin']/td/a"));
+        WebElement userIDElement = getDriver().findElement(By.xpath("//table[@id='people']//td//a"));
         userIDElement.click();
 
         WebElement userName = getDriver().findElement(By.xpath("//h1"));
