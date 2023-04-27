@@ -161,18 +161,19 @@ public class JavaJitsuGroupTest extends BaseTest {
         WebElement nameJob = getDriver().findElement(By.xpath("//h1[text() =\"Pipeline JavaTest\"]"));
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
-    @Ignore
+
     @Test
     public void testAddDescription() {
+        final String text = "text";
         WebElement addLink = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         addLink.click();
         WebElement textInput = getDriver().findElement(By.cssSelector("textarea[name='description']"));
         textInput.clear();
-        textInput.sendKeys("text");
+        textInput.sendKeys(text);
         WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
         buttonSave.click();
         WebElement inputAdd = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
-        Assert.assertEquals(inputAdd.getText(), "text");
+        Assert.assertEquals(inputAdd.getText(), text);
     }
 
     @Test
@@ -205,5 +206,17 @@ public class JavaJitsuGroupTest extends BaseTest {
 
         WebElement manageJenkinsHeader = getDriver().findElement(By.xpath("//h1"));
         Assert.assertEquals(manageJenkinsHeader.getText(), "Manage Jenkins");
+    }
+    @Test
+    public void testBuildExecutorStatus() {
+        getDriver().findElement(By.xpath("//a[text()='Build Executor Status']")).click();
+        getDriver().findElement(By.className("jenkins-button")).click();
+        final String text = "New node name";
+        getDriver().findElement(By.cssSelector("input[id = 'name']")).sendKeys(text);
+        getDriver().findElement(By.className("jenkins-radio__label")).click();
+        getDriver().findElement(By.cssSelector("#ok")).click();
+        getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
+        WebElement ManageNodes = getDriver().findElement(By.xpath("//h1[text() = 'Manage nodes and clouds']"));
+        Assert.assertEquals(ManageNodes.getText(),"Manage nodes and clouds");
     }
 }
