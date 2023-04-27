@@ -41,4 +41,22 @@ public class JavaExpertsNationTest extends BaseTest {
 
         Assert.assertEquals(peopleTitle.getText(), "Build History of Jenkins");
     }
+    @Test
+    public void testAddDescription(){
+        WebElement addDescLink = getDriver().findElement(By.id("description-link"));
+        addDescLink.click();
+
+        WebElement inputField = getDriver().findElement(By.cssSelector("textarea[name = 'description']"));
+        inputField.clear();
+
+        String text = "Some description";
+        inputField.sendKeys(text);
+
+        WebElement saveButton = getDriver().findElement(By.cssSelector("button[name='Submit']"));
+        saveButton.click();
+
+        WebElement actualResult = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
+        Assert.assertEquals(actualResult.getText(), text);
+
+    }
 }
