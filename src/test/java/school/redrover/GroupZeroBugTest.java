@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.BaseUtils;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,12 +17,14 @@ import java.util.concurrent.TimeUnit;
 public class GroupZeroBugTest extends BaseTest {
     private WebDriverWait webDriverWait;
     private final Faker faker = new Faker();
+
     private void clickHomePage() {
         getDriver().findElement(By.id("jenkins-home-link")).click();
     }
+
     public final WebDriverWait getWait() {
         if (webDriverWait == null) {
-            webDriverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+            webDriverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(5), Duration.ofMillis(1000L));
         }
         return webDriverWait;
     }
@@ -79,8 +82,8 @@ public class GroupZeroBugTest extends BaseTest {
         }
 
         int countJob = 1;
-        for (int i=0; i< jobList.size(); i++) {
-            WebElement jobNameElement = getDriver().findElement(By.xpath("//tr[@id='job_Job"+countJob+"']/td[3]/a/span"));
+        for (int i = 0; i < jobList.size(); i++) {
+            WebElement jobNameElement = getDriver().findElement(By.xpath("//tr[@id='job_Job" + countJob + "']/td[3]/a/span"));
             jobNameElement.click();
             Thread.sleep(2000);
             WebElement deleteBtn = getDriver().findElement(By.xpath("//*[@class='icon-edit-delete icon-md']"));
@@ -138,9 +141,10 @@ public class GroupZeroBugTest extends BaseTest {
         newJob(name);
 
         getDriver().findElement(By.xpath("//a[@href='job/%s/']".formatted(name))).click();
+        Thread.sleep(2000);
         String actualNameJob = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText();
         String expectedNameJob = "Project %s".formatted(name);
-        Assert.assertEquals(actualNameJob,expectedNameJob," The name of job is not equal");
+        Assert.assertEquals(actualNameJob, expectedNameJob, " The name of job is not equal");
 
         deleteJob();
     }
@@ -151,7 +155,7 @@ public class GroupZeroBugTest extends BaseTest {
         String name = "Job" + faker.name().firstName();
         newJob(name);
 
-        for (int trial = 1; trial <=3; trial++) {
+        for (int trial = 1; trial <= 3; trial++) {
 
             getDriver().findElement(By.id("jenkins-home-link")).click();
 
@@ -172,7 +176,7 @@ public class GroupZeroBugTest extends BaseTest {
             String actualNumberBuild = numberBuild.getText();
             String expectedNumberBuild = "#" + trial;
             BaseUtils.log("Check Build #%s with %s".formatted(trial, name));
-            Assert.assertEquals(actualNumberBuild,expectedNumberBuild, "Build has been scheduled incorrectly");
+            Assert.assertEquals(actualNumberBuild, expectedNumberBuild, "Build has been scheduled incorrectly");
             getDriver().navigate().back();
         }
         getDriver().navigate().back();
@@ -180,7 +184,7 @@ public class GroupZeroBugTest extends BaseTest {
     }
 
     @Test(priority = 3)
-    public void testRenameJobViaDropDownMenu () throws InterruptedException {
+    public void testRenameJobViaDropDownMenu() {
 
         String name = "Job" + faker.name().firstName();
         newJob(name);
@@ -197,30 +201,21 @@ public class GroupZeroBugTest extends BaseTest {
                 .build()
                 .perform();
 
-        String renameJobXpath = "//ul[@class='first-of-type']//a[@href='/job/%s/confirm-rename']".formatted(name);
-        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(renameJobXpath)));
-        WebElement renameJob = getDriver().findElement(By.xpath(renameJobXpath));
-        getWait().until(ExpectedConditions.elementToBeClickable(renameJob));
-        renameJob.click();
-
-        WebElement warning = getDriver().findElement(By.className("warning"));
-        Assert.assertTrue(warning.isDisplayed());
-        WebElement inputRename = getDriver().findElement(By.xpath("//input[@name='newName']"));
-
+        getDriver().findElement(By.xpath("//span[.='Rename']")).click();
+        Assert.assertTrue(getDriver().findElement(By.className("warning")).isDisplayed(), "Warning message not displayed");
         String newNameJob = faker.name().suffix();
-        inputRename.sendKeys(newNameJob);
+        getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys(newNameJob);
 
-        WebElement submitBtn = getDriver().findElement(By.name("Submit"));
-        getWait().until(ExpectedConditions.elementToBeClickable(submitBtn));
-        submitBtn.click();
+        getDriver().findElement(By.name("Submit")).click();
 
-        String expectResultRenameJob = "Project %s%s".formatted(name,newNameJob);
-        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='main-panel']/h1")));
-        String actualResultRenameJob = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText();
-        Assert.assertEquals(actualResultRenameJob,expectResultRenameJob,"The function rename Job is not working");
+        String expectResultRenameJob = String.format("Project %s%s", name, newNameJob);
+        String actualResultRenameJob = getDriver().findElement(By.xpath("//h1[contains(.,'Project')]")).getText();
+
+        Assert.assertEquals(actualResultRenameJob, expectResultRenameJob, "The function rename Job is not working");
 
         deleteJob();
     }
+
     @Test
     public void testJenkinsVersionCheck() {
 
