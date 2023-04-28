@@ -383,5 +383,10 @@ public class AlexLeoGroupTests extends BaseTest {
             Assert.assertEquals(items.get(i).getText(), expectedItems.get(i));
         }
     }
+
+    @Test
+    public void testVerifyLogoJenkins() {
+            Assert.assertTrue(getDriver().findElement(By.id("jenkins-head-icon")).isDisplayed());
+        }
 }
 
