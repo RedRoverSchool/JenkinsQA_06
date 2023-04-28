@@ -22,7 +22,7 @@ public class GroupZeroBugTest extends BaseTest {
 
     public final WebDriverWait getWait() {
         if (webDriverWait == null) {
-            webDriverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(5), Duration.ofMillis(1000L));
+            webDriverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         }
         return webDriverWait;
     }
@@ -132,7 +132,7 @@ public class GroupZeroBugTest extends BaseTest {
         }
     }
 
-    @Test(priority = 1)
+    @Test
     public void testNewJobCreated() throws InterruptedException {
 
         String name = "Job" + faker.name().firstName();
@@ -147,7 +147,7 @@ public class GroupZeroBugTest extends BaseTest {
         deleteJob();
     }
 
-    @Test(priority = 2)
+    @Test
     public void testJobBuild() {
 
         String name = "Job" + faker.name().firstName();
@@ -181,27 +181,32 @@ public class GroupZeroBugTest extends BaseTest {
         deleteJob();
     }
 
-    @Test(priority = 3)
+    @Test
     public void testRenameJobViaDropDownMenu() throws InterruptedException {
 
         String name = "Job1";
         newJob(name);
 
         WebElement jobNameElement = getDriver().findElement(By.xpath("//span[.='Job1']"));
+        Thread.sleep(2000);
         jobNameElement.click();
+        BaseUtils.log("1. User click Job");
 
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         getDriver().findElement(By.xpath("//span[.='Rename']")).click();
+        BaseUtils.log("2. User click rename Job");
         Assert.assertTrue(getDriver().findElement(By.className("warning")).isDisplayed(), "Warning message not displayed");
 
         String newNameJob = "New";
         getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys(newNameJob);
+        Thread.sleep(2000);
         getDriver().findElement(By.name("Submit")).click();
+        BaseUtils.log("3. User click submit Btn");
 
+        Thread.sleep(2000);
         String expectResultRenameJob = String.format("Project %s%s", name, newNameJob);
-
         String actualResultRenameJob = getDriver().findElement(By.xpath("//h1[contains(.,'Project')]")).getText();
-        Thread.sleep(1000);
+
         Assert.assertEquals(actualResultRenameJob, expectResultRenameJob, "The function rename Job is not working");
 
         deleteJob();
