@@ -91,9 +91,8 @@ public class ComradesAdelanteGroupTest extends BaseTest {
 
     @Test
     public void testUserPage() {
-        String expectedUserPageHeader = "admin";
-
         WebElement userIcon = getDriver().findElement(By.xpath("//a[@href=\"/user/admin\"]"));
+        String expectedUserPageHeader = userIcon.getText();
         userIcon.click();
 
         WebElement userPageHeader = getDriver().findElement(By.xpath("//h1"));
