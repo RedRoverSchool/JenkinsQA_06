@@ -37,7 +37,7 @@ public class Katy1313Test extends BaseTest {
         submitButton.click();
         WebElement description = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
-        Assert.assertEquals(description.getText(),"Some text is here");
+        Assert.assertEquals(description.getText(), "Some text is here");
     }
 
     @Test
@@ -69,4 +69,13 @@ public class Katy1313Test extends BaseTest {
         Assert.assertTrue(searchResult.getText().toLowerCase().contains("configure"), "configure");
 
     }
+
+    @Test
+    public void testStatusButtonIsDisplayed() {
+        WebElement statusButton = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]"));
+
+        Assert.assertTrue(statusButton.isDisplayed());
+
+    }
+
 }
