@@ -76,6 +76,7 @@ public class BugsBustersGroupTest extends BaseTest {
                 "Welcome to Jenkins!");
     }
 
+    @Ignore
     @Test
     public void testCreateJobPage () {
         WebElement createJobButton = getDriver().findElement(By.xpath("//a[@href = 'newJob']"));

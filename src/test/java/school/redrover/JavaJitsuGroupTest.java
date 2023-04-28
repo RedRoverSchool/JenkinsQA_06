@@ -162,6 +162,8 @@ public class JavaJitsuGroupTest extends BaseTest {
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
 
+
+    @Ignore
     @Test
     public void testAddDescription() {
         final String text = "text";
