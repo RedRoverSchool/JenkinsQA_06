@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -36,7 +37,7 @@ public class Katy1313Test extends BaseTest {
         submitButton.click();
         WebElement description = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
-        Assert.assertEquals(description.getText(),"Some text is here");
+        Assert.assertEquals(description.getText(), "Some text is here");
     }
 
     @Test
@@ -55,4 +56,26 @@ public class Katy1313Test extends BaseTest {
 
         Assert.assertEquals(h1CredentialsPage.getText(), "Credentials");
     }
+
+    @Test
+    public void testSearchField() {
+        WebElement searchField = getDriver().findElement(By.xpath("//*[@id='search-box']"));
+        searchField.click();
+        searchField.sendKeys("configure");
+        searchField.sendKeys(Keys.ENTER);
+
+        WebElement searchResult = getDriver().findElement(By.xpath("//div[@id='main-panel']/div[1]/div[1]/h1"));
+
+        Assert.assertTrue(searchResult.getText().toLowerCase().contains("configure"), "configure");
+
+    }
+
+    @Test
+    public void testStatusButtonIsDisplayed() {
+        WebElement statusButton = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]"));
+
+        Assert.assertTrue(statusButton.isDisplayed());
+
+    }
+
 }

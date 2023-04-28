@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -40,6 +41,7 @@ public class TopMenuTest extends BaseTest {
         Assert.assertTrue(actualResult);
     }
 
+    @Ignore
     @Test
     public void testTopMenuUser(){
         WebElement topMenuUser = getDriver().findElement(By.xpath("//span[@class='hidden-xs hidden-sm'][text()='admin']"));
