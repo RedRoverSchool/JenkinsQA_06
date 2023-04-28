@@ -84,4 +84,38 @@ public class ComradesAdelanteGroupTest extends BaseTest {
 
         Assert.assertEquals( getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),"Project Hello world");
     }
+
+    @Test
+    public void testCreateFirstJobb() {
+        WebElement createItem = getDriver().findElement(
+                By.xpath("//*[text()='Create a job']"));
+        createItem.click();
+
+        WebElement textBoxOfNewName = getDriver().findElement(
+                By.xpath("//*[@class='jenkins-input']"));
+        textBoxOfNewName.sendKeys("First job");
+
+        WebElement createTaskOfFreeConfiguration = getDriver().findElement(
+                By.xpath("//*[@class='hudson_model_FreeStyleProject']"));
+        createTaskOfFreeConfiguration.click();
+
+        WebElement submitButton = getDriver().findElement(
+                By.xpath("//*[@id='ok-button']"));
+        submitButton.click();
+
+       Assert.assertEquals(getDriver().findElement(
+               By.xpath("//*[text()='First job']")).getText(), "First job");
+    }
+
+    @Test
+    public void testUserPage() {
+        WebElement userIcon = getDriver().findElement(By.xpath("//a[@href=\"/user/admin\"]"));
+        String expectedUserPageHeader = userIcon.getText();
+        userIcon.click();
+
+        WebElement userPageHeader = getDriver().findElement(By.xpath("//h1"));
+        String actualUserPageHeader = userPageHeader.getText();
+
+        Assert.assertEquals(actualUserPageHeader, expectedUserPageHeader);
+    }
 }
