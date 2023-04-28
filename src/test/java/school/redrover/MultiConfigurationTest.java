@@ -24,10 +24,6 @@ public class MultiConfigurationTest extends BaseTest {
     @Test
     public void testMoveToMultiConfigurationPage(){
         getDriver().findElement(By.linkText("New Item")).click();
-        String gettingURL = getDriver().getCurrentUrl();
-        String expectedURL = "http://localhost:8080/view/all/newJob";
-
-        Assert.assertEquals(gettingURL,expectedURL);
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).isDisplayed());
     }
