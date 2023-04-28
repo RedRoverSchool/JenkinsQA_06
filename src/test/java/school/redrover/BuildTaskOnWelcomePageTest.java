@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreateTestsOnTheWelcomePage extends BaseTest {
+public class BuildTaskOnWelcomePageTest extends BaseTest {
 
     final String NAME_FIRST_PROJECT = "firstTest";
 
@@ -23,7 +23,7 @@ public class CreateTestsOnTheWelcomePage extends BaseTest {
         pressOkButton.click();
         WebElement pressSubmitButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         pressSubmitButton.click();
-        WebElement pressDashboardButton = getDriver().findElement(By.xpath("//li/a[@href='/'] [@class='model-link']"));
+        WebElement pressDashboardButton = getDriver().findElement(By.xpath("//li/a[@href='/'][@class='model-link']"));
         pressDashboardButton.click();
         WebElement createdNameJob = getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span['test']"));
         String actualJobName = createdNameJob.getText();
