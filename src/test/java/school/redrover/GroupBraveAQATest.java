@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -72,5 +73,12 @@ public class GroupBraveAQATest extends BaseTest {
         Assert.assertEquals(newItemInputValidationMessage.getText(),
                 "» This field cannot be empty, please enter a valid name",
                 "The validation message is incorrect");
+    }
+
+    @Test
+    public void testCheckJenkinsVersion() {
+        WebElement welcomeElement = getDriver().findElement(By.xpath("//a[contains(text(),'Jenkins 2.387.2')]"));
+
+        Assert.assertEquals(welcomeElement.getText(), "Jenkins 2.387.2");
     }
 }

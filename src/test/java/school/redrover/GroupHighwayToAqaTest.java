@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
 import java.util.List;
 
@@ -158,7 +157,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void testCreateAJobWithAnErrorMessageAsAResult(){
+    public void testCreateAJobWithAnErrorMessageAsAResult() {
         WebElement myViewsTask = getDriver().findElement(
                 By.xpath("//a[@href='/me/my-views']")
         );
@@ -212,7 +211,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     }
 
     @Test
-    public void testCreateDisabledFreestyleProject(){
+    public void testCreateDisabledFreestyleProject() {
         final String projectName = "NewFreestyleProject";
         final String expectedResult = "This project is currently disabled\nEnable";
 
@@ -238,10 +237,10 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testCreateNewProject() throws InterruptedException {
-        String name="Мой проект";
+        String name = "Мой проект";
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
 
-        WebElement createNewItemButton= wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath
+        WebElement createNewItemButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath
                 ("//span[@class='task-icon-link']")));
         createNewItemButton.click();
 
@@ -249,15 +248,15 @@ public class GroupHighwayToAqaTest extends BaseTest {
         writeNameOfItem.sendKeys(name);
         WebElement chooseProject = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
         chooseProject.click();
-        WebElement pushOkButton=wait.until(ExpectedConditions.visibilityOfElementLocated
+        WebElement pushOkButton = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@class='btn-decorator']")));
         pushOkButton.click();
-        WebElement saveChanges=wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
+        WebElement saveChanges = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
         saveChanges.click();
 
-        String sucessMesageOfNewProject=getDriver().findElement(By.className("job-index-headline")).getText();
-        Assert.assertEquals(sucessMesageOfNewProject,"Project "+ name);
-         }
+        String sucessMesageOfNewProject = getDriver().findElement(By.className("job-index-headline")).getText();
+        Assert.assertEquals(sucessMesageOfNewProject, "Project " + name);
+    }
 
     @Test
     public void testTitle() {
@@ -313,5 +312,69 @@ public class GroupHighwayToAqaTest extends BaseTest {
                 .xpath("//span[@class = 'build-status-icon__outer']/*[local-name() = 'svg']"));
 
         Assert.assertEquals(Color.fromString(svgIcon.getCssValue("color")).asHex(), "#1ea64b");
+    }
+
+    @Test
+    public void testCreateNewUser() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
+
+        WebElement manageJenkinsTab = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
+        wait.until(ExpectedConditions.elementToBeClickable(manageJenkinsTab)).click();
+
+        WebElement manageUsersSection = getDriver().findElement(By.xpath("//a[@href = 'securityRealm/']"));
+        manageUsersSection.click();
+
+        WebElement createUserBtn = getDriver().findElement(By.xpath("//a[@href = 'addUser']"));
+        createUserBtn.click();
+
+        WebElement userNameField = getDriver().findElement(By.xpath("//input[@name = 'username']"));
+        String userName = generateName();
+        userNameField.sendKeys(userName);
+
+        WebElement passwordField = getDriver().findElement(By.xpath("//input[@name = 'password1']"));
+        String password = generatePassword();
+        passwordField.sendKeys(password);
+
+        WebElement confirmPasswordField = getDriver().findElement(By.xpath("//input[@name = 'password2']"));
+        confirmPasswordField.sendKeys(password);
+
+        WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name = 'fullname']"));
+        String fullName = userName + " " + generateLastName();
+        fullNameField.sendKeys(fullName);
+
+        WebElement emailField = getDriver().findElement(By.xpath("//input[@name = 'email']"));
+        String email = generateEmail();
+        emailField.sendKeys(email);
+
+        WebElement createBtn = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        createBtn.click();
+
+        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
+
+        Assert.assertTrue(isUserExist(users, userName));
+    }
+    private String generateName() {
+        Faker faker = new Faker();
+        return faker.name().firstName();
+    }
+    private String generatePassword() {
+        Faker faker = new Faker();
+        return faker.internet().password(5, 10, true, true, true);
+    }
+    private String generateLastName() {
+        Faker faker = new Faker();
+        return faker.name().lastName();
+    }
+    private String generateEmail() {
+        Faker faker = new Faker();
+        return faker.internet().emailAddress();
+    }
+    private boolean isUserExist(List<WebElement> list, String name) {
+        for (WebElement el : list) {
+            if (el.getText().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

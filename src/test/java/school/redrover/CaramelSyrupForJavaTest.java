@@ -62,7 +62,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertFalse(notError.isDisplayed(), "error was shown");
     }
 
-    @Ignore
     @Test
     public void testDimaKFirst() {
         String expResFol = "Folder";
@@ -72,11 +71,11 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         newItem.click();
         WebElement send = getDriver().findElement(By.className("jenkins-input"));
         send.sendKeys("First item");
-        WebElement folder = getDriver().findElement(By.xpath("//span[@class = 'label'][text()='Folder']"));
+        WebElement folder = getDriver().findElement(By.cssSelector(".category:nth-child(2)>ul>li"));
         folder.click();
         WebElement ok = getDriver().findElement(By.id("ok-button"));
         ok.click();
-        WebElement board = getDriver().findElement(By.xpath("//ol[@id = 'breadcrumbs']//a"));
+        WebElement board = getDriver().findElement(By.cssSelector("#breadcrumbBar>ol>li>a"));
         board.click();
         Actions act = new Actions(getDriver());
         String actResFol = "";
@@ -277,6 +276,28 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Dimension changedDimension = smallIconPerson.getRect().getDimension();
 
         Assert.assertNotEquals(changedDimension, initialDimension);
+    }
+
+    @Test
+    public void testAddDel() throws InterruptedException {
+        String expRes = "Welcome to Jenkins!";
+
+        getDriver().findElement(By.xpath("//span[text()='New Item']/../..")).click();
+        WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
+        itemName.click();
+        itemName.sendKeys("Project");
+
+        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@formNoValidate='formNoValidate']")).click();
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
+        getDriver().findElement(By.xpath("//th[@initialsortdir='down']/a")).click();
+        getDriver().findElement(By.cssSelector("a[class='jenkins-table__link model-link inside']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Delete Project']/..")).click();
+        Alert alertOK = getDriver().switchTo().alert();
+        alertOK.accept();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),expRes);
     }
 }
 

@@ -1,6 +1,5 @@
 package school.redrover;
 
-import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -164,4 +163,23 @@ public class JasperGroupTest extends BaseTest {
         List<WebElement> usersList = getDriver().findElements(By.xpath("//*[@id=\"people\"]"));
         Assert.assertTrue(usersList.size() > 0, "List of users are empty");
     }
+
+    @Test
+    public void testFindPeopleJenkins() {
+        WebElement users = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a/span[2]"));
+
+        Assert.assertEquals(users.getText(),"People");
+    }
+
+    @Test
+    public void testSearchResultNothingSeemsToMatch(){
+
+        WebElement newItemField = getDriver().findElement(By.xpath("//input[@id = 'search-box' ]"));
+        newItemField.sendKeys("jenk");
+        newItemField.sendKeys(Keys.RETURN);
+
+        WebElement searchResult1 = getDriver().findElement(By.xpath("//div[text() = 'Nothing seems to match.']"));
+        Assert.assertEquals(searchResult1.getText(), "Nothing seems to match.");
+    }
+
 }
