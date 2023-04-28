@@ -8,6 +8,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FuOpyatJavaTest extends BaseTest {
     @Test
@@ -79,5 +82,26 @@ public class FuOpyatJavaTest extends BaseTest {
 
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
         okButton.click();
+    }
+    @Test
+    public void verifySidePanel() {
+
+        List<String> expectedResult = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        WebElement people = getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']"));
+        WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        WebElement myViews = getDriver().findElement(By.xpath("//a[@href='/me/my-views']"));
+
+        List<String> actualResult = new ArrayList<>();
+
+        actualResult.add(newItem.getText());
+        actualResult.add(people.getText());
+        actualResult.add(buildHistory.getText());
+        actualResult.add(manageJenkins.getText());
+        actualResult.add(myViews.getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
