@@ -7,6 +7,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.List;
+
 public class ComradesAdelanteGroupTest extends BaseTest {
 
     @Test
@@ -27,6 +29,7 @@ public class ComradesAdelanteGroupTest extends BaseTest {
         WebElement generalInfoField = getDriver().findElement(By.xpath("//*[@class = 'jenkins-app-bar__content']/child::h2"));
         Assert.assertEquals(generalInfoField.getText(), "General");
     }
+
     @Test
     public void testVerifyNameOfFreestyleProject() {
         String nameOfJob = "Simple test";
@@ -64,6 +67,7 @@ public class ComradesAdelanteGroupTest extends BaseTest {
 
         Assert.assertEquals(actualHeader, expectedHeader);
     }
+
     @Test
     public void testCreateNewBuild() {
         WebElement taskLinkText = getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]/span/a"));
@@ -82,6 +86,18 @@ public class ComradesAdelanteGroupTest extends BaseTest {
 
         buttonSave.click();
 
-        Assert.assertEquals( getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),"Project Hello world");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project Hello world");
+    }
+
+    @Test
+    public void testUserPage() {
+        WebElement userIcon = getDriver().findElement(By.xpath("//a[@href=\"/user/admin\"]"));
+        String expectedUserPageHeader = userIcon.getText();
+        userIcon.click();
+
+        WebElement userPageHeader = getDriver().findElement(By.xpath("//h1"));
+        String actualUserPageHeader = userPageHeader.getText();
+
+        Assert.assertEquals(actualUserPageHeader, expectedUserPageHeader);
     }
 }
