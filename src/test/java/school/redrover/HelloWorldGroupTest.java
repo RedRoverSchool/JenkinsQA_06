@@ -97,14 +97,16 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(element.getText(), projectName);
     }
     @Test
-    public void testFieldSearchSetting() {
-        WebElement settings = getDriver().findElement(By.xpath("//a[@href='/manage']"));
-        settings.click();
+    public void testSearch(){
 
-        WebElement fieldSearch = getDriver().findElement(By.id("settings-search-bar"));
-        fieldSearch.click();
-        fieldSearch.sendKeys("users");
-        fieldSearch.sendKeys(Keys.ENTER);
+        WebElement searchField = getDriver().findElement(By.xpath("//input[@name='q']"));
+        searchField.click();
+        searchField.sendKeys("&");
+        searchField.sendKeys(Keys.ENTER);
 
+        WebElement fieldError = getDriver().findElement(By.xpath("//div[@class='error']"));
+        String text = "Nothing seems to match.";
+
+        Assert.assertEquals(fieldError.getText(),text);
     }
 }
