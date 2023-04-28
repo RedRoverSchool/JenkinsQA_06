@@ -208,4 +208,18 @@ public class BugsBustersGroupTest extends BaseTest {
             Assert.assertEquals(actualMenuList, expectedMenuList.get(i));
         }
     }
+
+    @Test
+    public void testCredentials() {
+
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a"));
+        manageJenkins.click();
+
+        WebElement manageCredentials = getDriver().findElement(By.xpath("//a[@href='credentials']//dl//dt"));
+        manageCredentials.click();
+
+        WebElement credentialsPage = getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__content']//h1"));
+        Assert.assertEquals(credentialsPage.getText(), "Credentials");
+    }
+
 }
