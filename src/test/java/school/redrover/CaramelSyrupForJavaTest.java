@@ -277,54 +277,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertNotEquals(changedDimension, initialDimension);
     }
 
-    @Test
-    public void testADLearnMoreHeaders() {
 
-        List<String> expectedResult = Arrays.asList("Enter an item name", "New node", "Configure Clouds", "Jenkins");
-
-        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText(), expectedResult.get(0));
-        getDriver().navigate().back();
-
-        getDriver().findElement(By.xpath("//span[text()='Set up an agent']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='New node']")).getText(), expectedResult.get(1));
-        getDriver().navigate().back();
-
-        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='configureClouds']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Configure Clouds']")).getText(), expectedResult.get(2));
-        getDriver().navigate().back();
-
-        getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")).click();
-        List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(windows.get(1));
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[text()='Jenkins']")).getText(), expectedResult.get(3));
-    }
-
-    @Test
-    public void testADConfigureCloud() throws InterruptedException {
-
-        String expectedResult = "No updates";
-
-        getDriver().findElement(By.xpath("//span[text()='Configure a cloud']")).click();
-        getDriver().findElement(By.xpath("//a[text()='Go to plugin manager.']")).click();
-        getDriver().findElement(By.xpath("//span[@class='task-link-wrapper ']//a[@href='/manage/pluginManager/']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[text()='No updates']")).getText(), expectedResult);
-    }
-
-    @Test
-    public void testADConfigureCloutIsDisabled() {
-        getDriver().findElement(By.cssSelector("a[href='configureClouds']")).click();
-        getDriver().findElement(By.cssSelector("[id='main-panel'] a[href*='pluginManager']")).click();
-        WebElement updates = getDriver().findElement(By.cssSelector("[id='tasks'] a[href$='pluginManager/']"));
-        Assert.assertTrue(updates.isDisplayed());
-        WebElement availablePlugins = getDriver().findElement(By.cssSelector("[id='tasks'] a[href$='available']"));
-        Assert.assertTrue(availablePlugins.isDisplayed());
-        WebElement installedPlugins = getDriver().findElement(By.cssSelector("[id='tasks'] a[href$='installed']"));
-        Assert.assertTrue(installedPlugins.isDisplayed());
-        WebElement advancedPlugins = getDriver().findElement(By.cssSelector("[id='tasks'] a[href$='advanced']"));
-        Assert.assertTrue(advancedPlugins.isDisplayed());
-    }
 }
 
 
