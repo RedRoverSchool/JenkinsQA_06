@@ -8,6 +8,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FuOpyatJavaTest extends BaseTest {
     @Test
@@ -55,5 +58,50 @@ public class FuOpyatJavaTest extends BaseTest {
         String actualResult004 = h3Header.getText();
 
         Assert.assertEquals(actualResult004, "Enter an item name");
+    }
+    @Test
+    public void testPeople() {
+
+        WebElement peopleSideBar = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a"));
+        peopleSideBar.click();
+
+        WebElement peoplePageElement = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[1]/div/h1"));
+        Assert.assertEquals(peoplePageElement.getText(), "People");
+    }
+    @Test
+    public void testNewItemFolder() {
+
+        WebElement newItemSideBar = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
+        newItemSideBar.click();
+
+        WebElement nameField = getDriver().findElement(By.xpath("//*[@id=\"name\"]"));
+        nameField.sendKeys("Folder1");
+
+        WebElement folderPageElement = getDriver().findElement(By.xpath("//*[@id=\"j-add-item-type-nested-projects\"]/ul/li[1]"));
+        folderPageElement.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+    }
+    @Test
+    public void verifySidePanel() {
+
+        List<String> expectedResult = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        WebElement people = getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']"));
+        WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        WebElement myViews = getDriver().findElement(By.xpath("//a[@href='/me/my-views']"));
+
+        List<String> actualResult = new ArrayList<>();
+
+        actualResult.add(newItem.getText());
+        actualResult.add(people.getText());
+        actualResult.add(buildHistory.getText());
+        actualResult.add(manageJenkins.getText());
+        actualResult.add(myViews.getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
