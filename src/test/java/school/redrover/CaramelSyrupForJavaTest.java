@@ -281,21 +281,22 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
     @Test
     public void testADLearnMoreHeaders() {
+
         List<String> expectedResult = Arrays.asList("Enter an item name", "New node", "Configure Clouds", "Jenkins");
 
-        getDriver().findElement(By.xpath("//span[text()='Create a job']/..")).click();
+        getDriver().findElement(By.cssSelector("#main-panel [href='newJob']")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText(), expectedResult.get(0));
         getDriver().navigate().back();
 
-        getDriver().findElement(By.xpath("//span[text()='Set up an agent']/..")).click();
+        getDriver().findElement(By.cssSelector("#main-panel [href='computer/new']")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='New node']")).getText(), expectedResult.get(1));
         getDriver().navigate().back();
 
-        getDriver().findElement(By.xpath("//span[text()='Configure a cloud']/..")).click();
+        getDriver().findElement(By.cssSelector("#main-panel [href='configureClouds']")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Configure Clouds']")).getText(), expectedResult.get(2));
         getDriver().navigate().back();
 
-        getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']/..")).click();
+        getDriver().findElement(By.cssSelector("#main-panel [href$='distributed-builds']")).click();
         List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(windows.get(1));
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[text()='Jenkins']")).getText(), expectedResult.get(3));
