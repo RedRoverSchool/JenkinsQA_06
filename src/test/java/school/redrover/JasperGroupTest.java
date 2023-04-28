@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -154,6 +155,22 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(textElement.getText(), "TestProject");
     }
 
+    @Test
+    public void testCountUsers() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement users = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a")));
+        users.click();
+
+        List<WebElement> usersList = getDriver().findElements(By.xpath("//*[@id=\"people\"]"));
+        Assert.assertTrue(usersList.size() > 0, "List of users are empty");
+    }
+
+    @Test
+    public void testFindUsersJenkins1() {
+        WebElement users = getDriver().findElement(By.xpath("//span[text()= 'Пользователи']"));
+
+        Assert.assertEquals(users.getText(),"Пользователи");
+    }
 
     @Test
     public void testFindPeopleJenkins() {
