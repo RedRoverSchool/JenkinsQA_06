@@ -7,8 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import java.util.List;
-
 public class ComradesAdelanteGroupTest extends BaseTest {
 
     @Test
@@ -29,7 +27,6 @@ public class ComradesAdelanteGroupTest extends BaseTest {
         WebElement generalInfoField = getDriver().findElement(By.xpath("//*[@class = 'jenkins-app-bar__content']/child::h2"));
         Assert.assertEquals(generalInfoField.getText(), "General");
     }
-
     @Test
     public void testVerifyNameOfFreestyleProject() {
         String nameOfJob = "Simple test";
@@ -67,7 +64,6 @@ public class ComradesAdelanteGroupTest extends BaseTest {
 
         Assert.assertEquals(actualHeader, expectedHeader);
     }
-
     @Test
     public void testCreateNewBuild() {
         WebElement taskLinkText = getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]/span/a"));
@@ -86,7 +82,29 @@ public class ComradesAdelanteGroupTest extends BaseTest {
 
         buttonSave.click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project Hello world");
+        Assert.assertEquals( getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),"Project Hello world");
+    }
+
+    @Test
+    public void testCreateFirstJobb() {
+        WebElement createItem = getDriver().findElement(
+                By.xpath("//*[text()='Create a job']"));
+        createItem.click();
+
+        WebElement textBoxOfNewName = getDriver().findElement(
+                By.xpath("//*[@class='jenkins-input']"));
+        textBoxOfNewName.sendKeys("First job");
+
+        WebElement createTaskOfFreeConfiguration = getDriver().findElement(
+                By.xpath("//*[@class='hudson_model_FreeStyleProject']"));
+        createTaskOfFreeConfiguration.click();
+
+        WebElement submitButton = getDriver().findElement(
+                By.xpath("//*[@id='ok-button']"));
+        submitButton.click();
+
+       Assert.assertEquals(getDriver().findElement(
+               By.xpath("//*[text()='First job']")).getText(), "First job");
     }
 
     @Test
