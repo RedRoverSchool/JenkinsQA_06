@@ -1,18 +1,17 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import org.testng.annotations.Ignore;
 
-public class HelloWorldGroupTest extends BaseTest{
+public class HelloWorldGroupTest extends BaseTest {
     @Test
     public void testJenkinsVersion() {
         WebElement version = getDriver().findElement(By.xpath("//a[@rel='noopener noreferrer']"));
-        Assert.assertEquals(version.getText(),"Jenkins 2.387.2");
+        Assert.assertEquals(version.getText(), "Jenkins 2.387.2");
     }
 
     @Test
@@ -23,7 +22,7 @@ public class HelloWorldGroupTest extends BaseTest{
         WebElement itemName = getDriver().findElement(By.xpath("//input[@name='name']"));
         itemName.sendKeys("Name");
 
-        WebElement folder =getDriver().findElement(By.xpath("//*[@id=\"j-add-item-type-nested-projects\"]//div[@class='desc']"));
+        WebElement folder = getDriver().findElement(By.xpath("//*[@id=\"j-add-item-type-nested-projects\"]//div[@class='desc']"));
         folder.click();
 
         WebElement okButton = getDriver().findElement(By.xpath("//*[@id=\"ok-button\"]"));
@@ -37,12 +36,12 @@ public class HelloWorldGroupTest extends BaseTest{
 
         WebElement nameFolder = getDriver().findElement(By.xpath("//td//a//span[1]"));
 
-        Assert.assertEquals(nameFolder.getText(),"Name");
+        Assert.assertEquals(nameFolder.getText(), "Name");
     }
 
     @Ignore
     @Test
-    public void testUserName(){
+    public void testUserName() {
         WebElement peopleElement = getDriver().findElement(By.xpath("//span[contains(text(), 'People')]/ancestor::a"));
         peopleElement.click();
 
@@ -53,6 +52,7 @@ public class HelloWorldGroupTest extends BaseTest{
 
         Assert.assertEquals(userName.getText(), "admin");
     }
+
     @Test
     public void testDescriptionEdit() {
         final String text = "HelloWorld";
@@ -96,17 +96,23 @@ public class HelloWorldGroupTest extends BaseTest{
 
         Assert.assertEquals(element.getText(), projectName);
     }
+
     @Test
-    public void testSearch(){
+    public void testCreateNewProject() {
+        WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
+        newItem.click();
 
-        WebElement searchField = getDriver().findElement(By.xpath("//input[@name='q']"));
-        searchField.click();
-        searchField.sendKeys("&");
-        searchField.sendKeys(Keys.ENTER);
+        WebElement nameProject = getDriver().findElement(By.id("name"));
+        nameProject.sendKeys("First");
 
-        WebElement fieldError = getDriver().findElement(By.xpath("//div[@class='error']"));
-        String text = "Nothing seems to match.";
+        WebElement typeProject = getDriver().findElement(By.xpath("//input[@value='hudson.model.FreeStyleProject']/.."));
+        typeProject.click();
 
-        Assert.assertEquals(fieldError.getText(),text);
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href='/']")).click();
+
+        WebElement firstProjectExist = getDriver().findElement(By.xpath("//td/a[@href='job/First/']"));
+        Assert.assertEquals(firstProjectExist.getText(), "First");
     }
 }
