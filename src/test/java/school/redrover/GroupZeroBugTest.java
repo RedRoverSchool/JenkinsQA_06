@@ -182,21 +182,26 @@ public class GroupZeroBugTest extends BaseTest {
     }
 
     @Test
-    public void testRenameJobViaDropDownMenu() throws InterruptedException {
+    public void testRenameJob() throws InterruptedException {
 
-        String name = "Job1";
+        String name = "Job" + faker.name().firstName();
         newJob(name);
 
-        WebElement jobNameElement = getDriver().findElement(By.xpath("//tr[@id='job_" + name + "']/td[3]/a/span"));
+
         Thread.sleep(1000);
-        jobNameElement.click();
+        getDriver().findElement(By.xpath("//a[@href='job/" + name + "/']")).click();
         BaseUtils.log("1. User click Job");
 
         Thread.sleep(1000);
-        getDriver().findElement(By.xpath("(//*[@class='yuimenuitem'])[6]")).click();
-        BaseUtils.log("2. User click rename Job");
-        Assert.assertTrue(getDriver().findElement(By.className("warning")).isDisplayed(), "Warning message not displayed");
+        String expectResultJob = String.format("Project %s", name);
+        String actualResultJob = getDriver().findElement(By.xpath("//h1[contains(.,'Project')]")).getText();
+        Assert.assertEquals(actualResultJob, expectResultJob, "The function rename Job is not working");
 
+        Thread.sleep(1000);
+        getDriver().findElement(By.xpath("(//a[@class='task-link '])[6]")).click();
+        BaseUtils.log("2. User click rename Job");
+
+        Assert.assertTrue(getDriver().findElement(By.className("warning")).isDisplayed(), "Warning message not displayed");
         String newNameJob = "New";
         getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys(newNameJob);
         Thread.sleep(1000);
