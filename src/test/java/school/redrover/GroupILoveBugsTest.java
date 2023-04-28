@@ -41,4 +41,36 @@ public class GroupILoveBugsTest extends BaseTest {
         Assert.assertEquals(name, getDriver().findElement(nameProjectInBreadcrumbs).getText(), "Wrong name project");
     }
 
+    @Test
+    public void testPeoplePageTitle(){
+        WebElement peoplePageMenu = getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']"));
+        peoplePageMenu.click();
+
+        WebElement peoplePageTitle = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(peoplePageTitle.getText(), "People",
+                "People page Title is not as expected");
+    }
+
+    @Test
+    public void testBuildHistoryPageTitle() {
+        WebElement buildHistoryMenu = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buildHistoryMenu.click();
+
+        WebElement buildHistoryPageTitle = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(buildHistoryPageTitle.getText(), "Build History of Jenkins",
+                "Build History page Title is not as expected");
+    }
+
+    @Test
+    public void testManageJenkinsPageTitle() {
+        WebElement manageJenkinsMenu = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        manageJenkinsMenu.click();
+
+        WebElement manageJenkinsPageTitle = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(manageJenkinsPageTitle.getText(), "Manage Jenkins",
+                "Manage Jenkins page Title is not as expected");
+    }
 }

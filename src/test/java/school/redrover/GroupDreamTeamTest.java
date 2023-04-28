@@ -63,9 +63,10 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
         Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
 
+        WebDriverWait wait = new WebDriverWait(getDriver(),Duration.ofSeconds(20));
         WebElement addDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         addDescription.click();
-        WebElement textBox = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        WebElement textBox = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//textarea[@name='description']")));
         textBox.sendKeys("Hello Jenkins!");
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveButton.click();
@@ -218,5 +219,28 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement folder2 = getDriver().findElement(By.xpath("//a[@href='/job/Folder2/']"));
 
         Assert.assertTrue(folder2.isDisplayed());
+    }
+
+    @Test
+    public void testUserSidePanelMenu() {
+        List<String> expectedUserSidePanelMenu = List.of(
+                "People",
+                "Status",
+                "Builds",
+                "Configure",
+                "My Views",
+                "Credentials");
+
+        WebElement userSidePanelMenu = getDriver().findElement(By.xpath("//a[@href='/user/admin']"));
+        userSidePanelMenu.click();
+
+        List<WebElement> sidePanelMenu = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
+
+        List<String> actualUserSidePanelMenu = new ArrayList<>();
+        for (WebElement element: sidePanelMenu){
+            actualUserSidePanelMenu.add(element.getText());
+        }
+
+        Assert.assertEquals(actualUserSidePanelMenu, expectedUserSidePanelMenu);
     }
 }
