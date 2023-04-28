@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.BaseUtils;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -241,5 +242,21 @@ public class GroupZeroBugTest extends BaseTest {
         String dashboardActual = dashboard.getText();
 
         Assert.assertEquals(dashboardActual, dashboardExpected);
+    }
+
+    @Test
+    public void testMenuAdminListVerify() {
+
+        WebElement adminMenuList = getDriver().findElement(
+                By.xpath("//span[@class='hidden-xs hidden-sm'][contains(text(),'admin')]"));
+        adminMenuList.click();
+
+        List<WebElement> menuAdminList = getDriver().findElements(By.xpath("//div[@class='task ']"));
+        List<String> expectedResultMenuAdminList = Arrays.asList("People" , "Status", "Builds", "Configure", "My Views","Credentials");
+
+        for (int i = 0; i < menuAdminList.size(); i++) {
+            String actualResultMenuAdminList = menuAdminList.get(i).getText();
+            Assert.assertEquals(actualResultMenuAdminList, expectedResultMenuAdminList.get(i));
+        }
     }
 }
