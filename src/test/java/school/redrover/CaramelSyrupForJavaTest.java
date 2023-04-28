@@ -208,7 +208,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult,expectedResult);
     }
 
-
     @Test
     public void testIconSizeChanges() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
