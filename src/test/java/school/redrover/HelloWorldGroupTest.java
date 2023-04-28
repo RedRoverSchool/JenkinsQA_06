@@ -123,11 +123,9 @@ public class HelloWorldGroupTest extends BaseTest{
 
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.name("Submit")).click();
-
         getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href='/']")).click();
 
         WebElement firstProjectExist = getDriver().findElement(By.xpath("//td/a[@href='job/First/']"));
         Assert.assertEquals(firstProjectExist.getText(), "First");
     }
-
 }
