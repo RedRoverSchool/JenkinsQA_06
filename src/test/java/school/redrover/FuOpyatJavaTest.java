@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -103,5 +104,20 @@ public class FuOpyatJavaTest extends BaseTest {
         actualResult.add(myViews.getText());
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSearchUserAdmin() {
+
+        WebElement searchBox = getDriver().findElement(By.name("q"));
+        searchBox.sendKeys("admin");
+        searchBox.sendKeys(Keys.ENTER);
+
+        WebElement addDescription = getDriver().findElement(By.xpath("//*[@id=\"description-link\"]"));
+        addDescription.click();
+        getDriver().findElement(By.name("Submit")).click();
+        WebElement searchUserAdmin = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[2]"));
+
+        Assert.assertEquals(searchUserAdmin.getText(), "Jenkins User ID: admin");
     }
 }
