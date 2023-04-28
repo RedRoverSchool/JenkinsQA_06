@@ -105,6 +105,21 @@ public class JavaNiSyGroupTest extends BaseTest {
         textInputArea = getDriver().findElement(By.xpath("//textarea[@name='description']"));
         textInputArea.clear();
     }
+    @Test
+    public void testAddDescription() {
+        WebElement btnAddDescr = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        btnAddDescr.click();
+
+        WebElement textArea = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        textArea.clear();
+        textArea.sendKeys("You are welcome!");
+
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        WebElement descriptionResult = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
+
+        Assert.assertEquals(descriptionResult.getText(), "You are welcome!");
+    }
 }
 
 
