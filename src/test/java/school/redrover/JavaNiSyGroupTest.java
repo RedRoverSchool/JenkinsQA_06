@@ -123,7 +123,7 @@ public class JavaNiSyGroupTest extends BaseTest {
 
     @Test
     public void checkButtonConfigure() {
-        WebElement buttonConfigure = getDriver().findElement(By.xpath("//a[@class='content-block__link']/span[text() = 'Configure a cloud']"));
+        WebElement buttonConfigure = getDriver().findElement(By.xpath("//span[text() = 'Configure a cloud']//ancestor::a"));
         buttonConfigure.click();
         WebElement configureElement = getDriver().findElement(By.xpath("//h1[text() = 'Configure Clouds']"));
 
