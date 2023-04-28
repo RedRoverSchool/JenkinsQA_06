@@ -280,4 +280,19 @@ public class GroupZeroBugTest extends BaseTest {
 
         Assert.assertEquals(dashboardActual, dashboardExpected);
     }
+
+    @Test
+    public void testQuantityOfSubmenuInAdminMenu() {
+
+        int expectedResultQuantityOfSubmenuList = 6;
+
+        WebElement adminMenuList = getDriver().findElement(
+                By.xpath("//span[@class='hidden-xs hidden-sm'][contains(text(),'admin')]"));
+        adminMenuList.click();
+
+        List<WebElement> menuAdminList = getDriver().findElements(By.xpath("//div[@id ='side-panel']/div/div"));
+        int actualResultQuantityOfSubmenuList = menuAdminList.size();
+
+       Assert.assertEquals(actualResultQuantityOfSubmenuList, expectedResultQuantityOfSubmenuList);
+    }
 }
