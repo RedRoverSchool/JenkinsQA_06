@@ -116,8 +116,8 @@ public class FuOpyatJavaTest extends BaseTest {
         WebElement addDescription = getDriver().findElement(By.xpath("//*[@id=\"description-link\"]"));
         addDescription.click();
         getDriver().findElement(By.name("Submit")).click();
-        WebElement searchAdmin = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[2]"));
+        WebElement searchUserAdmin = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[2]"));
 
-        Assert.assertEquals(searchAdmin.getText(), "Jenkins User ID: admin");
+        Assert.assertEquals(searchUserAdmin.getText(), "Jenkins User ID: admin");
     }
 }
