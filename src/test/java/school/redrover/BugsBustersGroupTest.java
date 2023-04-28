@@ -180,4 +180,31 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'main-panel']/h1")).getText(),
                 "Project " + text);
     }
+
+    @Test
+    public void testMainPageMenuItems () {
+        List<WebElement> menuList = getDriver().findElements(By.xpath("//div[@id= 'tasks']/div"));
+        List <String> expectedList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+
+        for (int i = 0; i < menuList.size(); i++) {
+            String actualList = menuList.get(i).getText();
+            Assert.assertEquals(actualList, expectedList.get(i));
+        }
+    }
+
+    @Test
+    public void testSystemConfigurationMenu () {
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
+        manageJenkins.click();
+
+        List <WebElement> systemConfigMenu = getDriver().findElements(By.xpath(
+                "//*[@id='main-panel']/section[2]/div/div[1]/a/dl/dt"));
+        List <String> expectedMenuList = Arrays.asList("Configure System", "Manage Plugins", "Global Tool Configuration",
+                "Manage Nodes and Clouds");
+
+        for (int i = 0; i < systemConfigMenu.size(); i++) {
+            String actualMenuList = systemConfigMenu.get(i).getText();
+            Assert.assertEquals(actualMenuList, expectedMenuList.get(i));
+        }
+    }
 }
