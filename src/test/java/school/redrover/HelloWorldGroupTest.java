@@ -128,4 +128,5 @@ public class HelloWorldGroupTest extends BaseTest{
         WebElement firstProjectExist = getDriver().findElement(By.xpath("//td/a[@href='job/First/']"));
         Assert.assertEquals(firstProjectExist.getText(), "First");
     }
+
 }
