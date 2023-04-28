@@ -184,7 +184,7 @@ public class GroupZeroBugTest extends BaseTest {
     }
 
     @Test(priority = 3)
-    public void testRenameJobViaDropDownMenu() {
+    public void testRenameJobViaDropDownMenu() throws InterruptedException {
 
         String name = "Job" + faker.name().firstName();
         newJob(name);
@@ -197,15 +197,16 @@ public class GroupZeroBugTest extends BaseTest {
                 .pause(1000)
                 .moveToElement(dropDownBtn)
                 .click()
-                .pause(2000)
-                .build()
+                .pause(1000)
                 .perform();
+
+        Thread.sleep(1000);
 
         getDriver().findElement(By.xpath("//span[.='Rename']")).click();
         Assert.assertTrue(getDriver().findElement(By.className("warning")).isDisplayed(), "Warning message not displayed");
+
         String newNameJob = faker.name().suffix();
         getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys(newNameJob);
-
         getDriver().findElement(By.name("Submit")).click();
 
         String expectResultRenameJob = String.format("Project %s%s", name, newNameJob);
