@@ -76,13 +76,12 @@ public class BugsBustersGroupTest extends BaseTest {
                 "Welcome to Jenkins!");
     }
 
-    @Ignore
     @Test
     public void testCreateJobPage () {
         WebElement createJobButton = getDriver().findElement(By.xpath("//a[@href = 'newJob']"));
         createJobButton.click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'add-item-name']/label"))
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='createItem']/div[1]/div/label"))
                         .getText(), "Enter an item name");
     }
 
