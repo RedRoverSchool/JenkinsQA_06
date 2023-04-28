@@ -3,12 +3,14 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import javax.swing.*;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,11 +54,11 @@ public class JasperGroupTest extends BaseTest {
         saveButton.click();
 
         WebElement actualResult = getDriver().findElement(By.xpath("//*[@class=\"job-index-headline page-headline\"]"));
-        Assert.assertEquals(actualResult.getText(),"Project New Item");
+        Assert.assertEquals(actualResult.getText(), "Project New Item");
     }
 
     @Test
-    public void testValidationOfCreateNewItem(){
+    public void testValidationOfCreateNewItem() {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         WebElement newItem = getDriver().findElement(By.cssSelector("[href*='/view/all/newJob']"));
@@ -90,7 +92,7 @@ public class JasperGroupTest extends BaseTest {
         WebElement headerMenuName = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']/span"));
         List<WebElement> names = new ArrayList<>(Arrays.asList(h1Name, headerMenuName));
 
-        for(WebElement name : names){
+        for (WebElement name : names) {
             Assert.assertEquals(name.getText(), "User");
         }
     }
@@ -125,7 +127,7 @@ public class JasperGroupTest extends BaseTest {
         WebElement messageError = getDriver().findElement(By.xpath("//p"));
 
         Assert.assertEquals(headerError.getText(), "Error");
-        Assert.assertEquals(messageError.getText(),"No name is specified");
+        Assert.assertEquals(messageError.getText(), "No name is specified");
     }
 
     @Test
@@ -168,11 +170,11 @@ public class JasperGroupTest extends BaseTest {
     public void testFindPeopleJenkins() {
         WebElement users = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a/span[2]"));
 
-        Assert.assertEquals(users.getText(),"People");
+        Assert.assertEquals(users.getText(), "People");
     }
 
     @Test
-    public void testSearchResultNothingSeemsToMatch(){
+    public void testSearchResultNothingSeemsToMatch() {
 
         WebElement newItemField = getDriver().findElement(By.xpath("//input[@id = 'search-box' ]"));
         newItemField.sendKeys("jenk");
@@ -182,4 +184,15 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(searchResult1.getText(), "Nothing seems to match.");
     }
 
+    @Test
+    public void testSearchFieldResult() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement searchField = getDriver().findElement(By.id("search-box"));
+        searchField.sendKeys("admin");
+        searchField.sendKeys(Keys.RETURN);
+
+        WebElement expectedResult = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(),'admin')]")));
+        Assert.assertEquals(expectedResult.getText(), "admin");
+        Assert.assertTrue(expectedResult.isDisplayed(), "Element is not displayed");
+    }
 }
