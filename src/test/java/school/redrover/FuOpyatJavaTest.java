@@ -65,4 +65,19 @@ public class FuOpyatJavaTest extends BaseTest {
         WebElement peoplePageElement = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[1]/div/h1"));
         Assert.assertEquals(peoplePageElement.getText(), "People");
     }
+    @Test
+    public void testNewItemFolder() {
+
+        WebElement newItemSideBar = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
+        newItemSideBar.click();
+
+        WebElement nameField = getDriver().findElement(By.xpath("//*[@id=\"name\"]"));
+        nameField.sendKeys("Folder1");
+
+        WebElement folderPageElement = getDriver().findElement(By.xpath("//*[@id=\"j-add-item-type-nested-projects\"]/ul/li[1]"));
+        folderPageElement.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+    }
 }
