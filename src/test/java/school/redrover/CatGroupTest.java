@@ -276,4 +276,29 @@ public class CatGroupTest extends BaseTest {
 
         Assert.assertEquals(actualSidePanelNames, expectedSidePanelNames);
     }
+    @Test
+    public void dashbroadMenu() {
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        WebElement people = getDriver().findElement(By.xpath("//span[text()='People']"));
+        WebElement buildHistory = getDriver().findElement(By.xpath("//span[text() = 'Build History']"));
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']"));
+        WebElement myViews = getDriver().findElement(By.xpath("//span[text() = 'My Views']"));
+
+        ArrayList <String> actualResult = new ArrayList<>();;
+        actualResult.add(newItem.getText());
+        actualResult.add(people.getText());
+        actualResult.add(buildHistory.getText());
+        actualResult.add(manageJenkins.getText());
+        actualResult.add(myViews.getText());
+
+        ArrayList<String> expectedResult = new ArrayList<>();
+        expectedResult.add("New Item");
+        expectedResult.add("People");
+        expectedResult.add("Build History");
+        expectedResult.add("Manage Jenkins");
+        expectedResult.add("My Views");
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+
 }

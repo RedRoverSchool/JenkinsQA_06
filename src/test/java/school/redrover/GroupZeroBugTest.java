@@ -1,7 +1,7 @@
 package school.redrover;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -13,6 +13,19 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GroupZeroBugTest extends BaseTest {
+    private WebDriverWait webDriverWait;
+    private final Faker faker = new Faker();
+
+    private void clickHomePage() {
+        getDriver().findElement(By.id("jenkins-home-link")).click();
+    }
+
+    public final WebDriverWait getWait() {
+        if (webDriverWait == null) {
+            webDriverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        }
+        return webDriverWait;
+    }
 
     @Test
     public void testFirstJobIsCreated() throws InterruptedException {
@@ -67,8 +80,8 @@ public class GroupZeroBugTest extends BaseTest {
         }
 
         int countJob = 1;
-        for (int i=0; i< jobList.size(); i++) {
-            WebElement jobNameElement = getDriver().findElement(By.xpath("//tr[@id='job_Job"+countJob+"']/td[3]/a/span"));
+        for (int i = 0; i < jobList.size(); i++) {
+            WebElement jobNameElement = getDriver().findElement(By.xpath("//tr[@id='job_Job" + countJob + "']/td[3]/a/span"));
             jobNameElement.click();
             Thread.sleep(2000);
             WebElement deleteBtn = getDriver().findElement(By.xpath("//*[@class='icon-edit-delete icon-md']"));
@@ -83,31 +96,13 @@ public class GroupZeroBugTest extends BaseTest {
         Assert.assertEquals(actualHeaderHP, expectedHeaderHP, "Wrong text from header HP");
     }
 
-
-    private WebDriverWait webDriverWait3;
-
-    public final WebDriverWait getWait3() {
-        if (webDriverWait3 == null) {
-            webDriverWait3 = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
-        }
-        return webDriverWait3;
-    }
-
-    private void mainPage() {
-        getDriver().get("http://localhost:8080/");
-    }
-
-    private void jobPage() {
-        getDriver().get("http://localhost:8080/me/my-views/view/all/job/ZeroBugJavaPractice/");
-    }
-
-    private void newJob() {
+    private void newJob(String jobName) {
 
         WebElement newJob = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']/.."));
         newJob.click();
 
         WebElement inputField = getDriver().findElement(By.id("name"));
-        inputField.sendKeys("ZeroBugJavaPractice");
+        inputField.sendKeys(jobName);
 
         WebElement freestyleProject = getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject"));
         freestyleProject.click();
@@ -121,6 +116,7 @@ public class GroupZeroBugTest extends BaseTest {
         WebElement urlField = getDriver().findElement((By.xpath("//input[@name='_.projectUrlStr']")));
         urlField.sendKeys("https://github.com/Lighter888/ZeroBugJavaPractice");
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        clickHomePage();
     }
 
     private void deleteJob() {
@@ -136,47 +132,89 @@ public class GroupZeroBugTest extends BaseTest {
         }
     }
 
-    @Test(priority = 1)
-    public void testNewJobCreated() {
+    @Test
+    public void testNewJobCreated() throws InterruptedException {
 
-        newJob();
+        String name = "Job" + faker.name().firstName();
+        newJob(name);
 
-        String actualNameJob = getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText();
-        String expectedNameJob = "ZeroBugJavaPractice";
-        Assert.assertEquals(actualNameJob, "Project " + expectedNameJob, " The name of job is not equal");
+        getDriver().findElement(By.xpath("//a[@href='job/%s/']".formatted(name))).click();
+        Thread.sleep(2000);
+        String actualNameJob = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText();
+        String expectedNameJob = "Project %s".formatted(name);
+        Assert.assertEquals(actualNameJob, expectedNameJob, " The name of job is not equal");
 
         deleteJob();
     }
 
-    @Test(priority = 2)
+    @Test
     public void testJobBuild() {
 
-        newJob();
-        mainPage();
+        String name = "Job" + faker.name().firstName();
+        newJob(name);
 
         for (int trial = 1; trial <= 3; trial++) {
 
-            WebElement scheduleBuild = getDriver().findElement(By.xpath("//a[@title='Schedule a Build for ZeroBugJavaPractice']"));
-            getWait3().until(ExpectedConditions.elementToBeClickable(scheduleBuild));
+            getDriver().findElement(By.id("jenkins-home-link")).click();
+
+            String scheduleBuildXpath = "//a[@title='Schedule a Build for %s']".formatted(name);
+            getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(scheduleBuildXpath)));
+            WebElement scheduleBuild = getDriver().findElement(By.xpath(scheduleBuildXpath));
+            getWait().until(ExpectedConditions.elementToBeClickable(scheduleBuild));
             scheduleBuild.click();
 
             WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']/.."));
-            getWait3().until(ExpectedConditions.elementToBeClickable(buildHistory));
+            getWait().until(ExpectedConditions.elementToBeClickable(buildHistory));
             buildHistory.click();
 
-            getWait3().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[.='#%s']".formatted(trial))));
-            WebElement numberBuild = getDriver().findElement(By.xpath("//a[.='#%s']".formatted(trial)));
+            String numberBuildXpath = "//a[.='#%s']".formatted(trial);
+            getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(numberBuildXpath)));
+            WebElement numberBuild = getDriver().findElement(By.xpath(numberBuildXpath));
 
             String actualNumberBuild = numberBuild.getText();
             String expectedNumberBuild = "#" + trial;
-             BaseUtils.log("Check Build #%s".formatted(trial));
+            BaseUtils.log("Check Build #%s with %s".formatted(trial, name));
             Assert.assertEquals(actualNumberBuild, expectedNumberBuild, "Build has been scheduled incorrectly");
-            mainPage();
+            getDriver().navigate().back();
         }
-
-        jobPage();
+        getDriver().navigate().back();
         deleteJob();
+    }
 
+    @Test
+    public void testRenameJob() throws InterruptedException {
+
+        String name = "Job" + faker.name().firstName();
+        newJob(name);
+
+
+        Thread.sleep(1000);
+        getDriver().findElement(By.xpath("//a[@href='job/" + name + "/']")).click();
+        BaseUtils.log("1. User click Job");
+
+        Thread.sleep(1000);
+        String expectResultJob = String.format("Project %s", name);
+        String actualResultJob = getDriver().findElement(By.xpath("//h1[contains(.,'Project')]")).getText();
+        Assert.assertEquals(actualResultJob, expectResultJob, "The function rename Job is not working");
+
+        Thread.sleep(1000);
+        getDriver().findElement(By.xpath("(//a[@class='task-link '])[6]")).click();
+        BaseUtils.log("2. User click rename Job");
+
+        Assert.assertTrue(getDriver().findElement(By.className("warning")).isDisplayed(), "Warning message not displayed");
+        String newNameJob = "New";
+        getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys(newNameJob);
+        Thread.sleep(1000);
+        getDriver().findElement(By.name("Submit")).click();
+        BaseUtils.log("3. User click submit Btn");
+
+        Thread.sleep(1000);
+        String expectResultRenameJob = String.format("Project %s%s", name, newNameJob);
+        String actualResultRenameJob = getDriver().findElement(By.xpath("//h1[contains(.,'Project')]")).getText();
+
+        Assert.assertEquals(actualResultRenameJob, expectResultRenameJob, "The function rename Job is not working");
+
+        deleteJob();
     }
 
     @Test
@@ -232,5 +270,29 @@ public class GroupZeroBugTest extends BaseTest {
         WebElement projectName = getDriver().findElement(By.xpath("//a[@href = 'job/Project_1/']"));
 
         Assert.assertTrue(projectName.isDisplayed());
+    }
+    @Test
+    public void testLogOutIconIsPresent() {
+
+        String dashboardExpected = "log out";
+        WebElement dashboard = getDriver().findElement(By.xpath("//a[@href='/logout']"));
+        String dashboardActual = dashboard.getText();
+
+        Assert.assertEquals(dashboardActual, dashboardExpected);
+    }
+
+    @Test
+    public void testQuantityOfSubmenuInAdminMenu() {
+
+        int expectedResultQuantityOfSubmenuList = 6;
+
+        WebElement adminMenuList = getDriver().findElement(
+                By.xpath("//a[@class='model-link']/span[@class='hidden-xs hidden-sm']"));
+        adminMenuList.click();
+
+        List<WebElement> menuAdminList = getDriver().findElements(By.xpath("//div[@id ='side-panel']/div/div"));
+        int actualResultQuantityOfSubmenuList = menuAdminList.size();
+
+       Assert.assertEquals(actualResultQuantityOfSubmenuList, expectedResultQuantityOfSubmenuList);
     }
 }
