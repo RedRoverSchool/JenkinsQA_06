@@ -156,4 +156,28 @@ public class BugsBustersGroupTest extends BaseTest {
             Assert.assertEquals(actualMenuItems, expectedMenuItems.get(i));
         }
     }
+
+    @Test
+    public void testNewFreestyleProject () {
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        newItem.click();
+
+        String text = "New Freestyle Project";
+        WebElement inputField = getDriver().findElement(By.id("name"));
+        inputField.sendKeys(text);
+        WebElement projectType = getDriver().findElement(
+                By.xpath("//li[@class = 'hudson_model_FreeStyleProject']"));
+        projectType.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        String descriptionText = "My new project";
+        WebElement descriptionBox = getDriver().findElement(By.xpath("//*[@name = 'description']"));
+        descriptionBox.sendKeys(descriptionText);
+        WebElement saveButton = getDriver().findElement(By.xpath("//*[@name = 'Submit']"));
+        saveButton.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'main-panel']/h1")).getText(),
+                "Project " + text);
+    }
 }
