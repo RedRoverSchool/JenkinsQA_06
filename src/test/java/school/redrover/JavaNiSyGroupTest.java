@@ -113,15 +113,6 @@ public class JavaNiSyGroupTest extends BaseTest {
         WebElement configureElement = getDriver().findElement(By.xpath("//h1[text() = 'Configure Clouds']"));
 
         Assert.assertEquals(configureElement.getText(), "Configure Clouds");
-}
-
-    @Test
-    public void checkButtonConfigure() {
-        WebElement buttonConfigure = getDriver().findElement(By.xpath("//span[text() = 'Configure a cloud']"));
-        buttonConfigure.click();
-        WebElement configureElement = getDriver().findElement(By.xpath("//h1[text() = 'Configure Clouds']"));
-
-        Assert.assertEquals(configureElement.getText(), "Configure Clouds");
     }
 }
 
