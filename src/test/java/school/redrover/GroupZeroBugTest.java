@@ -187,13 +187,13 @@ public class GroupZeroBugTest extends BaseTest {
         String name = "Job1";
         newJob(name);
 
-        WebElement jobNameElement = getDriver().findElement(By.xpath("//span[.='Job1']"));
+        WebElement jobNameElement = getDriver().findElement(By.xpath("//tr[@id='job_" + name + "']/td[3]/a/span"));
         Thread.sleep(2000);
         jobNameElement.click();
         BaseUtils.log("1. User click Job");
 
         Thread.sleep(2000);
-        getDriver().findElement(By.xpath("//span[.='Rename']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Rename']")).click();
         BaseUtils.log("2. User click rename Job");
         Assert.assertTrue(getDriver().findElement(By.className("warning")).isDisplayed(), "Warning message not displayed");
 
