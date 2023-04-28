@@ -1,14 +1,20 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class MultiConfigurationTest extends BaseTest {
+import java.time.Duration;
 
+public class MultiConfigurationTest extends BaseTest {
+    private WebDriverWait getWait(int seconds) {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
+    }
     @Test
     public void testCreateMultiConfig() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
@@ -22,14 +28,13 @@ public class MultiConfigurationTest extends BaseTest {
     }
 
     @Test
-    public void testMoveToMultiConfigurationPage(){
+    public void testCheckExceptionToMultiConfigurationPage() {
         getDriver().findElement(By.linkText("New Item")).click();
-        String gettingURL = getDriver().getCurrentUrl();
-        String expectedURL = "http://localhost:8080/view/all/newJob";
+        getWait(15);
+        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        String exceptionText = getDriver().findElement(By.xpath("//div[text() ='» This field cannot be empty, please enter a valid name']")).getText();
 
-        Assert.assertEquals(gettingURL,expectedURL);
-
-        Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).isDisplayed());
+        Assert.assertEquals(exceptionText,"» This field cannot be empty, please enter a valid name");
     }
 
 }
