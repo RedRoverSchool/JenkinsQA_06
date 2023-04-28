@@ -287,7 +287,7 @@ public class GroupZeroBugTest extends BaseTest {
         int expectedResultQuantityOfSubmenuList = 6;
 
         WebElement adminMenuList = getDriver().findElement(
-                By.xpath("//span[@class='hidden-xs hidden-sm'][contains(text(),'admin')]"));
+                By.xpath("//a[@class='model-link']/span[@class='hidden-xs hidden-sm']"));
         adminMenuList.click();
 
         List<WebElement> menuAdminList = getDriver().findElements(By.xpath("//div[@id ='side-panel']/div/div"));
