@@ -56,4 +56,13 @@ public class FuOpyatJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult004, "Enter an item name");
     }
+    @Test
+    public void testPeople() {
+
+        WebElement peopleSideBar = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a"));
+        peopleSideBar.click();
+
+        WebElement peoplePageElement = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[1]/div/h1"));
+        Assert.assertEquals(peoplePageElement.getText(), "People");
+    }
 }

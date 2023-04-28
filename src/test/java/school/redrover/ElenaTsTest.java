@@ -5,7 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class ElenaTsTest extends BaseTest {
@@ -19,27 +20,49 @@ public class ElenaTsTest extends BaseTest {
 
     @Test
     public void testNavigationMenu(){
-        WebElement newItemButton = getDriver().findElement(By.xpath("//span[text()='New Item']"));
-        WebElement peopleButton = getDriver().findElement(By.xpath("//span[text()='People']"));
-        WebElement buildHistoryButton = getDriver().findElement(By.xpath("//span[text()='Build History']"));
-        WebElement manageJenkinsButton = getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']"));
-        WebElement myViewsButton = getDriver().findElement(By.xpath("//span[text()='My Views']"));
+        List<WebElement> navigationMenuItem = getDriver().findElements(By.xpath("//span[@class='task-link-text']"));
 
-        ArrayList<String> actualResult = new ArrayList<>();
-        actualResult.add(newItemButton.getText());
-        actualResult.add(peopleButton.getText());
-        actualResult.add(buildHistoryButton.getText());
-        actualResult.add(manageJenkinsButton.getText());
-        actualResult.add(myViewsButton.getText());
+        List<String> expectedResult = Arrays.asList("New Item","People","Build History","Manage Jenkins","My Views");
 
-        ArrayList<String> expectedResult = new ArrayList<>();
-        expectedResult.add("New Item");
-        expectedResult.add("People");
-        expectedResult.add("Build History");
-        expectedResult.add("Manage Jenkins");
-        expectedResult.add("My Views");
+        for (int i = 0; i < navigationMenuItem.size(); i++) {
+            String actualResult = navigationMenuItem.get(i).getText();
 
-        Assert.assertEquals(actualResult, expectedResult);
+            Assert.assertEquals(actualResult, expectedResult.get(i));
+        }
+    }
+
+    @Test
+    public void testCreateJobWithEmptyItemNameField() throws InterruptedException {
+        WebElement createJobLink = getDriver().findElement(By.linkText("Create a job"));
+        createJobLink.click();
+        Thread.sleep(500);
+        WebElement freeStyleProjectField = getDriver().findElement(By.xpath("//li[contains(@class,'hudson_model_FreeStyleProject')]"));
+        freeStyleProjectField.click();
+        Thread.sleep(500);
+        WebElement emptyItemNameFieldErrorMessage = getDriver().findElement(By.id("itemname-required"));
+
+        Assert.assertEquals(emptyItemNameFieldErrorMessage.getText(), "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
+    public void testCreateJobWithEnterSpecialCharactersInItemNameField() throws InterruptedException {
+        WebElement createJobLink = getDriver().findElement(By.linkText("Create a job"));
+        createJobLink.click();
+
+        Thread.sleep(1000);
+        WebElement itemNameField = getDriver().findElement(By.id("name"));
+        List<String>specialCharacters= Arrays.asList("@","/","$","*","%","&");
+        for (String specialCharacter : specialCharacters) {
+            itemNameField.sendKeys(specialCharacter);
+
+            WebElement warningMessage = getDriver().findElement(By.id("itemname-invalid"));
+            Thread.sleep(500);
+
+            String actualResultWarningMessage = warningMessage.getText();
+            itemNameField.clear();
+
+            Assert.assertEquals(actualResultWarningMessage, "» ‘" + specialCharacter + "’ is an unsafe character");
+        }
     }
 }
 
