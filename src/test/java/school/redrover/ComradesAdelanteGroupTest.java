@@ -88,7 +88,7 @@ public class ComradesAdelanteGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFirstJob() {
+    public void testCreateFirstJobb() {
         WebElement createItem = getDriver().findElement(
                 By.xpath("//*[text()='Create a job']"));
         createItem.click();
