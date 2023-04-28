@@ -16,7 +16,7 @@ public class JavaNiSyGroupTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testFullNameVerification(){
+    public void testFullNameVerification() {
         Actions actions = new Actions(getDriver());
 
         WebElement dropBox = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
@@ -61,7 +61,7 @@ public class JavaNiSyGroupTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteFolder()  {
+    public void testDeleteFolder() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(4));
         WebElement newItemBtn = getDriver().findElement(By.xpath("//span[text() = 'New Item']//ancestor::a"));
         newItemBtn.click();
@@ -75,7 +75,7 @@ public class JavaNiSyGroupTest extends BaseTest {
         WebElement okBtn = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
         okBtn.click();
         Actions action = new Actions(getDriver());
-        WebElement toolBarFolder =  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/job/ThisIsMyFolder/']")));
+        WebElement toolBarFolder = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/job/ThisIsMyFolder/']")));
         WebElement toolBarArrow = getDriver().findElement(By.xpath("//a[@href='/job/ThisIsMyFolder/']/button"));
         action.moveToElement(toolBarFolder, 45, 0).click().build().perform();
         action.moveToElement(wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/ThisIsMyFolder/delete']"))))
@@ -104,6 +104,15 @@ public class JavaNiSyGroupTest extends BaseTest {
         buttonAddDescription.click();
         textInputArea = getDriver().findElement(By.xpath("//textarea[@name='description']"));
         textInputArea.clear();
+    }
+
+    @Test
+    public void checkButtonConfigure() {
+        WebElement buttonConfigure = getDriver().findElement(By.xpath("//span[text() = 'Configure a cloud']"));
+        buttonConfigure.click();
+        WebElement configureElement = getDriver().findElement(By.xpath("//h1[text() = 'Configure Clouds']"));
+
+        Assert.assertEquals(configureElement.getText(), "Configure Clouds");
     }
 }
 
