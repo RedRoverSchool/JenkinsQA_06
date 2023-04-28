@@ -38,7 +38,7 @@ public class MyViewsTest extends BaseTest {
     }
 
     @Test
-    public void createDescription() {
+    public void testAddDescription() {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
         getDriver().findElement(By.id("description-link")).click();
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test");
