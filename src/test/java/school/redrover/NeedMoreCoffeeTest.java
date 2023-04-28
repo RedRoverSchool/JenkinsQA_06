@@ -70,11 +70,12 @@ public class NeedMoreCoffeeTest extends BaseTest {
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
         newItem.sendKeys(Keys.RETURN);
         WebElement newField = getDriver().findElement(By.xpath("//input[@id='name']"));
-        newField.sendKeys("$", Keys.ENTER);
-        WebElement element = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='itemname-invalid']"))));
 
-        WebElement textError = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+        newField.sendKeys("$",Keys.ENTER);
+
+        WebDriverWait waiter = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement textError = waiter.until(ExpectedConditions.
+                presenceOfElementLocated(By.xpath("//div[@id='itemname-invalid']")));
 
         Assert.assertEquals(textError.getText(), "» ‘$’ is an unsafe character");
 
