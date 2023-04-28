@@ -161,4 +161,16 @@ public class JasperGroupTest extends BaseTest {
 
         Assert.assertEquals(users.getText(),"People");
     }
+
+    @Test
+    public void testSearchResultNothingSeemsToMatch(){
+
+        WebElement newItemField = getDriver().findElement(By.xpath("//input[@id = 'search-box' ]"));
+        newItemField.sendKeys("jenk");
+        newItemField.sendKeys(Keys.RETURN);
+
+        WebElement searchResult1 = getDriver().findElement(By.xpath("//div[text() = 'Nothing seems to match.']"));
+        Assert.assertEquals(searchResult1.getText(), "Nothing seems to match.");
+    }
+
 }
