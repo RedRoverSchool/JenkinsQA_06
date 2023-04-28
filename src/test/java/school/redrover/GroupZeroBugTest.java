@@ -186,22 +186,16 @@ public class GroupZeroBugTest extends BaseTest {
     @Test(priority = 3)
     public void testRenameJobViaDropDownMenu() throws InterruptedException {
 
-        String name = "Job" + faker.name().firstName();
+        String name = "Job1";
         newJob(name);
 
         WebElement jobName = getDriver().findElement(By.xpath("//span[text()='%s']".formatted(name)));
         WebElement dropDownBtn = getDriver().findElement(By.xpath("//span[text()='%s']/../button".formatted(name)));
 
-        Actions action = new Actions(getDriver());
-        action.moveToElement(jobName)
-                .pause(1000)
-                .moveToElement(dropDownBtn)
-                .click()
-                .pause(1000)
-                .perform();
+        WebElement jobNameElement = getDriver().findElement(By.xpath("//span[.='Job1']"));
+        jobNameElement.click();
 
         Thread.sleep(1000);
-
         getDriver().findElement(By.xpath("//span[.='Rename']")).click();
         Assert.assertTrue(getDriver().findElement(By.className("warning")).isDisplayed(), "Warning message not displayed");
 
@@ -210,8 +204,9 @@ public class GroupZeroBugTest extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
 
         String expectResultRenameJob = String.format("Project %s%s", name, newNameJob);
-        String actualResultRenameJob = getDriver().findElement(By.xpath("//h1[contains(.,'Project')]")).getText();
 
+        String actualResultRenameJob = getDriver().findElement(By.xpath("//h1[contains(.,'Project')]")).getText();
+        Thread.sleep(1000);
         Assert.assertEquals(actualResultRenameJob, expectResultRenameJob, "The function rename Job is not working");
 
         deleteJob();
