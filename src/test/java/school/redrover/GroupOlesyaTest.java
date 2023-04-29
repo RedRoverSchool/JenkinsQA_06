@@ -19,4 +19,15 @@ public class GroupOlesyaTest extends BaseTest {
 
         Assert.assertEquals(expectedResultMsg, "» Required field");
     }
+
+    @Test
+    public void createProjectTest() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys("Freestyle");
+        getDriver().findElement(By.xpath("//span[text() ='Freestyle project']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.name("Submit")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Project Freestyle']")).getText(), "Project Freestyle");
+    }
 }
