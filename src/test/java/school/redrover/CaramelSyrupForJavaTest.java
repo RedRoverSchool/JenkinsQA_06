@@ -294,7 +294,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
                 .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[class='jenkins-table__link model-link inside']")));
         wait.click();
         WebElement del = new WebDriverWait(getDriver(),Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".first-of-type>:nth-child(5)>a>svg")));
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class ='bd']//a[@href='#']//*[contains(text(), 'Delete')]")));
         del.click();
         Alert alertOK = getDriver().switchTo().alert();
         alertOK.accept();
