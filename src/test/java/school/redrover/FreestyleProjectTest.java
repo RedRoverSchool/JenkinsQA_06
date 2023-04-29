@@ -42,6 +42,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testEnableProject() {
+
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
@@ -54,6 +55,27 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']")).getAttribute("tooltip"), "Not built");
+    }
+
+    @Test
+    public void testFreestyleProjectPageIsOpenedFromDashboard() {
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
+
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                String.format("Project %s", FREESTYLE_NAME));
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='main-panel']/h2 ")).getText(),
+                "Permalinks");
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("h1.job-index-headline.page-headline")).isEnabled());
     }
 
 }
