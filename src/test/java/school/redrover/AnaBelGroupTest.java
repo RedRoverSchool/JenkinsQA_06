@@ -3,7 +3,6 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -21,7 +20,7 @@ public class AnaBelGroupTest extends BaseTest {
 
         Assert.assertEquals(buildHistory.getText(), "Build History");
     }
-
+    @Test
     public void testAddDescription() {
         WebElement button = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         button.click();
@@ -39,6 +38,22 @@ public class AnaBelGroupTest extends BaseTest {
     }
 
     @Test
+
+    public  void testRequieredField() throws InterruptedException {
+        WebElement button = getDriver().findElement(By.xpath("//a[@href='newJob']"));
+        button.click();
+
+        Thread.sleep(1000);
+
+        WebElement buttonProject = getDriver().findElement(By.cssSelector(".label"));
+        buttonProject.click();
+
+        WebElement errorMessage = getDriver().findElement(By.cssSelector("#itemname-required"));
+
+        Assert.assertEquals(errorMessage.getText(), "» This field cannot be empty, please enter a valid name");
+    }
+
+        @Test
     public void testItem() {
 
         WebElement button = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
@@ -59,5 +74,6 @@ public class AnaBelGroupTest extends BaseTest {
         WebElement general = getDriver().findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"));
         Assert.assertEquals(general.getText(), "Project Item");
     }
+
 }
 

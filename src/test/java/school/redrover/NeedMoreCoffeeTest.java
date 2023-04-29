@@ -17,10 +17,8 @@ public class NeedMoreCoffeeTest extends BaseTest {
 
         WebElement buttonPeople = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a"));
         buttonPeople.sendKeys(Keys.RETURN);
-        WebElement element = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"person-admin\"]/td[2]/a"))));
-
-        WebElement buttonAdmin = getDriver().findElement(By.xpath("//*[@id=\"person-admin\"]/td[2]/a"));
+        WebDriverWait waiter = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement buttonAdmin = waiter.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"person-admin\"]/td[2]/a")));
         buttonAdmin.sendKeys(Keys.RETURN);
         WebElement textUserId = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]"));
 
@@ -48,7 +46,35 @@ public class NeedMoreCoffeeTest extends BaseTest {
     }
 
     @Test
+    public void testNewProjectWithGitHub() {
+
+        WebElement createAJob = getDriver().findElement(By.xpath("//span[normalize-space()='Create a job']"));
+        createAJob.click();
+        WebElement field = getDriver().findElement(By.xpath("//input[@id='name']"));
+        field.sendKeys("project");
+        WebElement freestyleProject = getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']"));
+        freestyleProject.click();
+        WebElement tabOk = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        tabOk.sendKeys(Keys.RETURN);
+        WebDriverWait waiter = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement labelGitHubProject = waiter.until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//label[normalize-space()='GitHub project']")));
+        labelGitHubProject.click();
+        WebElement fieldProjectUrl = getDriver().findElement(By.xpath("//input[@name='_.projectUrlStr']"));
+        fieldProjectUrl.sendKeys("https://github.com/frolkov76/frolkov76-group_need_more_coffee.git");
+        WebElement tabSave = getDriver().findElement(By.xpath("//button[normalize-space()='Save']"));
+        tabSave.sendKeys(Keys.RETURN);
+        WebElement labelGitHub = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[7]/span/a"));
+        labelGitHub.sendKeys(Keys.RETURN);
+        WebElement text = getDriver().findElement(By.xpath("//a[normalize-space()='frolkov76-group_need_more_coffee']"));
+
+        Assert.assertEquals(text.getText(), "frolkov76-group_need_more_coffee");
+
+    }
+
+    @Test
     public void testNewFolder() {
+
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[2]/div/section[1]/ul/li/a"));
         newItem.sendKeys(Keys.RETURN);
         WebElement field = getDriver().findElement(By.xpath("//*[@id=\"name\"]"));
@@ -70,11 +96,12 @@ public class NeedMoreCoffeeTest extends BaseTest {
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
         newItem.sendKeys(Keys.RETURN);
         WebElement newField = getDriver().findElement(By.xpath("//input[@id='name']"));
-        newField.sendKeys("$", Keys.ENTER);
-        WebElement element = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='itemname-invalid']"))));
 
-        WebElement textError = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+        newField.sendKeys("$",Keys.ENTER);
+
+        WebDriverWait waiter = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement textError = waiter.until(ExpectedConditions.
+                presenceOfElementLocated(By.xpath("//div[@id='itemname-invalid']")));
 
         Assert.assertEquals(textError.getText(), "» ‘$’ is an unsafe character");
 
@@ -135,4 +162,25 @@ public class NeedMoreCoffeeTest extends BaseTest {
         Assert.assertEquals(textPipeline.getText(), "A problem occurred while processing the request.");
 
     }
-}
+
+    @Test
+    public void testNewMultiConfigurationProject() {
+
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItem.sendKeys(Keys.RETURN);
+        WebElement field = getDriver().findElement(By.xpath("//input[@id='name']"));
+        field.sendKeys("project");
+        WebElement freestyleProject = getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']"));
+        freestyleProject.sendKeys(Keys.RETURN);
+        WebElement tabOk = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        tabOk.sendKeys(Keys.RETURN);
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        description.sendKeys("MultiConfigurationProject");
+        WebElement tabSave = getDriver().findElement(By.xpath("//button[normalize-space()='Save']"));
+        tabSave.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//div[normalize-space()='MultiConfigurationProject']"));
+
+        Assert.assertEquals(text.getText(), "MultiConfigurationProject");
+
+} }

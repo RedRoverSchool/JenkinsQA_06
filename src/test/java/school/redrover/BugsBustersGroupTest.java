@@ -68,6 +68,24 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
+    public void testLogOut () {
+        WebElement logOutIcon = getDriver().findElement(By.xpath("//a[@href = '/logout']"));
+        logOutIcon.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),
+                "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testCreateJobPage () {
+        WebElement createJobButton = getDriver().findElement(By.xpath("//a[@href = 'newJob']"));
+        createJobButton.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='createItem']/div[1]/div/label"))
+                        .getText(), "Enter an item name");
+    }
+
+    @Test
     public void testOkButtonIsDisabled() {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id='tasks']//a"));
         newItem.click();
@@ -138,4 +156,69 @@ public class BugsBustersGroupTest extends BaseTest {
             Assert.assertEquals(actualMenuItems, expectedMenuItems.get(i));
         }
     }
+
+    @Test
+    public void testNewFreestyleProject () {
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        newItem.click();
+
+        String text = "New Freestyle Project";
+        WebElement inputField = getDriver().findElement(By.id("name"));
+        inputField.sendKeys(text);
+        WebElement projectType = getDriver().findElement(
+                By.xpath("//li[@class = 'hudson_model_FreeStyleProject']"));
+        projectType.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        String descriptionText = "My new project";
+        WebElement descriptionBox = getDriver().findElement(By.xpath("//*[@name = 'description']"));
+        descriptionBox.sendKeys(descriptionText);
+        WebElement saveButton = getDriver().findElement(By.xpath("//*[@name = 'Submit']"));
+        saveButton.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'main-panel']/h1")).getText(),
+                "Project " + text);
+    }
+
+    @Test
+    public void testMainPageMenuItems () {
+        List<WebElement> menuList = getDriver().findElements(By.xpath("//div[@id= 'tasks']/div"));
+        List <String> expectedList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+
+        for (int i = 0; i < menuList.size(); i++) {
+            String actualList = menuList.get(i).getText();
+            Assert.assertEquals(actualList, expectedList.get(i));
+        }
+    }
+
+    @Test
+    public void testSystemConfigurationMenu () {
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
+        manageJenkins.click();
+
+        List <WebElement> systemConfigMenu = getDriver().findElements(By.xpath(
+                "//*[@id='main-panel']/section[2]/div/div[1]/a/dl/dt"));
+        List <String> expectedMenuList = Arrays.asList("Configure System", "Manage Plugins", "Global Tool Configuration",
+                "Manage Nodes and Clouds");
+
+        for (int i = 0; i < systemConfigMenu.size(); i++) {
+            String actualMenuList = systemConfigMenu.get(i).getText();
+            Assert.assertEquals(actualMenuList, expectedMenuList.get(i));
+        }
+    }
+
+    @Test
+    public void testCredentials() {
+
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a"));
+        manageJenkins.click();
+
+        WebElement manageCredentials = getDriver().findElement(By.xpath("//a[@href='credentials']//dl//dt"));
+        manageCredentials.click();
+
+        WebElement credentialsPage = getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__content']//h1"));
+        Assert.assertEquals(credentialsPage.getText(), "Credentials");
+    }
+
 }

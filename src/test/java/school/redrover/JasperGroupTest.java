@@ -159,7 +159,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testManageTitle()  {
+    public void testManageTitle() {
         getDriver().findElement(By.cssSelector("a[href='/manage']")).click();
 
         WebElement manageTitle = getDriver().findElement(By.tagName("h1"));
