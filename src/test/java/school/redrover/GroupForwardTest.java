@@ -13,31 +13,33 @@ import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class Katy1313Test extends BaseTest {
+public class GroupForwardTest extends BaseTest {
 
     @Test
     public void testAddDescription() {
 
-        WebElement adminDropDown = getDriver().findElement(By.xpath("//a [@href='editDescription']"));
-        adminDropDown.click();
+        WebElement addDescriptionButton = getDriver().findElement(By.xpath("//a [@href='editDescription']"));
+        addDescriptionButton.click();
         WebElement textArea = getDriver().findElement(By.xpath("//textarea[@name = 'description']"));
 
         Assert.assertTrue(textArea.isDisplayed());
     }
 
     @Test
-    public void testSaveDescription() {
+    public void testSaveDescription() throws InterruptedException {
+        final String text = "Some text is here";
 
         WebElement addDescriptionButton = getDriver().findElement(By.xpath("//a [@href='editDescription']"));
         addDescriptionButton.click();
+        Thread.sleep(2000);
         WebElement textArea = getDriver().findElement(By.xpath("//textarea[@name = 'description']"));
         textArea.clear();
-        textArea.sendKeys("Some text is here");
+        textArea.sendKeys(text);
         WebElement submitButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
         submitButton.click();
         WebElement description = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
-        Assert.assertEquals(description.getText(),"Some text is here");
+        Assert.assertEquals(description.getText(),text);
     }
 
     @Test
@@ -67,6 +69,32 @@ public class Katy1313Test extends BaseTest {
         WebElement searchResult = getDriver().findElement(By.xpath("//div[@id='main-panel']/div[1]/div[1]/h1"));
 
         Assert.assertTrue(searchResult.getText().toLowerCase().contains("configure"), "configure");
+
+    }
+
+    @Test
+    public void testStatusButtonIsDisplayed() {
+        WebElement statusButton = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]"));
+
+        Assert.assertTrue(statusButton.isDisplayed());
+
+    }
+
+    @Test
+    public void testAddingNewItem() throws InterruptedException {
+        final String nameOfJob = "Katya's Project";
+
+        WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        newItemMenu.click();
+        WebElement nameInputField = getDriver().findElement(By.id("name"));
+        nameInputField.sendKeys(nameOfJob);
+        WebElement freestyleProjectButton = getDriver().findElement(By.xpath("//li//span[contains(text(), 'Freestyle')]"));
+        freestyleProjectButton.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        Thread.sleep(2000);
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Configure");
 
     }
 }
