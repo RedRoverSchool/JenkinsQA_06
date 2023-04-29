@@ -79,5 +79,12 @@ public class AnaBelGroupTest extends BaseTest {
         WebElement general = getDriver().findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"));
         Assert.assertEquals(general.getText(), "Project Item");
     }
+    @Test
+    public void testCreateAJob() {
+        WebElement createAJobButton = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]/div/section[1]/ul/li/a/span[1]"));
+        createAJobButton.click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//*[@id='name']")).isDisplayed());
+    }
 }
 
