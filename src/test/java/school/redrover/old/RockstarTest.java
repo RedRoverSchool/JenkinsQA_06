@@ -15,6 +15,7 @@ public class RockstarTest {
 
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
+
         driver.get("https://www.saucedemo.com/");
 
         WebElement loginField = driver.findElement(By.xpath("//*[@id=\"user-name\"]"));
