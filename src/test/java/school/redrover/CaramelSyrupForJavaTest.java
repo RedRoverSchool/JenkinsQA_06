@@ -295,7 +295,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         actD.moveToElement(del).perform();
         getDriver().findElement(By.xpath("//table[@id = 'projectstatus']//button")).click();
         getDriver().findElement(By
-                .xpath("//div[@class ='bd']//a[@href='#']//*[name()='svg'][@class = 'icon-edit-delete icon-md']")).click();
+                .cssSelector(".first-of-type>:nth-child(5)>a")).click();
         Alert alertOK = getDriver().switchTo().alert();
         alertOK.accept();
 
