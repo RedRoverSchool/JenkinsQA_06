@@ -8,7 +8,7 @@ import school.redrover.runner.BaseTest;
 
 public class GroupOlesyaTest extends BaseTest {
 
-    @Ignore
+
     @Test
     public void testInputHelpMsg() {
         getDriver().findElement(By.xpath("//a[@href='newJob']")).click();

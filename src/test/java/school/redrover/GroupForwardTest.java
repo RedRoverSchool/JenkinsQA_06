@@ -73,6 +73,14 @@ public class GroupForwardTest extends BaseTest {
     }
 
     @Test
+    public void testStatusButtonIsDisplayed() {
+        WebElement statusButton = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]"));
+
+        Assert.assertTrue(statusButton.isDisplayed());
+
+    }
+
+    @Test
     public void testAddingNewItem() throws InterruptedException {
         final String nameOfJob = "Katya's Project";
 
