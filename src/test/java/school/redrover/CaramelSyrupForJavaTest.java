@@ -292,7 +292,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         getDriver().findElement(By.xpath("//th[@initialsortdir='down']/a")).click();
         getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).click();
         getDriver().findElement(By
-                .cssSelector(".first-of-type>:nth-child(5)>a")).click();
+                .xpath("//ul[@class='first-of-type']//following-sibling::li/following-sibling::li//following-sibling::li//following-sibling::li/a")).click();
         Alert alertOK = getDriver().switchTo().alert();
         alertOK.accept();
 
