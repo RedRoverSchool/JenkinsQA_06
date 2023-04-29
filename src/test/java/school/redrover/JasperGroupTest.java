@@ -17,7 +17,7 @@ import java.util.List;
 public class JasperGroupTest extends BaseTest {
 
     @Test
-    public void testFindElement() {
+    public void testFindElement(){
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement searchField = getDriver().findElement(By.xpath("//input[@name = 'q']"));
         searchField.sendKeys("admin");
@@ -28,7 +28,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewItem() {
+    public void testCreateNewItem(){
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement createItem = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
         createItem.click();
@@ -52,7 +52,7 @@ public class JasperGroupTest extends BaseTest {
         saveButton.click();
 
         WebElement actualResult = getDriver().findElement(By.xpath("//*[@class=\"job-index-headline page-headline\"]"));
-        Assert.assertEquals(actualResult.getText(),"Project New Item");
+        Assert.assertEquals(actualResult.getText(), "Project New Item");
     }
 
     @Test
@@ -73,7 +73,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testChangeName() {
+    public void testChangeName(){
         WebElement settingsMenuButton = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']"));
         settingsMenuButton.click();
 
@@ -90,13 +90,13 @@ public class JasperGroupTest extends BaseTest {
         WebElement headerMenuName = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']/span"));
         List<WebElement> names = new ArrayList<>(Arrays.asList(h1Name, headerMenuName));
 
-        for(WebElement name : names){
+        for (WebElement name : names) {
             Assert.assertEquals(name.getText(), "User");
         }
     }
 
     @Test
-    public void testFolderEmptyNameChange() {
+    public void testFolderEmptyNameChange(){
         WebElement newItemButton = getDriver().findElement(By.xpath("//span[text()='New Item']/.."));
         newItemButton.click();
 
@@ -125,11 +125,11 @@ public class JasperGroupTest extends BaseTest {
         WebElement messageError = getDriver().findElement(By.xpath("//p"));
 
         Assert.assertEquals(headerError.getText(), "Error");
-        Assert.assertEquals(messageError.getText(),"No name is specified");
+        Assert.assertEquals(messageError.getText(), "No name is specified");
     }
 
     @Test
-    public void testCreatingNewProject() throws InterruptedException {
+    public void testCreatingNewProject() throws InterruptedException{
         WebElement newJobButton = getDriver().findElement(By.xpath("//a[@href='newJob']"));
         newJobButton.click();
 
@@ -155,7 +155,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCountUsers() {
+    public void testCountUsers(){
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement users = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a")));
         users.click();
@@ -165,10 +165,10 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testFindPeopleJenkins() {
+    public void testFindPeopleJenkins(){
         WebElement users = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a/span[2]"));
 
-        Assert.assertEquals(users.getText(),"People");
+        Assert.assertEquals(users.getText(), "People");
     }
 
     @Test
@@ -180,6 +180,15 @@ public class JasperGroupTest extends BaseTest {
 
         WebElement searchResult1 = getDriver().findElement(By.xpath("//div[text() = 'Nothing seems to match.']"));
         Assert.assertEquals(searchResult1.getText(), "Nothing seems to match.");
+    }
+
+    @Test
+    public void testValidationMessage() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("createItem")).click();
+        WebElement message = getDriver().findElement(By.id("itemname-required"));
+
+        Assert.assertEquals(message.getText(),"» This field cannot be empty, please enter a valid name");
     }
 
 }
