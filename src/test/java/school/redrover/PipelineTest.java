@@ -26,6 +26,8 @@ public class PipelineTest extends BaseTest {
     private final By textAreaDescription = By.xpath("//textarea[@name='description']");
     private final By pipelineDescription = By.xpath("//div[@id = 'description']/div[1]");
     private final By editDescription = By.xpath("//a[@id='description-link']");
+    private final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
+    private final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
 
     private WebDriverWait getWait(int seconds) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
@@ -124,5 +126,20 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(saveButton).click();
 
         Assert.assertEquals(getDriver().findElement(pipelineDescription).getText(), pipelineDescriptionTextEdited);
+    }
+
+    @Test
+    public void testPipelineBuildNow() {
+        getDriver().findElement(newItem).click();
+        getWait(2).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
+        getDriver().findElement(pipelineItem).click();
+        getDriver().findElement(okButton).click();
+        getWait(2).until(ExpectedConditions.elementToBeClickable(pipelineTrySampleDropDownMenu)).click();
+        getDriver().findElement(By.cssSelector("option[value='hello']")).click();
+        getDriver().findElement(saveButton).click();
+        getWait(2).until(ExpectedConditions.elementToBeClickable(buildNowButton)).click();
+        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".table-viewPort")));
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector(".stage-header-name-0")).getText(), "Hello");
     }
 }
