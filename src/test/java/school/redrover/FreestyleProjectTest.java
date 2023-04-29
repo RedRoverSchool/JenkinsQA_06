@@ -78,4 +78,23 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("h1.job-index-headline.page-headline")).isEnabled());
     }
 
+    @Test
+    public void testAddDescriptionToFreestyleProject() {
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
+
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.xpath("//div[@class='setting-main help-sibling']/textarea")).sendKeys("Job " + FREESTYLE_NAME);
+        getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description'] /div[1]")).getText(), "Job " + FREESTYLE_NAME);
+    }
+
 }
