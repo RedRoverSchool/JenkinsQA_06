@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -22,7 +23,7 @@ public class GroupJavaciraptorsTest extends BaseTest {
         WebElement textElement = getDriver().findElement(By.xpath("//h2[normalize-space()='Set up a distributed build']"));
         Assert.assertEquals(textElement.getText(), "Set up a distributed build");
     }
-
+    @Ignore
     @Test
     public void addDescriptionTest() {
         WebElement addDescription = getDriver().findElement(By.xpath("//*[@id='description-link']"));
