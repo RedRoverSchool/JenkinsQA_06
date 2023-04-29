@@ -13,6 +13,12 @@ public class QaRabbitHoleTest extends BaseTest {
 
         Assert.assertEquals(h1WelcomeJenkins.getText(), "Welcome to Jenkins!");
     }
+    @Test
+    public void testDashboard(){
+        WebElement dashboard = getDriver().findElement((By.xpath("//li/a[@class='model-link']")));
+
+        Assert.assertEquals(dashboard.getText(), "Dashboard");
+    }
 }
 
 
