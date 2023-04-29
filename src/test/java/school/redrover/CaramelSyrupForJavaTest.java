@@ -290,9 +290,10 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@formNoValidate='formNoValidate']")).click();
         getDriver().findElement(By.id("jenkins-name-icon")).click();
         getDriver().findElement(By.xpath("//th[@initialsortdir='down']/a")).click();
-        WebElement wait = new WebDriverWait(getDriver(),Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[class='jenkins-table__link model-link inside']")));
-        wait.click();
+        Actions actD = new Actions(getDriver());
+        WebElement del = getDriver().findElement(By.cssSelector("a[class='jenkins-table__link model-link inside']"));
+        actD.moveToElement(del).perform();
+        getDriver().findElement(By.xpath("//table[@id = 'projectstatus']//button")).click();
         getDriver().findElement(By
                 .xpath("//div[@class ='bd']//a[@href='#']//*[name()='svg'][@class = 'icon-edit-delete icon-md']")).click();
         Alert alertOK = getDriver().switchTo().alert();
