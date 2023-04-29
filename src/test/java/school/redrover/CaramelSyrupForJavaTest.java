@@ -279,25 +279,27 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testAddDel() throws InterruptedException {
+    public void testAddDel() {
         String expRes = "Welcome to Jenkins!";
 
-        getDriver().findElement(By.xpath("//span[text()='New Item']/../..")).click();
-        WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
-        itemName.click();
-        itemName.sendKeys("Project");
-
+        getDriver().findElement(By.cssSelector("#side-panel>div>div")).click();
+        WebElement send = getDriver().findElement(By.className("jenkins-input"));
+        send.sendKeys("Project");
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//button[@formNoValidate='formNoValidate']")).click();
         getDriver().findElement(By.id("jenkins-name-icon")).click();
         getDriver().findElement(By.xpath("//th[@initialsortdir='down']/a")).click();
-        getDriver().findElement(By.cssSelector("a[class='jenkins-table__link model-link inside']")).click();
-        getDriver().findElement(By.xpath("//span[text()='Delete Project']/..")).click();
+        WebElement wait = new WebDriverWait(getDriver(),Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[class='jenkins-table__link model-link inside']")));
+        wait.click();
+        WebElement del = new WebDriverWait(getDriver(),Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".first-of-type>:nth-child(5)>a>svg")));
+        del.click();
         Alert alertOK = getDriver().switchTo().alert();
         alertOK.accept();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),expRes);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector(".empty-state-block>h1")).getText(),expRes);
     }
 }
 
