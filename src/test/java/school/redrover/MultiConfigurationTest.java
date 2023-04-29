@@ -2,7 +2,9 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -28,10 +30,10 @@ public class MultiConfigurationTest extends BaseTest {
     }
 
     @Test
-    public void testCheckExceptionToMultiConfigurationPage() {
+    public void testCheckExceptionToMultiConfigurationPage() throws InterruptedException {
         getDriver().findElement(By.linkText("New Item")).click();
-        getWait(15);
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        WebElement element = getWait(15).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
+        element.click();
         String exceptionText = getDriver().findElement(By.xpath("//div[text() ='» This field cannot be empty, please enter a valid name']")).getText();
 
         Assert.assertEquals(exceptionText,"» This field cannot be empty, please enter a valid name");
