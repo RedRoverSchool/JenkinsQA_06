@@ -293,10 +293,8 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         WebElement wait = new WebDriverWait(getDriver(),Duration.ofSeconds(10))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[class='jenkins-table__link model-link inside']")));
         wait.click();
-        WebElement del = new WebDriverWait(getDriver(),Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class ='bd']//a[@href='#']//*[name()='svg'][@class = 'icon-edit-delete icon-md']")));
-        getDriver().findElement(By.xpath("//div[@class ='bd']//a[@href='#']//*[name()='svg'][@class = 'icon-edit-delete icon-md']"));
-        del.click();
+        getDriver().findElement(By
+                .xpath("//div[@class ='bd']//a[@href='#']//*[name()='svg'][@class = 'icon-edit-delete icon-md']")).click();
         Alert alertOK = getDriver().switchTo().alert();
         alertOK.accept();
 
