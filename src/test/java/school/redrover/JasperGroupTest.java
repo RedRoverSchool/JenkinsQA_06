@@ -3,7 +3,10 @@ package school.redrover;
 import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -153,6 +156,22 @@ public class JasperGroupTest extends BaseTest {
 
         WebElement textElement = getDriver().findElement(By.xpath("//tr[@id='job_TestProject']//td[3]"));
         Assert.assertEquals(textElement.getText(), "TestProject");
+    }
+
+    @Test
+    public void testManageTitle() {
+        getDriver().findElement(By.cssSelector("a[href='/manage']")).click();
+
+        WebElement manageTitle = getDriver().findElement(By.tagName("h1"));
+        WebElement securityTitle = getDriver().findElement(By.cssSelector("#main-panel section:nth-child(6) h2"));
+
+        Assert.assertEquals(manageTitle.getText(), "Manage Jenkins");
+        Assert.assertEquals(securityTitle.getText(), "Security");
+
+        WebElement systemConfigurationTitle = getDriver().
+                findElement(By.xpath("//*[@id=\"main-panel\"]/section[2]/h2"));
+
+        Assert.assertEquals(systemConfigurationTitle.getText(), "System Configuration");
     }
 
 }
