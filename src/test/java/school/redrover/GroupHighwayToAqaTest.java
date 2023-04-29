@@ -316,6 +316,21 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testCreateNewUser() {
+        String userName = createUser();
+        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
+        Assert.assertTrue(isUserExist(users, userName));
+        deleteUser(userName);
+    }
+
+    @Test
+    public void testDeleteUser() {
+        String userName = createUser();
+        deleteUser(userName);
+        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
+        Assert.assertFalse(isUserExist(users, userName));
+    }
+
+    private String createUser() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
 
         WebElement manageJenkinsTab = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
@@ -339,36 +354,44 @@ public class GroupHighwayToAqaTest extends BaseTest {
         confirmPasswordField.sendKeys(password);
 
         WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name = 'fullname']"));
-        String fullName = userName + " " + generateLastName();
-        fullNameField.sendKeys(fullName);
+        fullNameField.sendKeys(userName + " " + generateLastName());
 
         WebElement emailField = getDriver().findElement(By.xpath("//input[@name = 'email']"));
-        String email = generateEmail();
-        emailField.sendKeys(email);
+        emailField.sendKeys(generateEmail());
 
         WebElement createBtn = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
         createBtn.click();
-
-        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
-
-        Assert.assertTrue(isUserExist(users, userName));
+        return userName;
     }
+
+    private void deleteUser(String userName) {
+        WebElement trashBtn = getDriver().findElement(By.xpath("//a[@href = 'user/" + userName.toLowerCase() + "/delete']"));
+        trashBtn.click();
+
+        WebElement confirmBtn = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        confirmBtn.click();
+    }
+
     private String generateName() {
         Faker faker = new Faker();
         return faker.name().firstName();
     }
+
     private String generatePassword() {
         Faker faker = new Faker();
         return faker.internet().password(5, 10, true, true, true);
     }
+
     private String generateLastName() {
         Faker faker = new Faker();
         return faker.name().lastName();
     }
+
     private String generateEmail() {
         Faker faker = new Faker();
         return faker.internet().emailAddress();
     }
+
     private boolean isUserExist(List<WebElement> list, String name) {
         for (WebElement el : list) {
             if (el.getText().equals(name)) {
