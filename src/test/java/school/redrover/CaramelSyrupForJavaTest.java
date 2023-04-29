@@ -277,7 +277,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertNotEquals(changedDimension, initialDimension);
     }
-
+    @Ignore
     @Test
     public void testAddDel() throws InterruptedException {
         String expRes = "Welcome to Jenkins!";

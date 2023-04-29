@@ -36,9 +36,14 @@ public class AnaBelGroupTest extends BaseTest {
 
         Assert.assertEquals(verify.getText(), "testDesctiprion1");
     }
-
+    
     @Test
-
+    public void testIndicator(){
+        WebElement indicator = getDriver().findElement(By.xpath("//*[@id='visible-sec-am-button']/span"));
+        Assert.assertTrue(indicator.isDisplayed());
+    }
+    
+    @Test
     public  void testRequieredField() throws InterruptedException {
         WebElement button = getDriver().findElement(By.xpath("//a[@href='newJob']"));
         button.click();
@@ -74,6 +79,5 @@ public class AnaBelGroupTest extends BaseTest {
         WebElement general = getDriver().findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"));
         Assert.assertEquals(general.getText(), "Project Item");
     }
-
 }
 
