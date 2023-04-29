@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -66,5 +67,25 @@ public class GroupJavaExplorersTest extends BaseTest {
         Assert.assertEquals(actualNameOfMultibranchPipeline, expectedNameOfMultibranchPipeline);
     }
 
+   @Ignore
+    @Test
+    public void testAddDescription() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        WebElement addDescriptionButton = getDriver().findElement(By.xpath("//a[@href='editDescription']"));
+        addDescriptionButton.click();
+
+        WebElement descriptionInput = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        descriptionInput.clear();
+        descriptionInput.sendKeys("Hello Jenkins!");
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']"));
+        saveButton.click();
+
+        WebElement resultMessage = getDriver().findElement(By.xpath("//div[@id='description']/div"));
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, "Hello Jenkins!");
+    }
 
 }
