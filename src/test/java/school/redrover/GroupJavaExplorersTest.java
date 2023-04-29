@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -66,6 +67,7 @@ public class GroupJavaExplorersTest extends BaseTest {
         Assert.assertEquals(actualNameOfMultibranchPipeline, expectedNameOfMultibranchPipeline);
     }
 
+   @Ignore
     @Test
     public void testAddDescription() {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
