@@ -344,14 +344,13 @@ public class CatGroupTest extends BaseTest {
         List<String> expectedResult = List.of("Name","Description", "Number of executors", "Remote root directory",
                 "Labels", "Usage", "Launch method", "Availability");
 
-        WebElement setUpAgentLink = getDriver().findElement(By.xpath("//a[@href = 'computer/new']"));
+        WebElement setUpAgentLink = getDriver().findElement(By.linkText("Set up an agent"));
         setUpAgentLink.click();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         nodeElement.sendKeys("First");
-        Thread.sleep(2000);
         clickPermanentAgent();
-        Thread.sleep(2000);
         clickCreateButton();
+        Thread.sleep(1000);
 
         ArrayList <String> actualResult = new ArrayList<>();
         actualResult.add(name.getText().replace("\n?",""));
