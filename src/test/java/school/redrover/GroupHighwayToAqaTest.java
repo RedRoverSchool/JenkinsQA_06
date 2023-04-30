@@ -11,6 +11,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -399,5 +401,23 @@ public class GroupHighwayToAqaTest extends BaseTest {
             }
         }
         return false;
+    }
+
+    @Test
+    public void testTitlesOnManageJenkinsPage() {
+        WebElement buttonManageJenkins = getDriver().findElement(By.xpath("//span[contains(text(), 'Manage Jenkins')]/.."));
+        buttonManageJenkins.click();
+
+        List<WebElement> sectionTitles = getDriver().findElements(By.xpath("//h2[@class='jenkins-section__title']"));
+
+        List<String> actualTitles = new ArrayList<>();
+
+        for (WebElement title :sectionTitles) {
+            actualTitles.add(title.getText());
+        }
+
+        List<String> expectedTitles = Arrays.asList("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
+
+        Assert.assertEquals(actualTitles, expectedTitles);
     }
 }
