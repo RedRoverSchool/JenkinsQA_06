@@ -18,7 +18,7 @@ public class GroupOlesyaTest extends BaseTest {
 
     protected WebDriverWait getWait() {
         if (wait == null) {
-            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         }
         return wait;
     }
@@ -59,7 +59,7 @@ public class GroupOlesyaTest extends BaseTest {
         }
     }
 
-    @Ignore
+
     @Test
     public void descriptionAreaTest() throws InterruptedException {
         String descriptionXpath = "//a[@id='description-link']";
@@ -69,8 +69,8 @@ public class GroupOlesyaTest extends BaseTest {
 
         WebElement addDescription = getDriver().findElement(By.xpath(descriptionXpath));
         addDescription.click();
-        getWait().wait(1000);
         WebElement textArea = getDriver().findElement(By.xpath(textAreaXPath));
+        getWait().until(ExpectedConditions.visibilityOf(textArea));
         textArea.clear();
         textArea.sendKeys("Testing the description");
         WebElement saveButton = getDriver().findElement(By.xpath(saveButtonXPath));
