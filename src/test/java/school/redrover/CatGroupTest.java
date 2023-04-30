@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -46,6 +45,30 @@ public class CatGroupTest extends BaseTest {
     private List<WebElement> dropDownItemsTopMenu;
     @FindBy(xpath = "//div[@id='tasks']//div")
     private List<WebElement> featureListSidePanel;
+    @FindBy (xpath = "//a[@href = 'computer/new']")
+    private WebElement setUpAgent;
+    @FindBy (xpath = "//input[@id = 'name']")
+    private WebElement nodeElement;
+    @FindBy (xpath = "//label[@class = 'jenkins-radio__label']")
+    private WebElement permanentAgent;
+    @FindBy (xpath = "//button[@formnovalidate = 'formNoValidate']")
+    private WebElement createButton;
+    @FindBy (xpath = "//div[text() = 'Name']")
+    private WebElement name;
+    @FindBy (xpath = "//div[text() = 'Description']")
+    private WebElement description;
+    @FindBy (xpath = "//div[text() = 'Number of executors']")
+    private WebElement numberOfExecutors;
+    @FindBy (xpath = "//div[text() = 'Remote root directory']")
+    private WebElement remoteRootDirectory;
+    @FindBy (xpath = "//div[text() = 'Labels']")
+    private WebElement labels;
+    @FindBy (xpath = "//div[text() = 'Usage']")
+    private WebElement usage;
+    @FindBy (xpath = "//*[@id=\"main-panel\"]/form/div[1]/div[7]/div[1]")
+    private WebElement launchMethod;
+    @FindBy (xpath = "//*[@id=\"main-panel\"]/form/div[1]/div[9]/div[1]")
+    private WebElement availability;
 
     public WebDriverWait webDriverWait10;
 
@@ -73,6 +96,18 @@ public class CatGroupTest extends BaseTest {
     public final void clickManageJenkinsButton() {
         verifyElementVisible(manageJenkinsButton);
         verifyElementIsClickable(manageJenkinsButton).click();
+    }
+    public final void clickSetUpAgent() {
+        verifyElementVisible(setUpAgent);
+        verifyElementIsClickable(setUpAgent).click();
+    }
+    public final void clickPermanentAgent() {
+        verifyElementVisible(permanentAgent);
+        verifyElementIsClickable(permanentAgent).click();
+    }
+    public final void clickCreateButton() {
+        verifyElementVisible(createButton);
+        verifyElementIsClickable(createButton).click();
     }
 
     public void scrollByElement(WebElement element) {
@@ -284,7 +319,7 @@ public class CatGroupTest extends BaseTest {
         WebElement manageJenkins = getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']"));
         WebElement myViews = getDriver().findElement(By.xpath("//span[text() = 'My Views']"));
 
-        ArrayList <String> actualResult = new ArrayList<>();;
+        ArrayList <String> actualResult = new ArrayList<>();
         actualResult.add(newItem.getText());
         actualResult.add(people.getText());
         actualResult.add(buildHistory.getText());
@@ -301,4 +336,29 @@ public class CatGroupTest extends BaseTest {
         Assert.assertEquals(actualResult,expectedResult);
     }
 
+    @Test
+    public void testSetUpAgent() {
+
+        PageFactory.initElements(getDriver(), this);
+
+        List<String> expectedResult = List.of("Name","Description", "Number of executors", "Remote root directory",
+                "Labels", "Usage", "Launch method", "Availability");
+
+        clickSetUpAgent();
+        nodeElement.sendKeys("First");
+        clickPermanentAgent();
+        clickCreateButton();
+
+        ArrayList <String> actualResult = new ArrayList<>();
+        actualResult.add(name.getText().replace("\n?",""));
+        actualResult.add(description.getText().replace("\n?",""));
+        actualResult.add(numberOfExecutors.getText().replace("\n?",""));
+        actualResult.add(remoteRootDirectory.getText().replace("\n?",""));
+        actualResult.add(labels.getText().replace("\n?",""));
+        actualResult.add(usage.getText().replace("\n?",""));
+        actualResult.add(launchMethod.getText().replace("\n?",""));
+        actualResult.add(availability.getText().replace("\n?",""));
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
 }
