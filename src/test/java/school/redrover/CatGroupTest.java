@@ -337,20 +337,20 @@ public class CatGroupTest extends BaseTest {
     }
 
     @Test
-    public void testSetUpAgent() {
+    public void testSetUpAgent() throws InterruptedException {
 
         PageFactory.initElements(getDriver(), this);
 
         List<String> expectedResult = List.of("Name","Description", "Number of executors", "Remote root directory",
                 "Labels", "Usage", "Launch method", "Availability");
 
-        getWait10();
+        Thread.sleep(2000);
         clickSetUpAgent();
-        getWait10();
+        Thread.sleep(2000);
         nodeElement.sendKeys("First");
-        getWait10();
+        Thread.sleep(2000);
         clickPermanentAgent();
-        getWait10();
+        Thread.sleep(2000);
         clickCreateButton();
 
         ArrayList <String> actualResult = new ArrayList<>();
