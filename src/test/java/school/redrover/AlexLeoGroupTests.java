@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jdk.jfr.Description;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -81,7 +82,7 @@ public class AlexLeoGroupTests extends BaseTest {
         WebElement elem = getDriver().findElement(By.id("items"));
         List<WebElement> items = elem.findElements(By.cssSelector("li span"));
 
-        for ( WebElement element  : items) {
+        for (WebElement element : items) {
             Assert.assertTrue(element.getAttribute("baseURI").contains("newJob"));
         }
     }
@@ -181,38 +182,38 @@ public class AlexLeoGroupTests extends BaseTest {
     }
 
     @Test
-    public void testJenkinsLogoIsPresent(){
+    public void testJenkinsLogoIsPresent() {
         WebElement logo = getDriver().findElement(By.id("jenkins-head-icon"));
         Assert.assertTrue(logo.isDisplayed());
     }
 
     @Test
-    public void testJenkinsNameIsPresent(){
+    public void testJenkinsNameIsPresent() {
         WebElement name = getDriver().findElement(By.id("jenkins-name-icon"));
         Assert.assertTrue(name.isDisplayed());
     }
 
     @Test
-    public void testSearchBoxIsPresent(){
+    public void testSearchBoxIsPresent() {
         WebElement searchBox = getDriver().findElement(By.id("search-box"));
         Assert.assertTrue(searchBox.isDisplayed());
     }
 
     @Test
-    public void testLogoutIconIsPresent(){
+    public void testLogoutIconIsPresent() {
         WebElement logoutIcon = getDriver().findElement(By.xpath("//a[@href='/logout']/*[@class='icon-md']"));
         Assert.assertTrue(logoutIcon.isDisplayed());
     }
 
     @Test
-    public void testLinkContainsText(){
+    public void testLinkContainsText() {
         String logoutLink = getDriver().findElement(By.xpath("//a[@href='/logout']/span")).getText();
         Assert.assertEquals(logoutLink, "log out");
     }
 
     @Description("Verify to the search field functionality")
     @Test
-    public void testSearchField(){
+    public void testSearchField() {
         WebElement searchBox = getDriver().findElement(By.id("search-box"));
         searchBox.sendKeys("");
         searchBox.sendKeys(Keys.RETURN);
@@ -254,6 +255,7 @@ public class AlexLeoGroupTests extends BaseTest {
 
         Assert.assertEquals(actualString, expectedString);
     }
+
     @Test
     public void testAPILinkInTheFooter() {
         WebElement apiLinkButton = getDriver().findElement(By.xpath("//a[text()='REST API']"));
@@ -386,7 +388,21 @@ public class AlexLeoGroupTests extends BaseTest {
 
     @Test
     public void testVerifyLogoJenkins() {
-            Assert.assertTrue(getDriver().findElement(By.id("jenkins-head-icon")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.id("jenkins-head-icon")).isDisplayed());
+    }
+
+    @Test
+    public void testVerifyUserPageMenu() {
+        List<String> listMenuExpected = Arrays.asList("People", "Status", "Builds", "Configure", "My Views", "Credentials");
+
+        getDriver().findElement(By.xpath("//a[@class='model-link']")).click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("description")));
+        List<WebElement> listMenu = getDriver().findElements(By.className("task"));
+
+        for (int i = 0; i < listMenu.size(); i++) {
+            Assert.assertEquals(listMenu.get(i).getText(), listMenuExpected.get(i));
         }
+    }
 }
 
