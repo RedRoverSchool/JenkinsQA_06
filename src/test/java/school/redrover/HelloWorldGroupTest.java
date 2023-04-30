@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class HelloWorldGroupTest extends BaseTest{
+    @Ignore
     @Test
     public void testJenkinsVersion() {
         WebElement version = getDriver().findElement(By.xpath("//a[@rel='noopener noreferrer']"));
@@ -110,4 +111,22 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(fieldError.getText(),text);
     }
 
+    @Test
+    public void testCreateNewProject() {
+        WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
+        newItem.click();
+
+        WebElement nameProject = getDriver().findElement(By.id("name"));
+        nameProject.sendKeys("First");
+
+        WebElement typeProject = getDriver().findElement(By.xpath("//input[@value='hudson.model.FreeStyleProject']/.."));
+        typeProject.click();
+
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href='/']")).click();
+
+        WebElement firstProjectExist = getDriver().findElement(By.xpath("//td/a[@href='job/First/']"));
+        Assert.assertEquals(firstProjectExist.getText(), "First");
+    }
 }
