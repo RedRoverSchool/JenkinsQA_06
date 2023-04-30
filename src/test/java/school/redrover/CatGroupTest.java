@@ -346,7 +346,9 @@ public class CatGroupTest extends BaseTest {
 
         getWait10();
         clickSetUpAgent();
+        getWait10();
         nodeElement.sendKeys("First");
+        getWait10();
         clickPermanentAgent();
         getWait10();
         clickCreateButton();
