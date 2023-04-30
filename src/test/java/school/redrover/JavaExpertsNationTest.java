@@ -2,9 +2,13 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.time.Duration;
 
 public class JavaExpertsNationTest extends BaseTest {
     @Test
@@ -45,6 +49,9 @@ public class JavaExpertsNationTest extends BaseTest {
     public void testAddDescription(){
         WebElement addDescLink = getDriver().findElement(By.id("description-link"));
         addDescLink.click();
+        new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("textarea[name = 'description']"))
+        );
 
         WebElement inputField = getDriver().findElement(By.cssSelector("textarea[name = 'description']"));
         inputField.clear();
