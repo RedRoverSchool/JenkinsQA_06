@@ -167,10 +167,10 @@ public class GroupUkrTest extends BaseTest {
         Assert.assertEquals(addStepsAfterBuildDropDown.get(3).getText(), "Publish JUnit test result report");
         Assert.assertEquals(addStepsAfterBuildDropDown.get(4).getText(), "Record fingerprints of files to track usage");
         Assert.assertEquals(addStepsAfterBuildDropDown.get(5).getText(), "Git Publisher");
-        Assert.assertEquals(addStepsAfterBuildDropDown.get(6).getText(), "Editable Email Notification");
-        Assert.assertEquals(addStepsAfterBuildDropDown.get(7).getText(), "Set GitHub commit status (universal)");
-        Assert.assertEquals(addStepsAfterBuildDropDown.get(8).getText(), "Set build status on GitHub commit [deprecated]");
-        Assert.assertEquals(addStepsAfterBuildDropDown.get(9).getText(), "E-mail Notification");
+        Assert.assertEquals(addStepsAfterBuildDropDown.get(6).getText(), "E-mail Notification");
+        Assert.assertEquals(addStepsAfterBuildDropDown.get(7).getText(), "Editable Email Notification");
+        Assert.assertEquals(addStepsAfterBuildDropDown.get(8).getText(), "Set GitHub commit status (universal)");
+        Assert.assertEquals(addStepsAfterBuildDropDown.get(9).getText(), "Set build status on GitHub commit [deprecated]");
         Assert.assertEquals(addStepsAfterBuildDropDown.get(10).getText(), "Delete workspace when build is done");
 
         WebElement submitButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
