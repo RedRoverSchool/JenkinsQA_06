@@ -51,14 +51,16 @@ public class MyViewsTest extends BaseTest {
     }
 
     @Test
-    public void testEditDescription() {
+    public void testEditDescription() throws InterruptedException {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
         getDriver().findElement(By.id("description-link")).click();
+        Thread.sleep(2000);
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test");
         getDriver()
                 .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
 
         getDriver().findElement(By.id("description-link")).click();
+        Thread.sleep(2000);
         getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test2");
         getDriver()
