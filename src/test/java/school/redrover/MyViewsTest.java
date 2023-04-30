@@ -50,4 +50,21 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(description.getText().trim().substring(0, 4), "Test");
     }
 
+    @Test
+    public void testEditDescription() {
+        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test");
+        getDriver()
+                .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test2");
+        getDriver()
+                .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+
+        Assert.assertEquals(getDriver().
+                findElement(By.xpath("//div[@id='description']/div[1]")).getText(),"Test2");
+    }
 }
