@@ -32,7 +32,7 @@ public class GroupUkrTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFirstProject() {
+    public void testDisplayingElementsCreateNewProjectPage() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         Actions actions = new Actions(getDriver());
 
