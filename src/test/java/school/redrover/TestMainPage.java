@@ -39,6 +39,7 @@ public class TestMainPage extends BaseTest {
     }
     @Test
     public void testCreateJob() throws InterruptedException {
+
         getDriver().findElement(By.xpath("(//section[@class='empty-state-section'] )[1]//li")).click();
         Thread.sleep(1000);
         Assert.assertEquals(getDriver().findElement(By.xpath("//label[@class='h3']")).getText(), "Enter an item name");
