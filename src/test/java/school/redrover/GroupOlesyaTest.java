@@ -68,6 +68,7 @@ public class GroupOlesyaTest extends BaseTest {
         WebElement addDescription = getDriver().findElement(By.xpath(descriptionXpath));
         addDescription.click();
         WebElement textArea = getDriver().findElement(By.xpath(textAreaXPath));
+        textArea.clear();
         textArea.sendKeys("Testing the description");
         WebElement saveButton = getDriver().findElement(By.xpath(saveButtonXPath));
         saveButton.click();
