@@ -162,9 +162,9 @@ public class GroupUkrTest extends BaseTest {
         List<WebElement> addStepsAfterBuildDropDown = getDriver().findElements(By.xpath("(//ul[@class='first-of-type'])[3]/li"));
         Assert.assertEquals(addStepsAfterBuildDropDown.size(), 11);
         Assert.assertEquals(addStepsAfterBuildDropDown.get(0).getText(), "Aggregate downstream test results");
-        Assert.assertEquals(addStepsAfterBuildDropDown.get(1).getText(), "Publish JUnit test result report");
-        Assert.assertEquals(addStepsAfterBuildDropDown.get(2).getText(), "Archive the artifacts");
-        Assert.assertEquals(addStepsAfterBuildDropDown.get(3).getText(), "Build other projects");
+        Assert.assertEquals(addStepsAfterBuildDropDown.get(1).getText(), "Archive the artifacts");
+        Assert.assertEquals(addStepsAfterBuildDropDown.get(2).getText(), "Build other projects");
+        Assert.assertEquals(addStepsAfterBuildDropDown.get(3).getText(), "Publish JUnit test result report");
         Assert.assertEquals(addStepsAfterBuildDropDown.get(4).getText(), "Record fingerprints of files to track usage");
         Assert.assertEquals(addStepsAfterBuildDropDown.get(5).getText(), "Git Publisher");
         Assert.assertEquals(addStepsAfterBuildDropDown.get(6).getText(), "Editable Email Notification");
