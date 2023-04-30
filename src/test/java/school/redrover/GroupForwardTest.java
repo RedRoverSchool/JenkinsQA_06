@@ -122,6 +122,6 @@ public class GroupForwardTest extends BaseTest {
             textList1.add(element.getText());
         }
 
-        Assert.assertEquals(textList1.get(0), textList.get(0));
+        Assert.assertEquals(textList1, textList);
     }
 }
