@@ -2,6 +2,7 @@ package school.redrover;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jdk.jfr.Description;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -18,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AlexLeoGroupTests extends BaseTest {
+
+    private static final String USER_FULL_NAME = RandomStringUtils.randomAlphanumeric(13);
 
     private WebDriverWait webDriverWait5;
 
@@ -404,5 +407,19 @@ public class AlexLeoGroupTests extends BaseTest {
             Assert.assertEquals(listMenu.get(i).getText(), listMenuExpected.get(i));
         }
     }
-}
 
+    @Test
+    public void testVerifyChangeNameUser() {
+        getDriver().findElement(By.xpath("//a[@class='model-link']")).click();
+
+        WebElement configure = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/user/admin/configure']")));
+        configure.click();
+
+        WebElement fullName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='_.fullName']")));
+        fullName.clear();
+        fullName.sendKeys(USER_FULL_NAME);
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='/user/admin']")).getText(), USER_FULL_NAME);
+    }
+}
