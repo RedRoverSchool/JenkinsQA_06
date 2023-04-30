@@ -98,7 +98,7 @@ public class CatGroupTest extends BaseTest {
         verifyElementIsClickable(manageJenkinsButton).click();
     }
     public final void clickSetUpAgent() {
-        //verifyElementVisible(setUpAgent);
+        verifyElementVisible(setUpAgent);
         verifyElementIsClickable(setUpAgent).click();
     }
     public final void clickPermanentAgent() {
@@ -344,8 +344,8 @@ public class CatGroupTest extends BaseTest {
         List<String> expectedResult = List.of("Name","Description", "Number of executors", "Remote root directory",
                 "Labels", "Usage", "Launch method", "Availability");
 
-        Thread.sleep(2000);
-        clickSetUpAgent();
+        WebElement setUpAgentLink = getDriver().findElement(By.xpath("//a[@href = 'computer/new']"));
+        setUpAgentLink.click();
         Thread.sleep(2000);
         nodeElement.sendKeys("First");
         Thread.sleep(2000);
