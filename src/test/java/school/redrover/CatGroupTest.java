@@ -344,9 +344,11 @@ public class CatGroupTest extends BaseTest {
         List<String> expectedResult = List.of("Name","Description", "Number of executors", "Remote root directory",
                 "Labels", "Usage", "Launch method", "Availability");
 
+        getWait10();
         clickSetUpAgent();
         nodeElement.sendKeys("First");
         clickPermanentAgent();
+        getWait10();
         clickCreateButton();
 
         ArrayList <String> actualResult = new ArrayList<>();
