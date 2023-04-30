@@ -53,9 +53,9 @@ public class GroupUkrTest extends BaseTest {
         WebElement textAreaPreviewInput = getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
         Assert.assertEquals(textAreaPreviewInput.getText(), "First project");
         WebElement hidePreviewButton = getDriver().findElement(By.xpath("//a[@class='textarea-hide-preview']"));
-        Assert.assertTrue(hidePreviewButton.isDisplayed());
+        Assert.assertTrue(hidePreviewButton.isDisplayed(), "Hide preview button isn't displayed");
         hidePreviewButton.click();
-        Assert.assertFalse(textAreaPreviewInput.isDisplayed());
+        Assert.assertFalse(textAreaPreviewInput.isDisplayed(), "Hide preview button is displayed");
 
         List<WebElement> headerToggleMenu = getDriver().findElements(By.xpath("//label[@class='jenkins-toggle-switch__label ']/span"));
         Assert.assertEquals(headerToggleMenu.get(1).getText(), "Enabled");
@@ -64,26 +64,26 @@ public class GroupUkrTest extends BaseTest {
         wait.until(ExpectedConditions.visibilityOf(headerToggleMenu.get(0)));
         Assert.assertEquals(headerToggleMenu.get(0).getText(), "Disabled");
 
-        List<WebElement> checkboxGeneralSettings = getDriver().findElements(By.xpath("//div[@nameref='rowSetStart30']//label[@class='attach-previous ']"));
+        List<WebElement> checkboxGeneralSettings = getDriver().findElements(By.xpath("//div[@class='jenkins-form-item jenkins-form-item--tight']//label"));
         List<WebElement> namesOfBlockTitle = getDriver().findElements(By.xpath("//div[@class='jenkins-section__title']"));
 
         Assert.assertEquals(checkboxGeneralSettings.size(), 5);
         checkboxGeneralSettings.get(0).click();
         List<WebElement> checkboxDropDown = findCheckboxDropDownElements();
-        Assert.assertTrue(checkboxDropDown.get(0).isDisplayed() && checkboxDropDown.get(1).isDisplayed());
+        Assert.assertTrue(checkboxDropDown.get(0).isDisplayed() && checkboxDropDown.get(1).isDisplayed(), "Dropdown Discard old builds checkbox menu  isn't displayed");
         actions.scrollToElement(checkboxGeneralSettings.get(1)).build().perform();
         checkboxGeneralSettings.get(1).click();
         checkboxDropDown = findCheckboxDropDownElements();
-        Assert.assertTrue(checkboxDropDown.get(2).isDisplayed() && checkboxDropDown.get(3).isDisplayed());
+        Assert.assertTrue(checkboxDropDown.get(2).isDisplayed() && checkboxDropDown.get(3).isDisplayed(), "Dropdown GitHub project checkbox menu  isn't displayed");
         actions.scrollToElement(namesOfBlockTitle.get(1)).perform();
         checkboxGeneralSettings.get(2).click();
         checkboxDropDown = findCheckboxDropDownElements();
         actions.scrollToElement(checkboxDropDown.get(3)).perform();
-        Assert.assertTrue(checkboxDropDown.get(3).isDisplayed());
+        Assert.assertTrue(checkboxDropDown.get(3).isDisplayed(), "Dropdown This project is parameterized checkbox menu  isn't displayed");
         actions.scrollToElement(namesOfBlockTitle.get(0)).perform();
         checkboxGeneralSettings.get(3).click();
         checkboxDropDown = findCheckboxDropDownElements();
-        Assert.assertTrue(checkboxDropDown.get(5).isDisplayed() && checkboxDropDown.get(6).isDisplayed() && checkboxDropDown.get(7).isDisplayed());
+        Assert.assertTrue(checkboxDropDown.get(5).isDisplayed() && checkboxDropDown.get(6).isDisplayed() && checkboxDropDown.get(7).isDisplayed(), "Dropdown Throttle builds checkbox menu  isn't displayed");
 
 
         Assert.assertEquals(namesOfBlockTitle.get(0).getText(), "Source Code Management");
@@ -98,9 +98,8 @@ public class GroupUkrTest extends BaseTest {
             if (i == 12) {
                 i++;
             }
-            Assert.assertTrue(checkboxDropDown.get(i).isDisplayed());
+            Assert.assertTrue(checkboxDropDown.get(i).isDisplayed(), "Element GIT radio button dropdown menu" + checkboxDropDown.get(i) + "  not showing");
         }
-
 
         Assert.assertEquals(namesOfBlockTitle.get(1).getText(), "Build Triggers");
         actions.scrollToElement(namesOfBlockTitle.get(2)).perform();
@@ -119,7 +118,7 @@ public class GroupUkrTest extends BaseTest {
             actions.scrollToElement(checkboxTriggerBlock.get(i)).click(checkboxTriggerBlock.get(i)).perform();
             checkboxDropDown = findCheckboxDropDownElements();
             if (indexOfDropDownBlock != 15) {
-                Assert.assertTrue(checkboxDropDown.get(indexOfDropDownBlock).isDisplayed());
+                Assert.assertTrue(checkboxDropDown.get(indexOfDropDownBlock).isDisplayed(), checkboxDropDown.get(indexOfDropDownBlock) + "isn't displayed");
             }
             indexOfDropDownBlock++;
         }
@@ -138,7 +137,7 @@ public class GroupUkrTest extends BaseTest {
         }
         checkboxDropDown = findCheckboxDropDownElements();
         for (int i = 16; i < checkboxDropDown.size(); i++) {
-            Assert.assertTrue(checkboxDropDown.get(i).isDisplayed());
+            Assert.assertTrue(checkboxDropDown.get(i).isDisplayed(), "Dropdown" + checkboxDropDown.get(i) + "checkbox menu  isn't displayed");
         }
 
         WebElement addStepsBuild = getDriver().findElement(By.xpath("(//button[@class='hetero-list-add'])[5]"));
