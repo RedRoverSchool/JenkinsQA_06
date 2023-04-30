@@ -98,7 +98,7 @@ public class CatGroupTest extends BaseTest {
         verifyElementIsClickable(manageJenkinsButton).click();
     }
     public final void clickSetUpAgent() {
-        verifyElementVisible(setUpAgent);
+        //verifyElementVisible(setUpAgent);
         verifyElementIsClickable(setUpAgent).click();
     }
     public final void clickPermanentAgent() {
