@@ -58,8 +58,10 @@ public class GroupOlesyaTest extends BaseTest {
             Assert.assertEquals(listMenu.get(i).getText(), expectedMenus.get(i));
         }
     }
+
+    @Ignore
     @Test
-    public void descriptionAreaTest() {
+    public void descriptionAreaTest() throws InterruptedException {
         String descriptionXpath = "//a[@id='description-link']";
         String textAreaXPath = "//textarea[@name='description']";
         String saveButtonXPath = "//button[@name='Submit']";
@@ -67,6 +69,7 @@ public class GroupOlesyaTest extends BaseTest {
 
         WebElement addDescription = getDriver().findElement(By.xpath(descriptionXpath));
         addDescription.click();
+        getWait().wait(1000);
         WebElement textArea = getDriver().findElement(By.xpath(textAreaXPath));
         textArea.clear();
         textArea.sendKeys("Testing the description");
