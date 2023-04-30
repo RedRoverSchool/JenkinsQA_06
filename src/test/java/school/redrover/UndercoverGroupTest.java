@@ -1,17 +1,11 @@
 package school.redrover;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
-import java.time.Duration;
-
 public class UndercoverGroupTest extends BaseTest {
 
     @Test
@@ -25,6 +19,8 @@ public class UndercoverGroupTest extends BaseTest {
         WebElement logOutButton = getDriver().findElement(By.xpath("//a[@href='/logout']/*[@class='icon-md']"));
         logOutButton.click();
 
+        getDriver().navigate().refresh();
+
         WebElement mainPageTitle = getDriver().findElement(By.xpath("//*[@id='loginIntroDefault']/h1"));
         Assert.assertEquals(mainPageTitle.getText(), "Welcome to Jenkins!");
     }
@@ -33,6 +29,12 @@ public class UndercoverGroupTest extends BaseTest {
     public void testLogInWithNoData() {
         WebElement logOutButton = getDriver().findElement(By.xpath("//a[@href='/logout']/*[@class='icon-md']"));
         logOutButton.click();
+
+        WebElement usernameField = getDriver().findElement(By.xpath("//input[@placeholder='Username']"));
+        Assert.assertEquals(usernameField.getText(), "");
+
+        WebElement passwordField = getDriver().findElement(By.name("j_password"));
+        Assert.assertEquals(passwordField.getText(), "");
 
         WebElement signInButton = getDriver().findElement(By.name("Submit"));
         signInButton.click();
