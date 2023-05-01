@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,5 +65,53 @@ public class ElenaTsTest extends BaseTest {
             Assert.assertEquals(actualResultWarningMessage, "» ‘" + specialCharacter + "’ is an unsafe character");
         }
     }
-}
+
+    @Test
+    public void testCreateJobsList() throws InterruptedException {
+        getDriver().findElement(By.linkText("New Item")).click();
+        Thread.sleep(500);
+        List<String> itemName = Arrays.asList("1","2","3");
+        for (String number:itemName){
+            getDriver().findElement(By.id("name")).sendKeys(number);
+
+            getDriver().findElement(By.xpath("//*[text()='Freestyle project']")).click();
+            getDriver().findElement(By.id("ok-button")).click();
+            Thread.sleep(500);
+            getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+            Thread.sleep(500);
+            getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+            getDriver().findElement(By.linkText("New Item")).click();
+        }
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+
+        List<WebElement> listOfJobs =getDriver().findElements(By.xpath("//a[contains(@class,'jenkins-table__link')]/span"));
+
+        Assert.assertEquals(listOfJobs.size(), itemName.size());
+    }
+
+    @Test
+    public void testCreateJobsWithTheSameName() throws InterruptedException {
+        getDriver().findElement(By.linkText("New Item")).click();
+        Thread.sleep(500);
+        List<String> itemName = Arrays.asList("1","1");
+        for (String name:itemName){
+            getDriver().findElement(By.id("name")).sendKeys(name);
+
+            WebElement warningMassage = getDriver().findElement(By.id("itemname-invalid"));
+            if (warningMassage.isDisplayed()){
+
+                Assert.assertTrue(warningMassage.isDisplayed(), "A job already exists with this name");
+            }
+            else {
+            getDriver().findElement(By.xpath("//*[text()='Freestyle project']")).click();
+            getDriver().findElement(By.id("ok-button")).click();
+
+            Thread.sleep(500);
+            getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+            Thread.sleep(500);
+            getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+            getDriver().findElement(By.linkText("New Item")).click();}
+            }
+        }
+    }
 

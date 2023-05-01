@@ -17,7 +17,7 @@ import java.util.List;
 public class JasperGroupTest extends BaseTest {
 
     @Test
-    public void testFindElement(){
+    public void testFindElement() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement searchField = getDriver().findElement(By.xpath("//input[@name = 'q']"));
         searchField.sendKeys("admin");
@@ -28,7 +28,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewItem(){
+    public void testCreateNewItem() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement createItem = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
         createItem.click();
@@ -56,7 +56,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testValidationOfCreateNewItem(){
+    public void testValidationOfCreateNewItem() {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         WebElement newItem = getDriver().findElement(By.cssSelector("[href*='/view/all/newJob']"));
@@ -73,7 +73,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testChangeName(){
+    public void testChangeName() {
         WebElement settingsMenuButton = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']"));
         settingsMenuButton.click();
 
@@ -96,7 +96,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testFolderEmptyNameChange(){
+    public void testFolderEmptyNameChange() {
         WebElement newItemButton = getDriver().findElement(By.xpath("//span[text()='New Item']/.."));
         newItemButton.click();
 
@@ -129,7 +129,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCreatingNewProject() throws InterruptedException{
+    public void testCreatingNewProject() throws InterruptedException {
         WebElement newJobButton = getDriver().findElement(By.xpath("//a[@href='newJob']"));
         newJobButton.click();
 
@@ -155,7 +155,7 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCountUsers(){
+    public void testCountUsers() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         WebElement users = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a")));
         users.click();
@@ -165,14 +165,14 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testFindPeopleJenkins(){
+    public void testFindPeopleJenkins() {
         WebElement users = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a/span[2]"));
 
         Assert.assertEquals(users.getText(), "People");
     }
 
     @Test
-    public void testSearchResultNothingSeemsToMatch(){
+    public void testSearchResultNothingSeemsToMatch() {
 
         WebElement newItemField = getDriver().findElement(By.xpath("//input[@id = 'search-box' ]"));
         newItemField.sendKeys("jenk");
@@ -188,7 +188,16 @@ public class JasperGroupTest extends BaseTest {
         getDriver().findElement(By.id("createItem")).click();
         WebElement message = getDriver().findElement(By.id("itemname-required"));
 
-        Assert.assertEquals(message.getText(),"» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(message.getText(), "» This field cannot be empty, please enter a valid name");
     }
 
+    @Test
+    public void testFindAllElements() {
+        List<WebElement> elements = getDriver().findElements(By.xpath("//*[@class=\"task-link-text\"]"));
+        List<String> expectedElements = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+
+        for (int i = 0; i < elements.size(); i++) {
+            Assert.assertEquals(elements.get(i).getText(), (expectedElements.get(i)));
+        }
+    }
 }
