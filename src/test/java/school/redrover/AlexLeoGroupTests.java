@@ -5,6 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -421,5 +422,30 @@ public class AlexLeoGroupTests extends BaseTest {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='/user/admin']")).getText(), USER_FULL_NAME);
+    }
+
+    @Test
+    public void testTasksMenuNavigation() {
+        WebElement newItemElementLink = getDriver().findElement(By.linkText("New Item"));
+        newItemElementLink.click();
+        WebElement textEnterAnItemNameOnPage = getDriver().findElement(By.xpath("//div[@class='add-item-name']/label[.='Enter an item name']"));
+        Assert.assertEquals(textEnterAnItemNameOnPage.getText(), "Enter an item name");
+        WebElement dashboardReturn = getDriver().findElement(By.linkText("Dashboard"));
+        dashboardReturn.click();
+
+        WebElement peopleLink = getDriver().findElement(By.linkText("People"));
+        peopleLink.click();
+        WebElement textPeopleInThePageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
+        Assert.assertEquals(textPeopleInThePageHeader.getText(), "People");
+
+        WebElement buildHistoryLink = getDriver().findElement(By.linkText("Build History"));
+        buildHistoryLink.click();
+        WebElement textJenkinsBuildHistoryInThePageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
+        Assert.assertEquals(textJenkinsBuildHistoryInThePageHeader.getText(),"Build History of Jenkins");
+
+        WebElement manageJenkinsLink = getDriver().findElement(By.linkText("Manage Jenkins"));
+        manageJenkinsLink.click();
+        WebElement textManageJenkinsInPageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
+        Assert.assertEquals(textManageJenkinsInPageHeader.getText(), "Manage Jenkins");
     }
 }

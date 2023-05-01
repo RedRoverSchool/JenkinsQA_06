@@ -160,11 +160,19 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testDoesSysConfSectionContain4Items() {
-        List<String> expSysConfItemNames = List.of("Configure System", "Global Tool Configuration", "Manage Plugins", "Manage Nodes and Clouds");
+        List<String> expSysConfItemNames = List.of(
+                "Configure System",
+                "Global Tool Configuration",
+                "Manage Plugins",
+                "Manage Nodes and Clouds"
+        );
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
-        getDriver().get(getDriver().getCurrentUrl() + "/manage/");
-        List<WebElement> sysConfItems = getDriver().findElements(By.xpath("//section[@class='jenkins-section jenkins-section--bottom-padding'][1]/descendant::dt"));
+        WebElement manageJenkinsMenuItem = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        manageJenkinsMenuItem.click();
+
+        List<WebElement> sysConfItems = getDriver().findElements(By.xpath(
+                "//section[@class='jenkins-section jenkins-section--bottom-padding'][1]/descendant::dt"));
 
         List<String> actSysConfItemNames = new ArrayList<>();
         for (WebElement sysConfItem: sysConfItems) {
