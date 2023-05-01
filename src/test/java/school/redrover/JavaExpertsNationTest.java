@@ -67,7 +67,7 @@ public class JavaExpertsNationTest extends BaseTest {
         WebElement addDescLink = getDriver().findElement(By.id("description-link"));
         addDescLink.click();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(1))
+        new WebDriverWait(getDriver(), Duration.ofSeconds(3))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("textarea[name = 'description']")));
 
         WebElement inputField = getDriver().findElement(By.cssSelector("textarea[name = 'description']"));
@@ -89,7 +89,7 @@ public class JavaExpertsNationTest extends BaseTest {
         WebElement newItem = getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']"));
         newItem.click();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(1))
+        new WebDriverWait(getDriver(), Duration.ofSeconds(3))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
 
         WebElement inputField = getDriver().findElement(By.id("name"));
@@ -113,6 +113,11 @@ public class JavaExpertsNationTest extends BaseTest {
         new Actions(getDriver())
                 .moveToElement(hoverable)
                 .perform();
+
+        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']")
+                ));
 
         getDriver().findElement(
                 By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']")
@@ -147,6 +152,11 @@ public class JavaExpertsNationTest extends BaseTest {
         new Actions(getDriver())
                 .moveToElement(hoverableDashbord)
                 .perform();
+
+        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']")
+                ));
 
         getDriver().findElement(
                 By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']")
