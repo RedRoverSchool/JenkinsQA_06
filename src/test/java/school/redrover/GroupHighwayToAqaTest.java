@@ -11,6 +11,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -237,25 +239,33 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testCreateNewProject() throws InterruptedException {
-        String name = "Мой проект";
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
 
-        WebElement createNewItemButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//span[@class='task-icon-link']")));
-        createNewItemButton.click();
+        String name ="Мой проект";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(7));
 
+        getDriver().findElement(NEW_ITEM).click();
         WebElement writeNameOfItem = getDriver().findElement(By.id("name"));
+        Thread.sleep(3000);
         writeNameOfItem.sendKeys(name);
         WebElement chooseProject = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
         chooseProject.click();
-        WebElement pushOkButton = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@class='btn-decorator']")));
-        pushOkButton.click();
-        WebElement saveChanges = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
+        getDriver().findElement(OK_BUTTON).click();
+        WebElement saveChanges=wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
         saveChanges.click();
+        String successMessageOfNewProject=getDriver().findElement(By.className("job-index-headline")).getText();
+        Assert.assertEquals(successMessageOfNewProject,"Project "+ name);
 
-        String sucessMesageOfNewProject = getDriver().findElement(By.className("job-index-headline")).getText();
-        Assert.assertEquals(sucessMesageOfNewProject, "Project " + name);
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        WebElement chooseProject1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
+        chooseProject1.click();
+        getDriver().findElement(OK_BUTTON).click();
+        Thread.sleep(5000);
+        String errorMessage="Error\n" +
+                "A job already exists with the name ‘Мой проект’";
+        String effortMessage=getDriver().findElement(By.id("main-panel")).getText();
+        Assert.assertEquals(effortMessage,errorMessage);
     }
 
     @Test
@@ -316,6 +326,21 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testCreateNewUser() {
+        String userName = createUser();
+        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
+        Assert.assertTrue(isUserExist(users, userName));
+        deleteUser(userName);
+    }
+
+    @Test
+    public void testDeleteUser() {
+        String userName = createUser();
+        deleteUser(userName);
+        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
+        Assert.assertFalse(isUserExist(users, userName));
+    }
+
+    private String createUser() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
 
         WebElement manageJenkinsTab = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
@@ -339,36 +364,44 @@ public class GroupHighwayToAqaTest extends BaseTest {
         confirmPasswordField.sendKeys(password);
 
         WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name = 'fullname']"));
-        String fullName = userName + " " + generateLastName();
-        fullNameField.sendKeys(fullName);
+        fullNameField.sendKeys(userName + " " + generateLastName());
 
         WebElement emailField = getDriver().findElement(By.xpath("//input[@name = 'email']"));
-        String email = generateEmail();
-        emailField.sendKeys(email);
+        emailField.sendKeys(generateEmail());
 
         WebElement createBtn = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
         createBtn.click();
-
-        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
-
-        Assert.assertTrue(isUserExist(users, userName));
+        return userName;
     }
+
+    private void deleteUser(String userName) {
+        WebElement trashBtn = getDriver().findElement(By.xpath("//a[@href = 'user/" + userName.toLowerCase() + "/delete']"));
+        trashBtn.click();
+
+        WebElement confirmBtn = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        confirmBtn.click();
+    }
+
     private String generateName() {
         Faker faker = new Faker();
         return faker.name().firstName();
     }
+
     private String generatePassword() {
         Faker faker = new Faker();
         return faker.internet().password(5, 10, true, true, true);
     }
+
     private String generateLastName() {
         Faker faker = new Faker();
         return faker.name().lastName();
     }
+
     private String generateEmail() {
         Faker faker = new Faker();
         return faker.internet().emailAddress();
     }
+
     private boolean isUserExist(List<WebElement> list, String name) {
         for (WebElement el : list) {
             if (el.getText().equals(name)) {
@@ -376,5 +409,23 @@ public class GroupHighwayToAqaTest extends BaseTest {
             }
         }
         return false;
+    }
+
+    @Test
+    public void testTitlesOnManageJenkinsPage() {
+        WebElement buttonManageJenkins = getDriver().findElement(By.xpath("//span[contains(text(), 'Manage Jenkins')]/.."));
+        buttonManageJenkins.click();
+
+        List<WebElement> sectionTitles = getDriver().findElements(By.xpath("//h2[@class='jenkins-section__title']"));
+
+        List<String> actualTitles = new ArrayList<>();
+
+        for (WebElement title :sectionTitles) {
+            actualTitles.add(title.getText());
+        }
+
+        List<String> expectedTitles = Arrays.asList("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
+
+        Assert.assertEquals(actualTitles, expectedTitles);
     }
 }

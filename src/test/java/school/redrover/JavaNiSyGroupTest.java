@@ -105,6 +105,44 @@ public class JavaNiSyGroupTest extends BaseTest {
         textInputArea = getDriver().findElement(By.xpath("//textarea[@name='description']"));
         textInputArea.clear();
     }
+    @Test
+    public void testAddDescription() {
+        WebElement btnAddDescr = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        btnAddDescr.click();
+
+        WebElement textArea = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        textArea.clear();
+        textArea.sendKeys("You are welcome!");
+
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        WebElement descriptionResult = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
+
+        Assert.assertEquals(descriptionResult.getText(), "You are welcome!");
+    }
+    @Test
+    public void testCreateItem() {
+        WebElement btnCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        btnCreateItem.click();
+
+        WebElement inputItemName = getDriver().findElement(By.xpath("//input[@class='jenkins-input']"));
+        inputItemName.sendKeys("First Folder");
+
+        WebElement createFreeStyleProject = getDriver()
+                .findElement(By.xpath("//span[text()='Freestyle project']"));
+        createFreeStyleProject.click();
+
+        WebElement btnOk = getDriver().findElement(By.xpath("//div[@class='btn-decorator']"));
+        btnOk.click();
+
+        WebElement btnSave = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        btnSave.click();
+
+        WebElement projectName = getDriver()
+                .findElement(By.xpath("//h1[text()='Project First Folder']"));
+
+        Assert.assertEquals(projectName.getText(), "Project First Folder");
+    }
 }
 
 
