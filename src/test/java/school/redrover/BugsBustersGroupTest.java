@@ -2,8 +2,9 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -34,12 +35,13 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertTrue(searchBox.isDisplayed());
     }
 
-    @Ignore
     @Test
     public void testCreateAJobPageTitle(){
         WebElement createAJob = getDriver().findElement(By.xpath("//a[@href='newJob']/span"));
         createAJob.click();
 
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='add-item-name']/label")));
         WebElement createAJobGetTitleText = getDriver().findElement(By.xpath("//div[@class='add-item-name']/label"));
 
         Assert.assertEquals(createAJobGetTitleText.getText(), "Enter an item name");
