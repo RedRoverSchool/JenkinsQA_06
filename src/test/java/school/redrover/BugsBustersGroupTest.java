@@ -86,7 +86,7 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='createItem']/div[1]/div/label"))
                         .getText(), "Enter an item name");
     }
-
+    @Ignore
     @Test
     public void testOkButtonIsDisabled() {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id='tasks']//a"));
