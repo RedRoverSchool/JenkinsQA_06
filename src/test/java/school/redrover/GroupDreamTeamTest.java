@@ -251,4 +251,15 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertEquals(actualUserSidePanelMenu, expectedUserSidePanelMenu);
     }
+    @Test
+    public void testAddNewCredentions() {
+
+        WebElement sideMenuManageJenkins = getDriver().findElement(By.linkText("Manage Jenkins"));
+        sideMenuManageJenkins.click();
+        WebElement manageCredentials = getDriver().findElement(By.xpath("//dt[text()='Manage Credentials']"));
+        manageCredentials.click();
+        WebElement storesScope = getDriver().findElement(By.xpath("//h2"));
+
+        Assert.assertEquals(storesScope.getText(), "Stores scoped to Jenkins");
+    }
 }
