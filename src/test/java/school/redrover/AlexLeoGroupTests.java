@@ -1,6 +1,5 @@
 package school.redrover;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jdk.jfr.Description;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
@@ -24,15 +23,11 @@ public class AlexLeoGroupTests extends BaseTest {
 
     private WebDriverWait webDriverWait5;
 
-    private final WebDriverWait getWait5() {
+    private WebDriverWait getWait5() {
         if (webDriverWait5 == null) {
             webDriverWait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         }
         return webDriverWait5;
-    }
-
-    private final void verifyElementVisible(WebElement element) {
-        getWait5().until(ExpectedConditions.visibilityOf(element));
     }
 
     @Test
@@ -154,9 +149,15 @@ public class AlexLeoGroupTests extends BaseTest {
     @Test
     public void testJenkinsLinkInFooterVerification() {
         WebElement jenkinsLink = getDriver().findElement(By.xpath("//div/a[@href='https://www.jenkins.io/']"));
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        Object result = js.executeScript("return arguments[0].target='_self'", jenkinsLink);
+        String originalWindow = getDriver().getWindowHandle();
         jenkinsLink.click();
+
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if(!originalWindow.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }
 
         String actualWebPage = getDriver().getCurrentUrl();
         String expectedWebPage = "https://www.jenkins.io/";
@@ -166,7 +167,7 @@ public class AlexLeoGroupTests extends BaseTest {
     @Test
     public void testNewItemListVerification() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        verifyElementVisible(getDriver().findElement(By.xpath("//div[@id='items']")));
+        getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@id='items']"))));
 
         List<WebElement> newItemProjectTypes = getDriver().findElements(By.xpath("//ul/li/label/span[@class='label']"));
         List<String> expectedProjectTypes = Arrays.asList("Freestyle project", "Pipeline", "Multi-configuration project",
@@ -229,7 +230,7 @@ public class AlexLeoGroupTests extends BaseTest {
     public void testNewFreestyleProjectVerification() {
         String nameOfProject = "NewProject2023";
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        verifyElementVisible(getDriver().findElement(By.xpath("//div[@id='items']")));
+        getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@id='items']"))));
         getDriver().findElement(By.cssSelector("#name")).sendKeys(nameOfProject);
 
         getDriver().findElement(By.xpath("//span[.='Freestyle project']")).click();
@@ -244,7 +245,7 @@ public class AlexLeoGroupTests extends BaseTest {
     public void testNewFreestyleProjectDisabledVerification() {
         String nameOfProject = "NewProject2023";
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        verifyElementVisible(getDriver().findElement(By.xpath("//div[@id='items']")));
+        getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@id='items']"))));
         getDriver().findElement(By.cssSelector("#name")).sendKeys(nameOfProject);
 
         getDriver().findElement(By.xpath("//span[.='Freestyle project']")).click();
