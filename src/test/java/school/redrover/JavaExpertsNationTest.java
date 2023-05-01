@@ -154,7 +154,7 @@ public class JavaExpertsNationTest extends BaseTest {
                 .perform();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(
+                .until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']")
                 ));
 
