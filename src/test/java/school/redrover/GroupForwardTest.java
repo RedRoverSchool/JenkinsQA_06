@@ -12,6 +12,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupForwardTest extends BaseTest {
 
@@ -95,6 +97,31 @@ public class GroupForwardTest extends BaseTest {
         Thread.sleep(2000);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Configure");
+    }
 
+    @Test
+    public void testListOfJobs() throws InterruptedException {
+
+        WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        newItemMenu.click();
+        Thread.sleep(2000);
+        List<WebElement> listOfJobs = getDriver().findElements(By.xpath("//li//span"));
+
+        Assert.assertEquals(listOfJobs.size(), 6);
+
+        List<String> textList1 = new ArrayList<>();
+        List<String> textList = new ArrayList<>();
+        textList.add("Freestyle project");
+        textList.add("Pipeline");
+        textList.add("Multi-configuration project");
+        textList.add("Folder");
+        textList.add("Multibranch Pipeline");
+        textList.add("Organization Folder");
+
+        for (WebElement element: listOfJobs) {
+            textList1.add(element.getText());
+        }
+
+        Assert.assertEquals(textList1, textList);
     }
 }
