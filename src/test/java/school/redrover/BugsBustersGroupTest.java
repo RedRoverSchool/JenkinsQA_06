@@ -225,7 +225,6 @@ public class BugsBustersGroupTest extends BaseTest {
     public void testFolderCreation() {
         final String FOLDER_NAME = "My_folder";
         final String FOLDER_NAME1 = "My_folder1";
-
         List <String> expectedJobsList = Arrays.asList(FOLDER_NAME, FOLDER_NAME1);
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
@@ -271,11 +270,5 @@ public class BugsBustersGroupTest extends BaseTest {
             String actualJobsList = jobsList.get(i).getText();
             Assert.assertEquals(actualJobsList, expectedJobsList.get(i));
         }
-
-
-
-
-
-
     }
 }
