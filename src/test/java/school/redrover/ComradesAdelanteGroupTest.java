@@ -3,9 +3,13 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.WheelInput;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.time.Duration;
 
 public class ComradesAdelanteGroupTest extends BaseTest {
 
@@ -103,7 +107,7 @@ public class ComradesAdelanteGroupTest extends BaseTest {
                 By.xpath("//*[@id='ok-button']"));
         submitButton.click();
 
-       Assert.assertEquals(getDriver().findElement(
+        Assert.assertEquals(getDriver().findElement(
                By.xpath("//*[text()='First job']")).getText(), "First job");
     }
 
@@ -117,5 +121,72 @@ public class ComradesAdelanteGroupTest extends BaseTest {
         String actualUserPageHeader = userPageHeader.getText();
 
         Assert.assertEquals(actualUserPageHeader, expectedUserPageHeader);
+    }
+    @Test
+    public void testCreateNewBuildJob() throws InterruptedException {
+        WebElement taskLinkText = getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]/span/a"));
+
+        taskLinkText.click();
+        WebElement nameItem = getDriver().findElement(By.xpath("//*[@name='name']"));
+
+        nameItem.sendKeys("Hello world");
+        WebElement buttonFreestyleProj = getDriver().findElement(By.xpath("//*[@class='label']"));
+
+        buttonFreestyleProj.click();
+        WebElement buttonOk = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
+
+        buttonOk.click();
+        WebElement description = getDriver().findElement(By.xpath("//*[@name='description']"));
+
+        description.sendKeys("Hello world java test program");
+        WheelInput.ScrollOrigin scrollOrigin = WheelInput.ScrollOrigin.fromViewport();
+        new Actions(getDriver())
+                .scrollFromOrigin(scrollOrigin, 0, 600)
+                .perform();
+
+        WebElement clickable = getDriver().findElement(By.xpath("//*[@id='radio-block-1']"));
+        new Actions(getDriver())
+                .click(clickable)
+                .perform();
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        WebElement textRepository = getDriver().findElement(By.xpath("//*[@checkdependson='credentialsId']"));
+
+        textRepository.sendKeys("https://github.com/kriru/firstJava.git");
+
+        scrollOrigin = WheelInput.ScrollOrigin.fromViewport();
+        new Actions(getDriver())
+                .scrollFromOrigin(scrollOrigin, 0, 2000)
+                .perform();
+
+        clickable = getDriver().findElement(By.xpath("//*[@id='yui-gen9-button']"));
+        new Actions(getDriver())
+                .click(clickable)
+                .perform();
+
+        clickable = getDriver().findElement(By.xpath("//*[@id='yui-gen24']"));
+        new Actions(getDriver())
+                .click(clickable)
+                .perform();
+        WebElement executeWinCommand = getDriver().findElement(By.xpath("//*[@name='description']"));
+
+        executeWinCommand.sendKeys("javac HelloWorld.java\njava HelloWorld");
+        WebElement buttonApply = getDriver().findElement(By.xpath("//*[@name='Apply']"));
+
+        buttonApply.click();
+        WebElement buttonSave = getDriver().findElement(By.xpath("//*[@name='Submit']"));
+
+        buttonSave.click();
+        WebElement buildNow = getDriver().findElement(By.xpath("//*[@href='/job/Hello%20world/build?delay=0sec']"));
+
+        buildNow.click();
+        WebElement buildName = getDriver().findElement(By.xpath("//*[@class='model-link inside build-link display-name']"));
+
+        buildName.click();
+        WebElement consoleOut = getDriver().findElement(By.xpath("//*[@class='icon-terminal icon-xlg']"));
+
+        consoleOut.click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//*[@class='console-output']")).getText().contains("Finished: SUCCESS"));
     }
 }
