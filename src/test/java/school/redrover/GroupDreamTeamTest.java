@@ -254,6 +254,7 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testAddingNewCredentions() {
+
         WebElement sideMenuManageJenkins = getDriver().findElement(By.linkText("Manage Jenkins"));
         sideMenuManageJenkins.click();
         WebElement manageCredentials = getDriver().findElement(By.xpath("//dt[text()='Manage Credentials']"));
@@ -265,3 +266,4 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertEquals(actualStoreScope, stores);
     }
 }
+
