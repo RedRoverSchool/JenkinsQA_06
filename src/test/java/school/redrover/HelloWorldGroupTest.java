@@ -129,4 +129,22 @@ public class HelloWorldGroupTest extends BaseTest{
         WebElement firstProjectExist = getDriver().findElement(By.xpath("//td/a[@href='job/First/']"));
         Assert.assertEquals(firstProjectExist.getText(), "First");
     }
+    @Test
+    public void testFieldSearchSetting() throws InterruptedException {
+        WebElement settings = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        settings.click();
+
+        WebElement fieldSearch = getDriver().findElement(By.id("settings-search-bar"));
+        fieldSearch.click();
+        fieldSearch.sendKeys("users");
+
+        WebElement drop = getDriver().findElement(By.xpath("//div[@class='jenkins-search__results']"));
+        Thread.sleep(1000);
+        drop.click();
+
+        WebElement  element = getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__controls']"));
+        String text = "Create User";
+        Assert.assertEquals(element.getText(), text);
+    }
+
 }
