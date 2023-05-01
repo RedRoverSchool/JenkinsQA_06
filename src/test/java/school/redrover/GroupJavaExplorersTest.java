@@ -88,4 +88,39 @@ public class GroupJavaExplorersTest extends BaseTest {
         Assert.assertEquals(messageValue, "Hello Jenkins!");
     }
 
+    @Test
+    public void testCreateNewItemWithSpecialCharactersInName() {
+        final String incorrectNewItemName = "<>";
+        final String expectedErrorMessage = "is an unsafe character";
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        WebElement buttonCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        buttonCreateItem.click();
+
+        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        fieldInputName.click();
+        fieldInputName.sendKeys(incorrectNewItemName);
+
+        WebElement errorMessage = getDriver().findElement(By.xpath("//div[@id = 'itemname-invalid']"));
+
+        Assert.assertTrue(errorMessage.getText().contains(expectedErrorMessage));
+    }
+
+    @Test
+    public void testCreateNewItemWithNullName() {
+        final String expectedErrorMessage = "» This field cannot be empty, please enter a valid name";
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        WebElement buttonCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        buttonCreateItem.click();
+
+        WebElement buttonMultibranchPipeline = getDriver().findElement(By.xpath("//span[text() = 'Multibranch Pipeline']"));
+        buttonMultibranchPipeline.click();
+
+        WebElement errorMessage = getDriver().findElement(By.xpath("//div[@id = 'itemname-required']"));
+
+        Assert.assertEquals(errorMessage.getText(), expectedErrorMessage);
+    }
 }
