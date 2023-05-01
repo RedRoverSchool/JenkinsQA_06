@@ -108,4 +108,3 @@ public class GroupILoveBugsTest extends BaseTest {
         }
     }
 }
-
