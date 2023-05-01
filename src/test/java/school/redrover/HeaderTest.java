@@ -136,4 +136,12 @@ public class HeaderTest extends BaseTest {
         assertEquals(hoverExitButtonBackground, "rgba(64, 64, 64, 1)");
         assertEquals(hoverExitButtonUnderline, "underline");
     }
+
+    @Test
+    public void testCheckIconJenkinsOnHeader(){
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-name-icon")).isDisplayed());
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-head-icon")).isDisplayed());
+    }
 }

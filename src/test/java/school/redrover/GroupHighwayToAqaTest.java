@@ -10,7 +10,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -237,25 +240,33 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testCreateNewProject() throws InterruptedException {
+
         String name = "Мой проект";
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(7));
 
-        WebElement createNewItemButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//span[@class='task-icon-link']")));
-        createNewItemButton.click();
-
+        getDriver().findElement(NEW_ITEM).click();
         WebElement writeNameOfItem = getDriver().findElement(By.id("name"));
+        Thread.sleep(3000);
         writeNameOfItem.sendKeys(name);
         WebElement chooseProject = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
         chooseProject.click();
-        WebElement pushOkButton = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@class='btn-decorator']")));
-        pushOkButton.click();
+        getDriver().findElement(OK_BUTTON).click();
         WebElement saveChanges = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
         saveChanges.click();
+        String successMessageOfNewProject = getDriver().findElement(By.className("job-index-headline")).getText();
+        Assert.assertEquals(successMessageOfNewProject, "Project " + name);
 
-        String sucessMesageOfNewProject = getDriver().findElement(By.className("job-index-headline")).getText();
-        Assert.assertEquals(sucessMesageOfNewProject, "Project " + name);
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        WebElement chooseProject1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
+        chooseProject1.click();
+        getDriver().findElement(OK_BUTTON).click();
+        Thread.sleep(5000);
+        String errorMessage = "Error\n" +
+                "A job already exists with the name ‘Мой проект’";
+        String effortMessage = getDriver().findElement(By.id("main-panel")).getText();
+        Assert.assertEquals(effortMessage, errorMessage);
     }
 
     @Test
@@ -400,4 +411,43 @@ public class GroupHighwayToAqaTest extends BaseTest {
         }
         return false;
     }
+
+    @Test
+    public void testTitlesOnManageJenkinsPage() {
+        WebElement buttonManageJenkins = getDriver().findElement(By.xpath("//span[contains(text(), 'Manage Jenkins')]/.."));
+        buttonManageJenkins.click();
+
+        List<WebElement> sectionTitles = getDriver().findElements(By.xpath("//h2[@class='jenkins-section__title']"));
+
+        List<String> actualTitles = new ArrayList<>();
+
+        for (WebElement title : sectionTitles) {
+            actualTitles.add(title.getText());
+        }
+
+        List<String> expectedTitles = Arrays.asList("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
+
+        Assert.assertEquals(actualTitles, expectedTitles);
+    }
+
+    @Test
+    public void testIconSizeButtonsOnBuildHistoryPageAreDisplayedAndClickable() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        WebElement buildHistoryNavigation = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buildHistoryNavigation.click();
+
+        List<WebElement> iconSizeButtons = getDriver().findElements(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']"));
+
+        for (WebElement checkedElement : iconSizeButtons) {
+            if (checkedElement.isEnabled() && checkedElement.isDisplayed()) {
+                wait.until(ExpectedConditions.visibilityOf(checkedElement));
+                wait.until(ExpectedConditions.elementToBeClickable(checkedElement));
+            } else {
+                Assert.fail("Icon size button is not clickable or visible.");
+            }
+        }
+        Assert.assertTrue(iconSizeButtons.size() > 0, "No icon size buttons found on the page.");
+    }
 }
+

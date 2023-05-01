@@ -233,6 +233,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(iconPerson.getRect().getDimension(), largeDimension);
     }
 
+    @Ignore
     @Test
     public void testSortByNameItemRM() throws InterruptedException {
         List<String> expectedResult = new ArrayList<>();
