@@ -85,6 +85,7 @@ public class TopMenuTest extends BaseTest {
         verifyElementVisible(addParameter);
         verifyElementIsClickable(addParameter).click();
     }
+
     public final void veiwListParameter() {
         verifyElementVisible(listParameter);
     }
@@ -193,9 +194,8 @@ public class TopMenuTest extends BaseTest {
         typeFileLocation();
         clickSaveButton();
 
-        String actualNewProjectName = expectedNewProjectName;
+        WebElement newProject = getDriver().findElement(By.linkText("FirstFreestyleProject"));
 
-        Assert.assertEquals(actualNewProjectName,expectedNewProjectName);
-
+        Assert.assertEquals(newProject.getText(),expectedNewProjectName);
     }
 }
