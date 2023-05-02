@@ -157,10 +157,10 @@ public class JavaExpertsNationTest extends BaseTest {
                 .moveToElement(hoverable)
                 .perform();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']")
-                ));
+        WebElement hoverableChevron = getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']"));
+        new Actions(getDriver())
+                .moveToElement(hoverableChevron)
+                .perform();
 
         getDriver().findElement(
                 By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']")
@@ -196,10 +196,12 @@ public class JavaExpertsNationTest extends BaseTest {
                 .moveToElement(hoverableDashbord)
                 .perform();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']")
-                ));
+        getDriver().manage().window().maximize();
+
+        WebElement hoverableChevron = getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']"));
+        new Actions(getDriver())
+                .moveToElement(hoverableChevron)
+                .perform();
 
         getDriver().findElement(
                 By.xpath("//div[@id='breadcrumbBar']/ol/li/a/button[@class='jenkins-menu-dropdown-chevron']")
