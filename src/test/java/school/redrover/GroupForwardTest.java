@@ -12,6 +12,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupForwardTest extends BaseTest {
 
@@ -95,6 +97,81 @@ public class GroupForwardTest extends BaseTest {
         Thread.sleep(2000);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Configure");
+    }
 
+    @Test
+    public void testListOfJobs() throws InterruptedException {
+
+        WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        newItemMenu.click();
+        Thread.sleep(2000);
+        List<WebElement> listOfJobs = getDriver().findElements(By.xpath("//li//span"));
+
+        Assert.assertEquals(listOfJobs.size(), 6);
+
+        List<String> textList1 = new ArrayList<>();
+        List<String> textList = new ArrayList<>();
+        textList.add("Freestyle project");
+        textList.add("Pipeline");
+        textList.add("Multi-configuration project");
+        textList.add("Folder");
+        textList.add("Multibranch Pipeline");
+        textList.add("Organization Folder");
+
+        for (WebElement element: listOfJobs) {
+            textList1.add(element.getText());
+        }
+
+        Assert.assertEquals(textList1, textList);
+    }
+
+    @Test
+    public void testErrorMessageNewJob() throws InterruptedException {
+        final String errorMessage = "» This field cannot be empty, please enter a valid name";
+
+        WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        newItemMenu.click();
+        Thread.sleep(2000);
+        WebElement freestyleProjectButton = getDriver().findElement(By.xpath("//li//span[contains(text(), 'Freestyle')]"));
+        freestyleProjectButton.click();
+
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(), errorMessage);
+    }
+
+    @Test
+    public void testCreateUser() {
+        final String userName = "Kira";
+        final String password1 = "12345";
+        final String password2 = "12345";
+        final String fullName = "Kira Knightly";
+        final String email = "testv5494@gmail.com";
+
+        WebElement manageJenkinsMenuItem = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        manageJenkinsMenuItem.click();
+        WebElement manageUsersMenuItem = getDriver().findElement(By.xpath("//a[@href = 'securityRealm/']"));
+        manageUsersMenuItem.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Users");
+
+        WebElement createUserLink = getDriver().findElement(By.xpath("//a[@href = 'addUser']"));
+        createUserLink.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Create User");
+
+        WebElement userNameField = getDriver().findElement(By.id("username"));
+        userNameField.sendKeys(userName);
+        WebElement passwordField = getDriver().findElement(By.name("password1"));
+        passwordField.sendKeys(password1);
+        WebElement confirmPasswordField = getDriver().findElement(By.name("password2"));
+        confirmPasswordField.sendKeys(password2);
+        WebElement fullNameField = getDriver().findElement(By.name("fullname"));
+        fullNameField.sendKeys(fullName);
+        WebElement emailField = getDriver().findElement(By.name("email"));
+        emailField.sendKeys(email);
+        WebElement createUserButton = getDriver().findElement(By.name("Submit"));
+        createUserButton.click();
+        WebElement userRecord = getDriver().findElement(By.xpath("//a[@href = 'user/kira/']"));
+
+        Assert.assertTrue(userRecord.isDisplayed());
     }
 }

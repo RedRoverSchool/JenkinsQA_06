@@ -120,6 +120,29 @@ public class JavaNiSyGroupTest extends BaseTest {
 
         Assert.assertEquals(descriptionResult.getText(), "You are welcome!");
     }
+    @Test
+    public void testCreateItem() {
+        WebElement btnCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        btnCreateItem.click();
+
+        WebElement inputItemName = getDriver().findElement(By.xpath("//input[@class='jenkins-input']"));
+        inputItemName.sendKeys("First Folder");
+
+        WebElement createFreeStyleProject = getDriver()
+                .findElement(By.xpath("//span[text()='Freestyle project']"));
+        createFreeStyleProject.click();
+
+        WebElement btnOk = getDriver().findElement(By.xpath("//div[@class='btn-decorator']"));
+        btnOk.click();
+
+        WebElement btnSave = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        btnSave.click();
+
+        WebElement projectName = getDriver()
+                .findElement(By.xpath("//h1[text()='Project First Folder']"));
+
+        Assert.assertEquals(projectName.getText(), "Project First Folder");
+    }
 }
 
 
