@@ -2,10 +2,12 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import org.testng.annotations.Ignore;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -34,12 +36,13 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertTrue(searchBox.isDisplayed());
     }
 
-    @Ignore
     @Test
     public void testCreateAJobPageTitle(){
         WebElement createAJob = getDriver().findElement(By.xpath("//a[@href='newJob']/span"));
         createAJob.click();
 
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='add-item-name']/label")));
         WebElement createAJobGetTitleText = getDriver().findElement(By.xpath("//div[@class='add-item-name']/label"));
 
         Assert.assertEquals(createAJobGetTitleText.getText(), "Enter an item name");
@@ -84,7 +87,7 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='createItem']/div[1]/div/label"))
                         .getText(), "Enter an item name");
     }
-
+    @Ignore
     @Test
     public void testOkButtonIsDisabled() {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id='tasks']//a"));

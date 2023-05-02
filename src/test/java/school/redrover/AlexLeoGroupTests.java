@@ -21,6 +21,10 @@ public class AlexLeoGroupTests extends BaseTest {
 
     private static final String USER_FULL_NAME = RandomStringUtils.randomAlphanumeric(13);
 
+    private static final String DESCRIPTION = RandomStringUtils.randomAlphanumeric(130) + "\n\n" + RandomStringUtils.randomAlphanumeric(23);
+
+    private static final By USER_NAME_LINK = By.xpath("//a[@href='/user/admin']");
+
     private WebDriverWait webDriverWait5;
 
     private WebDriverWait getWait5() {
@@ -411,7 +415,7 @@ public class AlexLeoGroupTests extends BaseTest {
 
     @Test
     public void testVerifyChangeNameUser() {
-        getDriver().findElement(By.xpath("//a[@class='model-link']")).click();
+        getDriver().findElement(USER_NAME_LINK).click();
 
         WebElement configure = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/user/admin/configure']")));
         configure.click();
@@ -421,7 +425,7 @@ public class AlexLeoGroupTests extends BaseTest {
         fullName.sendKeys(USER_FULL_NAME);
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='/user/admin']")).getText(), USER_FULL_NAME);
+        Assert.assertEquals(getDriver().findElement(USER_NAME_LINK).getText(), USER_FULL_NAME);
     }
 
     @Test
@@ -447,5 +451,20 @@ public class AlexLeoGroupTests extends BaseTest {
         manageJenkinsLink.click();
         WebElement textManageJenkinsInPageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
         Assert.assertEquals(textManageJenkinsInPageHeader.getText(), "Manage Jenkins");
+    }
+
+    @Test
+    public void testVerifyUserDescription() {
+        getDriver().findElement(USER_NAME_LINK).click();
+
+        WebElement editDescription = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='description-link']")));
+        editDescription.click();
+
+        WebElement fullName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']")));
+        fullName.clear();
+        fullName.sendKeys(DESCRIPTION);
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div")).getText(), DESCRIPTION);
     }
 }
