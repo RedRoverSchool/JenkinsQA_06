@@ -70,8 +70,16 @@ public class GroupDreamTeamTest extends BaseTest {
         textBox.sendKeys("Hello Jenkins!");
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveButton.click();
-    }
+        WebElement helloJenkins = getDriver().findElement(By.xpath("//div[contains(text(),'Hello Jenkins!')]"));
+        Assert.assertEquals(helloJenkins.getText(),"Hello Jenkins!");
 
+        WebElement addDescription2 = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        addDescription2.click();
+        WebElement textBox2 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//textarea[@name='description']")));
+        textBox2.clear();
+        WebElement saveButton2 = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton2.click();
+    }
     @Test
     public void testDashboardSidePanelItemsList() {
         List<WebElement> sidePanelItems = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
