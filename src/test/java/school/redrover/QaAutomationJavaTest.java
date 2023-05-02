@@ -79,62 +79,6 @@ public class QaAutomationJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult.getText(),expectedResult);
     }
-
-    @Test
-    public void testjj(){
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-
-        WebElement createJob = getDriver().findElement(By.xpath("//div[@id='tasks']//a[contains(@href, 'newJob')]"));
-        createJob.click();
-
-        WebElement newProjectName = getDriver().findElement(By.xpath("//input[@id='name']"));
-        newProjectName.sendKeys("First");
-
-        WebElement selectFolder = getDriver().findElement(By.xpath("//span[text()='Organization Folder']/../.."));
-        selectFolder.click();
-
-        WebElement buttonOK = getDriver().findElement(By.cssSelector("button.jenkins-button"));
-        buttonOK.click();
-
-        WebElement buttonHome = getDriver().findElement(By.id("jenkins-home-link"));
-        buttonHome.click();
-
-        WebElement fieldNameInTable = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//span"));
-
-        Assert.assertEquals(fieldNameInTable.getText(), "First");
-
-        getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a/span[2]")).click();
-    }
-
-    @Test
-    public void test (){
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        WebElement createItem = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
-        createItem.click();
-
-        WebElement nameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id=\"name\"]")));
-        nameField.sendKeys("New Item");
-
-        WebElement typeOfItems = getDriver().findElement(By.xpath("//*[@class=\"hudson_model_FreeStyleProject\"]"));
-        typeOfItems.click();
-
-        WebElement okButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"ok-button\"]")));
-        okButton.click();
-
-        WebElement descriptionField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name=\"description\"]")));
-        descriptionField.sendKeys("New Item");
-
-        WebElement applyButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class=\"jenkins-button apply-button\"]")));
-        applyButton.click();
-
-        WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class=\"jenkins-button jenkins-button--primary \"]")));
-        WebDriverWait wait2 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-        saveButton.click();
-
-        WebElement actualResult = getDriver().findElement(By.xpath("//*[@class=\"job-index-headline page-headline\"]"));
-        Assert.assertEquals(actualResult.getText(),"Project New Item");
-    }
-
     @Test
     public void testCheckMenuAfterPushButtonPeople () {
         getDriver().findElement(By.linkText("People")).click();
