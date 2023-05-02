@@ -251,9 +251,9 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertEquals(actualUserSidePanelMenu, expectedUserSidePanelMenu);
     }
-    @Test
-    public void testAddNewCredentions() {
 
+    @Test
+    public void testAddNewCredentials() {
         WebElement sideMenuManageJenkins = getDriver().findElement(By.linkText("Manage Jenkins"));
         sideMenuManageJenkins.click();
         WebElement manageCredentials = getDriver().findElement(By.xpath("//dt[text()='Manage Credentials']"));
