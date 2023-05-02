@@ -67,6 +67,7 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement addDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         addDescription.click();
         WebElement textBox = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//textarea[@name='description']")));
+        textBox.clear();
         textBox.sendKeys("Hello Jenkins!");
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveButton.click();
