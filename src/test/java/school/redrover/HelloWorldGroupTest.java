@@ -129,4 +129,62 @@ public class HelloWorldGroupTest extends BaseTest{
         WebElement firstProjectExist = getDriver().findElement(By.xpath("//td/a[@href='job/First/']"));
         Assert.assertEquals(firstProjectExist.getText(), "First");
     }
+    @Test
+    public void testFieldSearchSetting() throws InterruptedException {
+        WebElement settings = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        settings.click();
+
+        WebElement fieldSearch = getDriver().findElement(By.id("settings-search-bar"));
+        fieldSearch.click();
+        fieldSearch.sendKeys("users");
+
+        WebElement drop = getDriver().findElement(By.xpath("//div[@class='jenkins-search__results']"));
+        Thread.sleep(1000);
+        drop.click();
+
+        WebElement  element = getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__controls']"));
+        String text = "Create User";
+        Assert.assertEquals(element.getText(), text);
+    }
+    @Test
+    public void testCreateAndDeleteMultibranchPipeline(){
+        final String displayName = "Create";
+        final String fieldName = "Check create and delete";
+
+        WebElement itemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        itemButton.click();
+
+        WebElement enterField = getDriver().findElement(By.xpath("//input[@name='name']"));
+        enterField.sendKeys(fieldName);
+
+        WebElement multiBranch = getDriver().findElement
+                (By.xpath("//span[normalize-space(.)='Multibranch Pipeline']"));
+        multiBranch.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        okButton.click();
+
+        WebElement enterDisplayName = getDriver().findElement
+                (By.xpath("//div[@class='setting-main']/input[@class='jenkins-input validated  ']"));
+        enterDisplayName.sendKeys(displayName);
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[normalize-space(.)='Save']"));
+        saveButton.click();
+
+        WebElement checkDisplayName = getDriver().findElement(By.xpath("//h1[normalize-space()='Create']"));
+        Assert.assertEquals(checkDisplayName.getText(),displayName);
+
+        WebElement deleteMultibranch = getDriver().findElement
+                (By.xpath("//span[normalize-space(.)='Delete Multibranch Pipeline']"));
+        deleteMultibranch.click();
+
+        WebElement confirmationButton = getDriver().findElement
+                (By.xpath("//button[normalize-space(.)='Yes']"));
+        confirmationButton.click();
+
+        WebElement deleteCheck = getDriver().findElement
+                (By.xpath("//h2[normalize-space(.)='Start building your software project']"));
+        Assert.assertEquals(deleteCheck.getText(),"Start building your software project");
+    }
+
 }

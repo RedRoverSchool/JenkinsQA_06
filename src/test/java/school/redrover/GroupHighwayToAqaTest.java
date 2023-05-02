@@ -240,7 +240,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
     @Test
     public void testCreateNewProject() throws InterruptedException {
 
-        String name ="Мой проект";
+        String name = "Мой проект";
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(7));
 
         getDriver().findElement(NEW_ITEM).click();
@@ -250,10 +250,10 @@ public class GroupHighwayToAqaTest extends BaseTest {
         WebElement chooseProject = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
         chooseProject.click();
         getDriver().findElement(OK_BUTTON).click();
-        WebElement saveChanges=wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
+        WebElement saveChanges = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
         saveChanges.click();
-        String successMessageOfNewProject=getDriver().findElement(By.className("job-index-headline")).getText();
-        Assert.assertEquals(successMessageOfNewProject,"Project "+ name);
+        String successMessageOfNewProject = getDriver().findElement(By.className("job-index-headline")).getText();
+        Assert.assertEquals(successMessageOfNewProject, "Project " + name);
 
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(NEW_ITEM).click();
@@ -262,10 +262,10 @@ public class GroupHighwayToAqaTest extends BaseTest {
         chooseProject1.click();
         getDriver().findElement(OK_BUTTON).click();
         Thread.sleep(5000);
-        String errorMessage="Error\n" +
+        String errorMessage = "Error\n" +
                 "A job already exists with the name ‘Мой проект’";
-        String effortMessage=getDriver().findElement(By.id("main-panel")).getText();
-        Assert.assertEquals(effortMessage,errorMessage);
+        String effortMessage = getDriver().findElement(By.id("main-panel")).getText();
+        Assert.assertEquals(effortMessage, errorMessage);
     }
 
     @Test
@@ -420,7 +420,7 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         List<String> actualTitles = new ArrayList<>();
 
-        for (WebElement title :sectionTitles) {
+        for (WebElement title : sectionTitles) {
             actualTitles.add(title.getText());
         }
 
@@ -428,4 +428,25 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         Assert.assertEquals(actualTitles, expectedTitles);
     }
+
+    @Test
+    public void testIconSizeButtonsOnBuildHistoryPageAreDisplayedAndClickable() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        WebElement buildHistoryLink = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buildHistoryLink.click();
+
+        List<WebElement> iconSizeButtons = getDriver().findElements(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']"));
+
+        for (WebElement checkedElement : iconSizeButtons) {
+            if (checkedElement.isEnabled() && checkedElement.isDisplayed()) {
+                wait.until(ExpectedConditions.visibilityOf(checkedElement));
+                wait.until(ExpectedConditions.elementToBeClickable(checkedElement));
+            } else {
+                Assert.fail("Icon size button is not clickable or visible.");
+            }
+        }
+        Assert.assertTrue(iconSizeButtons.size() > 0, "No icon size buttons found on the page.");
+    }
 }
+
