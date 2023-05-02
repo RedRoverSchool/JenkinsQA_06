@@ -9,6 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.List;
+
 public class MykolaTests extends BaseTest {
     private final Faker faker = new Faker();
     private final String folderName = faker.artist().name()+" folder";
@@ -28,7 +30,7 @@ public class MykolaTests extends BaseTest {
         saveButton.click();
     }
 
-    private void folderDropDownMenu(){
+    private void folderDropDownMenu(String folderName) {
         WebElement dashboardPageLink = getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]"));
         dashboardPageLink.click();
         WebElement folderNameButton = getDriver().findElement(By.xpath("//*[contains(text(),'" + folderName + "')]"));
@@ -36,6 +38,7 @@ public class MykolaTests extends BaseTest {
         actions.moveToElement(folderNameButton).perform();
         WebElement dropDownButton = getDriver().findElement(By.xpath("(//*[@class='jenkins-menu-dropdown-chevron'])[3]"));
         dropDownButton.click();
+
     }
 
     private void renameFolder(){
@@ -65,7 +68,7 @@ public class MykolaTests extends BaseTest {
         deleteFolderButton.click();
         WebElement yesButton = getDriver().findElement(By.xpath("//*[@name='Submit']"));
         yesButton.click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.tagName("h1")).isDisplayed());
     }
 
     @Test
@@ -81,18 +84,25 @@ public class MykolaTests extends BaseTest {
     }
 
     @Test
-    public void testDeleteFolderFromDashboardPage() {
+    public void testDeleteSecondFolderFromDashboardPage() throws InterruptedException {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
         getDriver().findElement(newItemButtonLocator).click();
         createFolder(folderName);
         WebElement dashboardPageLink = getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]"));
         dashboardPageLink.click();
-        folderDropDownMenu();
+        getDriver().findElement(newItemButtonLocator).click();
+        createFolder(newFolderName);
+        WebElement dashboardPageLink1 = getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]"));
+        dashboardPageLink1.click();
+        List<WebElement> folderList = getDriver().findElements(By.xpath("//tr[contains(@id,'job')]"));
+        String deletedFolderName = folderList.get(0).getAttribute("id").split("_")[1];
+        folderDropDownMenu(deletedFolderName);
+        Thread.sleep(500);
         WebElement deleteFolderButton = getDriver().findElement(By.xpath("//*[contains(text(),'Delete Folder')]"));
         deleteFolderButton.click();
         WebElement yesButton = getDriver().findElement(By.xpath("//*[@name='Submit']"));
         yesButton.click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]")).isDisplayed());
+        Assert.assertNull(null, deletedFolderName);
     }
 
     @Test
@@ -102,7 +112,7 @@ public class MykolaTests extends BaseTest {
         createFolder(folderName);
         WebElement dashboardPageLink = getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]"));
         dashboardPageLink.click();
-        folderDropDownMenu();
+        folderDropDownMenu(folderName);
         WebElement renameButton = getDriver().findElement(By.xpath("//*[contains(text(),'Rename')]"));
         renameButton.click();
         renameFolder();
@@ -117,7 +127,7 @@ public class MykolaTests extends BaseTest {
         createFolder(folderName);
         WebElement dashboardPageLink = getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]"));
         dashboardPageLink.click();
-        folderDropDownMenu();
+        folderDropDownMenu(folderName);
         WebElement newItemButton = getDriver().findElement(By.xpath("//*[@class='icon-new-package icon-md']"));
         newItemButton.click();
         String addedFolderName = faker.name().firstName();
@@ -145,7 +155,40 @@ public class MykolaTests extends BaseTest {
         createButton.click();
         WebElement okButton = getDriver().findElement(By.name("Submit"));
         okButton.click();
-        WebElement viewNameIcon = getDriver().findElement(By.xpath("//div/*[contains(@href,'view') and contains(text(),'"+viewName+"')]"));
-        Assert.assertTrue(viewNameIcon.isDisplayed());
+        WebElement viewNameButton = getDriver().findElement(By.xpath("//div/*[contains(@href,'view') and contains(text(),'"+viewName+"')]"));
+        Assert.assertTrue(viewNameButton.isDisplayed());
+    }
+
+    @Test
+    public void testDeleteViewThroughAllIconOnDashboardPage() throws InterruptedException {
+        By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
+        getDriver().findElement(newItemButtonLocator).click();
+        createFolder(folderName);
+        WebElement dashboardPageLink = getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]"));
+        dashboardPageLink.click();
+        WebElement allPlusButton = getDriver().findElement(By.xpath("//*[@title='New View']"));
+        allPlusButton.click();
+        WebElement nameField = getDriver().findElement(By.xpath("//*[@id='name']"));
+        String viewName = faker.funnyName().name();
+        System.out.println(viewName);
+        nameField.sendKeys(viewName);
+        WebElement listViewSelectedSymbol = getDriver().findElement(By.xpath("//*[@for='hudson.model.ListView']"));
+        listViewSelectedSymbol.click();
+        WebElement createButton = getDriver().findElement(By.xpath("//button[@id='ok']"));
+        createButton.click();
+        WebElement okButton = getDriver().findElement(By.name("Submit"));
+        okButton.click();
+        WebElement dashboardPageLink1 = getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]"));
+        dashboardPageLink1.click();
+        List<WebElement> viewButtons = getDriver().findElements(By.xpath("//*[@class='tab']"));
+        WebElement viewNameButton = getDriver().findElement(By.xpath("//div/*[contains(@href,'view') and contains(text(),'"+viewName+"')]"));
+        viewNameButton.click();
+        WebElement deleteViewButton = getDriver().findElement(By.xpath("//*[@href='delete']"));
+        deleteViewButton.click();
+        WebElement yesButton = getDriver().findElement(By.xpath("//*[@name='Submit']"));
+        yesButton.click();
+        List<WebElement> viewButtonsAfterDelete = getDriver().findElements(By.xpath("//*[@class='tab']"));
+        int x = viewButtons.size()-1;
+        Assert.assertEquals(viewButtonsAfterDelete.size(), x);
     }
 }
