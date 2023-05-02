@@ -8,8 +8,8 @@ import org.openqa.selenium.interactions.WheelInput;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
+import java.util.List;
 
 public class ComradesAdelanteGroupTest extends BaseTest {
 
@@ -108,7 +108,7 @@ public class ComradesAdelanteGroupTest extends BaseTest {
         submitButton.click();
 
         Assert.assertEquals(getDriver().findElement(
-               By.xpath("//*[text()='First job']")).getText(), "First job");
+                By.xpath("//*[text()='First job']")).getText(), "First job");
     }
 
     @Test
@@ -122,6 +122,7 @@ public class ComradesAdelanteGroupTest extends BaseTest {
 
         Assert.assertEquals(actualUserPageHeader, expectedUserPageHeader);
     }
+
     @Test
     public void testCreateNewBuildJob() throws InterruptedException {
         WebElement taskLinkText = getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]/span/a"));
@@ -188,5 +189,13 @@ public class ComradesAdelanteGroupTest extends BaseTest {
         consoleOut.click();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//*[@class='console-output']")).getText().contains("Finished: SUCCESS"));
+    }
+
+    @Test
+    public void testCountTask() {
+        List<WebElement> sidePanelCountTasksList = getDriver().findElements(
+                By.xpath("//*[@class='task ']")
+        );
+        Assert.assertEquals(sidePanelCountTasksList.size(),5);
     }
 }
