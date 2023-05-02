@@ -1,7 +1,7 @@
 package school.redrover;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -29,7 +29,28 @@ public class MultibranchPipelineTest extends BaseTest {
     private WebElement descriptionField;
     @FindBy(xpath = "//div[@id='main-panel']//h1")
     private WebElement multibranchPipelineDisplayName;
-
+    @FindBy(xpath = "//span[text()='Organization Folder']")
+    private WebElement organizationFolderLabel;
+    @FindBy(xpath = "//label[text()='Abort builds']")
+    private WebElement abortBuildsLabel;
+    @FindBy(xpath = "//div[@id='orphaned-item-strategy']")
+    private WebElement orphanedItemStrategy;
+    @FindBy(xpath = "//div[normalize-space()='Child Scan Triggers']")
+    private  WebElement childScanTriggers;
+    @FindBy(xpath = "//div[contains(@class,'jenkins-form-item jenkins-form-item--tight')]"
+            + "//div//div[contains(@class,'optionalBlock-container "
+            + "jenkins-form-item jenkins-form-item--tight')]"
+            + "//select[contains(@name,'_.interval')]")
+    private WebElement intervalDropDownMenu;
+    @FindBy(xpath = "//div[contains(@class,'jenkins-form-item jenkins-form-item--tight')]"
+            + "//div//div[contains(@class,'optionalBlock-container "
+            + "jenkins-form-item jenkins-form-item--tight')]//option"
+            + "[contains(@value,'7')]")
+    private WebElement interval7d;
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement buttonSubmitSave;
+    @FindBy(xpath = "//div[@id='view-message']")
+    private WebElement actualResult;
     public WebDriverWait webDriverWait10;
 
     public final WebDriverWait getWait10() {
@@ -56,9 +77,38 @@ public class MultibranchPipelineTest extends BaseTest {
         stringSearchItemName.sendKeys("TestName");
     }
 
+    public void enterAnItemNameTest() {
+        stringSearchItemName.sendKeys("Test");
+    }
+
     public void clickMultibranchPipeline() {
         verifyElementVisible(multibranchPipelineButton);
         verifyElementClickable(multibranchPipelineButton).click();
+    }
+
+    public void clickOrganizationFolderLabel() {
+        verifyElementVisible(organizationFolderLabel);
+        verifyElementClickable(organizationFolderLabel).click();
+    }
+
+    public void clickAbortBuildsLabel() {
+        verifyElementVisible(abortBuildsLabel);
+        verifyElementClickable(abortBuildsLabel).click();
+    }
+
+    public void clickIntervalDropDownMenu() {
+        verifyElementVisible(intervalDropDownMenu);
+        verifyElementClickable(intervalDropDownMenu).click();
+    }
+
+    public void clickInterval7d() {
+        verifyElementVisible(interval7d);
+        verifyElementClickable(interval7d).click();
+    }
+
+    public void clickSave() {
+        verifyElementVisible(buttonSubmitSave);
+        verifyElementClickable(buttonSubmitSave).click();
     }
 
     public void enterTinaInDisplayNameField() {
@@ -66,13 +116,22 @@ public class MultibranchPipelineTest extends BaseTest {
         displayNameField.sendKeys("Tina", Keys.ENTER);
     }
 
+    public void enterNameInDisplayNameField() {
+        verifyElementClickable(displayNameField).click();
+        displayNameField.sendKeys("Test");
+    }
     public void enterValueInDescriptionField() {
         verifyElementClickable(descriptionField).click();
         descriptionField.sendKeys("Test");
     }
-    public void clickSaveButton() {
+    public void clickOkButton() {
         verifyElementVisible(saveButton);
         verifyElementClickable(saveButton).click();
+    }
+
+    public void scrollByElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", element);
     }
 
     @Test
@@ -82,11 +141,30 @@ public class MultibranchPipelineTest extends BaseTest {
         clickNewItemButton();
         enterAnItemName();
         clickMultibranchPipeline();
-        clickSaveButton();
-        getWait10();
+        clickOkButton();
         enterValueInDescriptionField();
         enterTinaInDisplayNameField();
 
         Assert.assertEquals(multibranchPipelineDisplayName.getText(), expectedRes );
+    }
+
+    @Test
+    public void testCreateOrganizationFolder() {
+        final String expectedResult = "Test";
+        PageFactory.initElements(getDriver(), this);
+        clickNewItemButton();
+        enterAnItemNameTest();
+        clickOrganizationFolderLabel();
+        clickOkButton();
+        enterNameInDisplayNameField();
+        enterValueInDescriptionField();
+        scrollByElement(orphanedItemStrategy);
+        clickAbortBuildsLabel();
+        scrollByElement(childScanTriggers);
+        clickIntervalDropDownMenu();
+        clickInterval7d();
+        clickSave();
+
+        Assert.assertEquals(actualResult.getText(), expectedResult);
     }
 }

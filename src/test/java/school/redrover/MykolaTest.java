@@ -11,12 +11,12 @@ import school.redrover.runner.BaseTest;
 
 import java.util.List;
 
-public class MykolaTests extends BaseTest {
+public class MykolaTest extends BaseTest {
     private final Faker faker = new Faker();
-    private final String folderName = faker.artist().name()+" folder";
-    private final String newFolderName = faker.funnyName().name()+" folder";
+    private final String folderName = faker.artist().name() + " folder";
+    private final String newFolderName = faker.funnyName().name() + " folder";
 
-    private void createFolder(String nameFolder){
+    private void createFolder(String nameFolder) {
         WebElement textField = getDriver().findElement(By.xpath("//*[@id='name']"));
         System.out.println(nameFolder);
         textField.sendKeys(nameFolder);
@@ -41,10 +41,10 @@ public class MykolaTests extends BaseTest {
 
     }
 
-    private void renameFolder(){
+    private void renameFolder() {
         WebElement newNameField = getDriver().findElement(By.name("newName"));
         newNameField.sendKeys(Keys.CONTROL + "a");
-        System.out.println("New folder name - "+newFolderName);
+        System.out.println("New folder name - " + newFolderName);
         newNameField.sendKeys(newFolderName);
         WebElement blueRenameButton = getDriver().findElement(By.name("Submit"));
         blueRenameButton.click();
@@ -106,7 +106,7 @@ public class MykolaTests extends BaseTest {
     }
 
     @Test
-    public void testRenameFolderFromDashboardPage(){
+    public void testRenameFolderFromDashboardPage() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
         getDriver().findElement(newItemButtonLocator).click();
         createFolder(folderName);
@@ -121,7 +121,7 @@ public class MykolaTests extends BaseTest {
     }
 
     @Test
-    public void testAddFolderInExistingFolderThroughDropDownMenu(){
+    public void testAddFolderInExistingFolderThroughDropDownMenu() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
         getDriver().findElement(newItemButtonLocator).click();
         createFolder(folderName);
@@ -137,7 +137,7 @@ public class MykolaTests extends BaseTest {
     }
 
     @Test
-    public void testAddNewViewThroughAllIconOnCreatedFolder(){
+    public void testAddNewViewThroughAllIconOnCreatedFolder() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
         getDriver().findElement(newItemButtonLocator).click();
         createFolder(folderName);
@@ -155,7 +155,7 @@ public class MykolaTests extends BaseTest {
         createButton.click();
         WebElement okButton = getDriver().findElement(By.name("Submit"));
         okButton.click();
-        WebElement viewNameButton = getDriver().findElement(By.xpath("//div/*[contains(@href,'view') and contains(text(),'"+viewName+"')]"));
+        WebElement viewNameButton = getDriver().findElement(By.xpath("//div/*[contains(@href,'view') and contains(text(),'" + viewName + "')]"));
         Assert.assertTrue(viewNameButton.isDisplayed());
     }
 
@@ -181,14 +181,14 @@ public class MykolaTests extends BaseTest {
         WebElement dashboardPageLink1 = getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]"));
         dashboardPageLink1.click();
         List<WebElement> viewButtons = getDriver().findElements(By.xpath("//*[@class='tab']"));
-        WebElement viewNameButton = getDriver().findElement(By.xpath("//div/*[contains(@href,'view') and contains(text(),'"+viewName+"')]"));
+        WebElement viewNameButton = getDriver().findElement(By.xpath("//div/*[contains(@href,'view') and contains(text(),'" + viewName + "')]"));
         viewNameButton.click();
         WebElement deleteViewButton = getDriver().findElement(By.xpath("//*[@href='delete']"));
         deleteViewButton.click();
         WebElement yesButton = getDriver().findElement(By.xpath("//*[@name='Submit']"));
         yesButton.click();
         List<WebElement> viewButtonsAfterDelete = getDriver().findElements(By.xpath("//*[@class='tab']"));
-        int x = viewButtons.size()-1;
+        int x = viewButtons.size() - 1;
         Assert.assertEquals(viewButtonsAfterDelete.size(), x);
     }
 }
