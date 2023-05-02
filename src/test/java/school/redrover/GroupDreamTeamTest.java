@@ -260,6 +260,7 @@ public class GroupDreamTeamTest extends BaseTest {
         manageCredentials.click();
         WebElement storesScope = getDriver().findElement(By.xpath("//h2"));
 
+
         Assert.assertEquals(storesScope.getText(), "Stores scoped to Jenkins");
     }
 }
