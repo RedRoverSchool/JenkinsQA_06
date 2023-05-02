@@ -11,7 +11,7 @@ import school.redrover.runner.BaseTest;
 
 import java.util.List;
 
-public class MykolaTest extends BaseTest {
+public class MykolaTests extends BaseTest {
     private final Faker faker = new Faker();
     private final String folderName = faker.artist().name() + " folder";
     private final String newFolderName = faker.funnyName().name() + " folder";
@@ -160,7 +160,7 @@ public class MykolaTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteViewThroughAllIconOnDashboardPage() throws InterruptedException {
+    public void testDeleteViewThroughAllIconOnDashboardPage() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
         getDriver().findElement(newItemButtonLocator).click();
         createFolder(folderName);
