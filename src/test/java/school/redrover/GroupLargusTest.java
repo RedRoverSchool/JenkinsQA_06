@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -96,7 +97,8 @@ public class GroupLargusTest extends BaseTest {
     @Test
     public void testDisplayedErrorWhenDontInputInfoAboutGithub() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        String projectDescription = "example";
+        Actions actions= new Actions(getDriver());
+        String projectDescription = "AdvancedProjectName";
 
         getDriver().findElement(By.xpath("//div[@id='tasks']//a[contains(@href, 'newJob')]")).click();
 
@@ -112,9 +114,20 @@ public class GroupLargusTest extends BaseTest {
         getDriver().findElement(By.xpath(
                 "//label[contains(text(), 'Abort previous builds')]/..")).click();
         getDriver().findElement(By.xpath("//input[@name='githubProject']/following-sibling::label")).click();
-        getDriver().findElement(By.xpath(
-                "//div[contains(@class, 'jenkins-section')]//button[contains(@class, 'advanced')]")).click();
-        getDriver().findElement(By.name("_.displayNameOrNull")).sendKeys(projectDescription);
+        //scroll is needed
+        WebElement buttonAdvancedProjectOptions = getDriver().findElement(By.xpath(
+                "//div[contains(@class, 'jenkins-section')]//button[contains(@class, 'advanced')]"));
+        actions
+                .scrollToElement(buttonAdvancedProjectOptions)
+                .scrollByAmount(0,300)
+                .moveToElement(buttonAdvancedProjectOptions)
+                .click()
+                .build()
+                .perform();
+
+        WebElement inputAdvancedDisplayName = getDriver().findElement(By.name("_.displayNameOrNull"));
+
+        inputAdvancedDisplayName.sendKeys(projectDescription);
         getDriver().findElement(By.xpath(
                 "//div[@id='pipeline']/following-sibling::div[@class='jenkins-form-item']//select/" +
                         "option[@value='1']")).click();
@@ -122,11 +135,29 @@ public class GroupLargusTest extends BaseTest {
 
         getDriver().findElement(By.id("jenkins-home-link")).click();
 
-        getDriver().findElement(By.xpath(
-                "//span[text()=" + projectDescription + "]/following-sibling::button")).click();
-        getDriver().findElement(By.xpath("//span[text()='Configure']/..")).click();
+        WebElement projectNameInList = getDriver().findElement(By.xpath(
+                "//tr[@id='job_" + projectName + "']//span[text()='" + projectDescription + "']"));
 
-        Assert.assertTrue(getDriver().findElement(By.xpath(
-                "//div[@class='error' and contains(text(), 'Please enter Git repository')]")).isDisplayed());
+        //button[@class='jenkins-menu-dropdown-chevron']
+        actions
+                .moveToElement(projectNameInList)
+                .build().perform();
+        WebElement dropdownListForProject = getDriver().findElement(By.xpath(
+                "//tr[@id='job_" + projectName + "']//span[text()='" + projectDescription + "']/following-sibling::button"));
+        actions
+                .moveToElement(dropdownListForProject)
+                .click(dropdownListForProject)
+                .build().perform();
+
+        getDriver().findElement(By.xpath("//a[@href='/job/" + projectName + "/configure']")).click();
+        actions
+                .scrollByAmount(0, 1000)
+                .build().perform();
+
+        WebElement errorMessage = getDriver().findElement(By.xpath(
+                "//input[@name='_.url']/../following-sibling::div//div[@class='error']"));
+
+        Assert.assertTrue(errorMessage.isEnabled());
+        // and contains(text(), 'Please enter Git repository')
     }
 }
