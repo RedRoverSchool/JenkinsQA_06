@@ -197,5 +197,10 @@ public class ComradesAdelanteGroupTest extends BaseTest {
                 By.xpath("//*[@class='task ']")
         );
         Assert.assertEquals(sidePanelCountTasksList.size(),5);
+        Assert.assertEquals(sidePanelCountTasksList.get(0).getText(), "New Item");
+        Assert.assertEquals(sidePanelCountTasksList.get(1).getText(), "People");
+        Assert.assertEquals(sidePanelCountTasksList.get(2).getText(), "Build History");
+        Assert.assertEquals(sidePanelCountTasksList.get(3).getText(), "Manage Jenkins");
+        Assert.assertEquals(sidePanelCountTasksList.get(4).getText(), "My Views");
     }
 }
