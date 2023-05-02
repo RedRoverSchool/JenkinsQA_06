@@ -148,4 +148,55 @@ public class GroupJavaExplorersTest extends BaseTest {
 
     }
 
+    @Test
+    public void testCreateNewPipelineAsCopy() {
+        final String newName = "1st job";
+        final String secondName = "2nd job";
+        final String expectedNameOfCopyJob = "Pipeline 2nd job";
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        WebElement buttonCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        buttonCreateItem.click();
+
+        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        fieldInputName.click();
+        fieldInputName.sendKeys(newName);
+
+        WebElement buttonPipeline = getDriver().findElement(By.xpath("//span[text() = 'Pipeline']"));
+        buttonPipeline.click();
+
+        WebElement buttonOk = getDriver().findElement(By.xpath("//button[@type='submit']"));
+        buttonOk.click();
+
+        WebElement buttonSave = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        buttonSave.click();
+
+        WebElement homeLink = getDriver().findElement(By.xpath("//a[@href = '/']"));
+        homeLink.click();
+
+        WebElement buttonCreateItem2 = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        buttonCreateItem2.click();
+
+        WebElement fieldInputName2 = getDriver().findElement(By.xpath("//input[@id='name']"));
+        fieldInputName2.click();
+        fieldInputName2.sendKeys(secondName);
+
+        WebElement buttonPipeline2 = getDriver().findElement(By.xpath("//span[text() = 'Pipeline']"));
+        buttonPipeline2.click();
+
+        WebElement inputFrom = getDriver().findElement(By.xpath("//input[@id = 'from']"));
+        inputFrom.sendKeys(newName);
+
+        WebElement buttonOk2 = getDriver().findElement(By.xpath("//button[@type='submit']"));
+        buttonOk2.click();
+
+        WebElement buttonSave2 = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        buttonSave2.click();
+
+        WebElement titleName = getDriver().findElement(By.xpath("//h1"));
+        String actualNameOfCopyJob = titleName.getText();
+        Assert.assertEquals(actualNameOfCopyJob, expectedNameOfCopyJob);
+    }
+
 }

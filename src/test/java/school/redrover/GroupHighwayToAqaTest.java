@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -434,8 +433,8 @@ public class GroupHighwayToAqaTest extends BaseTest {
     public void testIconSizeButtonsOnBuildHistoryPageAreDisplayedAndClickable() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-        WebElement buildHistoryNavigation = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
-        buildHistoryNavigation.click();
+        WebElement buildHistoryLink = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buildHistoryLink.click();
 
         List<WebElement> iconSizeButtons = getDriver().findElements(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']"));
 
