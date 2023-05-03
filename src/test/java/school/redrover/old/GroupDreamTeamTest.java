@@ -90,5 +90,4 @@ public class GroupDreamTeamTest extends BaseTest {
         String value = message.getText();
         Assert.assertEquals("Received!", value);
     }
-
 }
