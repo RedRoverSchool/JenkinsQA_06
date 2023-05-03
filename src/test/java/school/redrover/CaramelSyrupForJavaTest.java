@@ -281,7 +281,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testMainMenu() {
+    public void testADMainMenu() {
         getDriver().findElement(By.cssSelector("#tasks  a[href$='/newJob']")).click();
         Assert.assertEquals(getDriver().findElement(By.cssSelector(".h3")).getText(), "Enter an item name");
         getDriver().navigate().back();
@@ -299,21 +299,10 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testNameUser() {
-        getDriver().findElement(By.cssSelector("[href='/logout']")).click();
-        WebElement login = getDriver().findElement(By.cssSelector("form[name='login'] input[name='j_username']"));
-        login.click();
-        login.sendKeys("ArtyomDulya");
-        WebElement password = getDriver().findElement(By.cssSelector("form[name='login'] input[name='j_password']"));
-        password.click();
-        password.sendKeys("6da584b873ff481aa60ce442bb84921d");
-        getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
-
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector("#tasks [href*='People']")))).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//td[text()='ArtyomDulya']")).getText(), "ArtyomDulya");
+    public void testADBanner() {
+        String expectedResult = "Welcome to Jenkins!";
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), expectedResult);
     }
-
 
 
 
