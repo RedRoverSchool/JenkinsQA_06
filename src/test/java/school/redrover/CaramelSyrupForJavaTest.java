@@ -325,6 +325,57 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), expectedResult);
     }
 
+    @Test
+    public void testADManagePanel() {
+        List <String> expectedResult = Arrays.asList(
+                "Configure System",
+                "Global Tool Configuration",
+                "Manage Plugins",
+                "Manage Nodes and Clouds",
+                "Configure Global Security",
+                "Credentials",
+                "Credential Providers",
+                "Manage Users",
+                "In-process Script Approval",
+                "System Information",
+                "System Log",
+                "Load Statistics",
+                "About Jenkins",
+                "Manage Old Data",
+                "Reload Configuration from Disk",
+                "Jenkins CLI",
+                "Script Console",
+                "Prepare for Shutdown");
+        List <String> actualResult = new ArrayList<>();
+
+        getDriver().findElement(By.cssSelector("#tasks [href='/manage']")).click();
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='configure'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='configureTools'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='pluginManager'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='computer'] dt")).getText());
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='configureSecurity'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='credentials'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='configureCredentials'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='securityRealm/'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='scriptApproval'] dt")).getText());
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='systemInfo'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='log'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href^='load'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='about'] dt")).getText());
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[href$='OldData/'] dt")).getText());
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[data-url='reload'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='cli'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='script'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='prepareShutdown'] dt")).getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
 
 
 }
