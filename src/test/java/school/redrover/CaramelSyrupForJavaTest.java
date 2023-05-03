@@ -3,6 +3,7 @@ package school.redrover;
 import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -14,6 +15,32 @@ import java.time.Duration;
 import java.util.*;
 
 public class CaramelSyrupForJavaTest extends BaseTest {
+
+    protected void waitForElementToBeDisplayed(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        ExpectedCondition<Boolean> elementDisplayed = arg0 -> {
+            try {
+                element.isDisplayed();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        };
+        wait.until(elementDisplayed);
+    }
+
+    protected void clickCustom(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        ExpectedCondition<Boolean> elementIsClickable = arg0 -> {
+            try {
+                element.click();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        };
+        wait.until(elementIsClickable);
+    }
 
     @Test
     public void testAbramovaHotKeys() {
@@ -323,24 +350,31 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
     @Test
     public void testADLearnMoreHeaders() {
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         List<String> expectedResult = Arrays.asList("Enter an item name", "New node", "Configure Clouds", "Jenkins");
 
-        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")).click();
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")));
+        clickCustom(getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")));
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//label[text()='Enter an item name']")));
         Assert.assertEquals(getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText(), expectedResult.get(0));
         getDriver().navigate().back();
 
-        getDriver().findElement(By.xpath("//span[text()='Set up an agent']")).click();
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//span[text()='Set up an agent']")));
+        clickCustom(getDriver().findElement(By.xpath("//span[text()='Set up an agent']")));
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//h1[text()='New node']")));
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='New node']")).getText(), expectedResult.get(1));
         getDriver().navigate().back();
 
-        getDriver().findElement(By.xpath("//a[@href='configureClouds']")).click();
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//a[@href='configureClouds']")));
+        clickCustom(getDriver().findElement(By.xpath("//a[@href='configureClouds']")));
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//h1[text()='Configure Clouds']")));
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Configure Clouds']")).getText(), expectedResult.get(2));
         getDriver().navigate().back();
 
-        getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")).click();
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")));
+        clickCustom(getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")));
         List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(windows.get(1));
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//a[text()='Jenkins']")));
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[text()='Jenkins']")).getText(), expectedResult.get(3));
     }
 
