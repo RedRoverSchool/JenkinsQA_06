@@ -349,7 +349,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testADLearnMoreHeaders() {
+    public void testADLearnMoreHeaders()  {
         List<String> expectedResult = Arrays.asList("Enter an item name", "New node", "Configure Clouds", "Jenkins");
 
         waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")));
@@ -358,7 +358,10 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText(), expectedResult.get(0));
         getDriver().navigate().back();
 
-        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[2]/div/section[2]/ul/li[1]/a/span[1]")));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//a[@href='computer/new']")));
         clickCustom(getDriver().findElement(By.xpath("//span[text()='Set up an agent']")));
         waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//h1[text()='New node']")));
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='New node']")).getText(), expectedResult.get(1));
