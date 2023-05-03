@@ -30,8 +30,8 @@ public class QaRabbitHoleTest extends BaseTest {
 
     @Test
     public void testLogout() {
-        WebElement logout = getDriver().findElement((By.xpath("//a[@href='/logout']")));
-        logout.click();
+        WebElement exit = getDriver().findElement((By.xpath("//a[@href='/logout']")));
+        exit.click();
 
         WebElement modalLogin = getDriver().findElement(By.xpath("//div[@class = 'simple-page']"));
         Assert.assertTrue(modalLogin.isDisplayed());
