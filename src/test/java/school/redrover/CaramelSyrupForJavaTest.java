@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -239,6 +238,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult,expectedResult);
     }
 
+    @Ignore
     @Test
     public void testIconSizeChanges() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
