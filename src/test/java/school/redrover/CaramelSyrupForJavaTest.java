@@ -302,25 +302,21 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testADLearnMoreHeaders() {
-        List<String> expectedResult = Arrays.asList("Enter an item name", "New node", "Configure Clouds", "Jenkins");
-
-        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText(), expectedResult.get(0));
+    public void testMainMenu() {
+        getDriver().findElement(By.cssSelector("#tasks  a[href$='/newJob']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector(".h3")).getText(), "Enter an item name");
         getDriver().navigate().back();
-
-        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='computer/new']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='New node']")).getText(), expectedResult.get(1));
+        getDriver().findElement(By.cssSelector("#tasks [href*='People']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), "People");
         getDriver().navigate().back();
-
-        getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='configureClouds']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Configure Clouds']")).getText(), expectedResult.get(2));
+        getDriver().findElement(By.cssSelector("#tasks [href$='builds']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), "Build History of Jenkins");
         getDriver().navigate().back();
-
-        getDriver().findElement(By.xpath("//span[text()='Learn more about distributed builds']")).click();
-        List<String> windows = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(windows.get(1));
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[text()='Jenkins']")).getText(), expectedResult.get(3));
+        getDriver().findElement(By.cssSelector("#tasks [href$='manage']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), "Manage Jenkins");
+        getDriver().navigate().back();
+        getDriver().findElement(By.cssSelector("#tasks [href$='views']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h2")).getText(), "This folder is empty");
     }
 }
 
