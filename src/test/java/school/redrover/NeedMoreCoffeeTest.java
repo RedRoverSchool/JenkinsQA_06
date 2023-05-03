@@ -185,26 +185,39 @@ public class NeedMoreCoffeeTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescription() {
+    public void testCreateUser() {
 
-        WebElement description = getDriver().findElement(By.xpath("//a[@id='description-link']"));
-        description.sendKeys(Keys.RETURN);
-        WebDriverWait waiter = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        WebElement field = waiter.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//textarea[@name='description']")));
-        field.sendKeys("Hello World!");
-        WebElement tabSave = getDriver().findElement(By.xpath("//button[normalize-space()='Save']"));
-        tabSave.sendKeys(Keys.RETURN);
-        WebElement text = getDriver().findElement(By.xpath("//*[@id=\"description\"]/div[1]"));
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        manageJenkins.sendKeys(Keys.RETURN);
+        WebElement manageUsers = getDriver().findElement(By.xpath("//a[@href='securityRealm/']"));
+        manageUsers.sendKeys(Keys.RETURN);
+        WebElement createUsers = getDriver().findElement(By.xpath("//a[normalize-space()='Create User']"));
+        createUsers.sendKeys(Keys.RETURN);
+        WebElement userName = getDriver().findElement(By.xpath("//input[@id='username']"));
+        userName.sendKeys("Eleonora");
+        WebElement password = getDriver().findElement(By.xpath("//input[@name='password1']"));
+        password.sendKeys("Abc123");
+        WebElement confirmPassword = getDriver().findElement(By.xpath("//input[@name='password2']"));
+        confirmPassword.sendKeys("Abc123");
+        WebElement fullName = getDriver().findElement(By.xpath("//input[@name='fullname']"));
+        fullName.sendKeys("Eleonora Butonaeva");
+        WebElement emailAddress = getDriver().findElement(By.xpath("//input[@name='email']"));
+        emailAddress.sendKeys("butonaevaeleonora@gmail.com");
+        WebElement createUser = getDriver().findElement(By.xpath("//button[normalize-space()='Create User']"));
+        createUser.sendKeys(Keys.RETURN);
 
-        Assert.assertEquals(text.getText(), "Hello World!");
+        WebElement name = getDriver().findElement(By.xpath("//th[3]"));
+        name.click();
 
-        WebElement editDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
-        editDescription.sendKeys(Keys.RETURN);
-        WebElement plainText = getDriver().findElement(By.xpath("(//textarea[@name='description'])[1]"));
-        plainText.sendKeys(Keys.CONTROL+"a");
-        plainText.sendKeys(Keys.DELETE);
-        WebElement buttonSave = getDriver().findElement(By.xpath("//button[normalize-space()='Save']"));
-        buttonSave.sendKeys(Keys.RETURN);
+        WebElement userId = getDriver().findElement(By.xpath("//a[normalize-space()='Eleonora']"));
+
+        Assert.assertEquals(userId.getText(), "Eleonora");
+
+        WebElement delete = getDriver().findElement(By.xpath("//a[@class='jenkins-table__button" +
+                " jenkins-!-destructive-color']//*[name()='svg']"));
+        delete.click();
+        WebElement buttonYes = getDriver().findElement(By.xpath("//button[normalize-space()='Yes']"));
+        buttonYes.sendKeys(Keys.RETURN);
 
     }
 }
