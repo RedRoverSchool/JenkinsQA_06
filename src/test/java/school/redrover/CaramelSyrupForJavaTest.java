@@ -92,7 +92,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actResName, expResName);
     }
 
-    @Ignore
+
     @Test
     public void testADCreateJobProject() {
         String expectedResultSummary = "Project Engineer";
@@ -121,27 +121,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResultSummary, expectedResultSummary);
         Assert.assertEquals(actualResultDescription, expectedResultDescription);
-    }
-
-    @Ignore
-    @Test
-    public void testADLearnMore() {
-        String expectedResult = "static content of the Wiki";
-        WebElement learnMoreHref = getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/redirect/distributed-builds']"));
-        learnMoreHref.click();
-        ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(windows.get(1));
-
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-
-        WebElement atlassianHref = getDriver().findElement(By.xpath("//a[@href='/display/']"));
-        atlassianHref.click();
-        WebElement wikiJenkinsHref = getDriver().findElement(By.xpath("//a[text()='static content of the Wiki']"));
-        String actualResult = wikiJenkinsHref.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
-
     }
 
     @Ignore
@@ -318,6 +297,22 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         getDriver().findElement(By.cssSelector("#tasks [href$='views']")).click();
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h2")).getText(), "This folder is empty");
     }
+
+    @Test
+    public void testNameUser() {
+        getDriver().findElement(By.cssSelector("[href='/logout']")).click();
+        WebElement login = getDriver().findElement(By.cssSelector("form[name='login'] input[name='j_username']"));
+        login.click();
+        login.sendKeys("ArtyomDulya");
+        WebElement password = getDriver().findElement(By.cssSelector("form[name='login'] input[name='j_password']"));
+        password.click();
+        password.sendKeys("6da584b873ff481aa60ce442bb84921d");
+        getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
+        getDriver().findElement(By.cssSelector("#tasks a[href='/asynchPeople/']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//td[text()='ArtyomDulya']")).getText(), "ArtyomDulya");
+    }
+
+
 
 }
 
