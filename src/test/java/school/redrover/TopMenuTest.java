@@ -24,16 +24,6 @@ public class TopMenuTest extends BaseTest {
     private WebElement okButton;
     @FindBy (xpath = "//textarea[@name='description']")
     private WebElement description;
-    @FindBy (xpath = "//label[text()='This project is parameterized']")
-    private WebElement projectParameter;
-    @FindBy (xpath = "//button[text()='Add Parameter']")
-    private WebElement addParameter;
-    @FindBy (xpath = "//input[@class='jenkins-input']")
-    private WebElement listParameter;
-    @FindBy (xpath = "//a[text()='File Parameter']")
-    private WebElement fileParameter;
-    @FindBy (xpath = "//input[@name='parameter.name']")
-    private WebElement fileLocation;
     @FindBy (xpath = "//button[@name='Submit']")
     private WebElement saveButton;
     @FindBy (xpath = "//h1")
@@ -77,30 +67,6 @@ public class TopMenuTest extends BaseTest {
     public final void typeDescription() {
         verifyElementVisible(description);
         verifyElementIsClickable(description).sendKeys("First project");
-    }
-
-    public final void clickProjectParameter() {
-        verifyElementVisible(projectParameter);
-        verifyElementIsClickable(projectParameter).click();
-    }
-
-    public final void clickAddParameter() {
-        verifyElementVisible(addParameter);
-        verifyElementIsClickable(addParameter).click();
-    }
-
-    public final void viewListParameter() {
-        verifyElementVisible(listParameter);
-    }
-
-    public final void clickFileParameter() {
-        verifyElementVisible(fileParameter);
-        verifyElementIsClickable(fileParameter).click();
-    }
-
-    public final void typeFileLocation() {
-        verifyElementVisible(fileLocation);
-        verifyElementIsClickable(fileLocation).sendKeys("Home");
     }
 
     public final void clickSaveButton() {
