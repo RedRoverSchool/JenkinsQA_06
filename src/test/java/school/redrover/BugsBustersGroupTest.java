@@ -300,10 +300,8 @@ public class BugsBustersGroupTest extends BaseTest {
 
         WebElement jobMenu = getDriver()
                 .findElement(By.xpath("//*[@id='job_test']//td[3]/a/span"));
-        new Actions(getDriver())
-                .moveToElement(jobMenu)
-                .build()
-                .perform();
+        Actions action = new Actions(getDriver());
+        action.moveToElement(jobMenu).build().perform();
 
         WebElement jobMenuButton = getDriver()
                 .findElement(By.xpath("//*[@id='job_test']/td[3]/a/button"));
