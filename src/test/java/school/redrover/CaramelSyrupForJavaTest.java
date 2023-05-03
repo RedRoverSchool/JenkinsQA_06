@@ -329,7 +329,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         password.click();
         password.sendKeys("3fadc643bea34ad8ae5b61d8cb56ee6e");
         getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
-        getDriver().findElement(By.cssSelector("#tasks [href*='People']")).click();
+        getDriver().findElement(By.cssSelector("#tasks a[href='/asynchPeople/']")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//td[text()='ArtyomDulya']")).getText(), "ArtyomDulya");
     }
 }
