@@ -20,4 +20,20 @@ public class QaRabbitHoleTest extends BaseTest {
 
         Assert.assertEquals(dashboard.getText(), "Dashboard");
     }
+
+    @Test
+    public void testCreateJobTitle() {
+        WebElement createjob = getDriver().findElement(By.xpath("//a[@href = 'newJob']/span"));
+
+        Assert.assertEquals(createjob.getText(), "Create a job");
+    }
+
+    @Test
+    public void testLogout() {
+        WebElement logout = getDriver().findElement((By.xpath("//a[@href='/logout']")));
+        logout.click();
+
+        WebElement modalLogin = getDriver().findElement(By.xpath("//div[@class = 'simple-page']"));
+        Assert.assertTrue(modalLogin.isDisplayed());
+    }
 }
