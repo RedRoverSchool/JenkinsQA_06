@@ -326,7 +326,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     }
 
     @Test
-    public void testADManagePanel() {
+    public void testADManagePanel() throws InterruptedException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         List <String> expectedResult = Arrays.asList(
                 "Configure System",
@@ -360,6 +360,9 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         actualResult.add(getDriver().findElement(By.cssSelector("[href='credentials'] dt")).getText());
         actualResult.add(getDriver().findElement(By.cssSelector("[href='configureCredentials'] dt")).getText());
         actualResult.add(getDriver().findElement(By.cssSelector("[href='securityRealm/'] dt")).getText());
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollBy(0,800)");
         actualResult.add(getDriver().findElement(By.cssSelector("[href='scriptApproval'] dt")).getText());
 
         actualResult.add(getDriver().findElement(By.cssSelector("[href='systemInfo'] dt")).getText());
