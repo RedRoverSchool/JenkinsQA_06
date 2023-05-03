@@ -106,4 +106,22 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(usernameFromTable, actualUsername, "Usernames are different");
 
     }
+
+    @Test
+    public void testRunJob() throws InterruptedException {
+        getDriver().findElement(By.xpath("//span[text()='Create a job']")).click();
+        Thread.sleep(2000);
+
+        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys("Test Job");
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(), "Project Test Job");
+
+        getDriver().findElement(By.xpath("//a[@href='/job/Test%20Job/build?delay=0sec']")).click();
+        Thread.sleep(6000);
+
+        getDriver().findElement(By.xpath("//tr[@class='build-row multi-line overflow-checked']//a[1]")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//span[@class='build-status-icon__outer']//*[@title='Success']")).isDisplayed());
+    }
 }
