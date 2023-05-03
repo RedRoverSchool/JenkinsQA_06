@@ -361,10 +361,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         actualResult.add(getDriver().findElement(By.cssSelector("[href='configureCredentials'] dt")).getText());
         actualResult.add(getDriver().findElement(By.cssSelector("[href='securityRealm/'] dt")).getText());
 
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("window.scrollBy(0,800)");
-        actualResult.add(getDriver().findElement(By.xpath("//dt[text()='In-process Script Approval']")).getText());
-
         actualResult.add(getDriver().findElement(By.cssSelector("[href='systemInfo'] dt")).getText());
         actualResult.add(getDriver().findElement(By.cssSelector("[href='log'] dt")).getText());
         actualResult.add(getDriver().findElement(By.cssSelector("[href^='load'] dt")).getText());
@@ -380,7 +376,31 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Test
+    public void testADSystemInformation()  {
+        String er = "Element is not displayed";
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollBy(0,800)");
+        getDriver().findElement(By.xpath("//a[@href='systemInfo']")).click();
 
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//td[text()='executable-war']")).isDisplayed(), er);
+
+        getDriver().findElement(By.xpath("//div[@class='tabBar']//div[2]")).click();
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//td[text()='COPY_REFERENCE_FILE_LOG']")).isDisplayed(), er);
+
+        getDriver().findElement(By.xpath("//div[@class='tabBar']//div[3]")).click();
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//td[text()='487.vd79d090d4ea_e']")).isDisplayed(), er);
+
+        getDriver().findElement(By.xpath("//div[@class='tabBar']//div[4]")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[text()='Timespan']")).isDisplayed(), er);
+
+        getDriver().findElement(By.xpath("//div[@class='tabBar']//div[5]")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='threadDump']")).isDisplayed(), er);
+    }
 
 
 
