@@ -304,7 +304,7 @@ public class BugsBustersGroupTest extends BaseTest {
         action.moveToElement(jobMenu).build().perform();
 
         WebElement jobMenuButton = getDriver()
-                .findElement(By.xpath("//*[@id='job_test']/td[3]/a/button"));
+                .findElement(By.cssSelector("#job_test > td:nth-child(3) > a > button"));
         jobMenuButton.click();
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
