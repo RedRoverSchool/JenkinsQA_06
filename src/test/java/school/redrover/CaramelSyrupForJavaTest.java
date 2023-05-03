@@ -327,6 +327,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
     @Test
     public void testADManagePanel() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         List <String> expectedResult = Arrays.asList(
                 "Configure System",
                 "Global Tool Configuration",
@@ -375,6 +376,8 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+
 
 
 
