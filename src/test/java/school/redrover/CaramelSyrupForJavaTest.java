@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.time.Duration;
 import java.util.*;
 
@@ -240,7 +241,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         for (int i = 1; i < 4; i++) {
             String name = "test " + i;
-            expectedResult.add("test " + (4-i));
+            expectedResult.add("test " + (4 - i));
 
             getDriver().findElement(By.xpath("//span[text()='New Item']/../..")).click();
             WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
@@ -254,10 +255,10 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         }
         getDriver().findElement(By.xpath("//th[@initialsortdir='down']/a")).click();
         List<WebElement> names = getDriver().findElements(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
-        List<String> actualResult = Arrays.asList(names.get(0).getText(),names.get(1).getText(), names.get(2).getText());
+        List<String> actualResult = Arrays.asList(names.get(0).getText(), names.get(1).getText(), names.get(2).getText());
 
-        Assert.assertEquals(names.size(),expectedResult.size());
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(names.size(), expectedResult.size());
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -278,6 +279,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertNotEquals(changedDimension, initialDimension);
     }
+
     @Ignore
     @Test
     public void testAddDel() throws InterruptedException {
@@ -298,7 +300,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Alert alertOK = getDriver().switchTo().alert();
         alertOK.accept();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),expRes);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), expRes);
     }
 
     @Test
@@ -321,6 +323,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
     @Test
     public void testADLearnMoreHeaders() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         List<String> expectedResult = Arrays.asList("Enter an item name", "New node", "Configure Clouds", "Jenkins");
 
         getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")).click();
