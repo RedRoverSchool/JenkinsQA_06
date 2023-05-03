@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -29,7 +30,7 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertTrue(dashboardButton.isDisplayed());
     }
 
-   @Test
+    @Test
     public void testMariaSearchBoxPresent() {
         WebElement searchBox = getDriver().findElement(By.xpath("//input[@name='q']"));
 
@@ -37,7 +38,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCreateAJobPageTitle(){
+    public void testCreateAJobPageTitle() {
         WebElement createAJob = getDriver().findElement(By.xpath("//a[@href='newJob']/span"));
         createAJob.click();
 
@@ -49,7 +50,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testGetPeoplePage(){
+    public void testGetPeoplePage() {
         WebElement peoplePageMenu = getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']"));
         peoplePageMenu.click();
 
@@ -59,7 +60,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescription () {
+    public void testAddDescription() {
         WebElement addDescription = getDriver().findElement(By.xpath("//*[@id='description-link']"));
         addDescription.click();
 
@@ -71,7 +72,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testLogOut () {
+    public void testLogOut() {
         WebElement logOutIcon = getDriver().findElement(By.xpath("//a[@href = '/logout']"));
         logOutIcon.click();
 
@@ -80,13 +81,14 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCreateJobPage () {
+    public void testCreateJobPage() {
         WebElement createJobButton = getDriver().findElement(By.xpath("//a[@href = 'newJob']"));
         createJobButton.click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='createItem']/div[1]/div/label"))
-                        .getText(), "Enter an item name");
+                .getText(), "Enter an item name");
     }
+
     @Ignore
     @Test
     public void testOkButtonIsDisabled() {
@@ -161,7 +163,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testNewFreestyleProject () {
+    public void testNewFreestyleProject() {
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
         newItem.click();
 
@@ -185,9 +187,9 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testMainPageMenuItems () {
+    public void testMainPageMenuItems() {
         List<WebElement> menuList = getDriver().findElements(By.xpath("//div[@id= 'tasks']/div"));
-        List <String> expectedList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+        List<String> expectedList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
 
         for (int i = 0; i < menuList.size(); i++) {
             String actualList = menuList.get(i).getText();
@@ -196,13 +198,13 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testSystemConfigurationMenu () {
+    public void testSystemConfigurationMenu() {
         WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
         manageJenkins.click();
 
-        List <WebElement> systemConfigMenu = getDriver().findElements(By.xpath(
+        List<WebElement> systemConfigMenu = getDriver().findElements(By.xpath(
                 "//*[@id='main-panel']/section[2]/div/div[1]/a/dl/dt"));
-        List <String> expectedMenuList = Arrays.asList("Configure System", "Manage Plugins", "Global Tool Configuration",
+        List<String> expectedMenuList = Arrays.asList("Configure System", "Manage Plugins", "Global Tool Configuration",
                 "Manage Nodes and Clouds");
 
         for (int i = 0; i < systemConfigMenu.size(); i++) {
@@ -228,7 +230,7 @@ public class BugsBustersGroupTest extends BaseTest {
     public void testFolderCreation() {
         final String FOLDER_NAME = "My_folder";
         final String FOLDER_NAME1 = "My_folder1";
-        List <String> expectedJobsList = Arrays.asList(FOLDER_NAME, FOLDER_NAME1);
+        List<String> expectedJobsList = Arrays.asList(FOLDER_NAME, FOLDER_NAME1);
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         WebElement newItem = getDriver().findElement(By.xpath(
@@ -244,7 +246,7 @@ public class BugsBustersGroupTest extends BaseTest {
         submitButton.click();
         WebElement header = getDriver().findElement(By.tagName("h1"));
 
-        Assert.assertEquals(header.getText(),FOLDER_NAME);
+        Assert.assertEquals(header.getText(), FOLDER_NAME);
 
         WebElement dashboardMenu = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
         dashboardMenu.click();
@@ -262,16 +264,52 @@ public class BugsBustersGroupTest extends BaseTest {
         submitButton1.click();
         WebElement header1 = getDriver().findElement(By.tagName("h1"));
 
-        Assert.assertEquals(header1.getText(),FOLDER_NAME1);
+        Assert.assertEquals(header1.getText(), FOLDER_NAME1);
 
         WebElement dashboardMenu1 = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
         dashboardMenu1.click();
 
-        List <WebElement> jobsList = getDriver().findElements(By.xpath("//tr[@class=' job-status-']/td/a/span"));
+        List<WebElement> jobsList = getDriver().findElements(By.xpath("//tr[@class=' job-status-']/td/a/span"));
 
         for (int i = 0; i < jobsList.size(); i++) {
             String actualJobsList = jobsList.get(i).getText();
             Assert.assertEquals(actualJobsList, expectedJobsList.get(i));
         }
+    }
+
+    @Test
+    public void testHiddenButton() {
+        WebElement newJob = getDriver().findElement(By.xpath("//*[@id='tasks']//a"));
+        newJob.click();
+
+        WebElement jobName = getDriver().findElement(By.id("name"));
+        jobName.sendKeys("test");
+
+        WebElement jobType = getDriver().findElement(By.xpath("//*[@id='j-add-item-type-nested-projects']//li[2]"));
+        jobType.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        WebElement goDashboard = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li[1]/a"));
+        goDashboard.click();
+
+        WebElement jobMenu = getDriver().findElement(By.xpath("//*[@id='job_test']/td[3]/a/span"));
+        Actions action = new Actions(getDriver());
+        action.moveToElement(jobMenu).build().perform();
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='job_test']/td[3]/a/button")));
+        WebElement jobMenuButton = getDriver().findElement(By.xpath("//*[@id='job_test']/td[3]/a/button"));
+        jobMenuButton.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='bd']//li[@index='3']/a")));
+        WebElement deleteJob = getDriver().findElement(By.xpath("//*[@class='bd']//li[@index='3']/a"));
+        deleteJob.click();
+
+        WebElement submitDelete = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        submitDelete.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),"Welcome to Jenkins!");
     }
 }
