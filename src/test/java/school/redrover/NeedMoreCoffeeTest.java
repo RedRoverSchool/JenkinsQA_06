@@ -97,7 +97,7 @@ public class NeedMoreCoffeeTest extends BaseTest {
         newItem.sendKeys(Keys.RETURN);
         WebElement newField = getDriver().findElement(By.xpath("//input[@id='name']"));
 
-        newField.sendKeys("$",Keys.ENTER);
+        newField.sendKeys("$", Keys.ENTER);
 
         WebDriverWait waiter = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         WebElement textError = waiter.until(ExpectedConditions.
@@ -182,5 +182,33 @@ public class NeedMoreCoffeeTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//div[normalize-space()='MultiConfigurationProject']"));
 
         Assert.assertEquals(text.getText(), "MultiConfigurationProject");
+    }
 
-} }
+    @Test
+    public void testAddDescription() {
+
+        WebElement description = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        description.sendKeys(Keys.RETURN);
+        WebDriverWait waiter = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement field = waiter.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//textarea[@name='description']")));
+        field.sendKeys("Hello World!");
+        WebElement tabSave = getDriver().findElement(By.xpath("//button[normalize-space()='Save']"));
+        tabSave.sendKeys(Keys.RETURN);
+        WebElement text = getDriver().findElement(By.xpath("//*[@id=\"description\"]/div[1]"));
+
+        Assert.assertEquals(text.getText(), "Hello World!");
+
+        WebElement editDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        editDescription.sendKeys(Keys.RETURN);
+        WebElement plainText = getDriver().findElement(By.xpath("(//textarea[@name='description'])[1]"));
+        plainText.sendKeys(Keys.CONTROL+"a");
+        plainText.sendKeys(Keys.DELETE);
+        WebElement buttonSave = getDriver().findElement(By.xpath("//button[normalize-space()='Save']"));
+        buttonSave.sendKeys(Keys.RETURN);
+
+    }
+}
+
+
+
+
