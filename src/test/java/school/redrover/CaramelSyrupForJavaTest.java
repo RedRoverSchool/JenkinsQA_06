@@ -125,6 +125,27 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
     @Ignore
     @Test
+    public void testADLearnMore() {
+        String expectedResult = "static content of the Wiki";
+        WebElement learnMoreHref = getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/redirect/distributed-builds']"));
+        learnMoreHref.click();
+        ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(windows.get(1));
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        WebElement atlassianHref = getDriver().findElement(By.xpath("//a[@href='/display/']"));
+        atlassianHref.click();
+        WebElement wikiJenkinsHref = getDriver().findElement(By.xpath("//a[text()='static content of the Wiki']"));
+        String actualResult = wikiJenkinsHref.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+    }
+
+    @Ignore
+    @Test
     public void testAbramovaDropDownList() {
         List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
         WebElement dropDownButton = getDriver().findElement(
@@ -302,6 +323,82 @@ public class CaramelSyrupForJavaTest extends BaseTest {
     public void testADBanner() {
         String expectedResult = "Welcome to Jenkins!";
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), expectedResult);
+    }
+
+    @Test
+    public void testADManagePanel() throws InterruptedException {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        List <String> expectedResult = Arrays.asList(
+                "Configure System",
+                "Global Tool Configuration",
+                "Manage Plugins",
+                "Manage Nodes and Clouds",
+                "Configure Global Security",
+                "Credentials",
+                "Credential Providers",
+                "Manage Users",
+                "System Information",
+                "System Log",
+                "Load Statistics",
+                "About Jenkins",
+                "Manage Old Data",
+                "Reload Configuration from Disk",
+                "Jenkins CLI",
+                "Script Console",
+                "Prepare for Shutdown");
+        List <String> actualResult = new ArrayList<>();
+
+        getDriver().findElement(By.cssSelector("#tasks [href='/manage']")).click();
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='configure'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='configureTools'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='pluginManager'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='computer'] dt")).getText());
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='configureSecurity'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='credentials'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='configureCredentials'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='securityRealm/'] dt")).getText());
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='systemInfo'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='log'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href^='load'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='about'] dt")).getText());
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[href$='OldData/'] dt")).getText());
+
+        actualResult.add(getDriver().findElement(By.cssSelector("[data-url='reload'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='cli'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='script'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.cssSelector("[href='prepareShutdown'] dt")).getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testADSystemInformation()  {
+        String er = "Element is not displayed";
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollBy(0,800)");
+        getDriver().findElement(By.xpath("//a[@href='systemInfo']")).click();
+
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//td[text()='executable-war']")).isDisplayed(), er);
+
+        getDriver().findElement(By.xpath("//div[@class='tabBar']//div[2]")).click();
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//td[text()='COPY_REFERENCE_FILE_LOG']")).isDisplayed(), er);
+
+        getDriver().findElement(By.xpath("//div[@class='tabBar']//div[3]")).click();
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//td[text()='487.vd79d090d4ea_e']")).isDisplayed(), er);
+
+        getDriver().findElement(By.xpath("//div[@class='tabBar']//div[4]")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[text()='Timespan']")).isDisplayed(), er);
+
+        getDriver().findElement(By.xpath("//div[@class='tabBar']//div[5]")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='threadDump']")).isDisplayed(), er);
     }
 
 
