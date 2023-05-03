@@ -448,5 +448,22 @@ public class GroupHighwayToAqaTest extends BaseTest {
         }
         Assert.assertTrue(iconSizeButtons.size() > 0, "No icon size buttons found on the page.");
     }
+
+    @Test
+    public void testCreateFolder() {
+        getDriver().findElement(NEW_ITEM).click();
+
+        getDriver().findElement(SET_ITEM_NAME).sendKeys("New folder");
+
+        getDriver().findElement(By.xpath("//input[@value='com.cloudbees.hudson.plugins.folder.Folder']/..")).click();
+
+        getDriver().findElement(By.id("ok-button")).click();
+
+        getDriver().findElement(DASHBOARD).click();
+
+        WebElement folderName = getDriver().findElement(By.xpath("(//a[@class='jenkins-table__link model-link inside'])[1]"));
+
+        Assert.assertEquals(folderName.getText(), "New folder");
+    }
 }
 
