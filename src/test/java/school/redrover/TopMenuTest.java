@@ -36,6 +36,10 @@ public class TopMenuTest extends BaseTest {
     private WebElement fileLocation;
     @FindBy (xpath = "//button[@name='Submit']")
     private WebElement saveButton;
+    @FindBy (xpath = "//h1")
+    private WebElement projectName;
+    @FindBy (xpath = "//div[text()='First project']")
+    private WebElement projectDescription;
 
     public WebDriverWait webDriverWait10;
 
@@ -47,7 +51,6 @@ public class TopMenuTest extends BaseTest {
     }
 
     public final void verifyElementVisible(WebElement element) {
-
         getWait10().until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -85,7 +88,8 @@ public class TopMenuTest extends BaseTest {
         verifyElementVisible(addParameter);
         verifyElementIsClickable(addParameter).click();
     }
-    public final void veiwListParameter() {
+
+    public final void viewListParameter() {
         verifyElementVisible(listParameter);
     }
 
@@ -102,6 +106,14 @@ public class TopMenuTest extends BaseTest {
     public final void clickSaveButton() {
         verifyElementVisible(saveButton);
         verifyElementIsClickable(saveButton).click();
+    }
+
+    public final void viewProjectName() {
+        verifyElementVisible(projectName);
+    }
+
+    public final void viewProjectDescription() {
+        verifyElementVisible(projectDescription);
     }
 
     @Test
@@ -175,7 +187,8 @@ public class TopMenuTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProject() {
-        String expectedNewProjectName = "FirstFreestyleProject";
+        String expectedNewProjectName = "Project FirstFreestyleProject";
+        String expectedProjectDescription = "First project";
 
         PageFactory.initElements(getDriver(), this);
 
@@ -186,16 +199,11 @@ public class TopMenuTest extends BaseTest {
         clickFreestyleProject();
         clickOkButton();
         typeDescription();
-        clickProjectParameter();
-        clickAddParameter();
-        veiwListParameter();
-        clickFileParameter();
-        typeFileLocation();
         clickSaveButton();
+        viewProjectName();
+        viewProjectDescription();
 
-        String actualNewProjectName = expectedNewProjectName;
-
-        Assert.assertEquals(actualNewProjectName,expectedNewProjectName);
-
+        Assert.assertEquals(projectName.getText(),expectedNewProjectName);
+        Assert.assertEquals(projectDescription.getText(),expectedProjectDescription);
     }
 }
