@@ -282,7 +282,7 @@ public class BugsBustersGroupTest extends BaseTest {
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
         newItem.click();
 
-        String text = "New Freestyle Project";
+        String text = "test";
         WebElement inputField = getDriver().findElement(By.id("name"));
         inputField.sendKeys(text);
         WebElement projectType = getDriver()
@@ -299,14 +299,14 @@ public class BugsBustersGroupTest extends BaseTest {
         dashBoardButton.click();
 
         WebElement jobMenu = getDriver()
-                .findElement(By.xpath("//*[@id='job_New Freestyle Project']//td[3]/a/span"));
+                .findElement(By.xpath("//*[@id='job_test']//td[3]/a/span"));
         new Actions(getDriver())
                 .moveToElement(jobMenu)
                 .build()
                 .perform();
 
         WebElement jobMenuButton = getDriver()
-                .findElement(By.xpath("//*[@id='job_New Freestyle Project']/td[3]/a/button"));
+                .findElement(By.xpath("//*[@id='job_test']/td[3]/a/button"));
         jobMenuButton.click();
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
