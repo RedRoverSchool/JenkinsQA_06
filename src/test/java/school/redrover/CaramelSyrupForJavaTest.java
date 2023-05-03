@@ -337,7 +337,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
                 "Credentials",
                 "Credential Providers",
                 "Manage Users",
-                "In-process Script Approval",
                 "System Information",
                 "System Log",
                 "Load Statistics",
