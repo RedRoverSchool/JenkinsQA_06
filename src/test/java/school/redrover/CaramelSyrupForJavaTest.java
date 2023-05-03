@@ -92,7 +92,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actResName, expResName);
     }
 
-    @Ignore
+
     @Test
     public void testADCreateJobProject() {
         String expectedResultSummary = "Project Engineer";
@@ -121,27 +121,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(actualResultSummary, expectedResultSummary);
         Assert.assertEquals(actualResultDescription, expectedResultDescription);
-    }
-
-    @Ignore
-    @Test
-    public void testADLearnMore() {
-        String expectedResult = "static content of the Wiki";
-        WebElement learnMoreHref = getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/redirect/distributed-builds']"));
-        learnMoreHref.click();
-        ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(windows.get(1));
-
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-
-        WebElement atlassianHref = getDriver().findElement(By.xpath("//a[@href='/display/']"));
-        atlassianHref.click();
-        WebElement wikiJenkinsHref = getDriver().findElement(By.xpath("//a[text()='static content of the Wiki']"));
-        String actualResult = wikiJenkinsHref.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
-
     }
 
     @Ignore
@@ -300,6 +279,33 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),expRes);
     }
+
+    @Test
+    public void testADMainMenu() {
+        getDriver().findElement(By.cssSelector("#tasks  a[href$='/newJob']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector(".h3")).getText(), "Enter an item name");
+        getDriver().navigate().back();
+        getDriver().findElement(By.cssSelector("#tasks [href*='People']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), "People");
+        getDriver().navigate().back();
+        getDriver().findElement(By.cssSelector("#tasks [href$='builds']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), "Build History of Jenkins");
+        getDriver().navigate().back();
+        getDriver().findElement(By.cssSelector("#tasks [href$='manage']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), "Manage Jenkins");
+        getDriver().navigate().back();
+        getDriver().findElement(By.cssSelector("#tasks [href$='views']")).click();
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h2")).getText(), "This folder is empty");
+    }
+
+    @Test
+    public void testADBanner() {
+        String expectedResult = "Welcome to Jenkins!";
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), expectedResult);
+    }
+
+
+
 }
 
 

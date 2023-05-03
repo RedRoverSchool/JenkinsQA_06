@@ -6,6 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.time.Duration;
+
+
 public class UndercoverGroupTest extends BaseTest {
 
     @Test
@@ -81,5 +85,16 @@ public class UndercoverGroupTest extends BaseTest {
 
             getDriver().findElement(By.xpath("//*[@id='jenkins-home-link']")).click();
         }
+    }
+
+    @Test
+    public void testMessageOfRequiredItemName() {
+        getDriver().findElement(By.xpath("//*[@href='newJob']")).click();
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+        getDriver().findElement(By.xpath("//*[contains(text(), 'Freestyle')]")).click();
+
+        WebElement message = getDriver().findElement(By.id("itemname-required"));
+        Assert.assertTrue(message.isDisplayed());
     }
 }
