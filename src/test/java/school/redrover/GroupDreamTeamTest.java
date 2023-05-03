@@ -67,11 +67,21 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement addDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         addDescription.click();
         WebElement textBox = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//textarea[@name='description']")));
+        textBox.clear();
         textBox.sendKeys("Hello Jenkins!");
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveButton.click();
-    }
+        WebElement helloJenkins = getDriver().findElement(By.xpath("//div[contains(text(),'Hello Jenkins!')]"));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        Assert.assertEquals(helloJenkins.getText(),"Hello Jenkins!");
 
+        WebElement addDescription2 = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        addDescription2.click();
+        WebElement textBox2 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//textarea[@name='description']")));
+        textBox2.clear();
+        WebElement saveButton2 = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton2.click();
+    }
     @Test
     public void testDashboardSidePanelItemsList() {
         List<WebElement> sidePanelItems = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
@@ -250,5 +260,16 @@ public class GroupDreamTeamTest extends BaseTest {
         }
 
         Assert.assertEquals(actualUserSidePanelMenu, expectedUserSidePanelMenu);
+    }
+
+    @Test
+    public void testAddNewCredentials() {
+        WebElement sideMenuManageJenkins = getDriver().findElement(By.linkText("Manage Jenkins"));
+        sideMenuManageJenkins.click();
+        WebElement manageCredentials = getDriver().findElement(By.xpath("//dt[text()='Manage Credentials']"));
+        manageCredentials.click();
+        WebElement storesScope = getDriver().findElement(By.xpath("//h2"));
+
+        Assert.assertEquals(storesScope.getText(), "Stores scoped to Jenkins");
     }
 }
