@@ -1,7 +1,9 @@
 package school.redrover;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -273,5 +275,51 @@ public class BugsBustersGroupTest extends BaseTest {
             String actualJobsList = jobsList.get(i).getText();
             Assert.assertEquals(actualJobsList, expectedJobsList.get(i));
         }
+    }
+
+    @Test
+    public void testDeleteNewFreestyleProject () {
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        newItem.click();
+
+        String text = "New Freestyle Project";
+        WebElement inputField = getDriver().findElement(By.id("name"));
+        inputField.sendKeys(text);
+        WebElement projectType = getDriver()
+                .findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']"));
+        projectType.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//*[@name = 'Submit']"));
+        saveButton.click();
+
+        WebElement dashBoardButton = getDriver()
+                .findElement(By.xpath("//div[@id = 'breadcrumbBar']//a[@href = '/']"));
+        dashBoardButton.click();
+
+        WebElement jobMenu = getDriver()
+                .findElement(By.xpath("//*[@id='job_New Freestyle Project']//td[3]/a/span"));
+        new Actions(getDriver())
+                .moveToElement(jobMenu)
+                .build()
+                .perform();
+
+        WebElement jobMenuButton = getDriver()
+                .findElement(By.xpath("//*[@id='job_New Freestyle Project']/td[3]/a/button"));
+        jobMenuButton.click();
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//*[@class='bd']//li[@index='3']/a")));
+
+        WebElement deleteButton = getDriver().findElement(By.xpath("//li[@index = '4']/a"));
+        deleteButton.click();
+
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//h1")).getText(), "Welcome to Jenkins!");
     }
 }
