@@ -11,7 +11,7 @@ import school.redrover.runner.BaseTest;
 
 import java.util.List;
 
-public class MykolaTests extends BaseTest {
+public class MykolaTest extends BaseTest {
     private final Faker faker = new Faker();
     private final String folderName = faker.artist().name() + " folder";
     private final String newFolderName = faker.funnyName().name() + " folder";
