@@ -278,7 +278,6 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         Assert.assertNotEquals(changedDimension, initialDimension);
     }
-    @Ignore
     @Test
     public void testAddDel() throws InterruptedException {
         String expRes = "Welcome to Jenkins!";
@@ -294,7 +293,10 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         getDriver().findElement(By.id("jenkins-name-icon")).click();
         getDriver().findElement(By.xpath("//th[@initialsortdir='down']/a")).click();
         getDriver().findElement(By.cssSelector("a[class='jenkins-table__link model-link inside']")).click();
-        getDriver().findElement(By.xpath("//span[text()='Delete Project']/..")).click();
+        Actions actD = new Actions(getDriver());
+        WebElement del = getDriver().findElement(By.cssSelector("a[class='jenkins-table__link model-link inside']"));
+        actD.moveToElement(del).perform();
+        getDriver().findElement(By.xpath("//div[@class ='bd']//a[@href='#']//*[contains(text(), 'Delete')]")).click();
         Alert alertOK = getDriver().switchTo().alert();
         alertOK.accept();
 
