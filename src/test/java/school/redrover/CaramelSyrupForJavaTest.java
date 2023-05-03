@@ -363,7 +363,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("window.scrollBy(0,800)");
-        actualResult.add(getDriver().findElement(By.cssSelector("[href='scriptApproval'] dt")).getText());
+        actualResult.add(getDriver().findElement(By.xpath("//dt[text()='In-process Script Approval']")).getText());
 
         actualResult.add(getDriver().findElement(By.cssSelector("[href='systemInfo'] dt")).getText());
         actualResult.add(getDriver().findElement(By.cssSelector("[href='log'] dt")).getText());
