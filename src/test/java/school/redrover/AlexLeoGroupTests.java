@@ -4,6 +4,7 @@ import jdk.jfr.Description;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -451,6 +452,13 @@ public class AlexLeoGroupTests extends BaseTest {
         manageJenkinsLink.click();
         WebElement textManageJenkinsInPageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
         Assert.assertEquals(textManageJenkinsInPageHeader.getText(), "Manage Jenkins");
+    }
+    @Test
+    public void testVerifyJenkinsLogo(){
+        WebElement findLogoJenkins = getDriver().findElement((By.id("jenkins-head-icon")));
+        Point point = new Point(19, 8);
+        Assert.assertEquals(findLogoJenkins.getLocation(), point);
+
     }
 
     @Test

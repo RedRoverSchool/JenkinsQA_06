@@ -146,5 +146,45 @@ public class HelloWorldGroupTest extends BaseTest{
         String text = "Create User";
         Assert.assertEquals(element.getText(), text);
     }
+    @Test
+    public void testCreateAndDeleteMultibranchPipeline(){
+        final String displayName = "Create";
+        final String fieldName = "Check create and delete";
+
+        WebElement itemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        itemButton.click();
+
+        WebElement enterField = getDriver().findElement(By.xpath("//input[@name='name']"));
+        enterField.sendKeys(fieldName);
+
+        WebElement multiBranch = getDriver().findElement
+                (By.xpath("//span[normalize-space(.)='Multibranch Pipeline']"));
+        multiBranch.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        okButton.click();
+
+        WebElement enterDisplayName = getDriver().findElement
+                (By.xpath("//div[@class='setting-main']/input[@class='jenkins-input validated  ']"));
+        enterDisplayName.sendKeys(displayName);
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[normalize-space(.)='Save']"));
+        saveButton.click();
+
+        WebElement checkDisplayName = getDriver().findElement(By.xpath("//h1[normalize-space()='Create']"));
+        Assert.assertEquals(checkDisplayName.getText(),displayName);
+
+        WebElement deleteMultibranch = getDriver().findElement
+                (By.xpath("//span[normalize-space(.)='Delete Multibranch Pipeline']"));
+        deleteMultibranch.click();
+
+        WebElement confirmationButton = getDriver().findElement
+                (By.xpath("//button[normalize-space(.)='Yes']"));
+        confirmationButton.click();
+
+        WebElement deleteCheck = getDriver().findElement
+                (By.xpath("//h2[normalize-space(.)='Start building your software project']"));
+        Assert.assertEquals(deleteCheck.getText(),"Start building your software project");
+    }
 
 }
