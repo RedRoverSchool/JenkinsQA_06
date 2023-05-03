@@ -318,6 +318,20 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         getDriver().findElement(By.cssSelector("#tasks [href$='views']")).click();
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h2")).getText(), "This folder is empty");
     }
+
+    @Test
+    public void testNameUser() {
+        getDriver().findElement(By.cssSelector("[href='/logout']")).click();
+        WebElement login = getDriver().findElement(By.cssSelector("form[name='login'] input[name='j_username']"));
+        login.click();
+        login.sendKeys("ArtyomDulya");
+        WebElement password = getDriver().findElement(By.cssSelector("form[name='login'] input[name='j_password']"));
+        password.click();
+        password.sendKeys("3fadc643bea34ad8ae5b61d8cb56ee6e");
+        getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
+        getDriver().findElement(By.cssSelector("#tasks [href*='People']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//td[text()='ArtyomDulya']")).getText(), "ArtyomDulya");
+    }
 }
 
 
