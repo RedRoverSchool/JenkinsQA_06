@@ -1,6 +1,8 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,6 +12,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -88,6 +91,50 @@ public class GroupOlesyaTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath(descriptionHeader))
                 .getText(), "");
+
+    }
+    @Test
+    public void wrongSearchTest() {
+
+        List<String> symbols = new ArrayList(Arrays.asList("@", "#", "$", "%", "^", "&", "*", "(", ")", "|", "<", ">", "~", "`"));
+        for (String symbol : symbols) {
+            WebElement searchBox = getDriver().findElement(By.id("search-box"));
+            searchBox.click();
+            searchBox.clear();
+            searchBox.sendKeys(symbol);
+            searchBox.sendKeys(Keys.ENTER);
+            WebElement wrongSearch = getDriver().findElement(By.xpath("//div[contains(@class,'error')]"));
+            Assert.assertEquals("Nothing seems to match.", wrongSearch.getText());
+        }
+    }
+
+
+    @Test
+    public void NewProjectCreatorTest() {
+        WebElement dashboard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
+        dashboard.click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),"Welcome to Jenkins!");
+
+        WebElement creator = getDriver().findElement(By.xpath("//span[normalize-space()='Create a job']"));
+        creator.click();
+        WebElement textField = getDriver().findElement(By.id("name"));
+        textField.click();
+        textField.sendKeys("New Project");
+        WebElement freestyleProject = getDriver().findElement(By.xpath("//span[normalize-space()='Freestyle project']"));
+        freestyleProject.click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        Assert.assertEquals(getDriver().findElement(By.id("general")).getText(),"General");
+        WebElement descriptionField = getDriver().findElement(By.xpath("//textarea[contains(@name,'description')]"));
+        descriptionField.sendKeys("New Project");
+        WebElement checkBox = getDriver().findElement(By.xpath("//label[normalize-space()='Discard old builds']"));
+        checkBox.click();
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton.click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
+                .getText(),"Project New Project");
+
 
     }
 }
