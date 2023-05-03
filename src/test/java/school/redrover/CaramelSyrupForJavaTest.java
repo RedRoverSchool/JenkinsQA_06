@@ -358,7 +358,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//label[text()='Enter an item name']")).getText(), expectedResult.get(0));
         getDriver().navigate().back();
 
-        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//span[text()='Set up an agent']")));
+        waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[2]/div/section[2]/ul/li[1]/a/span[1]")));
         clickCustom(getDriver().findElement(By.xpath("//span[text()='Set up an agent']")));
         waitForElementToBeDisplayed(getDriver().findElement(By.xpath("//h1[text()='New node']")));
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='New node']")).getText(), expectedResult.get(1));
