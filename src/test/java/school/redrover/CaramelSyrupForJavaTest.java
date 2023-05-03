@@ -308,9 +308,12 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         password.click();
         password.sendKeys("6da584b873ff481aa60ce442bb84921d");
         getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
-        getDriver().findElement(By.cssSelector("#tasks a[href='/asynchPeople/']")).click();
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector("#tasks [href*='People']")))).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//td[text()='ArtyomDulya']")).getText(), "ArtyomDulya");
     }
+
 
 
 
