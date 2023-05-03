@@ -54,4 +54,37 @@ public class TestMainPage extends BaseTest {
             Assert.assertEquals(getLabelList.get(i).getText(), expectedLabelList.get(i));
         }
     }
+
+    @Test
+    public void testAdminList() throws InterruptedException {
+
+        getDriver().findElement(By.className("model-link")).click();
+        Thread.sleep(3000);
+
+        List<WebElement> getList = getDriver().findElements(By.className("task-link-text"));
+        List<String> expectedList = Arrays.asList("People","Status","Builds","Configure","My Views","Credentials");
+        for (int i = 0; i < getList.size(); i++) {
+            Assert.assertEquals(getList.get(i).getText(),expectedList.get(i));
+        }
+
+    }
+
+    @Test
+    public void testFreestyleProject() throws InterruptedException {
+        getDriver().findElement(By.xpath("(//section[@class='empty-state-section'] )[1]//li")).click();
+        Thread.sleep(1000);
+        getDriver().findElement(By.id("name")).sendKeys("Test1");
+        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        Thread.sleep(1000);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Configure");
+
+        getDriver().findElement(By.xpath("//input[@id='cb4']/following-sibling::label")).click();
+        getDriver().findElement(By.xpath("//button[contains(@name,'Submit')]")).click();
+        Thread.sleep(3000);
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[contains(@class,'job-index-headline page-headline')]")).getText(),"Project Test1");
+
+
+    }
 }
