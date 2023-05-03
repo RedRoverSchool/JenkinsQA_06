@@ -9,6 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -21,10 +22,8 @@ public class CatGroupTest extends BaseTest {
 
     @FindBy(xpath = "//a[@href='newJob']")
     private WebElement createAJobButton;
-
     @FindBy(xpath = "//div[@id='items']//span[@class='label']")
     private List<WebElement> itemsNameOfLabels;
-
     @FindBy(xpath = "//button[@id='ok-button']")
     private WebElement okButton;
     @FindBy(xpath = "//div[@class='add-item-name']/input[@id='name']")
@@ -41,9 +40,14 @@ public class CatGroupTest extends BaseTest {
     private WebElement versionOfJenkins;
     @FindBy(xpath = "//div[@id='tasks']//div[4]/span")
     private WebElement manageJenkinsButton;
+    @FindBy(xpath = "//header[@id = 'page-header']//button")
+    private WebElement dropDownTopMenu;
+    @FindBy(xpath = "//ul[@class='first-of-type']//li")
+    private List<WebElement> dropDownItemsTopMenu;
+    @FindBy(xpath = "//div[@id='tasks']//div")
+    private List<WebElement> featureListSidePanel;
 
     public WebDriverWait webDriverWait10;
-
 
     public final WebDriverWait getWait10() {
         if (webDriverWait10 == null) {
@@ -113,6 +117,21 @@ public class CatGroupTest extends BaseTest {
         verifyElementVisible(h1CreatedProject);
         return getText(h1CreatedProject);
     }
+    public void clickByJavaScript(WebElement element) {
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", element);
+    }
+    public boolean isAllItemsAreVisibleAndClickable(List<WebElement> elements){
+        List<WebElement> allItemsDropDown = new ArrayList<>(elements);
+        int count = 0;
+        for (WebElement dropDownItem: allItemsDropDown){
+          if(dropDownItem.isDisplayed()){
+              verifyElementIsClickable(dropDownItem);
+              count ++;
+          }
+        }
+        return elements.size() == count;
+    }
 
     @Test
     public void testNameOfItemsOfLabels() {
@@ -178,4 +197,108 @@ public class CatGroupTest extends BaseTest {
 
         Assert.assertTrue(actualResult);
     }
+    @Ignore
+    @Test
+    public void testItemsOfDropDownTopMenuIsVisibleAndClickable(){
+        PageFactory.initElements(getDriver(), this);
+        clickByJavaScript(dropDownTopMenu);
+        Assert.assertTrue(isAllItemsAreVisibleAndClickable(dropDownItemsTopMenu));
+    }
+
+    @Test
+    public void testUserAdd() {
+        WebElement manageJenkinsLink = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
+        manageJenkinsLink.click();
+
+        WebElement manageUsersLink = getDriver().findElement(By.xpath("//a[@href = 'securityRealm/']"));
+        manageUsersLink.click();
+
+        WebElement createUserLink = getDriver().findElement(By.xpath("//a[@href = 'addUser']"));
+        createUserLink.click();
+
+        WebElement userNameField = getDriver().findElement(By.xpath("//input[@name = 'username']"));
+        userNameField.sendKeys("UserNameTest");
+        WebElement passwordFieild = getDriver().findElement(By.xpath("//input[@name = 'password1']"));
+        passwordFieild.sendKeys("qwerty");
+        WebElement passwordConfirmField = getDriver().findElement(By.xpath("//input[@name = 'password2']"));
+        passwordConfirmField.sendKeys("qwerty");
+        WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name = 'fullname']"));
+        fullNameField.sendKeys("Jack Black");
+        WebElement emailField = getDriver().findElement(By.xpath("//input[@name = 'email']"));
+        emailField.sendKeys("JB@jb.tre");
+        WebElement createUserButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        createUserButton.click();
+
+        List<WebElement> listOfUsers = getDriver().findElements(By.xpath("//table[@id = 'people']/tbody/tr/td[2]"));
+        String actualResult = null;
+        for (WebElement listOfUser : listOfUsers) {
+            if (listOfUser.getText().equals("UserNameTest")) {
+                actualResult = listOfUser.getText();
+            }
+        }
+
+        Assert.assertEquals(actualResult, "UserNameTest");
+    }
+
+    @Test
+    public void testAddNewLogRecorder() {
+        WebElement manageJenkinsLink = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
+        manageJenkinsLink.click();
+
+        WebElement systemLogLink = getDriver().findElement(By.xpath("//*[@href = 'log']"));
+        systemLogLink.click();
+
+        WebElement addNewLogRecorderButton = getDriver().findElement(By.xpath("//*[@href = 'new']"));
+        addNewLogRecorderButton.click();
+
+        String recorderName = "newLogRecorder_1";
+        WebElement inputNameField = getDriver().findElement(By.xpath("//input[@checkdependson = 'name']"));
+        inputNameField.sendKeys(recorderName);
+
+        WebElement createButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        createButton.click();
+
+        WebElement saveButton2 = getDriver().findElement(By.xpath("//*[@colspan = '4']/button"));
+        saveButton2.click();
+
+        WebElement addedRecorderName = getDriver().findElement(By.xpath("//div[@id = 'main-panel']/h1"));
+        String expectedResult = addedRecorderName.getText();
+
+       Assert.assertEquals(recorderName, expectedResult);
+    }
+    @Test
+    public void testSidePanelNames() {
+
+        final List<String> expectedSidePanelNames = Arrays.asList("New Item", "People", "Build History",
+                "Manage Jenkins", "My Views");
+        PageFactory.initElements(getDriver(), this);
+        List<String> actualSidePanelNames = getNamesOfLists(featureListSidePanel);
+
+        Assert.assertEquals(actualSidePanelNames, expectedSidePanelNames);
+    }
+    @Test
+    public void dashbroadMenu() {
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
+        WebElement people = getDriver().findElement(By.xpath("//span[text()='People']"));
+        WebElement buildHistory = getDriver().findElement(By.xpath("//span[text() = 'Build History']"));
+        WebElement manageJenkins = getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']"));
+        WebElement myViews = getDriver().findElement(By.xpath("//span[text() = 'My Views']"));
+
+        ArrayList <String> actualResult = new ArrayList<>();;
+        actualResult.add(newItem.getText());
+        actualResult.add(people.getText());
+        actualResult.add(buildHistory.getText());
+        actualResult.add(manageJenkins.getText());
+        actualResult.add(myViews.getText());
+
+        ArrayList<String> expectedResult = new ArrayList<>();
+        expectedResult.add("New Item");
+        expectedResult.add("People");
+        expectedResult.add("Build History");
+        expectedResult.add("Manage Jenkins");
+        expectedResult.add("My Views");
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+
 }
