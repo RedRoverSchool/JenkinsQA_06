@@ -321,6 +321,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
     @Test
     public void testADLearnMoreHeaders() {
+        getDriver().manage().window().maximize();
         List<String> expectedResult = Arrays.asList("Enter an item name", "New node", "Configure Clouds", "Jenkins");
 
         getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='newJob']")).click();
