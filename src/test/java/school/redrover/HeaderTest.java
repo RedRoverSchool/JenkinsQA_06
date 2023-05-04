@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -11,8 +12,19 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HeaderTest extends BaseTest {
+
+    public static List<String> listText(List<WebElement> elementList) {
+        List<String> stringList = new ArrayList<>();
+        for (WebElement element : elementList) {
+            stringList.add(element.getText());
+        }
+        return stringList;
+    }
+
     @Test
     public void testHeaderLogoIcon() throws IOException {
         WebElement logoIcon = getDriver().findElement(By.xpath("//*[@id=\"jenkins-head-icon\"]"));
@@ -140,5 +152,19 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-name-icon")).isDisplayed());
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-head-icon")).isDisplayed());
+    }
+
+    @Test
+    public void testDropdownMenuNamesInHeader() {
+        List expectedDropDownMenuNames = List.of("Builds", "Configure", "My Views", "Credentials");
+
+        WebElement dropdownMenuButton = getDriver().findElement(By.cssSelector("#page-header a.model-link .jenkins-menu-dropdown-chevron"));
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(dropdownMenuButton).click().build().perform();
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='breadcrumb-menu']//a/span")));
+        List<WebElement> dropDownMenus = getDriver().findElements(By.xpath("//div[@id='breadcrumb-menu']//a/span"));
+
+        Assert.assertEquals(listText(dropDownMenus), expectedDropDownMenuNames);
     }
 }
