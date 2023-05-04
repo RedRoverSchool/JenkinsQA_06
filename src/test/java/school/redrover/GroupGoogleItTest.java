@@ -3,37 +3,15 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import java.util.List;
 import java.util.Set;
 
 
 public class GroupGoogleItTest extends BaseTest {
-
-    private WebElement findFolderElementByTextLabel(String label) {
-        List<WebElement> listWebElements = getDriver().findElements(By.xpath("//span[@class = 'label']"));
-        WebElement result = null;
-        for (WebElement element : listWebElements){
-            if (element.getText().equals(label)){
-                result = element;
-            }
-        }
-        return result;
-    }
-
-    private WebElement findAboutJenkinsElementByText() {
-        List<WebElement> listOfWebElements = getDriver().findElements(By.xpath("//div[@class = 'jenkins-section__item']//dl/dt"));
-        WebElement result = null;
-        for (WebElement element : listOfWebElements){
-            if (element.getText().equals("About Jenkins")){
-                result = element;
-            }
-        }
-        return result;
-    }
 
     private void switchToWindow(String windowDescriptor) {
         getDriver().switchTo().window(windowDescriptor);
@@ -47,54 +25,60 @@ public class GroupGoogleItTest extends BaseTest {
     }
 
     @Test
-    public void testIfErrorMessageIsDisplayedWhenAnItemNameContainsPoundAsSecondSymbol() throws InterruptedException {
+    public void testIfErrorMessageIsDisplayedWhenAnItemNameContainsPoundAsSecondSymbol() {
         String expectedResult = "Error";
         String folderName = "a#";
+
         WebElement newItemIcon = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
-        Thread.sleep(2000);
         newItemIcon.click();
-        Thread.sleep(2000);
-        WebElement folder = findFolderElementByTextLabel("Folder");
+
+        WebElement folder = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='Folder']")));
         folder.click();
+
         WebElement enterAnItemNameBar = getDriver().findElement(By.xpath("//input[@name = 'name']"));
         enterAnItemNameBar.sendKeys(folderName);
+
         WebElement okButton = getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
         okButton.click();
+
         WebElement errorMessage = getDriver().findElement(By.xpath("//h1"));
 
         Assert.assertEquals(errorMessage.getText(), expectedResult);
     }
 
     @Test
-    public void testTheSearchBarOnTheDashBoardWithNoMatchingResults() throws InterruptedException {
+    public void testTheSearchBarOnTheDashBoardWithNoMatchingResults() {
         String expectedResult = "Nothing seems to match.";
-        Thread.sleep(2000);
+
         WebElement searchBarOnDashBoard = getDriver().findElement(By.xpath("//input[@role = 'searchbox']"));
         searchBarOnDashBoard.click();
-        Thread.sleep(3000);
+
         searchBarOnDashBoard.sendKeys("Java");
         searchBarOnDashBoard.sendKeys(Keys.ENTER);
-        WebElement errorMessage = getDriver().findElement(By.xpath("//div[@class = 'error']"));
+
+        WebElement errorMessage = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class = 'error']")));
 
         Assert.assertEquals(errorMessage.getText(), expectedResult);
 
     }
 
     @Test
-    public void testIfTheCorrectPageIsOpenedWhenClickOnJavaConcurrencyOnAboutJenkinsPage() throws InterruptedException {
+    public void testIfTheCorrectPageIsOpenedWhenClickOnJavaConcurrencyOnAboutJenkinsPage() {
         String expectedResult = "https://jcip.net/";
         String window1 = getDriver().getWindowHandle();
 
-        Thread.sleep(3000);
 
         WebElement manageJenkinsLink = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
         manageJenkinsLink.click();
-        Thread.sleep(2000);
-        WebElement aboutJenkinsLink = findAboutJenkinsElementByText();
+
+        WebElement aboutJenkinsLink = getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//dt[ text() = 'About Jenkins']")));
         aboutJenkinsLink.click();
-        Thread.sleep(2000);
-        WebElement javaConcurrencyInPracticeLink = getDriver().findElement(By.xpath("//a[@href = 'http://jcip.net/']"));
+
+        WebElement javaConcurrencyInPracticeLink = getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href = 'http://jcip.net/']")));
         javaConcurrencyInPracticeLink.click();
+
         String window2 = "";
         Set<String> currentWindows = getDriver().getWindowHandles();
 
@@ -106,9 +90,6 @@ public class GroupGoogleItTest extends BaseTest {
         }
         switchToWindow(window2);
 
-        Thread.sleep(2000);
-
-        getDriver().switchTo();
         String actualResult = getDriver().getCurrentUrl();
 
         Assert.assertEquals(actualResult, expectedResult);
@@ -116,13 +97,14 @@ public class GroupGoogleItTest extends BaseTest {
     }
 
     @Test
-    public void testIfOkButtonIsDisabledWhenAddNewItemWithEmptyName() throws InterruptedException {
+    public void testIfOkButtonIsDisabledWhenAddNewItemWithEmptyName() {
         String expectedResult = "true";
         WebElement newItemIcon = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
-        Thread.sleep(2000);
         newItemIcon.click();
-        Thread.sleep(2000);
-        WebElement okButton = getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
+
+        WebElement okButton = getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//button[@id = 'ok-button']")));
+
         String actualResult = okButton.getAttribute("disabled");
 
         Assert.assertEquals(actualResult, expectedResult);
