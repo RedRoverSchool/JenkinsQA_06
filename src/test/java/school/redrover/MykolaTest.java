@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -41,9 +42,8 @@ public class MykolaTest extends BaseTest {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(folderNameButton).perform();
 
-        Thread.sleep(500);
         WebElement dropDownButton = getDriver().findElement(By.xpath("//a[contains(@href,'job')]/button[@class='jenkins-menu-dropdown-chevron']"));
-        dropDownButton.click();
+        actions.moveToElement(dropDownButton).click().build().perform();
         Thread.sleep(500);
     }
 
