@@ -468,4 +468,19 @@ public class AlexLeoGroupTests extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div")).getText(), DESCRIPTION);
     }
+
+    @Test
+    public void testVerifySomething() {
+        List<String> listSystemConfigurationExpected = Arrays.asList
+                ("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
+
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(text(),'Manage')]")));
+        List<WebElement> listSystemConfiguration = getDriver().findElements(By.cssSelector(".jenkins-section__title"));
+        for (int i = 0; i < listSystemConfiguration.size(); i++) {
+
+            Assert.assertEquals(listSystemConfiguration.get(i).getText(), listSystemConfigurationExpected.get(i));
+        }
+    }
 }
