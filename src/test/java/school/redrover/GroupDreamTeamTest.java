@@ -260,7 +260,7 @@ public class GroupDreamTeamTest extends BaseTest {
     public void testAddNewCredentials() {
         WebDriverWait wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        wait5.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//dt[text()='Credentials']"))).click();
+        wait5.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//dd[text()= 'Configure credentials ']"))).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), "Stores scoped to Jenkins");
     }
@@ -284,22 +284,23 @@ public class GroupDreamTeamTest extends BaseTest {
 
       @Test
     public void testSearchBoxInsensitive() {
-        WebDriverWait wait2 = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
-        getDriver().findElement(By.linkText("admin")).click();
+        //WebDriverWait wait2 = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        getDriver().findElement(By.xpath("//div[@class=\'login page-header__hyperlinks\']//a[@class=\'model-link\']")).click();
+
         getDriver().findElement(By.xpath("//a[@href='/user/admin/configure']")).click();
-        WebElement checkBoxInsensitiveSearch = wait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='insensitiveSearch']")));
+        WebElement checkBoxInsensitiveSearch = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='insensitiveSearch']")));
 
         Assert.assertEquals(checkBoxInsensitiveSearch.getAttribute("checked"), "true");
 
         WebElement searchBox = getDriver().findElement(By.id("search-box"));
         searchBox.sendKeys("built");
-        WebElement searchItem = wait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='yui-ac-bd']/ul/li[1]")));
+        WebElement searchItem = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='yui-ac-bd']/ul/li[1]")));
 
         Assert.assertEquals(searchItem.getText(), "Built-In Node");
 
         searchBox.clear();
         searchBox.sendKeys("Built");
-        WebElement searchItem2 = wait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='yui-ac-bd']/ul/li[1]")));
+        WebElement searchItem2 = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='yui-ac-bd']/ul/li[1]")));
 
         Assert.assertEquals(searchItem2.getText(), "Built-In Node");
     }
