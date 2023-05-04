@@ -29,7 +29,7 @@ public class QaRabbitHoleTest extends BaseTest {
     }
 
     @Test
-    public void testLogout1() {
+    public void testLogout2() {
         WebElement exit = getDriver().findElement((By.xpath("//a[@href='/logout']")));
         exit.click();
 
