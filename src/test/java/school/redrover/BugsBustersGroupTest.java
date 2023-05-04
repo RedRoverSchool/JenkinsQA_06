@@ -309,8 +309,7 @@ public class BugsBustersGroupTest extends BaseTest {
         action2.moveToElement(jobMenuButton).click().perform();
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//li[@index = '4']/a"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@index = '4']/a"))).click();
 
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
