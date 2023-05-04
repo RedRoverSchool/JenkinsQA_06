@@ -138,26 +138,27 @@ public class GroupLargusTest extends BaseTest {
         WebElement projectNameInList = getDriver().findElement(By.xpath(
                 "//tr[@id='job_" + projectName + "']//span[text()='" + projectDescription + "']"));
 
-        //button[@class='jenkins-menu-dropdown-chevron']
         actions
                 .moveToElement(projectNameInList)
                 .build().perform();
-        WebElement dropdownListForProject = getDriver().findElement(By.xpath(
+        WebElement dropdownListForProjectButton = getDriver().findElement(By.xpath(
                 "//tr[@id='job_" + projectName + "']//span[text()='" + projectDescription + "']/following-sibling::button"));
+        WebElement dropdownListForProjectSpan = getDriver().findElement(By.xpath(
+                "//tr[@id='job_" + projectName + "']//span[text()='" + projectDescription + "']"));
         actions
-                .moveToElement(dropdownListForProject)
-                .click(dropdownListForProject)
+                .moveToElement(dropdownListForProjectSpan)
+                .moveToElement(dropdownListForProjectButton)
+                .click(dropdownListForProjectButton)
                 .build().perform();
 
         getDriver().findElement(By.xpath("//a[@href='/job/" + projectName + "/configure']")).click();
         actions
-                .scrollByAmount(0, 1000)
+                .scrollByAmount(0, 800)
                 .build().perform();
 
         WebElement errorMessage = getDriver().findElement(By.xpath(
                 "//input[@name='_.url']/../following-sibling::div//div[@class='error']"));
 
         Assert.assertTrue(errorMessage.isEnabled());
-        // and contains(text(), 'Please enter Git repository')
     }
 }
