@@ -190,7 +190,7 @@ public class HelloWorldGroupTest extends BaseTest{
 
     @Test
     public void testHelpLink(){
-
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText("Learn more about distributed builds")));
         WebElement helpLink = getDriver().findElement(By.linkText("Learn more about distributed builds"));
 
         String handle = getDriver().getWindowHandle();
