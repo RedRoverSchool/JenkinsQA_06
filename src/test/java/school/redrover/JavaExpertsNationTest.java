@@ -228,4 +228,13 @@ public class JavaExpertsNationTest extends BaseTest {
                 By.xpath("//*[@id='job_My second pipeline']/td/a/span")).getText(),
                 secondPipelineName);
     }
+    @Test
+    public void testReturnHomPage(){
+        getDriver().findElement(By.xpath("//*[@href='/manage']")).click();
+        getDriver().findElement(By.xpath("//*[@href='configure']")).click();
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
+        WebElement homPage = getDriver().findElement
+                (By.xpath("//div[@class='empty-state-block']/h1"));
+        Assert.assertEquals(homPage.getText(), "Welcome to Jenkins!");
+    }
 }
