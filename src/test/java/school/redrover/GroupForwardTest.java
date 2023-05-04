@@ -7,13 +7,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GroupForwardTest extends BaseTest {
@@ -185,14 +183,37 @@ public class GroupForwardTest extends BaseTest {
         iconLegendButton.click();
 
         WebElement textProjectHealth = getDriver().findElement(By.xpath("//div/h2[text()='Project Health']"));
-
         List<WebElement> listProjectHealth = getDriver().findElements(By.xpath("//div/dl[@class='app-icon-legend'][2]/dd"));
 
-        List<String> textList = List.of("Project health is over 80%", "Project health is over 60% and up to 80%",
+        Assert.assertEquals(textProjectHealth.getText(), "Project Health");
+        Assert.assertEquals(listProjectHealth.size(), 5);
+    }
+
+
+    private List<String> getListProject(List<WebElement> WebList) {
+        if(WebList.size() > 0) {
+            List<String> text = new ArrayList<>();
+            for (WebElement webElement : WebList) {
+                text.add(webElement.getText());
+            }
+
+            return text;
+        }
+
+        return null;
+    }
+    @Test
+    public void testListProjectHealth(){
+        WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/builds']"));
+        newItemMenu.click();
+        WebElement iconLegendButton = getDriver().findElement(By.xpath("//a[@href = '/legend']"));
+        iconLegendButton.click();
+        List<WebElement> listProjectHealth = getDriver().findElements(By.xpath("//div/dl[@class='app-icon-legend'][2]/dd"));
+
+        List<String> textListExpected = List.of("Project health is over 80%", "Project health is over 60% and up to 80%",
                 "Project health is over 40% and up to 60%", "Project health is over 20% and up to 40%", "Project health is 20% or less");
 
-        Assert.assertEquals(textProjectHealth.getText(), "Project Health");
+        Assert.assertEquals(getListProject(listProjectHealth), textListExpected);
 
-        Assert.assertEquals(listProjectHealth.size(), 5);
     }
 }
