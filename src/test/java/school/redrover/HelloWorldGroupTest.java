@@ -187,4 +187,26 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(deleteCheck.getText(),"Start building your software project");
     }
 
+    @Test
+    public void testHelpLink(){
+
+
+        WebElement helpLink = getDriver().findElement(By.linkText("Learn more about distributed builds"));
+
+        String handle = getDriver().getWindowHandle();
+
+        helpLink.click();
+
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if(!handle.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        String title = getDriver().getTitle();
+        Assert.assertEquals("Jenkins : Distributed builds", title);
+
+    }
+
 }
