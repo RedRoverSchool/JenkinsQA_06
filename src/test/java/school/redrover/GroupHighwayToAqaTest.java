@@ -468,8 +468,9 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         Assert.assertEquals(folderName.getText(), "New folder");
     }
+
     @Test
-    public void testCreateNewPipeline(){
+    public void testCreateNewPipeline() {
         String name = "Мой проект";
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
@@ -491,6 +492,13 @@ public class GroupHighwayToAqaTest extends BaseTest {
         saveChanges.click();
         WebElement nameOfPipeline = getDriver().findElement(xpath("//h1[@class='job-index-headline page-headline']"));
         String nameOfPipeline1 = nameOfPipeline.getText();
-        Assert.assertEquals(nameOfPipeline1, "Pipeline "+ name);
+        Assert.assertEquals(nameOfPipeline1, "Pipeline " + name);
+    }
+
+    @Test
+    public void testH1Text() {
+        WebElement h1Text = getDriver().findElement(By.xpath("//div[@id='main-panel']//h1"));
+        Assert.assertEquals(h1Text.getText(), "Welcome to Jenkins!");
     }
 }
+
