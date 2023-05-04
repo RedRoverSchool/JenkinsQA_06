@@ -7,7 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import static org.testng.Assert.assertEquals;
-import jdk.jfr.Description;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -68,13 +67,11 @@ public class HeaderTest extends BaseTest {
         assertEquals(hoverHelpButtonColor, "rgba(64, 64, 64, 1)");
     }
 
-    @Description("Verify the placeholder text in the search field")
     @Test
     public void testSearchFieldPlaceholder() {
         Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("placeholder"), "Search (CTRL+K)");
     }
 
-    @Description("Verify the status of autocomplete in the search field")
     @Test
     public void testSearchFieldAutocomplete() {
         Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
