@@ -100,12 +100,6 @@ public class QaAutomationJavaTest extends BaseTest {
         List<WebElement> titles =  getDriver().findElements(By.xpath("//a[@class = 'sortheader']")); // локатор на все элементы в таблице
         List<String> actualMenu = new ArrayList<>();
 
-      /*  for (int i = 0; i < expectedMenu.size(); i++) {
-            String actualMenuItems = expectedMenu.get(i);
-            //System.out.println(actualMenuItems);
-            //System.out.println(dataInTable.size());
-            Assert.assertEquals(actualMenuItems, expectedMenu.get(i));
-        }*/
         for (int i = 0; i < titles.size(); i++) {
             if (titles.get(i).getText().contains("↑")) {
                 actualMenu.add(titles.get(i).getText().replace("↑", "").trim());
