@@ -17,10 +17,8 @@ public class NeedMoreCoffeeTest extends BaseTest {
 
         WebElement buttonPeople = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a"));
         buttonPeople.sendKeys(Keys.RETURN);
-        WebElement element = (new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"person-admin\"]/td[2]/a"))));
-
-        WebElement buttonAdmin = getDriver().findElement(By.xpath("//*[@id=\"person-admin\"]/td[2]/a"));
+        WebDriverWait waiter = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement buttonAdmin = waiter.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"person-admin\"]/td[2]/a")));
         buttonAdmin.sendKeys(Keys.RETURN);
         WebElement textUserId = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]"));
 
@@ -76,6 +74,7 @@ public class NeedMoreCoffeeTest extends BaseTest {
 
     @Test
     public void testNewFolder() {
+
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[2]/div/section[1]/ul/li/a"));
         newItem.sendKeys(Keys.RETURN);
         WebElement field = getDriver().findElement(By.xpath("//*[@id=\"name\"]"));
@@ -163,4 +162,25 @@ public class NeedMoreCoffeeTest extends BaseTest {
         Assert.assertEquals(textPipeline.getText(), "A problem occurred while processing the request.");
 
     }
-}
+
+    @Test
+    public void testNewMultiConfigurationProject() {
+
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItem.sendKeys(Keys.RETURN);
+        WebElement field = getDriver().findElement(By.xpath("//input[@id='name']"));
+        field.sendKeys("project");
+        WebElement freestyleProject = getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']"));
+        freestyleProject.sendKeys(Keys.RETURN);
+        WebElement tabOk = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        tabOk.sendKeys(Keys.RETURN);
+        WebElement description = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        description.sendKeys("MultiConfigurationProject");
+        WebElement tabSave = getDriver().findElement(By.xpath("//button[normalize-space()='Save']"));
+        tabSave.sendKeys(Keys.RETURN);
+
+        WebElement text = getDriver().findElement(By.xpath("//div[normalize-space()='MultiConfigurationProject']"));
+
+        Assert.assertEquals(text.getText(), "MultiConfigurationProject");
+
+} }

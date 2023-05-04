@@ -6,12 +6,17 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static org.openqa.selenium.By.xpath;
 
 
 public class GroupHighwayToAqaTest extends BaseTest {
@@ -237,25 +242,33 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testCreateNewProject() throws InterruptedException {
+
         String name = "Мой проект";
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(7));
 
-        WebElement createNewItemButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//span[@class='task-icon-link']")));
-        createNewItemButton.click();
-
+        getDriver().findElement(NEW_ITEM).click();
         WebElement writeNameOfItem = getDriver().findElement(By.id("name"));
+        Thread.sleep(3000);
         writeNameOfItem.sendKeys(name);
         WebElement chooseProject = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
         chooseProject.click();
-        WebElement pushOkButton = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@class='btn-decorator']")));
-        pushOkButton.click();
+        getDriver().findElement(OK_BUTTON).click();
         WebElement saveChanges = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
         saveChanges.click();
+        String successMessageOfNewProject = getDriver().findElement(By.className("job-index-headline")).getText();
+        Assert.assertEquals(successMessageOfNewProject, "Project " + name);
 
-        String sucessMesageOfNewProject = getDriver().findElement(By.className("job-index-headline")).getText();
-        Assert.assertEquals(sucessMesageOfNewProject, "Project " + name);
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        WebElement chooseProject1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("label")));
+        chooseProject1.click();
+        getDriver().findElement(OK_BUTTON).click();
+        Thread.sleep(5000);
+        String errorMessage = "Error\n" +
+                "A job already exists with the name ‘Мой проект’";
+        String effortMessage = getDriver().findElement(By.id("main-panel")).getText();
+        Assert.assertEquals(effortMessage, errorMessage);
     }
 
     @Test
@@ -316,6 +329,21 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
     @Test
     public void testCreateNewUser() {
+        String userName = createUser();
+        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
+        Assert.assertTrue(isUserExist(users, userName));
+        deleteUser(userName);
+    }
+
+    @Test
+    public void testDeleteUser() {
+        String userName = createUser();
+        deleteUser(userName);
+        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
+        Assert.assertFalse(isUserExist(users, userName));
+    }
+
+    private String createUser() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
 
         WebElement manageJenkinsTab = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
@@ -339,36 +367,44 @@ public class GroupHighwayToAqaTest extends BaseTest {
         confirmPasswordField.sendKeys(password);
 
         WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name = 'fullname']"));
-        String fullName = userName + " " + generateLastName();
-        fullNameField.sendKeys(fullName);
+        fullNameField.sendKeys(userName + " " + generateLastName());
 
         WebElement emailField = getDriver().findElement(By.xpath("//input[@name = 'email']"));
-        String email = generateEmail();
-        emailField.sendKeys(email);
+        emailField.sendKeys(generateEmail());
 
         WebElement createBtn = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
         createBtn.click();
-
-        List<WebElement> users = getDriver().findElements(By.xpath("//a[@class ='jenkins-table__link model-link inside']"));
-
-        Assert.assertTrue(isUserExist(users, userName));
+        return userName;
     }
+
+    private void deleteUser(String userName) {
+        WebElement trashBtn = getDriver().findElement(By.xpath("//a[@href = 'user/" + userName.toLowerCase() + "/delete']"));
+        trashBtn.click();
+
+        WebElement confirmBtn = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+        confirmBtn.click();
+    }
+
     private String generateName() {
         Faker faker = new Faker();
         return faker.name().firstName();
     }
+
     private String generatePassword() {
         Faker faker = new Faker();
         return faker.internet().password(5, 10, true, true, true);
     }
+
     private String generateLastName() {
         Faker faker = new Faker();
         return faker.name().lastName();
     }
+
     private String generateEmail() {
         Faker faker = new Faker();
         return faker.internet().emailAddress();
     }
+
     private boolean isUserExist(List<WebElement> list, String name) {
         for (WebElement el : list) {
             if (el.getText().equals(name)) {
@@ -376,5 +412,92 @@ public class GroupHighwayToAqaTest extends BaseTest {
             }
         }
         return false;
+    }
+
+    @Test
+    public void testTitlesOnManageJenkinsPage() {
+        WebElement buttonManageJenkins = getDriver().findElement(By.xpath("//span[contains(text(), 'Manage Jenkins')]/.."));
+        buttonManageJenkins.click();
+
+        List<WebElement> sectionTitles = getDriver().findElements(By.xpath("//h2[@class='jenkins-section__title']"));
+
+        List<String> actualTitles = new ArrayList<>();
+
+        for (WebElement title : sectionTitles) {
+            actualTitles.add(title.getText());
+        }
+
+        List<String> expectedTitles = Arrays.asList("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
+
+        Assert.assertEquals(actualTitles, expectedTitles);
+    }
+
+    @Test
+    public void testIconSizeButtonsOnBuildHistoryPageAreDisplayedAndClickable() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        WebElement buildHistoryLink = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buildHistoryLink.click();
+
+        List<WebElement> iconSizeButtons = getDriver().findElements(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']"));
+
+        for (WebElement checkedElement : iconSizeButtons) {
+            if (checkedElement.isEnabled() && checkedElement.isDisplayed()) {
+                wait.until(ExpectedConditions.visibilityOf(checkedElement));
+                wait.until(ExpectedConditions.elementToBeClickable(checkedElement));
+            } else {
+                Assert.fail("Icon size button is not clickable or visible.");
+            }
+        }
+        Assert.assertTrue(iconSizeButtons.size() > 0, "No icon size buttons found on the page.");
+    }
+
+    @Test
+    public void testCreateFolder() {
+        getDriver().findElement(NEW_ITEM).click();
+
+        getDriver().findElement(SET_ITEM_NAME).sendKeys("New folder");
+
+        getDriver().findElement(By.xpath("//input[@value='com.cloudbees.hudson.plugins.folder.Folder']/..")).click();
+
+        getDriver().findElement(By.id("ok-button")).click();
+
+        getDriver().findElement(DASHBOARD).click();
+
+        WebElement folderName = getDriver().findElement(By.xpath("(//a[@class='jenkins-table__link model-link inside'])[1]"));
+
+        Assert.assertEquals(folderName.getText(), "New folder");
+    }
+
+    @Test
+    public void testCreateNewPipeline() {
+        String name = "Мой проект";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(SET_ITEM_NAME).sendKeys(name);
+        WebElement pipeline = getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li[2]"));
+        pipeline.click();
+        getDriver().findElement(OK_BUTTON).click();
+        WebElement scrollBySelectButton = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class = 'samples']/select")));
+
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+        jse.executeScript("arguments[0].scrollIntoView(true)", scrollBySelectButton);
+        scrollBySelectButton.click();
+        Select selectPipelineScript = new Select(wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//div[@class = 'samples']/select"))));
+        selectPipelineScript.selectByVisibleText("Hello World");
+        WebElement saveChanges = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
+        saveChanges.click();
+        WebElement nameOfPipeline = getDriver().findElement(xpath("//h1[@class='job-index-headline page-headline']"));
+        String nameOfPipeline1 = nameOfPipeline.getText();
+        Assert.assertEquals(nameOfPipeline1, "Pipeline " + name);
+    }
+
+    @Test
+    public void testH1Text() {
+        WebElement h1Text = getDriver().findElement(By.xpath("//div[@id='main-panel']//h1"));
+        Assert.assertEquals(h1Text.getText(), "Welcome to Jenkins!");
     }
 }

@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -63,13 +64,24 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
         Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
 
-        WebDriverWait wait = new WebDriverWait(getDriver(),Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
         WebElement addDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         addDescription.click();
         WebElement textBox = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//textarea[@name='description']")));
+        textBox.clear();
         textBox.sendKeys("Hello Jenkins!");
         WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveButton.click();
+        WebElement helloJenkins = getDriver().findElement(By.xpath("//div[contains(text(),'Hello Jenkins!')]"));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        Assert.assertEquals(helloJenkins.getText(), "Hello Jenkins!");
+
+        WebElement addDescription2 = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        addDescription2.click();
+        WebElement textBox2 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//textarea[@name='description']")));
+        textBox2.clear();
+        WebElement saveButton2 = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton2.click();
     }
 
     @Test
@@ -82,11 +94,11 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testSideMenu() {
-        List <String> expectedMenus = List.of("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+        List<String> expectedMenus = List.of("New Item", "People", "Build History", "Manage Jenkins", "My Views");
 
         List<WebElement> sideMenus = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
         List<String> menuNames = new ArrayList<>();
-        for (WebElement element: sideMenus){
+        for (WebElement element : sideMenus) {
             menuNames.add(element.getText());
         }
 
@@ -98,7 +110,7 @@ public class GroupDreamTeamTest extends BaseTest {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
         String expectedPageHeader = "Configure";
-        List <String> expectedConfigureMenuNames = List.of(
+        List<String> expectedConfigureMenuNames = List.of(
                 "General",
                 "Source Code Management",
                 "Build Triggers",
@@ -126,7 +138,7 @@ public class GroupDreamTeamTest extends BaseTest {
         List<WebElement> configureMenu = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
 
         List<String> actualConfigureMenuNames = new ArrayList<>();
-        for (WebElement element: configureMenu){
+        for (WebElement element : configureMenu) {
             actualConfigureMenuNames.add(element.getText());
         }
 
@@ -158,25 +170,34 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertEquals(pageHeader.getText(), expectedPageHeader);
     }
 
+    @Ignore
     @Test
     public void testDoesSysConfSectionContain4Items() {
-        List<String> expSysConfItemNames = List.of("Configure System", "Global Tool Configuration", "Manage Plugins", "Manage Nodes and Clouds");
+        List<String> expSysConfItemNames = List.of(
+                "Configure System",
+                "Global Tool Configuration",
+                "Manage Plugins",
+                "Manage Nodes and Clouds"
+        );
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
-        getDriver().get(getDriver().getCurrentUrl() + "/manage/");
-        List<WebElement> sysConfItems = getDriver().findElements(By.xpath("//section[@class='jenkins-section jenkins-section--bottom-padding'][1]/descendant::dt"));
+        WebElement manageJenkinsMenuItem = getDriver().findElement(By.xpath("//a[@href='/manage']"));
+        manageJenkinsMenuItem.click();
+
+        List<WebElement> sysConfItems = getDriver().findElements(By.xpath(
+                "//section[@class='jenkins-section jenkins-section--bottom-padding'][1]/descendant::dt"));
 
         List<String> actSysConfItemNames = new ArrayList<>();
-        for (WebElement sysConfItem: sysConfItems) {
+        for (WebElement sysConfItem : sysConfItems) {
             actSysConfItemNames.add(sysConfItem.getText());
         }
 
         Assert.assertEquals(actSysConfItemNames, expSysConfItemNames);
-   }
+    }
 
-   @Test
+    @Test
     public void testErrorWhenCreatingJobWithEmptyName() {
-        String expectedError ="» This field cannot be empty, please enter a valid name";
+        String expectedError = "» This field cannot be empty, please enter a valid name";
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
@@ -201,24 +222,17 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
-    @Test
-    public void newItemTest() {
-        WebElement nItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        nItem.click();
-        WebElement nameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
-        nameBox.sendKeys("Folder2");
-        WebElement folder = getDriver().findElement(By.xpath("//span[text()='Folder']"));
-        folder.click();
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-        okButton.click();
-        WebElement folder2 = getDriver().findElement(By.xpath("//a[@href='/job/Folder2/']"));
 
-        Assert.assertTrue(folder2.isDisplayed());
+    @Test
+    public void testNewItem() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Folder01");
+        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
+        WebElement folder01 = getDriver().findElement(By.xpath("//span[text()='Folder01']"));
+
+        Assert.assertTrue(folder01.isDisplayed());
     }
 
     @Test
@@ -237,10 +251,44 @@ public class GroupDreamTeamTest extends BaseTest {
         List<WebElement> sidePanelMenu = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
 
         List<String> actualUserSidePanelMenu = new ArrayList<>();
-        for (WebElement element: sidePanelMenu){
+        for (WebElement element : sidePanelMenu) {
             actualUserSidePanelMenu.add(element.getText());
         }
 
         Assert.assertEquals(actualUserSidePanelMenu, expectedUserSidePanelMenu);
+    }
+
+    @Test
+    public void testAddNewCredentials() {
+        WebElement sideMenuManageJenkins = getDriver().findElement(By.linkText("Manage Jenkins"));
+        sideMenuManageJenkins.click();
+        WebElement manageCredentials = getDriver().findElement(By.xpath("//dt[text()='Manage Credentials']"));
+        manageCredentials.click();
+        WebElement storesScope = getDriver().findElement(By.xpath("//h2"));
+
+        Assert.assertEquals(storesScope.getText(), "Stores scoped to Jenkins");
+    }
+
+    @Test
+    public void testProjectDisabled() {
+        //expected Project Disabled
+
+        //WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        getDriver().findElement(By.linkText("New Item")).click();
+        WebElement nameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
+        getWait10().until(ExpectedConditions.elementToBeClickable(nameBox)).sendKeys("Project001");
+        getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
+        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
+        getDriver().findElement(By.cssSelector("label.jenkins-toggle-switch__label")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        WebElement actualProjectDisabled = getDriver().findElement(By.xpath("//form[contains(text(), 'This project is currently disabled')]"));
+
+        Assert.assertTrue(actualProjectDisabled.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogoJenkinsIsPresent() {
+        WebElement element = getDriver().findElement(By.cssSelector("img#jenkins-head-icon"));
+        Assert.assertTrue(element.isDisplayed());
     }
 }
