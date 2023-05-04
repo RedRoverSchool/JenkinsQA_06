@@ -294,8 +294,12 @@ public class BugsBustersGroupTest extends BaseTest {
         goDashboard.click();
 
         WebElement jobMenu = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='job_test']/td/a")));
-        Actions action = new Actions(getDriver());
-        action.moveToElement(jobMenu).build().perform();
+        Actions action1 = new Actions(getDriver());
+        action1.moveToElement(jobMenu).build().perform();
+
+        WebElement menuButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='job_test']/td/a/button")));
+        Actions action2 = new Actions(getDriver());
+        action2.moveToElement(menuButton).build().perform();
 
         getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='job_test']/td/a/button"))).click();
 
