@@ -5,11 +5,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
 import java.util.List;
 
 public class MykolaTest extends BaseTest {
@@ -34,7 +38,7 @@ public class MykolaTest extends BaseTest {
         saveButton.click();
     }
 
-    private void folderDropDownMenu(String folderName) {
+    private void folderDropDownMenu(String folderName) throws InterruptedException {
         WebElement dashboardPageLink = getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]"));
         dashboardPageLink.click();
 
@@ -43,8 +47,8 @@ public class MykolaTest extends BaseTest {
         actions.moveToElement(folderNameButton).perform();
 
         WebElement dropDownButton = getDriver().findElement(By.xpath("//a[contains(@href,'job')]/button[@class='jenkins-menu-dropdown-chevron']"));
-        actions.click(dropDownButton).perform();
-
+        dropDownButton.click();
+        Thread.sleep(500);
     }
 
     private void renameFolder() {
@@ -93,9 +97,8 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(folderPageName.isDisplayed() && folderPageName.getText().equals(newFolderName));
     }
 
-    @Ignore
     @Test
-    public void testDeleteSecondFolderFromDashboardPage() {
+    public void testDeleteSecondFolderFromDashboardPage() throws InterruptedException {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
         getDriver().findElement(newItemButtonLocator).click();
         createFolder(folderName);
@@ -111,17 +114,16 @@ public class MykolaTest extends BaseTest {
         String deletedFolderName = folderList.get(0).getAttribute("id").split("_")[1];
         folderDropDownMenu(deletedFolderName);
 
-        WebElement deleteFolderButton = getDriver().findElement(By.xpath("//*[@index='2']"));
-        deleteFolderButton.click();
+        By deleteFolderButtonLocator = By.xpath("//*[@index='2']");
+        getDriver().findElement(deleteFolderButtonLocator).click();
         WebElement yesButton = getDriver().findElement(By.xpath("//*[@name='Submit']"));
         yesButton.click();
 
         Assert.assertNull(null, deletedFolderName);
     }
 
-    @Ignore
     @Test
-    public void testRenameFolderFromDashboardPage() {
+    public void testRenameFolderFromDashboardPage() throws InterruptedException {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
         getDriver().findElement(newItemButtonLocator).click();
         createFolder(folderName);
@@ -130,17 +132,16 @@ public class MykolaTest extends BaseTest {
 
         folderDropDownMenu(folderName);
 
-        WebElement renameButton = getDriver().findElement(By.xpath("//*[contains(text(),'Rename')]"));
-        renameButton.click();
+        By renameButtonLocator = By.xpath("//*[contains(text(),'Rename')]");
+        getDriver().findElement(renameButtonLocator).click();
         renameFolder();
 
         WebElement folderPageName = getDriver().findElement(By.xpath("//h1[contains(text(),'" + newFolderName + "')]"));
         Assert.assertTrue(folderPageName.isDisplayed() && folderPageName.getText().equals(newFolderName));
     }
 
-    @Ignore
     @Test
-    public void testAddFolderInExistingFolderThroughDropDownMenu() {
+    public void testAddFolderInExistingFolderThroughDropDownMenu() throws InterruptedException {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
         getDriver().findElement(newItemButtonLocator).click();
         createFolder(folderName);
@@ -149,8 +150,8 @@ public class MykolaTest extends BaseTest {
 
         folderDropDownMenu(folderName);
 
-        WebElement newItemButton = getDriver().findElement(By.xpath("//*[@index='1']"));
-        newItemButton.click();
+        By dropDownNewItemButtonLocator =By.xpath("//*[@index='1']");
+        getDriver().findElement(dropDownNewItemButtonLocator).click();
 
         String addedFolderName = faker.name().firstName();
         createFolder(addedFolderName);
@@ -159,7 +160,6 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(folderPageName.isDisplayed() && folderPageName.getText().equals(addedFolderName));
     }
 
-    @Ignore
     @Test
     public void testAddNewViewThroughAllIconOnCreatedFolder() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
