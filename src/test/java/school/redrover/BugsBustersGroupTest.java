@@ -310,10 +310,7 @@ public class BugsBustersGroupTest extends BaseTest {
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//*[@id='breadcrumb-menu']//ul")));
-
-        WebElement deleteButton = getDriver().findElement(By.xpath("//li[@index = '4']/a"));
-        deleteButton.click();
+                .visibilityOfElementLocated(By.xpath("//li[@index = '4']/a"))).click();
 
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
