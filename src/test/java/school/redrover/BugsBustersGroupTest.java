@@ -1,9 +1,9 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -278,6 +278,13 @@ public class BugsBustersGroupTest extends BaseTest {
 
     @Test
     public void testHiddenButton() {
+        FluentWait<WebDriver> fluentWait = new FluentWait<>(getDriver())
+                .withTimeout(Duration.ofSeconds(5))
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(NoSuchFieldError.class)
+                .ignoring(StaleElementReferenceException.class)
+                .ignoring(ElementClickInterceptedException.class);
+
         WebElement newJob = getDriver().findElement(By.xpath("//*[@id='tasks']//a"));
         newJob.click();
 
@@ -294,14 +301,10 @@ public class BugsBustersGroupTest extends BaseTest {
         goDashboard.click();
 
         WebElement jobMenu = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='job_test']/td/a")));
-        Actions action1 = new Actions(getDriver());
-        action1.moveToElement(jobMenu).build().perform();
+        Actions action = new Actions(getDriver());
+        action.moveToElement(jobMenu).build().perform();
 
-        WebElement menuButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='job_test']/td/a/button")));
-        Actions action2 = new Actions(getDriver());
-        action2.moveToElement(menuButton).build().perform();
-
-        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='job_test']/td/a/button"))).click();
+        fluentWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='job_test']/td/a/button"))).click();
 
         getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='bd']//li[@index='3']/a"))).click();
 
