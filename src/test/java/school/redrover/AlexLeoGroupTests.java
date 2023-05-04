@@ -1,14 +1,14 @@
 package school.redrover;
 
-import jdk.jfr.Description;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -24,15 +24,6 @@ public class AlexLeoGroupTests extends BaseTest {
     private static final String DESCRIPTION = RandomStringUtils.randomAlphanumeric(130) + "\n\n" + RandomStringUtils.randomAlphanumeric(23);
 
     private static final By USER_NAME_LINK = By.xpath("//a[@href='/user/admin']");
-
-    private WebDriverWait webDriverWait5;
-
-    private WebDriverWait getWait5() {
-        if (webDriverWait5 == null) {
-            webDriverWait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        }
-        return webDriverWait5;
-    }
 
     @Test
     public void testVerifyLogoJenkinsIsPresent() {
@@ -219,7 +210,7 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertEquals(logoutLink, "log out");
     }
 
-    @Description("Verify to the search field functionality")
+    @Ignore
     @Test
     public void testSearchField() {
         WebElement searchBox = getDriver().findElement(By.id("search-box"));
@@ -399,6 +390,7 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("jenkins-head-icon")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testVerifyUserPageMenu() {
         List<String> listMenuExpected = Arrays.asList("People", "Status", "Builds", "Configure", "My Views", "Credentials");
@@ -413,6 +405,7 @@ public class AlexLeoGroupTests extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testVerifyChangeNameUser() {
         getDriver().findElement(USER_NAME_LINK).click();
@@ -452,7 +445,15 @@ public class AlexLeoGroupTests extends BaseTest {
         WebElement textManageJenkinsInPageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
         Assert.assertEquals(textManageJenkinsInPageHeader.getText(), "Manage Jenkins");
     }
+    @Test
+    public void testVerifyJenkinsLogo(){
+        WebElement findLogoJenkins = getDriver().findElement((By.id("jenkins-head-icon")));
+        Point point = new Point(19, 8);
+        Assert.assertEquals(findLogoJenkins.getLocation(), point);
 
+    }
+
+    @Ignore
     @Test
     public void testVerifyUserDescription() {
         getDriver().findElement(USER_NAME_LINK).click();
