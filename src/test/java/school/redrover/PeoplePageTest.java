@@ -32,7 +32,7 @@ public class PeoplePageTest extends BaseTest {
         List expectedIconButtonsNames = List.of("S" + "\n" + "mall", "M" + "\n" + "edium", "L" + "\n" + "arge");
 
         getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
-        List<WebElement> iconButtons = getDriver().findElements(By.xpath("//div[@class='jenkins-icon-size']//ol/li"));
+        List<WebElement> iconButtons = getDriver().findElements(By.xpath("//span/a[@href='/asynchPeople/']"));
         List<String> actualIconButtonsNames = ListText(iconButtons);
 
         Assert.assertEquals(actualIconButtonsNames, expectedIconButtonsNames);
