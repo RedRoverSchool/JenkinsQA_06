@@ -22,14 +22,14 @@ public class QaRabbitHoleTest extends BaseTest {
     }
 
     @Test
-    public void testCreateJobTitle1() {
+    public void testCreateJobTitle() {
         WebElement createJob = getDriver().findElement(By.xpath("//a[@href = 'newJob']/span"));
 
         Assert.assertEquals(createJob.getText(), "Create a job");
     }
 
     @Test
-    public void testLogout3() {
+    public void testLogout2() {
         WebElement exit = getDriver().findElement((By.xpath("//a[@href='/logout']")));
         exit.click();
 
