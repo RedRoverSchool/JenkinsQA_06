@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -190,7 +191,6 @@ public class HelloWorldGroupTest extends BaseTest{
     @Test
     public void testHelpLink(){
 
-
         WebElement helpLink = getDriver().findElement(By.linkText("Learn more about distributed builds"));
 
         String handle = getDriver().getWindowHandle();
@@ -204,8 +204,7 @@ public class HelloWorldGroupTest extends BaseTest{
             }
         }
 
-        String title = getDriver().getTitle();
-        Assert.assertEquals("Jenkins : Distributed builds", title);
+        getWait5().until(ExpectedConditions.titleContains("Jenkins : Distributed builds"));
 
     }
 
