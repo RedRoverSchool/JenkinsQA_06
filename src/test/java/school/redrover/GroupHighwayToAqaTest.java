@@ -501,4 +501,3 @@ public class GroupHighwayToAqaTest extends BaseTest {
         Assert.assertEquals(h1Text.getText(), "Welcome to Jenkins!");
     }
 }
-
