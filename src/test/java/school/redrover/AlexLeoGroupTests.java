@@ -470,7 +470,7 @@ public class AlexLeoGroupTests extends BaseTest {
     }
 
     @Test
-    public void testVerifySomething() {
+    public void testVerifySystemConfiguration() {
         List<String> listSystemConfigurationExpected = Arrays.asList
                 ("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
 
