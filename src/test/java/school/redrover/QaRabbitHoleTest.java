@@ -26,4 +26,10 @@ public class QaRabbitHoleTest extends BaseTest {
         WebElement createJob = getDriver().findElement(By.xpath("//a[@href = 'newJob']/span"));
         Assert.assertEquals(createJob.getText(), "Create a job");
     }
+
+    @Test
+    public void testJenkinsLogo() {
+        WebElement logo = getDriver().findElement(By.id("jenkins-head-icon"));
+        Assert.assertTrue(logo.isDisplayed());
+    }
 }
