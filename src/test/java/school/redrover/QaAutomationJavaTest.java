@@ -87,15 +87,6 @@ public class QaAutomationJavaTest extends BaseTest {
         Assert.assertEquals(one.getText(),"People");
 
         List<String> expectedMenu = Arrays.asList("User ID", "Name", "Last Commit Activity", "On");
-        /*List < String > dataInTable = new ArrayList<>();
-        WebElement userId = getDriver().findElement(By.linkText("User ID"));
-        WebElement name = getDriver().findElement(By.xpath("//*[@id=\"people\"]/thead/tr/th[3]/a"));
-        WebElement lastCommitActivity = getDriver().findElement(By.xpath("//*[@id=\"people\"]/thead/tr/th[4]/a"));
-        WebElement on = getDriver().findElement(By.xpath( "//*[@id=\"people\"]/thead/tr/th[5]/a"));
-        dataInTable.add(userId.getText());
-        dataInTable.add(name.getText());
-        dataInTable.add(lastCommitActivity.getText());
-        dataInTable.add(on.getText());*/
 
         List<WebElement> titles =  getDriver().findElements(By.xpath("//a[@class = 'sortheader']")); // локатор на все элементы в таблице
         List<String> actualMenu = new ArrayList<>();
