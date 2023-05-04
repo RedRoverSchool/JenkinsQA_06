@@ -258,8 +258,9 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testAddNewCredentials() {
+        WebDriverWait wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        getDriver().findElement(By.xpath("//dt[text()='Credentials']")).click();
+        wait5.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//dt[text()='Credentials']"))).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), "Stores scoped to Jenkins");
     }
@@ -280,7 +281,8 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertTrue(actualProjectDisabled.isDisplayed());
     }
-    @Test
+
+      @Test
     public void testSearchBoxInsensitive() {
         WebDriverWait wait2 = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         getDriver().findElement(By.linkText("admin")).click();
