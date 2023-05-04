@@ -55,4 +55,22 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertFalse(button.isEnabled());
     }
+
+    @Test
+    public void testErrorWhenCreateNewItemWithSpecialCharacterName() {
+        String expectedErrorMessage = "» ‘@’ is an unsafe character";
+
+        getDriver()
+                .findElement(By.xpath("//a[@href='/view/all/newJob']"))
+                .click();
+        getWait().until(ExpectedConditions.elementToBeClickable(
+                By.id("name")))
+                .sendKeys("@");
+
+        String actualErrorMessage = getDriver()
+                .findElement(By.xpath("//div[@id='itemname-invalid']"))
+                .getText();
+
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+    }
 }
