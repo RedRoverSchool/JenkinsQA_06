@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,6 +29,7 @@ public class JavaExpertsNationTest extends BaseTest {
 
         Assert.assertEquals(systemConfigurationTitle.getText(), "System Configuration");
     }
+
     @Test
     public void testPeopleTitle() {
         WebElement people = getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']"));
@@ -47,8 +49,9 @@ public class JavaExpertsNationTest extends BaseTest {
 
         Assert.assertEquals(peopleTitle.getText(), "Build History of Jenkins");
     }
+
     @Test
-    public void testAddDescription(){
+    public void testAddDescription() {
         WebElement addDescLink = getDriver().findElement(By.id("description-link"));
         addDescLink.click();
         new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(
@@ -88,7 +91,7 @@ public class JavaExpertsNationTest extends BaseTest {
     }
 
     @Test
-    public void testJenkins2_387_2Link(){
+    public void testJenkins2_387_2Link() {
         WebElement jenkinsLink = getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/']"));
         String expectedURL = jenkinsLink.getAttribute("href");
         jenkinsLink.click();
@@ -103,8 +106,9 @@ public class JavaExpertsNationTest extends BaseTest {
 
         Assert.assertEquals(newUrl, expectedURL);
     }
+
     @Test
-    public void testCreateNewFolder(){
+    public void testCreateNewFolder() {
         WebElement newItemButton = getDriver().findElement(
                 By.xpath("//a[@href='/view/all/newJob']"));
         newItemButton.click();
@@ -129,8 +133,9 @@ public class JavaExpertsNationTest extends BaseTest {
 
         Assert.assertEquals(actualFolderName, folderName);
     }
+
     @Test
-    public void testRenameFolder(){
+    public void testRenameFolder() {
         WebElement newItemButton = getDriver().findElement(
                 By.xpath("//a[@href='/view/all/newJob']"));
         newItemButton.click();
@@ -169,8 +174,9 @@ public class JavaExpertsNationTest extends BaseTest {
         folderLink.click();
         Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), newFolderName);
     }
+
     @Test
-    public void testCreateNewPipeline(){
+    public void testCreateNewPipeline() {
         WebElement newItemButton = getDriver().findElement(
                 By.xpath("//a[@href='/view/all/newJob']"));
         newItemButton.click();
@@ -193,7 +199,7 @@ public class JavaExpertsNationTest extends BaseTest {
     }
 
     @Test
-    public void testCreatePipelineAsCopyOfExisting(){
+    public void testCreatePipelineAsCopyOfExisting() {
         WebElement newItemButton = getDriver().findElement(
                 By.xpath("//a[@href='/view/all/newJob']"));
         newItemButton.click();
@@ -228,4 +234,46 @@ public class JavaExpertsNationTest extends BaseTest {
                 By.xpath("//*[@id='job_My second pipeline']/td/a/span")).getText(),
                 secondPipelineName);
     }
+
+    @Test
+    public void testReturnHomPage() {
+        getDriver().findElement(By.xpath("//*[@href='/manage']")).click();
+        getDriver().findElement(By.xpath("//*[@href='configure']")).click();
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
+        WebElement homPage = getDriver().findElement
+                (By.xpath("//div[@class='empty-state-block']/h1"));
+        Assert.assertEquals(homPage.getText(), "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testAddDescriptionPeople() {
+        WebElement people = getDriver().findElement(By.cssSelector("a[href='/asynchPeople/']"));
+        people.click();
+
+        WebElement admin = getDriver().findElement(By.cssSelector("a[href='/user/admin/']"));
+        admin.click();
+
+        WebElement addDescription = getDriver().findElement(By.cssSelector("a[href='editDescription']"));
+        addDescription.click();
+
+        WebElement textDescription = getDriver().findElement(By.xpath("//*[@id='description']/form/div[1]/div[1]/textarea"));
+        textDescription.click();
+
+        String value = textDescription.getAttribute("value");
+        if (value != null) {
+            int vailen = value.length();
+            for (int i = 0; i < vailen; i++) {
+                textDescription.sendKeys(Keys.BACK_SPACE);
+            }
+        }
+        String name = "Name: Vladimir";
+        textDescription.sendKeys(name);
+
+        getDriver().findElement(By.xpath("//*[@id='description']/form/div[2]/button")).click();
+
+        WebElement adminText = getDriver().findElement(By.xpath("//*[@id='description']/div[1]"));
+        Assert.assertEquals(adminText.getText(), name);
+    }
+
+
 }
