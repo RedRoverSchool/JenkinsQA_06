@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -273,5 +274,41 @@ public class BugsBustersGroupTest extends BaseTest {
             String actualJobsList = jobsList.get(i).getText();
             Assert.assertEquals(actualJobsList, expectedJobsList.get(i));
         }
+    }
+
+    @Test
+    public void testHiddenButton() {
+        WebElement newJob = getDriver().findElement(By.xpath("//*[@id='tasks']//a"));
+        newJob.click();
+
+        WebElement jobName = getDriver().findElement(By.id("name"));
+        jobName.sendKeys("test");
+
+        WebElement jobType = getDriver().findElement(By.xpath("//*[@id='j-add-item-type-nested-projects']//li[2]"));
+        jobType.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        WebElement goDashboard = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li[1]/a"));
+        goDashboard.click();
+
+        WebElement jobMenu = getDriver().findElement(By.xpath("//*[@id='job_test']/td[3]/a/span"));
+        Actions action = new Actions(getDriver());
+        action.moveToElement(jobMenu).build().perform();
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='job_test']//button")));
+        WebElement jobMenuButton = getDriver().findElement(By.xpath("//tr[@id='job_test']//button"));
+        jobMenuButton.click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='bd']//li[@index='3']/a")));
+        WebElement deleteJob = getDriver().findElement(By.xpath("//*[@class='bd']//li[@index='3']/a"));
+        deleteJob.click();
+
+        WebElement submitDelete = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        submitDelete.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Welcome to Jenkins!");
     }
 }
