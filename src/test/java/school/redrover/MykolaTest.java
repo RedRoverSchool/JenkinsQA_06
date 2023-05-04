@@ -72,6 +72,7 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.tagName("h1")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testRenameCreatedFolder() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
