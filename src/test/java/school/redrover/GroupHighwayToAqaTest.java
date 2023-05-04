@@ -6,6 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -14,6 +15,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.openqa.selenium.By.xpath;
 
 
 public class GroupHighwayToAqaTest extends BaseTest {
@@ -465,5 +468,29 @@ public class GroupHighwayToAqaTest extends BaseTest {
 
         Assert.assertEquals(folderName.getText(), "New folder");
     }
-}
+    @Test
+    public void testCreateNewPipeline(){
+        String name = "Мой проект";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(SET_ITEM_NAME).sendKeys(name);
+        WebElement pipeline = getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li[2]"));
+        pipeline.click();
+        getDriver().findElement(OK_BUTTON).click();
+        WebElement scrollBySelectButton = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class = 'samples']/select")));
+
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+        jse.executeScript("arguments[0].scrollIntoView(true)", scrollBySelectButton);
+        scrollBySelectButton.click();
+        Select selectPipelineScript = new Select(wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//div[@class = 'samples']/select"))));
+        selectPipelineScript.selectByVisibleText("Hello World");
+        WebElement saveChanges = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
+        saveChanges.click();
+        WebElement nameOfPipeline = getDriver().findElement(xpath("//h1[@class='job-index-headline page-headline']"));
+        String nameOfPipeline1 = nameOfPipeline.getText();
+        Assert.assertEquals(nameOfPipeline1, "Pipeline "+ name);
+    }
+}
