@@ -102,4 +102,22 @@ public class GroupILoveBugsTest extends BaseTest {
             }
         }
     }
+
+    @Test
+    public void testVerifyVersionOnFooter() {
+        WebElement linkOnFooter = getDriver().findElement(By.xpath("//a[@rel='noopener noreferrer']"));
+
+        Assert.assertTrue(linkOnFooter.getText().contains("2.387.2"));
+    }
+
+    @Test
+    public void testVerifyJenkinsLogoLeadsToMainPage() {
+        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
+
+        getDriver().findElement(By.xpath("//img[@alt='[Jenkins]']")).click();
+        WebElement mainTitle =
+                getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1")));
+
+        Assert.assertEquals(mainTitle.getText(), "Welcome to Jenkins!");
+    }
 }
