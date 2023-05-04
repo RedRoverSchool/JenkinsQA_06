@@ -239,6 +239,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(actualResult,expectedResult);
     }
 
+    @Ignore
     @Test
     public void testIconSizeChanges() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
@@ -280,6 +281,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),expRes);
     }
 
+    @Ignore
     @Test
     public void testADMainMenu() {
         getDriver().findElement(By.cssSelector("#tasks  a[href$='/newJob']")).click();

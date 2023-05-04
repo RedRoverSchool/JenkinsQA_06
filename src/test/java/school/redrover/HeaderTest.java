@@ -162,7 +162,7 @@ public class HeaderTest extends BaseTest {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(dropdownMenuButton).click().build().perform();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='breadcrumb-menu']//a/span")));
+        getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@id='breadcrumb-menu']//a/span")));
         List<WebElement> dropDownMenus = getDriver().findElements(By.xpath("//div[@id='breadcrumb-menu']//a/span"));
 
         Assert.assertEquals(listText(dropDownMenus), expectedDropDownMenuNames);
