@@ -37,9 +37,7 @@ public class JavaJitsuGroupTest extends BaseTest {
     public void testNewItem() throws InterruptedException {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
         newItem.click();
-        WebElement nameInput = getDriver().findElement(By.xpath("//input[@id=\"name\"]"));
-        Thread.sleep(2000);
-        nameInput.sendKeys("JavaTest");
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//input[@id=\"name\"]")))).sendKeys("JavaTest");
         WebElement freProject = getDriver().findElement(By.xpath("//span[text() =\"Freestyle project\"]"));
         freProject.click();
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
@@ -149,9 +147,8 @@ public class JavaJitsuGroupTest extends BaseTest {
     public void testCreateJob() throws InterruptedException {
         WebElement creJob = getDriver().findElement(By.xpath("//span[text()=\"Create a job\"]"));
         creJob.click();
-        WebElement nameInput = getDriver().findElement(By.cssSelector("input#name"));
-        Thread.sleep(2000);
-        nameInput.sendKeys("JavaTest");
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector("input#name")))).sendKeys("JavaTest");
+
         WebElement pipeLine = getDriver().findElement(By.xpath("//span[text() =\"Pipeline\"]"));
         pipeLine.click();
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
@@ -162,14 +159,12 @@ public class JavaJitsuGroupTest extends BaseTest {
         Assert.assertEquals(nameJob.getText(), "Pipeline JavaTest");
     }
 
-
-    @Ignore
     @Test
     public void testAddDescription() {
         final String text = "text";
         WebElement addLink = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         addLink.click();
-        WebElement textInput = getDriver().findElement(By.cssSelector("textarea[name='description']"));
+        WebElement textInput = getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector("textarea[name='description']"))));
         textInput.clear();
         textInput.sendKeys(text);
         WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));

@@ -271,10 +271,10 @@ public class GroupDreamTeamTest extends BaseTest {
     public void testProjectDisabled(){
         //expected Project Disabled
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        //WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         getDriver().findElement(By.linkText("New Item")).click();
         WebElement nameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
-        wait.until(ExpectedConditions.elementToBeClickable(nameBox)).sendKeys("Project001");
+        getWait10().until(ExpectedConditions.elementToBeClickable(nameBox)).sendKeys("Project001");
         getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
         getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
         getDriver().findElement(By.cssSelector("label.jenkins-toggle-switch__label")).click();
