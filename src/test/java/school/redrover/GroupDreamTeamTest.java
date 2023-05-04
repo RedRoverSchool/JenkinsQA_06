@@ -260,7 +260,7 @@ public class GroupDreamTeamTest extends BaseTest {
     public void testAddNewCredentials() {
         WebElement sideMenuManageJenkins = getDriver().findElement(By.linkText("Manage Jenkins"));
         sideMenuManageJenkins.click();
-        WebElement manageCredentials = getDriver().findElement(By.xpath("//dt[text()='Manage Credentials']"));
+        WebElement manageCredentials = getDriver().findElement(By.xpath("//dt[text()='Credentials']"));
         manageCredentials.click();
         WebElement storesScope = getDriver().findElement(By.xpath("//h2"));
 
@@ -282,5 +282,26 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement actualProjectDisabled = getDriver().findElement(By.xpath("//form[contains(text(), 'This project is currently disabled')]"));
 
         Assert.assertTrue(actualProjectDisabled.isDisplayed());
+    }
+    @Test
+    public void testSearchBoxInsensitive() {
+        WebDriverWait wait2 = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        getDriver().findElement(By.linkText("admin")).click();
+        getDriver().findElement(By.xpath("//a[@href='/user/admin/configure']")).click();
+        WebElement checkBoxInsensitiveSearch = wait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='insensitiveSearch']")));
+
+        Assert.assertEquals(checkBoxInsensitiveSearch.getAttribute("checked"), "true");
+
+        WebElement searchBox = getDriver().findElement(By.id("search-box"));
+        searchBox.sendKeys("built");
+        WebElement searchItem = wait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='yui-ac-bd']/ul/li[1]")));
+
+        Assert.assertEquals(searchItem.getText(), "Built-In Node");
+
+        searchBox.clear();
+        searchBox.sendKeys("Built");
+        WebElement searchItem2 = wait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='yui-ac-bd']/ul/li[1]")));
+
+        Assert.assertEquals(searchItem2.getText(), "Built-In Node");
     }
 }
