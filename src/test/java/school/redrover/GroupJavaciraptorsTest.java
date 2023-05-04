@@ -67,4 +67,53 @@ public class GroupJavaciraptorsTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void createNewItemTest() {
+        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItemButton.click();
+
+        WebElement nameItemInput = getDriver().findElement(By.xpath("//input[@name='name']"));
+        nameItemInput.sendKeys("Name of test item");
+
+        WebElement typeItem = getDriver().findElement(By.xpath("//span[@class='label' and text()='Pipeline']"));
+        typeItem.click();
+
+        WebElement okBtn = getDriver().findElement(By.cssSelector("#ok-button"));
+        okBtn.click();
+
+        WebElement submitBtn = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        submitBtn.click();
+
+        WebElement title = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
+        Assert.assertEquals(title.getText(), "Pipeline Name of test item");
+
+        WebElement deleteItem = getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']"));
+        deleteItem.click();
+
+        getDriver().switchTo().alert().accept();
+
+        WebElement welcomeTitle = getDriver().findElement(By.xpath("//*[text()='Welcome to Jenkins!']"));
+        Assert.assertEquals(welcomeTitle.getText(), "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void firstBinoederNegativeTest() {
+        String expectedResult = "» ‘@’ is an unsafe character";
+        WebElement newItemField = getDriver().findElement(
+                By.xpath("//div[@id = 'side-panel']//a[@href = '/view/all/newJob']")
+        );
+        newItemField.click();
+
+        WebElement inputField = getDriver().findElement(
+                By.xpath("//div[@class = 'add-item-name']//input")
+        );
+        inputField.sendKeys("@");
+
+        WebElement errorMessage = getDriver().findElement(By.id("itemname-invalid"));
+
+        String actualResult = errorMessage.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
