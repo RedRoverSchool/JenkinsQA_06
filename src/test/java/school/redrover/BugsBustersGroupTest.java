@@ -298,13 +298,9 @@ public class BugsBustersGroupTest extends BaseTest {
         action.moveToElement(jobMenu).build().perform();
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='job_test']//button")));
-        WebElement jobMenuButton = getDriver().findElement(By.xpath("//tr[@id='job_test']//button"));
-        jobMenuButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='job_test']//button"))).click();
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='bd']//li[@index='3']/a")));
-        WebElement deleteJob = getDriver().findElement(By.xpath("//*[@class='bd']//li[@index='3']/a"));
-        deleteJob.click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='bd']//li[@index='3']/a"))).click();
 
         WebElement submitDelete = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         submitDelete.click();
