@@ -187,4 +187,14 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(deleteCheck.getText(),"Start building your software project");
     }
 
+    @Test
+    public void testOkButtonIsDisabled(){
+
+        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItemButton.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        Assert.assertEquals(okButton.getAttribute("class").contains("disabled"),true);
+    }
+
 }
