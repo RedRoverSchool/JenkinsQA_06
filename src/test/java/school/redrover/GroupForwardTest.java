@@ -13,6 +13,7 @@ import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GroupForwardTest extends BaseTest {
@@ -41,7 +42,7 @@ public class GroupForwardTest extends BaseTest {
         submitButton.click();
         WebElement description = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
-        Assert.assertEquals(description.getText(),text);
+        Assert.assertEquals(description.getText(), text);
     }
 
     @Test
@@ -118,7 +119,7 @@ public class GroupForwardTest extends BaseTest {
         textList.add("Multibranch Pipeline");
         textList.add("Organization Folder");
 
-        for (WebElement element: listOfJobs) {
+        for (WebElement element : listOfJobs) {
             textList1.add(element.getText());
         }
 
@@ -173,5 +174,25 @@ public class GroupForwardTest extends BaseTest {
         WebElement userRecord = getDriver().findElement(By.xpath("//a[@href = 'user/kira/']"));
 
         Assert.assertTrue(userRecord.isDisplayed());
+    }
+
+    @Test
+    public void testListOfBuildHistory() {
+
+        WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/builds']"));
+        newItemMenu.click();
+        WebElement iconLegendButton = getDriver().findElement(By.xpath("//a[@href = '/legend']"));
+        iconLegendButton.click();
+
+        WebElement textProjectHealth = getDriver().findElement(By.xpath("//div/h2[text()='Project Health']"));
+
+        List<WebElement> listProjectHealth = getDriver().findElements(By.xpath("//div/dl[@class='app-icon-legend'][2]/dd"));
+
+        List<String> textList = List.of("Project health is over 80%", "Project health is over 60% and up to 80%",
+                "Project health is over 40% and up to 60%", "Project health is over 20% and up to 40%", "Project health is 20% or less");
+
+        Assert.assertEquals(textProjectHealth.getText(), "Project Health");
+
+        Assert.assertEquals(listProjectHealth.size(), 5);
     }
 }
