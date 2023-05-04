@@ -68,4 +68,16 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
+
+    @Test
+    public void testCreateFreestyleProjectWithEmptyNameError() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector(".hudson_model_FreeStyleProject")))
+                .click();
+
+        WebElement errorMsg = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required")));
+        Assert.assertEquals(errorMsg.getText(), "» This field cannot be empty, please enter a valid name");
+    }
 }
