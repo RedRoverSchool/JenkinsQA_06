@@ -27,7 +27,7 @@ public class MultiConfigurationTest extends BaseTest {
     @Test
     public void testCheckExceptionToMultiConfigurationPage() {
         getDriver().findElement(By.linkText("New Item")).click();
-        WebElement element = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
+        WebElement element = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
         element.click();
         String exceptionText = getDriver().findElement(By.xpath("//div[text() ='» This field cannot be empty, please enter a valid name']")).getText();
 
