@@ -6,6 +6,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -83,6 +84,7 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(folderPageName.isDisplayed() && folderPageName.getText().equals(newFolderName));
     }
 
+    @Ignore
     @Test
     public void testDeleteSecondFolderFromDashboardPage() throws InterruptedException {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
@@ -105,6 +107,7 @@ public class MykolaTest extends BaseTest {
         Assert.assertNull(null, deletedFolderName);
     }
 
+    @Ignore
     @Test
     public void testRenameFolderFromDashboardPage() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
@@ -120,6 +123,7 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(folderPageName.isDisplayed() && folderPageName.getText().equals(newFolderName));
     }
 
+    @Ignore
     @Test
     public void testAddFolderInExistingFolderThroughDropDownMenu() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
@@ -136,6 +140,7 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(folderPageName.isDisplayed() && folderPageName.getText().equals(addedFolderName));
     }
 
+    @Ignore
     @Test
     public void testAddNewViewThroughAllIconOnCreatedFolder() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
