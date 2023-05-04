@@ -28,7 +28,6 @@ public class QaRabbitHoleTest extends BaseTest {
         Assert.assertEquals(createJob.getText(), "Create a job");
     }
 
-
     @Test
     public void testLogout() {
         WebElement exit = getDriver().findElement((By.xpath("//a[@href='/logout']")));
