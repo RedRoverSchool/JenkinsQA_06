@@ -293,17 +293,15 @@ public class BugsBustersGroupTest extends BaseTest {
         WebElement goDashboard = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li[1]/a"));
         goDashboard.click();
 
-        WebElement jobMenu = getDriver().findElement(By.xpath("//*[@id='job_test']/td[3]/a/span"));
+        WebElement jobMenu = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='job_test']/td[3]/a/span")));
         Actions action = new Actions(getDriver());
         action.moveToElement(jobMenu).build().perform();
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='job_test']//button"))).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='job_test']//button"))).click();
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='bd']//li[@index='3']/a"))).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='bd']//li[@index='3']/a"))).click();
 
-        WebElement submitDelete = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        submitDelete.click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Welcome to Jenkins!");
     }
