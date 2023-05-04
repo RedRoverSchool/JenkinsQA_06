@@ -43,7 +43,7 @@ public class MykolaTest extends BaseTest {
         actions.moveToElement(folderNameButton).perform();
 
         WebElement dropDownButton = getDriver().findElement(By.xpath("//a[contains(@href,'job')]/button[@class='jenkins-menu-dropdown-chevron']"));
-        dropDownButton.click();
+        actions.click(dropDownButton).perform();
 
     }
 
@@ -110,7 +110,7 @@ public class MykolaTest extends BaseTest {
         String deletedFolderName = folderList.get(0).getAttribute("id").split("_")[1];
         folderDropDownMenu(deletedFolderName);
 
-        WebElement deleteFolderButton = getDriver().findElement(By.xpath("//*[contains(text(),'Delete Folder')]"));
+        WebElement deleteFolderButton = getDriver().findElement(By.xpath("//*[@index='2']"));
         deleteFolderButton.click();
         WebElement yesButton = getDriver().findElement(By.xpath("//*[@name='Submit']"));
         yesButton.click();
@@ -146,7 +146,7 @@ public class MykolaTest extends BaseTest {
 
         folderDropDownMenu(folderName);
 
-        WebElement newItemButton = getDriver().findElement(By.xpath("//*[@class='icon-new-package icon-md']"));
+        WebElement newItemButton = getDriver().findElement(By.xpath("//*[@index='1']"));
         newItemButton.click();
 
         String addedFolderName = faker.name().firstName();
