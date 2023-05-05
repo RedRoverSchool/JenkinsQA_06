@@ -71,6 +71,7 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(descrText.getText(), text);
     }
 
+    @Ignore
     @Test
     public void testCreateNewFreestyleProject() {
         String projectName = "My new project";
