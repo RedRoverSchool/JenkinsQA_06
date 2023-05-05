@@ -215,7 +215,6 @@ public class HelloWorldGroupTest extends BaseTest{
         WebElement message = getDriver().findElement(By.id("general"));
         String value = message.getText();
         assertEquals("General", value);
-
     }
 
 }
