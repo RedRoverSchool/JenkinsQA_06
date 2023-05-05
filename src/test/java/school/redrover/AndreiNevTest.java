@@ -13,7 +13,6 @@ public class AndreiNevTest extends BaseTest {
 
         WebElement startElement = getDriver().findElement(By.xpath("//section[@class='empty-state-section']/h2[text() = 'Start building your software project']"));
         Assert.assertEquals(startElement.getText(),"Start building your software project");
-
     }
 
 }
