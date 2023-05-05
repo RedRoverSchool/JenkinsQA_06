@@ -162,8 +162,8 @@ public class HeaderTest extends BaseTest {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(dropdownMenuButton).click().build().perform();
 
-        getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("#breadcrumb-menu > div.bd > ul > li")));
-        List<WebElement> dropDownMenus = getDriver().findElements(By.cssSelector("#breadcrumb-menu > div.bd > ul > li"));
+        getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".first-of-type > .yuimenuitem")));
+        List<WebElement> dropDownMenus = getDriver().findElements(By.cssSelector(".first-of-type > .yuimenuitem"));
 
         Assert.assertEquals(listText(dropDownMenus), expectedDropDownMenuNames);
     }
