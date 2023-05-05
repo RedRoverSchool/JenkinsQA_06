@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -195,7 +196,7 @@ public class HelloWorldGroupTest extends BaseTest{
         newItemButton.click();
 
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
-        assertEquals(okButton.getAttribute("class").contains("disabled"),true);
+        Assert.assertEquals(okButton.getAttribute("class").contains("disabled"),true);
     }
 
     @Test
@@ -214,7 +215,7 @@ public class HelloWorldGroupTest extends BaseTest{
 
         WebElement message = getDriver().findElement(By.id("general"));
         String value = message.getText();
-        assertEquals("General", value);
+        Assert.assertEquals("General", value);
     }
 
 }
