@@ -1,6 +1,6 @@
 package school.redrover;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,6 +13,7 @@ public class CreateUsersTest extends BaseTest {
 
   @Test
   public void testCreateUserCheckIDUserPage (){
+
     WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
     manageJenkins.click();
 
