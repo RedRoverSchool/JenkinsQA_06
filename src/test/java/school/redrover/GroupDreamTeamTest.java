@@ -313,4 +313,23 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement element = getDriver().findElement(By.cssSelector("img#jenkins-head-icon"));
         Assert.assertTrue(element.isDisplayed());
     }
+
+    @Test
+    public void testMakeProjectDisabled() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        WebElement nameInput = getDriver().findElement(By.xpath("//input[@id='name']"));
+        getWait10().until(ExpectedConditions.elementToBeClickable(nameInput)).sendKeys("First Project");
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        WebElement actualProjectHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualProjectHeader.getText(), "Project First Project");
+
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+        WebElement receivedMessage = getDriver().findElement(By.xpath("//div/form[@id='enable-project']"));
+
+        Assert.assertEquals(receivedMessage.getText().substring(0,34), "This project is currently disabled");
+    }
 }
