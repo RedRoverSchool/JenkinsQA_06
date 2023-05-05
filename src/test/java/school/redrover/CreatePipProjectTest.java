@@ -16,7 +16,6 @@ public class CreatePipProjectTest extends BaseTest {
         WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
         itemName.click();
         itemName.sendKeys(expectedResult);
-
         getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//button[@formNoValidate='formNoValidate']")).click();
