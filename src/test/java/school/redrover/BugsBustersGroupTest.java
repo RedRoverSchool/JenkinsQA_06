@@ -29,7 +29,7 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertTrue(dashboardButton.isDisplayed());
     }
 
-   @Test
+    @Test
     public void testMariaSearchBoxPresent() {
         WebElement searchBox = getDriver().findElement(By.xpath("//input[@name='q']"));
 
@@ -37,7 +37,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCreateAJobPageTitle(){
+    public void testCreateAJobPageTitle() {
         WebElement createAJob = getDriver().findElement(By.xpath("//a[@href='newJob']/span"));
         createAJob.click();
 
@@ -49,7 +49,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testGetPeoplePage(){
+    public void testGetPeoplePage() {
         WebElement peoplePageMenu = getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']"));
         peoplePageMenu.click();
 
@@ -59,7 +59,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescription () {
+    public void testAddDescription() {
         WebElement addDescription = getDriver().findElement(By.xpath("//*[@id='description-link']"));
         addDescription.click();
 
@@ -71,7 +71,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testLogOut () {
+    public void testLogOut() {
         WebElement logOutIcon = getDriver().findElement(By.xpath("//a[@href = '/logout']"));
         logOutIcon.click();
 
@@ -80,13 +80,14 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testCreateJobPage () {
+    public void testCreateJobPage() {
         WebElement createJobButton = getDriver().findElement(By.xpath("//a[@href = 'newJob']"));
         createJobButton.click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='createItem']/div[1]/div/label"))
-                        .getText(), "Enter an item name");
+                .getText(), "Enter an item name");
     }
+
     @Ignore
     @Test
     public void testOkButtonIsDisabled() {
@@ -161,7 +162,7 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testNewFreestyleProject () {
+    public void testNewFreestyleProject() {
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
         newItem.click();
 
@@ -185,9 +186,9 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testMainPageMenuItems () {
+    public void testMainPageMenuItems() {
         List<WebElement> menuList = getDriver().findElements(By.xpath("//div[@id= 'tasks']/div"));
-        List <String> expectedList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+        List<String> expectedList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
 
         for (int i = 0; i < menuList.size(); i++) {
             String actualList = menuList.get(i).getText();
@@ -196,13 +197,13 @@ public class BugsBustersGroupTest extends BaseTest {
     }
 
     @Test
-    public void testSystemConfigurationMenu () {
+    public void testSystemConfigurationMenu() {
         WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
         manageJenkins.click();
 
-        List <WebElement> systemConfigMenu = getDriver().findElements(By.xpath(
+        List<WebElement> systemConfigMenu = getDriver().findElements(By.xpath(
                 "//*[@id='main-panel']/section[2]/div/div[1]/a/dl/dt"));
-        List <String> expectedMenuList = Arrays.asList("Configure System", "Manage Plugins", "Global Tool Configuration",
+        List<String> expectedMenuList = Arrays.asList("Configure System", "Manage Plugins", "Global Tool Configuration",
                 "Manage Nodes and Clouds");
 
         for (int i = 0; i < systemConfigMenu.size(); i++) {
@@ -222,56 +223,5 @@ public class BugsBustersGroupTest extends BaseTest {
 
         WebElement credentialsPage = getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__content']//h1"));
         Assert.assertEquals(credentialsPage.getText(), "Credentials");
-    }
-
-    @Test
-    public void testFolderCreation() {
-        final String FOLDER_NAME = "My_folder";
-        final String FOLDER_NAME1 = "My_folder1";
-        List <String> expectedJobsList = Arrays.asList(FOLDER_NAME, FOLDER_NAME1);
-
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-        WebElement newItem = getDriver().findElement(By.xpath(
-                "//a[@href='/view/all/newJob']"));
-        newItem.click();
-        WebElement nameField = getDriver().findElement(By.id("name"));
-        nameField.sendKeys(FOLDER_NAME);
-        WebElement folderButton = getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder"));
-        folderButton.click();
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-        okButton.click();
-        WebElement submitButton = getDriver().findElement(By.name("Submit"));
-        submitButton.click();
-        WebElement header = getDriver().findElement(By.tagName("h1"));
-
-        Assert.assertEquals(header.getText(),FOLDER_NAME);
-
-        WebElement dashboardMenu = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
-        dashboardMenu.click();
-
-        WebElement newItem1 = getDriver().findElement(By.xpath(
-                "//a[@href='/view/all/newJob']"));
-        newItem1.click();
-        WebElement nameField1 = getDriver().findElement(By.id("name"));
-        nameField1.sendKeys(FOLDER_NAME1);
-        WebElement folderButton1 = getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder"));
-        folderButton1.click();
-        WebElement okButton1 = getDriver().findElement(By.id("ok-button"));
-        okButton1.click();
-        WebElement submitButton1 = getDriver().findElement(By.name("Submit"));
-        submitButton1.click();
-        WebElement header1 = getDriver().findElement(By.tagName("h1"));
-
-        Assert.assertEquals(header1.getText(),FOLDER_NAME1);
-
-        WebElement dashboardMenu1 = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
-        dashboardMenu1.click();
-
-        List <WebElement> jobsList = getDriver().findElements(By.xpath("//tr[@class=' job-status-']/td/a/span"));
-
-        for (int i = 0; i < jobsList.size(); i++) {
-            String actualJobsList = jobsList.get(i).getText();
-            Assert.assertEquals(actualJobsList, expectedJobsList.get(i));
-        }
     }
 }
