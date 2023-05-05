@@ -1,11 +1,15 @@
 package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.util.stream.Collectors;
 
 public class FreestyleProjectTest extends BaseTest {
 
@@ -116,6 +120,26 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("h1.job-index-headline.page-headline")).getText(),
                 "Project " + NEW_FREESTYLE_NAME);
+    }
+    @Test
+    public void testDeleteFreestyleProject() {
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(NEW_FREESTYLE_NAME);
+        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
+
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Project')]")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        Assert.assertFalse(getDriver().findElements(By
+                        .xpath("//a[@class='jenkins-table__link model-link inside']"))
+                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
     }
 
 }
