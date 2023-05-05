@@ -20,7 +20,7 @@ public class NewViewTest extends BaseTest {
     }
 
     @Test
-    public void createNewView() throws InterruptedException {
+    public void testCreateNewView() throws InterruptedException {
         this.createNewProjectFromMyViewsPage();
         getDriver().findElement(By.className("addTab")).click();
         getDriver().findElement(By.id("name")).sendKeys("MyFirstView");
