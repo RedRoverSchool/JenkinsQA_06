@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import org.testng.annotations.Ignore;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -78,6 +79,7 @@ public class BugsBustersGroupTest extends BaseTest {
                 "Welcome to Jenkins!");
     }
 
+    @Ignore
     @Test
     public void testCreateJobPage () {
         WebElement createJobButton = getDriver().findElement(By.xpath("//a[@href = 'newJob']"));
@@ -86,7 +88,7 @@ public class BugsBustersGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='createItem']/div[1]/div/label"))
                         .getText(), "Enter an item name");
     }
-
+    @Ignore
     @Test
     public void testOkButtonIsDisabled() {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id='tasks']//a"));

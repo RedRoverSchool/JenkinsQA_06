@@ -3,8 +3,11 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import static org.testng.Assert.assertEquals;
 
 public class AnaBelGroupTest extends BaseTest {
 
@@ -18,7 +21,7 @@ public class AnaBelGroupTest extends BaseTest {
     public void testBuildHistory() {
         WebElement buildHistory = getDriver().findElement(By.xpath("//a[@href ='/view/all/builds']"));
 
-        Assert.assertEquals(buildHistory.getText(), "Build History");
+        assertEquals(buildHistory.getText(), "Build History");
     }
     @Test
     public void testAddDescription() {
@@ -34,7 +37,7 @@ public class AnaBelGroupTest extends BaseTest {
 
         WebElement verify = getDriver().findElement(By.cssSelector("#description>div"));
 
-        Assert.assertEquals(verify.getText(), "testDesctiprion1");
+        assertEquals(verify.getText(), "testDesctiprion1");
     }
     
     @Test
@@ -43,6 +46,12 @@ public class AnaBelGroupTest extends BaseTest {
         Assert.assertTrue(indicator.isDisplayed());
     }
     
+    @Test
+    public void testWelcomeJenkins() {
+        WebElement welcomeElement = getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1"));
+        Assert.assertEquals(welcomeElement.getText(), "Welcome to Jenkins!");
+    }
+
     @Test
     public  void testRequieredField() throws InterruptedException {
         WebElement button = getDriver().findElement(By.xpath("//a[@href='newJob']"));
@@ -58,7 +67,7 @@ public class AnaBelGroupTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), "» This field cannot be empty, please enter a valid name");
     }
 
-        @Test
+    @Test
     public void testItem() {
 
         WebElement button = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
@@ -79,6 +88,16 @@ public class AnaBelGroupTest extends BaseTest {
         WebElement general = getDriver().findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"));
         Assert.assertEquals(general.getText(), "Project Item");
     }
+    @Ignore
+    @Test
+    public void testSetUpAgent() {
+        getDriver().findElement(By.xpath(("(//a[@class='content-block__link'])[2]"))).click();
+
+        Assert.assertEquals(getDriver().findElement
+                (By.xpath("//div[@class='jenkins-app-bar__content']/h1")).getText(),"New node");
+    }
+
+
     @Test
     public void testCreateAJob() {
         WebElement createAJobButton = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]/div/section[1]/ul/li/a/span[1]"));
@@ -86,5 +105,8 @@ public class AnaBelGroupTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//*[@id='name']")).isDisplayed());
     }
+
 }
+
+
 

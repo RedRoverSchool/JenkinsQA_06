@@ -6,15 +6,17 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.openqa.selenium.By.xpath;
 
 
 public class GroupHighwayToAqaTest extends BaseTest {
@@ -434,8 +436,8 @@ public class GroupHighwayToAqaTest extends BaseTest {
     public void testIconSizeButtonsOnBuildHistoryPageAreDisplayedAndClickable() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-        WebElement buildHistoryNavigation = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
-        buildHistoryNavigation.click();
+        WebElement buildHistoryLink = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
+        buildHistoryLink.click();
 
         List<WebElement> iconSizeButtons = getDriver().findElements(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']"));
 
@@ -449,5 +451,53 @@ public class GroupHighwayToAqaTest extends BaseTest {
         }
         Assert.assertTrue(iconSizeButtons.size() > 0, "No icon size buttons found on the page.");
     }
-}
 
+    @Test
+    public void testCreateFolder() {
+        getDriver().findElement(NEW_ITEM).click();
+
+        getDriver().findElement(SET_ITEM_NAME).sendKeys("New folder");
+
+        getDriver().findElement(By.xpath("//input[@value='com.cloudbees.hudson.plugins.folder.Folder']/..")).click();
+
+        getDriver().findElement(By.id("ok-button")).click();
+
+        getDriver().findElement(DASHBOARD).click();
+
+        WebElement folderName = getDriver().findElement(By.xpath("(//a[@class='jenkins-table__link model-link inside'])[1]"));
+
+        Assert.assertEquals(folderName.getText(), "New folder");
+    }
+
+    @Test
+    public void testCreateNewPipeline() {
+        String name = "Мой проект";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(SET_ITEM_NAME).sendKeys(name);
+        WebElement pipeline = getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li[2]"));
+        pipeline.click();
+        getDriver().findElement(OK_BUTTON).click();
+        WebElement scrollBySelectButton = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class = 'samples']/select")));
+
+        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+        jse.executeScript("arguments[0].scrollIntoView(true)", scrollBySelectButton);
+        scrollBySelectButton.click();
+        Select selectPipelineScript = new Select(wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//div[@class = 'samples']/select"))));
+        selectPipelineScript.selectByVisibleText("Hello World");
+        WebElement saveChanges = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-button--primary")));
+        saveChanges.click();
+        WebElement nameOfPipeline = getDriver().findElement(xpath("//h1[@class='job-index-headline page-headline']"));
+        String nameOfPipeline1 = nameOfPipeline.getText();
+        Assert.assertEquals(nameOfPipeline1, "Pipeline " + name);
+    }
+
+    @Test
+    public void testH1Text() {
+        WebElement h1Text = getDriver().findElement(By.xpath("//div[@id='main-panel']//h1"));
+        Assert.assertEquals(h1Text.getText(), "Welcome to Jenkins!");
+    }
+}

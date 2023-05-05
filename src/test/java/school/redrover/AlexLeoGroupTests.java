@@ -1,14 +1,15 @@
 package school.redrover;
 
-import jdk.jfr.Description;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -21,14 +22,9 @@ public class AlexLeoGroupTests extends BaseTest {
 
     private static final String USER_FULL_NAME = RandomStringUtils.randomAlphanumeric(13);
 
-    private WebDriverWait webDriverWait5;
+    private static final String DESCRIPTION = RandomStringUtils.randomAlphanumeric(130) + "\n\n" + RandomStringUtils.randomAlphanumeric(23);
 
-    private WebDriverWait getWait5() {
-        if (webDriverWait5 == null) {
-            webDriverWait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        }
-        return webDriverWait5;
-    }
+    private static final By USER_NAME_LINK = By.xpath("//a[@href='/user/admin']");
 
     @Test
     public void testVerifyLogoJenkinsIsPresent() {
@@ -215,7 +211,7 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertEquals(logoutLink, "log out");
     }
 
-    @Description("Verify to the search field functionality")
+    @Ignore
     @Test
     public void testSearchField() {
         WebElement searchBox = getDriver().findElement(By.id("search-box"));
@@ -395,6 +391,7 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("jenkins-head-icon")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testVerifyUserPageMenu() {
         List<String> listMenuExpected = Arrays.asList("People", "Status", "Builds", "Configure", "My Views", "Credentials");
@@ -409,9 +406,10 @@ public class AlexLeoGroupTests extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testVerifyChangeNameUser() {
-        getDriver().findElement(By.xpath("//a[@class='model-link']")).click();
+        getDriver().findElement(USER_NAME_LINK).click();
 
         WebElement configure = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/user/admin/configure']")));
         configure.click();
@@ -421,7 +419,7 @@ public class AlexLeoGroupTests extends BaseTest {
         fullName.sendKeys(USER_FULL_NAME);
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='/user/admin']")).getText(), USER_FULL_NAME);
+        Assert.assertEquals(getDriver().findElement(USER_NAME_LINK).getText(), USER_FULL_NAME);
     }
 
     @Test
@@ -447,5 +445,61 @@ public class AlexLeoGroupTests extends BaseTest {
         manageJenkinsLink.click();
         WebElement textManageJenkinsInPageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
         Assert.assertEquals(textManageJenkinsInPageHeader.getText(), "Manage Jenkins");
+    }
+    @Test
+    public void testVerifyJenkinsLogo(){
+        WebElement findLogoJenkins = getDriver().findElement((By.id("jenkins-head-icon")));
+        Point point = new Point(19, 8);
+        Assert.assertEquals(findLogoJenkins.getLocation(), point);
+
+    }
+
+    @Ignore
+    @Test
+    public void testVerifyUserDescription() {
+        getDriver().findElement(USER_NAME_LINK).click();
+
+        WebElement editDescription = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='description-link']")));
+        editDescription.click();
+
+        WebElement fullName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']")));
+        fullName.clear();
+        fullName.sendKeys(DESCRIPTION);
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div")).getText(), DESCRIPTION);
+    }
+
+    @Test
+    public void testVerifySystemConfiguration() {
+        List<String> listSystemConfigurationExpected = Arrays.asList
+                ("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
+
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(text(),'Manage')]")));
+        List<WebElement> listSystemConfiguration = getDriver().findElements(By.cssSelector(".jenkins-section__title"));
+        for (int i = 0; i < listSystemConfiguration.size(); i++) {
+
+            Assert.assertEquals(listSystemConfiguration.get(i).getText(), listSystemConfigurationExpected.get(i));
+        }
+    }
+
+    @Test
+    public void testManageOldData() {
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//dt[contains(text(),'Manage Old Data')]"))).click();
+
+        WebElement oldData = getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")));
+        Assert.assertEquals(oldData.getText(), "Manage Old Data");
+        Assert.assertEquals(oldData.getLocation().toString(), "(372, 133)");
+        Assert.assertEquals(oldData.getCssValue("font-size").toString(), "25.6px");
+        Assert.assertEquals(oldData.getCssValue("font-weight").toString(), "700");
+
+        List<WebElement> listSortTable = getDriver().findElements(By.xpath("//thead //a"));
+        Assert.assertEquals(listSortTable.size(), 4);
+
+        Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
     }
 }

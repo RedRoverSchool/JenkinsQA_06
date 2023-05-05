@@ -96,4 +96,24 @@ public class GroupJavaciraptorsTest extends BaseTest {
         WebElement welcomeTitle = getDriver().findElement(By.xpath("//*[text()='Welcome to Jenkins!']"));
         Assert.assertEquals(welcomeTitle.getText(), "Welcome to Jenkins!");
     }
+
+    @Test
+    public void firstBinoederNegativeTest() {
+        String expectedResult = "» ‘@’ is an unsafe character";
+        WebElement newItemField = getDriver().findElement(
+                By.xpath("//div[@id = 'side-panel']//a[@href = '/view/all/newJob']")
+        );
+        newItemField.click();
+
+        WebElement inputField = getDriver().findElement(
+                By.xpath("//div[@class = 'add-item-name']//input")
+        );
+        inputField.sendKeys("@");
+
+        WebElement errorMessage = getDriver().findElement(By.id("itemname-invalid"));
+
+        String actualResult = errorMessage.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }

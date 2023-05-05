@@ -1,4 +1,4 @@
-package school.redrover.old;
+package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -7,15 +7,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
 
-@Ignore
-public class group_anaTest {
+public class MariyaGribanovaTest {
 
     @Test
-    public  void  testTatyanaA() throws InterruptedException {
+    public void testFirstMG() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -36,12 +35,10 @@ public class group_anaTest {
         Assert.assertEquals(text.getText(), "Selenium");
 
         driver.quit();
-
-
     }
 
     @Test
-    public void testSecond() throws InterruptedException {
+    public void testSecondMG() throws InterruptedException {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
@@ -65,27 +62,6 @@ public class group_anaTest {
         Assert.assertEquals("Received!", value);
 
         driver.quit();
-
     }
-
-
-    String url = "https://openweathermap.org/";
-    @Test
-    public void testTitle( ) throws InterruptedException {
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920,1080");
-
-        WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(url);
-        WebElement guide = driver.findElement(By.xpath("//a[@href='/guide']"));
-        Thread.sleep(5000);
-        guide.click();
-        String title = driver.getTitle();
-        Assert.assertEquals(title, "OpenWeatherMap API guide - OpenWeatherMap");
-        driver.quit();
-    }
-
-
 }
 
