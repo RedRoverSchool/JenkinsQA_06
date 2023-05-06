@@ -9,6 +9,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+
+import java.io.File;
+import org.apache.commons.io.FileUtils;
 
 public final class BaseUtils {
 
@@ -84,5 +89,14 @@ public final class BaseUtils {
     public static void logf(String str, Object... arr) {
         System.out.printf(str, arr);
         System.out.println();
+    }
+
+    public class ScreenShot {
+        public static void takeScreenShot(WebDriver webdriver, String fileWithPath) throws Exception {
+            TakesScreenshot scrShot = ((TakesScreenshot) webdriver);
+            File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
+            File destFile = new File(fileWithPath);
+            FileUtils.copyFile(srcFile, destFile);
+        }
     }
 }

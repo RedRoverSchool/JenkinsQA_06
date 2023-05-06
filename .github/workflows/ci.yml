@@ -54,3 +54,16 @@ jobs:
           CHROME_OPTIONS: --disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless=new;--window-size=1920,1080
           APP_OPTIONS: port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
           CI_RUN: true
+
+      - name: Create a temporary screenshot folder
+          run: mkdir downloads
+
+      - name: Add screenshot to publish to the temp folder
+              run: |
+          cp /...?/scrFile.png downloads/
+
+      - name: Use the Upload Artifact GitHub Action
+            uses: actions/upload-artifact@v2
+            with:
+              name: screenshotError
+              path: downloads
