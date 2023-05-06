@@ -10,7 +10,7 @@ public class FolderTest2 extends BaseTest {
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By NAME = By.id("name");
     private static final By FOLDER = By.xpath("//span[@class='label'][text()='Folder']");
-    private static final By OK_BUTTON = By.cssSelector("#ok-button");
+    private static final By BUTTON = By.cssSelector("#ok-button");
     private static final By DISPLAY_NAME = By.name("_.displayNameOrNull");
     private static final By DESCRIPTION = By.name("_.description");
     private static final By SUBMIT = By.name("Submit");
@@ -24,7 +24,7 @@ public class FolderTest2 extends BaseTest {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(NAME).sendKeys(name);
         getDriver().findElement(FOLDER).click();
-        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(BUTTON).click();
         getDriver().findElement(DISPLAY_NAME).sendKeys(displayNameText);
         getDriver().findElement(DESCRIPTION).sendKeys(descriptionText);
         getDriver().findElement(SUBMIT).click();
