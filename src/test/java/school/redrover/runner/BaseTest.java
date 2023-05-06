@@ -54,6 +54,9 @@ public abstract class BaseTest {
     protected void stopDriver() {
         try {
             ProjectUtils.logout(driver);
+            wait2 = null;
+            wait5 = null;
+            wait10 = null;
         } catch (Exception ignore) {
         }
 

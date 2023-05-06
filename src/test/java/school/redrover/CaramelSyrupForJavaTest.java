@@ -125,6 +125,27 @@ public class CaramelSyrupForJavaTest extends BaseTest {
 
     @Ignore
     @Test
+    public void testADLearnMore() {
+        String expectedResult = "static content of the Wiki";
+        WebElement learnMoreHref = getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/redirect/distributed-builds']"));
+        learnMoreHref.click();
+        ArrayList<String> windows = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(windows.get(1));
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        WebElement atlassianHref = getDriver().findElement(By.xpath("//a[@href='/display/']"));
+        atlassianHref.click();
+        WebElement wikiJenkinsHref = getDriver().findElement(By.xpath("//a[text()='static content of the Wiki']"));
+        String actualResult = wikiJenkinsHref.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+    }
+
+    @Ignore
+    @Test
     public void testAbramovaDropDownList() {
         List<String> expectedResult = Arrays.asList("Builds", "Configure", "My Views", "Credentials");
         WebElement dropDownButton = getDriver().findElement(
@@ -303,6 +324,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         String expectedResult = "Welcome to Jenkins!";
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel h1")).getText(), expectedResult);
     }
+
 
 
 
