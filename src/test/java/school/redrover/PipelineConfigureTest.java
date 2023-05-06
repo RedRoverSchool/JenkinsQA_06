@@ -48,6 +48,13 @@ public class PipelineConfigureTest extends BaseTest {
                 .findElement(By.xpath("//label[contains(text(),'Discard old builds')]"));
         discardOldBuildsLabel.click();
 
+        WebElement saveButton = getDriver().findElement(By.name("Submit"));
+        saveButton.click();
+
+        WebElement configureMenu = getDriver()
+                .findElement(By.xpath("//*[@href='/job/test-pipeline/configure']"));
+        configureMenu.click();
+
         WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
 
         Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
