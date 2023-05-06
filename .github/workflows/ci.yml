@@ -56,7 +56,7 @@ jobs:
           CI_RUN: true
 
       - name: Upload screenshot of error
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: screenshotError
-          path: .errorScreenshots/
+          path: errorScreenshots
