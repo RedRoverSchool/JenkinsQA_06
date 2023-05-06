@@ -37,7 +37,6 @@ public class PipelineConfigureTest extends BaseTest {
 
         WebElement actualDescription = getDriver().findElement(By.xpath("//*[@id='description']/div"));
 
-        System.out.println(actualDescription.getText());
         Assert.assertEquals(actualDescription.getText(), descriptionText);
     }
 
@@ -50,6 +49,7 @@ public class PipelineConfigureTest extends BaseTest {
         discardOldBuildsLabel.click();
 
         WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
+
         Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
     }
 }
