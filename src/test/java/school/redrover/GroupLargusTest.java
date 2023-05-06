@@ -95,7 +95,7 @@ public class GroupLargusTest extends BaseTest {
         Assert.assertEquals(newNameInList.getText(), newProjectName);
     }
 @Test
-           public void test(){
+           public void testToDescription(){
     String projectName = "Myfolder";
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(projectName);
