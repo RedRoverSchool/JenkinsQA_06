@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 public class MultiConfigurTest extends BaseTest {
     private static final String NAME_OF_PROJECT = "New project";
     @Test
-    public void createMultifigurationProjectTest() {
+    public void createMultiConfigurationProjectTest() {
         getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
         getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys(NAME_OF_PROJECT);
         getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
