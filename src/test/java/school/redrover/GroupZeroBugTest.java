@@ -146,7 +146,6 @@ public class GroupZeroBugTest extends BaseTest {
 
         deleteJob();
     }
-
     @Test
     public void testJobBuild() {
 
@@ -180,7 +179,6 @@ public class GroupZeroBugTest extends BaseTest {
         getDriver().navigate().back();
         deleteJob();
     }
-
     @Test
     public void testRenameJob() throws InterruptedException {
 

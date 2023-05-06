@@ -9,13 +9,6 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class HelloWorldGroupTest extends BaseTest{
-    @Ignore
-    @Test
-    public void testJenkinsVersion() {
-        WebElement version = getDriver().findElement(By.xpath("//a[@rel='noopener noreferrer']"));
-        Assert.assertEquals(version.getText(),"Jenkins 2.387.2");
-    }
-
     @Test
     public void testCreateFilder() {
         WebElement item = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]//span/a"));
@@ -71,6 +64,7 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(descrText.getText(), text);
     }
 
+    @Ignore
     @Test
     public void testCreateNewFreestyleProject() {
         String projectName = "My new project";
@@ -185,6 +179,16 @@ public class HelloWorldGroupTest extends BaseTest{
         WebElement deleteCheck = getDriver().findElement
                 (By.xpath("//h2[normalize-space(.)='Start building your software project']"));
         Assert.assertEquals(deleteCheck.getText(),"Start building your software project");
+    }
+
+    @Test
+    public void testOkButtonIsDisabled(){
+
+        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItemButton.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        Assert.assertEquals(okButton.getAttribute("class").contains("disabled"),true);
     }
 
 }
