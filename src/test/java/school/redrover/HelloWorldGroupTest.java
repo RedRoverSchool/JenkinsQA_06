@@ -9,13 +9,6 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class HelloWorldGroupTest extends BaseTest{
-    @Ignore
-    @Test
-    public void testJenkinsVersion() {
-        WebElement version = getDriver().findElement(By.xpath("//a[@rel='noopener noreferrer']"));
-        Assert.assertEquals(version.getText(),"Jenkins 2.387.2");
-    }
-
     @Test
     public void testCreateFilder() {
         WebElement item = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]//span/a"));
