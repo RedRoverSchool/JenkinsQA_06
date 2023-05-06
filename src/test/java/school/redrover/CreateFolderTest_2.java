@@ -36,13 +36,5 @@ public class CreateFolderTest_2 extends BaseTest {
 
         Assert.assertEquals(actualResult, nameItem);
         Assert.assertEquals(title.getText(), nameItem);
-
-
-
-
-
-
-
-
     }
 }
