@@ -18,6 +18,7 @@ public class JenkinsVersionTest extends BaseTest {
         String actualJenkinsVersion = jenkinsVersion.getText();
         jenkinsVersion.click();
 
+        getWait2();
         String currentWindow = getDriver().getWindowHandle();
         for(String windowHandle : getDriver().getWindowHandles()){
             if(!currentWindow.equals(windowHandle)){
