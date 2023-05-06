@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 public class ManageSearchTest extends BaseTest {
 
     @Test
-    public void testSearchLetter(){
+    public void testSearchOneLetter(){
 
         WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
         manageJenkins.click();
@@ -21,11 +21,10 @@ public class ManageSearchTest extends BaseTest {
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'results-container')]")));
 
-        WebElement searchResult = getDriver().findElement(By.xpath("//a[contains(@href,'/manage/configure')]"));
-        searchResult.click();
+        WebElement  configureSystem = getDriver().findElement(By.xpath("//a[contains(@href,'/manage/configure')]"));
+        configureSystem.click();
 
         getWait2().until(ExpectedConditions.titleContains("Configure System [Jenkins]"));
-
     }
 
 }
