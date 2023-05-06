@@ -94,4 +94,22 @@ public class GroupLargusTest extends BaseTest {
 
         Assert.assertEquals(newNameInList.getText(), newProjectName);
     }
+@Test
+           public void test(){
+    String projectName = "Myfolder";
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.id("name")).sendKeys(projectName);
+        getDriver().findElement(By.xpath("//input[@ value='com.cloudbees.hudson.plugins.folder.Folder']/..")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//*button[@name='Submit']")).click();
+        getDriver().findElement(By.id("jenkins-home-link"));
+
+    getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+    getDriver().findElement(By.id("name")).sendKeys(projectName);
+    getDriver().findElement(By.xpath("//input[@ value='com.cloudbees.hudson.plugins.folder.Folder']/..")).click();
+    WebElement message = getDriver().findElement(By.xpath("//div[contains(@id, 'invalid')]"));
+    Assert.assertTrue(message.getText().contains(projectName));
+
+}
+
 }
