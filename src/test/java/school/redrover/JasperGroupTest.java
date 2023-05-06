@@ -70,7 +70,7 @@ public class JasperGroupTest extends BaseTest {
         WebElement errorText = getDriver().findElement(By.cssSelector("#itemname-required"));
 
         Assert.assertEquals(okButton.getAttribute("disabled"), "true");
-        Assert.assertEquals(errorText.getText(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(errorText.getText(), "» This field cannot 1be empty, please enter a valid name");
     }
 
     @Test
