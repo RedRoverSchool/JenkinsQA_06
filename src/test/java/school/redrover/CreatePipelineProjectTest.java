@@ -31,4 +31,15 @@ public class CreatePipelineProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id = 'main-panel']/h1")).getText(),
                 "Pipeline " + projectName);
     }
+
+    @Test
+    public void testVerifyPipelineProjectOnDashboard () {
+        testCreatePipelineProjectTest();
+
+        WebElement dashboardButton = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li[1]/a"));
+        dashboardButton.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='job_New Project']/td[3]/a/span"))
+                .getText(), "New Project");
+    }
 }

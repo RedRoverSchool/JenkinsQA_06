@@ -4,8 +4,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -84,7 +84,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("h1.job-index-headline.page-headline")).isEnabled());
     }
 
-    @Ignore
     @Test
     public void testAddDescriptionToFreestyleProject() {
 
@@ -98,7 +97,8 @@ public class FreestyleProjectTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//div[@class='setting-main help-sibling']/textarea")).sendKeys("Job " + FREESTYLE_NAME);
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@class='setting-main help-sibling']/textarea"))).sendKeys("Job " + FREESTYLE_NAME);
         getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description'] /div[1]")).getText(), "Job " + FREESTYLE_NAME);
