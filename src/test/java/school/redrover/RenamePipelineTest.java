@@ -1,63 +1,36 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import java.time.Duration;
-
 public class RenamePipelineTest extends BaseTest {
 
+    private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
+    private static final By TEXT_FIELD = By.id("name");
+    private static final By PIPELINE_PROJECT = By.xpath("//span[normalize-space()='Pipeline']");
+    private static final By OK_BUTTON = By.id("ok-button");
+    private static final By SAVE_BUTTON = By.xpath("//button[normalize-space()='Save']");
+    private static final By RENAME_BUTTON = By.xpath("//a[@href='/job/Java/confirm-rename']");
+    private static final By RENAME_TEXT_FIELD = By.name("newName");
+    private static final By CONFIRM_RENAME_BUTTON = By.name("Submit");
+    private static final By UPDATED_PROJECT_NAME_DISPLAYED = By.xpath("//h1[@class='job-index-headline page-headline']");
+    private static final String PROJECT_NAME = "Java";
+    private static final String UPDATED_PROJECT_NAME = "Java1";
+
     @Test
-    public void testRenamePipeline() throws InterruptedException {
+    public void testRenamePipelineTest() {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(TEXT_FIELD).sendKeys(PROJECT_NAME);
+        getDriver().findElement(PIPELINE_PROJECT).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(RENAME_BUTTON).click();
+        getDriver().findElement(RENAME_TEXT_FIELD).clear();
+        getDriver().findElement(RENAME_TEXT_FIELD).sendKeys(UPDATED_PROJECT_NAME);
+        getDriver().findElement(CONFIRM_RENAME_BUTTON).click();
 
-        WebElement newItemLink = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        newItemLink.click();
-
-        WebElement textField = getDriver().findElement(By.xpath("//input[@id='name']"));
-        textField.sendKeys("TestPipelineJava");
-
-        WebElement pipelineProject = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[normalize-space()='Pipeline']")));
-        pipelineProject.click();
-
-        WebElement okBtn = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
-        okBtn.click();
-
-        WebElement saveBtn = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Save']")));
-        JavascriptExecutor js= (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView(true)",saveBtn);
-
-        saveBtn.click();
-
-        WebElement projectName = getDriver().findElement(By.xpath("//h1[normalize-space()='Pipeline TestPipelineJava']"));
-        Assert.assertTrue(projectName.isDisplayed());
-
-        WebElement dashboard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
-        dashboard.click();
-
-        WebElement projectNameOnDashboard = getDriver().findElement(By.xpath("//span[.='TestPipelineJava']"));
-        Assert.assertTrue(projectNameOnDashboard.isDisplayed());
-
-       projectNameOnDashboard.click();
-
-       WebElement renameBtn = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/TestPipelineJava/confirm-rename']")));
-       renameBtn.click();
-
-        WebElement renameTextField = getDriver().findElement(By.xpath("//input[@class='jenkins-input validated  ']"));
-        renameTextField.clear();
-        renameTextField.sendKeys("TestPipelineJavaJitsu");
-
-
-       WebElement rename = getDriver().findElement(By.xpath("//button[normalize-space()='Rename']"));
-       rename.click();
-
-       WebElement projectNameUpdate = getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"));
-       Assert.assertTrue(projectNameUpdate.getText().contains("TestPipelineJavaJitsu"));
+        Assert.assertTrue(getDriver().findElement(UPDATED_PROJECT_NAME_DISPLAYED).getText().contains("Pipeline "+UPDATED_PROJECT_NAME));
     }
 }
