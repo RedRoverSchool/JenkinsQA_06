@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -467,5 +468,38 @@ public class AlexLeoGroupTests extends BaseTest {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div")).getText(), DESCRIPTION);
+    }
+
+    @Test
+    public void testVerifySystemConfiguration() {
+        List<String> listSystemConfigurationExpected = Arrays.asList
+                ("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
+
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(text(),'Manage')]")));
+        List<WebElement> listSystemConfiguration = getDriver().findElements(By.cssSelector(".jenkins-section__title"));
+        for (int i = 0; i < listSystemConfiguration.size(); i++) {
+
+            Assert.assertEquals(listSystemConfiguration.get(i).getText(), listSystemConfigurationExpected.get(i));
+        }
+    }
+
+    @Test
+    public void testManageOldData() {
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//dt[contains(text(),'Manage Old Data')]"))).click();
+
+        WebElement oldData = getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")));
+        Assert.assertEquals(oldData.getText(), "Manage Old Data");
+        Assert.assertEquals(oldData.getLocation().toString(), "(372, 133)");
+        Assert.assertEquals(oldData.getCssValue("font-size").toString(), "25.6px");
+        Assert.assertEquals(oldData.getCssValue("font-weight").toString(), "700");
+
+        List<WebElement> listSortTable = getDriver().findElements(By.xpath("//thead //a"));
+        Assert.assertEquals(listSortTable.size(), 4);
+
+        Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
     }
 }
