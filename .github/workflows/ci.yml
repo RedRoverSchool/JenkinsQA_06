@@ -60,4 +60,4 @@ jobs:
         if: failure()
         with:
           name: screenshotError
-          path: errorScreenshots
+          path: ~/errorScreenshots
