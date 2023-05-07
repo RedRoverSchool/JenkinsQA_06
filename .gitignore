@@ -11,3 +11,4 @@ debug.log
 # Allure Report
 allure-results/
 .allure/
+.screenshot/

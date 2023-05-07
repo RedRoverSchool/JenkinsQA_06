@@ -8,6 +8,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import java.io.File;
 
 
 public final class BaseUtils {
@@ -84,5 +88,16 @@ public final class BaseUtils {
     public static void logf(String str, Object... arr) {
         System.out.printf(str, arr);
         System.out.println();
+    }
+
+    public static void screenshot(WebDriver driver, String fileName){
+        try {
+            TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+            File file = takesScreenshot.getScreenshotAs(OutputType.FILE);
+            File screen = new File("./screenshot/"+fileName+".png");
+            FileUtils.copyFile(file, screen);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
