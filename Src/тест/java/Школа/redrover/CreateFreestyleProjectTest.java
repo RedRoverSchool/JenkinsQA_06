@@ -37,16 +37,19 @@ public class CreateFreestyleProjectTest extends BaseTest {
                 .scrollFromOrigin( WheelInput.ScrollOrigin.fromViewport(),0, deltaY)
                 .perform();
     }
+    
     public void clickPerform(By by) {
         new Actions(getDriver())
                 .click(getDriver().findElement(by))
                 .perform();
     }
+    
     public void clickPerform(WebElement webElement) {
         new Actions(getDriver())
                 .click(webElement)
                 .perform();
     }
+    
     public void createFreestyleProjectJob(String nameProject) {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(ITEM_NAME_ENTER).sendKeys(NAME_PROJECT);
