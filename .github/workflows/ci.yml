@@ -60,4 +60,4 @@ jobs:
         if: failure()
         with:
           name: screenshotError
-          path: ~/errorScreenshots
+          path: /home/runner/work/JenkinsQA_06/errorScreenshots
