@@ -84,6 +84,7 @@ public class AnaBelGroupTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), "» This field cannot be empty, please enter a valid name");
     }
 
+
     @Ignore
     @Test
     public void testSetUpAgent() {
