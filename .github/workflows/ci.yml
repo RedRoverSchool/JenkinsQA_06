@@ -57,6 +57,7 @@ jobs:
 
       - name: Upload screenshot of error
         uses: actions/upload-artifact@v3
+        if: failure()
         with:
           name: screenshotError
           path: errorScreenshots
