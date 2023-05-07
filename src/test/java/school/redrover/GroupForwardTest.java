@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -41,7 +40,7 @@ public class GroupForwardTest extends BaseTest {
         submitButton.click();
         WebElement description = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
-        Assert.assertEquals(description.getText(),text);
+        Assert.assertEquals(description.getText(), text);
     }
 
     @Test
@@ -118,7 +117,7 @@ public class GroupForwardTest extends BaseTest {
         textList.add("Multibranch Pipeline");
         textList.add("Organization Folder");
 
-        for (WebElement element: listOfJobs) {
+        for (WebElement element : listOfJobs) {
             textList1.add(element.getText());
         }
 
@@ -173,5 +172,48 @@ public class GroupForwardTest extends BaseTest {
         WebElement userRecord = getDriver().findElement(By.xpath("//a[@href = 'user/kira/']"));
 
         Assert.assertTrue(userRecord.isDisplayed());
+    }
+
+    @Test
+    public void testListOfBuildHistory() {
+
+        WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/builds']"));
+        newItemMenu.click();
+        WebElement iconLegendButton = getDriver().findElement(By.xpath("//a[@href = '/legend']"));
+        iconLegendButton.click();
+
+        WebElement textProjectHealth = getDriver().findElement(By.xpath("//div/h2[text()='Project Health']"));
+        List<WebElement> listProjectHealth = getDriver().findElements(By.xpath("//div/dl[@class='app-icon-legend'][2]/dd"));
+
+        Assert.assertEquals(textProjectHealth.getText(), "Project Health");
+        Assert.assertEquals(listProjectHealth.size(), 5);
+    }
+
+
+    private List<String> getListProject(List<WebElement> WebList) {
+        if(WebList.size() > 0) {
+            List<String> text = new ArrayList<>();
+            for (WebElement webElement : WebList) {
+                text.add(webElement.getText());
+            }
+
+            return text;
+        }
+
+        return null;
+    }
+    @Test
+    public void testListProjectHealth(){
+        WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/builds']"));
+        newItemMenu.click();
+        WebElement iconLegendButton = getDriver().findElement(By.xpath("//a[@href = '/legend']"));
+        iconLegendButton.click();
+        List<WebElement> listProjectHealth = getDriver().findElements(By.xpath("//div/dl[@class='app-icon-legend'][2]/dd"));
+
+        List<String> textListExpected = List.of("Project health is over 80%", "Project health is over 60% and up to 80%",
+                "Project health is over 40% and up to 60%", "Project health is over 20% and up to 40%", "Project health is 20% or less");
+
+        Assert.assertEquals(getListProject(listProjectHealth), textListExpected);
+
     }
 }

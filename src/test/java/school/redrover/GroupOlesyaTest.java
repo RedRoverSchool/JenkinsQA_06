@@ -38,7 +38,7 @@ public class GroupOlesyaTest extends BaseTest {
     }
 
     @Test
-    public void createProjectTest() {
+    public void testCreateProject() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys("Freestyle");
         getDriver().findElement(By.xpath("//span[text() ='Freestyle project']")).click();
@@ -49,7 +49,7 @@ public class GroupOlesyaTest extends BaseTest {
     }
 
     @Test
-    public void adminPageTest() {
+    public void testAdminPage() {
         List<String> expectedMenus = Arrays.asList(
                 "People", "Status", "Builds", "Configure", "My Views", "Credentials");
         getDriver().findElement(By.xpath("//a[@class='model-link']")).click();
@@ -64,7 +64,7 @@ public class GroupOlesyaTest extends BaseTest {
 
 
     @Test
-    public void descriptionAreaTest() throws InterruptedException {
+    public void testDescriptionArea() {
         String descriptionXpath = "//a[@id='description-link']";
         String textAreaXPath = "//textarea[@name='description']";
         String saveButtonXPath = "//button[@name='Submit']";
@@ -94,7 +94,7 @@ public class GroupOlesyaTest extends BaseTest {
 
     }
     @Test
-    public void wrongSearchTest() {
+    public void testSearchBarSpecialChars() {
 
         List<String> symbols = new ArrayList(Arrays.asList("@", "#", "$", "%", "^", "&", "*", "(", ")", "|", "<", ">", "~", "`"));
         for (String symbol : symbols) {
@@ -110,7 +110,7 @@ public class GroupOlesyaTest extends BaseTest {
 
 
     @Test
-    public void NewProjectCreatorTest() {
+    public void testNewProjectCreator() {
         WebElement dashboard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
         dashboard.click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),"Welcome to Jenkins!");
