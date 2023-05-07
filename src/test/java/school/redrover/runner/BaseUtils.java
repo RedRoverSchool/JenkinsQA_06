@@ -91,7 +91,7 @@ public final class BaseUtils {
         System.out.println();
     }
 
-    public static void takeScreenshot(WebDriver driver, ITestResult testResult){
+    public static void takeScreenshot(WebDriver driver, ITestResult testResult) {
         try {
             File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
             File destFile = new File("/home/runner/work/JenkinsQA_06/errorScreenshots/" + testResult.getName() + ".jpg");
