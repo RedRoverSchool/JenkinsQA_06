@@ -16,7 +16,7 @@ public class PipelineConfigureTest extends BaseTest {
         name.sendKeys("test-pipeline");
 
         WebElement newPipeline = getDriver()
-                .findElement(By.xpath("//*[@id='j-add-item-type-nested-projects']//li[1]"));
+                .findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']//li[2]"));
         newPipeline.click();
 
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
@@ -29,14 +29,34 @@ public class PipelineConfigureTest extends BaseTest {
 
         createPipeline();
 
-        WebElement descriptionField = getDriver().findElement(By.name("_.description"));
+        WebElement descriptionField = getDriver().findElement(By.name("description"));
         descriptionField.sendKeys(descriptionText);
 
         WebElement saveButton = getDriver().findElement(By.name("Submit"));
         saveButton.click();
 
-        WebElement actualDescription = getDriver().findElement(By.id("view-message"));
+        WebElement actualDescription = getDriver().findElement(By.xpath("//*[@id='description']/div"));
 
         Assert.assertEquals(actualDescription.getText(), descriptionText);
+    }
+
+    @Test
+    public void testDiscardOldBuildsIsCheckedEmptyDaysAndBuildsField() {
+        createPipeline();
+
+        WebElement discardOldBuildsLabel = getDriver()
+                .findElement(By.xpath("//label[contains(text(),'Discard old builds')]"));
+        discardOldBuildsLabel.click();
+
+        WebElement saveButton = getDriver().findElement(By.name("Submit"));
+        saveButton.click();
+
+        WebElement configureMenu = getDriver()
+                .findElement(By.xpath("//*[@href='/job/test-pipeline/configure']"));
+        configureMenu.click();
+
+        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
+
+        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
     }
 }
