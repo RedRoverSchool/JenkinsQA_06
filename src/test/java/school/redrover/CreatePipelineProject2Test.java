@@ -12,9 +12,7 @@ public class CreatePipelineProject2Test extends BaseTest {
     public static final By INPUT_NAME_FIELD = By.xpath("//input[@id='name']");
     public static final By PROJECT_NAME = By.xpath("//span[normalize-space()='Pipeline']");
     public static final By OK_BUTTON = By.id("ok-button");
-
     public static final By SAVE_BUTTON = By.xpath("//button[contains(text(),'Save')]");
-
     public static final By PAGE_TITLE = By.xpath("//h1[contains(text(),'Pipeline " + name + "')]");
 
     @Test
