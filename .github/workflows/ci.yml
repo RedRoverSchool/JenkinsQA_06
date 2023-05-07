@@ -60,6 +60,6 @@ jobs:
         if: failure()
         with:
           name: Screenshots
-          path: /home/runner/work/JenkinsQA_06/screenshot/
+          path: ./.screenshot/
 
 

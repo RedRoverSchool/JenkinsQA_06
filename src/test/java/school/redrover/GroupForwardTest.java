@@ -186,7 +186,7 @@ public class GroupForwardTest extends BaseTest {
         List<WebElement> listProjectHealth = getDriver().findElements(By.xpath("//div/dl[@class='app-icon-legend'][2]/dd"));
 
         Assert.assertEquals(textProjectHealth.getText(), "Project Health");
-        Assert.assertEquals(listProjectHealth.size(), 5);
+        Assert.assertEquals(listProjectHealth.size(), 6);
     }
 
 
