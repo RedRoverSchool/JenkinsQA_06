@@ -55,13 +55,6 @@ jobs:
           APP_OPTIONS: port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
           CI_RUN: true
 
-      - name: Save Screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: Screenshots
-          path: .screenshot/*.png
-
       - name: Create Screenshots
         run: |
           mkdir -p .screenshot
@@ -73,3 +66,4 @@ jobs:
             cp -f "$file" ".screenshot/$(basename "$file")"
           done
         if: always()
+
