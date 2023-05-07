@@ -54,3 +54,20 @@ jobs:
           CHROME_OPTIONS: --disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless=new;--window-size=1920,1080
           APP_OPTIONS: port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
           CI_RUN: true
+
+      - name: Save Screenshots
+        uses: actions/upload-artifact@v2
+        with:
+          name: Screenshots
+          path: .screenshot/*.png
+
+  create-screenshots:
+    needs: run-test
+    steps:
+
+      - name: Run script to create screenshots
+        run: ./create_screenshots.sh
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: .screenshot/*.png
