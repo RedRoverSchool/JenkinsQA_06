@@ -1,10 +1,15 @@
 package school.redrover.runner;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.ITestResult;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -84,5 +89,14 @@ public final class BaseUtils {
     public static void logf(String str, Object... arr) {
         System.out.printf(str, arr);
         System.out.println();
+    }
+
+    public static void takeScreenshot(WebDriver driver, ITestResult testResult){
+        try {
+            File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+            File destFile = new File("/home/runner/work/JenkinsQA_06/errorScreenshots/" + testResult.getName() + ".jpg");
+            FileUtils.copyFile(srcFile, destFile);
+        } catch (IOException ignore) {
+        }
     }
 }

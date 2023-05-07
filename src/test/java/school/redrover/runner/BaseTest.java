@@ -74,13 +74,8 @@ public abstract class BaseTest {
 
     @AfterMethod
     protected void afterMethod(Method method, ITestResult testResult) {
-        if(testResult.getStatus()==testResult.FAILURE){
-            try {
-                    File srcFile = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
-                    File destFile = new File("/home/runner/work/JenkinsQA_06/errorScreenshots/" + testResult.getName() + ".jpg");
-                    FileUtils.copyFile(srcFile, destFile);
-            } catch (IOException ignore) {
-            }
+        if(testResult.getStatus() == testResult.FAILURE){
+            BaseUtils.takeScreenshot(driver, testResult);
         }
         stopDriver();
         BaseUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
