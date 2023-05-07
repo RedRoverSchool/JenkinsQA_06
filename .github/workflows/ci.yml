@@ -61,3 +61,15 @@ jobs:
         with:
           name: Screenshots
           path: .screenshot/*.png
+
+      - name: Create Screenshots
+        run: |
+          mkdir -p .screenshot
+          if [ "$?" -ne "0" ]; then
+            echo "Error: Failed to create screenshot directory"
+            exit 1
+          fi
+          for file in $(find target/surefire-reports/ -type f -name "*.png"); do
+            cp -f "$file" ".screenshot/$(basename "$file")"
+          done
+        if: always()
