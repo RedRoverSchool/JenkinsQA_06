@@ -35,6 +35,7 @@ public class DeleteUserTest extends BaseTest {
 
     @Test
     public void testDeleteUser() {
+
         createUser();
 
         List<WebElement> listOfUsers = getDriver().findElements(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
