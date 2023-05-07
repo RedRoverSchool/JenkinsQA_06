@@ -12,9 +12,25 @@ import static org.testng.Assert.assertEquals;
 public class AnaBelGroupTest extends BaseTest {
 
     @Test
-    public void testLogo() {
-        WebElement logo = getDriver().findElement(By.id("jenkins-name-icon"));
-        Assert.assertTrue(logo.isDisplayed());
+    public void testItem() {
+
+        WebElement button = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        button.click();
+
+        WebElement textBox = getDriver().findElement(By.id("name"));
+        textBox.sendKeys("Item");
+
+        WebElement lableButton = getDriver().findElement(By.xpath("//span[contains(text(),'Multi-configuration project')]"));
+        lableButton.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
+        okButton.click();
+
+        WebElement validateButton = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate'][@name='Submit']"));
+        validateButton.click();
+
+        WebElement general = getDriver().findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"));
+        Assert.assertEquals(general.getText(), "Project Item");
     }
 
     @Test
@@ -23,6 +39,7 @@ public class AnaBelGroupTest extends BaseTest {
 
         assertEquals(buildHistory.getText(), "Build History");
     }
+
     @Test
     public void testAddDescription() {
         WebElement button = getDriver().findElement(By.xpath("//a[@id='description-link']"));
@@ -67,27 +84,7 @@ public class AnaBelGroupTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), "» This field cannot be empty, please enter a valid name");
     }
 
-    @Test
-    public void testItem() {
 
-        WebElement button = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        button.click();
-
-        WebElement textBox = getDriver().findElement(By.xpath("//input[@name='name']"));
-        textBox.sendKeys("Item");
-
-        WebElement lableButton = getDriver().findElement(By.xpath("//span[contains(text(),'Multi-configuration project')]"));
-        lableButton.click();
-
-        WebElement okButton = getDriver().findElement(By.xpath("//*[@id='ok-button']"));
-        okButton.click();
-
-        WebElement validateButton = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate'][@name='Submit']"));
-        validateButton.click();
-
-        WebElement general = getDriver().findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"));
-        Assert.assertEquals(general.getText(), "Project Item");
-    }
     @Ignore
     @Test
     public void testSetUpAgent() {
@@ -96,7 +93,6 @@ public class AnaBelGroupTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement
                 (By.xpath("//div[@class='jenkins-app-bar__content']/h1")).getText(),"New node");
     }
-
 
     @Test
     public void testCreateAJob() {

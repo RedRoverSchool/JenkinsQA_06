@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -79,5 +80,50 @@ public class NewItemTest extends BaseTest {
 
         WebElement errorMsg = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required")));
         Assert.assertEquals(errorMsg.getText(), "» This field cannot be empty, please enter a valid name");
+    }
+
+    public void createProject(String nameOfProject, String typeOfProject){
+        getDriver().findElement(By.className("task-icon-link")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.id("name"))).sendKeys(nameOfProject);
+
+        List <WebElement> listItemOptions = getDriver().findElements(By.id("j-add-item-type-standalone-projects"));
+        for(WebElement element:listItemOptions){
+            if (element.getText().contains(typeOfProject)){
+                element.click();
+            }
+        }
+    }
+
+    @Test
+    public void createPipelineProjectTest(){
+        String expectedResult = "New pipeline project";
+        String typeOfProject = "Pipeline";
+        createProject(expectedResult, typeOfProject);
+        getDriver().findElement(By.id("ok-button")).click();
+
+        getDriver().findElement(By.xpath("//*[text()='Dashboard']")).click();
+
+        List <WebElement> listOfCreateProjects = getDriver().findElements(By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']"));
+        List <String> nameOfCreateProjects = new ArrayList<>();
+        for(WebElement element : listOfCreateProjects){
+            nameOfCreateProjects.add(element.getText());
+        }
+
+        Assert.assertEquals(nameOfCreateProjects.get(0), expectedResult);
+        Assert.assertEquals(nameOfCreateProjects.size(), 1);
+    }
+
+    @Test
+    public void createPipelineProjectWithInvalidNameTest(){
+        String[] invalidChars = new String[] {"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "/", "|", "?", "<", ">"};
+        String typeOfProject = "Pipeline";
+        for (String invalidChar : invalidChars) {
+            createProject(invalidChar, typeOfProject);
+            String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
+            Assert.assertEquals(validationMessage, "» ‘" + invalidChar + "’ is an unsafe character");
+            Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
+            getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
+        }
     }
 }
