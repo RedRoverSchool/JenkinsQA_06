@@ -93,6 +93,7 @@ public class JenkinsUtils {
             HttpResponse<String> loginPage = getHttp(ProjectUtils.getUrl() + "login?from=%2F");
             sessionId = loginPage.headers().firstValue(HEAD_COOKIE).orElse(null);
 
+            // Поле sessionId используется внутри postHttp
             HttpResponse<String> indexPage = postHttp(ProjectUtils.getUrl() + "j_spring_security_check",
                     String.format("j_username=%s&j_password=%s&from=%%2F&Submit=", ProjectUtils.getUserName(), ProjectUtils.getPassword()));
             sessionId = indexPage.headers().firstValue(HEAD_COOKIE).orElse("");
