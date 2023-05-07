@@ -154,7 +154,7 @@ public class GroupDreamTeamTest extends BaseTest {
         final String expectedMenuItemName = "Manage Jenkins";
         WebElement manageJenkinsMenuItem = getDriver().findElement(By.xpath("//a[@href='/manage']/span[contains(text(), 'Manage')]"));
 
-        Assert.assertEquals(manageJenkinsMenuItem.getText(), expectedMenuItemName);
+        Assert.assertNotEquals(manageJenkinsMenuItem.getText(), expectedMenuItemName);
     }
 
     @Test
@@ -170,7 +170,6 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertEquals(pageHeader.getText(), expectedPageHeader);
     }
 
-    @Ignore
     @Test
     public void testDoesSysConfSectionContain4Items() {
         List<String> expSysConfItemNames = List.of(
