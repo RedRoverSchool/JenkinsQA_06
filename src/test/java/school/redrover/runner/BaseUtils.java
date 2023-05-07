@@ -1,6 +1,10 @@
 package school.redrover.runner;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import java.io.File;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -84,5 +88,16 @@ public final class BaseUtils {
     public static void logf(String str, Object... arr) {
         System.out.printf(str, arr);
         System.out.println();
+    }
+
+    public static void screenshot(WebDriver driver, String fileName){
+        try {
+            TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+            File file = takesScreenshot.getScreenshotAs(OutputType.FILE);
+            File screen = new File("./screenshot/"+fileName+".png");
+            FileUtils.copyFile(file, screen);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
