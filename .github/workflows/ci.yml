@@ -57,17 +57,7 @@ jobs:
 
       - name: Save Screenshots
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: Screenshots
-          path: .screenshot/*.png
-
-  create-screenshots:
-    needs: run-test
-    steps:
-
-      - name: Run script to create screenshots
-        run: ./create_screenshots.sh
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshots
           path: .screenshot/*.png
