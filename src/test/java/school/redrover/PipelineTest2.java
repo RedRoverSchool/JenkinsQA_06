@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -16,6 +17,8 @@ public class PipelineTest2 extends BaseTest {
     private static final By TEXT_PIPELINE = By.cssSelector(".job-index-headline.page-headline");
 
     String name = "PipeLine";
+    String newName = "PipeLine New";
+
     String descriptionText = "Pipeline text";
 
     @Test
@@ -29,5 +32,41 @@ public class PipelineTest2 extends BaseTest {
         getDriver().findElement(SUBMIT).click();
 
         Assert.assertEquals("Pipeline " + name, getDriver().findElement(TEXT_PIPELINE).getText());
+    }
+
+    public void createPipeline() {
+
+        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItemButton.click();
+
+        WebElement itemNameInput = getDriver().findElement(By.id("name"));
+        itemNameInput.sendKeys(name);
+
+        WebElement itemTypeRadio = getDriver().findElement(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']"));
+        itemTypeRadio.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        WebElement saveButton = getDriver().findElement(By.name("Submit"));
+        saveButton.click();
+    }
+
+    @Test
+    public void pipelineRenameTest() {
+        createPipeline();
+
+        WebElement renameButton = getDriver().findElement(By.xpath("//a[@href='/job/PipeLine/confirm-rename']"));
+        renameButton.click();
+
+        WebElement newNameInput = getDriver().findElement(By.name("newName"));
+        newNameInput.clear();
+        newNameInput.sendKeys(newName);
+
+        WebElement submitRenameButton = getDriver().findElement(By.name("Submit"));
+        submitRenameButton.click();
+
+        WebElement pipelineName = getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"));
+        Assert.assertEquals("Pipeline " + newName, pipelineName.getText());
     }
 }
