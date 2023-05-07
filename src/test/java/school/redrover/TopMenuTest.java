@@ -198,4 +198,27 @@ public class TopMenuTest extends BaseTest {
         Assert.assertEquals(actualNewProjectName,expectedNewProjectName);
 
     }
+
+    @Test
+    public void testPreviewOfAddedDescriptionWhenClickUserIDButton() {
+        String expectedPreviewOfAddedDescription = "QA Engineer";
+
+        getDriver()
+                .findElement(By.xpath("//div[@class=\'login page-header__hyperlinks\']/a[1]/span"))
+                .click();
+        getDriver()
+                .findElement(By.xpath("//a[@id=\'description-link\']"))
+                .click();
+        getDriver()
+                .findElement(By.xpath("//div[@class=\'setting-main help-sibling\']/textarea"))
+                .sendKeys("QA Engineer");
+        getDriver()
+                .findElement(By.xpath("//div[@class=\'textarea-preview-container\']/a[@class=\'textarea-show-preview\']"))
+                .click();
+
+        WebElement previewDescription = getDriver().findElement(By.xpath("//div[@class=\'textarea-preview\']"));
+        String actualPreviewOfAddedDescription = String.valueOf(previewDescription.getText());
+
+        Assert.assertEquals(actualPreviewOfAddedDescription, expectedPreviewOfAddedDescription);
+    }
 }

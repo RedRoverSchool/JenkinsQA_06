@@ -3,16 +3,13 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class GroupILoveBugsTest extends BaseTest {
 
@@ -24,8 +21,6 @@ public class GroupILoveBugsTest extends BaseTest {
 
     @Test
     public void testCreateProjectNameInBreadcrumbs() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(4));
-
         String name = "testProject";
         final By createItemBTN = By.xpath("//a[@href='/view/all/newJob']");
         final By inputField = By.id("name");
@@ -33,15 +28,15 @@ public class GroupILoveBugsTest extends BaseTest {
         final By okBTN = By.id("ok-button");
         final By nameProjectInBreadcrumbs = By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][2]/a[@class='model-link']");
 
-        wait.until(ExpectedConditions.elementToBeClickable(createItemBTN));
+        getWait2().until(ExpectedConditions.elementToBeClickable(createItemBTN));
         getDriver().findElement(createItemBTN).click();
 
-        wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(inputField)));
+        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(inputField)));
         getDriver().findElement(inputField).sendKeys(name);
         getDriver().findElement(modelFreeStyleProjectBTN).click();
         getDriver().findElement(okBTN).click();
 
-        wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(nameProjectInBreadcrumbs)));
+        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(nameProjectInBreadcrumbs)));
         Assert.assertEquals(name, getDriver().findElement(nameProjectInBreadcrumbs).getText(), "Wrong name project");
     }
 

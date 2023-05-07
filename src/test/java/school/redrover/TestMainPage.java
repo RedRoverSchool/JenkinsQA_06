@@ -68,4 +68,12 @@ public class TestMainPage extends BaseTest {
         }
 
     }
+
+    @Test
+    public void testLogOutIconTextVerification() {
+        String logOutIconText = getDriver().findElement(By.xpath("//a[@href='/logout']/span")).getText();
+        Assert.assertEquals(logOutIconText, "log out");
+    }
+
+
 }
