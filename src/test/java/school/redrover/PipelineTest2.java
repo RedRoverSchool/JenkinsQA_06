@@ -16,14 +16,13 @@ public class PipelineTest2 extends BaseTest {
     private static final By TEXT_PIPELINE = By.cssSelector(".job-index-headline.page-headline");
     private static final By RENAME = By.xpath("//a[@href='/job/FirstPipelin/confirm-rename']");
     private static final By RENAME_LINE = By.xpath("//input[@name='newName']");
-
-
+    
     String name = "FirstPipelin";
     String descriptionText = "Pipeline text";
     String renameText = "Pipeline1";
-
+    
     @Test
-    public void testCreatePipelineAndRename () throws InterruptedException {
+    public void testCreatePipelineAndRename() {
 
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(NAME).sendKeys(name);
