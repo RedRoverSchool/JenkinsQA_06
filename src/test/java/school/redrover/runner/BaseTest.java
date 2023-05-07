@@ -77,7 +77,7 @@ public abstract class BaseTest {
         if(testResult.getStatus()==testResult.FAILURE){
             try {
                     File srcFile = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
-                    File destFile = new File("errorScreenshots\\" + testResult.getName() + ".jpg");
+                    File destFile = new File("~/errorScreenshots/" + testResult.getName() + ".jpg");
                     FileUtils.copyFile(srcFile, destFile);
             } catch (IOException ignore) {
             }
