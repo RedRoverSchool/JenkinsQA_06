@@ -69,7 +69,7 @@ public abstract class BaseTest {
 
     @AfterMethod
     protected void afterMethod(Method method, ITestResult testResult) {
-        if(testResult.getStatus() == testResult.FAILURE){
+        if (testResult.getStatus() == testResult.FAILURE) {
             BaseUtils.takeScreenshot(driver, testResult);
         }
         stopDriver();
