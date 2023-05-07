@@ -14,13 +14,12 @@ import java.time.Duration;
 public class RestAPITest extends BaseTest{
     @Test
     public void restApiTest() {
-
         String apiLink = "REST API";
+
         WebElement restApiLink = getDriver().findElement(By.xpath("//div[@class='page-footer__flex-row']/div[2]/a"));
         restApiLink.click();
 
         WebElement restApiText = getDriver().findElement(By.xpath("//h1[1]"));
-        restApiText.getText();
 
         Assert.assertEquals(restApiText.getText(), apiLink);
     }
