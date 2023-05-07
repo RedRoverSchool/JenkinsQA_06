@@ -6,6 +6,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
@@ -14,6 +15,8 @@ public abstract class BaseTest {
     private WebDriverWait wait2;
     private WebDriverWait wait5;
     private WebDriverWait wait10;
+
+    private File scrShot;
 
     private WebDriver driver;
 
@@ -73,9 +76,11 @@ public abstract class BaseTest {
     @AfterMethod
     protected void afterMethod(Method method, ITestResult testResult) {
         if(testResult.getStatus() == testResult.FAILURE){
-            System.out.println(testResult.getName() + " FAILED: Refer to screenShotError.png");
+            System.out.println(testResult.getName() + " FAILED: Refer to ~/SeleniumScreenshots/"
+                            + testResult.getName() + "_FAILED" + ".png");
+            createScrShot("~/SeleniumScreenshots/" + testResult.getName() + "_FAILED" + ".png");
             try {
-                BaseUtils.takeScreenShot(getDriver(), "~/screenShotError.png");
+                BaseUtils.takeScreenShot(getDriver(), getScrShot());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -107,5 +112,13 @@ public abstract class BaseTest {
             wait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         }
         return wait10;
+    }
+
+    public File getScrShot() {
+        return scrShot;
+    }
+
+    protected void createScrShot(String fileWithPath) {
+        scrShot = new File(fileWithPath);
     }
 }

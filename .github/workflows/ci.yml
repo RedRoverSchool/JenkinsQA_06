@@ -48,6 +48,9 @@ jobs:
       - name: Wait for the Jenkins
         run: ./.github/wait-for-jenkins.sh
 
+      - name: Create a temporary screenshot folder
+        run: mkdir ~/SeleniumScreenshots
+
       - name: Maven test
         run: mvn test
         env:
@@ -58,5 +61,5 @@ jobs:
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v3
         with:
-          name: ScreenshotError
-          path: ~/screenShotError.png
+          name: Screenshots of Errors
+          path: ~/SeleniumScreenshots

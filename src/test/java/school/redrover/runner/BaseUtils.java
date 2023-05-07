@@ -90,14 +90,11 @@ public final class BaseUtils {
         System.out.println();
     }
 
-    public static void takeScreenShot(WebDriver webdriver, String fileWithPath) {
+    public static void takeScreenShot(WebDriver webdriver, File scrShotFile) {
         TakesScreenshot scrShot = ((TakesScreenshot) webdriver);
-
         File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
-        File destFile = new File(fileWithPath);
-
         try {
-            FileUtils.copyFile(srcFile, destFile);
+            FileUtils.copyFile(srcFile, scrShotFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
