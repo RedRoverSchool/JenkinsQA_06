@@ -26,4 +26,22 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualProjectName, expectedProjectName);
     }
+
+    @Test
+    public void testCreateFreestyleProject1() {
+      String freestyleProjectName = "new job no.3";
+
+      getDriver().findElement(By.cssSelector(".task-link")).click();
+
+      getDriver().findElement(By.cssSelector("#name")).sendKeys(freestyleProjectName);
+      getDriver().findElement(By.cssSelector(".label")).click();
+      getDriver().findElement(By.cssSelector("#ok-button")).click();
+
+      getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
+
+      getDriver().findElement(By.cssSelector(".jenkins-breadcrumbs__list-item>.model-link")).click();
+
+      Assert.assertEquals(getDriver().findElement(
+              By.xpath("//a[@href='job/new%20job%20no.3/']")).getText(),freestyleProjectName);
+    }
 }
