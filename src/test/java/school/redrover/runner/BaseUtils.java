@@ -94,7 +94,7 @@ public final class BaseUtils {
         try {
             TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
             File file = takesScreenshot.getScreenshotAs(OutputType.FILE);
-            File screen = new File("./screenshot/"+fileName+".png");
+            File screen = new File("~/screenshot/"+fileName+".png");
             FileUtils.copyFile(file, screen);
         } catch (IOException e) {
             e.printStackTrace();
