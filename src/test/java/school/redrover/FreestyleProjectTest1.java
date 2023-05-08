@@ -27,7 +27,7 @@ public class FreestyleProjectTest1 extends BaseTest {
         actions.moveToElement(freestyleProjectButton).build().perform();
         freestyleProjectButton.click();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='ok-button']")));
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='ok-button']")));
 
         WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
         okButton.click();
