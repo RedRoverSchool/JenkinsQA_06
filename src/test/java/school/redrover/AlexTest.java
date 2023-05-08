@@ -22,7 +22,7 @@ public class AlexTest extends BaseTest {
         WebElement ok = getDriver().findElement(By.cssSelector("#ok-button"));
         ok.click();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//textarea[@name='description']")).isDisplayed() && false);
+        Assert.assertTrue(getDriver().findElement(By.xpath("//textarea[@name='description']")).isDisplayed());
         Assert.assertTrue(getDriver().findElement(By.xpath("//*[@class='jenkins-toggle-switch__label ']")).isEnabled());
     }
 }
