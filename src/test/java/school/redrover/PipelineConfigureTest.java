@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -113,8 +114,8 @@ public class PipelineConfigureTest extends BaseTest {
                 .findElement(By.xpath("//*[@name='strategy']/div/div"));
         clickOutsideOfInputField.click();
 
-        WebElement actualErrorMessage = getDriver()
-                .findElement(By.xpath("//*[@name='strategy']//div[@class='error']"));
+        WebElement actualErrorMessage = getWait5().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
 
         Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
         Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
@@ -140,8 +141,8 @@ public class PipelineConfigureTest extends BaseTest {
                 .findElement(By.xpath("//*[@name='strategy']/div/div"));
         clickOutsideOfInputField.click();
 
-        WebElement actualErrorMessage = getDriver()
-                .findElement(By.xpath("//*[@name='strategy']//div[@class='error']"));
+        WebElement actualErrorMessage = getWait5().until(ExpectedConditions
+                        .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
 
         Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
         Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
