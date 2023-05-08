@@ -18,8 +18,6 @@ public class FreestyleProjectTest1 extends BaseTest {
             .xpath("//span[contains(text(), 'Freestyle project')]");
     private static final By OK_BUTTON_XPATH = By.xpath("//button[@id = 'ok-button']");
 
-
-
     @Test
     public void createNewFreestyleProjectTest() {
 
