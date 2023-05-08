@@ -114,7 +114,7 @@ public class PipelineConfigureTest extends BaseTest {
                 .findElement(By.xpath("//*[@name='strategy']/div/div"));
         clickOutsideOfInputField.click();
 
-        WebElement actualErrorMessage = getWait5().until(ExpectedConditions
+        WebElement actualErrorMessage = getWait10().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
 
         Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
