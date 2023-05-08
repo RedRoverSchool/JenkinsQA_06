@@ -17,7 +17,6 @@ public class CreatePipelineProject4Test extends BaseTest {
     private static final By DASHBOARD = By.xpath("//a[@href='/'][@class ='model-link']");
     private static final By PROJECT_IS_IN_DASHBOARD = By.xpath("//span[.='FirstProject']");
 
-
     @Test
     public void testCreatePipelineProject() {
 
