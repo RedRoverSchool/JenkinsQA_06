@@ -43,6 +43,6 @@ public class CreatePipProjectTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//li[@class = 'jenkins-breadcrumbs__list-item'] [1]")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@class = 'jenkins-table__link model-link inside'] ")).getText(), "First");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@class = 'jenkins-table__link model-link inside']")).getText(), "First");
     }
 }
