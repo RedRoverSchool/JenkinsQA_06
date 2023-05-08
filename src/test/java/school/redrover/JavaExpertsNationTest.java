@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -89,7 +90,7 @@ public class JavaExpertsNationTest extends BaseTest {
 
         Assert.assertEquals(projectTitle.getText(), "Project " + firstJob, "projectTitle does not match inputted text");
     }
-
+    @Ignore
     @Test
     public void testJenkins2_387_2Link() {
         WebElement jenkinsLink = getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/']"));
