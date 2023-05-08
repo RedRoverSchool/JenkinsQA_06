@@ -55,9 +55,8 @@ jobs:
           APP_OPTIONS: port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
           CI_RUN: true
 
-      - name: Upload screenshot of error
+      - name: Attach screenshots
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: screenshotError
-          path: /home/runner/work/JenkinsQA_06/errorScreenshots/
+          path: screenshots

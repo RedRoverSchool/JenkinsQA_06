@@ -91,12 +91,12 @@ public final class BaseUtils {
         System.out.println();
     }
 
-    public static void takeScreenshot(WebDriver driver, ITestResult testResult) {
+    public static void takeScreenshot(WebDriver driver, String methodName, String className) {
+        File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         try {
-            File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-            File destFile = new File("/home/runner/work/JenkinsQA_06/errorScreenshots/" + testResult.getName() + ".jpg");
-            FileUtils.copyFile(srcFile, destFile);
-        } catch (IOException ignore) {
+            FileUtils.copyFile(file, new File(String.format("screenshots/%s.%s.png", className, methodName)));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
