@@ -233,7 +233,7 @@ public class TopMenuTest extends BaseTest {
 
         List<String> expectedMenu = Arrays.asList("User ID", "Name", "Last Commit Activity", "On");
 
-        List<WebElement> titles =  getDriver().findElements(By.xpath("//a[@class = 'sortheader']")); // локатор на все элементы в таблице
+        List<WebElement> titles =  getDriver().findElements(By.xpath("//a[@class = 'sortheader']"));
         List<String> actualMenu = new ArrayList<>();
 
         for (int i = 0; i < titles.size(); i++) {
