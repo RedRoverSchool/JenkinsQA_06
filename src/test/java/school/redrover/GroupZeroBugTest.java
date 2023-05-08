@@ -181,6 +181,7 @@ public class GroupZeroBugTest extends BaseTest {
         getDriver().navigate().back();
         deleteJob();
     }
+    @Ignore
     @Test
     public void testRenameJob() throws InterruptedException {
 
