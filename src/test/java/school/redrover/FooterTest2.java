@@ -1,9 +1,10 @@
-package school.redrover.runner;
+package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
 public class FooterTest2 extends BaseTest {
     private static final By JENKINS_VERSION_BTN = By.xpath("//a[@rel='noopener noreferrer']");
