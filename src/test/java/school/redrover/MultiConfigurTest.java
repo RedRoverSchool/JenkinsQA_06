@@ -43,13 +43,14 @@ public class MultiConfigurTest extends BaseTest {
     }
 
     @Test
-    public void createMultiConfigurationProjectWithEmptyName() {
+    public void createMultiConfigurationProjectWithSpaceInsteadName() {
         getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
-        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[3]/label/span")).click();
+        getDriver().findElement(By.name("name")).sendKeys(" ");
+        getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
         getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
 
-        WebElement errorMessage  = getDriver().findElement(By.id("itemname-required"));
+        WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/h1"));
 
-        Assert.assertEquals(errorMessage.getText(),"» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(errorMessage.getText(),"Error");
     }
 }
