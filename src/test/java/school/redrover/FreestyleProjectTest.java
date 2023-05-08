@@ -142,4 +142,15 @@ public class FreestyleProjectTest extends BaseTest {
                 .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
     }
 
+    @Test()
+    public void testCreateFreestyleProjectWithValidName(){
+        getDriver().findElement(By.xpath("//*[text()='Create a job']")).click();
+        getDriver().findElement(By.id("name")).sendKeys("Project1");
+        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Project " + "Project1");
+    }
 }
