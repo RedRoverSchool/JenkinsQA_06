@@ -75,7 +75,7 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
         WebElement saveButton = getDriver().findElement(SAVE_BUTTON);
         saveButton.click();
 
-        WebElement actualDescription = getDriver().findElement(By.xpath("//div[text()='Web-application project']"));
+        WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
         Assert.assertEquals(actualDescription.getText(), expectedDescription);
     }
