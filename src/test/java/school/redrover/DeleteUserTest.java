@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.util.List;
 
 public class DeleteUserTest extends BaseTest {
@@ -16,13 +17,9 @@ public class DeleteUserTest extends BaseTest {
     private String FULL_NAME = RandomStringUtils.randomAlphabetic(10);
     private String EMAIL = USERNAME + "@gmail.com";
 
-
     public void createUser() {
-
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/manage']"))).click();
-
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='securityRealm/']"))).click();
-
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='addUser']"))).click();
 
         getDriver().findElement(By.xpath("//input[@id='username']")).sendKeys(USERNAME);
@@ -35,7 +32,6 @@ public class DeleteUserTest extends BaseTest {
 
     @Test
     public void testDeleteUser() {
-
         createUser();
 
         List<WebElement> listOfUsers = getDriver().findElements(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
@@ -44,6 +40,6 @@ public class DeleteUserTest extends BaseTest {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='Submit']"))).click();
 
         List<WebElement> listOfUsersAfterDelete = getDriver().findElements(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
-        Assert.assertNotEquals(listOfUsers,listOfUsersAfterDelete);
+        Assert.assertNotEquals(listOfUsers, listOfUsersAfterDelete);
     }
 }
