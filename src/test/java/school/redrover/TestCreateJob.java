@@ -73,7 +73,7 @@ public class TestCreateJob extends BaseTest {
         Assert.assertEquals(actualResult.getText(),expectedResult);
     }
     @Test
-    public void testCreateMultibranchPipeline()  {
+    public void testCreateMultibranchPipeline() {
         WebElement createJob = getDriver().findElement(By.xpath("//div[@id='tasks']//a[contains(@href, 'newJob')]"));
         createJob.click();
 
