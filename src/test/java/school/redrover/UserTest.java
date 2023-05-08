@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 public class UserTest extends BaseTest {
     private static final String USERDATA = "admin";
     @Test
-    public void testCreatingUser() throws InterruptedException {
+    public void testCreatingUser() {
 
         WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
         manageJenkins.click();
@@ -40,6 +40,7 @@ public class UserTest extends BaseTest {
 
         WebElement createdUser = getDriver().findElement(By.xpath(" //a[normalize-space()='admin']"));
         Assert.assertEquals(createdUser.getText(), USERDATA);
+
     }
 }
 
