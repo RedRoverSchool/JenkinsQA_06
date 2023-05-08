@@ -47,4 +47,27 @@ public class NewViewTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div.tab.active")).getText(),NEW_VIEW_NAME_RANDOM);
     }
+
+    @Test
+    public void testRenameView() throws InterruptedException {
+        this.createNewProjectFromMyViewsPage();
+        getDriver().findElement(By.className("addTab")).click();
+        getDriver().findElement(By.id("name")).sendKeys("MyFirstView");
+        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
+        getDriver().findElement(By.id("ok")).click();
+        Thread.sleep(2000);
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
+        getDriver().findElement(By.linkText("MyFirstView")).click();
+        getDriver()
+                .findElement(By.xpath("//div[@id='tasks']/div[@class='task ']/span[@class='task-link-wrapper ']/a[@href='/view/MyFirstView/configure']")).click();
+
+        getDriver()
+                .findElement(By.xpath("//div[@class='setting-main']/input[@name='name']")).clear();
+        getDriver()
+                .findElement(By.xpath("//div[@class='setting-main']/input[@name='name']")).sendKeys("MySecondView");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.linkText("MySecondView")).getText(),"MySecondView");
+    }
 }
