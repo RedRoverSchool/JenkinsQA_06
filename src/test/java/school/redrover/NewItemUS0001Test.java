@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NewItemTest extends BaseTest {
+public class NewItemUS0001Test extends BaseTest {
 
     @Test
     public void testNewItemHeader() {
@@ -125,5 +125,21 @@ public class NewItemTest extends BaseTest {
             Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
             getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
         }
+    }
+
+    @Test
+    public void createPipelineProjectSameNamedTest(){
+        String expectedResult = "New Pipeline project";
+        String typeOfProject = "Pipeline";
+        createProject(expectedResult, typeOfProject);
+        getDriver().findElement(By.id("ok-button")).click();
+
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
+
+        createProject(expectedResult, typeOfProject);
+
+        String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
+
+        Assert.assertEquals(validationMessage, String.format("» A job already exists with the name ‘%s’", expectedResult));
     }
 }
