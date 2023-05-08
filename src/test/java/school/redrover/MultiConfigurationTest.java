@@ -16,6 +16,7 @@ public class MultiConfigurationTest extends BaseTest {
     private static final By OK_BUTTON = By.cssSelector("#ok-button");
     private static final By SAVE_BUTTON = By.name("Submit");
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
+    private static final By NEW_ITEM_BUTTON = By.linkText("New Item");
 
     private void createMultiConfigurationProject() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -77,4 +78,15 @@ public class MultiConfigurationTest extends BaseTest {
         Assert.assertEquals(renameName.getText(), "Project " + MULTI_CONFIGURATION_NAME + MULTI_CONFIGURATION_NAME);
     }
 
+    @Test
+    public void testCreateMultiConfigurationProject1() {
+        getDriver().findElement(NEW_ITEM_BUTTON).click();
+        getDriver().findElement(By.id("name")).sendKeys("Project1");
+        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-nested-projects']/ul/li[3]")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@id=\'job_Project1\']/td[3]/a/span")).getText(), "Project1");
+    }
 }
