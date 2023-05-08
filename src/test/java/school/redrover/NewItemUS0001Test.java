@@ -96,7 +96,7 @@ public class NewItemUS0001Test extends BaseTest {
     }
 
     @Test
-    public void createPipelineProjectTest(){
+    public void testCreatePipelineProject(){
         String expectedResult = "New pipeline project";
         String typeOfProject = "Pipeline";
         createProject(expectedResult, typeOfProject);
@@ -115,7 +115,7 @@ public class NewItemUS0001Test extends BaseTest {
     }
 
     @Test
-    public void createPipelineProjectWithInvalidNameTest(){
+    public void testCreatePipelineProjectWithInvalidName(){
         String[] invalidChars = new String[] {"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "/", "|", "?", "<", ">"};
         String typeOfProject = "Pipeline";
         for (String invalidChar : invalidChars) {
@@ -128,7 +128,7 @@ public class NewItemUS0001Test extends BaseTest {
     }
 
     @Test
-    public void createPipelineProjectSameNamedTest(){
+    public void testCreatePipelineProjectSameNamed(){
         String expectedResult = "New Pipeline project";
         String typeOfProject = "Pipeline";
         createProject(expectedResult, typeOfProject);
