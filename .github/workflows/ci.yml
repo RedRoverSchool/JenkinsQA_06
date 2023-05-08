@@ -54,3 +54,15 @@ jobs:
           CHROME_OPTIONS: --disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless=new;--window-size=1920,1080
           APP_OPTIONS: port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
           CI_RUN: true
+          continue-on-error: true
+
+      - name: Attach screenshots
+        uses: actions/upload-artifact@v2
+        if: steps.test.outcome != 'success'
+        with:
+          name: Screenshots
+          path: ./.ScreenshotsFailure
+
+      - name: Check on failures
+        if: steps.test.outcome != 'success'
+        run: exit 1
