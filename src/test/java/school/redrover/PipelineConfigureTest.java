@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -58,5 +59,51 @@ public class PipelineConfigureTest extends BaseTest {
         WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
 
         Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
+    }
+
+    @Test
+    public void testPipelineCreation() {
+        final String PIPELINE_NAME = "My_pipeline";
+
+        WebElement newItem = getDriver().findElement(By.xpath(
+                "//a[@href='/view/all/newJob']"));
+        newItem.click();
+
+        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("name"))));
+
+        WebElement pipelineType = getDriver().findElement(By.cssSelector(".org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        pipelineType.click();
+
+        WebElement nameField = getDriver().findElement(By.id("name"));
+        nameField.sendKeys(PIPELINE_NAME);
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit")));
+
+        WebElement enableToggles = getDriver().findElement(By.id("toggle-switch-enable-disable-project"));
+        boolean isPipelineEnabled = Boolean.parseBoolean(getDriver().findElement(By.xpath("//input[@name='enable']"))
+                .getAttribute("value"));
+        if (isPipelineEnabled){
+            enableToggles.click();
+        }
+
+        getDriver().findElement(By.name("Submit")).click();
+
+        getWait2().until(ExpectedConditions.textToBe(By.tagName("h1"), "Pipeline " + PIPELINE_NAME));
+
+        String disabledWarning = getDriver().findElement(By.id("enable-project")).getText();
+
+        WebElement configurePipeline= getDriver().findElement(By.linkText("Configure"));
+        configurePipeline.click();
+
+        getWait5().until(ExpectedConditions.textToBe(By.tagName("h2"), "General"));
+
+        boolean isPipelineEnabledAfterDisable = Boolean.parseBoolean(getDriver().findElement(
+                By.xpath("//input[@name='enable']")).getAttribute("value"));
+
+        Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
+        Assert.assertFalse(isPipelineEnabledAfterDisable,"false");
     }
 }
