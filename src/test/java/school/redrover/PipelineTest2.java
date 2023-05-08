@@ -63,7 +63,7 @@ public class PipelineTest2 extends BaseTest {
     public void pipelineRenameTest() {
         createPipeline();
 
-        WebElement renameButton = getDriver().findElement(By.xpath("//a[@href='/job/PipeLine/confirm-rename']"));
+        WebElement renameButton = getDriver().findElement(By.xpath("//span[text()='Rename']/.."));
         renameButton.click();
 
         WebElement newNameInput = getDriver().findElement(By.name("newName"));
