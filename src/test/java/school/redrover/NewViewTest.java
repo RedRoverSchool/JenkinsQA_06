@@ -3,6 +3,7 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -37,7 +38,7 @@ public class NewViewTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewViewSecond(){
+    public void testCreateNewViewSecond() {
         this.createNewProjectFromMyViewsPage();
 
         getDriver().findElement(By.cssSelector("a.addTab")).click();
@@ -45,6 +46,27 @@ public class NewViewTest extends BaseTest {
         getDriver().findElement(By.cssSelector("input#hudson\\.model\\.MyView + label")).click();
         getDriver().findElement(By.name("Submit")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("div.tab.active")).getText(),NEW_VIEW_NAME_RANDOM);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("div.tab.active")).getText(), NEW_VIEW_NAME_RANDOM);
+    }
+
+    @Test
+    public void testRenameView() {
+        this.createNewProjectFromMyViewsPage();
+        getDriver().findElement(By.className("addTab")).click();
+        getDriver().findElement(By.id("name")).sendKeys("MyFirstView");
+        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
+        getDriver().findElement(By.id("ok")).click();
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@name='Submit']")));
+        getDriver().findElement(By.linkText("Dashboard")).click();
+        getDriver().findElement(By.linkText("MyFirstView")).click();
+        getDriver()
+                .findElement(By.xpath("//div[@id='tasks']/div[@class='task ']/span[@class='task-link-wrapper ']/a[@href='/view/MyFirstView/configure']")).click();
+        getDriver()
+                .findElement(By.xpath("//div[@class='setting-main']/input[@name='name']")).clear();
+        getDriver()
+                .findElement(By.xpath("//div[@class='setting-main']/input[@name='name']")).sendKeys("MySecondView");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.linkText("MySecondView")).getText(), "MySecondView");
     }
 }

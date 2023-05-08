@@ -62,6 +62,93 @@ public class PipelineConfigureTest extends BaseTest {
     }
 
     @Test
+    public void testDiscardOldBuildsIsChecked7DaysAnd5Builds() {
+        final String days = "7";
+        final String builds = "5";
+
+        createPipeline();
+
+        WebElement discardOldBuildsLabel = getDriver()
+                .findElement(By.xpath("//label[contains(text(),'Discard old builds')]"));
+        discardOldBuildsLabel.click();
+
+        WebElement daysToKeepField = getDriver().findElement(By.name("_.daysToKeepStr"));
+        daysToKeepField.sendKeys(days);
+
+        WebElement buildsToKeepField = getDriver().findElement(By.name("_.numToKeepStr"));
+        buildsToKeepField.sendKeys(builds);
+
+        WebElement saveButton = getDriver().findElement(By.name("Submit"));
+        saveButton.click();
+
+        WebElement configureMenu = getDriver()
+                .findElement(By.xpath("//*[@href='/job/test-pipeline/configure']"));
+        configureMenu.click();
+
+        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
+        WebElement daysToKeep = getDriver().findElement(By.name("_.daysToKeepStr"));
+        WebElement buildsToKeep = getDriver().findElement(By.name("_.numToKeepStr"));
+
+        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
+        Assert.assertEquals(daysToKeep.getAttribute("value"), days);
+        Assert.assertEquals(buildsToKeep.getAttribute("value"), builds);
+    }
+
+    @Test
+    public void testDiscardOldBuildsIsChecked0Days() {
+        final String days = "0";
+        final String errorMessage = "Not a positive integer";
+
+        createPipeline();
+
+        WebElement discardOldBuildsLabel = getDriver()
+                .findElement(By.xpath("//label[contains(text(),'Discard old builds')]"));
+        discardOldBuildsLabel.click();
+
+        WebElement daysToKeepField = getDriver().findElement(By.name("_.daysToKeepStr"));
+        daysToKeepField.sendKeys(days);
+
+        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
+
+        WebElement clickOutsideOfInputField = getDriver()
+                .findElement(By.xpath("//*[@name='strategy']/div/div"));
+        clickOutsideOfInputField.click();
+
+        WebElement actualErrorMessage = getWait10().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
+
+        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
+        Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
+    }
+
+    @Test
+    public void testDiscardOldBuildsIsChecked0Builds() {
+        final String builds = "0";
+        final String errorMessage = "Not a positive integer";
+
+        createPipeline();
+
+        WebElement discardOldBuildsLabel = getDriver()
+                .findElement(By.xpath("//label[contains(text(),'Discard old builds')]"));
+        discardOldBuildsLabel.click();
+
+        WebElement buildsToKeepField = getDriver().findElement(By.name("_.numToKeepStr"));
+        buildsToKeepField.sendKeys(builds);
+
+        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
+
+        WebElement clickOutsideOfInputField = getDriver()
+                .findElement(By.xpath("//*[@name='strategy']/div/div"));
+        clickOutsideOfInputField.click();
+
+        WebElement actualErrorMessage = getWait5().until(ExpectedConditions
+                        .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
+
+        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
+        Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
+    }
+
+    @Test
     public void testPipelineCreation() {
         final String PIPELINE_NAME = "My_pipeline";
 
