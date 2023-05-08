@@ -12,6 +12,9 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class TopMenuTest extends BaseTest {
@@ -220,5 +223,26 @@ public class TopMenuTest extends BaseTest {
         String actualPreviewOfAddedDescription = String.valueOf(previewDescription.getText());
 
         Assert.assertEquals(actualPreviewOfAddedDescription, expectedPreviewOfAddedDescription);
+    }
+    @Test
+    public void testCheckMenuAfterPushButtonPeople () {
+        getDriver().findElement(By.linkText("People")).click();
+
+        WebElement one = getDriver().findElement(By.xpath("//h1"));
+        Assert.assertEquals(one.getText(),"People");
+
+        List<String> expectedMenu = Arrays.asList("User ID", "Name", "Last Commit Activity", "On");
+
+        List<WebElement> titles =  getDriver().findElements(By.xpath("//a[@class = 'sortheader']"));
+        List<String> actualMenu = new ArrayList<>();
+
+        for (int i = 0; i < titles.size(); i++) {
+            if (titles.get(i).getText().contains("↑")) {
+                actualMenu.add(titles.get(i).getText().replace("↑", "").trim());
+            } else {
+                actualMenu.add(titles.get(i).getText());
+            }
+        }
+        Assert.assertEquals(actualMenu, expectedMenu);
     }
 }
