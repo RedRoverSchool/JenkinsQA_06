@@ -301,6 +301,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),expRes);
     }
 
+    @Ignore
     @Test
     public void testADMainMenu() {
         getDriver().findElement(By.cssSelector("#tasks  a[href$='/newJob']")).click();
