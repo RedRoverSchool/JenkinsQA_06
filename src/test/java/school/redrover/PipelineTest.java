@@ -167,11 +167,11 @@ public class PipelineTest extends BaseTest {
     public void testCreatePipelineProject() {
         getDriver().findElement(newItem).click();
 
-        WebElement fieldEnterName = getWait2().until(ExpectedConditions.presenceOfElementLocated(name));
+        WebElement fieldEnterName = getWait5().until(ExpectedConditions.presenceOfElementLocated(name));
         fieldEnterName.sendKeys(ITEM_NAME);
         getDriver().findElement(pipelineItem).click();
         getDriver().findElement(okButton).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
 
         Assert.assertEquals(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")))
                 .getText().substring(9), ITEM_NAME);
