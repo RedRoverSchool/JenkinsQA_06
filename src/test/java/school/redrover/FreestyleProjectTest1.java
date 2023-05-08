@@ -34,8 +34,6 @@ public class FreestyleProjectTest1 extends BaseTest {
         WebElement okButton = getDriver().findElement(OK_BUTTON_XPATH);
         okButton.click();
 
-
-
         WebElement saveButton = getDriver().findElement(SAVE_BUTTON_XPATH);
         saveButton.click();
 
