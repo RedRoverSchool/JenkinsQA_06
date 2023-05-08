@@ -142,4 +142,21 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector(".stage-header-name-0")).getText(), "Hello");
     }
+
+    @Test
+    public void testPipelineConsoleOutputSuccess() {
+        getDriver().findElement(newItem).click();
+        getWait(2).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
+        getDriver().findElement(pipelineItem).click();
+        getDriver().findElement(okButton).click();
+        getWait(2).until(ExpectedConditions.elementToBeClickable(pipelineTrySampleDropDownMenu)).click();
+        getDriver().findElement(By.cssSelector("option[value='hello']")).click();
+        getDriver().findElement(saveButton).click();
+        getWait(2).until(ExpectedConditions.elementToBeClickable(buildNowButton)).click();
+        getWait(10).until(ExpectedConditions
+                .visibilityOfElementLocated(By.cssSelector(".build-icon"))).click();
+        getWait(2).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel")));
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector(".console-output")).getText().contains("Finished: SUCCESS"));
+    }
 }
