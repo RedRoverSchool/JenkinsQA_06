@@ -6,9 +6,14 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MultiConfigurTest extends BaseTest {
     private static final String NAME_OF_PROJECT = "New project";
     private static final String DESCRIPTION ="Description";
+    private static final List<String> SPECIAL_SYMBOLS = new ArrayList<> (Arrays.asList("!","@","#","$","%","^","&","*","[","]","?"));
 
 
     private void createBaseMultiConfigurationProject() {
@@ -52,5 +57,20 @@ public class MultiConfigurTest extends BaseTest {
         WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/h1"));
 
         Assert.assertEquals(errorMessage.getText(),"Error");
+    }
+
+    @Test
+    public void createMultiConfigurationProjectWithSpecialSymbols()  {
+        getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
+
+        for (String symbol:SPECIAL_SYMBOLS) {
+            getDriver().findElement(By.name("name")).sendKeys(symbol);
+
+            WebElement errorMessage = getDriver().findElement(By.id("itemname-invalid"));
+
+            Assert.assertEquals((errorMessage.getText()).substring(6, 28), "is an unsafe character");
+
+            getDriver().findElement(By.name("name")).clear();
+        }
     }
 }
