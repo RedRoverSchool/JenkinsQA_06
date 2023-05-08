@@ -144,15 +144,13 @@ public class MultiConfigurationTest extends BaseTest {
 
     @Test
     public void testRenameMultiConfigurationProjectFromDashboard() {
-        this.createMultiConfigProjectWithReturnToHomePage();
+        createMultiConfigProjectWithReturnToHomePage();
 
         clickProjectLink();
         clickRenameButton();
         inputNewName();
         clickSubmitButton();
 
-        String actualResult = getProjectNewName();
-
-        Assert.assertEquals(actualResult, ("Project " + MULTI_CONFIGURATION_NEW_NAME));
+        Assert.assertEquals(getProjectNewName(), ("Project " + MULTI_CONFIGURATION_NEW_NAME));
     }
 }
