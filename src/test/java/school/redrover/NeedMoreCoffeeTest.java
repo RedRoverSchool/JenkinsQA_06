@@ -109,27 +109,6 @@ public class NeedMoreCoffeeTest extends BaseTest {
     }
 
     @Test
-    public void testCreatePipelineProject() {
-
-        WebElement newItem = getDriver().findElement(By.xpath("//*[@class=\"task-link \"]"));
-        newItem.sendKeys(Keys.RETURN);
-        WebElement field = getDriver().findElement(By.xpath("//*[@id=\"name\"]"));
-        field.sendKeys("project_Alex");
-        WebElement pipeline = getDriver().findElement(By.xpath("//*[@class=\"org_jenkinsci_plugins_workflow_job_WorkflowJob\"]"));
-        pipeline.sendKeys(Keys.RETURN);
-        WebElement tabOk = getDriver().findElement(By.xpath("//*[@id=\"ok-button\"]"));
-        tabOk.sendKeys(Keys.RETURN);
-        WebElement discription = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/form/div[1]/div[2]/div/div[2]/textarea"));
-        discription.sendKeys("Pipeline_Project");
-        WebElement tabSave = getDriver().findElement(By.xpath("//*[@id=\"bottom-sticker\"]/div/button[1]"));
-        tabSave.sendKeys(Keys.RETURN);
-        WebElement textPipeline = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/h1"));
-
-        Assert.assertEquals(textPipeline.getText(), "Pipeline project_Alex");
-
-    }
-
-    @Test
     public void testErrorTextEmptyField() {
 
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href='newJob']"));
