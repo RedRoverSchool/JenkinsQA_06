@@ -3,8 +3,13 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.time.Duration;
+
+import static org.testng.Assert.assertEquals;
 
 public class ManageSearchTest extends BaseTest {
 
@@ -24,7 +29,10 @@ public class ManageSearchTest extends BaseTest {
         WebElement  configureSystem = getDriver().findElement(By.xpath("//a[contains(@href,'/manage/configure')]"));
         configureSystem.click();
 
-        getWait2().until(ExpectedConditions.titleContains("Configure System [Jenkins]"));
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//title")));
+
+        String title = getDriver().getTitle();
+        Assert.assertEquals(title, "Configure System [Jenkins]");
     }
 
 }
