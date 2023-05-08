@@ -60,8 +60,7 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
         WebElement okButton = getWait5().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
         okButton.click();
 
-        WebElement scrollBySubmitButton = getDriver().findElement(
-                By.xpath("//div/button[contains(@class,'jenkins-button jenkins-button--primary')]"));
+        WebElement scrollBySubmitButton = getDriver().findElement(SAVE_BUTTON);
         JavascriptExecutor jse = (JavascriptExecutor) getDriver();
         jse.executeScript("arguments[0].scrollIntoView(true)", scrollBySubmitButton);
         scrollBySubmitButton.click();
@@ -73,8 +72,8 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
         textAreaDescription.clear();
         textAreaDescription.sendKeys("Web-application project");
 
-        WebElement submitButton = getDriver().findElement(SAVE_BUTTON);
-        submitButton.click();
+        WebElement saveButton = getDriver().findElement(SAVE_BUTTON);
+        saveButton.click();
 
         WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
