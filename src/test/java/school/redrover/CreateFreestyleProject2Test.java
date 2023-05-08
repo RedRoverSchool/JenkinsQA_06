@@ -23,7 +23,7 @@ public class CreateFreestyleProject2Test extends BaseTest {
 
         getDriver().findElement(By.xpath("//button [@name = 'Submit']")).click();
 
-        getDriver().findElement(By.xpath("//a [@href = '/' ]")).click();
+        getDriver().findElement(By.xpath("//li [@class='jenkins-breadcrumbs__list-item']")).click();
 
         String actualResult = getDriver().findElement(By.xpath("//a [@href = 'job/NewProject/']/span"))
                 .getText();
