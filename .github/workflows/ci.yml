@@ -61,7 +61,7 @@ jobs:
         if: steps.test.outcome != 'success'
         with:
           name: Screenshots
-          path: ScreenshotsFailure
+          path: ./.ScreenshotsFailure/
 
       - name: Check on failures
         if: steps.test.outcome != 'success'

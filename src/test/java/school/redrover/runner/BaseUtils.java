@@ -94,9 +94,13 @@ public final class BaseUtils {
         TakesScreenshot ts = (TakesScreenshot) driver;
         File file = ts.getScreenshotAs(OutputType.FILE);
         try {
-            FileUtils.copyFile(file, new File(String.format("ScreenshotsFailure/%s-%s.png", className, methodName)));
+            FileUtils.copyFile(file, new File(String.format("./.ScreenshotsFailure/%s-%s.png", className, methodName)));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        //                    File destFile = new File("/home/runner/work/JenkinsQA_06/errorScreenshots/" + testResult.getName() + ".jpg");
+        //                    FileUtils.copyFile(srcFile, destFile);
     }
 }
