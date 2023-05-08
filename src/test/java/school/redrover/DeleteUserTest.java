@@ -38,7 +38,24 @@ public class DeleteUserTest extends BaseTest {
                 .apply(getDriver());
         Assert.assertTrue(isNotPresent);
     }
+    @Test
+    public void testDeleteUserViaManageUsersMenu(){
+        createUser();
 
+        getDriver().findElement(By.xpath("//*[@href='/manage']")).click();
+
+        getDriver().findElement(By.xpath("//*[@href='securityRealm/']")).click();
+
+        WebElement basketButton = getDriver().findElement(
+                By.xpath("//a[@href='user/" + username + "/delete']"));
+        basketButton.click();
+
+        getDriver().findElement(By.name("Submit")).click();
+        Boolean isNotPresent = ExpectedConditions.not(ExpectedConditions
+                        .presenceOfAllElementsLocatedBy(By.xpath("//a[@href='/user/" + username + "/']")))
+                .apply(getDriver());
+        Assert.assertTrue(isNotPresent);
+    }
     private void createUser() {
         username = "user" + Math.round((Math.random() * 1000));
         password = "" + Math.round(Math.random()*10000);
