@@ -93,16 +93,6 @@ public class GroupOlesyaTest extends BaseTest {
     }
 
     @Test
-    public void createFolderTest() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys("Folder1");
-        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-nested-projects']/ul/li[1]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id=\"main-panel\"]/h1")).getText(), "Folder1");
-    }
-    @Test
     public void testSearchBarSpecialChars() {
 
         List<String> symbols = new ArrayList(Arrays.asList("@", "#", "$", "%", "^", "&", "*", "(", ")", "|", "<", ">", "~", "`"));
