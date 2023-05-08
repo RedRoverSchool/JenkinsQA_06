@@ -9,38 +9,34 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class FreestyleProjectTest1 extends BaseTest {
+    public static final By NEW_ITEM_BUTTON = By.xpath("//a[@href='/view/all/newJob']");
+    public static final By ITEM_NAME_FIELD = By.xpath("//input[@name='name']");
+    public static final By FREESTYLE_PROJECT_BUTTON = By.xpath("//li[@class='hudson_model_FreeStyleProject']");
+    public static final By OK_BUTTON = By.xpath("//button[@id='ok-button']");
+    public static final By SAVE_BUTTON = By.xpath("//button[@name='Submit']");
+    public static final By JENKINS_IMAGE_HEADER = By.xpath("//img[@alt='Jenkins']");
 
     @Test
     public void testDisplayFreestyleProjectOnDashboard() {
-        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        newItemButton.click();
+        getDriver().findElement(NEW_ITEM_BUTTON).click();
 
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'Enter an item name')]")));
+        getWait2().until(ExpectedConditions.elementToBeClickable(ITEM_NAME_FIELD));
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']")));
+        getDriver().findElement(ITEM_NAME_FIELD).sendKeys("testFreestyleProject");
 
-        WebElement itemNameField = getDriver().findElement(By.xpath("//input[@name='name']"));
-        itemNameField.sendKeys("testFreestyleProject");
+        getDriver().findElement(FREESTYLE_PROJECT_BUTTON).click();
 
-        WebElement freestyleProjectButton = getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']"));
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(freestyleProjectButton).build().perform();
-        freestyleProjectButton.click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='ok-button']")));
+        getDriver().findElement(OK_BUTTON).click();
 
-        WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
-        okButton.click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON));
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']")));
+        getDriver().findElement(SAVE_BUTTON).click();
 
-        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        saveButton.click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(JENKINS_IMAGE_HEADER));
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Jenkins']")));
-
-        WebElement jenkinsImageHeader = getDriver().findElement(By.xpath("//img[@alt='Jenkins']"));
-        jenkinsImageHeader.click();
+        getDriver().findElement(JENKINS_IMAGE_HEADER).click();
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='job_testFreestyleProject']")));
 
