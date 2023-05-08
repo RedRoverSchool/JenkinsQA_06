@@ -50,11 +50,5 @@ public class FreestyleProjectTest1 extends BaseTest {
 
         Assert.assertEquals(newProjectOnTheDashboard.getText(), FREESTYLE_PROJECT_NAME);
 
-
-
-
-
     }
-
-
 }
