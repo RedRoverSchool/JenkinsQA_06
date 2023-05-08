@@ -166,4 +166,41 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(okButton.getAttribute("class").contains("disabled"),true);
     }
 
+
+    @Test
+    public void testJenkinsFreestyleCreateFolder() {
+        final String itemText = "Folder";
+        final String displayName = "General";
+        final String description = "GeneralPlus";
+
+        WebElement iconJenkins = getDriver().findElement(By.xpath("//div[@class='logo']//img[@alt='[Jenkins]']"));
+        Assert.assertTrue(iconJenkins.isDisplayed());
+
+        WebElement welcomeJenkins = getDriver().findElement(By.xpath("//div[@class='empty-state-block']//h1"));
+        Assert.assertTrue(welcomeJenkins.isDisplayed());
+
+        WebElement createItem = getDriver().findElement(By.xpath("//span[@class='task-link-wrapper ']//a[@href='/view/all/newJob']"));
+        createItem.click();
+
+        WebElement inputField = getDriver().findElement(By.xpath("//input[@id='name']"));
+        inputField.sendKeys(itemText);
+
+        WebElement fieldField = getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']"));
+        fieldField.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        okButton.click();
+
+        WebElement generalDisplayName = getDriver().findElement(By.xpath("//div[@class='setting-main']//input"));
+        generalDisplayName.sendKeys(displayName);
+
+        WebElement generalDescription = getDriver().findElement(By.xpath("//div[@class='setting-main']//textarea"));
+        generalDescription.sendKeys(description);
+
+        WebElement generalSave = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        generalSave.click();
+
+        WebElement createdFolder = getDriver().findElement(By.xpath("//h1[contains(text(),'General')]"));
+        Assert.assertTrue(createdFolder.isDisplayed());
+    }
 }
