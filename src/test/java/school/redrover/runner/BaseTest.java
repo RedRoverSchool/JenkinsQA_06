@@ -72,6 +72,9 @@ public abstract class BaseTest {
 
     @AfterMethod
     protected void afterMethod(Method method, ITestResult testResult) {
+        if (!testResult.isSuccess() && BaseUtils.isServerRun()) {
+            BaseUtils.takeScreenshot(driver, method.getName(), this.getClass().getName());
+        }
         stopDriver();
         BaseUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
     }
