@@ -35,8 +35,4 @@ public class ElenaTest {
         driver.quit();
     }
 
-
-
-
-
 }
