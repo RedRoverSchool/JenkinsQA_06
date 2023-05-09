@@ -79,7 +79,7 @@ public abstract class BaseTest {
         BaseUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
     }
 
-    protected WebDriver getDriver() {
+    protected static WebDriver getDriver() {
         return driver;
     }
 
