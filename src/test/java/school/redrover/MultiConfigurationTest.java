@@ -27,7 +27,6 @@ public class MultiConfigurationTest extends BaseTest {
         getWait5();
         return getDriver().findElement(PROJECT_NEW_NAME).getText();
     }
-    private static final By NEW_ITEM_BUTTON = By.linkText("New Item");
 
     private void createMultiConfigurationProject() {
         getDriver().findElement(By.linkText("New Item")).click();
