@@ -153,4 +153,18 @@ public class MultiConfigurationTest extends BaseTest {
 
         Assert.assertEquals(getProjectNewName(), ("Project " + MULTI_CONFIGURATION_NEW_NAME));
     }
+
+    @Test
+    public void testDisabledMultiConfigurationProject(){
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(MULTI_CONFIGURATION_NAME);
+        WebElement projectButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
+        projectButton.click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.cssSelector("label.jenkins-toggle-switch__label ")).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("form#enable-project")).getText().trim().substring(0,34),"This project is currently disabled");
+    }
+
 }

@@ -166,4 +166,14 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
                 (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
     }
+
+    @Test
+    public void testLogOutButtonTransfersBackToLoginPaged() {
+        final String expectedHeader = "Welcome to Jenkins!";
+
+        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
+        WebElement actualHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualHeader.getText(), expectedHeader);
+    }
 }
