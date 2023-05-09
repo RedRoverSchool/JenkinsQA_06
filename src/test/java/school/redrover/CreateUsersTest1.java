@@ -14,6 +14,8 @@ public class CreateUsersTest1 extends BaseTest {
     private static final By CONFIRM_PASSWORD_BAR_XPATH = By.xpath("//input[@name='password2']");
     private static final By FULL_NAME_BAR_XPATH = By.xpath("//input[@name='fullname']");
     private static final By EMAIL_ADDRESS_BAR_XPATH = By.xpath("//input[@name='email']");
+    private static final By CREATE_USER_CONFIRM_BUTTON_XPATH = By.xpath("//button[@name='Submit']");
+    private static final By DASHBOARD_XPATH = By.xpath("//div[@id= 'breadcrumbBar']/ol/li/a[@href='/']");
     private static final String USER_NAME = "User";
     private static final String PASSWORD = "12345";
     private static final String FULL_NAME = "User";
@@ -48,6 +50,21 @@ public class CreateUsersTest1 extends BaseTest {
         WebElement fullNameBar = getDriver().findElement(FULL_NAME_BAR_XPATH);
         fullNameBar.click();
         fullNameBar.sendKeys(FULL_NAME);
+
+        WebElement emailAddressBar = getDriver().findElement(EMAIL_ADDRESS_BAR_XPATH);
+        emailAddressBar.click();
+        emailAddressBar.sendKeys(EMAIL_ADDRESS);
+
+        WebElement createUserConfirmButton = getDriver().findElement(CREATE_USER_CONFIRM_BUTTON_XPATH);
+        createUserButton.click();
+
+        WebElement dashboardLink = getDriver().findElement(DASHBOARD_XPATH);
+        dashboardLink.click();
+
+
+
+
+
 
 
     }
