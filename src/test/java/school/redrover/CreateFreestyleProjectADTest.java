@@ -19,6 +19,7 @@ public class CreateFreestyleProjectADTest extends BaseTest {
         getDriver().findElement(By.cssSelector("#breadcrumbs > li ")).click();
 
         String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer2/']")).getText();
+
         Assert.assertEquals(actualResult, expectedResult);
     }
 }
