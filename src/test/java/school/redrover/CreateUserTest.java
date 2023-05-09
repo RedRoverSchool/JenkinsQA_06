@@ -29,7 +29,6 @@ public class CreateUserTest extends BaseTest {
     public static final By LAST_USER_ID = By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//a");
     public static final By LAST_USER_NAME =  By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//td[3]");
 
-
     @Test
     public void testCreateUser(){
 
