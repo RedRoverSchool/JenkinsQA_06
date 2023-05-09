@@ -42,7 +42,7 @@ public class CreateFreestyleProject1Test extends BaseTest {
 
         WebElement newProjectOnTheDashboard = getWait5()
                 .until(ExpectedConditions
-                        .presenceOfElementLocated(By.xpath("//tbody//a/span")));
+                        .elementToBeClickable(By.xpath("//tbody//a/span")));
 
         Assert.assertEquals(newProjectOnTheDashboard.getText(), FREESTYLE_PROJECT_NAME);
     }
