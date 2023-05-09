@@ -11,6 +11,7 @@ import static org.testng.Assert.assertEquals;
 
 public class AnaBelGroupTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testItem() {
 

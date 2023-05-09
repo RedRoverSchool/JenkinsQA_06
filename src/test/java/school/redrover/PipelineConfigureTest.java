@@ -7,7 +7,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.List;
+
 public class PipelineConfigureTest extends BaseTest {
+    final String EXPECTED_RESULT = "New pipeline project";
 
     public void createPipeline() {
         WebElement createJobButton = getDriver().findElement(By.xpath("//a[@href = 'newJob']"));
@@ -23,6 +26,29 @@ public class PipelineConfigureTest extends BaseTest {
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
         okButton.click();
     }
+
+    public WebElement findElement(By by){
+        return getDriver().findElement(by);
+    }
+
+    public void clickLinkButton(String menuButton){
+        findElement(By.xpath(String.format("//*[text()='%s']", menuButton))).click();
+    }
+
+    public void createPipelineProject(String nameOfProject, String typeOfProject){
+        findElement(By.className("task-icon-link")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.id("name"))).sendKeys(nameOfProject);
+
+        List<WebElement> listItemOptions = getDriver().findElements(By.id("j-add-item-type-standalone-projects"));
+        for(WebElement element:listItemOptions){
+            if (element.getText().contains(typeOfProject)){
+                element.click();
+            }
+        }
+        findElement(By.id("ok-button")).click();
+    }
+
 
     @Test
     public void testSetDescription() {
@@ -192,5 +218,24 @@ public class PipelineConfigureTest extends BaseTest {
 
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
         Assert.assertFalse(isPipelineEnabledAfterDisable,"false");
+    }
+
+    @Test
+    public void addDescriptionPipelineProjectTest(){
+        String description = "This is a project for school test";
+        createPipelineProject(EXPECTED_RESULT, "Pipeline");
+        findElement(By.name("description")).sendKeys(description);
+        findElement(By.name("Apply")).click();
+        WebElement messageSaved = getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.id("notification-bar")));
+
+        Assert.assertTrue(messageSaved.isDisplayed());
+
+        clickLinkButton("Dashboard");
+        clickLinkButton(EXPECTED_RESULT);
+
+        WebElement fieldDescription = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("description")));
+
+        Assert.assertTrue(fieldDescription.getText().contains(description));
     }
 }

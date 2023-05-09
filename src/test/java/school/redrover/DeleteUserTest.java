@@ -21,7 +21,7 @@ public class DeleteUserTest extends BaseTest {
     private String password = "";
     private String email = "";
 
-    public void createUser() {
+    public void createUser1() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/manage']"))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='securityRealm/']"))).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='addUser']"))).click();
@@ -36,7 +36,7 @@ public class DeleteUserTest extends BaseTest {
 
     @Test
     public void testDeleteUser() {
-        createUser();
+        createUser1();
 
         List<WebElement> listOfUsers = getDriver().findElements(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
 
@@ -49,7 +49,7 @@ public class DeleteUserTest extends BaseTest {
 
     @Test
     public void testDeleteUserViaPeopleMenu() {
-        createUser1();
+        createUser();
 
         getDriver().findElement(By.xpath("//*[@href='/asynchPeople/']")).click();
 
@@ -70,7 +70,25 @@ public class DeleteUserTest extends BaseTest {
                 .apply(getDriver());
         Assert.assertTrue(isNotPresent);
     }
+    @Test
+    public void testDeleteUserViaManageUsersMenu(){
+        createUser();
 
+        getDriver().findElement(By.xpath("//*[@href='/manage']")).click();
+
+        getDriver().findElement(By.xpath("//*[@href='securityRealm/']")).click();
+
+        WebElement basketButton = getDriver().findElement(
+                By.xpath("//a[@href='user/" + username + "/delete']"));
+        basketButton.click();
+
+        getDriver().findElement(By.name("Submit")).click();
+        Boolean isNotPresent = ExpectedConditions.not(ExpectedConditions
+                        .presenceOfAllElementsLocatedBy(By.xpath("//a[@href='/user/" + username + "/']")))
+                .apply(getDriver());
+        Assert.assertTrue(isNotPresent);
+    }
+    private void createUser() {
     private void createUser1() {
         username = "user" + Math.round((Math.random() * 1000));
         password = "" + Math.round(Math.random()*10000);

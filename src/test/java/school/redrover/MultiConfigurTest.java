@@ -5,30 +5,34 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MultiConfigurTest extends BaseTest {
     private static final String NAME_OF_PROJECT = "New project";
-    private static final String DESCRIPTION ="Description";
+    private static final String DESCRIPTION = "Description";
+    private static final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name ‘New project’";
+    private static final By SAVE_BUTTON = By.name("Submit");
+    private static final By DASHBOARD_BUTTON = By.linkText("Dashboard");
+    private static final By NEW_ITEM_BUTTON = By.xpath("//*[@id='tasks']//span/a");
+    private static final By INPUT_FIELD = By.name("name");
     private static final List<String> SPECIAL_SYMBOLS = new ArrayList<> (Arrays.asList("!","@","#","$","%","^","&","*","[","]","?"));
 
 
     private void createBaseMultiConfigurationProject() {
-        getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
-        getDriver().findElement(By.name("name")).sendKeys(NAME_OF_PROJECT);
+        getDriver().findElement(NEW_ITEM_BUTTON).click();
+        getDriver().findElement(INPUT_FIELD).sendKeys(NAME_OF_PROJECT);
         getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
         getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
         }
 
     @Test
-    public void createMultiConfigurationProjectTest() {
+    public void testCreateMultiConfigurationProjectTest() {
         createBaseMultiConfigurationProject();
 
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD_BUTTON).click();
 
         WebElement nameMultiCofigurationProject = getDriver().findElement(By.xpath("//td//a//span[1]"));
 
@@ -36,11 +40,11 @@ public class MultiConfigurTest extends BaseTest {
     }
 
     @Test
-    public void createMultiConfigurationProjectWithDescriptionTest() {
+    public void testCreateMultiConfigurationProjectWithDescriptionTest() {
         createBaseMultiConfigurationProject();
 
         getDriver().findElement(By.name("description")).sendKeys(DESCRIPTION);
-        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(SAVE_BUTTON).click();
 
         WebElement nameDescription = getDriver().findElement(By.xpath("//div[@id ='description']//div"));
 
@@ -48,23 +52,23 @@ public class MultiConfigurTest extends BaseTest {
     }
 
     @Test
-    public void createMultiConfigurationProjectWithSpaceInsteadName() {
-        getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
-        getDriver().findElement(By.name("name")).sendKeys(" ");
+    public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
+        getDriver().findElement(NEW_ITEM_BUTTON).click();
+        getDriver().findElement(INPUT_FIELD).sendKeys(" ");
         getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
         getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
 
-        WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/h1"));
+        WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
 
         Assert.assertEquals(errorMessage.getText(),"Error");
     }
 
     @Test
-    public void createMultiConfigurationProjectWithSpecialSymbols()  {
+    public void testCreateMultiConfigurationProjectWithSpecialSymbols()  {
         getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
 
         for (String symbol:SPECIAL_SYMBOLS) {
-            getDriver().findElement(By.name("name")).sendKeys(symbol);
+            getDriver().findElement(INPUT_FIELD).sendKeys(symbol);
 
             WebElement errorMessage = getDriver().findElement(By.id("itemname-invalid"));
 
@@ -72,5 +76,19 @@ public class MultiConfigurTest extends BaseTest {
 
             getDriver().findElement(By.name("name")).clear();
         }
+    }
+
+    @Test
+    public void testCreateMultiConfigurationProjectWithEqualName() {
+        createBaseMultiConfigurationProject();
+
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD_BUTTON).click();
+
+        createBaseMultiConfigurationProject();
+
+        WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id='main-panel']/p"));
+
+        Assert.assertEquals(errorMessage.getText(),ERROR_MESSAGE_EQUAL_NAME);
     }
 }
