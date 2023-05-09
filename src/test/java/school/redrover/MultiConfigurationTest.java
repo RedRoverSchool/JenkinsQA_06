@@ -130,7 +130,7 @@ public class MultiConfigurationTest extends BaseTest {
 
     @Test
     public void testRenameMultiConfigurationProject() {
-        this.createMultiConfigurationProject();
+        createMultiConfigurationProject();
 
         WebElement renameButton = getDriver().findElement(By.xpath("//body/div[@id='page-body']/div[@id='side-panel']/div[@id='tasks']/div[7]/span[1]/a[1]"));
         renameButton.click();
