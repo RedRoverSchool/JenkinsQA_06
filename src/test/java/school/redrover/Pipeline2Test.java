@@ -44,7 +44,7 @@ public class Pipeline2Test extends BaseTest {
     }
 
     @Test
-    public void TestCreatePipelineProjectCorrectName() {
+    public void testCreatePipelineProjectCorrectName() {
         WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
         newItem.click();
 
