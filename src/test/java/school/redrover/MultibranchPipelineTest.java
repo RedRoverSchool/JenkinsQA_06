@@ -149,7 +149,6 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(multibranchPipelineDisplayName.getText(), expectedRes );
     }
 
-    @Ignore
     @Test
     public void testCreateOrganizationFolder() {
         final String expectedResult = "Test";
