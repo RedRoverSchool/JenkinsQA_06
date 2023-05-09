@@ -86,7 +86,6 @@ public class JavaNiSyGroupTest extends BaseTest {
 
         Assert.assertEquals(textAfterDeletion.getText(), "Welcome to Jenkins!");
     }
-
     @Test
     public void testCreateDescription() {
         WebElement buttonAddDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
