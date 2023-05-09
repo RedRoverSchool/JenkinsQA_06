@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -8,14 +7,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ManageJenkinsTest extends BaseTest {
     final String NAME_NEW_NODE = "testNameNewNode";
 
-    private static final String USER_FULL_NAME = RandomStringUtils.randomAlphanumeric(13);
-
-    private static final String DESCRIPTION = RandomStringUtils.randomAlphanumeric(130) + "\n\n" + RandomStringUtils.randomAlphanumeric(23);
-
-    private final By User_Name_Link = By.xpath("//a[@href='/user/admin']");
+    private final By Manage_Jenkins = By.xpath("//a[@href='/manage']");
 
     @Test
     public void testNameNewNodeOnCreatePage() {
@@ -61,32 +59,47 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testVerifyChangeNameUser() {
-        getDriver().findElement(User_Name_Link).click();
+    public void testVerifySystemConfiguration() {
+        List<String> listSystemConfigurationExpected = Arrays.asList
+                ("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
 
-        WebElement configure = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/user/admin/configure']")));
-        configure.click();
+        getDriver().findElement(Manage_Jenkins).click();
 
-        WebElement fullName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='_.fullName']")));
-        fullName.clear();
-        fullName.sendKeys(USER_FULL_NAME);
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(text(),'Manage')]")));
+        List<WebElement> listSystemConfiguration = getDriver().findElements(By.cssSelector(".jenkins-section__title"));
+        for (int i = 0; i < listSystemConfiguration.size(); i++) {
 
-        Assert.assertEquals(getDriver().findElement(User_Name_Link).getText(), USER_FULL_NAME);
+            Assert.assertEquals(listSystemConfiguration.get(i).getText(), listSystemConfigurationExpected.get(i));
+        }
     }
 
     @Test
-    public void testVerifyUserDescription() {
-        getDriver().findElement(User_Name_Link).click();
+    public void testManageOldData() {
+        getDriver().findElement(Manage_Jenkins).click();
 
-        WebElement editDescription = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='description-link']")));
-        editDescription.click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//dt[contains(text(),'Manage Old Data')]"))).click();
 
-        WebElement fullName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']")));
-        fullName.clear();
-        fullName.sendKeys(DESCRIPTION);
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        WebElement oldData = getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")));
+        Assert.assertEquals(oldData.getText(), "Manage Old Data");
+        Assert.assertEquals(oldData.getLocation().toString(), "(372, 133)");
+        Assert.assertEquals(oldData.getCssValue("font-size").toString(), "25.6px");
+        Assert.assertEquals(oldData.getCssValue("font-weight").toString(), "700");
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div")).getText(), DESCRIPTION);
+        List<WebElement> listSortTable = getDriver().findElements(By.xpath("//thead //a"));
+        Assert.assertEquals(listSortTable.size(), 4);
+
+        Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
+    }
+    @Test
+    public void testSearchNumericSimbol(){
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("settings-search-bar")));
+        getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@class='jenkins-search__results']")));
+        String noResults = getDriver().findElement(
+                By.xpath("//p[@class='jenkins-search__results__no-results-label']")).getText();
+
+        Assert.assertEquals(noResults, "No results");
     }
 }
