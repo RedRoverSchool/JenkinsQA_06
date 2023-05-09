@@ -1,11 +1,13 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class PipelineTest2 extends BaseTest {
+
 
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By NAME = By.id("name");
@@ -16,24 +18,11 @@ public class PipelineTest2 extends BaseTest {
     private static final By TEXT_PIPELINE = By.cssSelector(".job-index-headline.page-headline");
     private static final By RENAME = By.xpath("//a[@href='/job/FirstPipeline/confirm-rename']");
     private static final By RENAME_LINE = By.xpath("//input[@name='newName']");
-    private static final By CONFIGURE = By.xpath("//a[@href='/job/FirstPipeline/configure']");
-    private static final By ENABLE_DISABLE_BUTTON = By.cssSelector("label[for='enable-disable-project']");
-    private static final By DISCARD_OLD_BUILD = By.xpath("//label[normalize-space()='Discard old builds']");
-    private static final By DAYS_TO_KEEP_BUILDS = By.name("_.daysToKeepStr");
-    private static final By MAX_DAYS = By.xpath("//input[@name='_.numToKeepStr']");
-    String name = "FirstPipeline";
+
+    String name = "FirstPipelin";
+    String newName = "PipeLine New";
     String descriptionText = "Pipeline text";
     String renameText = "Pipeline1";
-
-    public void createPipeline() {
-
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(NAME).sendKeys(name);
-        getDriver().findElement(PIPELINE).click();
-        getDriver().findElement(BUTTON).click();
-        getDriver().findElement(DESCRIPTION).sendKeys(descriptionText);
-        getDriver().findElement(SUBMIT).click();
-    }
 
     @Test
     public void testCreatePipeline() {
@@ -60,37 +49,39 @@ public class PipelineTest2 extends BaseTest {
         Assert.assertEquals("Pipeline " + renameText, getDriver().findElement(TEXT_PIPELINE).getText());
     }
 
-    @Test
-    public void testSetDescriptionEnableDisablePipeline() {
-        String descriptionText = "Good job!";
-        String enableButton = "Enable";
-        String text = "Disable Project";
+    public void createPipeline() {
 
-        createPipeline();
+        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItemButton.click();
 
-        getDriver().findElement(CONFIGURE).click();
-        getDriver().findElement(DESCRIPTION).sendKeys(descriptionText);
-        getDriver().findElement(ENABLE_DISABLE_BUTTON).click();
-        getDriver().findElement(SUBMIT).click();
-        Assert.assertEquals(enableButton, getDriver().findElement(SUBMIT).getText());
+        WebElement itemNameInput = getDriver().findElement(By.id("name"));
+        itemNameInput.sendKeys(name);
 
-        getDriver().findElement(SUBMIT).click();
-        Assert.assertEquals(text, getDriver().findElement(SUBMIT).getText());
+        WebElement itemTypeRadio = getDriver().findElement(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']"));
+        itemTypeRadio.click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+
+        WebElement saveButton = getDriver().findElement(By.name("Submit"));
+        saveButton.click();
     }
 
     @Test
-    public void testDiscardOldBuildsPipeline() {
-        String daysMin = "2";
-        String daysMax = "30";
-
+    public void pipelineRenameTest() {
         createPipeline();
 
-        getDriver().findElement(CONFIGURE).click();
-        getDriver().findElement(DISCARD_OLD_BUILD).click();
-        getDriver().findElement(DAYS_TO_KEEP_BUILDS).sendKeys(daysMin);
-        getDriver().findElement(MAX_DAYS).sendKeys(daysMax);
-        getDriver().findElement(SUBMIT).click();
+        WebElement renameButton = getDriver().findElement(By.xpath("//span[text()='Rename']/.."));
+        renameButton.click();
 
-        Assert.assertEquals("Pipeline " + name, getDriver().findElement(TEXT_PIPELINE).getText());
+        WebElement newNameInput = getDriver().findElement(By.name("newName"));
+        newNameInput.clear();
+        newNameInput.sendKeys(newName);
+
+        WebElement submitRenameButton = getDriver().findElement(By.name("Submit"));
+        submitRenameButton.click();
+
+        WebElement pipelineName = getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"));
+        Assert.assertEquals("Pipeline " + newName, pipelineName.getText());
     }
 }
