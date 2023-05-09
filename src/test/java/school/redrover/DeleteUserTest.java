@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 import java.util.List;
 import java.time.Duration;
 
@@ -66,12 +67,13 @@ public class DeleteUserTest extends BaseTest {
         getDriver().findElement(By.xpath("//*[@href='/asynchPeople/']")).click();
 
         Boolean isNotPresent = ExpectedConditions.not(ExpectedConditions
-                .presenceOfAllElementsLocatedBy(By.xpath("//a[@href='/user/" + username + "/']")))
+                        .presenceOfAllElementsLocatedBy(By.xpath("//a[@href='/user/" + username + "/']")))
                 .apply(getDriver());
         Assert.assertTrue(isNotPresent);
     }
+
     @Test
-    public void testDeleteUserViaManageUsersMenu(){
+    public void testDeleteUserViaManageUsersMenu() {
         createUser();
 
         getDriver().findElement(By.xpath("//*[@href='/manage']")).click();
@@ -88,10 +90,10 @@ public class DeleteUserTest extends BaseTest {
                 .apply(getDriver());
         Assert.assertTrue(isNotPresent);
     }
+
     private void createUser() {
-    private void createUser1() {
         username = "user" + Math.round((Math.random() * 1000));
-        password = "" + Math.round(Math.random()*10000);
+        password = "" + Math.round(Math.random() * 10000);
         email = username + "@gmail.com";
         getDriver().findElement(By.xpath("//*[@href='/manage']")).click();
 
@@ -121,3 +123,4 @@ public class DeleteUserTest extends BaseTest {
         getDriver().findElement(By.id("jenkins-home-link")).click();
     }
 }
+
