@@ -1,13 +1,14 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import static org.testng.Assert.assertEquals;
-import jdk.jfr.Description;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -68,13 +69,11 @@ public class HeaderTest extends BaseTest {
         assertEquals(hoverHelpButtonColor, "rgba(64, 64, 64, 1)");
     }
 
-    @Description("Verify the placeholder text in the search field")
     @Test
     public void testSearchFieldPlaceholder() {
         Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("placeholder"), "Search (CTRL+K)");
     }
 
-    @Description("Verify the status of autocomplete in the search field")
     @Test
     public void testSearchFieldAutocomplete() {
         Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
@@ -135,5 +134,36 @@ public class HeaderTest extends BaseTest {
 
         assertEquals(hoverExitButtonBackground, "rgba(64, 64, 64, 1)");
         assertEquals(hoverExitButtonUnderline, "underline");
+    }
+
+    @Test
+    public void testCheckIconJenkinsOnHeader(){
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-name-icon")).isDisplayed());
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-head-icon")).isDisplayed());
+    }
+
+    @Test
+    public void testClickLogoReturnToMainPage(){
+
+        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create a job')]"))).click();
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"jenkins-home-link\"]"))).click();
+
+        WebElement mainPageText = getDriver().findElement(By.xpath("//h1[contains(text(),'Welcome to Jenkins!')]"));
+        Assert.assertEquals(mainPageText.getText(),"Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testSearchField() {
+        WebElement searchBox = getDriver().findElement(By.id("search-box"));
+        searchBox.sendKeys("");
+        searchBox.sendKeys(Keys.RETURN);
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
+                (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
     }
 }

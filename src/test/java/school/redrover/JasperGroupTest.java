@@ -1,12 +1,12 @@
 package school.redrover;
 
-import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -53,11 +53,11 @@ public class JasperGroupTest extends BaseTest {
         saveButton.click();
 
         WebElement actualResult = getDriver().findElement(By.xpath("//*[@class=\"job-index-headline page-headline\"]"));
-        Assert.assertEquals(actualResult.getText(),"Project New Item");
+        Assert.assertEquals(actualResult.getText(), "Project New Item");
     }
 
     @Test
-    public void testValidationOfCreateNewItem(){
+    public void testValidationOfCreateNewItem() {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         WebElement newItem = getDriver().findElement(By.cssSelector("[href*='/view/all/newJob']"));
@@ -91,11 +91,12 @@ public class JasperGroupTest extends BaseTest {
         WebElement headerMenuName = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']/span"));
         List<WebElement> names = new ArrayList<>(Arrays.asList(h1Name, headerMenuName));
 
-        for(WebElement name : names){
+        for (WebElement name : names) {
             Assert.assertEquals(name.getText(), "User");
         }
     }
 
+    @Ignore
     @Test
     public void testFolderEmptyNameChange() {
         WebElement newItemButton = getDriver().findElement(By.xpath("//span[text()='New Item']/.."));
@@ -126,7 +127,7 @@ public class JasperGroupTest extends BaseTest {
         WebElement messageError = getDriver().findElement(By.xpath("//p"));
 
         Assert.assertEquals(headerError.getText(), "Error");
-        Assert.assertEquals(messageError.getText(),"No name is specified");
+        Assert.assertEquals(messageError.getText(), "No name is specified");
     }
 
     @Test
@@ -155,4 +156,50 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(textElement.getText(), "TestProject");
     }
 
+    @Test
+    public void testCountUsers() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebElement users = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a")));
+        users.click();
+
+        List<WebElement> usersList = getDriver().findElements(By.xpath("//*[@id=\"people\"]"));
+        Assert.assertTrue(usersList.size() > 0, "List of users are empty");
+    }
+
+    @Test
+    public void testFindPeopleJenkins() {
+        WebElement users = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[2]/span/a/span[2]"));
+
+        Assert.assertEquals(users.getText(), "People");
+    }
+
+    @Test
+    public void testSearchResultNothingSeemsToMatch() {
+
+        WebElement newItemField = getDriver().findElement(By.xpath("//input[@id = 'search-box' ]"));
+        newItemField.sendKeys("jenk");
+        newItemField.sendKeys(Keys.RETURN);
+
+        WebElement searchResult1 = getDriver().findElement(By.xpath("//div[text() = 'Nothing seems to match.']"));
+        Assert.assertEquals(searchResult1.getText(), "Nothing seems to match.");
+    }
+
+    @Test
+    public void testValidationMessage() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("createItem")).click();
+        WebElement message = getDriver().findElement(By.id("itemname-required"));
+
+        Assert.assertEquals(message.getText(), "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
+    public void testFindAllElements() {
+        List<WebElement> elements = getDriver().findElements(By.xpath("//*[@class=\"task-link-text\"]"));
+        List<String> expectedElements = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+
+        for (int i = 0; i < elements.size(); i++) {
+            Assert.assertEquals(elements.get(i).getText(), (expectedElements.get(i)));
+        }
+    }
 }

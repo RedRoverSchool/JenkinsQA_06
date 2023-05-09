@@ -1,9 +1,7 @@
 package school.redrover;
 
-import jdk.jfr.Description;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,23 +10,11 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class AlexLeoGroupTests extends BaseTest {
-
-    private WebDriverWait webDriverWait5;
-
-    private final WebDriverWait getWait5() {
-        if (webDriverWait5 == null) {
-            webDriverWait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        }
-        return webDriverWait5;
-    }
-
-    private final void verifyElementVisible(WebElement element) {
-        getWait5().until(ExpectedConditions.visibilityOf(element));
-    }
 
     @Test
     public void testVerifyLogoJenkinsIsPresent() {
@@ -55,7 +41,6 @@ public class AlexLeoGroupTests extends BaseTest {
         String PeopleText = elems.get(1).getText();
 
         Assert.assertEquals(PeopleText, "People");
-
     }
 
     @Test
@@ -68,7 +53,7 @@ public class AlexLeoGroupTests extends BaseTest {
 
     @Test
     public void testVerifyIconButtonsRowPresent() {
-        getDriver().get("http://localhost:8080/asynchPeople/");
+        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
         WebElement iconButtonsRow = getDriver().
                 findElement(By.xpath("//div[contains(@class, 'jenkins-buttons-row')]"));
 
@@ -77,14 +62,15 @@ public class AlexLeoGroupTests extends BaseTest {
 
     @Test
     public void testVerifyFolderLabelFont() {
-        getDriver().get("http://localhost:8080/view/all/newJob");
+        getDriver().findElement(By.xpath("//a[contains(@href,'newJob')]")).click();
         WebElement elem = getDriver().findElement(By.id("items"));
         List<WebElement> items = elem.findElements(By.cssSelector("li span"));
 
-        for ( WebElement element  : items) {
+        for (WebElement element : items) {
             Assert.assertTrue(element.getAttribute("baseURI").contains("newJob"));
         }
     }
+
     @Test
     public void testLogoJenkinsIsPresent() {
         WebElement logoJenkins = getDriver().findElement(By.xpath("//img[@id='jenkins-head-icon']"));
@@ -149,9 +135,15 @@ public class AlexLeoGroupTests extends BaseTest {
     @Test
     public void testJenkinsLinkInFooterVerification() {
         WebElement jenkinsLink = getDriver().findElement(By.xpath("//div/a[@href='https://www.jenkins.io/']"));
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        Object result = js.executeScript("return arguments[0].target='_self'", jenkinsLink);
+        String originalWindow = getDriver().getWindowHandle();
         jenkinsLink.click();
+
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if(!originalWindow.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }
 
         String actualWebPage = getDriver().getCurrentUrl();
         String expectedWebPage = "https://www.jenkins.io/";
@@ -161,7 +153,7 @@ public class AlexLeoGroupTests extends BaseTest {
     @Test
     public void testNewItemListVerification() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        verifyElementVisible(getDriver().findElement(By.xpath("//div[@id='items']")));
+        getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@id='items']"))));
 
         List<WebElement> newItemProjectTypes = getDriver().findElements(By.xpath("//ul/li/label/span[@class='label']"));
         List<String> expectedProjectTypes = Arrays.asList("Freestyle project", "Pipeline", "Multi-configuration project",
@@ -180,51 +172,40 @@ public class AlexLeoGroupTests extends BaseTest {
     }
 
     @Test
-    public void testJenkinsLogoIsPresent(){
+    public void testJenkinsLogoIsPresent() {
         WebElement logo = getDriver().findElement(By.id("jenkins-head-icon"));
         Assert.assertTrue(logo.isDisplayed());
     }
 
     @Test
-    public void testJenkinsNameIsPresent(){
+    public void testJenkinsNameIsPresent() {
         WebElement name = getDriver().findElement(By.id("jenkins-name-icon"));
         Assert.assertTrue(name.isDisplayed());
     }
 
     @Test
-    public void testSearchBoxIsPresent(){
+    public void testSearchBoxIsPresent() {
         WebElement searchBox = getDriver().findElement(By.id("search-box"));
         Assert.assertTrue(searchBox.isDisplayed());
     }
 
     @Test
-    public void testLogoutIconIsPresent(){
+    public void testLogoutIconIsPresent() {
         WebElement logoutIcon = getDriver().findElement(By.xpath("//a[@href='/logout']/*[@class='icon-md']"));
         Assert.assertTrue(logoutIcon.isDisplayed());
     }
 
     @Test
-    public void testLinkContainsText(){
+    public void testLinkContainsText() {
         String logoutLink = getDriver().findElement(By.xpath("//a[@href='/logout']/span")).getText();
         Assert.assertEquals(logoutLink, "log out");
-    }
-
-    @Description("Verify to the search field functionality")
-    @Test
-    public void testSearchField(){
-        WebElement searchBox = getDriver().findElement(By.id("search-box"));
-        searchBox.sendKeys("");
-        searchBox.sendKeys(Keys.RETURN);
-
-        Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
-                (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
     }
 
     @Test
     public void testNewFreestyleProjectVerification() {
         String nameOfProject = "NewProject2023";
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        verifyElementVisible(getDriver().findElement(By.xpath("//div[@id='items']")));
+        getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@id='items']"))));
         getDriver().findElement(By.cssSelector("#name")).sendKeys(nameOfProject);
 
         getDriver().findElement(By.xpath("//span[.='Freestyle project']")).click();
@@ -239,7 +220,7 @@ public class AlexLeoGroupTests extends BaseTest {
     public void testNewFreestyleProjectDisabledVerification() {
         String nameOfProject = "NewProject2023";
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        verifyElementVisible(getDriver().findElement(By.xpath("//div[@id='items']")));
+        getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@id='items']"))));
         getDriver().findElement(By.cssSelector("#name")).sendKeys(nameOfProject);
 
         getDriver().findElement(By.xpath("//span[.='Freestyle project']")).click();
@@ -253,6 +234,7 @@ public class AlexLeoGroupTests extends BaseTest {
 
         Assert.assertEquals(actualString, expectedString);
     }
+
     @Test
     public void testAPILinkInTheFooter() {
         WebElement apiLinkButton = getDriver().findElement(By.xpath("//a[text()='REST API']"));
@@ -261,4 +243,195 @@ public class AlexLeoGroupTests extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Remote API [Jenkins]");
     }
 
+    @Test
+    public void testVerifySearchField() {
+        Assert.assertTrue(getDriver().findElement(By.id("search-box")).isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogOutIcon() {
+        Assert.assertTrue(getDriver()
+                .findElement(By.cssSelector("header#page-header > div > a:last-of-type > svg")).isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogOutLink() {
+        WebElement spanLogOut = getDriver().findElement(By.xpath("//header/div/a[@href='/logout']/span"));
+
+        Assert.assertEquals(spanLogOut.getText(), "log out");
+    }
+
+    @Test
+    public void testVerifyTextInDropDownMenu() {
+        WebElement dashboardLink = getDriver().findElement(By.cssSelector("#breadcrumbs > li > a"));
+
+        Assert.assertEquals(dashboardLink.getText(), "Dashboard");
+    }
+
+    @Test
+    public void testVerifyNewItemSectionPresent() {
+        WebElement spanNewItem = getDriver()
+                .findElement(By.xpath("//div[@id='tasks']/div[1]/span/a/span[2]"));
+
+        Assert.assertEquals(spanNewItem.getText(), "New Item");
+    }
+
+    @Test
+    public void testVerifyJenkinsLogoIsPresent() {
+        WebElement logo = getDriver().findElement(By.id("jenkins-head-icon"));
+        Assert.assertTrue(logo.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyWordIconJenkinsIsPresent() {
+        WebElement wordIcon = getDriver().findElement(By.id("jenkins-name-icon"));
+        Assert.assertTrue(wordIcon.isDisplayed());
+    }
+
+    @Test
+    public void testVerifySearchFieldIsPresent() {
+        WebElement searchField = getDriver().findElement(By.id("searchform"));
+        Assert.assertTrue(searchField.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogoutIconIsPresent() {
+        WebElement logoutIcon = getDriver().findElement(By.xpath("//a[@href = '/logout']/*[local-name()='svg']"));
+        Assert.assertTrue(logoutIcon.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyLogoutLinkText() {
+        WebElement logout = getDriver().findElement(By.xpath("//a[@href = '/logout']/span"));
+        Assert.assertEquals(logout.getText(), "log out");
+    }
+
+    @Test
+    public void testVerifyDashboardDropDownText() {
+        WebElement dashboardDropDown = getDriver().findElement(By.xpath("//li[@class = 'jenkins-breadcrumbs__list-item']/a"));
+        Assert.assertEquals(dashboardDropDown.getText(), "Dashboard");
+    }
+
+    @Test
+    public void testVerifyNewItemIcon() {
+        WebElement newItem = getDriver().findElement(By.linkText("New Item"));
+        Assert.assertTrue(newItem.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyRestApiLink() {
+        WebElement restApiButton = getDriver().findElement(By.linkText("REST API"));
+        restApiButton.click();
+        WebElement restApiHeader = getDriver().findElement(By.xpath(".//h1[text() = 'REST API']"));
+
+        Assert.assertTrue(getDriver().getCurrentUrl().endsWith("/api/"));
+        Assert.assertTrue(restApiHeader.isDisplayed());
+    }
+
+    @Test
+    public void testVerifyJenkinsLink() {
+        WebElement jenkinsLink = getDriver().findElement(By.linkText("Jenkins 2.387.2"));
+
+        String originalWindow = getDriver().getWindowHandle();
+        jenkinsLink.click();
+
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                if (getDriver().getTitle().equals("Jenkins"))
+                    break;
+            }
+        }
+        WebElement jenkinsHeader = getDriver().findElement(By.xpath(".//h1[@class = 'page-title']/span[contains(text(), 'Jenkins')]"));
+
+        Assert.assertTrue(jenkinsHeader.isDisplayed());
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.jenkins.io/");
+    }
+
+    @Test
+    public void testVerifyNewItemsList() {
+        List<String> expectedItems = new ArrayList<>(Arrays.asList("Freestyle project", "Pipeline",
+                "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder"));
+        WebElement newItem = getDriver().findElement(By.linkText("New Item"));
+        newItem.click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(15));
+        List<WebElement> items = wait.
+                until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(".//div[@id = 'items']//li//span")));
+
+        Assert.assertEquals(items.size(), expectedItems.size());
+
+        for (int i = 0; i < items.size(); i++) {
+            Assert.assertEquals(items.get(i).getText(), expectedItems.get(i));
+        }
+    }
+
+    @Test
+    public void testVerifyLogoJenkins() {
+        Assert.assertTrue(getDriver().findElement(By.id("jenkins-head-icon")).isDisplayed());
+    }
+
+    @Test
+    public void testTasksMenuNavigation() {
+        WebElement newItemElementLink = getDriver().findElement(By.linkText("New Item"));
+        newItemElementLink.click();
+        WebElement textEnterAnItemNameOnPage = getDriver().findElement(By.xpath("//div[@class='add-item-name']/label[.='Enter an item name']"));
+        Assert.assertEquals(textEnterAnItemNameOnPage.getText(), "Enter an item name");
+        WebElement dashboardReturn = getDriver().findElement(By.linkText("Dashboard"));
+        dashboardReturn.click();
+
+        WebElement peopleLink = getDriver().findElement(By.linkText("People"));
+        peopleLink.click();
+        WebElement textPeopleInThePageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
+        Assert.assertEquals(textPeopleInThePageHeader.getText(), "People");
+
+        WebElement buildHistoryLink = getDriver().findElement(By.linkText("Build History"));
+        buildHistoryLink.click();
+        WebElement textJenkinsBuildHistoryInThePageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
+        Assert.assertEquals(textJenkinsBuildHistoryInThePageHeader.getText(),"Build History of Jenkins");
+
+        WebElement manageJenkinsLink = getDriver().findElement(By.linkText("Manage Jenkins"));
+        manageJenkinsLink.click();
+        WebElement textManageJenkinsInPageHeader = getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div/h1"));
+        Assert.assertEquals(textManageJenkinsInPageHeader.getText(), "Manage Jenkins");
+    }
+    @Test
+    public void testVerifyJenkinsLogo(){
+        WebElement findLogoJenkins = getDriver().findElement((By.id("jenkins-head-icon")));
+        Point point = new Point(19, 8);
+        Assert.assertEquals(findLogoJenkins.getLocation(), point);
+
+    }
+
+    @Test
+    public void testVerifySystemConfiguration() {
+        List<String> listSystemConfigurationExpected = Arrays.asList
+                ("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
+
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(text(),'Manage')]")));
+        List<WebElement> listSystemConfiguration = getDriver().findElements(By.cssSelector(".jenkins-section__title"));
+        for (int i = 0; i < listSystemConfiguration.size(); i++) {
+
+            Assert.assertEquals(listSystemConfiguration.get(i).getText(), listSystemConfigurationExpected.get(i));
+        }
+    }
+
+    @Test
+    public void testManageOldData() {
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//dt[contains(text(),'Manage Old Data')]"))).click();
+
+        WebElement oldData = getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")));
+        Assert.assertEquals(oldData.getText(), "Manage Old Data");
+        Assert.assertEquals(oldData.getLocation().toString(), "(372, 133)");
+        Assert.assertEquals(oldData.getCssValue("font-size").toString(), "25.6px");
+        Assert.assertEquals(oldData.getCssValue("font-weight").toString(), "700");
+
+        List<WebElement> listSortTable = getDriver().findElements(By.xpath("//thead //a"));
+        Assert.assertEquals(listSortTable.size(), 4);
+
+        Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
+    }
 }
