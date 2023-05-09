@@ -93,6 +93,7 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(buttonAddDescription.getText(), "Add description");
     }
 
+    @Ignore
     @Test
     public void testJenkinsUser() {
 

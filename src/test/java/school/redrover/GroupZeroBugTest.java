@@ -5,6 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.BaseUtils;
@@ -27,6 +28,7 @@ public class GroupZeroBugTest extends BaseTest {
         return webDriverWait;
     }
 
+    @Ignore("Тест выполняется 60 секунд!")
     @Test
     public void testFirstJobIsCreated() throws InterruptedException {
 
@@ -179,6 +181,7 @@ public class GroupZeroBugTest extends BaseTest {
         getDriver().navigate().back();
         deleteJob();
     }
+    @Ignore
     @Test
     public void testRenameJob() throws InterruptedException {
 

@@ -28,6 +28,7 @@ public class CreatePipelineProjectTest extends BaseTest {
         WebElement saveButton = getDriver().findElement(By.xpath("//*[@name = 'Submit']"));
         saveButton.click();
 
+
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id = 'main-panel']/h1")).getText(),
                 "Pipeline " + projectName);
     }

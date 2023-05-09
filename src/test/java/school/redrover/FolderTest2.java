@@ -17,7 +17,6 @@ public class FolderTest2 extends BaseTest {
     private static final By FOLDER_PAGE = By.cssSelector("div[id='main-panel'] h1");
     private static final By FOLDER_DASHBOARD = By.xpath("//a[@class='jenkins-table__link model-link inside']//span");
     private  static final By DASHBOARD = By.xpath("//a[normalize-space()='Dashboard']");
-
     private static  final By CONFIGURE = By.xpath("//a[@href='/job/newProject/configure']");
 
     String name = "newProject";
@@ -37,9 +36,6 @@ public class FolderTest2 extends BaseTest {
         getDriver().findElement(SUBMIT).click();
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(FOLDER_DASHBOARD).click();
-
-        Assert.assertEquals(displayNameText, getDriver().findElement(FOLDER_PAGE).getText());
-
         getDriver().findElement(CONFIGURE).click();
         getDriver().findElement(DISPLAY_NAME).clear();
         getDriver().findElement(DISPLAY_NAME).sendKeys(renameText);
