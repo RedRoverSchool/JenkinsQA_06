@@ -13,7 +13,6 @@ import school.redrover.runner.BaseTest;
         private By OK_BUTTON = By.id("ok-button");
 
         private By SAVE_BUTTON = By.name("Submit");
-        private By CREATE_A_JOB = By.xpath("//*[@id='main-panel']/div[2]/div/section[1]/ul/li/a/span[1]");
 
         @Test
 
