@@ -31,6 +31,7 @@ public class CreatePipProjectTest extends BaseTest {
     @Test
     public void testCreatePiplineProject() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+
         WebElement enterItemName = getDriver().findElement(By.xpath("//input[@class='jenkins-input']"));
         enterItemName.click();
         enterItemName.sendKeys("First");
