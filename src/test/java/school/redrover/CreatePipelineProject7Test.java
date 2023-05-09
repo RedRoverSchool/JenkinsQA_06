@@ -27,6 +27,5 @@ import school.redrover.runner.BaseTest;
             Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'main-panel']//h1['Pipeline Project1']")).getText(),
                     "Pipeline Project1");
         }
-    }
-
 }
+
