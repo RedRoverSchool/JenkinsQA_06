@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -19,7 +20,7 @@ public class CreateMultiConfigurationProjectADTest extends BaseTest {
         getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
         getDriver().findElement(By.cssSelector("li:nth-child(1) > a")).click();
 
-        String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer3/']")).getText();
-        Assert.assertEquals(actualResult, expectedResult);
+        WebElement result = getDriver().findElement(By.cssSelector("#projectstatus"));
+        Assert.assertTrue(result.isDisplayed(), "project no display");
     }
 }

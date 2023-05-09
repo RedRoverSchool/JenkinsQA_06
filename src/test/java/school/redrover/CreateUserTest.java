@@ -7,7 +7,8 @@ import school.redrover.runner.BaseTest;
 
 public class CreateUserTest extends BaseTest {
 
-    public static String userName = "TestFullName";
+    public static String userName = "TestUserName";
+    public static String fullName = "TestFullName";
     public static String password = "TestPassword";
     public static final By MANAGE_JENKINS_BUTTON = By.xpath("//div[@id = 'tasks']//div[4]//a");
     public static final By MANAGE_USERS_BUTTON = By.xpath("//a[@href = 'securityRealm/']//dt");
@@ -23,6 +24,9 @@ public class CreateUserTest extends BaseTest {
     public static final By PASSWORD_LOGIN_FIELD = By.name("j_password");
     public static final By SIGN_IN_BUTTON = By.name("Submit");
     public static final By USER_NAME_HEADER = By.xpath("//div[@class = 'login page-header__hyperlinks']/a[1]/span");
+    public static final By JENKINS_LABEL = By.id("jenkins-name-icon");
+    public static final By LAST_USER_ID = By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//a");
+    public static final By LAST_USER_NAME =  By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//td[3]");
 
     @Test
     public void testCreateUser(){
@@ -33,7 +37,7 @@ public class CreateUserTest extends BaseTest {
         getDriver().findElement(USER_NAME_FIELD).sendKeys(userName);
         getDriver().findElement(PASSWORD_FIELD).sendKeys(password);
         getDriver().findElement(CONFIRM_PASSWORD_FIELD).sendKeys(password);
-        getDriver().findElement(FULL_NAME_FIELD).sendKeys("TestFullName");
+        getDriver().findElement(FULL_NAME_FIELD).sendKeys(fullName);
         getDriver().findElement(EMAIL_ADDRESS_FIELD).sendKeys("testEmail@test.test");
         getDriver().findElement(CREATE_USER_BUTTON_BOTTOM).click();
         getDriver().findElement(LOG_OUT_BUTTON).click();
@@ -42,12 +46,41 @@ public class CreateUserTest extends BaseTest {
         getDriver().findElement(SIGN_IN_BUTTON).click();
 
         String expectedResultTitle = "Dashboard [Jenkins]";
-        String expectedResultUser = userName;
+        String expectedResultUser = fullName;
 
         String actualResultTitle = getDriver().getTitle();
         String actualResultUser = getDriver().findElement(USER_NAME_HEADER).getText();
 
         Assert.assertEquals(actualResultTitle, expectedResultTitle);
         Assert.assertEquals(actualResultUser, expectedResultUser);
+    }
+
+    @Test
+    public void testCreateUser_ManageUsers() {
+
+        getDriver().findElement(MANAGE_JENKINS_BUTTON).click();
+        getDriver().findElement(MANAGE_USERS_BUTTON).click();
+        getDriver().findElement(CREATE_USER_BUTTON_APPBAR).click();
+        getDriver().findElement(USER_NAME_FIELD).sendKeys(userName);
+        getDriver().findElement(PASSWORD_FIELD).sendKeys(password);
+        getDriver().findElement(CONFIRM_PASSWORD_FIELD).sendKeys(password);
+        getDriver().findElement(FULL_NAME_FIELD).sendKeys(fullName);
+        getDriver().findElement(EMAIL_ADDRESS_FIELD).sendKeys("testEmail@test.test");
+        getDriver().findElement(CREATE_USER_BUTTON_BOTTOM).click();
+        getDriver().findElement(JENKINS_LABEL).click();
+        getDriver().findElement(MANAGE_JENKINS_BUTTON).click();
+        getDriver().findElement(MANAGE_USERS_BUTTON).click();
+
+        String expectedResultTitle = "Users [Jenkins]";
+        String expectedResultUserId = userName;
+        String expectedResultName = fullName;
+
+        String actualResultTitle = getDriver().getTitle();
+        String actualResultUserId = getDriver().findElement(LAST_USER_ID).getText();
+        String actualResultName = getDriver().findElement(LAST_USER_NAME).getText();
+
+        Assert.assertEquals(actualResultTitle, expectedResultTitle);
+        Assert.assertEquals(actualResultUserId, expectedResultUserId);
+        Assert.assertEquals(actualResultName, expectedResultName);
     }
 }
