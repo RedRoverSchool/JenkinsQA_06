@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateMultiConfigurationProjectTest extends BaseTest {
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
@@ -78,5 +80,42 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
         WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
         Assert.assertEquals(actualDescription.getText(), expectedDescription);
+    }
+
+    @Test
+    public void testCreateMultiConfigurationProjectInFolder() {
+        final String expectedFolderHeader = "Multi-configuration projects Folder";
+        final String expectedProjectInFolder = "First Multi-configuration project";
+
+        WebElement selectNewItem = getDriver().findElement(NEW_ITEM);
+        selectNewItem.click();
+        WebElement setNewItemName = getDriver().findElement(SET_ITEM_NAME);
+        setNewItemName.sendKeys("Multi-configuration projects Folder");
+        getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']"))
+                .click();
+        WebElement okButton = getWait5().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
+        okButton.click();
+        WebElement scrollBySubmitButton = getDriver().findElement(SAVE_BUTTON);
+        scrollBySubmitButton.click();
+
+        WebElement actualFolderHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualFolderHeader.getText(), expectedFolderHeader);
+
+        getDriver().findElement(By.xpath("//div[@id='tasks']/div[3]")).click();
+        WebElement setNewProjectName = getDriver().findElement(SET_ITEM_NAME);
+        setNewProjectName.sendKeys("First Multi-configuration project");
+        WebElement selectMultiConfigProject = getWait5().
+                until(ExpectedConditions.elementToBeClickable(MULTI_CONFIGURATION_PROJECT));
+        selectMultiConfigProject.click();
+        WebElement okBtn = getWait5().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
+        okBtn.click();
+        WebElement submitButton = getDriver().findElement(SAVE_BUTTON);
+        submitButton.click();
+
+        getDriver().findElement(By.xpath("//a[@href='/job/Multi-configuration%20projects%20Folder/']")).click();
+        WebElement actualProjectInFolder = getDriver().findElement(By.xpath("//a[@href='job/First%20Multi-configuration%20project/']"));
+
+        Assert.assertEquals(actualProjectInFolder.getText(), expectedProjectInFolder);
     }
 }
