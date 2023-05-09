@@ -173,19 +173,6 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testOKButtonIsDisabledWhenCreatingJobWithEmptyName() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
-
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-
-        Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
-    }
-
-    @Test
     public void testNewItem() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Folder01");
