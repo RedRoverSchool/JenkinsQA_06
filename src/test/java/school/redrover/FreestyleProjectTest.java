@@ -193,4 +193,17 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(projectDetailsList.get(2).getText(), PROJECT_NAME);
     }
+
+    @Test
+    public void testErrorWhenCreatingFreeStyleProjectWithEmptyName() {
+        final String EXPECTED_ERROR = "» This field cannot be empty, please enter a valid name";
+
+        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
+
+        String actualError = getDriver().findElement(By.id("itemname-required")).getText();
+
+        Assert.assertEquals(actualError, EXPECTED_ERROR);
+    }
 }

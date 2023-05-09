@@ -158,21 +158,6 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testErrorWhenCreatingJobWithEmptyName() {
-        String expectedError = "» This field cannot be empty, please enter a valid name";
-
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
-
-        String actualError = getDriver().findElement(By.id("itemname-required")).getText();
-
-        Assert.assertEquals(actualError, expectedError);
-    }
-
-    @Test
     public void testOKButtonIsDisabledWhenCreatingJobWithEmptyName() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
