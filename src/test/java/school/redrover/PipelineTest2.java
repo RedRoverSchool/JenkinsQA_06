@@ -16,7 +16,7 @@ public class PipelineTest2 extends BaseTest {
     private static final By DESCRIPTION = By.name("description");
     private static final By SUBMIT = By.name("Submit");
     private static final By TEXT_PIPELINE = By.cssSelector(".job-index-headline.page-headline");
-    private static final By RENAME = By.xpath("//a[@href='/job/FirstPipelin/confirm-rename']");
+    private static final By RENAME = By.xpath("//a[@href='/job/FirstPipeline/confirm-rename']");
     private static final By RENAME_LINE = By.xpath("//input[@name='newName']");
 
     String name = "FirstPipelin";
@@ -25,7 +25,7 @@ public class PipelineTest2 extends BaseTest {
     String renameText = "Pipeline1";
 
     @Test
-    public void testCreatePipelineAndRename() {
+    public void testCreatePipeline() {
 
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(NAME).sendKeys(name);
@@ -33,6 +33,14 @@ public class PipelineTest2 extends BaseTest {
         getDriver().findElement(BUTTON).click();
         getDriver().findElement(DESCRIPTION).sendKeys(descriptionText);
         getDriver().findElement(SUBMIT).click();
+
+        Assert.assertEquals("Pipeline " + name, getDriver().findElement(TEXT_PIPELINE).getText());
+    }
+
+    @Test
+    public void testRenamePipeline() {
+        createPipeline();
+
         getDriver().findElement(RENAME).click();
         getDriver().findElement(RENAME_LINE).clear();
         getDriver().findElement(RENAME_LINE).sendKeys(renameText);
