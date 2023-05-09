@@ -28,21 +28,21 @@ public class JenkinsVersionTest extends BaseTest {
 
     @Test
     public void testVersionOnBuildHistoryPage () {
-        getDriver().findElement(By.xpath("//*[@id = 'tasks']/div[3]//a"));
+        getDriver().findElement(By.xpath("//*[@id = 'tasks']/div[3]//a")).click();
 
         assertVersion();
     }
 
     @Test
     public void testVersionOnManageJenkinsPage () {
-        getDriver().findElement(By.xpath("//*[@id = 'tasks']/div[4]//a"));
+        getDriver().findElement(By.xpath("//*[@id = 'tasks']/div[4]//a")).click();
 
         assertVersion();
     }
 
     @Test
     public void testVersionOnMyViewPage () {
-        getDriver().findElement(By.xpath("//*[@id = 'tasks']/div[5]//a"));
+        getDriver().findElement(By.xpath("//*[@id = 'tasks']/div[5]//a")).click();
 
         assertVersion();
     }
