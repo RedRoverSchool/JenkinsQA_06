@@ -10,7 +10,7 @@ import school.redrover.runner.BaseTest;
 
 public class DeleteFreestyleProjectTest extends BaseTest {
 
-    private final String PROJECT_NAME = "Project 1";
+    private final String PROJECT_NAME = "Project 2";
 
     private void createFreestyleProject() {
 
