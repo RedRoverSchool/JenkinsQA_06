@@ -6,8 +6,10 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class CreateMultiConfigurationProjectADTest extends BaseTest {
+
     @Test
-    public void testCreateMultiConfigurationProjectADTest() {
+    public void testCreateMultiConfigurationProject() {
+
         String expectedResult = "Engineer3";
 
         getDriver().findElement(By.cssSelector("[href$='/newJob']")).click();
@@ -20,7 +22,5 @@ public class CreateMultiConfigurationProjectADTest extends BaseTest {
         String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer3/']")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-
     }
 }
