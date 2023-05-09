@@ -159,4 +159,20 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector(".console-output")).getText().contains("Finished: SUCCESS"));
     }
+
+    @Test
+    public void testCreatingBasicPipelineProjectThroughJenkinsUI() {
+
+        getDriver().findElement(By.xpath("//a[normalize-space()='New Item']")).click();
+
+        getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
+        getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+
+        getDriver().findElement(By.xpath("//button[@data-section-id='pipeline']")).click();
+        WebElement optionInDefinitionField = getDriver()
+                .findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]"));
+
+        Assert.assertEquals(optionInDefinitionField.getText(), "Pipeline script");
+    }
 }
