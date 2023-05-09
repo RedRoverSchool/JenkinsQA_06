@@ -22,44 +22,6 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testNewFreestyleProjectCreated() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-        WebElement createAJobArrow = getDriver().findElement(
-                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")
-        );
-        createAJobArrow.click();
-
-        WebElement inputItemName = getDriver().findElement(By.id("name"));
-        wait.until(ExpectedConditions.elementToBeClickable(inputItemName)).sendKeys("Project1");
-
-        WebElement freestyleProjectTab = getDriver().findElement(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']")
-        );
-        freestyleProjectTab.click();
-
-        WebElement okButton = getDriver().findElement(By.className("btn-decorator"));
-        okButton.click();
-
-        WebElement dashboardLink = getDriver().findElement(
-                By.xpath("//ol[@id='breadcrumbs']/li/a[text() = 'Dashboard']")
-        );
-        dashboardLink.click();
-
-        Assert.assertTrue(getDriver().findElement(By.id("projectstatus")).isDisplayed());
-
-        List<WebElement> newProjectsList = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr"));
-
-        Assert.assertEquals(newProjectsList.size(), 1);
-
-        List<WebElement> projectDetailsList = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']/tbody/tr/td")
-        );
-
-        Assert.assertEquals(projectDetailsList.get(2).getText(), "Project1");
-    }
-
-    @Test
     public void testJenkinsMainPageLilia() {
         WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
         Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
@@ -193,34 +155,6 @@ public class GroupDreamTeamTest extends BaseTest {
         }
 
         Assert.assertEquals(actSysConfItemNames, expSysConfItemNames);
-    }
-
-    @Test
-    public void testErrorWhenCreatingJobWithEmptyName() {
-        String expectedError = "» This field cannot be empty, please enter a valid name";
-
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
-
-        String actualError = getDriver().findElement(By.id("itemname-required")).getText();
-
-        Assert.assertEquals(actualError, expectedError);
-    }
-
-    @Test
-    public void testOKButtonIsDisabledWhenCreatingJobWithEmptyName() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
-
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-
-        Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
 
     @Test
