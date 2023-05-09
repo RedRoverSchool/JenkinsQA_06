@@ -4,16 +4,24 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
+
 
 import java.time.Duration;
 
 import static org.testng.Assert.assertEquals;
 
-public class ElenaTest {
+public class ElenaTest{
+    {
+    ChromeOptions chromeOptions = new ChromeOptions();
+    chromeOptions.addArguments("--remote-allow-origins=*", "--headless", "--window-size=1920, 1080");
 
+}
     @Test
     public void eightComponents() {
+
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
 
@@ -31,7 +39,6 @@ public class ElenaTest {
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
         assertEquals("Received!", value);
-
         driver.quit();
     }
 
