@@ -10,7 +10,7 @@ import school.redrover.runner.BaseTest;
 
 public class FooterTest extends BaseTest {
 
-    private static final By JENKINS_VERSION_BTN = By.xpath("//a[@rel='noopener noreferrer']");
+    private static final By JENKINS_VERSION_BTN = By.xpath("//div[@class='page-footer__flex-row']//a[@rel='noopener noreferrer']");
     private static final By MANAGE_JENKINS_BTN = By.xpath("//span[contains(text(),'Manage Jenkins')]/..");
     private static final String JENKINS_VERSION = "Jenkins 2.387.2";
     private static final By REST_API_BTN = By.xpath("//a[contains(text(),'REST API')]");
