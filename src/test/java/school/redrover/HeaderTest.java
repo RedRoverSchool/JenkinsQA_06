@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -154,5 +155,15 @@ public class HeaderTest extends BaseTest {
 
         WebElement mainPageText = getDriver().findElement(By.xpath("//h1[contains(text(),'Welcome to Jenkins!')]"));
         Assert.assertEquals(mainPageText.getText(),"Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testSearchField() {
+        WebElement searchBox = getDriver().findElement(By.id("search-box"));
+        searchBox.sendKeys("");
+        searchBox.sendKeys(Keys.RETURN);
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
+                (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
     }
 }
