@@ -55,15 +55,15 @@ public class FooterTest extends BaseTest {
         getDriver().findElement(MANAGE_JENKINS_BTN).click();
 
         Actions actions = new Actions(getDriver());
-        actions.scrollToElement(getDriver().findElement(JENKINS_VERSION_BTN));
+        actions.scrollToElement(getDriver().findElement(JENKINS_VERSION_BTN)).perform();
 
         Assert.assertEquals(getDriver().findElement(JENKINS_VERSION_BTN).getText(), JENKINS_VERSION, "Wrong version Jenkins");
     }
 
     @Test
-    public void testVerifyRESTAPILink(){
+    public void testVerifyRESTAPILink() {
         Actions actions = new Actions(getDriver());
-        actions.scrollToElement(getDriver().findElement(REST_API_BTN));
+        actions.scrollToElement(getDriver().findElement(REST_API_BTN)).perform();
 
         getDriver().findElement(REST_API_BTN).click();
         Assert.assertEquals(getDriver().getTitle(),TITLE, "Wrong page or page title");
