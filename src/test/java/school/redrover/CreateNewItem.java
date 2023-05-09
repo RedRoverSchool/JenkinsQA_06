@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class MarishaSkyTest extends BaseTest{
+public class CreateNewItem extends BaseTest{
 
         @Test
         public void testCreateItem() {
