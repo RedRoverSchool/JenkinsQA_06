@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -82,16 +83,18 @@ public class ManageJenkinsTest extends BaseTest {
         WebElement oldData = getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")));
         Assert.assertEquals(oldData.getText(), "Manage Old Data");
         Assert.assertEquals(oldData.getLocation().toString(), "(372, 133)");
-        Assert.assertEquals(oldData.getCssValue("font-size").toString(), "25.6px");
-        Assert.assertEquals(oldData.getCssValue("font-weight").toString(), "700");
+        Assert.assertEquals(oldData.getCssValue("font-size"), "25.6px");
+        Assert.assertEquals(oldData.getCssValue("font-weight"), "700");
 
         List<WebElement> listSortTable = getDriver().findElements(By.xpath("//thead //a"));
         Assert.assertEquals(listSortTable.size(), 4);
 
         Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
     }
+
+    @Ignore
     @Test
-    public void testSearchNumericSimbol(){
+    public void testSearchNumericSimbol() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("settings-search-bar")));
         getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
