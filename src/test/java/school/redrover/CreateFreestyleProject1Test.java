@@ -13,7 +13,8 @@ public class CreateFreestyleProject1Test extends BaseTest {
     private static final String FREESTYLE_PROJECT_NAME = "Freestyle project";
     private static final By ENTER_AN_ITEM_NAME_BAR_XPATH = By.xpath("//input[@name='name']");
     private static final By SAVE_BUTTON_XPATH = By.xpath("//button[@name='Submit']");
-    private static final By JENKINS_HOME_LINK_XPATH = By.xpath("//a[@id='jenkins-home-link']");
+    private static final By JENKINS_HOME_LINK_XPATH = By.
+            xpath("//div[@id='breadcrumbBar']/ol/li/a");
     private static final By FREE_STYLE_PROJECT_XPATH = By
             .xpath("//span[contains(text(), 'Freestyle project')]");
     private static final By OK_BUTTON_XPATH = By.xpath("//button[@id='ok-button']");
@@ -39,8 +40,6 @@ public class CreateFreestyleProject1Test extends BaseTest {
 
         WebElement jenkinsHomeLink = getDriver().findElement(JENKINS_HOME_LINK_XPATH);
         jenkinsHomeLink.click();
-
-
 
         WebElement newProjectOnTheDashboard = getWait5()
                 .until(ExpectedConditions

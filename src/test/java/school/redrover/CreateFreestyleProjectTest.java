@@ -9,7 +9,6 @@ import school.redrover.runner.BaseTest;
 import java.util.concurrent.TimeUnit;
 
 public class CreateFreestyleProjectTest extends BaseTest {
-    @Ignore
     @Test
     public void testCreateFreestyleProject() {
         String expectedProjectName = "Project Test";
