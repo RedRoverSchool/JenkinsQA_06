@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -15,6 +16,8 @@ import java.time.Duration;
 public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = "pipeline1";
+
+    private static final String ITEM_NAME = RandomStringUtils.randomAlphanumeric(10);
 
     private final By newItem = By.linkText("New Item");
     private final By name = By.id("name");
@@ -158,5 +161,19 @@ public class PipelineTest extends BaseTest {
         getWait(2).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel")));
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector(".console-output")).getText().contains("Finished: SUCCESS"));
+    }
+
+    @Test
+    public void testCreatePipelineProject() {
+        getDriver().findElement(newItem).click();
+
+        WebElement fieldEnterName = getWait5().until(ExpectedConditions.presenceOfElementLocated(name));
+        fieldEnterName.sendKeys(ITEM_NAME);
+        getDriver().findElement(pipelineItem).click();
+        getDriver().findElement(okButton).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+
+        Assert.assertEquals(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")))
+                .getText().substring(9), ITEM_NAME);
     }
 }
