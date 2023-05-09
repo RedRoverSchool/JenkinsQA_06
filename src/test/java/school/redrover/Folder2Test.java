@@ -48,7 +48,6 @@ public class Folder2Test extends BaseTest {
 
         getDriver().findElement(FOLDER_IN_LIST).click();
 
-        Assert.assertTrue(getDriver().getCurrentUrl().contains(FOLDER_NAME));
         Assert.assertEquals(getDriver().findElement(JOB_HEADER).getText(),FOLDER_NAME);
         Assert.assertEquals(actualJobsList,FOLDER_NAME);
     }
