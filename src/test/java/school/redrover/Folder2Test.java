@@ -25,7 +25,7 @@ public class Folder2Test extends BaseTest {
 
     public void createAFolder(String name, String description) {
         getDriver().findElement(NEW_ITEM).click();
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(NAME_FIELD));
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(NAME_FIELD));
         getDriver().findElement(NAME_FIELD).sendKeys(name);
         getDriver().findElement(FOLDER_TYPE).click();
         getDriver().findElement(OK_BUTTON).click();
