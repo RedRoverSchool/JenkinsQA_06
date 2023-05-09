@@ -89,4 +89,16 @@ public class ManageJenkinsTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div")).getText(), DESCRIPTION);
     }
+    @Test
+    public void testSearchNumericSimbol(){
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("settings-search-bar")));
+        getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@class='jenkins-search__results']")));
+        String noResults = getDriver().findElement(
+                By.xpath("//p[@class='jenkins-search__results__no-results-label']")).getText();
+
+        Assert.assertEquals(noResults, "No results");
+    }
 }
