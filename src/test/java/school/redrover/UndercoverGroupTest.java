@@ -97,4 +97,11 @@ public class UndercoverGroupTest extends BaseTest {
         WebElement message = getDriver().findElement(By.id("itemname-required"));
         Assert.assertTrue(message.isDisplayed());
     }
+    @Test
+    public void testConfigureCloud() {
+        getDriver().findElement(By.xpath("//a[@href = 'configureClouds']")).click();
+
+        WebElement configureCloud = getDriver().findElement(By.xpath("//div[@class = 'jenkins-app-bar__content']//h1[text() = 'Configure Clouds']"));
+        Assert.assertTrue(configureCloud.isDisplayed());
+    }
 }
