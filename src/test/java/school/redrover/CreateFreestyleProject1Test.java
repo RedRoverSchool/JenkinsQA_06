@@ -40,7 +40,7 @@ public class CreateFreestyleProject1Test extends BaseTest {
         WebElement jenkinsHomeLink = getDriver().findElement(JENKINS_HOME_LINK_XPATH);
         jenkinsHomeLink.click();
 
-        WebElement newProjectOnTheDashboard = getWait5()
+        WebElement newProjectOnTheDashboard = getWait10()
                 .until(ExpectedConditions
                         .presenceOfElementLocated(By.xpath("//tbody//a/span")));
 
