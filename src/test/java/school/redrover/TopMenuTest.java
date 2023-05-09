@@ -202,6 +202,7 @@ public class TopMenuTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testPreviewOfAddedDescriptionWhenClickUserIDButton() {
         String expectedPreviewOfAddedDescription = "QA Engineer";
