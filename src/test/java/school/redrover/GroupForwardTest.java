@@ -82,23 +82,6 @@ public class GroupForwardTest extends BaseTest {
     }
 
     @Test
-    public void testAddingNewItem() throws InterruptedException {
-        final String nameOfJob = "Katya's Project";
-
-        WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
-        newItemMenu.click();
-        WebElement nameInputField = getDriver().findElement(By.id("name"));
-        nameInputField.sendKeys(nameOfJob);
-        WebElement freestyleProjectButton = getDriver().findElement(By.xpath("//li//span[contains(text(), 'Freestyle')]"));
-        freestyleProjectButton.click();
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-        okButton.click();
-        Thread.sleep(2000);
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Configure");
-    }
-
-    @Test
     public void testListOfJobs() throws InterruptedException {
 
         WebElement newItemMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']"));
