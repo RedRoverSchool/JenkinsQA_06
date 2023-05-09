@@ -39,6 +39,5 @@ public class CreatePipelineProject5Test extends BaseTest{
 
             Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'main-panel']//h1['Pipeline Project2']")).getText(),
                     "Pipeline Project2");
-
         }
 }
