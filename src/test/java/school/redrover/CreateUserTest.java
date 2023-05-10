@@ -88,7 +88,7 @@ public class CreateUserTest extends BaseTest {
         Assert.assertEquals(actualResultUserId, expectedResultUserId);
         Assert.assertEquals(actualResultName, expectedResultName);
     }
-@Ignore
+
     @Test
     public void testCreateUser_People() {
 
