@@ -16,9 +16,10 @@ public class BreadcrumbTest extends BaseTest {
         action.moveToElement(getDriver().findElement(
                 By.xpath("//*[@id='breadcrumbs']/li/a[@href='/']"))).perform();
 
-        WebElement pointer = getDriver().
-                findElement(By.xpath("//a[@href='/']/*[@class='jenkins-menu-dropdown-chevron']"));
-        getWait10().until(ExpectedConditions.elementToBeClickable(pointer));
+        By pointerLocator =
+                By.xpath("//*[@id='breadcrumbs']/li/a/button[@class='jenkins-menu-dropdown-chevron']");
+        getWait10().until(ExpectedConditions.elementToBeClickable(pointerLocator));
+        WebElement pointer = getDriver().findElement(pointerLocator);
         pointer.click();
 
         By sectionNameLocator = By.xpath("//*[@id='yui-gen4']/a/span");
