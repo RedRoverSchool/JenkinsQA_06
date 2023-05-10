@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,7 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NewItemUS0001Test extends BaseTest {
+public class NewItemTest extends BaseTest {
+    private static final By NEW_ITEM_BUTTON = By.linkText("New Item");
+    private static final By OK_BUTTON = By.cssSelector("#ok-button");
+    private static final By SAVE_BUTTON = By.name("Submit");
+    private static final String RANDOM_NAME_PROJECT = RandomStringUtils.randomAlphanumeric(5);
 
     @Test
     public void testNewItemHeader() {
@@ -96,7 +101,7 @@ public class NewItemUS0001Test extends BaseTest {
     }
 
     @Test
-    public void createPipelineProjectTest(){
+    public void testCreatePipelineProject(){
         String expectedResult = "New pipeline project";
         String typeOfProject = "Pipeline";
         createProject(expectedResult, typeOfProject);
@@ -115,7 +120,7 @@ public class NewItemUS0001Test extends BaseTest {
     }
 
     @Test
-    public void createPipelineProjectWithInvalidNameTest(){
+    public void testCreatePipelineProjectWithInvalidName(){
         String[] invalidChars = new String[] {"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "/", "|", "?", "<", ">"};
         String typeOfProject = "Pipeline";
         for (String invalidChar : invalidChars) {
@@ -128,7 +133,7 @@ public class NewItemUS0001Test extends BaseTest {
     }
 
     @Test
-    public void createPipelineProjectSameNamedTest(){
+    public void testCreatePipelineProjectSameNamed(){
         String expectedResult = "New Pipeline project";
         String typeOfProject = "Pipeline";
         createProject(expectedResult, typeOfProject);
@@ -142,4 +147,17 @@ public class NewItemUS0001Test extends BaseTest {
 
         Assert.assertEquals(validationMessage, String.format("» A job already exists with the name ‘%s’", expectedResult));
     }
+
+    @Test
+    public void testCreateMultibranchPipeline(){
+        getDriver().findElement(NEW_ITEM_BUTTON).click();
+        getDriver().findElement(By.id("name")).sendKeys(RANDOM_NAME_PROJECT);
+        WebElement multibranchButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("li.org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")));
+        multibranchButton.click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#main-panel h1")).getText(),RANDOM_NAME_PROJECT);
+    }
+
 }

@@ -8,14 +8,25 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-
 public class MultiConfigurationTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_NAME = RandomStringUtils.randomAlphanumeric(5);
+    private static final String MULTI_CONFIGURATION_NEW_NAME = RandomStringUtils.randomAlphabetic(5);
     private static final String DESCRIPTION = "Description";
     private static final String DESCRIPTION_RANDOM = RandomStringUtils.randomAlphanumeric(5);
     private static final By OK_BUTTON = By.cssSelector("#ok-button");
     private static final By SAVE_BUTTON = By.name("Submit");
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
+    private static final By NEW_ITEM_LINK = By.linkText("New Item");
+    private static final By ITEM_NAME_FIELD = By.id("name");
+    private static final By NEW_NAME_FIELD = By.xpath("//a[contains(@class,'jenkins-table__link model-link inside')]");
+    private static final By RENAME_BUTTON_SIDE_MENU = By.xpath("//a[@href = '/job/" + MULTI_CONFIGURATION_NAME + "/confirm-rename']");
+    private static final By PROJECT_NEW_NAME = By.xpath("//div[@id='main-panel']//h1");
+    private static final By RENAME_BUTTON = By.xpath("//button[@name='Submit']");
+
+    private String getProjectNewName() {
+        getWait5();
+        return getDriver().findElement(PROJECT_NEW_NAME).getText();
+    }
 
     private void createMultiConfigurationProject() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -25,6 +36,60 @@ public class MultiConfigurationTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
+    }
+
+    private void clickNewItemLink() {
+        getDriver().findElement(NEW_ITEM_LINK).click();
+    }
+
+    private void inputItemName() {
+        getDriver().findElement(ITEM_NAME_FIELD).sendKeys(MULTI_CONFIGURATION_NAME);
+    }
+
+    private void clickMultiConfigurationProjectTab() {
+        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+    }
+
+    private void clickOkButton() {
+        getDriver().findElement(OK_BUTTON).click();
+    }
+
+    private void clickSaveButton() {
+        getDriver().findElement(SAVE_BUTTON).click();
+    }
+
+    private void clickDashboardButton() {
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+    }
+
+    private void clickProjectLink() {
+        getDriver().findElement(NEW_NAME_FIELD).click();
+    }
+
+    private void clickRenameButton() {
+        getDriver().findElement(RENAME_BUTTON_SIDE_MENU).click();
+    }
+
+    private void inputNewName() {
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).clear();
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).sendKeys(MULTI_CONFIGURATION_NEW_NAME);
+    }
+
+    private void clickSubmitButton() {
+        getDriver().findElement(RENAME_BUTTON).click();
+    }
+
+    private void getProjectName() {
+        getDriver().findElement(PROJECT_NEW_NAME).getText();
+    }
+
+    private void createMultiConfigProjectWithReturnToHomePage() {
+        clickNewItemLink();
+        inputItemName();
+        clickMultiConfigurationProjectTab();
+        clickOkButton();
+        clickSaveButton();
+        clickDashboardButton();
     }
 
     @Test
@@ -65,7 +130,7 @@ public class MultiConfigurationTest extends BaseTest {
 
     @Test
     public void testRenameMultiConfigurationProject() {
-        this.createMultiConfigurationProject();
+        createMultiConfigurationProject();
 
         WebElement renameButton = getDriver().findElement(By.xpath("//body/div[@id='page-body']/div[@id='side-panel']/div[@id='tasks']/div[7]/span[1]/a[1]"));
         renameButton.click();
@@ -75,6 +140,31 @@ public class MultiConfigurationTest extends BaseTest {
         WebElement renameName = getDriver().findElement(By.cssSelector("h1.matrix-project-headline.page-headline"));
 
         Assert.assertEquals(renameName.getText(), "Project " + MULTI_CONFIGURATION_NAME + MULTI_CONFIGURATION_NAME);
+    }
+
+    @Test
+    public void testRenameMultiConfigurationProjectFromDashboard() {
+        createMultiConfigProjectWithReturnToHomePage();
+
+        clickProjectLink();
+        clickRenameButton();
+        inputNewName();
+        clickSubmitButton();
+
+        Assert.assertEquals(getProjectNewName(), ("Project " + MULTI_CONFIGURATION_NEW_NAME));
+    }
+
+    @Test
+    public void testDisabledMultiConfigurationProject(){
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(MULTI_CONFIGURATION_NAME);
+        WebElement projectButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
+        projectButton.click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.cssSelector("label.jenkins-toggle-switch__label ")).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("form#enable-project")).getText().trim().substring(0,34),"This project is currently disabled");
     }
 
 }

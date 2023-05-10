@@ -8,9 +8,14 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class NewViewTest extends BaseTest {
     private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
+    private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
+    private static final String RANDOM_LIST_VIEW_NAME = RandomStringUtils.randomAlphanumeric(10);
 
     private void createNewProjectFromMyViewsPage() {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
@@ -20,6 +25,15 @@ public class NewViewTest extends BaseTest {
         getDriver().findElement(By.cssSelector("#ok-button")).click();
         getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
         getDriver().findElement(By.linkText("Dashboard")).click();
+    }
+
+    private List<String> getListFromWebElements(List<WebElement> elements) {
+        List<String> list = new ArrayList<>();
+        for (WebElement element : elements) {
+            list.add(element.getText());
+        }
+
+        return list;
     }
 
     @Test
@@ -69,4 +83,21 @@ public class NewViewTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.linkText("MySecondView")).getText(), "MySecondView");
     }
+    @Test
+    public void testDeleteView() {
+        this.createNewProjectFromMyViewsPage();
+        getDriver().findElement(By.className("addTab")).click();
+        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
+        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
+        getDriver().findElement(By.id("ok")).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
+        getDriver().findElement(CREATED_LIST_VIEW).click();
+        getDriver().findElement(By.linkText("Delete View")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        List<String> listViews = getListFromWebElements(getDriver().findElements(
+                By.xpath("//div[@class='tabBar']/div")));
+
+        Assert.assertFalse(listViews.contains(RANDOM_LIST_VIEW_NAME));
+    }
+
 }

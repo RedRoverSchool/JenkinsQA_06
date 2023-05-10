@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -42,5 +43,18 @@ public class CreatePipelineProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='job_New Project']/td[3]/a/span"))
                 .getText(), "New Project");
+    }
+
+    @Test
+    public void testCreatePipelineViaCreateAJobLink() {
+        getDriver().findElement(By.xpath("//span[text() = 'Create a job']")).click();
+        getDriver().findElement(By.id("name")).sendKeys("UserProject");
+        getDriver().findElement(By.xpath("//li[contains(@class, 'WorkflowJob')]")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
+        getDriver().findElement(By.name("Submit")).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.tagName("h1")));
+
+        Assert.assertEquals(getDriver().getTitle(), "UserProject [Jenkins]");
     }
 }
