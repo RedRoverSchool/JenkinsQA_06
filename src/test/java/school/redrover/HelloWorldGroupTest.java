@@ -156,6 +156,7 @@ public class HelloWorldGroupTest extends BaseTest{
         Assert.assertEquals(deleteCheck.getText(),"Start building your software project");
     }
 
+    @Ignore
     @Test
     public void testOkButtonIsDisabled(){
 

@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class FreestyleProjectTest extends BaseTest {
@@ -152,5 +153,96 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
                 "Project " + "Project1");
+    }
+
+    @Test
+    public void testNewFreestyleProjectCreated() {
+        final String PROJECT_NAME = "Project1";
+
+        WebElement createAJobArrow = getDriver().findElement(
+                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")
+        );
+        createAJobArrow.click();
+
+        WebElement inputItemName = getDriver().findElement(By.id("name"));
+        getWait2().until(ExpectedConditions.elementToBeClickable(inputItemName))
+                .sendKeys(PROJECT_NAME);
+
+        WebElement freestyleProjectTab = getDriver().findElement(
+                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']")
+        );
+        freestyleProjectTab.click();
+
+        WebElement okButton = getDriver().findElement(By.className("btn-decorator"));
+        okButton.click();
+
+        WebElement dashboardLink = getDriver().findElement(
+                By.xpath("//ol[@id='breadcrumbs']/li/a[text() = 'Dashboard']")
+        );
+        dashboardLink.click();
+
+        Assert.assertTrue(getDriver().findElement(By.id("projectstatus")).isDisplayed());
+
+        List<WebElement> newProjectsList = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr"));
+
+        Assert.assertEquals(newProjectsList.size(), 1);
+
+        List<WebElement> projectDetailsList = getDriver().findElements(
+                By.xpath("//table[@id='projectstatus']/tbody/tr/td")
+        );
+
+        Assert.assertEquals(projectDetailsList.get(2).getText(), PROJECT_NAME);
+    }
+
+    @Test
+    public void testErrorWhenCreatingFreeStyleProjectWithEmptyName() {
+        final String EXPECTED_ERROR = "» This field cannot be empty, please enter a valid name";
+
+        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
+
+        String actualError = getDriver().findElement(By.id("itemname-required")).getText();
+
+        Assert.assertEquals(actualError, EXPECTED_ERROR);
+    }
+
+    @Test
+    public void testOKButtonIsDisabledWhenCreatingFreestyleProjectWithEmptyName() {
+        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
+
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+
+        Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
+    }
+
+    @Test
+    public void testRenameProjectFromTheProjectPage() {
+        WebElement linkNewItem  = getDriver().findElement(By.xpath("//div/span/a[@href='/view/all/newJob']"));
+            linkNewItem.click();
+        WebElement fieldInput  = getDriver().findElement(By.xpath("//input[@class='jenkins-input']"));
+            fieldInput.click();
+            fieldInput.sendKeys(FREESTYLE_NAME);
+        WebElement labelFreestyleProject = getDriver().findElement(By.xpath("//ul/li[@class='hudson_model_FreeStyleProject']"));
+            labelFreestyleProject.click();
+        WebElement btnOk = getDriver().findElement(By.xpath("//button[@class and @id]"));
+            btnOk.click();
+        WebElement btnSave = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']"));
+            btnSave.click();
+
+        WebElement linkRename = getDriver().findElement(By.xpath("//div/span/a[contains(@href,'confirm-rename')]"));
+            linkRename.click();
+        WebElement inputNewName = getDriver().findElement(By.xpath("//div/input[@checkdependson='newName']"));
+            inputNewName.click();
+            inputNewName.clear();
+            inputNewName.sendKeys(NEW_FREESTYLE_NAME);
+        WebElement btnRename= getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']"));
+            btnRename.click();
+
+        String  actualNewName = getDriver().findElement(By.xpath("//h1")).getText();
+
+        Assert.assertEquals(actualNewName,"Project ".concat(NEW_FREESTYLE_NAME));
     }
 }
