@@ -119,9 +119,7 @@ public class MultiConfigurTest extends BaseTest {
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
         WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
-
         Assert.assertTrue(iconDisabled.isDisplayed());
-
     }
 
 }
