@@ -160,4 +160,21 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div#main-panel h1")).getText(),RANDOM_NAME_PROJECT);
     }
 
+    @Test
+    public void testCreatePipelineGoingFromManageJenkinsPage() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        getDriver().findElement(By.linkText("New Item")).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='name']"))).sendKeys(RANDOM_NAME_PROJECT);
+        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.xpath("//ol//a[@href='/']")).click();
+
+        List<String> jobList = getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+
+        Assert.assertTrue(jobList.contains(RANDOM_NAME_PROJECT));
+    }
 }
