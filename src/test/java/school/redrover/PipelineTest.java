@@ -32,6 +32,8 @@ public class PipelineTest extends BaseTest {
     private final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
     private final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
 
+    private final By dashboard = By.id("jenkins-home-link");
+
     private WebDriverWait getWait(int seconds) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
     }
@@ -206,7 +208,32 @@ public class PipelineTest extends BaseTest {
                 getDriver().findElement(By.xpath("(//div[@id='description']/div)[1]"));
 
         Assert.assertEquals(projectDescription.getText(), pipelineDescription);
+    }
 
+    @Test
+    public void testDeletePipelineProject() {
+        getDriver().findElement(newItem).click();
 
+        WebElement fieldEnterName = getWait5().until(ExpectedConditions.presenceOfElementLocated(name));
+        fieldEnterName.sendKeys(ITEM_NAME);
+        getDriver().findElement(pipelineItem).click();
+        getDriver().findElement(okButton).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[data-url='/job/" + ITEM_NAME + "/doDelete']"))).click();
+        getDriver().switchTo().alert().dismiss();
+        getDriver().findElement(dashboard).click();
+
+        WebElement pipelineName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + ITEM_NAME + "/")));
+        int xOfpipelineName = pipelineName.getSize().getWidth();
+        new Actions(getDriver())
+                .moveToElement(pipelineName, xOfpipelineName / 2 - 2, 0)
+                .click()
+                .perform();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
+        getDriver().switchTo().alert().accept();
+        getDriver().findElement(dashboard).click();
+
+        Assert.assertFalse(getDriver().findElements(By.id("job_")).size() > 0);
     }
 }
