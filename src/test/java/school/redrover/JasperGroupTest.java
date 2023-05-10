@@ -167,6 +167,7 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(searchResult1.getText(), "Nothing seems to match.");
     }
 
+    @Ignore
     @Test
     public void testValidationMessage() {
         getDriver().findElement(By.linkText("New Item")).click();

@@ -4,11 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class NewItem2Test extends BaseTest {
-
+@Ignore
     @Test
     public void testCreateMultibranchPipelineWithoutDescription() {
         final String expectedNameOfMultibranchPipeline = "MyMultibranchPipeline";

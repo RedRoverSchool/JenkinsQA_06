@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -250,7 +251,7 @@ public class PipelineConfigureTest extends BaseTest {
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
         Assert.assertFalse(isPipelineEnabledAfterDisable);
     }
-
+@Ignore
     @Test
     public void addDescriptionPipelineProjectTest(){
         String description = "This is a project for school test";

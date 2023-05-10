@@ -2,12 +2,9 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
-import java.time.Duration;
 
 public class CreatePipelineProject3Test extends BaseTest {
     public static String name = "My New Pipeline Project";
@@ -35,7 +32,6 @@ public class CreatePipelineProject3Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(
                         By.xpath("//h1[normalize-space()='Pipeline " + name + "']"))
                 .getText(), "Pipeline " + name);
-
     }
 
     @Test
