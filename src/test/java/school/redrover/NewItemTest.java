@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -117,6 +118,23 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertEquals(nameOfCreateProjects.get(0), expectedResult);
         Assert.assertEquals(nameOfCreateProjects.size(), 1);
+    }
+
+    @DataProvider(name = "wrong-character")
+    public Object[][] provideWrongCharacters() {
+        return new Object[][]
+                {{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}};
+    }
+
+    @Test(dataProvider = "wrong-character")
+    public void testCreatePipelineProjectWithInvalidName2(String wrongCharacter){
+        createProject(wrongCharacter, "Pipeline");
+
+        String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
+        Assert.assertEquals(validationMessage, "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
+
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
     }
 
     @Test
