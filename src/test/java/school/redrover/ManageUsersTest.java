@@ -60,10 +60,14 @@ public class ManageUsersTest extends BaseTest {
 
         WebElement user = getDriver().findElement(By.xpath("//a[@href='user/mr_churchill/']"));
         new Actions(getDriver()).moveToElement(user).perform();
+        WebElement chevron = getDriver().findElement(By
+                .xpath("//a[@href='user/mr_churchill/']/button[@class='jenkins-menu-dropdown-chevron']"));
 
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("// a[@href='user/mr_churchill/'] /button[@class = 'jenkins-menu-dropdown-chevron']")))
-                .click();
+        new Actions(getDriver()).moveToElement(chevron).click().build().perform();
+
+       /* getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//a[@href='user/mr_churchill/']/button[@class='jenkins-menu-dropdown-chevron']")))
+                .click(); */
 
         getWait2().until(ExpectedConditions.elementToBeClickable(By
                 .xpath("//a[@href='/user/mr_churchill/configure']"))).click();
