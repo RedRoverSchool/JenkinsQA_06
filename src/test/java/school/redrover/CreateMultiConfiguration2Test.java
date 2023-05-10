@@ -28,17 +28,3 @@ public class CreateMultiConfiguration2Test extends BaseTest {
                 .getText(), "Project Item");
     }
 }
-
-
-    
-
-    
-
-
-
-
-
-
-
-
-
