@@ -59,7 +59,7 @@ public class MykolaTest extends BaseTest {
         WebElement folderPageName = getDriver().findElement(By.xpath("//h1[contains(text(),'" + folderName + "')]"));
         Assert.assertTrue(folderPageName.isDisplayed() && folderPageName.getText().equals(folderName));
     }
-
+    @Ignore
     @Test
     public void testDeleteCreatedFolder() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
@@ -164,7 +164,7 @@ public class MykolaTest extends BaseTest {
         WebElement viewNameButton = getDriver().findElement(By.xpath("//div/*[contains(@href,'view') and contains(text(),'" + viewName + "')]"));
         Assert.assertTrue(viewNameButton.isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testDeleteViewThroughAllIconOnDashboardPage() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");

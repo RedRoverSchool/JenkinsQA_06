@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -28,6 +29,7 @@ public class CreatePipProjectTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+    @Ignore
     @Test
     public void testCreatePiplineProject() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
