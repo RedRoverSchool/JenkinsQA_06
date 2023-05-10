@@ -49,6 +49,7 @@ public class CreatePipelineProject3Test extends BaseTest {
 
             getWait2();
             getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
+            getWait2();
             WebElement message = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
 
             Assert.assertEquals(message.getText(), "»" + " ‘" + name + "’ " + "is an unsafe character");
