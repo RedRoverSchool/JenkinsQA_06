@@ -69,7 +69,7 @@ public class ManageUsersTest extends BaseTest {
                 .xpath("//a[@href='user/mr_churchill/']/button[@class='jenkins-menu-dropdown-chevron']")))
                 .click(); */
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By
+        getWait5().until(ExpectedConditions.elementToBeClickable(By
                 .xpath("//a[@href='/user/mr_churchill/configure']"))).click();
 
         WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name='_.fullName']"));
