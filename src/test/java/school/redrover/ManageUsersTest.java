@@ -3,10 +3,15 @@ package school.redrover;
 import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.locators.RelativeLocator;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,9 +34,6 @@ public class ManageUsersTest extends BaseTest {
 
     public static final String username = "Mr_Churchill";
     public static final String password = "Churchill2023";
-
-
-
     @Test
     public void testDeleteUserFromUserList() {
         createUser();
@@ -54,6 +56,28 @@ public class ManageUsersTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By
                 .xpath("//div[@class ='alert alert-danger']")).getText(),
                 "Invalid username or password");
+    }
+    @Test
+    public void testMakeChangesToUserProfile() {
+        createUser();
+        getDriver().findElement(MANAGE_JENKINS).click();
+        getDriver().findElement(MANAGE_USERS).click();
+
+        WebElement user = getDriver().findElement(By.xpath("//a[@href='user/mr_churchill/']"));
+        new Actions(getDriver()).moveToElement(user).perform();
+
+        getDriver().findElement(RelativeLocator.with(By.tagName("button")).toRightOf(user)).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By
+                .xpath("//a[@href='/user/mr_churchill/configure']"))).click();
+
+        WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name='_.fullName']"));
+        fullNameField.clear();
+        fullNameField.sendKeys("Chepchik");
+        getDriver().findElement(SUBMIT_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By
+                .xpath("//h1")).getText(), "Chepchik");
     }
     public void createUser() {
         getDriver().findElement(MANAGE_JENKINS).click();
