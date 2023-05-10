@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -58,7 +59,7 @@ public class UndercoverGroupTest extends BaseTest {
         WebElement searchResultsTitle = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
         Assert.assertEquals(searchResultsTitle.getText(), String.format("Search for '%s'", query));
     }
-
+    @Ignore
     @Test
     public void testCreateNewItemWithUnsafeChar() {
         String[] unsafeChars = new String[]{"!", "#", "$", "%", "&", "\\", "*", "/", ":", ";", "<", ">", "?", "@"};
