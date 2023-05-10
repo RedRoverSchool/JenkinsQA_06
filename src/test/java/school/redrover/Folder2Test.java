@@ -1,10 +1,14 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Folder2Test extends BaseTest {
 
@@ -21,7 +25,7 @@ public class Folder2Test extends BaseTest {
 
     public void createAFolder(String name, String description) {
         getDriver().findElement(NEW_ITEM).click();
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(NAME_FIELD));
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(NAME_FIELD));
         getDriver().findElement(NAME_FIELD).sendKeys(name);
         getDriver().findElement(FOLDER_TYPE).click();
         getDriver().findElement(OK_BUTTON).click();
@@ -33,7 +37,7 @@ public class Folder2Test extends BaseTest {
 
     @Test
     public void testFolderCreation() {
-        final String FOLDER_NAME = "My_folder";
+        final String FOLDER_NAME = "My folder";
         final String DESCRIPTION = "";
 
         createAFolder(FOLDER_NAME,DESCRIPTION);
@@ -44,8 +48,31 @@ public class Folder2Test extends BaseTest {
 
         getDriver().findElement(FOLDER_IN_LIST).click();
 
-        Assert.assertTrue(getDriver().getCurrentUrl().contains(FOLDER_NAME));
         Assert.assertEquals(getDriver().findElement(JOB_HEADER).getText(),FOLDER_NAME);
         Assert.assertEquals(actualJobsList,FOLDER_NAME);
+    }
+
+    @Test
+    public void testTwoFoldersCreation() {
+        final String FOLDER1_NAME = "My main folder";
+        final String FOLDER2_NAME = "My folder";
+        final String DESCRIPTION = "";
+        List<String> expectedFoldersList = Arrays.asList(FOLDER1_NAME, FOLDER2_NAME);
+
+        createAFolder(FOLDER1_NAME,DESCRIPTION);
+        getDriver().findElement(DASHBOARD_LINK).click();
+
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(NEW_ITEM));
+
+        createAFolder(FOLDER2_NAME,DESCRIPTION);
+        getDriver().findElement(DASHBOARD_LINK).click();
+
+        List <WebElement> actualFoldersList = getDriver().findElements(By.xpath(
+                "//td/a[@class='jenkins-table__link model-link inside']/span"));
+
+        for (int i = 0; i < actualFoldersList.size(); i++) {
+
+            Assert.assertEquals(actualFoldersList.get(actualFoldersList.size() - 1 - i).getText(), expectedFoldersList.get(i));
+        }
     }
 }
