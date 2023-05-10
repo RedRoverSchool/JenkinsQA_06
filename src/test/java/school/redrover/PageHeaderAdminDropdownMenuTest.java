@@ -15,8 +15,8 @@ public class PageHeaderAdminDropdownMenuTest extends BaseTest {
 
         Actions act = new Actions(getDriver());
 
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']")));
+        WebElement dropDownMenu = getDriver().findElement(By.xpath
+                ("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']"));
         act.click(dropDownMenu).perform();
 
         WebElement btnBuilds = getWait2().until(ExpectedConditions.elementToBeClickable
