@@ -1,9 +1,13 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.time.Duration;
 
 public class CreatePipelineProject3Test extends BaseTest {
     public static String name = "My New Pipeline Project";
@@ -32,5 +36,16 @@ public class CreatePipelineProject3Test extends BaseTest {
                 By.xpath("//h1[normalize-space()='Pipeline " + name + "']"))
                 .getText(), "Pipeline " + name);
 
+    }
+
+    @Test
+    public void testPipelineNameUnsafeChar() {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys("*&^%$#@!");
+        getWait2();
+        getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
+        WebElement message = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+
+        Assert.assertEquals (message.getText(), "» ‘*’ is an unsafe character");
     }
 }

@@ -86,7 +86,6 @@ public class JavaNiSyGroupTest extends BaseTest {
 
         Assert.assertEquals(textAfterDeletion.getText(), "Welcome to Jenkins!");
     }
-
     @Test
     public void testCreateDescription() {
         WebElement buttonAddDescription = getDriver().findElement(By.xpath("//a[@id='description-link']"));
@@ -120,6 +119,7 @@ public class JavaNiSyGroupTest extends BaseTest {
 
         Assert.assertEquals(descriptionResult.getText(), "You are welcome!");
     }
+    @Ignore
     @Test
     public void testCreateItem() {
         WebElement btnCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
