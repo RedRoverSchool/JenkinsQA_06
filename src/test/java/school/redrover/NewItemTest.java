@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,7 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NewItemUS0001Test extends BaseTest {
+public class NewItemTest extends BaseTest {
+    private static final By NEW_ITEM_BUTTON = By.linkText("New Item");
+    private static final By OK_BUTTON = By.cssSelector("#ok-button");
+    private static final By SAVE_BUTTON = By.name("Submit");
+    private static final String RANDOM_NAME_PROJECT = RandomStringUtils.randomAlphanumeric(5);
 
     @Test
     public void testNewItemHeader() {
@@ -141,5 +146,35 @@ public class NewItemUS0001Test extends BaseTest {
         String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
 
         Assert.assertEquals(validationMessage, String.format("» A job already exists with the name ‘%s’", expectedResult));
+    }
+
+    @Test
+    public void testCreateMultibranchPipeline(){
+        getDriver().findElement(NEW_ITEM_BUTTON).click();
+        getDriver().findElement(By.id("name")).sendKeys(RANDOM_NAME_PROJECT);
+        WebElement multibranchButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("li.org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")));
+        multibranchButton.click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#main-panel h1")).getText(),RANDOM_NAME_PROJECT);
+    }
+
+    @Test
+    public void testCreatePipelineGoingFromManageJenkinsPage() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        getDriver().findElement(By.linkText("New Item")).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='name']"))).sendKeys(RANDOM_NAME_PROJECT);
+        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.xpath("//ol//a[@href='/']")).click();
+
+        List<String> jobList = getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+
+        Assert.assertTrue(jobList.contains(RANDOM_NAME_PROJECT));
     }
 }
