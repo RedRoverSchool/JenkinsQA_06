@@ -1,8 +1,10 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -140,5 +142,38 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-name-icon")).isDisplayed());
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-head-icon")).isDisplayed());
+    }
+
+    @Test
+    public void testClickLogoReturnToMainPage(){
+
+        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create a job')]"))).click();
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"jenkins-home-link\"]"))).click();
+
+        WebElement mainPageText = getDriver().findElement(By.xpath("//h1[contains(text(),'Welcome to Jenkins!')]"));
+        Assert.assertEquals(mainPageText.getText(),"Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testSearchField() {
+        WebElement searchBox = getDriver().findElement(By.id("search-box"));
+        searchBox.sendKeys("");
+        searchBox.sendKeys(Keys.RETURN);
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
+                (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
+    }
+
+    @Test
+    public void testLogOutButtonTransfersBackToLoginPaged() {
+        final String expectedHeader = "Welcome to Jenkins!";
+
+        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
+        WebElement actualHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualHeader.getText(), expectedHeader);
     }
 }

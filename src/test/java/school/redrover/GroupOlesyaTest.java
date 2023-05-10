@@ -62,7 +62,6 @@ public class GroupOlesyaTest extends BaseTest {
         }
     }
 
-
     @Test
     public void testDescriptionArea() {
         String descriptionXpath = "//a[@id='description-link']";
@@ -91,8 +90,8 @@ public class GroupOlesyaTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath(descriptionHeader))
                 .getText(), "");
-
     }
+
     @Test
     public void testSearchBarSpecialChars() {
 
@@ -138,3 +137,4 @@ public class GroupOlesyaTest extends BaseTest {
 
     }
 }
+

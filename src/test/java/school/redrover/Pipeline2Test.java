@@ -43,4 +43,39 @@ public class Pipeline2Test extends BaseTest {
         Assert.assertEquals(descriptionVal.getText(), desc);
     }
 
+    @Test
+    public void testCreatePipelineProjectCorrectName() {
+        WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
+        newItem.click();
+
+        WebElement itemName = getDriver().findElement(By.id("name"));
+        itemName.sendKeys("PipelineProject");
+
+        WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        typeProject.click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href='/']")).click();
+
+        WebElement projectExist = getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']"));
+        Assert.assertEquals(projectExist.getText(), "PipelineProject");
+    }
+
+    @Test
+    public void testCreatePipelineWithSpaceInsteadOfName() {
+        WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
+        newItem.click();
+
+        WebElement itemName = getDriver().findElement(By.id("name"));
+        itemName.sendKeys("  ");
+
+        WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        typeProject.click();
+        getDriver().findElement(By.id("ok-button")).click();
+
+        Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))).
+                getText(), "Error");
+        Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
+                getText(), "No name is specified");
+    }
 }
