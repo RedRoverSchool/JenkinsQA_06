@@ -29,8 +29,8 @@ public class CreateUserTest extends BaseTest {
     public static final By JENKINS_LABEL = By.id("jenkins-name-icon");
     public static final By LAST_USER_ID = By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//a");
     public static final By LAST_USER_NAME =  By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//td[3]");
-    public static final By FIRST_USER_ID = By.xpath("//table[@id = 'people']/tbody/tr[2]/td[2]/a");
-    public static final By FIRST_USER_NAME = By.xpath("//table[@id = 'people']/tbody/tr[1]/td[3]");
+    public static final By FIRST_USER_ID = By.xpath("//table[@id = 'people']/tbody/tr[last() -1]//a");
+    public static final By FIRST_USER_NAME = By.xpath("//table[@id = 'people']/tbody/tr[last() -1]//td[3]");
 
     @Test
     public void testCreateUser(){
@@ -102,6 +102,8 @@ public class CreateUserTest extends BaseTest {
         getDriver().findElement(CREATE_USER_BUTTON_BOTTOM).click();
         getDriver().findElement(JENKINS_LABEL).click();
         getDriver().findElement(PEOPLE_BUTTON).click();
+
+        
 
         String expectedResultTitle = "People - [Jenkins]";
         String expectedResultUserId = userName;
