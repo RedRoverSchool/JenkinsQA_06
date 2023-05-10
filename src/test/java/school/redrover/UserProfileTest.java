@@ -41,7 +41,7 @@ public class UserProfileTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionToUser() throws InterruptedException {
+    public void testAddDescriptionToUser() {
         final String displayedDescriptionText = "Test User Description";
 
         createUser();
