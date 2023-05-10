@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreateMultiСonfigurationProjectTest2 extends BaseTest {
+public class CreateMultiConfigurationProjectTest2 extends BaseTest {
     @Test
     public void createMultiConfigurationProject(){
         String nameOfProject = "anyName";
