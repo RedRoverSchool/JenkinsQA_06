@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class Folder1Test extends BaseTest {
+
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By NAME = By.id("name");
     private static final By FOLDER = By.xpath("//span[@class='label'][text()='Folder']");
