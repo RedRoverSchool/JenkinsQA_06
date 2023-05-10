@@ -59,6 +59,7 @@ public class UndercoverGroupTest extends BaseTest {
         WebElement searchResultsTitle = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
         Assert.assertEquals(searchResultsTitle.getText(), String.format("Search for '%s'", query));
     }
+
     @Ignore
     @Test
     public void testCreateNewItemWithUnsafeChar() {
