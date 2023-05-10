@@ -21,10 +21,8 @@ public class CreatePipelineProject8Test extends BaseTest {
         getDriver().findElement(By.cssSelector("#name")).sendKeys("NewName");
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.cssSelector("#ok-button")).click();
-        Thread.sleep(4000);
 
         getDriver().findElement(By.xpath("//button[contains(text(),'Save')]")).click();
-        Thread.sleep(4000);
 
         WebElement newNodeFileAdded = getDriver().findElement(By.xpath("//h1[contains(text(),'Project NewName')]"));
         Assert.assertEquals(newNodeFileAdded.getText(),"Project NewName");
