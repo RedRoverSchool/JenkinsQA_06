@@ -217,4 +217,32 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
+
+    @Test
+    public void testRenameProjectFromTheProjectPage() {
+        WebElement linkNewItem  = getDriver().findElement(By.xpath("//div/span/a[@href='/view/all/newJob']"));
+            linkNewItem.click();
+        WebElement fieldInput  = getDriver().findElement(By.xpath("//input[@class='jenkins-input']"));
+            fieldInput.click();
+            fieldInput.sendKeys(FREESTYLE_NAME);
+        WebElement labelFreestyleProject = getDriver().findElement(By.xpath("//ul/li[@class='hudson_model_FreeStyleProject']"));
+            labelFreestyleProject.click();
+        WebElement btnOk = getDriver().findElement(By.xpath("//button[@class and @id]"));
+            btnOk.click();
+        WebElement btnSave = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']"));
+            btnSave.click();
+
+        WebElement linkRename = getDriver().findElement(By.xpath("//div/span/a[contains(@href,'confirm-rename')]"));
+            linkRename.click();
+        WebElement inputNewName = getDriver().findElement(By.xpath("//div/input[@checkdependson='newName']"));
+            inputNewName.click();
+            inputNewName.clear();
+            inputNewName.sendKeys(NEW_FREESTYLE_NAME);
+        WebElement btnRename= getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']"));
+            btnRename.click();
+
+        String  actualNewName = getDriver().findElement(By.xpath("//h1")).getText();
+
+        Assert.assertEquals(actualNewName,"Project ".concat(NEW_FREESTYLE_NAME));
+    }
 }
