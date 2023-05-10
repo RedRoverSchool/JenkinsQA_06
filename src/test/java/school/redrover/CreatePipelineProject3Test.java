@@ -40,12 +40,20 @@ public class CreatePipelineProject3Test extends BaseTest {
 
     @Test
     public void testPipelineNameUnsafeChar() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys("*&^%$#@!");
-        getWait2();
-        getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
-        WebElement message = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+       String[] testStr = {"*", "&", "^", "%", "$", "#", "@", "!"};
 
-        Assert.assertEquals (message.getText(), "» ‘*’ is an unsafe character");
+        getDriver().findElement(NEW_ITEM).click();
+        for (int i = 0; i < testStr.length; i++) {
+            String name = testStr[i];
+            getDriver().findElement(INPUT_NAME).sendKeys(name);
+
+            getWait2();
+            getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
+            WebElement message = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+
+            Assert.assertEquals(message.getText(), "»"+ " ‘" + name + "’ " + "is an unsafe character");
+            getWait2();
+            getDriver().findElement(INPUT_NAME).clear();
+        }
     }
 }
