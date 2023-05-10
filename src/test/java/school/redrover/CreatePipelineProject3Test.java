@@ -33,14 +33,14 @@ public class CreatePipelineProject3Test extends BaseTest {
         getDriver().findElement(PROJECT_IN_DASHBOARD_TABLE).click();
 
         Assert.assertEquals(getDriver().findElement(
-                By.xpath("//h1[normalize-space()='Pipeline " + name + "']"))
+                        By.xpath("//h1[normalize-space()='Pipeline " + name + "']"))
                 .getText(), "Pipeline " + name);
 
     }
 
     @Test
     public void testPipelineNameUnsafeChar() {
-       String[] testStr = {"*", "&", "^", "%", "$", "#", "@", "!"};
+        String[] testStr = {"*", "&", "^", "%", "$", "#", "@", "!"};
 
         getDriver().findElement(NEW_ITEM).click();
         for (int i = 0; i < testStr.length; i++) {
@@ -51,7 +51,7 @@ public class CreatePipelineProject3Test extends BaseTest {
             getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
             WebElement message = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
 
-            Assert.assertEquals(message.getText(), "»"+ " ‘" + name + "’ " + "is an unsafe character");
+            Assert.assertEquals(message.getText(), "»" + " ‘" + name + "’ " + "is an unsafe character");
             getWait2();
             getDriver().findElement(INPUT_NAME).clear();
         }
