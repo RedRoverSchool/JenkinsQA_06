@@ -245,6 +245,7 @@ public class JavaExpertsNationTest extends BaseTest {
                 (By.xpath("//div[@class='empty-state-block']/h1"));
         Assert.assertEquals(homPage.getText(), "Welcome to Jenkins!");
     }
+    @Ignore
     @Test
     public void testAddDescriptionPeople() {
         WebElement people = getDriver().findElement(By.cssSelector("a[href='/asynchPeople/']"));

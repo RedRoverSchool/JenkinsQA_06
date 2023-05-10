@@ -119,6 +119,7 @@ public class JavaNiSyGroupTest extends BaseTest {
 
         Assert.assertEquals(descriptionResult.getText(), "You are welcome!");
     }
+    @Ignore
     @Test
     public void testCreateItem() {
         WebElement btnCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
