@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -54,6 +55,7 @@ public class ManageUsersTest extends BaseTest {
     }
     @Test
     public void testMakeChangesToUserProfile() {
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
         createUser();
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(MANAGE_USERS).click();
@@ -69,8 +71,14 @@ public class ManageUsersTest extends BaseTest {
                 .xpath("//a[@href='user/mr_churchill/']/button[@class='jenkins-menu-dropdown-chevron']")))
                 .click(); */
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//a[@href='/user/mr_churchill/configure']"))).click();
+
+       WebElement configure = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/user/mr_churchill/configure']")));
+
+        new Actions(getDriver()).moveToElement((configure)).click().build().perform();
+
+
+        /*getWait2().until(ExpectedConditions.elementToBeClickable(By
+                .xpath("//a[@href='/user/mr_churchill/configure']"))).click();*/
 
         WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name='_.fullName']"));
         fullNameField.clear();
