@@ -204,11 +204,11 @@ public class PipelineConfigureTest extends BaseTest {
 
         getDriver().findElement(By.name("Submit")).click();
 
-        getWait2().until(ExpectedConditions.textToBe(By.tagName("h1"), "Pipeline " + PIPELINE_NAME));
+        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")),"Pipeline"));
 
         String disabledWarning = getDriver().findElement(By.id("enable-project")).getText();
 
-        WebElement configurePipeline= getDriver().findElement(By.linkText("Configure"));
+        WebElement configurePipeline= getDriver().findElement(By.xpath("//a[contains(@href,'configure')]"));
         configurePipeline.click();
 
         getWait5().until(ExpectedConditions.textToBe(By.tagName("h2"), "General"));
@@ -217,7 +217,7 @@ public class PipelineConfigureTest extends BaseTest {
                 By.xpath("//input[@name='enable']")).getAttribute("value"));
 
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
-        Assert.assertFalse(isPipelineEnabledAfterDisable,"false");
+        Assert.assertFalse(isPipelineEnabledAfterDisable);
     }
 
     @Test
