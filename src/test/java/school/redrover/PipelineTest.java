@@ -229,8 +229,9 @@ public class PipelineTest extends BaseTest {
         new Actions(getDriver())
                 .moveToElement(pipelineName, xOfpipelineName / 2 - 2, 0)
                 .click()
+                .build()
                 .perform();
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.id("yui-gen4"))).click();
         getDriver().switchTo().alert().accept();
         getDriver().findElement(dashboard).click();
 
