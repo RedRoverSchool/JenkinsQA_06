@@ -4,17 +4,12 @@ import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.locators.RelativeLocator;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 public class ManageUsersTest extends BaseTest {
 
@@ -66,7 +61,9 @@ public class ManageUsersTest extends BaseTest {
         WebElement user = getDriver().findElement(By.xpath("//a[@href='user/mr_churchill/']"));
         new Actions(getDriver()).moveToElement(user).perform();
 
-        getDriver().findElement(RelativeLocator.with(By.tagName("button")).toRightOf(user)).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("// a[@href='user/mr_churchill/'] /button[@class = 'jenkins-menu-dropdown-chevron']")))
+                .click();
 
         getWait2().until(ExpectedConditions.elementToBeClickable(By
                 .xpath("//a[@href='/user/mr_churchill/configure']"))).click();
