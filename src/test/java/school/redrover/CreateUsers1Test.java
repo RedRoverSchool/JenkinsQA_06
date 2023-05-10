@@ -2,10 +2,15 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreateUsersTest1 extends BaseTest {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CreateUsers1Test extends BaseTest {
     private static final By MANAGE_JENKINS_XPATH = By.xpath("//a[@href='/manage']");
     private static final By MANAGE_USERS_XPATH = By.xpath("//dt[contains(text(),'Manage Users')]");
     private static final By CREATE_USERS_XPATH = By.xpath("//a[@href='addUser']");
@@ -16,6 +21,7 @@ public class CreateUsersTest1 extends BaseTest {
     private static final By EMAIL_ADDRESS_BAR_XPATH = By.xpath("//input[@name='email']");
     private static final By CREATE_USER_CONFIRM_BUTTON_XPATH = By.xpath("//button[@name='Submit']");
     private static final By DASHBOARD_XPATH = By.xpath("//div[@id= 'breadcrumbBar']/ol/li/a[@href='/']");
+    private static final By PEOPLE_XPATH = By.xpath("//a[@href='/asynchPeople/']");
     private static final String USER_NAME = "User";
     private static final String PASSWORD = "12345";
     private static final String FULL_NAME = "User";
@@ -24,7 +30,6 @@ public class CreateUsersTest1 extends BaseTest {
 
     @Test
     public void testCreateNewUser(){
-        String expectedResult = "";
 
         WebElement manageJenkinsLink = getDriver().findElement(MANAGE_JENKINS_XPATH);
         manageJenkinsLink.click();
@@ -56,18 +61,22 @@ public class CreateUsersTest1 extends BaseTest {
         emailAddressBar.sendKeys(EMAIL_ADDRESS);
 
         WebElement createUserConfirmButton = getDriver().findElement(CREATE_USER_CONFIRM_BUTTON_XPATH);
-        createUserButton.click();
+        createUserConfirmButton.click();
 
         WebElement dashboardLink = getDriver().findElement(DASHBOARD_XPATH);
         dashboardLink.click();
 
-        ////tbody//td/a
+        WebElement peopleLink = getWait2().until(ExpectedConditions.elementToBeClickable(PEOPLE_XPATH));
+        peopleLink.click();
 
 
+        List<WebElement> listOfPeople = getDriver()
+                .findElements(By.xpath("//table[@id='people']//tr//td/a"));
+        List<String> userIDs = new ArrayList<>();
+        for(WebElement element : listOfPeople){
+            userIDs.add(element.getText());
+        }
 
-
-
-
-
+        Assert.assertTrue(userIDs.contains(USER_NAME));
     }
 }
