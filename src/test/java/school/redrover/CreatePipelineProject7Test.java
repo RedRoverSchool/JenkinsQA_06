@@ -17,6 +17,7 @@ import school.redrover.runner.BaseTest;
         @Test
 
         public void testCreatePipelineProjectNewItem() {
+
             getDriver().findElement(NEW_ITEM).click();
             getDriver().findElement(INPUT_NAME).sendKeys("Project1");
             getDriver().findElement(CREATE_PIPELINE).click();
