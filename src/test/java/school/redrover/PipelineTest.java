@@ -234,6 +234,6 @@ public class PipelineTest extends BaseTest {
         getDriver().switchTo().alert().accept();
         getDriver().findElement(dashboard).click();
 
-        Assert.assertFalse(getDriver().findElements(By.id("job_")).size() > 0);
+        Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
     }
 }
