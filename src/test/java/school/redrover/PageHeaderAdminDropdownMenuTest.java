@@ -13,11 +13,9 @@ public class PageHeaderAdminDropdownMenuTest extends BaseTest {
     @Test
     public void testBuildsOpenFromDropdownMenu(){
 
-        Actions act = new Actions(getDriver());
-
         WebElement dropDownMenu = getDriver().findElement(By.xpath
                 ("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']"));
-        act.click(dropDownMenu).perform();
+        new Actions(getDriver()).click(dropDownMenu).perform();
 
         WebElement btnBuilds = getWait2().until(ExpectedConditions.elementToBeClickable
                 (By.xpath("//span[.='Builds']")));
