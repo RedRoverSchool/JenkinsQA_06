@@ -72,5 +72,23 @@ public class UserTest extends BaseTest {
             WebElement createdUserLink = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[normalize-space()='" + USERDATA + "']")));
             Assert.assertTrue(createdUserLink.isDisplayed());
         }
+
+    @Test
+    public void testCreateNewPipeline() {
+        WebElement newItem = getWait5().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='/view/all/newJob']")));
+        newItem.click();
+
+        WebElement nameProject = getWait5().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//input[@name='name']")));
+        nameProject.sendKeys("Project1");
+
+        WebElement pipelineClick = getDriver()
+                .findElement(By.xpath("//label//span[contains(text(), 'Pipeline')]"));
+        pipelineClick.click();
+
+        WebElement confirmButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
+        confirmButton.click();
     }
+}
 
