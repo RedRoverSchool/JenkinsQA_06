@@ -17,11 +17,10 @@ public class PageHeaderAdminDropdownMenuTest extends BaseTest {
 
         WebElement dropDownMenu = getWait2().until(ExpectedConditions.elementToBeClickable
                 (By.xpath("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']")));
-
         act.click(dropDownMenu).perform();
 
-        WebElement btnBuilds = getDriver().findElement(By.xpath
-                ("//div[@id='breadcrumb-menu-target']//span[.='Builds']"));
+        WebElement btnBuilds = getWait2().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//span[.='Builds']")));
         btnBuilds.click();
 
         WebElement pageBuilds = getDriver().findElement(By.xpath("//h1[.='Builds for admin']"));
