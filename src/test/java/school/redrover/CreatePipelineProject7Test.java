@@ -13,6 +13,7 @@ import school.redrover.runner.BaseTest;
         private By OK_BUTTON = By.id("ok-button");
 
         private By SAVE_BUTTON = By.name("Submit");
+        private By DASHBOARD_BUTTON = By.xpath("//div[@id='breadcrumbBar']//a");
 
         @Test
 
@@ -24,8 +25,24 @@ import school.redrover.runner.BaseTest;
             getDriver().findElement(OK_BUTTON).click();
             getDriver().findElement(SAVE_BUTTON).click();
 
-            Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'main-panel']//h1['Pipeline Project1']")).getText(),
+            Assert.assertEquals(getDriver().findElement(By.xpath(
+                    "//div[@id = 'main-panel']//h1['Pipeline Project1']")).getText(),
                     "Pipeline Project1");
+        }
+        @Test
+        public void testFindPipelineOnTheDashboard(){
+            getDriver().findElement(NEW_ITEM).click();
+            getDriver().findElement(INPUT_NAME).sendKeys("Project1");
+            getDriver().findElement(CREATE_PIPELINE).click();
+            getDriver().findElement(OK_BUTTON).click();
+            getDriver().findElement(SAVE_BUTTON).click();
+
+            getDriver().findElement(DASHBOARD_BUTTON).click();
+
+            Assert.assertEquals(getDriver().findElement(By.xpath(
+                    "//tr[@id='job_Project1']//a//span['Project1']")).getText(), "Project1");
+
+
         }
 }
 
