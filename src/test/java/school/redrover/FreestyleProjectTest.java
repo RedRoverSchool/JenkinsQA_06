@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -244,5 +245,24 @@ public class FreestyleProjectTest extends BaseTest {
         String  actualNewName = getDriver().findElement(By.xpath("//h1")).getText();
 
         Assert.assertEquals(actualNewName,"Project ".concat(NEW_FREESTYLE_NAME));
+    }
+
+    @DataProvider(name = "wrong-character")
+    public Object[][] provideWrongCharacters() {
+        return new Object[][]
+                {{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}};
+    }
+
+    @Test(dataProvider = "wrong-character")
+    public void testCreateFreestyleProjectWithInvalidName(String wrongCharacter){
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(wrongCharacter);
+        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
+
+        String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
+
+        Assert.assertEquals(validationMessage, "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
     }
 }
