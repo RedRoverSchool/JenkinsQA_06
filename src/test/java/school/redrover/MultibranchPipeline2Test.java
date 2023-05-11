@@ -48,4 +48,13 @@ public class MultibranchPipeline2Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),RANDOM_NAME_MULTIBRANCH_PIPELINE + RANDOM_NAME_MULTIBRANCH_PIPELINE);
     }
+
+    @Test
+    public void testDeleteMultibranchPipeline(){
+        createMultibranchPipeline();
+        getDriver().findElement(By.cssSelector("[class='icon-edit-delete icon-md']")).click();
+        getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1")).getText(),"Welcome to Jenkins!");
+    }
 }
