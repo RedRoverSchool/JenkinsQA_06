@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class NewItemJenkins extends BaseTest {
+public class NewItemJenkinsTest extends BaseTest {
 
         @Test
         public void createNewJob()
