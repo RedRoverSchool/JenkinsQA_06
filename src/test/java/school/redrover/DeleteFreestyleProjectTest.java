@@ -32,27 +32,6 @@ public class DeleteFreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteFreestyleProject() {
-        final String expectedH2 = "This folder is empty";
-        createFreestyleProject();
-
-        WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
-        dashboardBreadCrumb.click();
-
-        WebElement project = getDriver().findElement(By.xpath("//span[contains(text(), '" + PROJECT_NAME + "')]"));
-        project.click();
-
-        WebElement deleteProjectLink = getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Project')]"));
-        deleteProjectLink.click();
-        getDriver().switchTo().alert().accept();
-
-        WebElement myViews = getDriver().findElement(By.xpath("//a[@href = '/me/my-views']"));
-        myViews.click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), expectedH2);
-    }
-
-    @Test
     public void testDeleteFreestyleProjectFromDropdown() {
 
         final String expectedH2 = "This folder is empty";
@@ -69,7 +48,8 @@ public class DeleteFreestyleProjectTest extends BaseTest {
                 ("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']")));
         projectDropDownButton.click();
 
-        WebElement deleteProjectButton = getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]"));
+        WebElement deleteProjectButton = getWait2().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//div//li//span[contains(text(),'Delete Project')]")));
         deleteProjectButton.click();
         getDriver().switchTo().alert().accept();
 

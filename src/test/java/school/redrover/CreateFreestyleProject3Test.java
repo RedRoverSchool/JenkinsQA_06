@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreateFreestyleProjectTest_2 extends BaseTest {
+public class CreateFreestyleProject3Test extends BaseTest {
 
     @Test
     public void testAddingNewItem() {
