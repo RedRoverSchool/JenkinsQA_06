@@ -62,8 +62,8 @@ public class CreatePipelineProject3Test extends BaseTest {
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(JENKINS_LOGO).click();
+        WebElement projectNameDashboard = getDriver().findElement(By.xpath("//td/a/span"));
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//td/a/span")).getText(), "_-+=”{},");
+        Assert.assertEquals(projectNameDashboard.getText(), "_-+=”{},");
     }
 }
-
