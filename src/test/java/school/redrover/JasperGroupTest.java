@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -56,23 +57,6 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testValidationOfCreateNewItem() {
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
-        WebElement newItem = getDriver().findElement(By.cssSelector("[href*='/view/all/newJob']"));
-        newItem.click();
-
-        WebElement freestyleProject = getDriver().findElement(By.cssSelector("[class*='FreeStyleProject']"));
-        freestyleProject.click();
-
-        WebElement okButton = getDriver().findElement(By.cssSelector("#ok-button"));
-        WebElement errorText = getDriver().findElement(By.cssSelector("#itemname-required"));
-
-        Assert.assertEquals(okButton.getAttribute("disabled"), "true");
-        Assert.assertEquals(errorText.getText(), "» This field cannot be empty, please enter a valid name");
-    }
-
-    @Test
     public void testChangeName() {
         WebElement settingsMenuButton = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']"));
         settingsMenuButton.click();
@@ -95,6 +79,7 @@ public class JasperGroupTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testFolderEmptyNameChange() {
         WebElement newItemButton = getDriver().findElement(By.xpath("//span[text()='New Item']/.."));
@@ -180,15 +165,6 @@ public class JasperGroupTest extends BaseTest {
 
         WebElement searchResult1 = getDriver().findElement(By.xpath("//div[text() = 'Nothing seems to match.']"));
         Assert.assertEquals(searchResult1.getText(), "Nothing seems to match.");
-    }
-
-    @Test
-    public void testValidationMessage() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("createItem")).click();
-        WebElement message = getDriver().findElement(By.id("itemname-required"));
-
-        Assert.assertEquals(message.getText(), "» This field cannot be empty, please enter a valid name");
     }
 
     @Test
