@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,7 +22,7 @@ public class BreadcrumbTest extends BaseTest {
         getWait10().until(ExpectedConditions.elementToBeClickable(pointerLocator));
         WebElement pointer = getDriver().findElement(pointerLocator);
         action.moveToElement(pointer).perform();
-        pointer.click();
+        pointer.sendKeys(Keys.RETURN);
 
         By sectionNameLocator = By.xpath("//*[@id='yui-gen4']/a/span");
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
