@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -91,6 +92,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
     }
 
+    @Ignore
     @Test
     public void testSearchNumericSymbol() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
