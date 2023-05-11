@@ -48,6 +48,7 @@ public class DeletePipelineTest extends BaseTest {
                         "//*[contains(text(),'"+projectName+"')]"))));
     }
 
+ Mansurova1
    private void createPipeline() {
         getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']")).click();
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.id("name")));
@@ -72,4 +73,20 @@ public class DeletePipelineTest extends BaseTest {
 
         Assert.assertTrue(getWait2().until(ExpectedConditions.invisibilityOf(pipeline)));
     }
+
+        @Test
+        public void testDeletePipelineByDropDown() {
+                createPipeLineProject();
+                String projectName = getDriver()
+                        .findElement(By.xpath("(//li[@class= 'jenkins-breadcrumbs__list-item']/a)[2]"))
+                        .getText();
+                getDriver().findElement(By.name("Submit")).click();
+                getDriver().findElement(By.id("jenkins-name-icon")).click();
+                getDriver().findElement(By.xpath("//span[contains(text(),'" +projectName+ "')]")).click();
+                getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Pipeline')]")).click();
+                getDriver().switchTo().alert().accept();
+
+                Assert.assertTrue(getWait2().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(
+                    "//*[contains(text(),'"+projectName+"')]"))));
+        } main
 }

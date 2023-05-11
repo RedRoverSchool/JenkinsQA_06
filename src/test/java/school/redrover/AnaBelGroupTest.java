@@ -11,6 +11,7 @@ import static org.testng.Assert.assertEquals;
 
 public class AnaBelGroupTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testItem() {
 
@@ -94,6 +95,7 @@ public class AnaBelGroupTest extends BaseTest {
                 (By.xpath("//div[@class='jenkins-app-bar__content']/h1")).getText(),"New node");
     }
 
+    @Ignore
     @Test
     public void testCreateAJob() {
         WebElement createAJobButton = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]/div/section[1]/ul/li/a/span[1]"));

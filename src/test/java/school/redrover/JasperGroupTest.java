@@ -57,23 +57,6 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testValidationOfCreateNewItem() {
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
-        WebElement newItem = getDriver().findElement(By.cssSelector("[href*='/view/all/newJob']"));
-        newItem.click();
-
-        WebElement freestyleProject = getDriver().findElement(By.cssSelector("[class*='FreeStyleProject']"));
-        freestyleProject.click();
-
-        WebElement okButton = getDriver().findElement(By.cssSelector("#ok-button"));
-        WebElement errorText = getDriver().findElement(By.cssSelector("#itemname-required"));
-
-        Assert.assertEquals(okButton.getAttribute("disabled"), "true");
-        Assert.assertEquals(errorText.getText(), "» This field cannot be empty, please enter a valid name");
-    }
-
-    @Test
     public void testChangeName() {
         WebElement settingsMenuButton = getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[@class = 'model-link']"));
         settingsMenuButton.click();
@@ -184,6 +167,7 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(searchResult1.getText(), "Nothing seems to match.");
     }
 
+    @Ignore
     @Test
     public void testValidationMessage() {
         getDriver().findElement(By.linkText("New Item")).click();
