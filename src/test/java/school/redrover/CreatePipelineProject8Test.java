@@ -24,7 +24,6 @@ public class CreatePipelineProject8Test extends BaseTest {
         getDriver().findElement(By.cssSelector("#name")).sendKeys(name);
         getDriver().findElement(By.cssSelector(".org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
         getDriver().findElement(By.cssSelector("#ok-button")).click();
-
         getDriver().findElement(By.xpath("//button[contains(text(),'Save')]")).click();
 
         Assert.assertEquals(getDriver().findElement(PIPELINE_FINAL_NAME).getText(), "Pipeline " + name);
