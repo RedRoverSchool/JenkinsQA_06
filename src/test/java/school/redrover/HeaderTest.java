@@ -7,20 +7,30 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import school.redrover.runner.BaseTest;
 import static org.testng.Assert.assertEquals;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.time.Duration;
+import java.util.List;
 
 public class HeaderTest extends BaseTest {
 
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
     private static final By MANAGE_JENKINS_LINK = By.xpath("//a[text()='Manage Jenkins']");
     private static final By HEADER_MANAGE_PAGE = By.xpath("//h1[text()='Manage Jenkins']");
-
+    private static final By NEW_ITEM_BTN = By.xpath("//span[contains(text(),'New Item')]/..");
+    private static final By ITEM_NAME_FIELD = By.id("name");
+    private static final String ITEM_NAME = "Test Item";
+    private static final By FREESTYLE_PROJECT_BTN = By.xpath("//li[@class='hudson_model_FreeStyleProject']");
+    private static final By OK_BTN = By.id("ok-button");
+    private static final By SAVE_BTN = By.name("Submit");
+    private static final By JENKINS_ICON = By.id("jenkins-name-icon");
+    private static final String TITLE_DASHBOARD_PAGE = "Dashboard [Jenkins]";
+    private static final By LIST_OF_PROJECT_NAMES_IN_THE_TABLE =
+            By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']");
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -206,5 +216,26 @@ public class HeaderTest extends BaseTest {
                 .visibilityOfElementLocated(HEADER_MANAGE_PAGE));
 
         Assert.assertEquals(actualHeader.getText(),expectedHeader);
+    }
+
+    @Test
+    public void testReturnToTheDashboardPageAfterCreatingTheItem() {
+        getDriver().findElement(NEW_ITEM_BTN).click();
+        getDriver().findElement(ITEM_NAME_FIELD).sendKeys(ITEM_NAME);
+        getDriver().findElement(FREESTYLE_PROJECT_BTN).click();
+        getDriver().findElement(OK_BTN).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(SAVE_BTN)).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(JENKINS_ICON)).click();
+
+        Assert.assertEquals(getDriver().getTitle(), TITLE_DASHBOARD_PAGE, "Wrong title or wrong page");
+
+        List<WebElement> listProjectName = getDriver().findElements(LIST_OF_PROJECT_NAMES_IN_THE_TABLE);
+        SoftAssert softAssert = new SoftAssert();
+        for (WebElement webElement : listProjectName) {
+            softAssert.assertTrue(webElement.getText().contains(ITEM_NAME),
+                    "The result list doesn't contain the item " + ITEM_NAME);
+        }
+        softAssert.assertAll();
     }
 }
