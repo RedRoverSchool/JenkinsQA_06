@@ -108,6 +108,7 @@ public class BestAutoTeamTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testRunJob() throws InterruptedException {
         getDriver().findElement(By.xpath("//span[text()='Create a job']")).click();

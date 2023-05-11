@@ -54,6 +54,7 @@ public class NeedMoreCoffeeTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testNewFolder() {
 

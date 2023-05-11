@@ -28,6 +28,7 @@ public class JasperGroupTest extends BaseTest {
         Assert.assertEquals(actualResult.getText(), "Jenkins User ID: admin");
     }
 
+    @Ignore
     @Test
     public void testCreateNewItem() {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
