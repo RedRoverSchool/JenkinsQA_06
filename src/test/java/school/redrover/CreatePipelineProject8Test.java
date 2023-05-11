@@ -14,8 +14,6 @@ public class CreatePipelineProject8Test extends BaseTest {
     @Test
     public void testNewItemSubmit() throws InterruptedException {
         WebElement newItemBtn = getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']"));
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[@class='task-link-text' and .='New Item']")));
         newItemBtn.click();
 
         getDriver().findElement(By.cssSelector("#name")).sendKeys("NewName");
@@ -27,7 +25,7 @@ public class CreatePipelineProject8Test extends BaseTest {
         Thread.sleep(4000);
 
         WebElement newNodeFileAdded = getDriver().findElement(By.xpath("//h1[contains(text(),'Project NewName')]"));
-        Assert.assertEquals(newNodeFileAdded.getText(),"Project NewName");
+        Assert.assertEquals(newNodeFileAdded.getText(), "Project NewName");
 
     }
 }
