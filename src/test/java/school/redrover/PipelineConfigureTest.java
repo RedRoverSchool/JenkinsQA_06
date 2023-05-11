@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -36,28 +35,27 @@ public class PipelineConfigureTest extends BaseTest {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//*[text()='%s']", menuButton)))).click();
     }
 
-    public void clickTaskButton(String nameOfTask){
-        List<WebElement> taskIconLinks = getDriver().findElements(By.className("task-icon-link"));
-        List<WebElement> taskLinksText = getDriver().findElements(By.xpath("//*[@id='tasks']/*//span[2]"));
+    public Map <WebElement, String> buttonsAndTasks() {
+        List<WebElement> taskLinksText = getDriver().findElements(By.xpath("//div[@id='tasks']//span[2]"));
         List<String> textOfTaskLink = new ArrayList<>();
-        for (WebElement taskLinkText : taskLinksText){
+        for (WebElement taskLinkText : taskLinksText) {
             textOfTaskLink.add(taskLinkText.getText());
         }
 
-        Map<WebElement, String> buttonAndTask = new HashMap<>();
-        int i = 0;
-        for (WebElement taskIcon: taskIconLinks) {
-            buttonAndTask.put(taskIconLinks.get(i), textOfTaskLink.get(i));
-            i++;
-        }
+        List<WebElement> taskLinks = getWait5().until(
+                ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("task-link")));
 
-        for (Map.Entry<WebElement, String> entry : buttonAndTask.entrySet()) {
-            if (entry.getValue().equals(nameOfTask)) {
-                entry.getKey().click();
-            } else {
-                System.out.println("Wrong item");
-            }
+        Map<WebElement, String> buttonAndTask = new HashMap<>();
+        for (int i = 0; i < taskLinks.size(); i++) {
+            buttonAndTask.put(taskLinks.get(i), textOfTaskLink.get(i));
         }
+        return buttonAndTask;
+    }
+
+    public void clickTaskButton(String nameOfTask){
+        buttonsAndTasks().entrySet().stream()
+                .filter(x -> nameOfTask.equals(x.getValue()))
+                .forEach(x -> x.getKey().click());
     }
 
     public void createPipelineProject(String nameOfProject, String typeOfProject){
@@ -251,7 +249,7 @@ public class PipelineConfigureTest extends BaseTest {
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
         Assert.assertFalse(isPipelineEnabledAfterDisable);
     }
-@Ignore
+
     @Test
     public void addDescriptionPipelineProjectTest(){
         String description = "This is a project for school test";
@@ -288,7 +286,6 @@ public class PipelineConfigureTest extends BaseTest {
         clickButtonApply();
 
         clickPageButton("Dashboard");
-
         String statusAfterDisable = statusOfProject();
 
         Assert.assertNotEquals(statusBeforeDisable, statusAfterDisable);
