@@ -16,19 +16,13 @@ public class FreestyleProject3Test extends BaseTest {
         getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
         getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getDriver().findElement(By.cssSelector("#breadcrumbs > li ")).click();
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
     }
 
     @Test
-    public void testCreatedNewBuild()  {
+    public void testCreatedNewBuild() {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5000));
         createFreestyleProject();
-//        getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
-//        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Engineer");
-//        getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
-//        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-//        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-//        getDriver().findElement(By.cssSelector("#breadcrumbs > li ")).click();
 
         getDriver().findElement(By.cssSelector("[href$='Engineer/']")).click();
         getDriver().findElement(By.cssSelector("[href*='build?']")).click();
