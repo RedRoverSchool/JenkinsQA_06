@@ -25,9 +25,12 @@ public class PreviewDescriptionTest extends BaseTest {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).clear();
         getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(expectedResult);
         getDriver().findElement(By.xpath("//a[text()='Preview']")).click();
 
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText(), expectedResult);
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).isDisplayed());
     }
 }
