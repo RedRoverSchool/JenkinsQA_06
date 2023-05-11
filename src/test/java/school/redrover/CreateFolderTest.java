@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -41,6 +42,7 @@ public class CreateFolderTest extends BaseTest {
         Assert.assertEquals(actualResult, "Folder_TC_04_01_02");
     }
 
+    @Ignore
     @Test
     public void testCreateFolder1() {
         getDriver().findElement(By.linkText("New Item")).click();

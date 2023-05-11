@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.WheelInput;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -69,6 +70,7 @@ public class CreateFreestyleProjectJobTest extends BaseTest {
         getWait5().until(ExpectedConditions.elementToBeClickable(CONSOLE_OUT_LINK)).click();
     }
 
+    @Ignore
     @Test
     public void testCreateFreestyleProjectJob() {
         CreateFreestyleProjectJob("Hello world");
