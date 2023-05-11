@@ -42,14 +42,13 @@ public class DeleteFreestyleProjectTest extends BaseTest {
 
         Actions act = new Actions(getDriver());
         WebElement project = getDriver().findElement(By.xpath("//span[contains(text(), '"+ PROJECT_NAME +"')]"));
-        act.moveToElement(project).build().perform();
+        act.moveToElement(project, 23, 7).perform();
 
-        WebElement projectDropDownButton = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath
-                ("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']")));
+        WebElement projectDropDownButton = getDriver().findElement(By.xpath
+                ("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
         projectDropDownButton.click();
 
-        WebElement deleteProjectButton = getWait2().until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//div//li//span[contains(text(),'Delete Project')]")));
+        WebElement deleteProjectButton = getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]"));
         deleteProjectButton.click();
         getDriver().switchTo().alert().accept();
 
