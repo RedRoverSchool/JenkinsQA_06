@@ -69,4 +69,29 @@ public class NewItem2Test extends BaseTest {
 
         Assert.assertEquals(errorMessage.getText(), expectedErrorMessage);
     }
+
+    @Test
+    public void testCreateFolder() {
+        final String testFolderName = "First folder";
+
+        WebElement buttonCreateItem = getDriver().findElement(NEW_ITEM_BUTTON);
+        buttonCreateItem.click();
+
+        WebElement fieldInputName = getDriver().findElement(NAME_INPUT_FIELD);
+        fieldInputName.click();
+        fieldInputName.sendKeys(testFolderName);
+
+        WebElement buttonFolder = getDriver().findElement(By.xpath("//span[text()='Folder']"));
+        buttonFolder.click();
+
+        WebElement buttonOk = getDriver().findElement(OK_BUTTON);
+        buttonOk.click();
+
+        WebElement buttonSave = getDriver().findElement(SAVE_BUTTON);
+        buttonSave.click();
+
+        WebElement titleName = getDriver().findElement(By.xpath("//h1"));
+        String actualFolderName = titleName.getText();
+        Assert.assertEquals(actualFolderName, testFolderName);
+    }
 }
