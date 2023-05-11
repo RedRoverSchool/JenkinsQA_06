@@ -29,7 +29,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject1() {
-      String freestyleProjectName = "new job no.3";
+      String freestyleProjectName = "New job no.3";
 
       getDriver().findElement(By.cssSelector(".task-link")).click();
 
@@ -42,6 +42,6 @@ public class CreateFreestyleProjectTest extends BaseTest {
       getDriver().findElement(By.cssSelector(".jenkins-breadcrumbs__list-item>.model-link")).click();
 
       Assert.assertEquals(getDriver().findElement(
-              By.xpath("//a[@href='job/new%20job%20no.3/']")).getText(),freestyleProjectName);
+              By.xpath("//*[@id='job_New job no.3']/td[3]/a/span")).getText(),freestyleProjectName);
     }
 }
