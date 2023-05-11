@@ -85,7 +85,7 @@ public class UserTest extends BaseTest {
 
         createdUserLink.click();
 
-        WebElement configure = getDriver().findElement(By.xpath("//span[contains(text(),'Configure')]"));
+        WebElement configure = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(text(),'Configure')]")));
         configure.click();
 
         WebElement descriptionTextArea = getDriver().findElement(By.xpath("//textarea[contains(@name,'_.description')]"));
