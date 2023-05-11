@@ -1,14 +1,12 @@
 package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import java.util.stream.Collectors;
 
 public class FreestyleProject1Test extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
@@ -128,9 +126,9 @@ public class FreestyleProject1Test extends BaseTest {
         createFreestyleProject();
 
         getDriver().findElement(DELETE).click();
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
+        getDriver().switchTo().alert().accept();
+
         Assert.assertFalse(getDriver().findElements(SCREEN)
-                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(FREESTYLE_NAME));
+                .stream().map(WebElement::getText).toList().contains(FREESTYLE_NAME));
     }
 }
