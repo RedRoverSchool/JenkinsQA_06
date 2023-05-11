@@ -18,9 +18,11 @@ public class CreatePipelineProject2Test extends BaseTest {
     @Test
     public void testCreatePipelineProject() {
         getDriver().findElement(NEW_JOB).click();
+
         getDriver().findElement(INPUT_NAME_FIELD).sendKeys(name);
         getDriver().findElement(PROJECT_NAME).click();
         getDriver().findElement(OK_BUTTON).click();
+
         getDriver().findElement(SAVE_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(PAGE_TITLE).getText(), "Pipeline " + name);
