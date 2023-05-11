@@ -55,7 +55,6 @@ public class NewItem3Test extends BaseTest {
         getDriver().findElement(By.cssSelector("li:nth-child(1) > a")).click();
 
         WebElement result = getDriver().findElement(By.cssSelector("#projectstatus"));
-
         Assert.assertTrue(result.isDisplayed(), "project no display");
     }
 }
