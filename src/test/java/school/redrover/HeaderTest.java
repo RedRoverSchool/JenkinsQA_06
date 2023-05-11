@@ -210,6 +210,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testAdminPageIsAvailable() {
+
         WebElement adminButton = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href=\"/user/admin\"]")));
         adminButton.click();
 
