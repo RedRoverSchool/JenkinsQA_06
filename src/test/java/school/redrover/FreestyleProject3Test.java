@@ -7,6 +7,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
+
 public class FreestyleProject3Test extends BaseTest {
 
     public void createFreestyleProject() {
@@ -21,6 +23,7 @@ public class FreestyleProject3Test extends BaseTest {
     @Test
     public void testDeleteProjectFromTheDashboardList() {
         String expectedResult = "Start building your software project";
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         createFreestyleProject();
         Actions actions = new Actions(getDriver());
 
