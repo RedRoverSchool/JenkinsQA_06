@@ -82,7 +82,6 @@ public class Pipeline2Test extends BaseTest {
                 getText(), "No name is specified");
     }
 
-
     @Test
     public void testCreatePipelineProjectIncorrectName() {
         String name = "Pipeline";
@@ -106,7 +105,6 @@ public class Pipeline2Test extends BaseTest {
         Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
                 getText(), "‘" + symbol + "’ is an unsafe character");
     }
-
 
     @Test
     public void testCreatePipelineProjectIncorrectName2() {
