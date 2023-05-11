@@ -85,30 +85,6 @@ public class Pipeline2Test extends BaseTest {
     @Test
     public void testCreatePipelineProjectIncorrectName() {
         String name = "Pipeline";
-        String symbol = "!";
-
-        WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
-        newItem.click();
-
-        WebElement itemName = getDriver().findElement(By.id("name"));
-        itemName.sendKeys(name + symbol);
-
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
-                "» ‘" + symbol + "’ is an unsafe character");
-
-        WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
-        typeProject.click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))).
-                getText(), "Error");
-        Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
-                getText(), "‘" + symbol + "’ is an unsafe character");
-    }
-
-    @Test
-    public void testCreatePipelineProjectIncorrectName2() {
-        String name = "Pipeline";
         List<String> symbol = Arrays.asList("!", "@", "#", "?", "$", "%", "^", "&", "*", "[", "]", "\\", "|", "/");
 
         for (int i = 0; i < symbol.size(); i++) {
