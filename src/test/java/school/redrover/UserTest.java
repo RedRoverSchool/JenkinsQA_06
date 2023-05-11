@@ -41,16 +41,20 @@ public class UserTest extends BaseTest {
     }
 
     private static final String USERDATA = "user1";
+    private static final String UserDescription = "Role: Manager";
     private WebElement createdUserLink;
+    private WebElement createdUserDescription;
+    private static final By manageJenkins = By.xpath("//a[@href='/manage']");
+    private static final By manageUsers = By.xpath("(//dt[normalize-space()='Manage Users'])[1]");
 
     @Test
     public void testCreatingUser() {
 
-        WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
-        manageJenkins.click();
+        WebElement manageJenkinsElement = getDriver().findElement(manageJenkins);
+        manageJenkinsElement.click();
 
-        WebElement manageUsers = getDriver().findElement(By.xpath("(//dt[normalize-space()='Manage Users'])[1]"));
-        manageUsers.click();
+        WebElement manageUsersElement = getDriver().findElement(manageUsers);
+        manageUsersElement.click();
 
         WebElement createUser = getDriver().findElement(By.xpath("//a[@href='addUser']"));
         createUser.click();
@@ -77,7 +81,36 @@ public class UserTest extends BaseTest {
                 By.xpath("//a[normalize-space()='" + USERDATA + "']")));
         Assert.assertTrue(createdUserLink.isDisplayed());
 
+        // test Add Data To User Configure
+
+        createdUserLink.click();
+
+        WebElement configure = getDriver().findElement(By.xpath("//span[contains(text(),'Configure')]"));
+        configure.click();
+
+        WebElement descriptionTextArea = getDriver().findElement(By.xpath("//textarea[contains(@name,'_.description')]"));
+        descriptionTextArea.sendKeys(UserDescription);
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[normalize-space()='Save']"));
+        saveButton.click();
+
+        createdUserDescription = getWait2().until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//div[normalize-space()='" + UserDescription + "']")));
+        Assert.assertTrue(createdUserDescription.isDisplayed());
+
+
         // Delete the user via Bin
+
+        WebElement jenkinsIcon = getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
+        jenkinsIcon.click();
+
+        WebElement manageJenkinsLink = getWait2().until(ExpectedConditions
+                .elementToBeClickable(manageJenkins));
+        manageJenkinsLink.click();
+
+        WebElement manageUserLink = getWait2().until(ExpectedConditions
+                .elementToBeClickable(manageUsers));
+        manageUserLink.click();
 
         WebElement binButton = getWait2().until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//a[contains(@href,'user/user1/delete') and contains(@class,'jenkins-table__button jenkins-!-destructive-color')]")));
