@@ -79,7 +79,6 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.tagName("h1")).isDisplayed());
     }
 
-    @Ignore
     @Test
     public void testRenameCreatedFolder() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
@@ -148,6 +147,7 @@ public class MykolaTest extends BaseTest {
         folderDropDownMenu(folderName);
 
         By dropDownNewItemButtonLocator =By.xpath("//*[@index='1']");
+        getWait2().until(ExpectedConditions.elementToBeClickable(dropDownNewItemButtonLocator));
         getDriver().findElement(dropDownNewItemButtonLocator).click();
 
         String addedFolderName = faker.name().firstName();
@@ -198,7 +198,10 @@ public class MykolaTest extends BaseTest {
         listViewSelectedSymbol.click();
         WebElement createButton = getDriver().findElement(By.xpath("//button[@id='ok']"));
         createButton.click();
-        WebElement okButton = getDriver().findElement(By.name("Submit"));
+
+        By okButtonLocator = By.name("Submit");
+        getWait2().until(ExpectedConditions.elementToBeClickable(okButtonLocator));
+        WebElement okButton = getDriver().findElement(okButtonLocator);
         okButton.click();
 
         getDriver().findElement(By.xpath("//*[@href='/' and contains(text(),'Dashboard')]")).click();
