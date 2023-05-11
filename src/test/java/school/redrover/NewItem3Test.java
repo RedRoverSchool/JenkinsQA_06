@@ -20,7 +20,6 @@ public class NewItem3Test extends BaseTest {
         getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
 
         String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer2/']")).getText();
-
         Assert.assertEquals(actualResult, expectedResult);
     }
 
