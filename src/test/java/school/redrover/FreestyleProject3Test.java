@@ -29,7 +29,6 @@ public class FreestyleProject3Test extends BaseTest {
         getDriver().findElement(By.cssSelector("[href$='console']")).click();
 
         WebElement result = getDriver().findElement(By.cssSelector(".jenkins-icon-adjacent"));
-
         Assert.assertTrue(result.isDisplayed());
     }
 }
