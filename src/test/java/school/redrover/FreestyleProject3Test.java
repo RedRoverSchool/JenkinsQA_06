@@ -26,7 +26,9 @@ public class FreestyleProject3Test extends BaseTest {
 
         WebElement projectButton = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
         actions.moveToElement(projectButton).perform();
-        getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button")).click();
+        WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
+        actions.moveToElement(dropdown).perform();
+        actions.click(dropdown).perform();
         getDriver().findElement(By.xpath("//span[text()='Delete Project']")).click();
         getDriver().switchTo().alert().accept();
 
