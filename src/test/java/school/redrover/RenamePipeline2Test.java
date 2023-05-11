@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class RnamePipeline2Test extends BaseTest {
+public class RenamePipeline2Test extends BaseTest {
 
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By TEXT_FIELD = By.id("name");
