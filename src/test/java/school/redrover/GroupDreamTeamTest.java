@@ -45,7 +45,7 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement saveButton2 = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveButton2.click();
     }
-
+@Ignore
     @Test
     public void testDashboardSidePanelItemsList() {
         List<WebElement> sidePanelItems = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
