@@ -227,11 +227,11 @@ public class PipelineTest extends BaseTest {
         WebElement pipelineName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + ITEM_NAME + "/")));
         int xOfpipelineName = pipelineName.getSize().getWidth();
         new Actions(getDriver())
-                .moveToElement(pipelineName, xOfpipelineName / 2 - 2, 0)
+                .moveToElement(pipelineName, xOfpipelineName / 2 - 3, 0)
                 .click()
                 .build()
                 .perform();
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[3]"))).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
         getDriver().switchTo().alert().accept();
         getDriver().findElement(dashboard).click();
 
