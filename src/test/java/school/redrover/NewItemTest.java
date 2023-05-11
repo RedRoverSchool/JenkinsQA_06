@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -119,6 +120,23 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(nameOfCreateProjects.size(), 1);
     }
 
+    @DataProvider(name = "wrong-character")
+    public Object[][] provideWrongCharacters() {
+        return new Object[][]
+                {{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}};
+    }
+
+    @Test(dataProvider = "wrong-character")
+    public void testCreatePipelineProjectWithInvalidName2(String wrongCharacter){
+        createProject(wrongCharacter, "Pipeline");
+
+        String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
+        Assert.assertEquals(validationMessage, "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
+
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
+    }
+
     @Test
     public void testCreatePipelineProjectWithInvalidName(){
         String[] invalidChars = new String[] {"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "/", "|", "?", "<", ">"};
@@ -160,4 +178,21 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div#main-panel h1")).getText(),RANDOM_NAME_PROJECT);
     }
 
+    @Test
+    public void testCreatePipelineGoingFromManageJenkinsPage() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        getDriver().findElement(By.linkText("New Item")).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='name']"))).sendKeys(RANDOM_NAME_PROJECT);
+        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.xpath("//ol//a[@href='/']")).click();
+
+        List<String> jobList = getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+
+        Assert.assertTrue(jobList.contains(RANDOM_NAME_PROJECT));
+    }
 }

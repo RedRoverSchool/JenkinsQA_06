@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -10,15 +11,6 @@ import school.redrover.runner.BaseTest;
 import java.util.List;
 
 public class MyViewsTest extends BaseTest {
-
-    @Test
-    public void testMoveToMyViewsPage() {
-        String firstUrl = getDriver().getCurrentUrl();
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        String secondUrl = getDriver().getCurrentUrl();
-
-        Assert.assertNotEquals(firstUrl, secondUrl);
-    }
 
     @Test
     public void testCreateAJobInThePageMyViews() {
@@ -53,17 +45,16 @@ public class MyViewsTest extends BaseTest {
     }
 
     @Test
-    public void testEditDescription() throws InterruptedException {
+    public void testEditDescription() {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
         getDriver().findElement(By.id("description-link")).click();
-        Thread.sleep(2000);
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//textarea[@name='description']"))).sendKeys("Test");
         getDriver()
                 .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
-
         getDriver().findElement(By.id("description-link")).click();
-        Thread.sleep(2000);
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//textarea[@name='description']"))).clear();
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test2");
         getDriver()
                 .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();

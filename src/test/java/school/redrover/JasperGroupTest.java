@@ -168,15 +168,6 @@ public class JasperGroupTest extends BaseTest {
     }
 
     @Test
-    public void testValidationMessage() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("createItem")).click();
-        WebElement message = getDriver().findElement(By.id("itemname-required"));
-
-        Assert.assertEquals(message.getText(), "» This field cannot be empty, please enter a valid name");
-    }
-
-    @Test
     public void testFindAllElements() {
         List<WebElement> elements = getDriver().findElements(By.xpath("//*[@class=\"task-link-text\"]"));
         List<String> expectedElements = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");

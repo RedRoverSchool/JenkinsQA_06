@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.WheelInput;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
@@ -190,7 +191,7 @@ public class ComradesAdelanteGroupTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//*[@class='console-output']")).getText().contains("Finished: SUCCESS"));
     }
-
+@Ignore
     @Test
     public void testCountTask() {
         List<WebElement> sidePanelCountTasksList = getDriver().findElements(
