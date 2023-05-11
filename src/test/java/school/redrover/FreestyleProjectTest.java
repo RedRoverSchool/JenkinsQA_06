@@ -17,6 +17,11 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final By NEW_ITEM = By.linkText("New Item");
+    private static final By NAME_FIELD = By.id("name");
+    private static final By OK_BUTTON = By.id("ok-button");
+    private static final By SAVE_BUTTON = By.name("Submit");
+
 
     @Test
     public void testCreateNewFreestyleProject() {
@@ -216,5 +221,28 @@ public class FreestyleProjectTest extends BaseTest {
         WebElement okButton = getDriver().findElement(By.id("ok-button"));
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
+    }
+
+    @Test
+    public void testDeleteFreestyleProject1() {
+
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(NAME_FIELD).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(By.xpath("//li[@class=\'hudson_model_FreeStyleProject\']")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Project')]")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        List<WebElement> projectLinks = getDriver()
+                .findElements(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
+        List<String> projectNames = projectLinks.stream().map(WebElement::getText).toList();
+
+        Assert.assertFalse(projectNames.contains(FREESTYLE_NAME));
     }
 }
