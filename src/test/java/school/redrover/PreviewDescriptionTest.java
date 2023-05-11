@@ -25,7 +25,7 @@ public class PreviewDescriptionTest extends BaseTest {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(expectedResult);
         getDriver().findElement(By.xpath("//a[text()='Preview']")).click();
 
 
