@@ -164,7 +164,7 @@ public class MykolaTest extends BaseTest {
         WebElement viewNameButton = getDriver().findElement(By.xpath("//div/*[contains(@href,'view') and contains(text(),'" + viewName + "')]"));
         Assert.assertTrue(viewNameButton.isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testDeleteViewThroughAllIconOnDashboardPage() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");

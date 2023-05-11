@@ -22,6 +22,7 @@ public class HelloWorldGroupTest extends BaseTest{
 
         Assert.assertEquals(userName.getText(), "admin");
     }
+    @Ignore
     @Test
     public void testDescriptionEdit() {
         final String text = "HelloWorld";

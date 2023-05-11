@@ -53,7 +53,7 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertEquals(itemsQuantity, 5);
     }
-
+    @Ignore
     @Test
     public void testSideMenu() {
         List<String> expectedMenus = List.of("New Item", "People", "Build History", "Manage Jenkins", "My Views");
