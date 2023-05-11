@@ -19,7 +19,7 @@ public class FreestyleProject3Test extends BaseTest {
     }
 
     @Test
-    public void testDeleteProjectFromTheDashboardList() throws InterruptedException {
+    public void testDeleteProjectFromTheDashboardList() {
         String expectedResult = "Start building your software project";
         createFreestyleProject();
         Actions actions = new Actions(getDriver());
@@ -29,7 +29,9 @@ public class FreestyleProject3Test extends BaseTest {
         WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
         actions.moveToElement(dropdown).perform();
         actions.click(dropdown).perform();
-        getDriver().findElement(By.xpath("//span[text()='Delete Project']")).click();
+        WebElement deleteProject = getDriver().findElement(By.xpath("//span[text()='Delete Project']"));
+        actions.moveToElement(deleteProject).perform();
+        actions.click(deleteProject).perform();
         getDriver().switchTo().alert().accept();
 
         String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
