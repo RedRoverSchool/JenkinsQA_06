@@ -31,11 +31,10 @@ public class FreestyleProject3Test extends BaseTest {
         WebElement projectButton = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
         actions.moveToElement(projectButton).perform();
         WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
-        actions.moveToElement(dropdown).perform();
-        actions.click(dropdown).perform();
+        dropdown.click();
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         WebElement deleteProject = getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li[5]"));
-        js.executeScript("arguments[0].click();", deleteProject);
+        deleteProject.click();
         getDriver().switchTo().alert().accept();
 
         String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
