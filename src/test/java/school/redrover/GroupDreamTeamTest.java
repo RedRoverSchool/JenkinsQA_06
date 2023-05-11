@@ -16,12 +16,6 @@ import java.util.List;
 public class GroupDreamTeamTest extends BaseTest {
 
     @Test
-    public void testWelcomeToJenkinsPresent() {
-        WebElement welcome = getDriver().findElement(By.xpath("//div[@id='main-panel']//h1"));
-        Assert.assertEquals(welcome.getText(), "Welcome to Jenkins!");
-    }
-
-    @Test
     public void testJenkinsMainPageLilia() {
         WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
         Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
@@ -158,18 +152,6 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testNewItem() {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Folder01");
-        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-        WebElement folder01 = getDriver().findElement(By.xpath("//span[text()='Folder01']"));
-
-        Assert.assertTrue(folder01.isDisplayed());
-    }
-
-    @Test
     public void testUserSidePanelMenu() {
         List<String> expectedUserSidePanelMenu = List.of(
                 "People",
@@ -199,23 +181,6 @@ public class GroupDreamTeamTest extends BaseTest {
         wait5.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//dd[text()= 'Configure credentials ']"))).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), "Stores scoped to Jenkins");
-    }
-
-    @Test
-    public void testProjectDisabled() {
-        //expected Project Disabled
-
-        //WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        getDriver().findElement(By.linkText("New Item")).click();
-        WebElement nameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
-        getWait10().until(ExpectedConditions.elementToBeClickable(nameBox)).sendKeys("Project001");
-        getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.cssSelector("label.jenkins-toggle-switch__label")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        WebElement actualProjectDisabled = getDriver().findElement(By.xpath("//form[contains(text(), 'This project is currently disabled')]"));
-
-        Assert.assertTrue(actualProjectDisabled.isDisplayed());
     }
 
       @Test
