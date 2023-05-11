@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -32,9 +33,9 @@ public class FreestyleProject3Test extends BaseTest {
         WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
         actions.moveToElement(dropdown).perform();
         actions.click(dropdown).perform();
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
         WebElement deleteProject = getDriver().findElement(By.xpath("//span[text()='Delete Project']"));
-        actions.moveToElement(deleteProject).perform();
-        actions.click(deleteProject).perform();
+        js.executeScript("arguments[0].click();", deleteProject);
         getDriver().switchTo().alert().accept();
 
         String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
