@@ -122,4 +122,20 @@ public class MultiConfigurTest extends BaseTest {
         Assert.assertTrue(iconDisabled.isDisplayed());
     }
 
+    @Test
+    public void testRenameMultiConfigurationProject() {
+        final String NEW_PROJECT_NAME="New project renamed";
+
+        createBaseMultiConfigurationProject();
+
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.xpath("//*[@id='tasks']/div[7]/span/a")).click();
+        getDriver().findElement(By.xpath("//*[@checkdependson='newName']")).sendKeys(NEW_PROJECT_NAME);
+        getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
+        getDriver().findElement(DASHBOARD_BUTTON).click();
+
+        WebElement newNameMultiCofigurationProject = getDriver().findElement(By.xpath("//td//a//span[1]"));
+
+        Assert.assertEquals(newNameMultiCofigurationProject.getText(),NAME_OF_PROJECT+NEW_PROJECT_NAME);
+    }
 }
