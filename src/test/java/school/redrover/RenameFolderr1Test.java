@@ -18,7 +18,7 @@ public class RenameFolderr1Test extends BaseTest{
     private static final By UPDATED_PROJECT_NAME_DISPLAYED = By.id("main-panel");
 
     private String projectName = "Project70";
-    private String updateName = "Project71";
+    private String updateName = "Project72";
 
     @Test
     public void testRenameFolder(){
