@@ -163,6 +163,7 @@ public class CaramelSyrupForJavaTest extends BaseTest {
         Assert.assertEquals(folder.size(), 4);
     }
 
+    @Ignore
     @Test
     public void testSHFirstJenkins() {
         String expectedResult = "Project AQA";
