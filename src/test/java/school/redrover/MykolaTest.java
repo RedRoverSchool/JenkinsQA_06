@@ -129,6 +129,7 @@ public class MykolaTest extends BaseTest {
         folderDropDownMenu(folderName);
 
         By renameButtonLocator = By.xpath("//*[contains(text(),'Rename')]");
+        getWait2().until(ExpectedConditions.elementToBeClickable(renameButtonLocator));
         getDriver().findElement(renameButtonLocator).click();
         renameFolder();
 
