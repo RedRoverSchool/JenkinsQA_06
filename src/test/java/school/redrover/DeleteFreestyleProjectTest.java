@@ -3,6 +3,7 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -43,6 +44,32 @@ public class DeleteFreestyleProjectTest extends BaseTest {
 
         WebElement deleteProjectLink = getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Project')]"));
         deleteProjectLink.click();
+        getDriver().switchTo().alert().accept();
+
+        WebElement myViews = getDriver().findElement(By.xpath("//a[@href = '/me/my-views']"));
+        myViews.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), expectedH2);
+    }
+
+    @Test
+    public void testDeleteFreestyleProjectFromDropdown() {
+
+        final String expectedH2 = "This folder is empty";
+        createFreestyleProject();
+
+        WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
+        dashboardBreadCrumb.click();
+
+        Actions act = new Actions(getDriver());
+        WebElement project = getDriver().findElement(By.xpath("//span[contains(text(), 'Project 2')]"));
+        act.moveToElement(project).build().perform();
+
+        WebElement projectDropDownButton = getDriver().findElement(By.xpath("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
+        projectDropDownButton.click();
+
+        WebElement deleteProjectButton = getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]"));
+        deleteProjectButton.click();
         getDriver().switchTo().alert().accept();
 
         WebElement myViews = getDriver().findElement(By.xpath("//a[@href = '/me/my-views']"));
