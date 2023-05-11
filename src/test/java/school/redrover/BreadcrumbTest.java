@@ -13,15 +13,14 @@ import school.redrover.runner.BaseTest;
 public class BreadcrumbTest extends BaseTest {
     @Test
     public void testNavigateToManageJenkinsSection() {
-        Actions action = new Actions(getDriver());
-        action.moveToElement(getDriver().findElement(
+        new Actions(getDriver()).moveToElement(getDriver().findElement(
                 By.xpath("//*[@id='breadcrumbs']/li/a[@href='/']"))).perform();
 
         By pointerLocator =
                 By.xpath("//*[@id='breadcrumbs']/li/a/button[@class='jenkins-menu-dropdown-chevron']");
         getWait10().until(ExpectedConditions.elementToBeClickable(pointerLocator));
         WebElement pointer = getDriver().findElement(pointerLocator);
-        action.moveToElement(pointer).perform();
+        new Actions(getDriver()).moveToElement(pointer).perform();
         pointer.sendKeys(Keys.RETURN);
 
         By sectionNameLocator = By.xpath("//*[@id='yui-gen4']/a/span");
