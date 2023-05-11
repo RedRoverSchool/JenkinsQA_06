@@ -84,7 +84,7 @@ public class FolderTest extends BaseTest {
    @Test
     public void testErrorWhenCreateFolderWithExistingName() {
        String folderName = "TestFolder";
-       String error = "Error";
+       String errorMessage = "Error";
 
        createFolder(folderName);
        getWait(2).until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_FIELD)).click();
@@ -93,6 +93,6 @@ public class FolderTest extends BaseTest {
 
        createFolder(folderName);
 
-       Assert.assertEquals(getDriver().findElement(ERROR_PAGE).getText(), error);
+       Assert.assertEquals(getDriver().findElement(ERROR_PAGE).getText(), errorMessage);
    }
 }
