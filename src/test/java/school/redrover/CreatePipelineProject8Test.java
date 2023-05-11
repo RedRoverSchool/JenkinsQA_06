@@ -11,21 +11,20 @@ import school.redrover.runner.BaseTest;
 import java.time.Duration;
 
 public class CreatePipelineProject8Test extends BaseTest {
-    @Test
-    public void testNewItemSubmit() throws InterruptedException {
-        WebElement newItemBtn = getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']"));
-        newItemBtn.click();
 
-        getDriver().findElement(By.cssSelector("#name")).sendKeys("NewName");
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        Thread.sleep(4000);
+        public static String name = "NewName";
+        public static final By PIPELINE_FINAL_NAME = By.xpath("//h1[contains(text(),'Pipeline " + name + "')]");
 
-        getDriver().findElement(By.xpath("//button[contains(text(),'Save')]")).click();
-        Thread.sleep(4000);
+        @Test
+        public void testNewItemSubmit() {
+            WebElement newItemBtn = getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']"));
+            newItemBtn.click();
+            getDriver().findElement(By.cssSelector("#name")).sendKeys(name);
+            getDriver().findElement(By.cssSelector(".org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
+            getDriver().findElement(By.cssSelector("#ok-button")).click();
 
-        WebElement newNodeFileAdded = getDriver().findElement(By.xpath("//h1[contains(text(),'Project NewName')]"));
-        Assert.assertEquals(newNodeFileAdded.getText(), "Project NewName");
+            getDriver().findElement(By.xpath("//button[contains(text(),'Save')]")).click();
 
+            Assert.assertEquals(getDriver().findElement(PIPELINE_FINAL_NAME).getText(), "Pipeline " + name);
+        }
     }
-}
