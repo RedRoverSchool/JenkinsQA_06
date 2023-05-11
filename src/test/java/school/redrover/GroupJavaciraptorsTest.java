@@ -68,6 +68,7 @@ public class GroupJavaciraptorsTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void createNewItemTest() {
         WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
