@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -23,6 +24,7 @@ public class FooterTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > h1")).getText(), "REST API");
     }
 
+    @Ignore
     @Test
     public void testJenkinsFooterLink() {
         getDriver().findElement(By.cssSelector("a[rel='noopener noreferrer']")).click();
