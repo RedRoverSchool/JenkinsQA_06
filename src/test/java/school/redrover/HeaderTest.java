@@ -1,8 +1,10 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -11,8 +13,15 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.Duration;
 
 public class HeaderTest extends BaseTest {
+
+    private static final By NOTIFICATION_ICON = By.id("visible-am-button");
+    private static final By MANAGE_JENKINS_LINK = By.xpath("//a[text()='Manage Jenkins']");
+    private static final By HEADER_MANAGE_PAGE = By.xpath("//h1[text()='Manage Jenkins']");
+
+
     @Test
     public void testHeaderLogoIcon() throws IOException {
         WebElement logoIcon = getDriver().findElement(By.xpath("//*[@id=\"jenkins-head-icon\"]"));
@@ -140,5 +149,62 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-name-icon")).isDisplayed());
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-head-icon")).isDisplayed());
+    }
+
+    @Test
+    public void testClickLogoReturnToMainPage(){
+
+        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create a job')]"))).click();
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"jenkins-home-link\"]"))).click();
+
+        WebElement mainPageText = getDriver().findElement(By.xpath("//h1[contains(text(),'Welcome to Jenkins!')]"));
+        Assert.assertEquals(mainPageText.getText(),"Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testSearchField() {
+        WebElement searchBox = getDriver().findElement(By.id("search-box"));
+        searchBox.sendKeys("");
+        searchBox.sendKeys(Keys.RETURN);
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
+                (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
+    }
+
+    @Test
+    public void testLogOutButtonTransfersBackToLoginPaged() {
+        final String expectedHeader = "Welcome to Jenkins!";
+
+        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
+        WebElement actualHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualHeader.getText(), expectedHeader);
+    }
+
+    @Test
+    public void testNotificationAndSecurityIcon() {
+
+        WebElement notificationIcon = getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(NOTIFICATION_ICON));
+
+        String backgroundColorBefore = notificationIcon.getCssValue("background-color");
+        new Actions(getDriver()).moveToElement(notificationIcon).perform();
+        String backgroundColorAfter = notificationIcon.getCssValue("background-color");
+
+        Assert.assertNotEquals(backgroundColorBefore, backgroundColorAfter, "The color of icon is not changed");
+        notificationIcon.click();
+
+        WebElement manageJenkinsLink = getWait2().until(ExpectedConditions
+                .elementToBeClickable(MANAGE_JENKINS_LINK));
+        manageJenkinsLink.click();
+
+        String expectedHeader = "Manage Jenkins";
+        WebElement actualHeader = getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(HEADER_MANAGE_PAGE));
+
+        Assert.assertEquals(actualHeader.getText(),expectedHeader);
     }
 }

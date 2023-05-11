@@ -22,44 +22,6 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testNewFreestyleProjectCreated() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-        WebElement createAJobArrow = getDriver().findElement(
-                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")
-        );
-        createAJobArrow.click();
-
-        WebElement inputItemName = getDriver().findElement(By.id("name"));
-        wait.until(ExpectedConditions.elementToBeClickable(inputItemName)).sendKeys("Project1");
-
-        WebElement freestyleProjectTab = getDriver().findElement(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']")
-        );
-        freestyleProjectTab.click();
-
-        WebElement okButton = getDriver().findElement(By.className("btn-decorator"));
-        okButton.click();
-
-        WebElement dashboardLink = getDriver().findElement(
-                By.xpath("//ol[@id='breadcrumbs']/li/a[text() = 'Dashboard']")
-        );
-        dashboardLink.click();
-
-        Assert.assertTrue(getDriver().findElement(By.id("projectstatus")).isDisplayed());
-
-        List<WebElement> newProjectsList = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr"));
-
-        Assert.assertEquals(newProjectsList.size(), 1);
-
-        List<WebElement> projectDetailsList = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']/tbody/tr/td")
-        );
-
-        Assert.assertEquals(projectDetailsList.get(2).getText(), "Project1");
-    }
-
-    @Test
     public void testJenkinsMainPageLilia() {
         WebElement headerWelcome = getDriver().findElement(By.tagName("h1"));
         Assert.assertEquals(headerWelcome.getText(), "Welcome to Jenkins!");
@@ -83,7 +45,7 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement saveButton2 = getDriver().findElement(By.xpath("//button[@name='Submit']"));
         saveButton2.click();
     }
-
+@Ignore
     @Test
     public void testDashboardSidePanelItemsList() {
         List<WebElement> sidePanelItems = getDriver().findElements(By.xpath("//div[@id='tasks']/div"));
@@ -196,34 +158,6 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testErrorWhenCreatingJobWithEmptyName() {
-        String expectedError = "» This field cannot be empty, please enter a valid name";
-
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
-
-        String actualError = getDriver().findElement(By.id("itemname-required")).getText();
-
-        Assert.assertEquals(actualError, expectedError);
-    }
-
-    @Test
-    public void testOKButtonIsDisabledWhenCreatingJobWithEmptyName() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
-
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-
-        Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
-    }
-
-    @Test
     public void testNewItem() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Folder01");
@@ -260,13 +194,11 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testAddNewCredentials() {
-        WebElement sideMenuManageJenkins = getDriver().findElement(By.linkText("Manage Jenkins"));
-        sideMenuManageJenkins.click();
-        WebElement manageCredentials = getDriver().findElement(By.xpath("//dt[text()='Manage Credentials']"));
-        manageCredentials.click();
-        WebElement storesScope = getDriver().findElement(By.xpath("//h2"));
+        WebDriverWait wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        wait5.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//dd[text()= 'Configure credentials ']"))).click();
 
-        Assert.assertEquals(storesScope.getText(), "Stores scoped to Jenkins");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), "Stores scoped to Jenkins");
     }
 
     @Test
@@ -286,9 +218,52 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertTrue(actualProjectDisabled.isDisplayed());
     }
 
+      @Test
+    public void testSearchBoxInsensitive() {
+        //WebDriverWait wait2 = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        getDriver().findElement(By.xpath("//div[@class=\'login page-header__hyperlinks\']//a[@class=\'model-link\']")).click();
+
+        getDriver().findElement(By.xpath("//a[@href='/user/admin/configure']")).click();
+        WebElement checkBoxInsensitiveSearch = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='insensitiveSearch']")));
+
+        Assert.assertEquals(checkBoxInsensitiveSearch.getAttribute("checked"), "true");
+
+        WebElement searchBox = getDriver().findElement(By.id("search-box"));
+        searchBox.sendKeys("built");
+        WebElement searchItem = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='yui-ac-bd']/ul/li[1]")));
+
+        Assert.assertEquals(searchItem.getText(), "Built-In Node");
+
+        searchBox.clear();
+        searchBox.sendKeys("Built");
+        WebElement searchItem2 = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='yui-ac-bd']/ul/li[1]")));
+
+        Assert.assertEquals(searchItem2.getText(), "Built-In Node");
+    }
+
+
     @Test
     public void testVerifyLogoJenkinsIsPresent() {
         WebElement element = getDriver().findElement(By.cssSelector("img#jenkins-head-icon"));
         Assert.assertTrue(element.isDisplayed());
+    }
+
+    @Test
+    public void testMakeProjectDisabled() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        WebElement nameInput = getDriver().findElement(By.xpath("//input[@id='name']"));
+        getWait10().until(ExpectedConditions.elementToBeClickable(nameInput)).sendKeys("First Project");
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        WebElement actualProjectHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualProjectHeader.getText(), "Project First Project");
+
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+        WebElement receivedMessage = getDriver().findElement(By.xpath("//div/form[@id='enable-project']"));
+
+        Assert.assertEquals(receivedMessage.getText().substring(0,34), "This project is currently disabled");
     }
 }

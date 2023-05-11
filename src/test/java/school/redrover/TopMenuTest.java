@@ -12,6 +12,9 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class TopMenuTest extends BaseTest {
@@ -197,5 +200,58 @@ public class TopMenuTest extends BaseTest {
 
         Assert.assertEquals(actualNewProjectName,expectedNewProjectName);
 
+    }
+
+    @Ignore
+    @Test
+    public void testPreviewOfAddedDescriptionWhenClickUserIDButton() {
+        String expectedPreviewOfAddedDescription = "QA Engineer";
+
+        getDriver()
+                .findElement(By.xpath("//div[@class=\'login page-header__hyperlinks\']/a[1]/span"))
+                .click();
+        getDriver()
+                .findElement(By.xpath("//a[@id=\'description-link\']"))
+                .click();
+        getDriver()
+                .findElement(By.xpath("//div[@class=\'setting-main help-sibling\']/textarea"))
+                .sendKeys("QA Engineer");
+        getDriver()
+                .findElement(By.xpath("//div[@class=\'textarea-preview-container\']/a[@class=\'textarea-show-preview\']"))
+                .click();
+
+        WebElement previewDescription = getDriver().findElement(By.xpath("//div[@class=\'textarea-preview\']"));
+        String actualPreviewOfAddedDescription = String.valueOf(previewDescription.getText());
+
+        Assert.assertEquals(actualPreviewOfAddedDescription, expectedPreviewOfAddedDescription);
+    }
+    @Test
+    public void testCheckMenuAfterPushButtonPeople () {
+        getDriver().findElement(By.linkText("People")).click();
+
+        WebElement one = getDriver().findElement(By.xpath("//h1"));
+        Assert.assertEquals(one.getText(),"People");
+
+        List<String> expectedMenu = Arrays.asList("User ID", "Name", "Last Commit Activity", "On");
+
+        List<WebElement> titles =  getDriver().findElements(By.xpath("//a[@class = 'sortheader']"));
+        List<String> actualMenu = new ArrayList<>();
+
+        for (int i = 0; i < titles.size(); i++) {
+            if (titles.get(i).getText().contains("↑")) {
+                actualMenu.add(titles.get(i).getText().replace("↑", "").trim());
+            } else {
+                actualMenu.add(titles.get(i).getText());
+            }
+        }
+        Assert.assertEquals(actualMenu, expectedMenu);
+    }
+
+    @Test
+    public void testVerificationLogOutButton(){
+        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
+        WebElement element = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(element.getText(), "Welcome to Jenkins!");
     }
 }

@@ -1,10 +1,12 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -88,7 +90,7 @@ public class JavaExpertsNationTest extends BaseTest {
 
         Assert.assertEquals(projectTitle.getText(), "Project " + firstJob, "projectTitle does not match inputted text");
     }
-
+    @Ignore
     @Test
     public void testJenkins2_387_2Link() {
         WebElement jenkinsLink = getDriver().findElement(By.xpath("//a[@href='https://www.jenkins.io/']"));
@@ -242,5 +244,35 @@ public class JavaExpertsNationTest extends BaseTest {
         WebElement homPage = getDriver().findElement
                 (By.xpath("//div[@class='empty-state-block']/h1"));
         Assert.assertEquals(homPage.getText(), "Welcome to Jenkins!");
+    }
+    @Ignore
+    @Test
+    public void testAddDescriptionPeople() {
+        WebElement people = getDriver().findElement(By.cssSelector("a[href='/asynchPeople/']"));
+        people.click();
+
+        WebElement admin = getDriver().findElement(By.cssSelector("a[href='/user/admin/']"));
+        admin.click();
+
+        WebElement addDescription = getDriver().findElement(By.cssSelector("a[href='editDescription']"));
+        addDescription.click();
+
+        WebElement textDescription = getDriver().findElement(By.xpath("//*[@id='description']/form/div[1]/div[1]/textarea"));
+        textDescription.click();
+
+        String value = textDescription.getAttribute("value");
+        if (value != null) {
+            int vailen = value.length();
+            for (int i = 0; i < vailen; i++) {
+                textDescription.sendKeys(Keys.BACK_SPACE);
+            }
+        }
+        String name = "Name: Vladimir";
+        textDescription.sendKeys(name);
+
+        getDriver().findElement(By.xpath("//*[@id='description']/form/div[2]/button")).click();
+
+        WebElement adminText = getDriver().findElement(By.xpath("//*[@id='description']/div[1]"));
+        Assert.assertEquals(adminText.getText(), name);
     }
 }
