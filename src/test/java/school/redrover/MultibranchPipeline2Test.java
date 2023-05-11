@@ -55,6 +55,6 @@ public class MultibranchPipeline2Test extends BaseTest {
         getDriver().findElement(By.cssSelector("[class='icon-edit-delete icon-md']")).click();
         getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1")).getText(),"Welcome to Jenkins!");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']")).getText(),"Welcome to Jenkins!");
     }
 }
