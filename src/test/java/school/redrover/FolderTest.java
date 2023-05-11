@@ -21,6 +21,8 @@ public class FolderTest extends BaseTest {
     private static final By SAVE_BUTTON = By.name("Submit");
     private static final By DASHBOARD_LINK = By.xpath("//div[@id='breadcrumbBar']//a");
     private static final By DISPLAY_NAME_FIELD = By.name("_.displayNameOrNull");
+    private static final By DASHBOARD_RETURN = By.xpath("//div[@id='breadcrumbBar']//a[@href= '/']");
+    private static final By ERROR_PAGE = By.xpath("//h1");
 
     private WebDriverWait getWait(int seconds) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
@@ -78,4 +80,21 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), editedName);
         Assert.assertNotEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), name);
     }
+
+   @Test
+    public void testErrorWhenCreatFolderWithExistingName() {
+       String folderName = "FirstFolder";
+       String error = "Error";
+
+       createFolder(folderName);
+       getWait(2).until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_FIELD)).click();
+       getDriver().findElement(SAVE_BUTTON).click();
+       getDriver().findElement(DASHBOARD_RETURN).click();
+
+       createFolder(folderName);
+
+       Assert.assertEquals(getDriver().findElement(ERROR_PAGE).getText(), error);
+
+
+   }
 }
