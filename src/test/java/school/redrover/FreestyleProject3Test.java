@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
 import java.time.Duration;
 
 public class FreestyleProject3Test extends BaseTest {
@@ -22,7 +21,7 @@ public class FreestyleProject3Test extends BaseTest {
     }
 
     @Test
-    public void testDeleteProjectFromTheDashboardList() {
+    public void testDeleteProjectFromTheDashboardList() throws InterruptedException {
         String expectedResult = "Start building your software project";
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         createFreestyleProject();
@@ -31,10 +30,11 @@ public class FreestyleProject3Test extends BaseTest {
         WebElement projectButton = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
         actions.moveToElement(projectButton).perform();
         WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
-        actions.click(dropdown).build().perform();
+        actions.moveToElement(dropdown).click(dropdown).perform();
+
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         WebElement deleteProject = getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li[5]"));
-        js.executeScript("arguments[0].click();", deleteProject);
+        actions.moveToElement(deleteProject).click(deleteProject).perform();
         getDriver().switchTo().alert().accept();
 
         String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
