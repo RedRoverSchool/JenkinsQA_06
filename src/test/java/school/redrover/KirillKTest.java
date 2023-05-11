@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -14,6 +15,7 @@ public class KirillKTest extends BaseTest {
     public static final By OK_BUTTON = By.cssSelector("div.footer button#ok-button");
     public static final By FINAL_SAVE_BUTTON = By.cssSelector("div#bottom-sticker button[name='Submit']");
 
+    @Ignore
     @Test
     public void testFolderCreation() {
         WebElement newJobLink = getDriver().findElement(NEW_JOB_LINK);

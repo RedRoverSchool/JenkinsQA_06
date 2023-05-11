@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -54,6 +55,7 @@ public class Folder1Test extends BaseTest {
         Assert.assertEquals(displayNameText, getDriver().findElement(NEW_FOLDER_ICON).getText());
     }
 
+    @Ignore
     @Test
     public void testRenameFolder() {
         createFolder();

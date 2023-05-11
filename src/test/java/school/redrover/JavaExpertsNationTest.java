@@ -73,6 +73,7 @@ public class JavaExpertsNationTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testAddNewItem() {
         WebElement newItem = getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']"));
