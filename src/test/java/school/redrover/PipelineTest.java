@@ -227,7 +227,7 @@ public class PipelineTest extends BaseTest {
         WebElement pipelineName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + ITEM_NAME + "/")));
         int xOfpipelineName = pipelineName.getSize().getWidth();
         new Actions(getDriver())
-                .moveToElement(pipelineName, xOfpipelineName / 2 - 3, 0)
+                .moveToElement(pipelineName, (xOfpipelineName / 2) - 5, 1)
                 .click()
                 .build()
                 .perform();
