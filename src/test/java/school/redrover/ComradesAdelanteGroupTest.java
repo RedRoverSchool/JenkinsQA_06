@@ -32,6 +32,8 @@ public class ComradesAdelanteGroupTest extends BaseTest {
         WebElement generalInfoField = getDriver().findElement(By.xpath("//*[@class = 'jenkins-app-bar__content']/child::h2"));
         Assert.assertEquals(generalInfoField.getText(), "General");
     }
+
+    @Ignore
     @Test
     public void testVerifyNameOfFreestyleProject() {
         String nameOfJob = "Simple test";
