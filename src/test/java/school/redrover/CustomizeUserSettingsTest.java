@@ -17,32 +17,32 @@ public class CustomizeUserSettingsTest extends BaseTest  {
         String email = "testuser@test.com";
 
         getDriver().findElement(By.cssSelector("[href='/manage']")).click();
-        getDriver().findElement(By.cssSelector("[href='securityRealm/']")).click();
-        getDriver().findElement(By.cssSelector("[href='addUser']")).click();
+        getDriver().findElement(By.xpath("//div[@id='main-panel']/section[3]/div/div[4]/a/dl")).click();
+        getDriver().findElement(By.xpath("//div[@id='main-panel']/div/div[2]/a")).click();
 
-        getDriver().findElement(By.cssSelector("#username")).sendKeys(testUser);
-        getDriver().findElement(By.cssSelector("[name='password1']")).sendKeys(password);
-        getDriver().findElement(By.cssSelector("[name='password2']")).sendKeys(password);
-        getDriver().findElement(By.cssSelector("[name='fullname']")).sendKeys(testUserName);
-        getDriver().findElement(By.cssSelector("[name='email']")).sendKeys(email);
-        getDriver().findElement(By.cssSelector("[name='Submit']")).click();
+        getDriver().findElement(By.xpath("//input[@id='username']")).sendKeys(testUser);
+        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div[1]/div[2]/div[2]/input")).sendKeys(password);
+        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div[1]/div[3]/div[2]/input")).sendKeys(password);
+        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div[1]/div[4]/div[2]/input")).sendKeys(testUserName);
+        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div[1]/div[5]/div[2]/input")).sendKeys(email);
+        getDriver().findElement(By.xpath("//div[@id='bottom-sticker']/div/button")).click();
 
-        getDriver().findElement(By.cssSelector("[href='/']")).click();
-        getDriver().findElement(By.cssSelector("[href='/asynchPeople/']")).click();
-        String oldactualresult = getDriver().findElement(By.cssSelector("#people>tbody>tr:nth-child(2)>td:nth-child(3)")).getText();
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]/a")).click();
+        getDriver().findElement(By.xpath("//div[@id='tasks']/div[2]/span/a")).click();
+        String oldactualresult = getDriver().findElement(By.xpath("//tr[@id='person-TestUser']/td[3]")).getText();
         Assert.assertEquals(oldactualresult, testUserName);
 
-        getDriver().findElement(By.cssSelector("[href='/user/testuser/']")).click();
-        getDriver().findElement(By.cssSelector("[href='/user/testuser/configure']")).click();
+        getDriver().findElement(By.xpath("//tr[@id='person-TestUser']/td[2]/a")).click();
+        getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a")).click();
 
-        WebElement newUserName = getDriver().findElement(By.cssSelector("[name='_.fullName']"));
+        WebElement newUserName = getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input"));
         newUserName.clear();
         newUserName.sendKeys(newUser);
 
-        getDriver().findElement(By.cssSelector("[name='Submit']")).click();
-        getDriver().findElement(By.cssSelector("[href='/asynchPeople/']")).click();
+        getDriver().findElement(By.xpath("//div[@id='bottom-sticker']/div/button[1]")).click();
+        getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a")).click();
 
-        String newactualresult = getDriver().findElement(By.cssSelector("#people>tbody>tr:nth-child(2)>td:nth-child(3)")).getText();
+        String newactualresult = getDriver().findElement(By.xpath("//tr[@id='person-TestUser']/td[3]")).getText();
         Assert.assertEquals(newactualresult, newUser);
     }
 }
