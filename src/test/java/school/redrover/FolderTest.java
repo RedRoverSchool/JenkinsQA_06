@@ -94,7 +94,5 @@ public class FolderTest extends BaseTest {
        createFolder(folderName);
 
        Assert.assertEquals(getDriver().findElement(ERROR_PAGE).getText(), error);
-
-
    }
 }
