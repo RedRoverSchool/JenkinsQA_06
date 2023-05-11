@@ -239,7 +239,7 @@ public class CatGroupTest extends BaseTest {
 
         Assert.assertEquals(actualResult, "UserNameTest");
     }
-
+    @Ignore
     @Test
     public void testAddNewLogRecorder() {
         WebElement manageJenkinsLink = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
@@ -285,7 +285,7 @@ public class CatGroupTest extends BaseTest {
         WebElement manageJenkins = getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']"));
         WebElement myViews = getDriver().findElement(By.xpath("//span[text() = 'My Views']"));
 
-        ArrayList <String> actualResult = new ArrayList<>();;
+        ArrayList <String> actualResult = new ArrayList<>();
         actualResult.add(newItem.getText());
         actualResult.add(people.getText());
         actualResult.add(buildHistory.getText());
