@@ -16,7 +16,7 @@ public class MultibranchPipeline2Test extends BaseTest {
     private static final By NEW_ITEM_BUTTON = By.linkText("New Item");
     private static final By FIELD_FOR_NAME = By.id("name");
 
-    private void createMultibranchPipeline(){
+    private void createMultibranchPipeline() {
         getDriver().findElement(NEW_ITEM_BUTTON).click();
         getDriver().findElement(FIELD_FOR_NAME).sendKeys(RANDOM_NAME_MULTIBRANCH_PIPELINE);
         WebElement multibranchButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("li.org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")));
@@ -26,7 +26,7 @@ public class MultibranchPipeline2Test extends BaseTest {
     }
 
     @Test
-    public void testCreateMultibranchPipelineWithDescription(){
+    public void testCreateMultibranchPipelineWithDescription() {
         getDriver().findElement(NEW_ITEM_BUTTON).click();
         getDriver().findElement(FIELD_FOR_NAME).sendKeys(RANDOM_NAME_MULTIBRANCH_PIPELINE);
         WebElement multibranchButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("li.org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")));
@@ -35,17 +35,26 @@ public class MultibranchPipeline2Test extends BaseTest {
         getDriver().findElement(By.name("_.description")).sendKeys(DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#main-panel h1")).getText(),RANDOM_NAME_MULTIBRANCH_PIPELINE);
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#view-message")).getText(),DESCRIPTION);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#main-panel h1")).getText(), RANDOM_NAME_MULTIBRANCH_PIPELINE);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#view-message")).getText(), DESCRIPTION);
     }
 
     @Test
-    public void testRenameMultibranchPipeline(){
+    public void testRenameMultibranchPipeline() {
         createMultibranchPipeline();
         getDriver().findElement(By.xpath("//div[@id='side-panel']/div[@id='tasks']/div[8]/span[1]/a")).click();
         getDriver().findElement(By.cssSelector("input.jenkins-input.validated")).sendKeys(RANDOM_NAME_MULTIBRANCH_PIPELINE);
         getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),RANDOM_NAME_MULTIBRANCH_PIPELINE + RANDOM_NAME_MULTIBRANCH_PIPELINE);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), RANDOM_NAME_MULTIBRANCH_PIPELINE + RANDOM_NAME_MULTIBRANCH_PIPELINE);
+    }
+
+    @Test
+    public void testDeleteMultibranchPipeline() {
+        createMultibranchPipeline();
+        getDriver().findElement(By.cssSelector("[class='icon-edit-delete icon-md']")).click();
+        getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']")).getText(), "Welcome to Jenkins!");
     }
 }
