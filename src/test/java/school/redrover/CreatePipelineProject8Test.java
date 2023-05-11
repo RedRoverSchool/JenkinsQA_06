@@ -15,7 +15,7 @@ public class CreatePipelineProject8Test extends BaseTest {
     public static final By PIPELINE_FINAL_NAME = By.xpath("//h1[contains(text(),'Pipeline " + name + "')]");
 
     @Test
-    public void testNewItemSubmit() throws InterruptedException {
+    public void testNewItemSubmit() {
         WebElement newItemBtn = getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']"));
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[@class='task-link-text' and .='New Item']")));
