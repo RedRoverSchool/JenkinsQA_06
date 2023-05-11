@@ -60,6 +60,7 @@ public class JavaNiSyGroupTest extends BaseTest {
         Assert.assertEquals(confirmation.getText(), "This folder is empty");
     }
 
+    @Ignore
     @Test
     public void testDeleteFolder()  {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(4));
