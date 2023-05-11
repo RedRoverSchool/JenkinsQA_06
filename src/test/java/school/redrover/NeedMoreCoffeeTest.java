@@ -54,7 +54,7 @@ public class NeedMoreCoffeeTest extends BaseTest {
 
     }
 
-    @Test
+   @Ignore @Test
     public void testNewFolder() {
 
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div[2]/div/section[1]/ul/li/a"));

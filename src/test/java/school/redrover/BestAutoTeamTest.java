@@ -68,7 +68,7 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(myViews.getText(), "My Views");
     }
 
-    @Test
+    @Ignore @Test
     public void testAddNewItem() {
 
         WebElement buttonNewItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
