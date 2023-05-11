@@ -13,7 +13,7 @@ public class CreateNewFolderTest extends BaseTest {
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By SAVE_BUTTON = By.xpath("//button[normalize-space()='Save']");
     private static final By UPDATED_PROJECT_NAME_DISPLAYED = By.id("main-panel");
-    private String folderName = "Project1234";
+    private String folderName = "Project1";
 
     @Test
     public void testRenameFolder() {
