@@ -29,7 +29,7 @@ public class NewItem3Test extends BaseTest {
         String expectedPipeline = "Pipeline Engineer";
         String expectedResult = "Engineer";
 
-        getDriver().findElement(By.xpath("//span[text()='New Item']/../..")).click();
+        getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
         WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
         itemName.click();
         itemName.sendKeys(expectedResult);
