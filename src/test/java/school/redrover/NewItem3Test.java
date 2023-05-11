@@ -17,7 +17,7 @@ public class NewItem3Test extends BaseTest {
         getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
         getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getDriver().findElement(By.cssSelector("#breadcrumbs > li ")).click();
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
 
         String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer2/']")).getText();
 
@@ -39,7 +39,7 @@ public class NewItem3Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("[class$='headline']")).getText(), expectedPipeline);
 
-        getDriver().findElement(By.cssSelector("#breadcrumbBar > ol > li")).click();
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
         String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer/']")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
