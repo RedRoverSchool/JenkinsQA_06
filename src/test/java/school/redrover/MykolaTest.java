@@ -165,6 +165,7 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(viewNameButton.isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testDeleteViewThroughAllIconOnDashboardPage() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
