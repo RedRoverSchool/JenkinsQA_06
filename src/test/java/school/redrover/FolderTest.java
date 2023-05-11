@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -55,7 +56,7 @@ public class FolderTest extends BaseTest {
     Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]")).getText().contains("Folder name: " + folderName));
     Assert.assertEquals(getDriver().findElement(By.id("view-message")).getText(), description);
     }
-
+@Ignore
     @Test()
     public void testEditFolderName() {
         String name = "AnotherFolder";

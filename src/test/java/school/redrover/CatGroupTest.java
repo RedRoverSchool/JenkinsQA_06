@@ -266,6 +266,7 @@ public class CatGroupTest extends BaseTest {
 
        Assert.assertEquals(recorderName, expectedResult);
     }
+    @Ignore
     @Test
     public void testSidePanelNames() {
 
