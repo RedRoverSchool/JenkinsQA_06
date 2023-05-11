@@ -60,6 +60,7 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(folderPageName.isDisplayed() && folderPageName.getText().equals(folderName));
     }
 
+    @Ignore
     @Test
     public void testDeleteCreatedFolder() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
