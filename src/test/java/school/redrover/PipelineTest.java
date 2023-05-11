@@ -231,7 +231,7 @@ public class PipelineTest extends BaseTest {
                 .click()
                 .build()
                 .perform();
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[3]"))).click();
         getDriver().switchTo().alert().accept();
         getDriver().findElement(dashboard).click();
 
