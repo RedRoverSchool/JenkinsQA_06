@@ -13,7 +13,7 @@ import java.time.Duration;
 public class ProjectDescriptionTest extends BaseTest {
 
     @Test
-    public void testProjectDescription() throws InterruptedException {
+    public void testProjectDescription() {
         String expectedResult = "Test";
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
