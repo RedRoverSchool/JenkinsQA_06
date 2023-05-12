@@ -57,9 +57,7 @@ public class DeleteFreestyleProjectTest extends BaseTest {
         inputName.sendKeys("One");
 
         getDriver().findElement(By.xpath("//li[@class= 'hudson_model_FreeStyleProject']")).click();
-
         getDriver().findElement(By.xpath(("//button[@id= 'ok-button']"))).click();
-
         getDriver().findElement(By.xpath("//button[@name= 'Submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project One");
