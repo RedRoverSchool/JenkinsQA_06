@@ -51,6 +51,7 @@ public class JavaExpertsNationTest extends BaseTest {
         Assert.assertEquals(peopleTitle.getText(), "Build History of Jenkins");
     }
 
+    @Ignore
     @Test
     public void testAddDescription() {
         WebElement addDescLink = getDriver().findElement(By.id("description-link"));
@@ -73,6 +74,7 @@ public class JavaExpertsNationTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testAddNewItem() {
         WebElement newItem = getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']"));

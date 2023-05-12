@@ -22,13 +22,12 @@ public class PipelineProjectTest extends BaseTest {
     private static final String ERROR_MESSAGE = "Not a positive integer";
     private static final By ACTUAL_ERROR_MESSAGE = By.xpath("//*[@name='strategy']//div[@class='error']");
     private static final By CONFIGURE_MENU = By.xpath("//*[@href='/job/test-pipeline/configure']");
-    private static final By JOB_PIPELINE = By.xpath("//*[@id='j-add-item-type-standalone-projects']//li[2]");
 
     private void createPipelineWithoutDescription(String name) {
        getDriver().findElement(By.xpath("//a[@href = 'newJob']")).click();
 
         getDriver().findElement(By.id("name")).sendKeys(name);
-        getDriver().findElement(JOB_PIPELINE).click();
+        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']//li[2]")).click();
         getDriver().findElement(By.id("ok-button")).click();
 
         getDriver().findElement(SAVE_BUTTON).click();
