@@ -1,46 +1,44 @@
 package school.redrover;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class TestCreateDuplicatePipeline extends BaseTest {
+
+    private static final String PROJECT_NAME = RandomStringUtils.randomAlphanumeric(7);
+    private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
+    private static final By INPUT_NAME = By.name("name");
+    private static final By SELECT_PIPELINE = By.xpath("//span[contains(text(), 'Pipeline')]");
+    private static final By OK_BUTTON = By.id("ok-button");
+    private static final By SUBMIT = By.name("Submit");
+    private static final By JENKINS_HEAD_ICON = By.id("jenkins-head-icon");
+    private static final By ERROR_MESSAGE = By.xpath("//div[@class='input-validation-message']");
+
+    private void createPipeline(String name) {
+
+        getDriver().findElement(NEW_ITEM).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(INPUT_NAME));
+        getDriver().findElement(INPUT_NAME).sendKeys(name);
+        getDriver().findElement(SELECT_PIPELINE).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(SUBMIT)).click();
+    }
+
     @Test
     public void testCreatePipelineJobWithDuplicateName() {
 
-        final String PROJECT_NAME = "Test1";
+        createPipeline(PROJECT_NAME);
 
-        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        newItem.click();
+        getDriver().findElement(JENKINS_HEAD_ICON).click();
+        getDriver().findElement(NEW_ITEM).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(INPUT_NAME));
+        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
+        getDriver().findElement(SELECT_PIPELINE).click();
 
-        WebElement inputName = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.name("name"))));
-        inputName.sendKeys(PROJECT_NAME);
-
-        WebElement pipeline = getDriver().findElement(By.xpath("//span[contains(text(), 'Pipeline')]"));
-        pipeline.click();
-
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-        okButton.click();
-
-        WebElement submit = getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.name("Submit"))));
-        submit.click();
-
-        WebElement jenkinsHeadIcon = getDriver().findElement(By.id("jenkins-head-icon"));
-        jenkinsHeadIcon.click();
-
-        WebElement newItem2 = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        newItem2.click();
-
-        WebElement inputName2 = getDriver().findElement(By.id("name"));
-        inputName2.sendKeys(PROJECT_NAME);
-
-        WebElement pipeline2 = getDriver().findElement(By.xpath("//span[contains(text(), 'Pipeline')]"));
-        pipeline2.click();
-
-        WebElement errorMessage = getDriver().findElement(By.xpath("//div[@class='input-validation-message']"));
-
-        Assert.assertEquals(errorMessage.getText(), "» A job already exists with the name ‘Test1’");
+        Assert.assertEquals(getDriver().findElement(ERROR_MESSAGE).getText(), "» A job already exists with the name " + "‘" + PROJECT_NAME + "’");
     }
 }
