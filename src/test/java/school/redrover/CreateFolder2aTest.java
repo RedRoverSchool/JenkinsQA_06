@@ -25,5 +25,5 @@ public class CreateFolder2aTest extends BaseTest {
                 .getText();
 
         Assert.assertEquals(folderNameFakt, folderName);
-    }
+        }
 }
