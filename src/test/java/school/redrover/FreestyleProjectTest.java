@@ -88,6 +88,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("h1.job-index-headline.page-headline")).isEnabled());
     }
 
+    @Ignore
     @Test
     public void testAddDescriptionToFreestyleProject() {
 

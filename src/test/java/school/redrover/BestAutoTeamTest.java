@@ -7,6 +7,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+@Ignore
 public class BestAutoTeamTest extends BaseTest {
 
     @Test

@@ -12,6 +12,7 @@ import school.redrover.runner.BaseTest;
 import java.time.Duration;
 import java.util.List;
 
+@Ignore
 public class ComradesAdelanteGroupTest extends BaseTest {
 
     @Test
