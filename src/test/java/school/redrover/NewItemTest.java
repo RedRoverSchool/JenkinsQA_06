@@ -33,7 +33,6 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(actualResult, "Enter an item name");
     }
 
-    @Ignore
     @Test
     public void testVerifyNewItemsList() {
         List<String> listOfNewItemsExpect = Arrays.asList("Freestyle project", "Pipeline", "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder");
@@ -48,7 +47,6 @@ public class NewItemTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
     public void testVerifyButtonIsDisabled() {
         getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']")).click();
