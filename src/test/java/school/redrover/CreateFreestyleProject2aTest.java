@@ -20,6 +20,5 @@ public class CreateFreestyleProject2aTest extends BaseTest {
         String projectName = getDriver().findElement(By.xpath("//a[@class = 'jenkins-table__link model-link inside']"))
                 .getText();
         Assert.assertEquals(projectName, "Project One1");
-
     }
 }
