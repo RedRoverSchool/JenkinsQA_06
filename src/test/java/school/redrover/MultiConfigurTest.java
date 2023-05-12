@@ -17,6 +17,7 @@ public class MultiConfigurTest extends BaseTest {
     private static final By DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final By NEW_ITEM_BUTTON = By.xpath("//*[@id='tasks']//span/a");
     private static final By INPUT_FIELD = By.name("name");
+    private static final By DISABLE_BUTTON_CONFIG_PAGE = By.xpath("//*[@id='disable-project']/button");
     private static final List<String> SPECIAL_SYMBOLS = new ArrayList<> (Arrays.asList("!","@","#","$","%","^","&","*","[","]","?"));
 
 
@@ -53,6 +54,7 @@ public class MultiConfigurTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
+        String expectedResult = "Error";
         getDriver().findElement(NEW_ITEM_BUTTON).click();
         getDriver().findElement(INPUT_FIELD).sendKeys(" ");
         getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
@@ -60,11 +62,12 @@ public class MultiConfigurTest extends BaseTest {
 
         WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
 
-        Assert.assertEquals(errorMessage.getText(),"Error");
+        Assert.assertEquals(errorMessage.getText(), expectedResult);
     }
 
     @Test
     public void testCreateMultiConfigurationProjectWithSpecialSymbols()  {
+        String expectedResult = "is an unsafe character";
         getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
 
         for (String symbol:SPECIAL_SYMBOLS) {
@@ -72,7 +75,7 @@ public class MultiConfigurTest extends BaseTest {
 
             WebElement errorMessage = getDriver().findElement(By.id("itemname-invalid"));
 
-            Assert.assertEquals((errorMessage.getText()).substring(6, 28), "is an unsafe character");
+            Assert.assertEquals((errorMessage.getText()).substring(6, 28), expectedResult);
 
             getDriver().findElement(By.name("name")).clear();
         }
@@ -91,4 +94,32 @@ public class MultiConfigurTest extends BaseTest {
 
         Assert.assertEquals(errorMessage.getText(),ERROR_MESSAGE_EQUAL_NAME);
     }
+
+    @Test
+    public void testDisableMultiConfigurationProjectFromConfigurationPage() {
+        String expectedResult = "This project is currently disabled";
+
+        createBaseMultiConfigurationProject();
+
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).click();
+
+        WebElement disableMessage = getDriver().findElement(By.xpath("//*[@id='enable-project']"));
+
+        Assert.assertEquals(disableMessage.getText().substring(0,34),expectedResult);
+    }
+
+    @Test
+    public void testCheckDisableIconOnDashboard() {
+        createBaseMultiConfigurationProject();
+
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).click();
+        getDriver().findElement(DASHBOARD_BUTTON).click();
+
+        WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
+        Assert.assertTrue(iconDisabled.isDisplayed());
+    }
+
 }

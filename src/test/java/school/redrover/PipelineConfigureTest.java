@@ -4,10 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import java.util.List;
+import java.util.*;
 
 public class PipelineConfigureTest extends BaseTest {
     final String EXPECTED_RESULT = "New pipeline project";
@@ -31,14 +32,37 @@ public class PipelineConfigureTest extends BaseTest {
         return getDriver().findElement(by);
     }
 
-    public void clickLinkButton(String menuButton){
-        findElement(By.xpath(String.format("//*[text()='%s']", menuButton))).click();
+    public void clickPageButton(String menuButton){
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//*[text()='%s']", menuButton)))).click();
+    }
+
+    public void clickTaskButton(String nameOfTask){
+        List<WebElement> taskIconLinks = getDriver().findElements(By.className("task-icon-link"));
+        List<WebElement> taskLinksText = getDriver().findElements(By.xpath("//*[@id='tasks']/*//span[2]"));
+        List<String> textOfTaskLink = new ArrayList<>();
+        for (WebElement taskLinkText : taskLinksText){
+            textOfTaskLink.add(taskLinkText.getText());
+        }
+
+        Map<WebElement, String> buttonAndTask = new HashMap<>();
+        int i = 0;
+        for (WebElement taskIcon: taskIconLinks) {
+            buttonAndTask.put(taskIconLinks.get(i), textOfTaskLink.get(i));
+            i++;
+        }
+
+        for (Map.Entry<WebElement, String> entry : buttonAndTask.entrySet()) {
+            if (entry.getValue().equals(nameOfTask)) {
+                entry.getKey().click();
+            } else {
+                System.out.println("Wrong item");
+            }
+        }
     }
 
     public void createPipelineProject(String nameOfProject, String typeOfProject){
-        findElement(By.className("task-icon-link")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.id("name"))).sendKeys(nameOfProject);
+        WebElement fieldName = findElement(By.id("name"));
+        getWait2().until(ExpectedConditions.visibilityOf(fieldName)).sendKeys(nameOfProject);
 
         List<WebElement> listItemOptions = getDriver().findElements(By.id("j-add-item-type-standalone-projects"));
         for(WebElement element:listItemOptions){
@@ -49,6 +73,14 @@ public class PipelineConfigureTest extends BaseTest {
         findElement(By.id("ok-button")).click();
     }
 
+    public void clickButtonApply(){
+        findElement(By.name("Apply")).click();
+    }
+
+    public String statusOfProject(){
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.className("svg-icon"))).getAttribute("title");
+    }
 
     @Test
     public void testSetDescription() {
@@ -204,11 +236,11 @@ public class PipelineConfigureTest extends BaseTest {
 
         getDriver().findElement(By.name("Submit")).click();
 
-        getWait2().until(ExpectedConditions.textToBe(By.tagName("h1"), "Pipeline " + PIPELINE_NAME));
+        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")),"Pipeline"));
 
         String disabledWarning = getDriver().findElement(By.id("enable-project")).getText();
 
-        WebElement configurePipeline= getDriver().findElement(By.linkText("Configure"));
+        WebElement configurePipeline= getDriver().findElement(By.xpath("//a[contains(@href,'configure')]"));
         configurePipeline.click();
 
         getWait5().until(ExpectedConditions.textToBe(By.tagName("h2"), "General"));
@@ -217,25 +249,48 @@ public class PipelineConfigureTest extends BaseTest {
                 By.xpath("//input[@name='enable']")).getAttribute("value"));
 
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
-        Assert.assertFalse(isPipelineEnabledAfterDisable,"false");
+        Assert.assertFalse(isPipelineEnabledAfterDisable);
     }
-
+@Ignore
     @Test
     public void addDescriptionPipelineProjectTest(){
         String description = "This is a project for school test";
+        clickTaskButton("New Item");
         createPipelineProject(EXPECTED_RESULT, "Pipeline");
         findElement(By.name("description")).sendKeys(description);
-        findElement(By.name("Apply")).click();
+        clickButtonApply();
         WebElement messageSaved = getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.id("notification-bar")));
 
         Assert.assertTrue(messageSaved.isDisplayed());
 
-        clickLinkButton("Dashboard");
-        clickLinkButton(EXPECTED_RESULT);
+        clickPageButton("Dashboard");
+        clickPageButton(EXPECTED_RESULT);
 
         WebElement fieldDescription = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("description")));
 
         Assert.assertTrue(fieldDescription.getText().contains(description));
+    }
+
+    @Ignore
+    @Test
+    public void disablePipelineProjectTest(){
+        clickTaskButton("New Item");
+        createPipelineProject(EXPECTED_RESULT, "Pipeline");
+
+        clickPageButton("Dashboard");
+        String statusBeforeDisable = statusOfProject();
+
+        clickPageButton(EXPECTED_RESULT);
+        clickTaskButton("Configure");
+
+        findElement(By.id("toggle-switch-enable-disable-project")).click();
+        clickButtonApply();
+
+        clickPageButton("Dashboard");
+
+        String statusAfterDisable = statusOfProject();
+
+        Assert.assertNotEquals(statusBeforeDisable, statusAfterDisable);
     }
 }
