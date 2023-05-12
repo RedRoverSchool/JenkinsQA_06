@@ -34,4 +34,23 @@ public class CreateMultiConfigurationProject2Test extends BaseTest{
 
         Assert.assertEquals(projectName.getText(), nameOfProject);
     }
+    @Test
+    public void testItem() {
+        String nameProject = "Item";
+
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+
+        getDriver().findElement(By.id("name")).sendKeys(nameProject);
+
+        getDriver().findElement(By.xpath("//span[contains(text(),'Multi-configuration project')]")).click();
+
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+
+        getDriver().findElement(
+                By.xpath("//button[@formnovalidate='formNoValidate'][@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"))
+                .getText(),nameProject);
+    }
 }
