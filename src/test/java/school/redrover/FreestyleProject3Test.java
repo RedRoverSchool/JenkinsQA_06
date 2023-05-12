@@ -1,7 +1,10 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -72,5 +75,26 @@ public class FreestyleProject3Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText(), expectedResult);
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).isDisplayed());
+    }
+
+    @Test
+    public void testDeleteProjectFromTheDashboardList()  {
+        String expectedResult = "Start building your software project";
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        createFreestyleProject();
+
+        Actions actions = new Actions(getDriver());
+
+        WebElement projectButton = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
+        actions.moveToElement(projectButton).perform();
+        WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", dropdown);
+        WebElement deleteProject = getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li[5]"));
+        js.executeScript("arguments[0].click();", deleteProject);
+        getDriver().switchTo().alert().accept();
+
+        String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
