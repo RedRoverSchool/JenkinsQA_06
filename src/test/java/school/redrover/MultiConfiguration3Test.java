@@ -53,8 +53,10 @@ public class MultiConfiguration3Test extends BaseTest {
         final String expectedResult = "Error";
 
         getDriver().findElement(NEW_ITEM_BUTTON).click();
+
         getDriver().findElement(INPUT_FIELD).sendKeys(" ");
         getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
+
         getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
 
         WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
