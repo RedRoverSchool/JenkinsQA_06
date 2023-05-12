@@ -4,11 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import java.sql.SQLOutput;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -98,7 +97,7 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("settings-search-bar")));
         getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector(".jenkins-search__results-container"))));
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".jenkins-search__results-container--visible")));
         WebElement noResults = getDriver().findElement(By.cssSelector(".jenkins-search__results__no-results-label"));
 
         Assert.assertEquals(noResults.getText(), "No results");
