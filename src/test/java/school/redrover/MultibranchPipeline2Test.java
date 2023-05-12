@@ -52,6 +52,7 @@ public class MultibranchPipeline2Test extends BaseTest {
     @Test
     public void testDeleteMultibranchPipeline(){
         createMultibranchPipeline();
+
         getDriver().findElement(By.cssSelector("[class='icon-edit-delete icon-md']")).click();
         getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary")).click();
 
