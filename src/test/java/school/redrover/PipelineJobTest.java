@@ -44,8 +44,6 @@ public class PipelineJobTest extends BaseTest {
                 .findElement(By.xpath("//a[@class = 'jenkins-table__link model-link inside']"))
                 .getText();
 
-        goBackToDashboardByJenkinsIcon();
-
         WebElement createdJob = getDriver().findElement(By.xpath("//*[contains(text(),'" + projectName + "')]"));
 
         new Actions(getDriver())
@@ -55,7 +53,7 @@ public class PipelineJobTest extends BaseTest {
                 .perform();
 
         getWait2().until(ExpectedConditions.visibilityOf(getDriver()
-                .findElement(By.xpath("//li[@index='3']")))).click();
+                .findElement(By.xpath("//li//a//span[contains(text(), 'Delete Pipeline')]")))).click();
 
         getDriver().switchTo().alert().dismiss();
         Assert.assertTrue(createdJob.isDisplayed());
@@ -73,7 +71,7 @@ public class PipelineJobTest extends BaseTest {
                 .click()
                 .perform();
 
-        getDriver().findElement(By.xpath("//li[@index='3']")).click();
+        getDriver().findElement(By.xpath("//li//a//span[contains(text(), 'Delete Pipeline')]")).click();
 
         getDriver().switchTo().alert().accept();
 
