@@ -246,4 +246,12 @@ public class TopMenuTest extends BaseTest {
         }
         Assert.assertEquals(actualMenu, expectedMenu);
     }
+
+    @Test
+    public void testVerificationLogOutButton(){
+        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
+        WebElement element = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(element.getText(), "Welcome to Jenkins!");
+    }
 }
