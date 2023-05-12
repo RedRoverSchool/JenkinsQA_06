@@ -90,8 +90,10 @@ public class FreestyleProject3Test extends BaseTest {
         WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
         actions.moveToElement(dropdown).click(dropdown).perform();
 
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
         WebElement deleteProject = getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li[5]"));
-        getWait5().until(ExpectedConditions.elementToBeClickable(deleteProject)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(deleteProject));
+        js.executeScript("arguments[0].click();", deleteProject);
         getDriver().switchTo().alert().accept();
 
         String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
