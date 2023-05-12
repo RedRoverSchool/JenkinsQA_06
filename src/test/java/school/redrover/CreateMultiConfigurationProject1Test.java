@@ -53,6 +53,4 @@ public class CreateMultiConfigurationProject1Test extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
 
     }
-
-
 }
