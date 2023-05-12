@@ -272,7 +272,7 @@ public class PipelineTest extends BaseTest {
         int xOfpipelineName = pipelineName.getSize().getWidth();
         new Actions(getDriver())
                 .moveToElement(pipelineName, xOfpipelineName / 2 - 2, 0)
-                .pause(Duration.ofMillis(100))
+                .pause(Duration.ofMillis(500))
                 .click()
                 .build()
                 .perform();
