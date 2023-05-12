@@ -30,6 +30,7 @@ public class MultiConfigurationProject1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
+
     public void testAddDescription() {
 
         String expectedResult = "There is the test project";
