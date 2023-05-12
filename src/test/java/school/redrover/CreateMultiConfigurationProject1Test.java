@@ -27,7 +27,6 @@ public class CreateMultiConfigurationProject1Test extends BaseTest {
         String actualResult = getDriver().findElement(By.cssSelector(" [href='job/test/']")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
     }
 
     @Test
