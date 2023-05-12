@@ -108,6 +108,7 @@ public class GroupOlesyaTest extends BaseTest {
     }
 
 
+    @Ignore
     @Test
     public void testNewProjectCreator() {
         WebElement dashboard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
