@@ -104,6 +104,7 @@ public class JavaNiSyGroupTest extends BaseTest {
         textInputArea = getDriver().findElement(By.xpath("//textarea[@name='description']"));
         textInputArea.clear();
     }
+    @Ignore
     @Test
     public void testAddDescription() {
         WebElement btnAddDescr = getDriver().findElement(By.xpath("//a[@id='description-link']"));

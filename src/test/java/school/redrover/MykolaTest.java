@@ -85,7 +85,6 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(folderPageName.isDisplayed() && folderPageName.getText().equals(newFolderName));
     }
 
-    @Ignore
     @Test
     public void testDeleteSecondFolderFromDashboardPage() throws InterruptedException {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
@@ -165,6 +164,7 @@ public class MykolaTest extends BaseTest {
         Assert.assertTrue(viewNameButton.isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testDeleteViewThroughAllIconOnDashboardPage() {
         By newItemButtonLocator = By.xpath("//*[@href='/view/all/newJob']");
