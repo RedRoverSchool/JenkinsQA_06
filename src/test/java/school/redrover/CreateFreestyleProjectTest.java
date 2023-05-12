@@ -115,7 +115,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
        WebElement freestyleProgect = getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']"));
        freestyleProgect.click();
        WebElement buttonOk = getDriver().findElement(By.xpath("//button[@class = 'jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']"));
-       getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class = 'jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")));
+       getWait2().until(ExpectedConditions.elementToBeClickable(buttonOk));
        buttonOk.click();
        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
        saveButton.click();
