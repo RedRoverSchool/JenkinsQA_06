@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -29,8 +30,40 @@ public class CreatePipelineProject3Test extends BaseTest {
         getDriver().findElement(PROJECT_IN_DASHBOARD_TABLE).click();
 
         Assert.assertEquals(getDriver().findElement(
-                By.xpath("//h1[normalize-space()='Pipeline " + name + "']"))
+                        By.xpath("//h1[normalize-space()='Pipeline " + name + "']"))
                 .getText(), "Pipeline " + name);
+    }
 
+    @Test
+    public void testPipelineNameUnsafeChar() {
+        String[] testStrings = {"*", "&", "^", "%", "$", "#", "@", "!"};
+
+        getDriver().findElement(NEW_ITEM).click();
+        for (int i = 0; i < testStrings.length; i++) {
+            String name = testStrings[i];
+            getDriver().findElement(INPUT_NAME).sendKeys(name);
+
+            getWait2();
+            getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
+            getWait2();
+            WebElement message = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+
+            Assert.assertEquals(message.getText(), "»" + " ‘" + name + "’ " + "is an unsafe character");
+            getWait2();
+            getDriver().findElement(INPUT_NAME).clear();
+        }
+    }
+
+    @Test
+    public void testPipelineNameAllowedChar() {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys("_-+=”{},");
+        getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(JENKINS_LOGO).click();
+        WebElement projectNameDashboard = getDriver().findElement(By.xpath("//td/a/span"));
+
+        Assert.assertEquals(projectNameDashboard.getText(), "_-+=”{},");
     }
 }

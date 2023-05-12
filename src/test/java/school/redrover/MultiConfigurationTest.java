@@ -27,7 +27,6 @@ public class MultiConfigurationTest extends BaseTest {
         getWait5();
         return getDriver().findElement(PROJECT_NEW_NAME).getText();
     }
-    private static final By NEW_ITEM_BUTTON = By.linkText("New Item");
 
     private void createMultiConfigurationProject() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -131,7 +130,7 @@ public class MultiConfigurationTest extends BaseTest {
 
     @Test
     public void testRenameMultiConfigurationProject() {
-        this.createMultiConfigurationProject();
+        createMultiConfigurationProject();
 
         WebElement renameButton = getDriver().findElement(By.xpath("//body/div[@id='page-body']/div[@id='side-panel']/div[@id='tasks']/div[7]/span[1]/a[1]"));
         renameButton.click();
@@ -154,4 +153,18 @@ public class MultiConfigurationTest extends BaseTest {
 
         Assert.assertEquals(getProjectNewName(), ("Project " + MULTI_CONFIGURATION_NEW_NAME));
     }
+
+    @Test
+    public void testDisabledMultiConfigurationProject(){
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(MULTI_CONFIGURATION_NAME);
+        WebElement projectButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
+        projectButton.click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.cssSelector("label.jenkins-toggle-switch__label ")).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("form#enable-project")).getText().trim().substring(0,34),"This project is currently disabled");
+    }
+
 }
