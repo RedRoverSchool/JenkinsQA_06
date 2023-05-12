@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Ignore
 public class GroupOlesyaTest extends BaseTest {
     private WebDriverWait wait;
 

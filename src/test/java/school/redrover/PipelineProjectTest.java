@@ -16,11 +16,6 @@ public class PipelineProjectTest extends BaseTest {
     private static final By SAVE_BUTTON = By.name("Submit");
     private static final By DISCARD_OLD_BUILDS_CHECKBOX = By.id("cb2");
     private static final By DISCARD_OLD_BUILDS_LABEL = By.xpath("//label[contains(text(),'Discard old builds')]");
-    private static final By DAYS_TO_KEEP_LABEL = By.xpath("//*[@name='strategy']/div/div");
-    private static final By DAYS_TO_KEEP_FIELD = By.name("_.daysToKeepStr");
-    private static final By BUILDS_TO_KEEP_FIELD = By.name("_.numToKeepStr");
-    private static final String ERROR_MESSAGE = "Not a positive integer";
-    private static final By ACTUAL_ERROR_MESSAGE = By.xpath("//*[@name='strategy']//div[@class='error']");
     private static final By CONFIGURE_MENU = By.xpath("//*[@href='/job/test-pipeline/configure']");
 
     private void createPipelineWithoutDescription(String name) {
@@ -124,49 +119,59 @@ public class PipelineProjectTest extends BaseTest {
         getDriver().findElement(CONFIGURE_MENU).click();
 
         getDriver().findElement(DISCARD_OLD_BUILDS_LABEL).click();
-        getDriver().findElement(DAYS_TO_KEEP_FIELD).sendKeys(days);
-        getDriver().findElement(BUILDS_TO_KEEP_FIELD).sendKeys(builds);
+        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
+        getDriver().findElement(By.name("_.numToKeepStr")).sendKeys(builds);
         getDriver().findElement(SAVE_BUTTON).click();
 
         getDriver().findElement(CONFIGURE_MENU).click();
 
         Assert.assertTrue(getDriver().findElement(DISCARD_OLD_BUILDS_CHECKBOX).isSelected());
-        Assert.assertEquals(getDriver().findElement(DAYS_TO_KEEP_FIELD).getAttribute("value"), days);
-        Assert.assertEquals(getDriver().findElement(BUILDS_TO_KEEP_FIELD).getAttribute("value"), builds);
+        Assert.assertEquals(getDriver().findElement(By.name("_.daysToKeepStr")).getAttribute("value"), days);
+        Assert.assertEquals(getDriver().findElement(By.name("_.numToKeepStr")).getAttribute("value"), builds);
     }
 
     @Test
     public void testDiscardOldBuildsIsChecked0Days() {
         final String days = "0";
+        final String errorMessage = "Not a positive integer";
 
         createPipelineWithoutDescription(NAME);
         getDriver().findElement(CONFIGURE_MENU).click();
 
         getDriver().findElement(DISCARD_OLD_BUILDS_LABEL).click();
-        getDriver().findElement(DAYS_TO_KEEP_FIELD).sendKeys(days);
-        getDriver().findElement(DAYS_TO_KEEP_LABEL).click();
+        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
 
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(ACTUAL_ERROR_MESSAGE));
+        WebElement daysToKeepLabel = getDriver().findElement(By.xpath("//*[@name='strategy']/div/div"));
+        daysToKeepLabel.click();
+
+        getWait10().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
 
         Assert.assertTrue(getDriver().findElement(DISCARD_OLD_BUILDS_CHECKBOX).isSelected());
-        Assert.assertEquals(getDriver().findElement(ACTUAL_ERROR_MESSAGE).getText(), ERROR_MESSAGE);
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//*[@name='strategy']//div[@class='error']")).getText(), errorMessage);
     }
 
     @Test
     public void testDiscardOldBuildsIsChecked0Builds() {
         final String builds = "0";
+        final String errorMessage = "Not a positive integer";
 
         createPipelineWithoutDescription(NAME);
         getDriver().findElement(CONFIGURE_MENU).click();
 
         getDriver().findElement(DISCARD_OLD_BUILDS_LABEL).click();
-        getDriver().findElement(BUILDS_TO_KEEP_FIELD).sendKeys(builds);
-        getDriver().findElement(DAYS_TO_KEEP_LABEL).click();
+        getDriver().findElement(By.name("_.numToKeepStr")).sendKeys(builds);
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(ACTUAL_ERROR_MESSAGE));
+        WebElement daysToKeepLabel = getDriver().findElement(By.xpath("//*[@name='strategy']/div/div"));
+        daysToKeepLabel.click();
+
+        getWait5().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
 
         Assert.assertTrue(getDriver().findElement(DISCARD_OLD_BUILDS_CHECKBOX).isSelected());
-        Assert.assertEquals(getDriver().findElement(ACTUAL_ERROR_MESSAGE).getText(), ERROR_MESSAGE);
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//*[@name='strategy']//div[@class='error']")).getText(), errorMessage);
     }
 
     @Test

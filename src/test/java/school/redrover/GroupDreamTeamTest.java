@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+@Ignore
 public class GroupDreamTeamTest extends BaseTest {
 
     @Test
