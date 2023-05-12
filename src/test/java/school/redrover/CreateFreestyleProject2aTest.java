@@ -10,7 +10,7 @@ public class CreateFreestyleProject2aTest extends BaseTest {
     public void testCreateFreestyleProject() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob'][@class='task-link ']")).click();
         getDriver().findElement(By.xpath("//input[@id = 'name']")).sendKeys("Project One1");
-        getDriver().findElement(By.xpath("//span [text() = 'Создать задачу со свободной конфигурацией']")).click();
+        getDriver().findElement(By.xpath("//li [@class = 'hudson_model_FreeStyleProject'][@role = 'radio']")).click();
         getDriver().findElement(By.xpath("//button [@type = 'submit'][@id = 'ok-button']")).click();
         getDriver().findElement(By.xpath("//textarea [@name = 'description']"))
                 .sendKeys("Проект по автоматизации тестирования");
