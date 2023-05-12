@@ -78,7 +78,7 @@ public class FreestyleProject3Test extends BaseTest {
     }
 
     @Test
-    public void testDeleteProjectFromTheDashboardList() throws InterruptedException {
+    public void testDeleteProjectFromTheDashboardList()  {
         String expectedResult = "Start building your software project";
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         createFreestyleProject();
@@ -91,7 +91,6 @@ public class FreestyleProject3Test extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].click();", dropdown);
         WebElement deleteProject = getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li[5]"));
-        getWait5().until(ExpectedConditions.elementToBeClickable(deleteProject));
         js.executeScript("arguments[0].click();", deleteProject);
         getDriver().switchTo().alert().accept();
 
