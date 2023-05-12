@@ -121,12 +121,13 @@ public class ManageJenkinsTest extends BaseTest {
         String oldUrl = getDriver().getCurrentUrl();
 
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.xpath("//input[@autocorrect='off']")).sendKeys("c");
-        List<WebElement> titleTexts = getDriver()
-                .findElements(By.xpath("//div/a[contains(@href, 'manage')]"));
+        getDriver().findElement(By.id("settings-search-bar")).sendKeys("c");
 
         getWait10().until(ExpectedConditions
-                .visibilityOfAllElements(titleTexts));
+                .visibilityOfElementLocated(By.xpath("//div[contains(@class, 'results-container')]")));
+
+        List<WebElement> titleTexts = getDriver()
+                .findElements(By.xpath("//div/a[contains(@href, 'manage')]"));
 
         Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
 
