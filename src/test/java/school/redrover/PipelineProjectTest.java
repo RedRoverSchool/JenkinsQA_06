@@ -10,7 +10,7 @@ import school.redrover.runner.BaseTest;
 
 import java.util.*;
 
-public class PipelineConfigureTest extends BaseTest {
+public class PipelineProjectTest extends BaseTest {
     final String EXPECTED_RESULT = "New pipeline project";
 
     public void createPipeline() {
@@ -251,7 +251,7 @@ public class PipelineConfigureTest extends BaseTest {
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
         Assert.assertFalse(isPipelineEnabledAfterDisable);
     }
-@Ignore
+
     @Test
     public void addDescriptionPipelineProjectTest(){
         String description = "This is a project for school test";
