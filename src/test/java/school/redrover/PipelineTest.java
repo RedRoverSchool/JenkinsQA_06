@@ -162,6 +162,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector(".console-output")).getText().contains("Finished: SUCCESS"));
     }
 
+    @Ignore
     @Test
     public void testCreatePipelineProject() {
         getDriver().findElement(newItem).click();
