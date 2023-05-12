@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -92,16 +92,15 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
     }
 
-    @Ignore
     @Test
     public void testSearchNumericSymbol() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("settings-search-bar")));
         getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-        getWait2().until(ExpectedConditions
-                .visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='jenkins-search__results']")));
-        WebElement noResults = getDriver().
-                findElement(By.xpath("//p[@class='jenkins-search__results__no-results-label']"));
+        WebElement visibleElement = getDriver().findElement(By.cssSelector(".jenkins-search__results-container--visible"));
+        String valueOuterHTMLOfvisibleElement = visibleElement.getAttribute("outerHTML");
+        getWait2().until(ExpectedConditions.domPropertyToBe(visibleElement,"outerHTML", valueOuterHTMLOfvisibleElement));
+        WebElement noResults = getDriver().findElement(By.cssSelector(".jenkins-search__results__no-results-label"));
 
         Assert.assertEquals(noResults.getText(), "No results");
     }
