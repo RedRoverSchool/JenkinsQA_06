@@ -16,6 +16,15 @@ public class ManageJenkinsTest extends BaseTest {
 
     private final By Manage_Jenkins = By.xpath("//a[@href='/manage']");
 
+    public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
+        for (WebElement element : titleTexts) {
+            if (element.getText().equals(title)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Test
     public void testNameNewNodeOnCreatePage() {
 
@@ -104,5 +113,24 @@ public class ManageJenkinsTest extends BaseTest {
                 findElement(By.xpath("//p[@class='jenkins-search__results__no-results-label']"));
 
         Assert.assertEquals(noResults.getText(), "No results");
+    }
+
+    @Test
+    public void testSearchConfigureSystemByC() {
+        String oldUrl = getDriver().getCurrentUrl();
+
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+        getDriver().findElement(By.xpath("//input[@autocorrect='off']")).sendKeys("c");
+        getWait5().until(ExpectedConditions
+                .visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='jenkins-search__results']//child::a[contains(@href,'/manage/')]")));
+
+        List<WebElement> titleTexts = getDriver().findElements(By.xpath("//div[@class='jenkins-search__results']//child::a[contains(@href,'/manage/')]"));
+
+        Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
+
+        getDriver().findElement(By.xpath("//div[@class='jenkins-search__results']/child::a")).click();
+        getWait5().until(t -> getDriver().getCurrentUrl() != oldUrl);
+
+        Assert.assertEquals(getDriver().getTitle(), "Configure System [Jenkins]");
     }
 }
