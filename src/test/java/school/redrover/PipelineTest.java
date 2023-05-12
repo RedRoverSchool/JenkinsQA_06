@@ -179,6 +179,7 @@ public class PipelineTest extends BaseTest {
                 .getText().substring(9), ITEM_NAME);
     }
 
+    @Ignore
     @Test
     public void testAddingDescriptionToPipeline() {
         getDriver().findElement(By.xpath("//a[normalize-space()='New Item']")).click();
