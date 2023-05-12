@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -239,5 +240,40 @@ public class HeaderTest extends BaseTest {
                     "The result list doesn't contain the item " + ITEM_NAME);
         }
         softAssert.assertAll();
+    }
+
+    @Test
+    public void testBuildsOpenFromDropdownMenu() {
+
+        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//a[@href='/user/admin']/button")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", dropDownMenu);
+
+        WebElement btnBuilds = getWait5().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//div[@id='breadcrumb-menu']//span[.='Builds']")));
+        btnBuilds.click();
+
+        WebElement pageBuilds = getDriver().findElement(By.xpath("//h1[.='Builds for admin']"));
+
+        Assert.assertTrue(pageBuilds.isDisplayed());
+    }
+
+    @Test
+    public void testOpenConfigureFromDropdownMenu() {
+
+        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//a[@href='/user/admin']/button")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", dropDownMenu);
+
+        WebElement btnConfigure = getWait2().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//span[. ='Configure']")));
+        btnConfigure.click();
+
+        WebElement pageConfigure = getDriver().findElement
+                (By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]"));
+
+        Assert.assertTrue(pageConfigure.isDisplayed());
     }
 }

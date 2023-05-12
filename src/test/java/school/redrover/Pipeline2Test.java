@@ -1,18 +1,23 @@
 package school.redrover;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class Pipeline2Test extends BaseTest {
 
     @Test
-    public void TestCreatePipeline(){
+    public void TestCreatePipeline() {
         WebDriver driver = getDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
@@ -111,5 +116,32 @@ public class Pipeline2Test extends BaseTest {
         alert.accept();
 
         Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME),"Pipeline is not shown");
+    }
+
+    @Test
+    public void testCreatePipelineProjectIncorrectName() {
+        String name = "Pipeline";
+        List<String> symbol = Arrays.asList("!", "@", "#", "?", "$", "%", "^", "&", "*", "[", "]", "\\", "|", "/");
+
+        for (int i = 0; i < symbol.size(); i++) {
+            WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
+            newItem.click();
+            WebElement itemName = getDriver().findElement(By.id("name"));
+            itemName.sendKeys(name + symbol.get(i));
+            WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+            typeProject.click();
+
+            Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
+                    "» ‘" + symbol.get(i) + "’ is an unsafe character");
+
+            getDriver().findElement(By.id("ok-button")).click();
+
+            getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))));
+            Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))).
+                    getText(), "Error");
+            Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
+                    getText(), "‘" + symbol.get(i) + "’ is an unsafe character");
+            getDriver().findElement(By.xpath("//a[contains(text(),'All')]")).click();
+        }
     }
 }
