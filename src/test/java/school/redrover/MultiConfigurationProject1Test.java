@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -31,10 +32,12 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
     @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
 
-    public void testAddDescription() {
+    public void testAddDescription() throws InterruptedException {
 
         String expectedResult = "There is the test project";
-
+        WebElement testButton = getDriver().findElement(By.cssSelector(" [href='job/test/']"));
+        new Actions(getDriver()).moveToElement(testButton).click().build().perform();
+        Thread.sleep(5000);
         getDriver().findElement(By.xpath("//a[@id = 'description-link']")).click();
         getDriver().findElement(By.xpath("//textarea")).sendKeys(expectedResult);
         getDriver().findElement(By.xpath("(//button[@formnovalidate = 'formNoValidate'])[1]")).click();
