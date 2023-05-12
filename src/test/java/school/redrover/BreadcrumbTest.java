@@ -18,7 +18,7 @@ public class BreadcrumbTest extends BaseTest {
 
         By pointerLocator =
                 By.xpath("//*[@id='breadcrumbs']/li/a/button[@class='jenkins-menu-dropdown-chevron']");
-        getWait10().until(ExpectedConditions.elementToBeClickable(pointerLocator));
+        getWait5().until(ExpectedConditions.elementToBeClickable(pointerLocator));
         WebElement pointer = getDriver().findElement(pointerLocator);
         new Actions(getDriver()).moveToElement(pointer).perform();
         pointer.sendKeys(Keys.RETURN);
