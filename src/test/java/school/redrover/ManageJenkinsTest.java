@@ -132,7 +132,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
 
         getWait2()
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='http://localhost:8080/manage/configure']")))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='jenkins-search__results-item--selected']")))
                 .click();
         getWait10().until(t -> !Objects.equals(getDriver().getCurrentUrl(), oldUrl));
 
