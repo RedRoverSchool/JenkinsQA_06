@@ -99,7 +99,6 @@ public class UserTest extends BaseTest {
                 By.xpath("//div[normalize-space()='" + UserDescription + "']")));
         Assert.assertTrue(createdUserDescription.isDisplayed());
 
-
         // Delete the user via Bin
 
         WebElement jenkinsIcon = getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
