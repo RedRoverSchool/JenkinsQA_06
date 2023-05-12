@@ -21,19 +21,17 @@ public class DeletePipeline2Test extends BaseTest {
     private static By DELETE_PIPELINE = By.xpath("//a[@data-url='/job/test-pipeline/doDelete']");
     private static By WELCOME_HEADING = By.xpath("//h1[text()='Welcome to Jenkins!']");
 
-
     private void createTestPipeline() {
 
         WebElement newItemButton = getDriver().findElement(NEW_ITEM_BUTTON);
         newItemButton.click();
 
         WebElement newItemNameInput = getDriver().findElement(NEW_ITEM_NAME_INPUT);
-        newItemNameInput.click();
-        newItemNameInput.sendKeys("test-pipeline");
-
         WebElement itemTypePipeline = getDriver().findElement(ITEM_TYPE_PIPELINE);
         itemTypePipeline.click();
 
+        newItemNameInput.click();
+        newItemNameInput.sendKeys("test-pipeline");
         newItemNameInput.sendKeys(Keys.RETURN);
 
         WebElement configureSaveButton = getDriver().findElement(CONFIGURE_SAVE_BUTTON);
