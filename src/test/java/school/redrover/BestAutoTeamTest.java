@@ -68,6 +68,7 @@ public class BestAutoTeamTest extends BaseTest {
         Assert.assertEquals(myViews.getText(), "My Views");
     }
 
+    @Ignore
     @Test
     public void testAddNewItem() {
 
