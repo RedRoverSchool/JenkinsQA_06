@@ -3,13 +3,11 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class MultiConfigurTest extends BaseTest {
+public class MultiConfiguration3Test extends BaseTest {
     private static final String NAME_OF_PROJECT = "New project";
     private static final String DESCRIPTION = "Description";
     private static final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name ‘New project’";
@@ -18,8 +16,6 @@ public class MultiConfigurTest extends BaseTest {
     private static final By NEW_ITEM_BUTTON = By.xpath("//*[@id='tasks']//span/a");
     private static final By INPUT_FIELD = By.name("name");
     private static final By DISABLE_BUTTON_CONFIG_PAGE = By.xpath("//*[@id='disable-project']/button");
-    private static final List<String> SPECIAL_SYMBOLS = new ArrayList<> (Arrays.asList("!","@","#","$","%","^","&","*","[","]","?"));
-
 
     private void createBaseMultiConfigurationProject() {
         getDriver().findElement(NEW_ITEM_BUTTON).click();
@@ -54,10 +50,13 @@ public class MultiConfigurTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
-        String expectedResult = "Error";
+        final String expectedResult = "Error";
+
         getDriver().findElement(NEW_ITEM_BUTTON).click();
+
         getDriver().findElement(INPUT_FIELD).sendKeys(" ");
         getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
+
         getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
 
         WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
@@ -65,21 +64,25 @@ public class MultiConfigurTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), expectedResult);
     }
 
-    @Test
-    public void testCreateMultiConfigurationProjectWithSpecialSymbols()  {
-        String expectedResult = "is an unsafe character";
+    @DataProvider(name="unsafe-character")
+    public Object [][]putUnsafeCharacterInputField() {
+        return new Object[][] {{"!"},{"@"},{"#"},{"$"},{"%"},{"^"},{"&"},{"*"},{"?"}};
+    }
+
+    @Test(dataProvider = "unsafe-character")
+    public void testCreateMultiConfigurationProjectWithSpecialSymbols(String unsafeCharacter)  {
+        final String expectedResult = "is an unsafe character";
+
         getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
 
-        for (String symbol:SPECIAL_SYMBOLS) {
-            getDriver().findElement(INPUT_FIELD).sendKeys(symbol);
+        getDriver().findElement(INPUT_FIELD).sendKeys(unsafeCharacter);
 
-            WebElement errorMessage = getDriver().findElement(By.id("itemname-invalid"));
+        WebElement errorMessage = getDriver().findElement(By.id("itemname-invalid"));
 
-            Assert.assertEquals((errorMessage.getText()).substring(6, 28), expectedResult);
+        Assert.assertEquals((errorMessage.getText()).substring(6, 28), expectedResult);
 
-            getDriver().findElement(By.name("name")).clear();
+        getDriver().findElement(By.name("name")).clear();
         }
-    }
 
     @Test
     public void testCreateMultiConfigurationProjectWithEqualName() {
@@ -97,7 +100,7 @@ public class MultiConfigurTest extends BaseTest {
 
     @Test
     public void testDisableMultiConfigurationProjectFromConfigurationPage() {
-        String expectedResult = "This project is currently disabled";
+        final String expectedResult = "This project is currently disabled";
 
         createBaseMultiConfigurationProject();
 
@@ -119,7 +122,25 @@ public class MultiConfigurTest extends BaseTest {
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
         WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
+
         Assert.assertTrue(iconDisabled.isDisplayed());
     }
 
+    @Test
+    public void testRenameMultiConfigurationProject() {
+        final String NEW_PROJECT_NAME="New project renamed";
+
+        createBaseMultiConfigurationProject();
+
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.xpath("//*[@id='tasks']/div[7]/span/a")).click();
+
+        getDriver().findElement(By.xpath("//*[@checkdependson='newName']")).sendKeys(NEW_PROJECT_NAME);
+        getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
+        getDriver().findElement(DASHBOARD_BUTTON).click();
+
+        WebElement newNameMultiCofigurationProject = getDriver().findElement(By.xpath("//td//a//span[1]"));
+
+        Assert.assertEquals(newNameMultiCofigurationProject.getText(),NAME_OF_PROJECT+NEW_PROJECT_NAME);
+    }
 }

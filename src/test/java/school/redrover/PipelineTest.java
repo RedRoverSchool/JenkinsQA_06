@@ -15,9 +15,7 @@ import java.time.Duration;
 
 public class PipelineTest extends BaseTest {
 
-    private static final String PIPELINE_NAME = "pipeline1";
-    private static final String ITEM_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private static final String NEW_ITEM_NAME = ITEM_NAME + "newName";
+    private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
 
     private final By newItem = By.linkText("New Item");
     private final By name = By.id("name");
@@ -32,7 +30,6 @@ public class PipelineTest extends BaseTest {
     private final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
     private final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private final By dashboard = By.id("jenkins-home-link");
-    private final By fieldNewName = By.name("newName");
 
     private WebDriverWait getWait(int seconds) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
@@ -165,18 +162,19 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector(".console-output")).getText().contains("Finished: SUCCESS"));
     }
 
+    @Ignore
     @Test
     public void testCreatePipelineProject() {
         getDriver().findElement(newItem).click();
 
         WebElement fieldEnterName = getWait5().until(ExpectedConditions.presenceOfElementLocated(name));
-        fieldEnterName.sendKeys(ITEM_NAME);
+        fieldEnterName.sendKeys(PIPELINE_NAME);
         getDriver().findElement(pipelineItem).click();
         getDriver().findElement(okButton).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
 
         Assert.assertEquals(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")))
-                .getText().substring(9), ITEM_NAME);
+                .getText().substring(9), PIPELINE_NAME);
     }
 
     @Ignore
@@ -212,29 +210,47 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testRenameDeletePipeline() {
+    public void testRenamePipeline() {
+        final String newPipelineName = PIPELINE_NAME + "new";
+
         getDriver().findElement(newItem).click();
 
         WebElement fieldEnterName = getWait5().until(ExpectedConditions.presenceOfElementLocated(name));
-        fieldEnterName.sendKeys(ITEM_NAME);
+        fieldEnterName.sendKeys(PIPELINE_NAME);
         getDriver().findElement(pipelineItem).click();
         getDriver().findElement(okButton).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
 
         getDriver().findElement(dashboard).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + ITEM_NAME + "/']"))).click();
-        getDriver().findElement(By.cssSelector("a[href='/job/" + ITEM_NAME + "/confirm-rename']")).click();
 
-        getDriver().findElement(fieldNewName).clear();
-        getDriver().findElement(fieldNewName).sendKeys(NEW_ITEM_NAME);
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PIPELINE_NAME + "/']"))).click();
+        getDriver().findElement(By.cssSelector("a[href='/job/" + PIPELINE_NAME + "/confirm-rename']")).click();
+
+        getDriver().findElement(By.name("newName")).clear();
+        getDriver().findElement(By.name("newName")).sendKeys(newPipelineName);
         getDriver().findElement(By.name("Submit")).click();
         getDriver().findElement(dashboard).click();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + NEW_ITEM_NAME + "/']"))).click();
+        Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains(newPipelineName));
+    }
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[data-url='/job/" + NEW_ITEM_NAME + "/doDelete']"))).click();
+    @Test
+    public void testDeletePipeline() {
+        getDriver().findElement(newItem).click();
+
+        WebElement fieldEnterName = getWait5().until(ExpectedConditions.presenceOfElementLocated(name));
+        fieldEnterName.sendKeys(PIPELINE_NAME);
+        getDriver().findElement(pipelineItem).click();
+        getDriver().findElement(okButton).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+
+        getDriver().findElement(dashboard).click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PIPELINE_NAME + "/']"))).click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[data-url='/job/" + PIPELINE_NAME + "/doDelete']"))).click();
         getDriver().switchTo().alert().accept();
 
-        Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
     }
 }

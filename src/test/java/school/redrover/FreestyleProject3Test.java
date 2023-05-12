@@ -32,4 +32,45 @@ public class FreestyleProject3Test extends BaseTest {
 
         Assert.assertTrue(result.isDisplayed());
     }
+
+    @Test
+    public void testProjectDescription() {
+        String expectedResult = "Test";
+        createFreestyleProject();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        WebElement description = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        description.click();
+        String string = "w";
+
+        for(int i = 0; i < 10; i++) {
+            string += string;
+        }
+
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(string);
+        WebElement submit = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        submit.click();
+
+        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).clear();
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys("Test");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), expectedResult);
+    }
+
+    @Test
+    public void testPreviewDescription() {
+        String expectedResult = "wwwww";
+        createFreestyleProject();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).clear();
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//a[text()='Preview']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText(), expectedResult);
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).isDisplayed());
+    }
 }

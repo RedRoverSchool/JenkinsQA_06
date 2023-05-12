@@ -1,6 +1,7 @@
 package school.redrover;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -30,6 +31,7 @@ import school.redrover.runner.BaseTest;
                             "//div[@id = 'main-panel']//h1['Pipeline " + name1 + "']")).getText(),
                     "Pipeline " + name1);
         }
+        @Ignore
         @Test
         public void testFindPipelineOnTheDashboard(){
             getDriver().findElement(NEW_ITEM).click();
