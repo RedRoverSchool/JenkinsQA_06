@@ -6,11 +6,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreateFreestyleProjectFuTest extends BaseTest {
+public class FreestyleProjectAWTest extends BaseTest {
     private static final String NAME_FREESTYLE_PROJECT = "freestyle";
 
     @Test
-    public void testCreateFreestyleProject() {
+    public void testCreate() {
 
         WebElement newItemSideBar = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
         newItemSideBar.click();
