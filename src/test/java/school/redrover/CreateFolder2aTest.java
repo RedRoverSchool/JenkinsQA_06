@@ -14,9 +14,9 @@ public class CreateFolder2aTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob'][@class='task-link ']")).click();
         getDriver().findElement(By.xpath("//input[@id = 'name']")).sendKeys(folderName);
-        getDriver().findElement(By.xpath("//span[text() = 'Folder']")).click();
-        getDriver().findElement(By.xpath("//button [@id = 'ok-button']")).click();
-        getDriver().findElement(By.xpath("//button [@formnovalidate='formNoValidate' and @name = 'Submit']"))
+        getDriver().findElement(By.xpath("//li [@ class = 'com_cloudbees_hudson_plugins_folder_Folder']")).click();
+        getDriver().findElement(By.xpath("//div [@class = 'btn-decorator'][@style = 'position: fixed;']")).click();
+        getDriver().findElement(By.xpath("//div [@class]// button [@formnovalidate='formNoValidate' and @name = 'Submit']"))
                 .click();
         getDriver().findElement(By.xpath("//a[@href='/' and @class = 'model-link']")).click();
 
