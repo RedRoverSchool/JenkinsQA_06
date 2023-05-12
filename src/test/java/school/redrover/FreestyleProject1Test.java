@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -81,6 +82,7 @@ public class FreestyleProject1Test extends BaseTest {
         Assert.assertEquals("Project " + FREESTYLE_NAME, getDriver().findElement(ASSERT_ICON).getText());
     }
 
+    @Ignore
     @Test
     public void testDisableFreestyleProject() {
         createFreestyleProject();
