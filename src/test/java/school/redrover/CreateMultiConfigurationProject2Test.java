@@ -36,11 +36,10 @@ public class CreateMultiConfigurationProject2Test extends BaseTest{
     }
     @Test
     public void testItem() {
-        String nameProject = "Item";
 
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
 
-        getDriver().findElement(By.id("name")).sendKeys(nameProject);
+        getDriver().findElement(By.id("name")).sendKeys("Item");
 
         getDriver().findElement(By.xpath("//span[contains(text(),'Multi-configuration project')]")).click();
 
@@ -51,6 +50,6 @@ public class CreateMultiConfigurationProject2Test extends BaseTest{
 
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"))
-                .getText(),nameProject);
+                .getText(), "Project Item");
     }
 }
