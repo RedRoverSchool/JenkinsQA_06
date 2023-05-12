@@ -246,7 +246,7 @@ public class HeaderTest extends BaseTest {
     public void testBuildsOpenFromDropdownMenu() {
 
         WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']")));
+                ("//a[@href='/user/admin']/button")));
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", dropDownMenu);
 
@@ -263,7 +263,7 @@ public class HeaderTest extends BaseTest {
     public void testOpenConfigureFromDropdownMenu() {
 
         WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']")));
+                ("//a[@href='/user/admin']/button")));
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", dropDownMenu);
 
