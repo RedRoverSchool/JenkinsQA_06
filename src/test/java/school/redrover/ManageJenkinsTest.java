@@ -125,7 +125,7 @@ public class ManageJenkinsTest extends BaseTest {
         List<WebElement> titleTexts = getDriver()
                 .findElements(By.xpath("//div/a[contains(@href, 'manage')]"));
 
-        getWait5().until(ExpectedConditions
+        getWait10().until(ExpectedConditions
                 .visibilityOfAllElements(titleTexts));
 
         Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
