@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 
@@ -96,8 +97,13 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("settings-search-bar")));
         getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-        getWait2().until(ExpectedConditions
-                .visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='jenkins-search__results']")));
+//        WebElement searchResults = getDriver().findElement(By.xpath("//p[@class='jenkins-search__results__no-results-label']"));
+
+        WebElement searchResults = getDriver().findElement(By.cssSelector(".jenkins-search__results-container"));
+
+        System.out.println(searchResults);
+
+        getWait2().until(ExpectedConditions.visibilityOf(searchResults));
         WebElement noResults = getDriver().
                 findElement(By.xpath("//p[@class='jenkins-search__results__no-results-label']"));
 
