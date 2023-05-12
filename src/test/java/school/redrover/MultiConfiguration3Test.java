@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MultiConfigurTest extends BaseTest {
+public class MultiConfiguration3Test extends BaseTest {
     private static final String NAME_OF_PROJECT = "New project";
     private static final String DESCRIPTION = "Description";
     private static final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name ‘New project’";
@@ -54,7 +54,8 @@ public class MultiConfigurTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
-        String expectedResult = "Error";
+        final String expectedResult = "Error";
+
         getDriver().findElement(NEW_ITEM_BUTTON).click();
         getDriver().findElement(INPUT_FIELD).sendKeys(" ");
         getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
@@ -67,7 +68,8 @@ public class MultiConfigurTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithSpecialSymbols()  {
-        String expectedResult = "is an unsafe character";
+        final String expectedResult = "is an unsafe character";
+
         getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
 
         for (String symbol:SPECIAL_SYMBOLS) {
@@ -97,7 +99,7 @@ public class MultiConfigurTest extends BaseTest {
 
     @Test
     public void testDisableMultiConfigurationProjectFromConfigurationPage() {
-        String expectedResult = "This project is currently disabled";
+        final String expectedResult = "This project is currently disabled";
 
         createBaseMultiConfigurationProject();
 
@@ -119,6 +121,7 @@ public class MultiConfigurTest extends BaseTest {
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
         WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
+
         Assert.assertTrue(iconDisabled.isDisplayed());
     }
 
