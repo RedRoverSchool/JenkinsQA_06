@@ -20,7 +20,8 @@ public class PageHeaderTest extends BaseTest {
         WebElement createNewItemFreeStyleProject = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
         createNewItemFreeStyleProject.click();
 
-        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("New Item 1");
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//input[@name='name']")))).sendKeys("New Item 1");
         getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//button[@id='ok-button']")))).click();
@@ -33,7 +34,8 @@ public class PageHeaderTest extends BaseTest {
         WebElement createNewItemFolder = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
         createNewItemFolder.click();
 
-        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("New Item 2");
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//input[@name='name']")))).sendKeys("New Item 2");
         getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//button[@id='ok-button']")))).click();
