@@ -12,6 +12,7 @@ import java.util.*;
 
 public class PipelineConfigureTest extends BaseTest {
     final String EXPECTED_RESULT = "New pipeline project";
+    private static final String NAME = "test-pipeline";
     private static final By SAVE_BUTTON = By.name("Submit");
     private static final By DISCARD_OLD_BUILDS_CHECKBOX = By.id("cb2");
     private static final By DISCARD_OLD_BUILDS_LABEL = By.xpath("//label[contains(text(),'Discard old builds')]");
@@ -23,11 +24,14 @@ public class PipelineConfigureTest extends BaseTest {
     private static final By CONFIGURE_MENU = By.xpath("//*[@href='/job/test-pipeline/configure']");
     private static final By JOB_PIPELINE = By.xpath("//*[@id='j-add-item-type-standalone-projects']//li[2]");
 
-    private void createPipeline() {
-        getDriver().findElement(By.xpath("//a[@href = 'newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys("test-pipeline");
+    private void createPipelineWithoutDescription(String name) {
+       getDriver().findElement(By.xpath("//a[@href = 'newJob']")).click();
+
+        getDriver().findElement(By.id("name")).sendKeys(name);
         getDriver().findElement(JOB_PIPELINE).click();
         getDriver().findElement(By.id("ok-button")).click();
+
+        getDriver().findElement(SAVE_BUTTON).click();
     }
 
     public WebElement findElement(By by){
@@ -88,7 +92,8 @@ public class PipelineConfigureTest extends BaseTest {
     public void testSetDescription() {
         final String descriptionText = "This is a test description";
 
-        createPipeline();
+        createPipelineWithoutDescription(NAME);
+        getDriver().findElement(CONFIGURE_MENU).click();
 
         getDriver().findElement(By.name("description")).sendKeys(descriptionText);
         getDriver().findElement(SAVE_BUTTON).click();
@@ -99,7 +104,8 @@ public class PipelineConfigureTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuildsIsCheckedEmptyDaysAndBuildsField() {
-        createPipeline();
+        createPipelineWithoutDescription(NAME);
+        getDriver().findElement(CONFIGURE_MENU).click();
 
         getDriver().findElement(DISCARD_OLD_BUILDS_LABEL).click();
         getDriver().findElement(SAVE_BUTTON).click();
@@ -115,7 +121,8 @@ public class PipelineConfigureTest extends BaseTest {
         final String days = "7";
         final String builds = "5";
 
-        createPipeline();
+        createPipelineWithoutDescription(NAME);
+        getDriver().findElement(CONFIGURE_MENU).click();
 
         getDriver().findElement(DISCARD_OLD_BUILDS_LABEL).click();
         getDriver().findElement(DAYS_TO_KEEP_FIELD).sendKeys(days);
@@ -133,7 +140,8 @@ public class PipelineConfigureTest extends BaseTest {
     public void testDiscardOldBuildsIsChecked0Days() {
         final String days = "0";
 
-        createPipeline();
+        createPipelineWithoutDescription(NAME);
+        getDriver().findElement(CONFIGURE_MENU).click();
 
         getDriver().findElement(DISCARD_OLD_BUILDS_LABEL).click();
         getDriver().findElement(DAYS_TO_KEEP_FIELD).sendKeys(days);
@@ -149,7 +157,8 @@ public class PipelineConfigureTest extends BaseTest {
     public void testDiscardOldBuildsIsChecked0Builds() {
         final String builds = "0";
 
-        createPipeline();
+        createPipelineWithoutDescription(NAME);
+        getDriver().findElement(CONFIGURE_MENU).click();
 
         getDriver().findElement(DISCARD_OLD_BUILDS_LABEL).click();
         getDriver().findElement(BUILDS_TO_KEEP_FIELD).sendKeys(builds);
