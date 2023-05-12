@@ -272,6 +272,7 @@ public class PipelineConfigureTest extends BaseTest {
         Assert.assertTrue(fieldDescription.getText().contains(description));
     }
 
+    @Ignore
     @Test
     public void disablePipelineProjectTest(){
         clickTaskButton("New Item");

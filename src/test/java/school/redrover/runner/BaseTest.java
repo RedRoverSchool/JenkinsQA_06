@@ -3,12 +3,16 @@ package school.redrover.runner;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.*;
+import school.redrover.runner.order.OrderForTests;
+import school.redrover.runner.order.OrderUtils;
 
 import java.lang.reflect.Method;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
+@Listeners({FilterForTests.class, OrderForTests.class})
 public abstract class BaseTest {
 
     private WebDriverWait wait2;
@@ -17,17 +21,35 @@ public abstract class BaseTest {
 
     private WebDriver driver;
 
+    private OrderUtils.MethodsOrder<Method> methodsOrder;
+
+    @BeforeClass
+    protected void beforeClass() {
+        methodsOrder = OrderUtils.createMethodsOrder(
+                Arrays.stream(this.getClass().getMethods())
+                        .filter(m -> m.getAnnotation(Test.class) != null && m.getAnnotation(Ignore.class) == null)
+                        .collect(Collectors.toList()),
+                m -> m.getName(),
+                m -> m.getAnnotation(Test.class).dependsOnMethods());
+    }
+
     @BeforeMethod
     protected void beforeMethod(Method method) {
         BaseUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         try {
-            clearData();
-            startDriver();
-            getWeb();
-            loginWeb();
+            if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
+                clearData();
+                startDriver();
+                getWeb();
+                loginWeb();
+            } else {
+                getWeb();
+            }
         } catch (Exception e) {
             closeDriver();
             throw new RuntimeException(e);
+        } finally {
+            methodsOrder.markAsInvoked(method);
         }
     }
 
@@ -54,9 +76,6 @@ public abstract class BaseTest {
     protected void stopDriver() {
         try {
             ProjectUtils.logout(driver);
-            wait2 = null;
-            wait5 = null;
-            wait10 = null;
         } catch (Exception ignore) {
         }
 
@@ -66,6 +85,9 @@ public abstract class BaseTest {
     protected void closeDriver() {
         if (driver != null) {
             driver.quit();
+            wait2 = null;
+            wait5 = null;
+            wait10 = null;
             BaseUtils.log("Browser closed");
         }
     }
@@ -75,7 +97,11 @@ public abstract class BaseTest {
         if (!testResult.isSuccess() && BaseUtils.isServerRun()) {
             BaseUtils.takeScreenshot(driver, method.getName(), this.getClass().getName());
         }
-        stopDriver();
+
+        if (!testResult.isSuccess() || methodsOrder.isGroupFinished(method)) {
+            stopDriver();
+        }
+
         BaseUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
     }
 
@@ -83,21 +109,21 @@ public abstract class BaseTest {
         return driver;
     }
 
-    public WebDriverWait getWait5() {
+    protected WebDriverWait getWait5() {
         if (wait5 == null) {
             wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         }
         return wait5;
     }
 
-    public WebDriverWait getWait2() {
+    protected WebDriverWait getWait2() {
         if (wait2 == null) {
             wait2 = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         }
         return wait2;
     }
 
-    public WebDriverWait getWait10() {
+    protected WebDriverWait getWait10() {
         if (wait10 == null) {
             wait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         }
