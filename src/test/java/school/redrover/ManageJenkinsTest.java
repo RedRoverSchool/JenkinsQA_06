@@ -10,6 +10,7 @@ import school.redrover.runner.BaseTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ManageJenkinsTest extends BaseTest {
     final String NAME_NEW_NODE = "testNameNewNode";
@@ -129,7 +130,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
 
         getDriver().findElement(By.xpath("//div[@class='jenkins-search__results']/child::a")).click();
-        getWait5().until(t -> getDriver().getCurrentUrl() != oldUrl);
+        getWait5().until(t -> !Objects.equals(getDriver().getCurrentUrl(), oldUrl));
 
         Assert.assertEquals(getDriver().getTitle(), "Configure System [Jenkins]");
     }
