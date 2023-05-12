@@ -2,23 +2,35 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.WheelInput;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class ProjectDescriptionTest extends BaseTest {
+public class FreestyleProject3Test extends BaseTest {
 
     public void createFreestyleProject() {
         getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Engineer2");
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Engineer");
         getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
         getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getDriver().findElement(By.cssSelector("#breadcrumbs > li ")).click();
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+    }
+
+    @Test
+    public void testCreatedNewBuild() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5000));
+        createFreestyleProject();
+
+        getDriver().findElement(By.cssSelector("[href$='Engineer/']")).click();
+        getDriver().findElement(By.cssSelector("[href*='build?']")).click();
+        getDriver().findElement(By.cssSelector("[href$='console']")).click();
+
+        WebElement result = getDriver().findElement(By.cssSelector(".jenkins-icon-adjacent"));
+
+        Assert.assertTrue(result.isDisplayed());
     }
 
     @Test
@@ -45,5 +57,20 @@ public class ProjectDescriptionTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), expectedResult);
+    }
+
+    @Test
+    public void testPreviewDescription() {
+        String expectedResult = "wwwww";
+        createFreestyleProject();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).clear();
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//a[text()='Preview']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText(), expectedResult);
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).isDisplayed());
     }
 }
