@@ -253,4 +253,33 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
     }
+
+    @Test
+    public void testDeletePipelineProject() {
+        getDriver().findElement(newItem).click();
+
+        WebElement fieldEnterName = getWait5().until(ExpectedConditions.presenceOfElementLocated(name));
+        fieldEnterName.sendKeys(PIPELINE_NAME);
+        getDriver().findElement(pipelineItem).click();
+        getDriver().findElement(okButton).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[data-url='/job/" + PIPELINE_NAME + "/doDelete']"))).click();
+        getDriver().switchTo().alert().dismiss();
+        getDriver().findElement(dashboard).click();
+
+        WebElement pipelineName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PIPELINE_NAME + "/")));
+        int xOfpipelineName = pipelineName.getSize().getWidth();
+        new Actions(getDriver())
+                .moveToElement(pipelineName, xOfpipelineName / 2 - 2, 0)
+                .pause(Duration.ofMillis(100))
+                .click()
+                .build()
+                .perform();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
+        getDriver().switchTo().alert().accept();
+        getDriver().findElement(dashboard).click();
+
+        Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
+    }
 }
