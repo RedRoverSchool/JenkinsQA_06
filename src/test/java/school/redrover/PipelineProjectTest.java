@@ -10,7 +10,7 @@ import school.redrover.runner.BaseTest;
 
 import java.util.*;
 
-public class PipelineConfigureTest extends BaseTest {
+public class PipelineProjectTest extends BaseTest {
     final String EXPECTED_RESULT = "New pipeline project";
 
     public void createPipeline() {
