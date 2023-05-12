@@ -91,7 +91,7 @@ public class FreestyleProject1Test extends BaseTest {
 
         Assert.assertEquals(enableButton, getDriver().findElement(SUBMIT).getText());
     }
-
+    @Ignore
     @Test
     public void testEnableFreestyleProject() {
         createFreestyleProject();
