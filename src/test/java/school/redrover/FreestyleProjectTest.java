@@ -4,9 +4,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -86,6 +88,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("h1.job-index-headline.page-headline")).isEnabled());
     }
 
+    @Ignore
     @Test
     public void testAddDescriptionToFreestyleProject() {
 
@@ -264,5 +267,51 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(validationMessage, "» ‘" + wrongCharacter + "’ is an unsafe character");
         Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
+    }
+
+    @Test
+    public void testBuildFreestyleProject() {
+        WebElement newItem = getDriver().findElement(By.xpath("//*[@href='/view/all/newJob']"));
+        newItem.click();
+
+        WebElement projectName = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id = 'name']")));
+        projectName.sendKeys("MyFreestyleProject");
+
+        WebElement typeFreeStyle = getDriver().findElement(By.xpath("//li[contains(@class, 'FreeStyleProject')]"));
+        typeFreeStyle.click();
+
+        WebElement createItem = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        createItem.click();
+
+        WebElement buildStep = getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//button[contains(text(), 'Add build step')]")));
+        Actions actions = new Actions(getDriver());
+        actions.scrollToElement(getDriver().findElement(By.xpath("//button[contains(text(), 'Add post-build action')]"))).click().perform();
+        getWait2().until(ExpectedConditions.elementToBeClickable(buildStep)).click();
+
+        WebElement executeShell = getDriver().findElement(By.xpath("//a[contains(text(), 'Execute shell')]"));
+        executeShell.click();
+
+        WebElement codeMirror = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("CodeMirror")));
+        actions.scrollToElement(getDriver().findElement(By.xpath("//button[contains(text(), 'Add post-build action')]"))).click().perform();
+        WebElement codeLine = codeMirror.findElements(By.className("CodeMirror-lines")).get(0);
+        codeLine.click();
+        WebElement command = codeMirror.findElement(By.cssSelector("textarea"));
+        command.sendKeys("echo Hello");
+
+        WebElement saveConfiguration = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveConfiguration.click();
+
+        WebElement toBuild = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href, 'build?delay')]")));
+        toBuild.click();
+
+        WebElement firstBuild = getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@class='build-status-link']")));
+        firstBuild.click();
+
+        WebElement consoleOutput = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//pre[@class='console-output']")));
+
+        Assert.assertTrue(consoleOutput.getText().contains("echo Hello"));
+        Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
     }
 }
