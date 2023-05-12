@@ -16,15 +16,16 @@ public class NewViewTest extends BaseTest {
     private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
     private static final String RANDOM_LIST_VIEW_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     private void createNewProjectFromMyViewsPage() {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
         getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
-        getDriver().findElement(By.id("name")).sendKeys("First Project");
+        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.cssSelector("#ok-button")).click();
         getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
     }
 
     private List<String> getListFromWebElements(List<WebElement> elements) {
@@ -37,18 +38,16 @@ public class NewViewTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewView() throws InterruptedException {
+    public void testCreateNewView() {
         this.createNewProjectFromMyViewsPage();
         getDriver().findElement(By.className("addTab")).click();
-        getDriver().findElement(By.id("name")).sendKeys("MyFirstView");
+        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
         getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
         getDriver().findElement(By.id("ok")).click();
-        Thread.sleep(2000);
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//button[@name='Submit']"))).click();
 
-        WebElement projectName = getDriver().findElement(By.linkText("MyFirstView"));
-
-        Assert.assertEquals(projectName.getText(), "MyFirstView");
+        Assert.assertTrue(getDriver().findElement(CREATED_LIST_VIEW).isDisplayed());
     }
 
     @Test
