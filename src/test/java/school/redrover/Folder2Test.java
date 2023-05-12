@@ -82,6 +82,7 @@ public class Folder2Test extends BaseTest {
         return new Object[][]
                 {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
     }
+    
     @Test (dataProvider = "create-folder")
     public void testFoldersCreationWithProvider( String provideNames) {
 
