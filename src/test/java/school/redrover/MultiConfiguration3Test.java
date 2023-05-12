@@ -132,6 +132,7 @@ public class MultiConfiguration3Test extends BaseTest {
 
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(By.xpath("//*[@id='tasks']/div[7]/span/a")).click();
+
         getDriver().findElement(By.xpath("//*[@checkdependson='newName']")).sendKeys(NEW_PROJECT_NAME);
         getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
         getDriver().findElement(DASHBOARD_BUTTON).click();
