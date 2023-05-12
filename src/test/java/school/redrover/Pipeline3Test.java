@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -9,36 +8,57 @@ import school.redrover.runner.BaseTest;
 
 public class Pipeline3Test extends BaseTest {
 
+    private final String itemName = "First Project";
+
+    private static final By NEW_ITEM_MENU = By.xpath("//a[@href='/view/all/newJob']");
+    private static final By PROJECT_NAME_FIELD = By.xpath("//input[@name='name']");
+    private static final By PIPELINE_SECTION = By.xpath("//span[@class = 'label'] [text() = 'Pipeline']");
+    private static final By OK_BUTTON = By.xpath("//button[@id='ok-button']");
+    private static final By SUBMIT_BUTTON = By.xpath("//button[@name='Submit']");
+    private static final By PIPELINE_HEADING = By.xpath("//div[@id='main-panel']/h1");
+    private static final By BREADSCRUMB_DASHBOARD = By.xpath("//a[text()='Dashboard']");
+    private static final By PROJECT_NAME_IN_PROJECT_STATUS_TABLE =
+            By.xpath("//a[@class='jenkins-table__link model-link inside']//span");
+
+    private void createPipelineProject(String itemName) {
+
+        getDriver().findElement(NEW_ITEM_MENU).click();
+        getDriver().findElement(PROJECT_NAME_FIELD).sendKeys(itemName);
+        getDriver().findElement(PIPELINE_SECTION).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SUBMIT_BUTTON).click();
+    }
+
     @Test
     public void testCreatePipelineViaNewItem() {
-        final String itemName = "First Project";
 
-        WebDriver driver = getDriver();
+        createPipelineProject(itemName);
 
-        WebElement newItemMenu = driver.findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        newItemMenu.click();
+        Assert.assertEquals(getDriver().findElement(PIPELINE_HEADING).getText(), "Pipeline " + itemName);
 
-        WebElement projectName = driver.findElement(By.xpath("//input[@name='name']"));
-        projectName.sendKeys(itemName);
+        getDriver().findElement(BREADSCRUMB_DASHBOARD).click();
 
-        WebElement pipelineSection = driver.findElement(By.xpath("//span[@class = 'label'] [text() = 'Pipeline']"));
-        pipelineSection.click();
+        Assert.assertEquals(getDriver().findElement(PROJECT_NAME_IN_PROJECT_STATUS_TABLE).getText(), itemName);
+    }
 
-        WebElement okButton = driver.findElement(By.xpath("//button[@id='ok-button']"));
-        okButton.click();
+    @Test
+    public void testCreatePipelineWithTheSameName() {
 
-        WebElement submitButton = driver.findElement(By.xpath("//button[@name='Submit']"));
-        submitButton.click();
+        final String expectedErrorMessage = "A job already exists with the name ‘" + itemName + "’";
+        createPipelineProject(itemName);
 
-        WebElement pipelineHeading = driver.findElement(By.xpath("//div[@id='main-panel']/h1"));
-        Assert.assertEquals(pipelineHeading.getText(), "Pipeline " + itemName);
+        getDriver().findElement(BREADSCRUMB_DASHBOARD).click();
+        getDriver().findElement(NEW_ITEM_MENU).click();
+        getDriver().findElement(PROJECT_NAME_FIELD).sendKeys(itemName);
 
-        WebElement breadscrumbDashboard = driver.findElement(By.xpath("//a[text()='Dashboard']"));
-        breadscrumbDashboard.click();
+        WebElement errorMessageAJobAlreadyExists = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+        errorMessageAJobAlreadyExists.isDisplayed();
 
-        WebElement projectNameInProjectStatusTable = driver.findElement
-                (By.xpath("//a[@class='jenkins-table__link model-link inside']//span"));
-        Assert.assertEquals(projectNameInProjectStatusTable.getText(), itemName);
+        getDriver().findElement(PIPELINE_SECTION).click();
 
+        getDriver().findElement(OK_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement
+                (By.xpath("//div[@id='main-panel']/p")).getText(), expectedErrorMessage);
     }
 }
