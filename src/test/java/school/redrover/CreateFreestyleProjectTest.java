@@ -30,7 +30,6 @@ public class CreateFreestyleProjectTest extends BaseTest {
     }
 
     @Test
-
     public void testCreateFreestyleProjectWithInvalidName() {
         getDriver().findElement(By.xpath("//a[contains(@href, 'newJob')]")).click();
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(
