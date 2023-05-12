@@ -22,3 +22,4 @@ public class CreateFreestyleProject2aTest extends BaseTest {
         Assert.assertEquals(projectName, "Project One1");
     }
 }
+
