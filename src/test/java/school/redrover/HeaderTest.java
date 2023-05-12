@@ -243,7 +243,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testBuildsOpenFromDropdownMenu(){
+    public void testBuildsOpenFromDropdownMenu() {
 
         WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
                 ("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']")));
@@ -257,5 +257,23 @@ public class HeaderTest extends BaseTest {
         WebElement pageBuilds = getDriver().findElement(By.xpath("//h1[.='Builds for admin']"));
 
         Assert.assertTrue(pageBuilds.isDisplayed());
+    }
+
+    @Test
+    public void testOpenConfigureFromDropdownMenu() {
+
+        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", dropDownMenu);
+
+        WebElement btnConfigure = getWait2().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//span[. ='Configure']")));
+        btnConfigure.click();
+
+        WebElement pageConfigure = getDriver().findElement
+                (By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]"));
+
+        Assert.assertTrue(pageConfigure.isDisplayed());
     }
 }
