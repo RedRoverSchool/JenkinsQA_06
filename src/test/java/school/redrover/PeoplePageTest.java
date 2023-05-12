@@ -81,3 +81,4 @@ public class PeoplePageTest extends BaseTest {
         Assert.assertEquals(actualUserName.getText(), "Jenkins User ID: " + expectedUserName);
     }
 }
+
