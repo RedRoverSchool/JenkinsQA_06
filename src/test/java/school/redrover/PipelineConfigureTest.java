@@ -270,12 +270,8 @@ public class PipelineConfigureTest extends BaseTest {
         Assert.assertTrue(fieldDescription.getText().contains(description));
     }
 
-    @Ignore
-    @Test
+    @Test(dependsOnMethods = "addDescriptionPipelineProjectTest")
     public void disablePipelineProjectTest(){
-        clickTaskButton("New Item");
-        createPipelineProject(EXPECTED_RESULT, "Pipeline");
-
         clickPageButton("Dashboard");
         String statusBeforeDisable = statusOfProject();
 
