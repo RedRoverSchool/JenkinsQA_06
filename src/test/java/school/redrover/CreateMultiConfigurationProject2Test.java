@@ -14,7 +14,7 @@ public class CreateMultiConfigurationProject2Test extends BaseTest{
         WebElement newItemLink = getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a"));
         newItemLink.click();
 
-        WebElement enterItemName = getDriver().findElement(By.xpath("//*[@id='name']"));
+        WebElement enterItemName = getDriver().findElement(By.id("name"));
         enterItemName.sendKeys(nameOfProject);
 
         WebElement multiConfigBtn = getDriver()
