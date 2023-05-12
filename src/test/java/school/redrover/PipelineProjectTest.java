@@ -10,7 +10,7 @@ import school.redrover.runner.BaseTest;
 
 import java.util.*;
 
-public class PipelineConfigureTest extends BaseTest {
+public class PipelineProjectTest extends BaseTest {
     final String EXPECTED_RESULT = "New pipeline project";
     private static final String NAME = "test-pipeline";
     private static final By SAVE_BUTTON = By.name("Submit");
