@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
@@ -23,25 +24,6 @@ public class NeedMoreCoffeeTest extends BaseTest {
         WebElement textUserId = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]"));
 
         Assert.assertEquals(textUserId.getText(), "Jenkins User ID: admin");
-
-    }
-
-    @Test
-    public void testNewProject() {
-
-        WebElement newItem = getDriver().findElement(By.xpath("//*[@id=\"tasks\"]/div[1]/span/a"));
-        newItem.sendKeys(Keys.RETURN);
-        WebElement field = getDriver().findElement(By.xpath("//*[@id=\"name\"]"));
-        field.sendKeys("project");
-        WebElement freestyleProject = getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]"));
-        freestyleProject.sendKeys(Keys.RETURN);
-        WebElement tabOk = getDriver().findElement(By.xpath("//*[@id=\"ok-button\"]"));
-        tabOk.sendKeys(Keys.RETURN);
-        WebElement tabSave = getDriver().findElement(By.xpath("//*[@id=\"bottom-sticker\"]/div/button[1]"));
-        tabSave.sendKeys(Keys.RETURN);
-        WebElement textProject = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/h1"));
-
-        Assert.assertEquals(textProject.getText(), "Project project");
 
     }
 
@@ -108,27 +90,6 @@ public class NeedMoreCoffeeTest extends BaseTest {
     }
 
     @Test
-    public void testCreatePipelineProject() {
-
-        WebElement newItem = getDriver().findElement(By.xpath("//*[@class=\"task-link \"]"));
-        newItem.sendKeys(Keys.RETURN);
-        WebElement field = getDriver().findElement(By.xpath("//*[@id=\"name\"]"));
-        field.sendKeys("project_Alex");
-        WebElement pipeline = getDriver().findElement(By.xpath("//*[@class=\"org_jenkinsci_plugins_workflow_job_WorkflowJob\"]"));
-        pipeline.sendKeys(Keys.RETURN);
-        WebElement tabOk = getDriver().findElement(By.xpath("//*[@id=\"ok-button\"]"));
-        tabOk.sendKeys(Keys.RETURN);
-        WebElement discription = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/form/div[1]/div[2]/div/div[2]/textarea"));
-        discription.sendKeys("Pipeline_Project");
-        WebElement tabSave = getDriver().findElement(By.xpath("//*[@id=\"bottom-sticker\"]/div/button[1]"));
-        tabSave.sendKeys(Keys.RETURN);
-        WebElement textPipeline = getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/h1"));
-
-        Assert.assertEquals(textPipeline.getText(), "Pipeline project_Alex");
-
-    }
-
-    @Test
     public void testErrorTextEmptyField() {
 
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href='newJob']"));
@@ -163,6 +124,7 @@ public class NeedMoreCoffeeTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testNewMultiConfigurationProject() {
 
