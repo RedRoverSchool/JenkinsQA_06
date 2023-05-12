@@ -93,7 +93,6 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
     }
 
-    @Ignore
     @Test
     public void testSearchNumericSymbol() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
