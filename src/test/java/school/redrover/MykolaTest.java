@@ -168,6 +168,7 @@ public class MykolaTest extends BaseTest {
 
         WebElement allPlusButton = getDriver().findElement(By.xpath("//*[@title='New View']"));
         allPlusButton.click();
+
         WebElement nameField = getDriver().findElement(By.xpath("//*[@id='name']"));
         String viewName = faker.funnyName().name();
         nameField.sendKeys(viewName);
@@ -192,6 +193,7 @@ public class MykolaTest extends BaseTest {
 
         WebElement allPlusButton = getDriver().findElement(By.xpath("//*[@title='New View']"));
         allPlusButton.click();
+
         WebElement nameField = getDriver().findElement(By.xpath("//*[@id='name']"));
         String viewName = faker.funnyName().name();
         nameField.sendKeys(viewName);
