@@ -17,11 +17,11 @@ public class TestCreateDuplicatePipeline extends BaseTest {
     private static final By SUBMIT = By.name("Submit");
     private static final By JENKINS_HEAD_ICON = By.id("jenkins-head-icon");
     private static final By ERROR_MESSAGE = By.xpath("//div[@class='input-validation-message']");
-    private void createPipeline(String name) {
+    private void createPipeline() {
 
         getDriver().findElement(NEW_ITEM).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(INPUT_NAME));
-        getDriver().findElement(INPUT_NAME).sendKeys(name);
+        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
         getDriver().findElement(SELECT_PIPELINE).click();
         getDriver().findElement(OK_BUTTON).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(SUBMIT)).click();
@@ -30,7 +30,7 @@ public class TestCreateDuplicatePipeline extends BaseTest {
     @Test
     public void testCreatePipelineJobWithDuplicateName() {
 
-        createPipeline(PROJECT_NAME);
+        createPipeline();
 
         getDriver().findElement(JENKINS_HEAD_ICON).click();
         getDriver().findElement(NEW_ITEM).click();
