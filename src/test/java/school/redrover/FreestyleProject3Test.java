@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -89,9 +90,8 @@ public class FreestyleProject3Test extends BaseTest {
         WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
         actions.moveToElement(dropdown).click(dropdown).perform();
 
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
         WebElement deleteProject = getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li[5]"));
-        js.executeScript("arguments[0].click();", deleteProject);
+        getWait5().until(ExpectedConditions.elementToBeClickable(deleteProject)).click();
         getDriver().switchTo().alert().accept();
 
         String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
