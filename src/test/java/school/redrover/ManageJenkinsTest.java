@@ -122,15 +122,18 @@ public class ManageJenkinsTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getDriver().findElement(By.xpath("//input[@autocorrect='off']")).sendKeys("c");
-        getWait5().until(ExpectedConditions
-                .visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='jenkins-search__results']//child::a[contains(@href,'/manage/')]")));
+        List<WebElement> titleTexts = getDriver()
+                .findElements(By.xpath("//div/a[contains(@href, 'manage')]"));
 
-        List<WebElement> titleTexts = getDriver().findElements(By.xpath("//div[@class='jenkins-search__results']//child::a[contains(@href,'/manage/')]"));
+        getWait5().until(ExpectedConditions
+                .visibilityOfAllElements(titleTexts));
 
         Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
 
-        getDriver().findElement(By.xpath("//div[@class='jenkins-search__results']/child::a")).click();
-        getWait5().until(t -> !Objects.equals(getDriver().getCurrentUrl(), oldUrl));
+        getWait2()
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='http://localhost:8080/manage/configure']")))
+                .click();
+        getWait10().until(t -> !Objects.equals(getDriver().getCurrentUrl(), oldUrl));
 
         Assert.assertEquals(getDriver().getTitle(), "Configure System [Jenkins]");
     }
