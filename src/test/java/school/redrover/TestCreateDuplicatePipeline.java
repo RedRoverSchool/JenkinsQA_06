@@ -17,7 +17,6 @@ public class TestCreateDuplicatePipeline extends BaseTest {
     private static final By SUBMIT = By.name("Submit");
     private static final By JENKINS_HEAD_ICON = By.id("jenkins-head-icon");
     private static final By ERROR_MESSAGE = By.xpath("//div[@class='input-validation-message']");
-
     private void createPipeline(String name) {
 
         getDriver().findElement(NEW_ITEM).click();
