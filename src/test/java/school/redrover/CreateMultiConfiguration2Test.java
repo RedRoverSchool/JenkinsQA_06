@@ -26,6 +26,5 @@ public class CreateMultiConfiguration2Test extends BaseTest {
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//h1[@class='matrix-project-headline page-headline']"))
                 .getText(), "Project Item");
-
     }
 }
