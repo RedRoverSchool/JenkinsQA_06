@@ -24,7 +24,7 @@ public class ManageJenkinsUsersTest extends BaseTest {
                 .pause(500)
                 .perform();
 
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         new Actions(getDriver())
                 .moveToElement(getDriver()
                     .findElement(By.xpath("//*[@id='breadcrumb-menu-target']//span[contains(text(), 'Manage Jenkins')]")))
