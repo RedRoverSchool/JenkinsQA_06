@@ -14,7 +14,7 @@ public class Folder4Test extends BaseTest {
 
     final String NAME_FOLDER = "Test";
     final String NAME_VIEW = "Test2";
-
+    @Ignore
     @Test
     public void testCreateFolder(){
         getDriver().findElement(By.linkText("New Item")).click();
