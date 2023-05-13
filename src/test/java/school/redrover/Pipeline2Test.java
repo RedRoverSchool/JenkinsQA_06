@@ -85,7 +85,6 @@ public class Pipeline2Test extends BaseTest {
                 getText(), "No name is specified");
     }
 
-    @Ignore
     @Test
     public void testDeletePipeline() {
         final String PIPELINE_NAME = "My_pipeline";
@@ -106,19 +105,15 @@ public class Pipeline2Test extends BaseTest {
         WebElement dashboardLink = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
         dashboardLink.click();
 
-        WebElement pipelineInList = getDriver().findElement(
-                By.xpath("//a[@class ='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']"));
-        pipelineInList.sendKeys(Keys.RETURN);
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//a[@class ='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']")))
+                .sendKeys(Keys.RETURN);
 
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//li[@id='yui-gen4']/a[@href='#']")));
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Delete Pipeline"))).click();
 
-        WebElement deletePipelineDropdownList = getDriver().findElement(By.xpath("//li[@id='yui-gen4']/a[@href='#']"));
-        deletePipelineDropdownList.click();
+        getWait2().until(ExpectedConditions.alertIsPresent()).accept();
 
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
-
-        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME),"Pipeline is not shown");
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME),"Pipeline is not deleted");
     }
 
     @Test
