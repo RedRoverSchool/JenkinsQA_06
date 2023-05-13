@@ -66,8 +66,8 @@ public class FreestyleProject3Test extends BaseTest {
 
         getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a")).click();
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
-        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).clear();
-        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//textarea[contains(@class, 'jenkins-input')]")).clear();
+        getDriver().findElement(By.xpath("//textarea[contains(@class, 'jenkins-input')]")).sendKeys(expectedResult);
         getDriver().findElement(By.xpath("//a[text()='Preview']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText(), expectedResult);
