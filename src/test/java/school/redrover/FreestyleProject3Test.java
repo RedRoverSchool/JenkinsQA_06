@@ -13,7 +13,7 @@ import java.time.Duration;
 
 public class FreestyleProject3Test extends BaseTest {
 
-    public void createFreestyleProject() {
+    private void createFreestyleProject() {
         getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Engineer");
         getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
@@ -24,7 +24,7 @@ public class FreestyleProject3Test extends BaseTest {
 
     @Test
     public void testCreatedNewBuild() {
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         createFreestyleProject();
 
         getDriver().findElement(By.cssSelector("[href$='Engineer/']")).click();
@@ -39,14 +39,14 @@ public class FreestyleProject3Test extends BaseTest {
     @Test
     public void testProjectDescription() {
         String expectedResult = "Test";
-        createFreestyleProject();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        createFreestyleProject();
 
         WebElement description = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         description.click();
         String string = "w";
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             string += string;
         }
 
@@ -65,8 +65,8 @@ public class FreestyleProject3Test extends BaseTest {
     @Test
     public void testPreviewDescription() {
         String expectedResult = "wwwww";
-        createFreestyleProject();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        createFreestyleProject();
 
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
         getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).clear();
@@ -78,15 +78,15 @@ public class FreestyleProject3Test extends BaseTest {
     }
 
     @Test
-    public void testDeleteProjectFromTheDashboardList()  {
+    public void testDeleteProjectFromTheDashboardList() {
         String expectedResult = "Start building your software project";
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         createFreestyleProject();
 
         Actions actions = new Actions(getDriver());
 
-        WebElement projectButton = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
-        actions.moveToElement(projectButton).perform();
+        WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
+        actions.moveToElement(nameProject).perform();
         WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].click();", dropdown);
@@ -96,5 +96,19 @@ public class FreestyleProject3Test extends BaseTest {
 
         String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testDeleteProjectFromTheProjectPage() {
+        String expectedResult = "Start building your software project";
+        createFreestyleProject();
+        WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
+        nameProject.click();
+        getDriver().findElement(By.xpath("//span[normalize-space(text())='Delete Project' ]")).click();
+        getDriver().switchTo().alert().accept();
+
+        String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
+        Assert.assertEquals(actualResult, expectedResult);
+
     }
 }
