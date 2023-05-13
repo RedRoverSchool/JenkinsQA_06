@@ -167,4 +167,18 @@ public class MultiConfigurationTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("form#enable-project")).getText().trim().substring(0,34),"This project is currently disabled");
     }
 
+    @Test
+    public void testProjectDisabled() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//input[@id='name']"))).sendKeys("Project001");
+        getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='ok-button']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.cssSelector("label.jenkins-toggle-switch__label"))).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertTrue(getWait10().until(ExpectedConditions.textToBePresentInElement(
+                getDriver().findElement(By.xpath("//form[@id='enable-project']")), "This project is currently disabled")));
+    }
+
 }

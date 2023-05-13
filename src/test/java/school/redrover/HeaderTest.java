@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.runner.BaseTest;
@@ -16,6 +15,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.Duration;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
@@ -23,6 +23,8 @@ public class HeaderTest extends BaseTest {
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
     private static final By MANAGE_JENKINS_LINK = By.xpath("//a[text()='Manage Jenkins']");
     private static final By HEADER_MANAGE_PAGE = By.xpath("//h1[text()='Manage Jenkins']");
+    private static final String NOTIFICATION_ICON_COLOR_CSS_VALUE = "background-color";
+    private static final String MANAGE_JENKINS_PAGE_HEADER = "Manage Jenkins";
     private static final By NEW_ITEM_BTN = By.xpath("//span[contains(text(),'New Item')]/..");
     private static final By ITEM_NAME_FIELD = By.id("name");
     private static final String ITEM_NAME = "Test Item";
@@ -196,29 +198,29 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualHeader.getText(), expectedHeader);
     }
 
-    @Ignore
     @Test
     public void testNotificationAndSecurityIcon() {
 
-        WebElement notificationIcon = getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(NOTIFICATION_ICON));
+        WebElement notificationIcon = getDriver().findElement(NOTIFICATION_ICON);
+        String backgroundColorBefore = notificationIcon.getCssValue(NOTIFICATION_ICON_COLOR_CSS_VALUE);
 
-        String backgroundColorBefore = notificationIcon.getCssValue("background-color");
-        new Actions(getDriver()).moveToElement(notificationIcon).perform();
-        String backgroundColorAfter = notificationIcon.getCssValue("background-color");
+        new Actions(getDriver())
+                .pause(Duration.ofMillis(300))
+                .moveToElement(getDriver().findElement(NOTIFICATION_ICON))
+                .perform();
 
+        String backgroundColorAfter = notificationIcon.getCssValue(NOTIFICATION_ICON_COLOR_CSS_VALUE);
         Assert.assertNotEquals(backgroundColorBefore, backgroundColorAfter, "The color of icon is not changed");
-        notificationIcon.click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(NOTIFICATION_ICON)).click();
 
-        WebElement manageJenkinsLink = getWait2().until(ExpectedConditions
-                .elementToBeClickable(MANAGE_JENKINS_LINK));
-        manageJenkinsLink.click();
+        new Actions(getDriver())
+                .pause(Duration.ofMillis(300))
+                .click(getWait2().until(ExpectedConditions.elementToBeClickable(MANAGE_JENKINS_LINK)))
+                .perform();
 
-        String expectedHeader = "Manage Jenkins";
-        WebElement actualHeader = getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(HEADER_MANAGE_PAGE));
+        String actualHeader = getWait2().until(ExpectedConditions.visibilityOfElementLocated(HEADER_MANAGE_PAGE)).getText();
 
-        Assert.assertEquals(actualHeader.getText(),expectedHeader);
+        Assert.assertEquals(actualHeader,MANAGE_JENKINS_PAGE_HEADER);
     }
 
     @Test
@@ -243,10 +245,10 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testBuildsOpenFromDropdownMenu(){
+    public void testBuildsOpenFromDropdownMenu() {
 
         WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']//button[@class='jenkins-menu-dropdown-chevron']")));
+                ("//a[@href='/user/admin']/button")));
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", dropDownMenu);
 
@@ -257,5 +259,23 @@ public class HeaderTest extends BaseTest {
         WebElement pageBuilds = getDriver().findElement(By.xpath("//h1[.='Builds for admin']"));
 
         Assert.assertTrue(pageBuilds.isDisplayed());
+    }
+
+    @Test
+    public void testOpenConfigureFromDropdownMenu() {
+
+        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//a[@href='/user/admin']/button")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", dropDownMenu);
+
+        WebElement btnConfigure = getWait2().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//span[. ='Configure']")));
+        btnConfigure.click();
+
+        WebElement pageConfigure = getDriver().findElement
+                (By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]"));
+
+        Assert.assertTrue(pageConfigure.isDisplayed());
     }
 }

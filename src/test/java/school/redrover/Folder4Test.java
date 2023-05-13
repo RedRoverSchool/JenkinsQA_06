@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -12,7 +13,7 @@ public class Folder4Test extends BaseTest {
     final String NAME_FOLDER = "Test";
 
     @Test
-    public void testCreateFolder() throws InterruptedException {
+    public void testCreateFolder(){
         getDriver().findElement(By.linkText("New Item")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']")))
                 .sendKeys(NAME_FOLDER);
@@ -21,7 +22,9 @@ public class Folder4Test extends BaseTest {
         getDriver().findElement(By.xpath("//button[@name=\"Submit\"]")).click();
 
         getDriver().findElement(By.linkText("Dashboard")).click();
-        getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>span")).click();
+        Actions actions = new Actions(getDriver());
+        WebElement nameFolder = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>span"));
+        actions.moveToElement(nameFolder).click(nameFolder).build().perform();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), NAME_FOLDER);
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
