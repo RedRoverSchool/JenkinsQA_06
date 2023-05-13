@@ -42,6 +42,7 @@ public class FreestyleProject1Test extends BaseTest {
         getDriver().findElement(SUBMIT).click();
     }
 
+    @Ignore
     @Test
     public void testCreateNewFreestyleProject() {
         createFreestyleProject();

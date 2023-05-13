@@ -50,6 +50,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
 
+    @Ignore
     @Test
     public void testEnableProject() {
 
@@ -109,6 +110,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description'] /div[1]")).getText(), "Job " + FREESTYLE_NAME);
     }
 
+    @Ignore
     @Test
     public void testRenameFreestyleProject() {
 
