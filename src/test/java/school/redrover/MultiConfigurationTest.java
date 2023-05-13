@@ -19,7 +19,8 @@ public class MultiConfigurationTest extends BaseTest {
 
     private String getProjectNewName() {
         getWait5();
-        return getDriver().findElement(By.xpath("//div[@id='main-panel']//h1")).getText();
+        return getDriver().findElement(By.xpath("//h1[contains(@class, 'matrix-project-headline page-headline')]"))
+                .getText();
     }
 
     private void createMultiConfigurationProject() {
