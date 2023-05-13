@@ -39,8 +39,8 @@ public class FreestyleProject3Test extends BaseTest {
     @Test
     public void testProjectDescription() {
         String expectedResult = "Test";
-        createFreestyleProject();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        createFreestyleProject();
 
         WebElement description = getDriver().findElement(By.xpath("//a[@id='description-link']"));
         description.click();
@@ -65,8 +65,8 @@ public class FreestyleProject3Test extends BaseTest {
     @Test
     public void testPreviewDescription() {
         String expectedResult = "wwwww";
-        createFreestyleProject();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        createFreestyleProject();
 
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
         getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).clear();
