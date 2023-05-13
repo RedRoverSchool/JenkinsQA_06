@@ -21,7 +21,7 @@ public class ManageJenkinsUsersTest extends BaseTest {
                 .moveToElement(dashBoard.findElement(By.tagName("button")))
                 .pause(200)
                 .click()
-                .pause(200)
+                .pause(500)
                 .perform();
 
         new Actions(getDriver())
