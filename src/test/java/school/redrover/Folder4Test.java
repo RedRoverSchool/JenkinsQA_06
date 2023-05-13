@@ -55,8 +55,8 @@ public class Folder4Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testCreateFolder"})
-    public void testRenameFolder() throws InterruptedException {
-        final String otherNameFolder = "Test";
+    public void testRenameFolder(){
+        final String newName = "newTestName";
         Actions actions = new Actions(getDriver());
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
@@ -65,8 +65,21 @@ public class Folder4Test extends BaseTest {
 
         WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>button"));
         js.executeScript("arguments[0].click();", arrow);
-
-        WebElement rename = getDriver().findElement(By.xpath("//a[@href='/job/Test/confirm-rename']"));
+        WebElement rename = getDriver().findElement(By.xpath("//a[@href='/job/" + NAME_FOLDER + "/confirm-rename']"));
         js.executeScript("arguments[0].click();", rename);
+
+        WebElement inputFieldNewName = getDriver().findElement(By.xpath("//input[@name='newName']"));
+        inputFieldNewName.clear();
+        inputFieldNewName.sendKeys(newName);
+
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        getDriver().findElement(By.linkText("Dashboard")).click();
+        WebElement nameRenamedFolder = getDriver().findElement(By.cssSelector("a[href='job/" + newName + "/']>span"));
+        new Actions(getDriver()).moveToElement(nameRenamedFolder).click(nameRenamedFolder).build().perform();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), newName);
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
+                "error was not shown icon folder");
     }
 }
