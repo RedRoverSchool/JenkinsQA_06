@@ -8,13 +8,13 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class CreateFolder2Test extends BaseTest {
-    private final String nameItem = "Test Folder";
+    private final String NAME_ITEM = "Test Folder";
 
     @Test
     public void testCreateFolder() {
         getDriver().findElement(By.cssSelector(".task-link")).click();
 
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(nameItem);
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(NAME_ITEM);
         getDriver().findElement(By.xpath("(//span[@class='label'])[4]")).click();
         getDriver().findElement(By.cssSelector(".btn-decorator")).click();
 
@@ -26,7 +26,7 @@ public class CreateFolder2Test extends BaseTest {
         String actualResult = nameOfFolder.getText();
         nameOfFolder.click();
 
-        Assert.assertEquals(actualResult, nameItem);
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), nameItem);
+        Assert.assertEquals(actualResult, NAME_ITEM);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), NAME_ITEM);
     }
 }
