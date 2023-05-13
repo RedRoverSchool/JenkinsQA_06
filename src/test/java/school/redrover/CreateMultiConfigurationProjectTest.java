@@ -4,15 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreateMultiConfigurationProjectTest extends BaseTest {
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
@@ -22,7 +17,11 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
     private static final By ADD_DESCRIPTION = By.xpath("//a[@href='editDescription']");
     private static final By TEXTAREA_DESCRIPTION = By.xpath("//textarea[@name='description']");
     private static final By SAVE_BUTTON = By.name("Submit");
-    @Ignore
+
+    private static final By NEW_PROJECT_HEADLINE =
+            By.xpath("//h1[@class='matrix-project-headline page-headline']");
+
+        @Ignore
     @Test
     public void testMultiConfigurationProject() {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]/span/a"));
@@ -117,5 +116,20 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
         WebElement actualProjectInFolder = getDriver().findElement(By.xpath("//a[@href='job/First%20Multi-configuration%20project/']"));
 
         Assert.assertEquals(actualProjectInFolder.getText(), expectedProjectInFolder);
+    }
+
+    @Test
+    public void testCreatingMultiConfigurationProject() {
+        getDriver().findElement(NEW_ITEM).click();
+        getWait2();
+
+        getDriver().findElement(SET_ITEM_NAME).sendKeys("MCP001");
+        getDriver().findElement(MULTI_CONFIGURATION_PROJECT).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getWait2();
+
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(NEW_PROJECT_HEADLINE).getText(), "Project MCP001");
     }
 }
