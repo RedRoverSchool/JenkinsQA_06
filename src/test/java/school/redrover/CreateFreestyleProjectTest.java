@@ -30,6 +30,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
     }
 
     @Test
+
     public void testCreateFreestyleProjectWithInvalidName() {
         getDriver().findElement(By.xpath("//a[contains(@href, 'newJob')]")).click();
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(
@@ -88,21 +89,5 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(projectName.getText(), myProjectName);
     }
-    @Test
-    public void testCreateFreestyleProject3() {
-        String freestyleProjectName = "New job no.3";
 
-        getDriver().findElement(By.cssSelector(".task-link")).click();
-
-        getDriver().findElement(By.cssSelector("#name")).sendKeys(freestyleProjectName);
-        getDriver().findElement(By.cssSelector(".label")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-
-        getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
-
-        getDriver().findElement(By.cssSelector(".jenkins-breadcrumbs__list-item>.model-link")).click();
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//*[@id='job_New job no.3']/td[3]/a/span")).getText(),freestyleProjectName);
-    }
 }
