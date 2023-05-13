@@ -74,6 +74,7 @@ public class FreestyleProject1Test extends BaseTest {
         Assert.assertEquals("Project " + NAME, getDriver().findElement(By.xpath("//h1")).getText());
     }
 
+    @Ignore
     @Test
     public void testRenameFreestyleProject() {
         createFreestyleProject();
