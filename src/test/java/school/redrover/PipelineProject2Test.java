@@ -46,6 +46,7 @@ public class PipelineProject2Test extends BaseTest {
     public void testRenamePipelineProject() {
 
         createPipelineProject();
+
         getDriver().findElement(JENKINS_HEAD_ICON).click();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PROJECT_NAME + "/']"))).click();
         getDriver().findElement(By.cssSelector("a[href='/job/" + PROJECT_NAME + "/confirm-rename']")).click();
