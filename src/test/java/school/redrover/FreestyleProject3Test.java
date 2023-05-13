@@ -24,7 +24,7 @@ public class FreestyleProject3Test extends BaseTest {
 
     @Test
     public void testCreatedNewBuild() {
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5000));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         createFreestyleProject();
 
         getDriver().findElement(By.cssSelector("[href$='Engineer/']")).click();
