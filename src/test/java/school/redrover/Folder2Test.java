@@ -96,7 +96,7 @@ public class Folder2Test extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionToFolder() {
+    public void testConfigureFolderWithDescription() {
         final String FOLDER_NAME = "My_folder";
         final String DESCRIPTION = "This is a test folder";
 
