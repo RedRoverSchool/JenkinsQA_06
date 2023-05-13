@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -29,7 +28,6 @@ public class MultiConfigurationProject1Test extends BaseTest {
     }
     @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
 
-    @Test
     public void testAddDescription() {
 
         String expectedResult = "There is the test project";
@@ -40,11 +38,9 @@ public class MultiConfigurationProject1Test extends BaseTest {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//textarea"))).sendKeys(expectedResult);
         getDriver().findElement(By.xpath("(//button[@formnovalidate = 'formNoValidate'])[1]")).click();
 
-
         String actualResult = getDriver().findElement(By.xpath("//div[text() = 'There is the test project'] ")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
     }
 
     @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
