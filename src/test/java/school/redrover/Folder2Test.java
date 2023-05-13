@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -25,7 +26,7 @@ public class Folder2Test extends BaseTest {
     private void createAFolder(String name) {
         getDriver().findElement(NEW_ITEM).click();
 
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(NAME_FIELD));
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(NAME_FIELD));
 
         getDriver().findElement(NAME_FIELD).sendKeys(name);
         getDriver().findElement(FOLDER_TYPE).click();
@@ -74,5 +75,22 @@ public class Folder2Test extends BaseTest {
 
             Assert.assertEquals(actualFoldersList.get(actualFoldersList.size() - 1 - i).getText(), expectedFoldersList.get(i));
         }
+    }
+
+    @DataProvider(name = "create-folder")
+    public Object[][] provideFoldersNames() {
+        return new Object[][]
+                {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
+    }
+    
+    @Test (dataProvider = "create-folder")
+    public void testFoldersCreationWithProvider( String provideNames) {
+
+        createAFolder(provideNames);
+        getDriver().findElement(DASHBOARD_LINK).click();
+
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(NEW_ITEM));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span")).getText(),provideNames);
     }
 }

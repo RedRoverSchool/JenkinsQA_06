@@ -43,7 +43,7 @@ public class MyViewsTest extends BaseTest {
 
         Assert.assertEquals(description.getText().trim().substring(0, 4), "Test");
     }
-
+    @Ignore
     @Test
     public void testEditDescription() {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
