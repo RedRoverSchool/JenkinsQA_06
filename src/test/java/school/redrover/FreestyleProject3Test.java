@@ -11,6 +11,7 @@ import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
+
 public class FreestyleProject3Test extends BaseTest {
 
     private void createFreestyleProject() {
@@ -36,7 +37,8 @@ public class FreestyleProject3Test extends BaseTest {
 
     @Test
     public void testProjectAddMultilineTextAndClearAndAddDescription() {
-        String expectedResult = "Test";
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        String expectedDescription = "Test";
         createFreestyleProject();
 
         getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a")).click();
@@ -57,21 +59,22 @@ public class FreestyleProject3Test extends BaseTest {
         getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys("Test");
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), expectedResult);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), expectedDescription);
     }
 
     @Test
     public void testPreviewDescription() {
-        String expectedResult = "wwwww";
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        String expectedDescription = "wwwww";
         createFreestyleProject();
 
         getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a")).click();
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
         getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).clear();
-        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(expectedDescription);
         getDriver().findElement(By.xpath("//a[text()='Preview']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText(), expectedResult);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText(), expectedDescription);
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).isDisplayed());
     }
 
@@ -110,8 +113,8 @@ public class FreestyleProject3Test extends BaseTest {
 
     @Test
     public void testRenamingProjectFromTheDashboard() {
-        String expectedResultProjectPage = "Project Engineer2";
-        String expectedResultDashboardPage = "Engineer2";
+        String newNameProjectOnProjectPage = "Project Engineer2";
+        String newNameProjectOnDashboardPage = "Engineer2";
         createFreestyleProject();
 
         Actions actions = new Actions(getDriver());
@@ -128,11 +131,32 @@ public class FreestyleProject3Test extends BaseTest {
         inputName.sendKeys("Engineer2");
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), expectedResultProjectPage);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), newNameProjectOnProjectPage);
 
         getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]"))
-                .getText(), expectedResultDashboardPage);
+                .getText(), newNameProjectOnDashboardPage);
+    }
+
+    @Test
+    public void testRenamingProjectFromTheProjectPage() {
+        String newNameProjectOnProjectPage = "Project Engineer2";
+        String newNameProjectOnDashboardPage = "Engineer2";
+        createFreestyleProject();
+
+        getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a")).click();
+        getDriver().findElement(By.xpath("//a[contains(@href, 'confirm-rename')]")).click();
+        WebElement keyboard = getDriver().findElement(By.xpath("//input[@name='newName']"));
+        keyboard.clear();
+        keyboard.sendKeys("Engineer2");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), newNameProjectOnProjectPage);
+
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+
+        Assert.assertEquals(getDriver().
+                findElement(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]")).getText(), newNameProjectOnDashboardPage);
     }
 }
