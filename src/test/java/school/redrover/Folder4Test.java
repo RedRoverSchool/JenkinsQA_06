@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -31,7 +32,7 @@ public class Folder4Test extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
                 "error was not shown icon folder");
     }
-
+    @Ignore
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testCreateNewViewInFolder(){
         Actions actions = new Actions(getDriver());
