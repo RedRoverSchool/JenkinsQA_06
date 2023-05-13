@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class CreateFolder2Test extends BaseTest {
-    public static String nameItem = "Test Folder";
+    private final String nameItem = "Test Folder";
 
     @Test
     public void testCreateFolder() {
