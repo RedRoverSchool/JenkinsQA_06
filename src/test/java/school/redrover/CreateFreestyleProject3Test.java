@@ -57,7 +57,7 @@ public class CreateFreestyleProject3Test extends BaseTest {
         waitTwoSecondAndInputText(By.xpath("//textarea[@name = 'command']"), COMMAND_TEXT);
         findElementAndClick(By.xpath("//button[@name='Submit']"));
         waitFiveSecondAndClick(By.xpath("//a[contains(@href, 'build?delay')]"));
-        //waitTenSecondAndClick(By.xpath("//a[@class ='model-link inside build-link display-name']"));
+        waitTenSecondAndClick(By.xpath("//a[@class ='model-link inside build-link display-name']"));
         waitFiveSecondAndClick(By.xpath("//a[@class='build-status-link']"));
 
         WebElement expectedResult = getWait2().until(ExpectedConditions
