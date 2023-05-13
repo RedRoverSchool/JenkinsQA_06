@@ -8,13 +8,24 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ManageJenkinsTest extends BaseTest {
     final String NAME_NEW_NODE = "testNameNewNode";
 
     private final By Manage_Jenkins = By.xpath("//a[@href='/manage']");
+
+    public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
+        for (WebElement element : titleTexts) {
+            if (element.getText().equals(title)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Test
     public void testNameNewNodeOnCreatePage() {
@@ -98,11 +109,34 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("settings-search-bar")));
         getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-        getWait2().until(ExpectedConditions
-                .visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='jenkins-search__results']")));
-        WebElement noResults = getDriver().
-                findElement(By.xpath("//p[@class='jenkins-search__results__no-results-label']"));
+        WebElement visibleElement = getDriver().findElement(By.cssSelector(".jenkins-search__results-container--visible"));
+        String valueOuterHTMLOfvisibleElement = visibleElement.getAttribute("outerHTML");
+        getWait2().until(ExpectedConditions.domPropertyToBe(visibleElement,"outerHTML", valueOuterHTMLOfvisibleElement));
+        WebElement noResults = getDriver().findElement(By.cssSelector(".jenkins-search__results__no-results-label"));
 
         Assert.assertEquals(noResults.getText(), "No results");
+    }
+
+    @Test
+    public void testSearchConfigureSystemByC() {
+        String oldUrl = getDriver().getCurrentUrl();
+
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+        getDriver().findElement(By.id("settings-search-bar")).sendKeys("c");
+
+        getWait10().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//div[contains(@class, 'results-container')]")));
+
+        List<WebElement> titleTexts = getDriver()
+                .findElements(By.xpath("//div/a[contains(@href, 'manage')]"));
+
+        Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
+
+        getWait2()
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='jenkins-search__results-item--selected']")))
+                .click();
+        getWait10().until(t -> !Objects.equals(getDriver().getCurrentUrl(), oldUrl));
+
+        Assert.assertEquals(getDriver().getTitle(), "Configure System [Jenkins]");
     }
 }
