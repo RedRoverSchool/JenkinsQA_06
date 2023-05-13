@@ -27,14 +27,14 @@ public class UserProfileTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionToUser() throws InterruptedException {
+    public void testAddDescriptionToUser() {
         final String displayedDescriptionText = "Test User Description";
 
         createUser(username, password, fullName, email);
 
         getDriver().findElement(By.xpath("//a[contains(@href, '" + username + "')]")).click();
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
-        Thread.sleep(3000);
+
         WebElement descriptionInputField = getDriver()
                 .findElement(By.xpath("//textarea[@name='description']"));
         descriptionInputField.click();
