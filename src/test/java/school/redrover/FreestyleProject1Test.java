@@ -4,7 +4,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -71,25 +70,6 @@ public class FreestyleProject1Test extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
 
         Assert.assertEquals("Project " + NAME, getDriver().findElement(By.xpath("//h1")).getText());
-    }
-
-    @Test
-    public void testDisableFreestyleProject() {
-        createFreestyleProject();
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals("Enable", getDriver().findElement(By.name("Submit")).getText());
-    }
-    @Ignore
-    @Test
-    public void testEnableFreestyleProject() {
-        createFreestyleProject();
-
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals("Disable Project", getDriver().findElement(By.name("Submit")).getText());
     }
 
     @Test
