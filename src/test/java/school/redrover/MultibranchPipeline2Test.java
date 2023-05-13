@@ -55,7 +55,7 @@ public class MultibranchPipeline2Test extends BaseTest {
     public void testDeleteMultibranchPipeline(){
         createMultibranchPipeline();
 
-        getDriver().findElement(By.cssSelector("[class='icon-edit-delete icon-md']")).click();
+        getDriver().findElement(By.cssSelector("a span [class='icon-edit-delete icon-md']")).click();
         getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']")).getText(),"Welcome to Jenkins!");
