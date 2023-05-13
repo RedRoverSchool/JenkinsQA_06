@@ -56,18 +56,9 @@ public class CreateFreestyleProject3Test extends BaseTest {
         moveToElement(By.xpath("//a[contains(text(), 'Execute Windows batch command')]"));
         waitTwoSecondAndInputText(By.xpath("//textarea[@name = 'command']"), COMMAND_TEXT);
         findElementAndClick(By.xpath("//button[@name='Submit']"));
-//        waitFiveSecondAndClick(By.xpath("//a[contains(@href, 'build?delay')]"));
-//        waitTenSecondAndClick(By.xpath("//a[@class ='model-link inside build-link display-name']"));
-//        waitFiveSecondAndClick(By.xpath("//a[@class='build-status-link']"));
-
-        WebElement toBuild = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href, 'build?delay')]")));
-        toBuild.click();
-
-        WebElement firstBuild = getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@class='build-status-link']")));
-        firstBuild.click();
-
-        WebElement consoleOutput = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//pre[@class='console-output']")));
+        waitFiveSecondAndClick(By.xpath("//*[@id='tasks']/div[4]/span/a"));
+        waitTenSecondAndClick(By.xpath("//a[@class ='model-link inside build-link display-name']"));
+        waitFiveSecondAndClick(By.xpath("//*[@id='yui-gen2']/a"));
 
         WebElement expectedResult = getWait2().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//pre[@class = 'console-output']")));
