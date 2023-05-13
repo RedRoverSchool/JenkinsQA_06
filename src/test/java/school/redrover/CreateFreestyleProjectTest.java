@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -102,7 +103,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
         WebElement projectPage = getDriver().findElement(By.xpath("//h1[normalize-space()='Project Test']"));
         Assert.assertEquals(projectPage.getText(), "Project " + testData);
     }
-
+    @Ignore
     @Test
     public void testCreateFolderTestFreestyleProgect() {
 

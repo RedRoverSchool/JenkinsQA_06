@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.*;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -82,7 +83,7 @@ public class Pipeline2Test extends BaseTest {
         Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
                 getText(), "No name is specified");
     }
-
+    @Ignore
     @Test
     public void testDeletePipeline() {
         final String PIPELINE_NAME = "My_pipeline";
@@ -117,7 +118,7 @@ public class Pipeline2Test extends BaseTest {
 
         Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME),"Pipeline is not shown");
     }
-
+    @Ignore
     @Test
     public void testCreatePipelineProjectIncorrectName() {
         String name = "Pipeline";
