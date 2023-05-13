@@ -58,7 +58,7 @@ public class FreestyleProject1Test extends BaseTest {
     public void testCreateFreestyleProjectWithDescription() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
 
-        WebElement name = getDriver().findElement((By.id("name")));
+        WebElement name = getDriver().findElement(By.id("name"));
         name.sendKeys(NAME);
 
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
