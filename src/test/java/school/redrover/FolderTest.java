@@ -120,7 +120,6 @@ public class FolderTest extends BaseTest {
         String errorMessage = "Error";
 
         createFolder(folderName);
-        //Thread.sleep(5000);
         getWait(2).until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
         getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href= '/']")).click();
 
