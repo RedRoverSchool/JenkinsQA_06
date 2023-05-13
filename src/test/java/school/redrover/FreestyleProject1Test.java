@@ -66,7 +66,7 @@ public class FreestyleProject1Test extends BaseTest {
         getDriver().findElement(By.cssSelector("#ok-button")).click();
 
         WebElement descriptionLine = getDriver().findElement(By.name("description"));
-        descriptionLine.sendKeys(NAME);
+        descriptionLine.sendKeys("Text");
 
         getDriver().findElement(By.name("Submit")).click();
 
