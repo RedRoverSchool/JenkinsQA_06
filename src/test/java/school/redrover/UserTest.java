@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class UserTest extends BaseTest {
-
     @Ignore
     @Test
     public void testCreateUser() {
