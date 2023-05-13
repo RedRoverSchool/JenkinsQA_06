@@ -80,18 +80,16 @@ public class FreestyleProject3Test extends BaseTest {
     @Test
     public void testDeleteProjectFromTheDashboardList() {
         String expectedResult = "Start building your software project";
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         createFreestyleProject();
 
         Actions actions = new Actions(getDriver());
-
         WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
         actions.moveToElement(nameProject).perform();
+
         WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].click();", dropdown);
-        WebElement deleteProject = getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li[5]"));
-        js.executeScript("arguments[0].click();", deleteProject);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='first-of-type']/li[5]"))).click();
         getDriver().switchTo().alert().accept();
 
         String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
@@ -109,6 +107,33 @@ public class FreestyleProject3Test extends BaseTest {
 
         String actualResult = getDriver().findElement(By.xpath("//h2")).getText();
         Assert.assertEquals(actualResult, expectedResult);
+    }
 
+    @Test
+    public void testRenamingProjectFromTheDashboard() {
+        String expectedResultProjectPage = "Project Engineer2";
+        String expectedResultDashboardPage = "Engineer2";
+        createFreestyleProject();
+
+        Actions actions = new Actions(getDriver());
+        WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
+        actions.moveToElement(nameProject).perform();
+
+        WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", dropdown);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
+        WebElement inputName = getDriver().findElement(By.xpath("//input[@name='newName']"));
+        inputName.clear();
+        inputName.click();
+        inputName.sendKeys("Engineer2");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), expectedResultProjectPage);
+
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]"))
+                .getText(), expectedResultDashboardPage);
     }
 }
