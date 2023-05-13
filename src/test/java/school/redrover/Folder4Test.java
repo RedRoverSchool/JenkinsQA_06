@@ -15,7 +15,7 @@ public class Folder4Test extends BaseTest {
     final String NAME_VIEW = "Test2";
 
     @Test
-    public void testCreateFolder() throws InterruptedException {
+    public void testCreateFolder(){
         getDriver().findElement(By.linkText("New Item")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']")))
                 .sendKeys(NAME_FOLDER);
@@ -52,5 +52,21 @@ public class Folder4Test extends BaseTest {
 
         WebElement newView = getDriver().findElement(By.linkText(NAME_FOLDER));
         Assert.assertTrue(newView.isDisplayed(),"error was not shown created view");
+    }
+
+    @Test(dependsOnMethods = {"testCreateFolder"})
+    public void testRenameFolder() throws InterruptedException {
+        final String otherNameFolder = "Test";
+        Actions actions = new Actions(getDriver());
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
+        WebElement nameFolder = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>span"));
+        actions.moveToElement(nameFolder).build().perform();
+
+        WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>button"));
+        js.executeScript("arguments[0].click();", arrow);
+
+        WebElement rename = getDriver().findElement(By.linkText("Rename"));
+        js.executeScript("arguments[0].click();", rename);
     }
 }
