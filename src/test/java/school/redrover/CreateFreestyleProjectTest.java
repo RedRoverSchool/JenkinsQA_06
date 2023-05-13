@@ -103,4 +103,25 @@ public class CreateFreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectPage.getText(), "Project " + testData);
     }
 
+    @Test
+    public void testCreateFolderTestFreestyleProgect() {
+
+        final String nameOfProject = "Project Test1";
+
+       WebElement newItem =  getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+       newItem.click();
+       WebElement projectName =   getDriver().findElement(By.xpath("//input[@name = 'name']"));
+       projectName.sendKeys("Test1");
+       WebElement freestyleProgect = getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']"));
+       freestyleProgect.click();
+       WebElement buttonOk = getDriver().findElement(By.xpath("//button[@class = 'jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']"));
+       getWait2().until(ExpectedConditions.elementToBeClickable(buttonOk)).click();
+       WebElement saveButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+       saveButton.click();
+       WebElement projectTest1 = getDriver().findElement(By.xpath("//h1[text() = 'Project Test1']"));
+
+       Assert.assertEquals(projectTest1.getText(),nameOfProject);
+
+
+    }
 }
