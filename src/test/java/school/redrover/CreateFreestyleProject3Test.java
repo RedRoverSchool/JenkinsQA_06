@@ -49,10 +49,10 @@ public class CreateFreestyleProject3Test extends BaseTest {
         waitTwoSecondAndInputText(By.xpath("//*[@name='description']"), NAME);
 
         new Actions(getDriver())
-                .scrollFromOrigin(WheelInput.ScrollOrigin.fromViewport(), 0, 1500)
+                .scrollFromOrigin(WheelInput.ScrollOrigin.fromViewport(), 0, 2000)
                 .perform();
 
-        waitTenSecondAndClick(By.xpath("//*[@id='yui-gen13-button']"));
+        waitTenSecondAndClick(By.xpath("//*[@id='yui-gen9-button']"));
         moveToElement(By.xpath("//a[contains(text(), 'Execute Windows batch command')]"));
         waitTwoSecondAndInputText(By.xpath("//textarea[@name = 'command']"), COMMAND_TEXT);
         findElementAndClick(By.xpath("//button[@name='Submit']"));
