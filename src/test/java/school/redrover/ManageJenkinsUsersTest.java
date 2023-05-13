@@ -12,7 +12,7 @@ import javax.swing.*;
 public class ManageJenkinsUsersTest extends BaseTest {
 
     @Test
-    public void testManageUsers() {
+    public void testManageUsers() throws InterruptedException {
 
         WebElement dashBoard = getDriver().findElement(By.xpath("//a[contains(text(),'Dashboard')]"));
         Actions actionDashboard = new Actions(getDriver());
@@ -24,6 +24,7 @@ public class ManageJenkinsUsersTest extends BaseTest {
                 .pause(500)
                 .perform();
 
+        Thread.sleep(2000);
         new Actions(getDriver())
                 .moveToElement(getDriver()
                     .findElement(By.xpath("//*[@id='breadcrumb-menu-target']//span[contains(text(), 'Manage Jenkins')]")))
