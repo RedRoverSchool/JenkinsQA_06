@@ -30,9 +30,8 @@ public class FreestyleProject3Test extends BaseTest {
 
         getDriver().findElement(By.cssSelector("[href$='Engineer/']")).click();
         getDriver().findElement(By.cssSelector("[href*='build?']")).click();
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[href$='console']"))).click();
-
+        WebElement buildIcon = getDriver().findElement(By.cssSelector("[href$='console']"));
+        getWait5().until(ExpectedConditions.elementToBeClickable(buildIcon)).click();
         WebElement buildIconInBuildHistory = getDriver().findElement(By.cssSelector(".jenkins-icon-adjacent"));
         Assert.assertTrue(buildIconInBuildHistory.isDisplayed());
     }
