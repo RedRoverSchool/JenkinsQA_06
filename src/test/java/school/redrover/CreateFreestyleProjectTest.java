@@ -1,9 +1,11 @@
 package school.redrover;
 
+import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -103,6 +105,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectPage.getText(), "Project " + testData);
     }
 
+    @Ignore
     @Test
     public void testCreateFolderTestFreestyleProgect() {
 

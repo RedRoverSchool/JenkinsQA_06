@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.*;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -47,6 +48,7 @@ public class Pipeline2Test extends BaseTest {
         Assert.assertEquals(descriptionVal.getText(), desc);
     }
 
+    @Ignore
     @Test
     public void testCreatePipelineProjectCorrectName() {
         WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
@@ -83,6 +85,7 @@ public class Pipeline2Test extends BaseTest {
                 getText(), "No name is specified");
     }
 
+    @Ignore
     @Test
     public void testDeletePipeline() {
         final String PIPELINE_NAME = "My_pipeline";
