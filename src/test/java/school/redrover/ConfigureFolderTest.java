@@ -26,8 +26,8 @@ public class ConfigureFolderTest extends BaseTest {
 
         getDriver().findElement(NEW_ITEM).click();
 
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(NAME_FIELD));
-        getDriver().findElement(NAME_FIELD).sendKeys(name);
+        getWait10().until(ExpectedConditions.
+                presenceOfElementLocated(NAME_FIELD)).sendKeys(name);
 
         getDriver().findElement(TYPE_FOLDER).click();
 
@@ -58,8 +58,7 @@ public class ConfigureFolderTest extends BaseTest {
 
         getDriver().findElement(HEALTH_METRICS).click();
 
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(ADD_METRICS));
-        getDriver().findElement(ADD_METRICS).click();
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(ADD_METRICS)).click();
 
         getDriver().findElement(CHILD_ITEM_TYPE).click();
 
