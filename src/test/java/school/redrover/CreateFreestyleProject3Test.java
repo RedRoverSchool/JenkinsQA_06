@@ -46,22 +46,52 @@ public class CreateFreestyleProject3Test extends BaseTest {
         waitTwoSecondAndInputText(By.xpath("//*[@id='name']"), NAME);
         findElementAndClick(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]"));
         findElementAndClick(By.xpath("//*[@id='ok-button']"));
-        waitTwoSecondAndInputText(By.xpath("//*[@name='description']"), NAME);
+//        waitTwoSecondAndInputText(By.xpath("//*[@name='description']"), NAME);
+//
+//        new Actions(getDriver())
+//                .scrollFromOrigin(WheelInput.ScrollOrigin.fromViewport(), 0, 2600)
+//                .perform();
+//
+//        waitTenSecondAndClick(By.xpath("//button[contains(text(), 'Add build step')]"));
+//        moveToElement(By.xpath("//a[contains(text(), 'Execute Windows batch command')]"));
+//        waitTwoSecondAndInputText(By.xpath("//textarea[@name = 'command']"), COMMAND_TEXT);
+//        findElementAndClick(By.xpath("//button[@name='Submit']"));
+//        waitFiveSecondAndClick(By.xpath("//*[@id='tasks']/div[4]/span/a"));
+//        waitTenSecondAndClick(By.xpath("//a[@class ='model-link inside build-link display-name']"));
+//        waitFiveSecondAndClick(By.xpath("//*[@id='yui-gen2']/a"));
+//
+//        WebElement expectedResult = getWait2().until(ExpectedConditions
+//                .visibilityOfElementLocated(By.xpath("//pre[@class = 'console-output']")));
+       // Assert.assertTrue(expectedResult.getText().contains("Finished: SUCCESS"));
 
-        new Actions(getDriver())
-                .scrollFromOrigin(WheelInput.ScrollOrigin.fromViewport(), 0, 2600)
-                .perform();
 
-        waitTenSecondAndClick(By.xpath("//button[contains(text(), 'Add build step')]"));
-        moveToElement(By.xpath("//a[contains(text(), 'Execute Windows batch command')]"));
-        waitTwoSecondAndInputText(By.xpath("//textarea[@name = 'command']"), COMMAND_TEXT);
-        findElementAndClick(By.xpath("//button[@name='Submit']"));
-        waitFiveSecondAndClick(By.xpath("//*[@id='tasks']/div[4]/span/a"));
-        waitTenSecondAndClick(By.xpath("//a[@class ='model-link inside build-link display-name']"));
-        waitFiveSecondAndClick(By.xpath("//*[@id='yui-gen2']/a"));
+        WebElement buildStep = getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//button[contains(text(), 'Add build step')]")));
+        Actions actions = new Actions(getDriver());
+        actions.scrollToElement(getDriver().findElement(By.xpath("//button[contains(text(), 'Add post-build action')]"))).click().perform();
+        getWait2().until(ExpectedConditions.elementToBeClickable(buildStep)).click();
 
-        WebElement expectedResult = getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//pre[@class = 'console-output']")));
-        Assert.assertTrue(expectedResult.getText().contains("Finished: SUCCESS"));
+        WebElement executeShell = getDriver().findElement(By.xpath("//a[contains(text(), 'Execute shell')]"));
+        executeShell.click();
+
+        WebElement codeMirror = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("CodeMirror")));
+        actions.scrollToElement(getDriver().findElement(By.xpath("//button[contains(text(), 'Add post-build action')]"))).click().perform();
+        WebElement codeLine = codeMirror.findElements(By.className("CodeMirror-lines")).get(0);
+        codeLine.click();
+        WebElement command = codeMirror.findElement(By.cssSelector("textarea"));
+        command.sendKeys("echo Hello");
+
+        WebElement saveConfiguration = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveConfiguration.click();
+
+        WebElement toBuild = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href, 'build?delay')]")));
+        toBuild.click();
+
+        WebElement firstBuild = getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@class='build-status-link']")));
+        firstBuild.click();
+
+        WebElement consoleOutput = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//pre[@class='console-output']")));
+        Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
     }
 }
