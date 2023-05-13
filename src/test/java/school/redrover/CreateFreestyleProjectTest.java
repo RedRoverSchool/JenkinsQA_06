@@ -88,6 +88,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(projectName.getText(), myProjectName);
     }
+    
     @Test
     public void testCreateFreestyleProject3() {
         String freestyleProjectName = "New job no.3";
