@@ -66,7 +66,7 @@ public class Folder4Test extends BaseTest {
         WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>button"));
         js.executeScript("arguments[0].click();", arrow);
 
-        WebElement rename = getDriver().findElement(By.linkText("Rename"));
+        WebElement rename = getDriver().findElement(By.xpath("//a[@href='/job/Test/confirm-rename']"));
         js.executeScript("arguments[0].click();", rename);
     }
 }
