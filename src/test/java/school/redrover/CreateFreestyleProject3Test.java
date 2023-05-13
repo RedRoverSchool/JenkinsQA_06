@@ -58,7 +58,7 @@ public class CreateFreestyleProject3Test extends BaseTest {
         findElementAndClick(By.xpath("//button[@name='Submit']"));
         waitFiveSecondAndClick(By.xpath("//*[@id='tasks']/div[4]/span/a"));
         waitTenSecondAndClick(By.xpath("//a[@class ='model-link inside build-link display-name']"));
-        waitFiveSecondAndClick(By.xpath("//*[@id='yui-gen2']/a"));
+        waitFiveSecondAndClick(By.xpath("//a[@class='build-status-link']"));
 
         WebElement expectedResult = getWait2().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//pre[@class = 'console-output']")));
