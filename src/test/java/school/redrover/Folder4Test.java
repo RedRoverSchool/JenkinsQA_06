@@ -45,12 +45,10 @@ public class Folder4Test extends BaseTest {
         WebElement myView = getDriver().findElement(By.xpath("//fieldset/div[last()]/input"));
         js.executeScript("arguments[0].scrollIntoView();", myView);
         actions.moveToElement(myView).click(myView).build().perform();
-
         getDriver().findElement(By.id("ok")).click();
-
         getDriver().findElement(By.linkText("All")).click();
-
         WebElement newView = getDriver().findElement(By.linkText(NAME_FOLDER));
+
         Assert.assertTrue(newView.isDisplayed(),"error was not shown created view");
     }
 
@@ -62,21 +60,19 @@ public class Folder4Test extends BaseTest {
 
         WebElement nameFolder = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>span"));
         actions.moveToElement(nameFolder).build().perform();
-
         WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>button"));
         js.executeScript("arguments[0].click();", arrow);
-        WebElement rename = getDriver().findElement(By.xpath("//a[@href='/job/" + NAME_FOLDER + "/confirm-rename']"));
-        js.executeScript("arguments[0].click();", rename);
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@href='/job/" + NAME_FOLDER + "/confirm-rename']"))).click();
 
         WebElement inputFieldNewName = getDriver().findElement(By.xpath("//input[@name='newName']"));
         inputFieldNewName.clear();
         inputFieldNewName.sendKeys(newName);
-
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
         getDriver().findElement(By.linkText("Dashboard")).click();
         WebElement nameRenamedFolder = getDriver().findElement(By.cssSelector("a[href='job/" + newName + "/']>span"));
-        new Actions(getDriver()).moveToElement(nameRenamedFolder).click(nameRenamedFolder).build().perform();
+        actions.moveToElement(nameRenamedFolder).click(nameRenamedFolder).build().perform();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), newName);
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
