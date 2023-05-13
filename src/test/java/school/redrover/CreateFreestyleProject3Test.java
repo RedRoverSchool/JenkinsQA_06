@@ -49,7 +49,7 @@ public class CreateFreestyleProject3Test extends BaseTest {
         waitTwoSecondAndInputText(By.xpath("//*[@name='description']"), NAME);
 
         new Actions(getDriver())
-                .scrollFromOrigin(WheelInput.ScrollOrigin.fromViewport(), 0, 2000)
+                .scrollFromOrigin(WheelInput.ScrollOrigin.fromViewport(), 0, 2600)
                 .perform();
 
         waitTenSecondAndClick(By.xpath("//*[@id='yui-gen9-button']"));
