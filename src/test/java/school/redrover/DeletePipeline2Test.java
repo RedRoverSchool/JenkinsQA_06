@@ -7,35 +7,27 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import java.time.Duration;
 
 public class DeletePipeline2Test extends BaseTest {
 
-    // for creation method
-    private static By NEW_ITEM_BUTTON = By.xpath("//a[@href='/view/all/newJob']");
-    private static By ITEM_TYPE_PIPELINE = By.xpath("//img[@src='/plugin/workflow-job/images/pipelinejob.svg']");
-    private static By NEW_ITEM_NAME_INPUT = By.xpath("//label[@for='name']/following-sibling::input");
-    private static By CONFIGURE_SAVE_BUTTON = By.xpath("//script[@src='/adjuncts/3868c5e4/lib/form/apply/apply.js']/preceding-sibling::button[1]");
+    protected void createTestPipeline() {
 
-    // for deletion test
-    private static By PIPELINE_IN_LIST = By.xpath("//a[@href='job/test-pipeline/']");
-    private static By DELETE_PIPELINE = By.xpath("//a[@data-url='/job/test-pipeline/doDelete']");
-    private static By WELCOME_HEADING = By.xpath("//h1[text()='Welcome to Jenkins!']");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
-    private void createTestPipeline() {
-
-        WebElement newItemButton = getDriver().findElement(NEW_ITEM_BUTTON);
+        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
         newItemButton.click();
 
-        WebElement newItemNameInput = getDriver().findElement(NEW_ITEM_NAME_INPUT);
-        WebElement itemTypePipeline = getDriver().findElement(ITEM_TYPE_PIPELINE);
-        itemTypePipeline.click();
+        WebElement selectItemTypePipeline = getDriver().findElement(By.xpath("//img[@src='/plugin/workflow-job/images/pipelinejob.svg']"));
+        selectItemTypePipeline.click();
 
-        newItemNameInput.click();
+        WebElement newItemNameInput = getDriver().findElement(By.xpath("//label[@for='name']/following-sibling::input"));
+
         newItemNameInput.sendKeys("test-pipeline");
         newItemNameInput.sendKeys(Keys.RETURN);
 
-        WebElement configureSaveButton = getDriver().findElement(CONFIGURE_SAVE_BUTTON);
-        configureSaveButton.click();
+        WebElement saveButton = getDriver().findElement(By.xpath("//script[@src='/adjuncts/3868c5e4/lib/form/apply/apply.js']/preceding-sibling::button[1]"));
+        saveButton.click();
 
         // returns to dashboard
         getDriver().get(getDriver().getCurrentUrl().replaceAll("/job/.+", ""));
@@ -43,14 +35,18 @@ public class DeletePipeline2Test extends BaseTest {
     }
 
     @Test
-    public void testDeletePipeline_2() throws InterruptedException {
+    protected void testPipelineDeletion() {
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         createTestPipeline();
 
-        WebElement pipelineInList = getDriver().findElement(PIPELINE_IN_LIST);
+        WebElement pipelineInList = getDriver().findElement(By.xpath("//a[@href='job/test-pipeline/']"));
         pipelineInList.click();
 
-        WebElement deletePipeline = getDriver().findElement(DELETE_PIPELINE);
+        WebElement deletePipeline = getDriver().findElement(By.xpath("//a[@data-url='/job/test-pipeline/doDelete']"));
+
+        // attempt deletion
         deletePipeline.click();
 
         // cancel deletion
@@ -61,15 +57,13 @@ public class DeletePipeline2Test extends BaseTest {
         getDriver().switchTo().alert().accept();
 
         boolean pipelineDeleted = false;
-
         try {
-            // presence of welcome heading means that there are no items, including the folder
-            WebElement welcomeH1 = getDriver().findElement(WELCOME_HEADING);
+            getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
         } catch (NoSuchElementException noWelcomeHeading) {
             pipelineDeleted = true;
         } finally {
             try {
-                WebElement pipelineThatShouldNotExist = getDriver().findElement(PIPELINE_IN_LIST);
+                getDriver().findElement(By.xpath("//a[@href='job/test-pipeline/']"));
             } catch (NoSuchElementException noDeletedPipeline) {
                 pipelineDeleted = true;
             }
