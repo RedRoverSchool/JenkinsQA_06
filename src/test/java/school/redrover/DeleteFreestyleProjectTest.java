@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,7 +11,6 @@ public class DeleteFreestyleProjectTest extends BaseTest {
     private final String PROJECT_NAME = "Project 2";
     @Test
     private void createFreestyleProject() {
-
         WebElement newItemMenu = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = '/view/all/newJob']")));
         newItemMenu.click();
 
