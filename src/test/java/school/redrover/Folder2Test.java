@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -13,6 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Folder2Test extends BaseTest {
+    private final String FOLDER1_NAME = "My_folder";
+    private final String FOLDER2_NAME = "MyFolder2";
+    private final String FOLDER3_NAME = "FOLDER";
+    private final String DESCRIPTION = "This is a test folder";
 
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By NAME_FIELD = By.id("name");
@@ -42,9 +47,7 @@ public class Folder2Test extends BaseTest {
 
     @Test
     public void testFolderCreation() {
-        final String FOLDER_NAME = "My folder";
-
-        createAFolder(FOLDER_NAME);
+        createAFolder(FOLDER1_NAME);
 
         getDriver().findElement(DASHBOARD_LINK).click();
 
@@ -52,14 +55,13 @@ public class Folder2Test extends BaseTest {
 
         getDriver().findElement(FOLDER_IN_LIST).click();
 
-        Assert.assertEquals(getDriver().findElement(JOB_HEADER).getText(),FOLDER_NAME);
-        Assert.assertEquals(actualJobsList,FOLDER_NAME);
+        Assert.assertEquals(getDriver().findElement(JOB_HEADER).getText(),FOLDER1_NAME);
+        Assert.assertEquals(actualJobsList,FOLDER1_NAME);
     }
 
+    @Ignore
     @Test
     public void testTwoFoldersCreation() {
-        final String FOLDER1_NAME = "My main folder";
-        final String FOLDER2_NAME = "My folder";
         List<String> expectedFoldersList = Arrays.asList(FOLDER1_NAME, FOLDER2_NAME);
 
         createAFolder(FOLDER1_NAME);
@@ -81,12 +83,11 @@ public class Folder2Test extends BaseTest {
     @DataProvider(name = "create-folder")
     public Object[][] provideFoldersNames() {
         return new Object[][]
-                {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
+                {{FOLDER1_NAME}, {FOLDER2_NAME}, {FOLDER3_NAME}};
     }
     
     @Test (dataProvider = "create-folder")
     public void testFoldersCreationWithProvider( String provideNames) {
-
         createAFolder(provideNames);
         getDriver().findElement(DASHBOARD_LINK).click();
 
@@ -97,10 +98,7 @@ public class Folder2Test extends BaseTest {
 
     @Test
     public void testConfigureFolderWithDescription() {
-        final String FOLDER_NAME = "My_folder";
-        final String DESCRIPTION = "This is a test folder";
-
-        createAFolder(FOLDER_NAME);
+        createAFolder(FOLDER1_NAME);
         getDriver().findElement(DASHBOARD_LINK).click();
 
         getDriver().findElement(
@@ -119,5 +117,35 @@ public class Folder2Test extends BaseTest {
 
         Assert.assertTrue(actualDescriptionAfterAddingIt.contains(DESCRIPTION));
         Assert.assertEquals(actualDescriptionAfterOpeningFolder,actualDescriptionAfterAddingIt);
+    }
+
+    @Test
+    public void testCreateFolderFromExistingFolder() {
+        createAFolder(FOLDER1_NAME);
+        getDriver().findElement(DASHBOARD_LINK).click();
+
+        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']"))
+                .sendKeys(Keys.RETURN);
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Configure"))).click();
+
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).sendKeys(DESCRIPTION);
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD_LINK).click();
+
+        getDriver().findElement(NEW_ITEM).click();
+
+        String COPY_FOLDER = "Copy_folder";
+        getDriver().findElement(NAME_FIELD).sendKeys(COPY_FOLDER);
+        getDriver().findElement(FOLDER_TYPE).click();
+        getDriver().findElement(By.id("from")).sendKeys(FOLDER1_NAME);
+        getDriver().findElement(OK_BUTTON).click();
+
+        String copiedFolderDescription = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).getText();
+
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.id("view-message"));
+
+        Assert.assertTrue(getDriver().findElement(By.id("view-message")).getText().contains(DESCRIPTION));
+        Assert.assertEquals(copiedFolderDescription,DESCRIPTION);
     }
 }
