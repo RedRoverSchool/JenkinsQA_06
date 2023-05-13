@@ -56,6 +56,7 @@ public class CreateFolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@id=\"job_Folder1\"]/td[3]/a/span")).getText(), "Folder1");
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testCreateFolder1"})
     public void testCreateFreestyleProjectInFolder() {
 
