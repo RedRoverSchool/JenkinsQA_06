@@ -5,6 +5,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -29,7 +30,8 @@ public class FreestyleProject3Test extends BaseTest {
 
         getDriver().findElement(By.cssSelector("[href$='Engineer/']")).click();
         getDriver().findElement(By.cssSelector("[href*='build?']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[href$='console']"))).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[href$='console']"))).click();
 
         WebElement buildIconInBuildHistory = getDriver().findElement(By.cssSelector(".jenkins-icon-adjacent"));
         Assert.assertTrue(buildIconInBuildHistory.isDisplayed());
