@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -92,5 +93,31 @@ public class Folder2Test extends BaseTest {
         getWait10().until(ExpectedConditions.presenceOfElementLocated(NEW_ITEM));
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span")).getText(),provideNames);
+    }
+
+    @Test
+    public void testConfigureFolderWithDescription() {
+        final String FOLDER_NAME = "My_folder";
+        final String DESCRIPTION = "This is a test folder";
+
+        createAFolder(FOLDER_NAME);
+        getDriver().findElement(DASHBOARD_LINK).click();
+
+        getDriver().findElement(
+                By.xpath("//a[@class='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']")).sendKeys(Keys.RETURN);
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Configure"))).click();
+
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).sendKeys(DESCRIPTION);
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        String actualDescriptionAfterAddingIt = getDriver().findElement(By.id("view-message")).getText();
+
+        getDriver().findElement(DASHBOARD_LINK).click();
+
+        getDriver().findElement(FOLDER_IN_LIST).click();
+        String actualDescriptionAfterOpeningFolder = getDriver().findElement(By.id("view-message")).getText();
+
+        Assert.assertTrue(actualDescriptionAfterAddingIt.contains(DESCRIPTION));
+        Assert.assertEquals(actualDescriptionAfterOpeningFolder,actualDescriptionAfterAddingIt);
     }
 }

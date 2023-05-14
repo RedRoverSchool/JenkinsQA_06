@@ -1,19 +1,18 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class DeleteFreestyleProjectTest extends BaseTest {
-
     private final String PROJECT_NAME = "Project 2";
-
+    @Ignore
+    @Test
     private void createFreestyleProject() {
-
         WebElement newItemMenu = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = '/view/all/newJob']")));
         newItemMenu.click();
 
@@ -29,7 +28,6 @@ public class DeleteFreestyleProjectTest extends BaseTest {
         WebElement saveButton = getDriver().findElement(By.name("Submit"));
         saveButton.click();
     }
-
     @Test
     public void testDeleteFreestyleProject() {
         final String expectedH2 = "This folder is empty";
@@ -49,5 +47,27 @@ public class DeleteFreestyleProjectTest extends BaseTest {
         myViews.click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), expectedH2);
+    }
+    @Test
+    public void testDeleteFreestyleProject2(){
+        getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']")).click();
+
+        WebElement inputName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        getWait2().until(ExpectedConditions.visibilityOf(inputName));
+        inputName.sendKeys("One");
+
+        getDriver().findElement(By.xpath("//li[@class= 'hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.xpath(("//button[@id= 'ok-button']"))).click();
+        getDriver().findElement(By.xpath("//button[@name= 'Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project One");
+
+        getDriver().findElement(By.xpath("//span[contains(text(),'Delete')]")).click();
+        getDriver().switchTo().alert().accept();
+
+        WebElement myViews = getDriver().findElement(By.xpath("//a[@href = '/me/my-views']"));
+        myViews.click();
+
+        Assert.assertEquals( (getDriver().findElement(By.xpath("//h2")).getText()),  "This folder is empty");
     }
 }

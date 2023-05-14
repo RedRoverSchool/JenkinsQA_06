@@ -10,43 +10,38 @@ import school.redrover.runner.BaseTest;
 
 import java.util.*;
 
-public class PipelineConfigureTest extends BaseTest {
+public class PipelineProjectTest extends BaseTest {
     final String EXPECTED_RESULT = "New pipeline project";
 
-    public void createPipeline() {
-        WebElement createJobButton = getDriver().findElement(By.xpath("//a[@href = 'newJob']"));
-        createJobButton.click();
+    private void createWithoutDescription(String name) {
+        getDriver().findElement(By.xpath("//a[@href = 'newJob']")).click();
 
-        WebElement name = getDriver().findElement(By.id("name"));
-        name.sendKeys("test-pipeline");
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']//li[2]")).click();
+        getDriver().findElement(By.id("ok-button")).click();
 
-        WebElement newPipeline = getDriver()
-                .findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']//li[2]"));
-        newPipeline.click();
-
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-        okButton.click();
+        getDriver().findElement(By.name("Submit")).click();
     }
 
-    public WebElement findElement(By by){
+    public WebElement findElement(By by) {
         return getDriver().findElement(by);
     }
 
-    public void clickPageButton(String menuButton){
+    public void clickPageButton(String menuButton) {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//*[text()='%s']", menuButton)))).click();
     }
 
-    public void clickTaskButton(String nameOfTask){
+    public void clickTaskButton(String nameOfTask) {
         List<WebElement> taskIconLinks = getDriver().findElements(By.className("task-icon-link"));
         List<WebElement> taskLinksText = getDriver().findElements(By.xpath("//*[@id='tasks']/*//span[2]"));
         List<String> textOfTaskLink = new ArrayList<>();
-        for (WebElement taskLinkText : taskLinksText){
+        for (WebElement taskLinkText : taskLinksText) {
             textOfTaskLink.add(taskLinkText.getText());
         }
 
         Map<WebElement, String> buttonAndTask = new HashMap<>();
         int i = 0;
-        for (WebElement taskIcon: taskIconLinks) {
+        for (WebElement taskIcon : taskIconLinks) {
             buttonAndTask.put(taskIconLinks.get(i), textOfTaskLink.get(i));
             i++;
         }
@@ -60,24 +55,24 @@ public class PipelineConfigureTest extends BaseTest {
         }
     }
 
-    public void createPipelineProject(String nameOfProject, String typeOfProject){
+    public void createPipelineProject(String nameOfProject, String typeOfProject) {
         WebElement fieldName = findElement(By.id("name"));
         getWait2().until(ExpectedConditions.visibilityOf(fieldName)).sendKeys(nameOfProject);
 
         List<WebElement> listItemOptions = getDriver().findElements(By.id("j-add-item-type-standalone-projects"));
-        for(WebElement element:listItemOptions){
-            if (element.getText().contains(typeOfProject)){
+        for (WebElement element : listItemOptions) {
+            if (element.getText().contains(typeOfProject)) {
                 element.click();
             }
         }
         findElement(By.id("ok-button")).click();
     }
 
-    public void clickButtonApply(){
+    public void clickButtonApply() {
         findElement(By.name("Apply")).click();
     }
 
-    public String statusOfProject(){
+    public String statusOfProject() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.className("svg-icon"))).getAttribute("title");
     }
@@ -86,13 +81,11 @@ public class PipelineConfigureTest extends BaseTest {
     public void testSetDescription() {
         String descriptionText = "This is a test description";
 
-        createPipeline();
+        createWithoutDescription("test-pipeline");
+        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
-        WebElement descriptionField = getDriver().findElement(By.name("description"));
-        descriptionField.sendKeys(descriptionText);
-
-        WebElement saveButton = getDriver().findElement(By.name("Submit"));
-        saveButton.click();
+        getDriver().findElement(By.name("description")).sendKeys(descriptionText);
+        getDriver().findElement(By.name("Submit")).click();
 
         WebElement actualDescription = getDriver().findElement(By.xpath("//*[@id='description']/div"));
 
@@ -100,19 +93,14 @@ public class PipelineConfigureTest extends BaseTest {
     }
 
     @Test
-    public void testDiscardOldBuildsIsCheckedEmptyDaysAndBuildsField() {
-        createPipeline();
+    public void testDiscardOldBuildsIsChecked() {
+        createWithoutDescription("test-pipeline");
+        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
-        WebElement discardOldBuildsLabel = getDriver()
-                .findElement(By.xpath("//label[contains(text(),'Discard old builds')]"));
-        discardOldBuildsLabel.click();
+        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
+        getDriver().findElement(By.name("Submit")).click();
 
-        WebElement saveButton = getDriver().findElement(By.name("Submit"));
-        saveButton.click();
-
-        WebElement configureMenu = getDriver()
-                .findElement(By.xpath("//*[@href='/job/test-pipeline/configure']"));
-        configureMenu.click();
+        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
         WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
 
@@ -120,36 +108,25 @@ public class PipelineConfigureTest extends BaseTest {
     }
 
     @Test
-    public void testDiscardOldBuildsIsChecked7DaysAnd5Builds() {
+    public void testDiscardOldBuildsIsCheckedWithValidParams() {
         final String days = "7";
         final String builds = "5";
 
-        createPipeline();
+        createWithoutDescription("test-pipeline");
+        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
-        WebElement discardOldBuildsLabel = getDriver()
-                .findElement(By.xpath("//label[contains(text(),'Discard old builds')]"));
-        discardOldBuildsLabel.click();
+        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
+        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
+        getDriver().findElement(By.name("_.numToKeepStr")).sendKeys(builds);
+        getDriver().findElement(By.name("Submit")).click();
 
-        WebElement daysToKeepField = getDriver().findElement(By.name("_.daysToKeepStr"));
-        daysToKeepField.sendKeys(days);
-
-        WebElement buildsToKeepField = getDriver().findElement(By.name("_.numToKeepStr"));
-        buildsToKeepField.sendKeys(builds);
-
-        WebElement saveButton = getDriver().findElement(By.name("Submit"));
-        saveButton.click();
-
-        WebElement configureMenu = getDriver()
-                .findElement(By.xpath("//*[@href='/job/test-pipeline/configure']"));
-        configureMenu.click();
+        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
         WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
-        WebElement daysToKeep = getDriver().findElement(By.name("_.daysToKeepStr"));
-        WebElement buildsToKeep = getDriver().findElement(By.name("_.numToKeepStr"));
 
         Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
-        Assert.assertEquals(daysToKeep.getAttribute("value"), days);
-        Assert.assertEquals(buildsToKeep.getAttribute("value"), builds);
+        Assert.assertEquals(getDriver().findElement(By.name("_.daysToKeepStr")).getAttribute("value"), days);
+        Assert.assertEquals(getDriver().findElement(By.name("_.numToKeepStr")).getAttribute("value"), builds);
     }
 
     @Test
@@ -157,20 +134,17 @@ public class PipelineConfigureTest extends BaseTest {
         final String days = "0";
         final String errorMessage = "Not a positive integer";
 
-        createPipeline();
+        createWithoutDescription("test-pipeline");
+        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
-        WebElement discardOldBuildsLabel = getDriver()
-                .findElement(By.xpath("//label[contains(text(),'Discard old builds')]"));
-        discardOldBuildsLabel.click();
-
-        WebElement daysToKeepField = getDriver().findElement(By.name("_.daysToKeepStr"));
-        daysToKeepField.sendKeys(days);
+        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
+        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
 
         WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
 
-        WebElement clickOutsideOfInputField = getDriver()
+        WebElement daysToKeepLabel = getDriver()
                 .findElement(By.xpath("//*[@name='strategy']/div/div"));
-        clickOutsideOfInputField.click();
+        daysToKeepLabel.click();
 
         WebElement actualErrorMessage = getWait10().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
@@ -184,14 +158,11 @@ public class PipelineConfigureTest extends BaseTest {
         final String builds = "0";
         final String errorMessage = "Not a positive integer";
 
-        createPipeline();
+        createWithoutDescription("test-pipeline");
+        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
-        WebElement discardOldBuildsLabel = getDriver()
-                .findElement(By.xpath("//label[contains(text(),'Discard old builds')]"));
-        discardOldBuildsLabel.click();
-
-        WebElement buildsToKeepField = getDriver().findElement(By.name("_.numToKeepStr"));
-        buildsToKeepField.sendKeys(builds);
+        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
+        getDriver().findElement(By.name("_.numToKeepStr")).sendKeys(builds);
 
         WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
 
@@ -200,7 +171,7 @@ public class PipelineConfigureTest extends BaseTest {
         clickOutsideOfInputField.click();
 
         WebElement actualErrorMessage = getWait5().until(ExpectedConditions
-                        .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
+                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
 
         Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
         Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
@@ -230,17 +201,17 @@ public class PipelineConfigureTest extends BaseTest {
         WebElement enableToggles = getDriver().findElement(By.id("toggle-switch-enable-disable-project"));
         boolean isPipelineEnabled = Boolean.parseBoolean(getDriver().findElement(By.xpath("//input[@name='enable']"))
                 .getAttribute("value"));
-        if (isPipelineEnabled){
+        if (isPipelineEnabled) {
             enableToggles.click();
         }
 
         getDriver().findElement(By.name("Submit")).click();
 
-        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")),"Pipeline"));
+        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")), "Pipeline"));
 
         String disabledWarning = getDriver().findElement(By.id("enable-project")).getText();
 
-        WebElement configurePipeline= getDriver().findElement(By.xpath("//a[contains(@href,'configure')]"));
+        WebElement configurePipeline = getDriver().findElement(By.xpath("//a[contains(@href,'configure')]"));
         configurePipeline.click();
 
         getWait5().until(ExpectedConditions.textToBe(By.tagName("h2"), "General"));
@@ -251,9 +222,10 @@ public class PipelineConfigureTest extends BaseTest {
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
         Assert.assertFalse(isPipelineEnabledAfterDisable);
     }
-@Ignore
+
+    @Ignore
     @Test
-    public void addDescriptionPipelineProjectTest(){
+    public void addDescriptionPipelineProjectTest() {
         String description = "This is a project for school test";
         clickTaskButton("New Item");
         createPipelineProject(EXPECTED_RESULT, "Pipeline");
@@ -274,7 +246,7 @@ public class PipelineConfigureTest extends BaseTest {
 
     @Ignore
     @Test
-    public void disablePipelineProjectTest(){
+    public void disablePipelineProjectTest() {
         clickTaskButton("New Item");
         createPipelineProject(EXPECTED_RESULT, "Pipeline");
 
@@ -292,5 +264,31 @@ public class PipelineConfigureTest extends BaseTest {
         String statusAfterDisable = statusOfProject();
 
         Assert.assertNotEquals(statusBeforeDisable, statusAfterDisable);
+    }
+
+    @Test(dependsOnMethods = "testPipelineCreation")
+    public void testSetDescription2() {
+        final String newDescription = "Pipeline description";
+
+        WebElement selectPipelineButton = getDriver()
+                .findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
+        selectPipelineButton.click();
+
+        WebElement addDescriptionButton = getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='editDescription']")));
+        addDescriptionButton.click();
+
+        WebElement descriptionInput = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        descriptionInput.clear();
+        descriptionInput.sendKeys(newDescription);
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']"));
+        saveButton.click();
+
+        WebElement resultMessage = getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//div[@id='description']/div")));
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, newDescription);
     }
 }
