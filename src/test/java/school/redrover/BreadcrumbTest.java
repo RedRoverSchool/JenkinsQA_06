@@ -35,8 +35,7 @@ public class BreadcrumbTest extends BaseTest {
 
     @DataProvider(name = "subsections")
     public Object[][] provideSubsections() {
-
-        return new Object[][]{{"//li[@id='yui-gen6']/a/span", "//li[@id='inpage-nav']", "Configure System"},
+        return new Object[][] {{"//li[@id='yui-gen6']/a/span", "//li[@id='inpage-nav']", "Configure System"},
                 {"//li[@id='yui-gen7']/a/span",
                         "//ol[@id='breadcrumbs']/li/a[@href='/manage/configureTools/']", "Global Tool Configuration"},
                 {"//li[@id='yui-gen8']/a/span",
