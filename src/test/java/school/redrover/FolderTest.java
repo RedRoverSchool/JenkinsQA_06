@@ -113,4 +113,19 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(movedProject.getText(),projectName);
     }
+
+    @Test
+    public void testErrorWhenCreateFolderWithExistingName() {
+        String folderName = "TestFolders";
+        String errorMessage = "Error";
+
+        createFolder(folderName);
+        getWait(2).until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+        getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href= '/']")).click();
+
+        createFolder(folderName);
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), errorMessage);
+
+    }
 }

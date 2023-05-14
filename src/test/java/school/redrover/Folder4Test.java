@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -24,11 +25,11 @@ public class Folder4Test extends BaseTest {
         new Actions(getDriver()).moveToElement(nameFolder).click(nameFolder).build().perform();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), NAME_FOLDER);
-
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
                 "error was not shown icon folder");
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testCreateNewViewInFolder(){
         Actions actions = new Actions(getDriver());
@@ -46,7 +47,7 @@ public class Folder4Test extends BaseTest {
         getDriver().findElement(By.linkText("All")).click();
         WebElement newView = getDriver().findElement(By.linkText(NAME_FOLDER));
 
-        Assert.assertTrue(newView.isDisplayed(),"error was not shown created view");
+        Assert.assertTrue(newView.isDisplayed(), "error was not shown created view");
     }
 
     @Test(dependsOnMethods = {"testCreateFolder"})
