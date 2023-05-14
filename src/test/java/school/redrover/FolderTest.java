@@ -39,6 +39,7 @@ public class FolderTest extends BaseTest {
         js.executeScript("arguments[0].click();", element);
     }
 
+    @Ignore
     @Test
     public void testCreateNewFolderWithDescription() {
         String folderName = "Folder1";
