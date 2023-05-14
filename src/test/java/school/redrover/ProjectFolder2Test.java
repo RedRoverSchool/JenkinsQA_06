@@ -12,7 +12,7 @@ import school.redrover.runner.BaseTest;
 import java.util.Arrays;
 import java.util.List;
 
-public class Folder2Test extends BaseTest {
+public class ProjectFolder2Test extends BaseTest {
 
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By NAME_FIELD = By.id("name");
