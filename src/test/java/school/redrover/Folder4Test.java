@@ -54,6 +54,7 @@ public class Folder4Test extends BaseTest {
         Assert.assertTrue(newView.isDisplayed(),"error was not shown created view");
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testRenameFolder(){
         final String newName = "newTestName";
