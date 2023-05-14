@@ -39,6 +39,7 @@ public class PipilineCreationTest extends BaseTest {
         actions.moveToElement(pipeline).pause(Duration.ofSeconds(2)).perform();
         actions.moveToElement(arrowDropdown).click().pause(Duration.ofSeconds(2)).perform();
         getDriver().findElement(By.cssSelector(".icon-edit-delete+span")).click();
+        getWait2().until(ExpectedConditions.alertIsPresent());
         getDriver().switchTo().alert().accept();
 
         Assert.assertTrue(getDriver().findElements(By.xpath("//span[text()='" + pipelineName + "']")).size() == 0);
