@@ -64,6 +64,7 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
         Assert.assertTrue(disableButton.isDisplayed());
     }
+
     private void clickOnProject() {
         WebElement projectName = getDriver().findElement(By.cssSelector(" [href='job/test/']"));
         new Actions(getDriver()).moveToElement(projectName).click(projectName).build().perform();
