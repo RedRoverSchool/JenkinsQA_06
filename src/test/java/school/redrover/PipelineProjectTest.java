@@ -23,25 +23,25 @@ public class PipelineProjectTest extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
     }
 
-    public WebElement findElement(By by){
+    public WebElement findElement(By by) {
         return getDriver().findElement(by);
     }
 
-    public void clickPageButton(String menuButton){
+    public void clickPageButton(String menuButton) {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//*[text()='%s']", menuButton)))).click();
     }
 
-    public void clickTaskButton(String nameOfTask){
+    public void clickTaskButton(String nameOfTask) {
         List<WebElement> taskIconLinks = getDriver().findElements(By.className("task-icon-link"));
         List<WebElement> taskLinksText = getDriver().findElements(By.xpath("//*[@id='tasks']/*//span[2]"));
         List<String> textOfTaskLink = new ArrayList<>();
-        for (WebElement taskLinkText : taskLinksText){
+        for (WebElement taskLinkText : taskLinksText) {
             textOfTaskLink.add(taskLinkText.getText());
         }
 
         Map<WebElement, String> buttonAndTask = new HashMap<>();
         int i = 0;
-        for (WebElement taskIcon: taskIconLinks) {
+        for (WebElement taskIcon : taskIconLinks) {
             buttonAndTask.put(taskIconLinks.get(i), textOfTaskLink.get(i));
             i++;
         }
@@ -55,24 +55,24 @@ public class PipelineProjectTest extends BaseTest {
         }
     }
 
-    public void createPipelineProject(String nameOfProject, String typeOfProject){
+    public void createPipelineProject(String nameOfProject, String typeOfProject) {
         WebElement fieldName = findElement(By.id("name"));
         getWait2().until(ExpectedConditions.visibilityOf(fieldName)).sendKeys(nameOfProject);
 
         List<WebElement> listItemOptions = getDriver().findElements(By.id("j-add-item-type-standalone-projects"));
-        for(WebElement element:listItemOptions){
-            if (element.getText().contains(typeOfProject)){
+        for (WebElement element : listItemOptions) {
+            if (element.getText().contains(typeOfProject)) {
                 element.click();
             }
         }
         findElement(By.id("ok-button")).click();
     }
 
-    public void clickButtonApply(){
+    public void clickButtonApply() {
         findElement(By.name("Apply")).click();
     }
 
-    public String statusOfProject(){
+    public String statusOfProject() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.className("svg-icon"))).getAttribute("title");
     }
@@ -171,7 +171,7 @@ public class PipelineProjectTest extends BaseTest {
         clickOutsideOfInputField.click();
 
         WebElement actualErrorMessage = getWait5().until(ExpectedConditions
-                        .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
+                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
 
         Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
         Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
@@ -201,17 +201,17 @@ public class PipelineProjectTest extends BaseTest {
         WebElement enableToggles = getDriver().findElement(By.id("toggle-switch-enable-disable-project"));
         boolean isPipelineEnabled = Boolean.parseBoolean(getDriver().findElement(By.xpath("//input[@name='enable']"))
                 .getAttribute("value"));
-        if (isPipelineEnabled){
+        if (isPipelineEnabled) {
             enableToggles.click();
         }
 
         getDriver().findElement(By.name("Submit")).click();
 
-        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")),"Pipeline"));
+        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")), "Pipeline"));
 
         String disabledWarning = getDriver().findElement(By.id("enable-project")).getText();
 
-        WebElement configurePipeline= getDriver().findElement(By.xpath("//a[contains(@href,'configure')]"));
+        WebElement configurePipeline = getDriver().findElement(By.xpath("//a[contains(@href,'configure')]"));
         configurePipeline.click();
 
         getWait5().until(ExpectedConditions.textToBe(By.tagName("h2"), "General"));
@@ -222,9 +222,10 @@ public class PipelineProjectTest extends BaseTest {
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
         Assert.assertFalse(isPipelineEnabledAfterDisable);
     }
-@Ignore
+
+    @Ignore
     @Test
-    public void addDescriptionPipelineProjectTest(){
+    public void addDescriptionPipelineProjectTest() {
         String description = "This is a project for school test";
         clickTaskButton("New Item");
         createPipelineProject(EXPECTED_RESULT, "Pipeline");
@@ -245,7 +246,7 @@ public class PipelineProjectTest extends BaseTest {
 
     @Ignore
     @Test
-    public void disablePipelineProjectTest(){
+    public void disablePipelineProjectTest() {
         clickTaskButton("New Item");
         createPipelineProject(EXPECTED_RESULT, "Pipeline");
 
@@ -263,5 +264,31 @@ public class PipelineProjectTest extends BaseTest {
         String statusAfterDisable = statusOfProject();
 
         Assert.assertNotEquals(statusBeforeDisable, statusAfterDisable);
+    }
+
+    @Test(dependsOnMethods = "testPipelineCreation")
+    public void testSetDescription2() {
+        final String newDescription = "Pipeline description";
+
+        WebElement selectPipelineButton = getDriver()
+                .findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
+        selectPipelineButton.click();
+
+        WebElement addDescriptionButton = getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='editDescription']")));
+        addDescriptionButton.click();
+
+        WebElement descriptionInput = getDriver().findElement(By.xpath("//textarea[@name='description']"));
+        descriptionInput.clear();
+        descriptionInput.sendKeys(newDescription);
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']"));
+        saveButton.click();
+
+        WebElement resultMessage = getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//div[@id='description']/div")));
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, newDescription);
     }
 }
