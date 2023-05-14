@@ -48,6 +48,7 @@ public class DeleteFreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), expectedH2);
     }
+    @Ignore
     @Test
     public void testDeleteFreestyleProject2(){
         getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']")).click();

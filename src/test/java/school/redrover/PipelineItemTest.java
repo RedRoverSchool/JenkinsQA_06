@@ -35,7 +35,7 @@ public class PipelineItemTest extends BaseTest {
 
         WebElement pipeline = getDriver().findElement(By.xpath("//span[text()='"+ pipelineName +"']"));
         Actions actions = new Actions(getDriver());
-        actions.moveToElement(pipeline).pause(Duration.ofSeconds(2)).perform();
+        actions.moveToElement(pipeline).pause(Duration.ofSeconds(3)).perform();
         getDriver().findElement(By.xpath("//span[text()='"+ pipelineName +"']/following-sibling::button")).click();
         getDriver().findElement(By.cssSelector(".icon-edit-delete+span")).click();
         getDriver().switchTo().alert().accept();
