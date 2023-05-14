@@ -139,7 +139,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
         new Actions(getDriver())
                 .moveToElement(dashboardTab)
-                .pause(Duration.ofMillis(300))
+                .pause(Duration.ofMillis(1000))
                 .moveToElement(arrow)
                 .pause(Duration.ofMillis(1000))
                 .click()
