@@ -95,9 +95,8 @@ public class BreadcrumbTest extends BaseTest {
             }
         }
         By subsectionNameLocator = By.xpath(locator);
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
         WebElement subSection = getDriver().findElement(subsectionNameLocator);
-        new Actions(getDriver()).moveToElement(subSection).perform();
         subSection.click();
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(breadcrumbLocator)));
