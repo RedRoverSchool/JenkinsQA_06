@@ -162,11 +162,10 @@ public class MultiConfiguration3Test extends BaseTest {
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//td//a[@class='jenkins-table__link model-link inside']")))
                 .moveByOffset (40,7)
-                .pause(3000)
                 .moveToElement(getDriver().findElement(By.xpath("//*[@id='job_New project']/td[3]/a/button")))
-                .pause(3000)
+                .pause(10000)
                 .click()
-                .pause(3000)
+                .pause(1000)
                 .perform();
 
         new Actions(getDriver())
