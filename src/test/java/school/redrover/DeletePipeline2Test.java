@@ -54,18 +54,17 @@ public class DeletePipeline2Test extends BaseTest {
 
         boolean pipelineDeleted = false;
         try {
-            WebElement welcomeHeading = getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
-        } catch (NoSuchElementException noWelcomeHeading) {
-            pipelineDeleted = true;
+            getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
+            pipelineDeleted = true; // won't execute if there is no welcome heading
+        } catch (NoSuchElementException noWelcomeHeading){
         } finally {
             try {
-                WebElement pipelineThatShouldNotExist = getDriver().findElement(By.xpath("//a[@href='job/test-pipeline/']"));
-            } catch (NoSuchElementException noDeletedPipeline) {
+                getDriver().findElement(By.xpath("//a[@href='job/test-pipeline/']"));
+            } catch (NoSuchElementException deletedPipelineNotFound) {
                 pipelineDeleted = true;
+            } finally {
+                Assert.assertTrue(pipelineDeleted);
             }
         }
-
-        Assert.assertTrue(pipelineDeleted);
-
     }
 }
