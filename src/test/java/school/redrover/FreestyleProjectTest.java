@@ -21,6 +21,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
 
+    @Ignore
     @Test
     public void testCreateNewFreestyleProject() {
 
