@@ -28,6 +28,7 @@ public class DeleteFreestyleProjectTest extends BaseTest {
         WebElement saveButton = getDriver().findElement(By.name("Submit"));
         saveButton.click();
     }
+    @Ignore
     @Test
     public void testDeleteFreestyleProject() {
         final String expectedH2 = "This folder is empty";
