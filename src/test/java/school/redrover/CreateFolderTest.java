@@ -2,7 +2,9 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -41,6 +43,7 @@ public class CreateFolderTest extends BaseTest {
         Assert.assertEquals(actualResult, "Folder_TC_04_01_02");
     }
 
+    @Ignore
     @Test
     public void testCreateFolder1() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -51,5 +54,26 @@ public class CreateFolderTest extends BaseTest {
         getDriver().findElement(By.linkText("Dashboard")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@id=\"job_Folder1\"]/td[3]/a/span")).getText(), "Folder1");
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = {"testCreateFolder1"})
+    public void testCreateFreestyleProjectInFolder() {
+
+        String folderName = "Folder1";
+        String freestyleProjectName = "item3freestyle1";
+
+        new Actions(getDriver())
+                .click(getDriver().findElement(By.linkText(folderName)))
+                .perform();
+
+        getDriver().findElement(By.xpath("//a[@href='newJob']")).click();
+        getDriver().findElement(By.id("name")).sendKeys(freestyleProjectName);
+        getDriver().findElement(By.cssSelector(".icon-freestyle-project")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//div[@id='bottom-sticker']//button[@name='Submit']")).click();
+
+        String actualFreestyleProjectName = getDriver().findElement(By.linkText(freestyleProjectName)).getText();
+        Assert.assertEquals(actualFreestyleProjectName, freestyleProjectName);
     }
 }

@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -64,4 +65,20 @@ public class PeoplePageTest extends BaseTest {
                 By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
         Assert.assertTrue(userIdBtnNoArrowAfterAnotherButtonClick.getText().isEmpty());
     }
+
+    @Test
+    public void testSearchPeople() {
+        String expectedUserName = "admin";
+
+        WebElement searchField = getDriver().findElement(
+                By.xpath("//input[@name='q']"));
+        searchField.sendKeys(expectedUserName);
+        searchField.sendKeys(Keys.RETURN);
+
+        WebElement actualUserName = getDriver().findElement(
+                By.xpath("//div[contains(text(), 'Jenkins User ID:')]"));
+
+        Assert.assertEquals(actualUserName.getText(), "Jenkins User ID: " + expectedUserName);
+    }
 }
+

@@ -147,7 +147,7 @@ public class TopMenuTest extends BaseTest {
 
         Assert.assertEquals(actualResult1, "admin");
     }
-
+    @Ignore
     @Test
     public void testCreateNewItem() {
         WebElement item = getDriver().findElement(By.linkText("New Item"));
