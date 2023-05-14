@@ -145,7 +145,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
                 .click()
                 .pause(Duration.ofMillis(300))
                 .perform();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[contains(text(),'New Item')])[1]"))).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//span[contains(text(),'New Item')])[1]"))).click();
 
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(testData);
         getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
