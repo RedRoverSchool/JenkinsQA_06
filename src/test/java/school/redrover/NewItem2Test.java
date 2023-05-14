@@ -19,7 +19,7 @@ public class NewItem2Test extends BaseTest {
 
     @Test
     public void testCreateMultibranchPipelineWithoutDescription() {
-        final String expectedNameOfMultibranchPipeline = "MyMultibranchPipeline";
+        final String expectedName = "MyMultibranchPipeline";
 
         WebElement buttonCreateItem = getDriver().findElement(NEW_ITEM_BUTTON);
         getWait5().until(ExpectedConditions.elementToBeClickable(buttonCreateItem));
@@ -28,7 +28,7 @@ public class NewItem2Test extends BaseTest {
         WebElement fieldInputName = getDriver().findElement(NAME_INPUT_FIELD);
         getWait5().until(ExpectedConditions.elementToBeClickable(fieldInputName));
         fieldInputName.click();
-        fieldInputName.sendKeys(expectedNameOfMultibranchPipeline);
+        fieldInputName.sendKeys(expectedName);
 
         WebElement buttonMultibranchPipeline = getDriver().findElement(MULTIBRANCH_PIPELINE_TYPE);
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
@@ -42,9 +42,10 @@ public class NewItem2Test extends BaseTest {
         getWait5().until(ExpectedConditions.elementToBeClickable(buttonSave));
         buttonSave.click();
 
-        WebElement titleName = getDriver().findElement(By.xpath("//h1"));
-        String actualNameOfMultibranchPipeline = titleName.getText();
-        Assert.assertEquals(actualNameOfMultibranchPipeline, expectedNameOfMultibranchPipeline);
+        getWait2().until(ExpectedConditions
+                .textToBePresentInElement(getDriver().findElement(By.xpath("//h1")),expectedName));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), expectedName);
     }
 
     @Test
