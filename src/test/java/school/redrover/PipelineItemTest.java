@@ -37,8 +37,9 @@ public class PipelineItemTest extends BaseTest {
         WebElement arrowDropdown = getDriver().findElement(By.xpath("//span[text()='"+ pipelineName +"']/following-sibling::button"));
         Actions actions = new Actions(getDriver());
         actions.moveToElement(pipeline).pause(Duration.ofSeconds(4)).perform();
-        actions.moveToElement(arrowDropdown).click().pause(Duration.ofSeconds(2)).perform();
-        getDriver().findElement(By.cssSelector(".icon-edit-delete+span")).click();
+        actions.moveToElement(arrowDropdown).click().perform();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(".icon-edit-delete+span")))).click();
+       // getDriver().findElement(By.cssSelector(".icon-edit-delete+span")).click();
         getDriver().switchTo().alert().accept();
 
         Assert.assertTrue(getDriver().findElements(By.xpath("//span[text()='"+ pipelineName +"']")).size()==0);
