@@ -44,7 +44,6 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
     @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
     public void testDisableProject() {
-
         String expectedResult = "This project is currently disabled";
 
         clickOnProject();
