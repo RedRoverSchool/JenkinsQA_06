@@ -143,7 +143,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
                 .moveToElement(arrow)
                 .pause(Duration.ofMillis(1000))
                 .click()
-                .pause(Duration.ofMillis(300))
+                .pause(Duration.ofMillis(1000))
                 .perform();
         getDriver().findElement(By.xpath("(//span[contains(text(),'New Item')])[1]")).click();
 
