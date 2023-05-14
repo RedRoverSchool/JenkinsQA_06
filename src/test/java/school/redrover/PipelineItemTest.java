@@ -31,7 +31,6 @@ public class PipelineItemTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + pipelineName + "']")).isDisplayed());
     }
 
-    @Ignore
     @Test(dependsOnMethods = {"testPipelineCreation"})
     public void testPipelineDeletion() {
 
