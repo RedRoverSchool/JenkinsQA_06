@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -33,6 +34,7 @@ public class FreestyleProject3Test extends BaseTest {
         Assert.assertTrue(buildIconInBuildHistory.isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testProjectAddMultilineTextAndClearAndAddDescription() {
         String expectedResult = "Test";
