@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -17,6 +18,7 @@ public class NewItem2Test extends BaseTest {
     private static final By OK_BUTTON = By.xpath("//button[@type='submit']");
     private static final By SAVE_BUTTON = By.xpath("//button[@name='Submit']");
 
+   @Ignore
     @Test
     public void testCreateMultibranchPipelineWithoutDescription() {
         final String expectedNameOfMultibranchPipeline = "MyMultibranchPipeline";

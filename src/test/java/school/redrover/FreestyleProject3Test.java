@@ -9,7 +9,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import java.time.Duration;
 
 public class FreestyleProject3Test extends BaseTest {
 
@@ -67,8 +66,8 @@ public class FreestyleProject3Test extends BaseTest {
 
         getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a")).click();
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
-        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).clear();
-        getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//textarea[contains(@class, 'jenkins-input')]")).clear();
+        getDriver().findElement(By.xpath("//textarea[contains(@class, 'jenkins-input')]")).sendKeys(expectedResult);
         getDriver().findElement(By.xpath("//a[text()='Preview']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText(), expectedResult);
@@ -134,5 +133,26 @@ public class FreestyleProject3Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]"))
                 .getText(), expectedResultDashboardPage);
+    }
+
+    @Test
+    public void testRenamingProjectFromTheProjectPage() {
+        String newNameProjectOnProjectPage = "Project Engineer2";
+        String newNameProjectOnDashboardPage = "Engineer2";
+        createFreestyleProject();
+
+        getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a")).click();
+        getDriver().findElement(By.xpath("//a[contains(@href, 'confirm-rename')]")).click();
+        WebElement keyboard = getDriver().findElement(By.xpath("//input[@name='newName']"));
+        keyboard.clear();
+        keyboard.sendKeys("Engineer2");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), newNameProjectOnProjectPage);
+
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+
+        Assert.assertEquals(getDriver().
+                findElement(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]")).getText(), newNameProjectOnDashboardPage);
     }
 }
