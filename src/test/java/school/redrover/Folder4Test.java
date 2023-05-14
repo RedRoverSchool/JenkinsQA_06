@@ -16,18 +16,14 @@ public class Folder4Test extends BaseTest {
 
     @Test
     public void testCreateFolder(){
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']")))
-                .sendKeys(NAME_FOLDER);
-        getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        UtilsTest.testCreateFolder(getDriver(), getWait2(), NAME_FOLDER);
 
         getDriver().findElement(By.linkText("Dashboard")).click();
         WebElement nameFolder = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>span"));
         new Actions(getDriver()).moveToElement(nameFolder).click(nameFolder).build().perform();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), NAME_FOLDER);
+
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
                 "error was not shown icon folder");
     }
