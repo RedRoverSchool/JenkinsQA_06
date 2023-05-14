@@ -2,10 +2,14 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+
 
 public class MultiConfiguration3Test extends BaseTest {
     private static final String NAME_OF_PROJECT = "New project";
@@ -142,5 +146,26 @@ public class MultiConfiguration3Test extends BaseTest {
         WebElement newNameMultiCofigurationProject = getDriver().findElement(By.xpath("//td//a//span[1]"));
 
         Assert.assertEquals(newNameMultiCofigurationProject.getText(),NAME_OF_PROJECT+NEW_PROJECT_NAME);
+    }
+
+    @Test
+    public void deleteMultiConfigurationProjectFromDropDownMenu() {
+        createBaseMultiConfigurationProject();
+
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD_BUTTON).click();
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//td//a[@class='jenkins-table__link model-link inside']")))
+                .moveByOffset (40,7)
+                .pause(10000)
+                .moveToElement(getDriver().findElement(By.cssSelector("#job_New\\ project > td:nth-child(3) > a > button")))
+                .moveByOffset(3,3)
+                .pause(10000)
+                .click()
+                .moveToElement(getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")))
+                .click()
+                .perform();
+
     }
 }
