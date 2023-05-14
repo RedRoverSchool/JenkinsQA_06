@@ -164,8 +164,9 @@ public class MultiConfiguration3Test extends BaseTest {
                 .moveByOffset (40,7)
                 .pause(3000)
                 .moveToElement(getDriver().findElement(By.xpath("//*[@id='job_New project']/td[3]/a/button")))
+                .pause(3000)
                 .click()
-                .pause(5000)
+                .pause(3000)
                 .perform();
 
         new Actions(getDriver())
