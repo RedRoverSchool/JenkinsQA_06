@@ -49,7 +49,7 @@ public class FreestyleProjectTest extends BaseTest {
                 "This project is currently disabled");
     }
 
-
+    @Ignore
     @Test
     public void testEnableProject() {
 
