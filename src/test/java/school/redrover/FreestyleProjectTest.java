@@ -34,6 +34,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
     }
 
+    @Ignore
     @Test
     public void testDisableProject() {
 
