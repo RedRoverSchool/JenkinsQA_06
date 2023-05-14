@@ -11,7 +11,7 @@ public class PipelineProject3Test extends BaseTest {
 
     @Test
     public void testCreatePipelineProject() {
-        String nameOfProject = "NewPipelineProject";
+        final String nameOfProject = "NewPipelineProject";
 
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector("#items"))));
