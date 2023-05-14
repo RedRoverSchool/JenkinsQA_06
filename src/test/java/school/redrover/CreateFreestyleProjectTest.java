@@ -132,7 +132,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
     }
   
    @Test
-    public void testCreateFreestyleProjectFromDashboard() throws InterruptedException {
+    public void testCreateFreestyleProjectFromDashboard()  {
         final String testData = "Test";
         WebElement dashboardTab = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
         WebElement arrow = getDriver().findElement(By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[2]"));
@@ -145,7 +145,6 @@ public class CreateFreestyleProjectTest extends BaseTest {
                 .click()
                 .pause(Duration.ofMillis(300))
                 .perform();
-        Thread.sleep(2000);
         getDriver().findElement(By.xpath("(//span[contains(text(),'New Item')])[1]")).click();
 
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(testData);
