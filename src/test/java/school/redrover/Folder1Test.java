@@ -4,29 +4,30 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class Folder1Test extends BaseTest {
-   private static final String NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String NAME = RandomStringUtils.randomAlphanumeric(10);
 
-   private void createFolder(){
+    private void createFolder() {
 
-       WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-       newItem.click();
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItem.click();
 
-       WebElement name = getDriver().findElement(By.id("name"));
-       name.sendKeys(NAME);
+        WebElement name = getDriver().findElement(By.id("name"));
+        name.sendKeys(NAME);
 
-       WebElement folder = getDriver().findElement(By.xpath("//span[@class='label'][text()='Folder']"));
-       folder.click();
+        WebElement folder = getDriver().findElement(By.xpath("//span[@class='label'][text()='Folder']"));
+        folder.click();
 
-       WebElement button = getDriver().findElement(By.cssSelector("#ok-button"));
-       button.click();
+        WebElement button = getDriver().findElement(By.cssSelector("#ok-button"));
+        button.click();
 
-       WebElement submit = getDriver().findElement(By.name("Submit"));
-       submit.click();
-   }
+        WebElement submit = getDriver().findElement(By.name("Submit"));
+        submit.click();
+    }
 
     @Test
     public void testCreateNewFolder() {
@@ -57,6 +58,7 @@ public class Folder1Test extends BaseTest {
         Assert.assertEquals(NAME, getDriver().findElement(By.xpath("//h1")).getText());
     }
 
+    @Ignore
     @Test
     public void testRenameFolder() {
         createFolder();

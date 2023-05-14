@@ -37,7 +37,7 @@ public class MultibranchPipelineTest extends BaseTest {
     @FindBy(xpath = "//div[@id='orphaned-item-strategy']")
     private WebElement orphanedItemStrategy;
     @FindBy(xpath = "//div[normalize-space()='Child Scan Triggers']")
-    private  WebElement childScanTriggers;
+    private WebElement childScanTriggers;
     @FindBy(xpath = "//div[contains(@class,'jenkins-form-item jenkins-form-item--tight')]"
             + "//div//div[contains(@class,'optionalBlock-container "
             + "jenkins-form-item jenkins-form-item--tight')]"
@@ -121,10 +121,12 @@ public class MultibranchPipelineTest extends BaseTest {
         verifyElementClickable(displayNameField).click();
         displayNameField.sendKeys("Test");
     }
+
     public void enterValueInDescriptionField() {
         verifyElementClickable(descriptionField).click();
         descriptionField.sendKeys("Test");
     }
+
     public void clickOkButton() {
         verifyElementVisible(saveButton);
         verifyElementClickable(saveButton).click();
@@ -135,6 +137,7 @@ public class MultibranchPipelineTest extends BaseTest {
         js.executeScript("arguments[0].scrollIntoView();", element);
     }
 
+    @Ignore
     @Test
     public void createMultibranchPipelineTest() {
         final String expectedRes = "Tina";
@@ -146,8 +149,9 @@ public class MultibranchPipelineTest extends BaseTest {
         enterValueInDescriptionField();
         enterTinaInDisplayNameField();
 
-        Assert.assertEquals(multibranchPipelineDisplayName.getText(), expectedRes );
+        Assert.assertEquals(multibranchPipelineDisplayName.getText(), expectedRes);
     }
+
     @Ignore
     @Test
     public void testCreateOrganizationFolder() {

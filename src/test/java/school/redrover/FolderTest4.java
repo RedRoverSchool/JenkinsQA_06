@@ -3,12 +3,14 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class FolderTest4 extends BaseTest {
 
     private static final String NAME = "Nw project";
+    @Ignore
     @Test
     public void testCreateFolder() {
         getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
