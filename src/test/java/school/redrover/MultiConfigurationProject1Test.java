@@ -32,8 +32,7 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
         String expectedResult = "There is the test project";
 
-        WebElement testButton = getDriver().findElement(By.cssSelector(" [href='job/test/']"));
-        new Actions(getDriver()).moveToElement(testButton).click(testButton).build().perform();
+        clickOnProject();
         getDriver().findElement(By.xpath("//a[@id = 'description-link']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//textarea"))).sendKeys(expectedResult);
         getDriver().findElement(By.xpath("(//button[@formnovalidate = 'formNoValidate'])[1]")).click();
@@ -43,15 +42,30 @@ public class MultiConfigurationProject1Test extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
     @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
+
     public void testDisableProject() {
 
         String expectedResult = "This project is currently disabled";
 
-        WebElement testButton = getDriver().findElement(By.cssSelector(" [href='job/test/']"));
-        new Actions(getDriver()).moveToElement(testButton).click(testButton).build().perform();
+        clickOnProject();
         getDriver().findElement(By.xpath("//form/button[@formnovalidate = 'formNoValidate']")).click();
         String actualResult = getDriver().findElement(By.xpath("//form[@id = 'enable-project']")).getText();
 
         Assert.assertTrue(actualResult.contains(expectedResult));
+    }
+    @Test(dependsOnMethods = {"testCreateMultiConfiguration", "testDisableProject"})
+
+    public void testEnableProject() {
+
+        clickOnProject();
+        WebElement enableButton = getDriver().findElement(By.xpath("//button[@formnovalidate]"));
+        new Actions(getDriver()).moveToElement(enableButton).click(enableButton).build().perform();
+        WebElement disableButton = getDriver().findElement(By.xpath("//button[text() = 'Disable Project']"));
+
+        Assert.assertTrue(disableButton.isDisplayed());
+    }
+    private void clickOnProject() {
+        WebElement projectName = getDriver().findElement(By.cssSelector(" [href='job/test/']"));
+        new Actions(getDriver()).moveToElement(projectName).click(projectName).build().perform();
     }
 }
