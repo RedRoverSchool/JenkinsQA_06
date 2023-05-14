@@ -10,9 +10,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class UserTest extends BaseTest {
-
     @Ignore
-    // java.lang.AssertionError: expected [1] but found [***]
     @Test
     public void testCreateUser() {
         WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));

@@ -1,9 +1,11 @@
 package school.redrover;
 
+import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -90,4 +92,39 @@ public class CreateFreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getText(), myProjectName);
     }
 
+    @Test
+    public void testCreateFreestyleProject2(){
+        final String testData = "Test";
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(testData);
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
+        getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
+
+        WebElement projectPage = getDriver().findElement(By.xpath("//h1[normalize-space()='Project Test']"));
+        Assert.assertEquals(projectPage.getText(), "Project " + testData);
+    }
+
+    @Ignore
+    @Test
+    public void testCreateFolderTestFreestyleProgect() {
+
+        final String nameOfProject = "Project Test1";
+
+       WebElement newItem =  getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+       newItem.click();
+       WebElement projectName =   getDriver().findElement(By.xpath("//input[@name = 'name']"));
+       projectName.sendKeys("Test1");
+       WebElement freestyleProgect = getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']"));
+       freestyleProgect.click();
+       WebElement buttonOk = getDriver().findElement(By.xpath("//button[@class = 'jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']"));
+       getWait2().until(ExpectedConditions.elementToBeClickable(buttonOk)).click();
+       WebElement saveButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
+       saveButton.click();
+       WebElement projectTest1 = getDriver().findElement(By.xpath("//h1[text() = 'Project Test1']"));
+
+       Assert.assertEquals(projectTest1.getText(),nameOfProject);
+
+
+    }
 }

@@ -18,10 +18,7 @@ public class MultiConfiguration2Test extends BaseTest {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@id='jenkins-home-link']"))).click();
     }
-
     @Ignore
-//    org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element:
-//    {"method":"xpath","selector":"//div[@id='description']/div"}
     @Test
     public void testAddDescriptionToMultiConfigProj (){
         final String description = "Sample Description";
