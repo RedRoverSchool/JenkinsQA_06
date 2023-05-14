@@ -33,13 +33,9 @@ public class PipelineItemTest extends BaseTest {
     @Test(dependsOnMethods = {"testPipelineCreation"})
     public void testPipelineDeletion() {
 
-        WebElement pipeline = getDriver().findElement(By.xpath("//span[text()='" + pipelineName + "']"));
-        WebElement arrowDropdown = getDriver().findElement(By.xpath("//span[text()='" + pipelineName + "']/following-sibling::button"));
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(pipeline).pause(Duration.ofSeconds(2)).perform();
-        actions.moveToElement(arrowDropdown).click().pause(Duration.ofSeconds(2)).perform();
-        getDriver().findElement(By.cssSelector(".icon-edit-delete+span")).click();
-        getWait2().until(ExpectedConditions.alertIsPresent());
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'"+ pipelineName +"')]")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Pipeline')]")).click();
         getDriver().switchTo().alert().accept();
 
         Assert.assertTrue(getDriver().findElements(By.xpath("//span[text()='" + pipelineName + "']")).size() == 0);
