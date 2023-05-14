@@ -26,9 +26,6 @@ public class DeletePipeline2Test extends BaseTest {
         newItemNameInput.sendKeys("test-pipeline");
         newItemNameInput.sendKeys(Keys.RETURN);
 
-        WebElement saveButton = getDriver().findElement(By.xpath("//script[@src='/adjuncts/3868c5e4/lib/form/apply/apply.js']/preceding-sibling::button[1]"));
-        saveButton.click();
-
         getDriver().get(getDriver().getCurrentUrl().replaceAll("/job/.+", ""));
 
     }
@@ -62,7 +59,7 @@ public class DeletePipeline2Test extends BaseTest {
             pipelineDeleted = true;
         } finally {
             try {
-                WebElement pipeline = getDriver().findElement(By.xpath("//a[@href='job/test-pipeline/']"));
+                WebElement pipelineThatShouldNotExist = getDriver().findElement(By.xpath("//a[@href='job/test-pipeline/']"));
             } catch (NoSuchElementException noDeletedPipeline) {
                 pipelineDeleted = true;
             }
