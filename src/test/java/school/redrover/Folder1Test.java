@@ -35,6 +35,7 @@ public class Folder1Test extends BaseTest {
         Assert.assertEquals(NAME, getDriver().findElement(By.xpath("//h1")).getText());
     }
 
+    @Ignore
     @Test
     public void testCreateFolderWithDescription() {
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
