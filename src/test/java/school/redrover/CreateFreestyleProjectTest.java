@@ -105,7 +105,6 @@ public class CreateFreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectPage.getText(), "Project " + testData);
     }
 
-    @Ignore
     @Test
     public void testCreateFreestyleProject3() {
         String freestyleProjectName = "New job no.3";
