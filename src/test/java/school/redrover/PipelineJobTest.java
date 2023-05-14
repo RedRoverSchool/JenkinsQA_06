@@ -49,6 +49,8 @@ public class PipelineJobTest extends BaseTest {
                 .click()
                 .perform();
 
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='first-of-type']")));
+
         List<WebElement> dropDown = getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
         dropDown.get(3).click();
 
@@ -65,6 +67,8 @@ public class PipelineJobTest extends BaseTest {
                         .findElement(By.xpath("//a[@href='job/"+projectName+"/']//button")))
                 .click()
                 .perform();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='first-of-type']")));
 
         List<WebElement> dropDown = getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
         dropDown.get(3).click();
