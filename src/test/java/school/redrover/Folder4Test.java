@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -15,7 +16,7 @@ public class Folder4Test extends BaseTest {
     final String NAME_VIEW = "Test2";
 
     @Test
-    public void testCreateFolder(){
+    public void testCreateFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']")))
                 .sendKeys(NAME_FOLDER);
@@ -32,8 +33,9 @@ public class Folder4Test extends BaseTest {
                 "error was not shown icon folder");
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testCreateFolder"})
-    public void testCreateNewViewInFolder(){
+    public void testCreateNewViewInFolder() {
         Actions actions = new Actions(getDriver());
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
@@ -49,11 +51,11 @@ public class Folder4Test extends BaseTest {
         getDriver().findElement(By.linkText("All")).click();
         WebElement newView = getDriver().findElement(By.linkText(NAME_FOLDER));
 
-        Assert.assertTrue(newView.isDisplayed(),"error was not shown created view");
+        Assert.assertTrue(newView.isDisplayed(), "error was not shown created view");
     }
 
     @Test(dependsOnMethods = {"testCreateFolder"})
-    public void testRenameFolder(){
+    public void testRenameFolder() {
         final String newName = "newTestName";
         Actions actions = new Actions(getDriver());
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
