@@ -12,6 +12,7 @@ public class FreestyleProject5Test extends BaseTest {
     @Test
     public void testCreateFreestyleProject(){
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='name']")));
         getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("First Freestyle Project");
         getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
         getDriver().findElement(By.id("ok-button")).click();
