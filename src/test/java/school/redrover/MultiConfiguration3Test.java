@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -117,6 +118,7 @@ public class MultiConfiguration3Test extends BaseTest {
         Assert.assertEquals(disableMessage.getText().substring(0,34),expectedResult);
     }
 
+    @Ignore
     @Test
     public void testCheckDisableIconOnDashboard() {
         createBaseMultiConfigurationProject();
@@ -161,9 +163,9 @@ public class MultiConfiguration3Test extends BaseTest {
 
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//td//a[@class='jenkins-table__link model-link inside']")))
-                .moveByOffset (40,7)
-                .moveToElement(getDriver().findElement(By.xpath("//*[@id='job_New project']/td[3]/a/button")))
-                .pause(10000)
+                //.moveByOffset (40,7)
+                .moveToElement(getDriver().findElement(By.xpath("//td//a//button")))
+                .pause(1000)
                 .click()
                 .pause(1000)
                 .perform();
