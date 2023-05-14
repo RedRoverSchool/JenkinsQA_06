@@ -51,7 +51,7 @@ public class PipelineJobTest extends BaseTest {
 
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='first-of-type']")));
 
-        List<WebElement> dropDown = getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"));
+        List<WebElement> dropDown = getDriver().findElements(By.xpath("//ul[@class = 'first-of-type']/descendant::li"));
         dropDown.get(3).click();
 
         getDriver().switchTo().alert().dismiss();
