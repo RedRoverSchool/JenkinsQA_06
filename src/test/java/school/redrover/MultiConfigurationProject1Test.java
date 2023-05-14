@@ -53,8 +53,8 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
         Assert.assertTrue(actualResult.contains(expectedResult));
     }
-    @Test(dependsOnMethods = {"testCreateMultiConfiguration", "testDisableProject"})
 
+    @Test(dependsOnMethods = {"testCreateMultiConfiguration", "testDisableProject"})
     public void testEnableProject() {
 
         clickOnProject();
