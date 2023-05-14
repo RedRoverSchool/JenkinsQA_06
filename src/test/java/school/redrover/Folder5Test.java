@@ -4,12 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
-import java.time.Duration;
+import org.openqa.selenium.JavascriptExecutor;
 
 public class Folder5Test extends BaseTest {
 
@@ -31,11 +29,13 @@ public class Folder5Test extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewFolder")
     public void testRenameFolder() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
         WebElement folder = getDriver().findElement(By.xpath("(//a[@class='jenkins-table__link model-link inside'])[1]"));
         new Actions(getDriver()).moveToElement(folder).perform();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[5]"))).click();
+        WebElement dropdown = getDriver().findElement(By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[5]"));
+        js.executeScript("arguments[0].click();", dropdown);
 
         getWait2().until(ExpectedConditions.elementToBeClickable(By
                 .xpath("//a[@href='/job/New%20folder/confirm-rename']"))).click();
