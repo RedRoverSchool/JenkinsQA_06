@@ -38,20 +38,20 @@ public class BreadcrumbTest extends BaseTest {
                 {"//li[@id='yui-gen7']/a/span", "Global Tool Configuration"},
                 {"//li[@id='yui-gen8']/a/span", "Plugins"},
                 {"//li[@id='yui-gen9']/a/span", "Manage nodes and clouds"},
-                {"//li[@id='yui-gen12']/a/span", "Configure Global Security"},
-                {"//li[@id='yui-gen13']/a/span", "Credentials"},
-                {"//li[@id='yui-gen14']/a/span", "Configure Credential Providers"},
-                {"//li[@id='yui-gen15']/a/span", "Users"},
-                {"//li[@id='yui-gen18']/a/span", "System Information"},
-                {"//li[@id='yui-gen19']/a/span", "Log Recorders"},
-                {"//li[@id='yui-gen20']/a/span", "Load statistics: Jenkins"},
-                {"//li[@id='yui-gen21']/a/span", "Jenkins\n" +
+                {"//li[@id='yui-gen11']/a/span", "Configure Global Security"},
+                {"//li[@id='yui-gen12']/a/span", "Credentials"},
+                {"//li[@id='yui-gen13']/a/span", "Configure Credential Providers"},
+                {"//li[@id='yui-gen14']/a/span", "Users"},
+                {"//li[@id='yui-gen16']/a/span", "System Information"},
+                {"//li[@id='yui-gen17']/a/span", "Log Recorders"},
+                {"//li[@id='yui-gen18']/a/span", "Load statistics: Jenkins"},
+                {"//li[@id='yui-gen19']/a/span", "Jenkins\n" +
                         "Version\n" +
                         "2.387.2"},
-                {"//li[@id='yui-gen23']/a/span", "Manage Old Data"},
-                {"//li[@id='yui-gen26']/a/span", "Jenkins CLI"},
-                {"//li[@id='yui-gen27']/a/span", "Script Console"},
-                {"//li[@id='yui-gen28']/a/span", "Prepare for Shutdown"}};
+                {"//li[@id='yui-gen21']/a/span", "Manage Old Data"},
+                {"//li[@id='yui-gen24']/a/span", "Jenkins CLI"},
+                {"//li[@id='yui-gen25']/a/span", "Script Console"},
+                {"//li[@id='yui-gen26']/a/span", "Prepare for Shutdown"}};
     }
 
     @Test(dataProvider = "subsections")
@@ -72,7 +72,7 @@ public class BreadcrumbTest extends BaseTest {
 
         if (locator.contains("26") || locator.contains("27") || locator.contains("28")) {
             new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
-            for (int i = 0; i < 16; i++) {
+            for (int i = 0; i < 18; i++) {
                 new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
             }
         }
@@ -83,6 +83,5 @@ public class BreadcrumbTest extends BaseTest {
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
         Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), subsectionName);
-
     }
 }
