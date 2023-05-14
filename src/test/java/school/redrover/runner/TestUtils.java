@@ -15,6 +15,8 @@ public class TestUtils {
     private static void saveProject(WebDriver driver, WebDriverWait wait, String name){
         wait.until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
         driver.findElement(By.xpath("//button[@name='Submit']")).click();
+
+        driver.findElement(By.linkText("Dashboard")).click();
     }
 
     public static void createFreestyleProject(WebDriver driver, WebDriverWait wait , String name){
