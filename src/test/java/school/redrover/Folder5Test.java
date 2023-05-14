@@ -27,6 +27,7 @@ public class Folder5Test extends BaseTest {
         WebElement folderName = getDriver().findElement(By.xpath("//span[text() = 'New folder']"));
 
         Assert.assertEquals(folderName.getText(), "New folder");
+
     }
 
     @Test(dependsOnMethods = "testCreateNewFolder")
