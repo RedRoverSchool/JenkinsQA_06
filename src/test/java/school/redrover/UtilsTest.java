@@ -6,7 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import school.redrover.runner.BaseTest;
 
-public class UtilsTest extends BaseTest {
+public class UtilsTest{
 
     public static void testCreateFreestyleProject(WebDriver driver, WebDriverWait wait2 ,String name){
         driver.findElement(By.linkText("New Item")).click();
