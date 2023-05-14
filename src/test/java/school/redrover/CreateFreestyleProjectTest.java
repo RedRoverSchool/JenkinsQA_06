@@ -156,6 +156,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
         WebElement projectPage = getDriver().findElement(By.xpath("//h1[normalize-space()='Project Test']"));
         Assert.assertEquals(projectPage.getText(), "Project " + testData);
+
     }
 
 }
