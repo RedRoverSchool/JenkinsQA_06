@@ -10,7 +10,7 @@ import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class PipilineCreationTest extends BaseTest {
+public class PipelineItemTest extends BaseTest {
 
     private final String pipelineName = "Test Pipeline";
 
