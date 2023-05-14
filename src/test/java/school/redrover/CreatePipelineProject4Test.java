@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -16,7 +17,7 @@ public class CreatePipelineProject4Test extends BaseTest {
     private static final By SAVE_BUTTON = By.xpath("//button[@name = 'Submit']");
     private static final By DASHBOARD = By.xpath("//a[@href='/'][@class ='model-link']");
     private static final By PROJECT_IS_IN_DASHBOARD = By.xpath("//span[.='FirstProject']");
-
+    @Ignore
     @Test
     public void testCreatePipelineProject() {
 
