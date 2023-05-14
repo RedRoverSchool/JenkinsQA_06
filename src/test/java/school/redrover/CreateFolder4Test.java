@@ -1,3 +1,5 @@
+package school.redrover;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -6,8 +8,6 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class CreateFolder4Test extends BaseTest {
-
-   // String createName = "TC 00.04 New item Create Folder";
 
     @Test
     public void CreateFolder4Test(){
