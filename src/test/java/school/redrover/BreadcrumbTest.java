@@ -99,7 +99,7 @@ public class BreadcrumbTest extends BaseTest {
         WebElement subSection = getDriver().findElement(subsectionNameLocator);
         subSection.click();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(breadcrumbLocator)));
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath(breadcrumbLocator)));
 
         Assert.assertEquals(getDriver().findElement(By.xpath(breadcrumbLocator)).getText(), subsectionName);
     }
