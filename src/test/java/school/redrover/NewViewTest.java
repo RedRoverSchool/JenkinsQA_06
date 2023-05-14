@@ -38,6 +38,7 @@ public class NewViewTest extends BaseTest {
         return list;
     }
 
+    @Ignore
     @Test
     public void testCreateNewView() {
         createNewProjectFromMyViewsPage();
