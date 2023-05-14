@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -121,10 +122,12 @@ public class MultiConfiguration3Test extends BaseTest {
         createBaseMultiConfigurationProject();
 
         getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable
+                (getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE))).click();
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
-        WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
+        WebElement iconDisabled = getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//*[@tooltip='Disabled']")));
 
         Assert.assertTrue(iconDisabled.isDisplayed());
     }
