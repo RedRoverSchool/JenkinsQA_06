@@ -39,7 +39,7 @@ public class PipelineItemTest extends BaseTest {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(pipeline).pause(Duration.ofSeconds(4)).perform();
         actions.moveToElement(arrowDropdown).click().perform();
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(".icon-edit-delete+span")))).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(".icon-edit-delete+span")))).click();
         getDriver().switchTo().alert().accept();
 
         Assert.assertTrue(getDriver().findElements(By.xpath("//span[text()='" + pipelineName + "']")).size() == 0);
