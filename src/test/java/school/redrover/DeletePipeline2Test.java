@@ -11,7 +11,7 @@ import java.time.Duration;
 
 public class DeletePipeline2Test extends BaseTest {
 
-    protected void createTestPipeline() {
+    private void createTestPipeline() {
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
@@ -29,13 +29,12 @@ public class DeletePipeline2Test extends BaseTest {
         WebElement saveButton = getDriver().findElement(By.xpath("//script[@src='/adjuncts/3868c5e4/lib/form/apply/apply.js']/preceding-sibling::button[1]"));
         saveButton.click();
 
-        // returns to dashboard
         getDriver().get(getDriver().getCurrentUrl().replaceAll("/job/.+", ""));
 
     }
 
     @Test
-    protected void testPipelineDeletion() {
+    public void testPipelineDeletion() {
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
@@ -58,12 +57,12 @@ public class DeletePipeline2Test extends BaseTest {
 
         boolean pipelineDeleted = false;
         try {
-            getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
+            WebElement welcomeHeading = getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
         } catch (NoSuchElementException noWelcomeHeading) {
             pipelineDeleted = true;
         } finally {
             try {
-                getDriver().findElement(By.xpath("//a[@href='job/test-pipeline/']"));
+                WebElement pipeline = getDriver().findElement(By.xpath("//a[@href='job/test-pipeline/']"));
             } catch (NoSuchElementException noDeletedPipeline) {
                 pipelineDeleted = true;
             }
