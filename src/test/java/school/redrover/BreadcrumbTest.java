@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 
-
 public class BreadcrumbTest extends BaseTest {
     @Test
     public void testNavigateToManageJenkinsSection() {
@@ -35,16 +34,14 @@ public class BreadcrumbTest extends BaseTest {
 
     @DataProvider(name = "subsections")
     public Object[][] provideSubsections() {
-        return new Object[][] {{"//li[@id='yui-gen6']/a/span", "Configure System"},
+        return new Object[][]{{"//li[@id='yui-gen6']/a/span", "Configure System"},
                 {"//li[@id='yui-gen7']/a/span", "Global Tool Configuration"},
                 {"//li[@id='yui-gen8']/a/span", "Plugins"},
                 {"//li[@id='yui-gen9']/a/span", "Manage nodes and clouds"},
-                {"//li[@id='yui-gen10']/a/span", "Install as Windows Service"},
                 {"//li[@id='yui-gen12']/a/span", "Configure Global Security"},
                 {"//li[@id='yui-gen13']/a/span", "Credentials"},
                 {"//li[@id='yui-gen14']/a/span", "Configure Credential Providers"},
                 {"//li[@id='yui-gen15']/a/span", "Users"},
-                {"//li[@id='yui-gen16']/a/span", "Approve"},
                 {"//li[@id='yui-gen18']/a/span", "System Information"},
                 {"//li[@id='yui-gen19']/a/span", "Log Recorders"},
                 {"//li[@id='yui-gen20']/a/span", "Load statistics: Jenkins"},
@@ -75,7 +72,7 @@ public class BreadcrumbTest extends BaseTest {
 
         if (locator.contains("26") || locator.contains("27") || locator.contains("28")) {
             new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
-            for (int i = 0; i < 18; i++) {
+            for (int i = 0; i < 16; i++) {
                 new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
             }
         }
@@ -84,14 +81,8 @@ public class BreadcrumbTest extends BaseTest {
         WebElement subSection = getDriver().findElement(subsectionNameLocator);
         subSection.click();
 
-        if (locator.contains("16")){
-            getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//p[@class='ps-context']/button[@class='approve']")));
-            Assert.assertEquals(getDriver().findElement(
-                    By.xpath("//p[@class='ps-context']/button[@class='approve']")).getText(), subsectionName);
-        } else {
-            getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
-            Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), subsectionName);
-        }
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
+        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), subsectionName);
+
     }
 }
