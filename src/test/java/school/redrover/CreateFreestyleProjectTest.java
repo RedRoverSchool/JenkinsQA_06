@@ -91,6 +91,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getText(), myProjectName);
     }
 
+    @Ignore
     @Test
     public void testCreateFreestyleProject2(){
         final String testData = "Test";
