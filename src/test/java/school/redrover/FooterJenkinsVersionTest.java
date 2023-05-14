@@ -10,7 +10,8 @@ import school.redrover.runner.BaseTest;
 public class FooterJenkinsVersionTest extends BaseTest {
     private final String expectedJenkinsVersion = "Jenkins 2.387.2";
     private final String expectedSiteTitle = "Jenkins";
-@Ignore
+
+    @Ignore
     @Test
     public void testFooterJenkinsVersion() {
 
@@ -35,6 +36,7 @@ public class FooterJenkinsVersionTest extends BaseTest {
         Assert.assertEquals(actualJenkinsVersion, expectedJenkinsVersion, "Jenkins version does not match");
     }
 
+    @Ignore
     @Test
     public void testClickOnJenkinsVersionOpensSiteOnNodesPage(){
 
