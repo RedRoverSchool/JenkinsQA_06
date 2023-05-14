@@ -70,7 +70,7 @@ public class BreadcrumbTest extends BaseTest {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
         new Actions(getDriver()).moveToElement(getDriver().findElement(sectionNameLocator)).perform();
 
-        if (locator.contains("26") || locator.contains("27") || locator.contains("28")) {
+        if (locator.contains("24") || locator.contains("25") || locator.contains("26")) {
             new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
             for (int i = 0; i < 18; i++) {
                 new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
