@@ -141,7 +141,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
                 .moveToElement(dashboardTab)
                 .pause(Duration.ofMillis(300))
                 .moveToElement(arrow)
-                .pause(Duration.ofMillis(300))
+                .pause(Duration.ofMillis(500))
                 .click()
                 .pause(Duration.ofMillis(300))
                 .perform();
