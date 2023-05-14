@@ -108,8 +108,6 @@ public class CreateFreestyleProjectTest extends BaseTest {
     }
 
 
-   
-=======
     @Ignore
     @Test
     public void testCreateFolderTestFreestyleProgect() {
