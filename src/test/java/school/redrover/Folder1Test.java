@@ -1,71 +1,77 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class Folder1Test extends BaseTest {
-    private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
-    private static final By NAME = By.id("name");
-    private static final By FOLDER = By.xpath("//span[@class='label'][text()='Folder']");
-    private static final By BUTTON = By.cssSelector("#ok-button");
-    private static final By DISPLAY_NAME = By.name("_.displayNameOrNull");
-    private static final By NEW_FOLDER_ICON = By.cssSelector("div[id='main-panel'] h1");
-    private static final By DESCRIPTION = By.name("_.description");
-    private static final By SUBMIT = By.name("Submit");
-    private static final By FOLDER_PAGE = By.cssSelector("div[id='main-panel'] h1");
-    private static final By FOLDER_DASHBOARD = By.xpath("//a[@class='jenkins-table__link model-link inside']//span");
-    private  static final By DASHBOARD = By.xpath("//a[normalize-space()='Dashboard']");
-    private static  final By CONFIGURE = By.xpath("//a[@href='/job/newProject/configure']");
-    private static final String name = "newProject";
-    private static final String displayNameText = "NewTest";
-    private static final String descriptionText = "Test project to QA Redrover.school";
-    private static final String renameText = "FolderOne";
+   private static final String NAME = RandomStringUtils.randomAlphanumeric(10);
 
    private void createFolder(){
-       getDriver().findElement(NEW_ITEM).click();
-       getDriver().findElement(NAME).sendKeys(name);
-       getDriver().findElement(FOLDER).click();
-       getDriver().findElement(BUTTON).click();
 
-       getDriver().findElement(DISPLAY_NAME).sendKeys(displayNameText);
-       getDriver().findElement(SUBMIT).click();
+       WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+       newItem.click();
+
+       WebElement name = getDriver().findElement(By.id("name"));
+       name.sendKeys(NAME);
+
+       WebElement folder = getDriver().findElement(By.xpath("//span[@class='label'][text()='Folder']"));
+       folder.click();
+
+       WebElement button = getDriver().findElement(By.cssSelector("#ok-button"));
+       button.click();
+
+       WebElement submit = getDriver().findElement(By.name("Submit"));
+       submit.click();
    }
 
     @Test
     public void testCreateNewFolder() {
         createFolder();
-        Assert.assertEquals(displayNameText, getDriver().findElement(NEW_FOLDER_ICON).getText());
+        Assert.assertEquals(NAME, getDriver().findElement(By.xpath("//h1")).getText());
     }
 
     @Test
     public void testCreateFolderWithDescription() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(NAME).sendKeys(name);
+        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        newItem.click();
 
-        getDriver().findElement(FOLDER).click();
-        getDriver().findElement(BUTTON).click();
+        WebElement name = getDriver().findElement(By.id("name"));
+        name.sendKeys(NAME);
 
-        getDriver().findElement(DISPLAY_NAME).sendKeys(displayNameText);
-        getDriver().findElement(DESCRIPTION).sendKeys(descriptionText);
-        getDriver().findElement(SUBMIT).click();
+        WebElement folder = getDriver().findElement(By.xpath("//span[@class='label'][text()='Folder']"));
+        folder.click();
 
-        Assert.assertEquals(displayNameText, getDriver().findElement(NEW_FOLDER_ICON).getText());
+        WebElement button = getDriver().findElement(By.cssSelector("#ok-button"));
+        button.click();
+
+        WebElement displayName = getDriver().findElement(By.name("_.displayNameOrNull"));
+        displayName.sendKeys(NAME);
+
+        WebElement submit = getDriver().findElement(By.name("Submit"));
+        submit.click();
+
+        Assert.assertEquals(NAME, getDriver().findElement(By.xpath("//h1")).getText());
     }
 
     @Test
     public void testRenameFolder() {
         createFolder();
 
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(FOLDER_DASHBOARD).click();
-        getDriver().findElement(CONFIGURE).click();
+        WebElement rename = getDriver().findElement(By.xpath("//a[@href='/job/" + NAME + "/confirm-rename']"));
+        rename.click();
 
-        getDriver().findElement(DISPLAY_NAME).clear();
-        getDriver().findElement(DISPLAY_NAME).sendKeys(renameText);
-        getDriver().findElement(SUBMIT).click();
+        WebElement renameText = getDriver().findElement(By.name("newName"));
+        renameText.clear();
+        renameText.sendKeys("Rename");
 
-        Assert.assertEquals(renameText, getDriver().findElement(FOLDER_PAGE).getText());
+        WebElement submit = getDriver().findElement(By.name("Submit"));
+        submit.click();
+
+        Assert.assertEquals("Rename", getDriver().findElement(By.xpath("//h1")).getText());
     }
 }
+
