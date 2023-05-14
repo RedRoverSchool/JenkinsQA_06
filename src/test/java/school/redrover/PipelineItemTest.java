@@ -19,7 +19,7 @@ public class PipelineItemTest extends BaseTest {
 
         getDriver().findElement(By.cssSelector(".task:first-child")).click();
 
-        getDriver().findElement(By.id("name")).sendKeys(pipelineName);
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.id("name")))).sendKeys(pipelineName);
         getDriver().findElement(By.xpath("//span[@class='label' and text()='Pipeline']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
 
@@ -39,7 +39,6 @@ public class PipelineItemTest extends BaseTest {
         actions.moveToElement(pipeline).pause(Duration.ofSeconds(4)).perform();
         actions.moveToElement(arrowDropdown).click().perform();
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(".icon-edit-delete+span")))).click();
-       // getDriver().findElement(By.cssSelector(".icon-edit-delete+span")).click();
         getDriver().switchTo().alert().accept();
 
         Assert.assertTrue(getDriver().findElements(By.xpath("//span[text()='"+ pipelineName +"']")).size()==0);
