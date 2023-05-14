@@ -116,7 +116,7 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testErrorWhenCreateFolderWithExistingName() {
-        String folderName = "TestFolder";
+        String folderName = "TestFolders";
         String errorMessage = "Error";
 
         createFolder(folderName);
