@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -42,6 +41,7 @@ public class CreateFolderTest extends BaseTest {
                 By.xpath("//*[@id='main-panel']/h1")).getText(), "Project Folder_TC_04_01_02");
         Assert.assertEquals(actualResult, "Folder_TC_04_01_02");
     }
+
     @Ignore
     @Test
     public void testCreateFolder1() {
@@ -55,6 +55,7 @@ public class CreateFolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@id=\"job_Folder1\"]/td[3]/a/span")).getText(), "Folder1");
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testCreateFolder1"})
     public void testCreateFreestyleProjectInFolder() {
 
