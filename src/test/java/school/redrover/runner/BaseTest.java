@@ -71,6 +71,7 @@ public abstract class BaseTest {
     protected void startDriver() {
         ProjectUtils.log("Browser open");
         driver = ProjectUtils.createDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     protected void stopDriver() {
