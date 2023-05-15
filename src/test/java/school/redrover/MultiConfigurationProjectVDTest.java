@@ -45,7 +45,6 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
         getDriver().findElement(By.xpath("//*[@name='Submit']")).click();
         Assert.assertEquals(getWait2()
                 .until(ExpectedConditions.visibilityOfElementLocated
-                        (By.xpath("//*[@id='description']/div[1]")))
-                .getText(), PROJECT_NAME);
+                        (By.xpath("//*[@id='description']/div[1]"))).getText(), PROJECT_NAME);
     }
 }
