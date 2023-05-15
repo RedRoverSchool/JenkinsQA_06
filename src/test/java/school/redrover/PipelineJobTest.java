@@ -44,12 +44,10 @@ public class PipelineJobTest extends BaseTest {
         WebElement createdJob = getDriver().findElement(By.xpath("//*[contains(text(),'" + projectName + "')]"));
 
         new Actions(getDriver())
-                .moveToElement(getDriver()
-                    .findElement(By.xpath("//a[@href='job/"+projectName+"/']//button")))
+                .moveToElement(getWait2().until(ExpectedConditions.visibilityOf(getDriver()
+                    .findElement(By.xpath("//a[@href='job/"+projectName+"/']//button")))))
                 .click()
                 .perform();
-
-        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//ul[@class='first-of-type']"))));
 
         List<WebElement> dropDown = getDriver().findElements(By.xpath("//ul[@class = 'first-of-type']/descendant::li"));
         dropDown.get(3).click();
