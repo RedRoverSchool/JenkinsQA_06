@@ -151,11 +151,21 @@ public class JenkinsUtils {
                 getCrumbFromPage(mainPage));
     }
 
+
+    private static void deleteDescription() {
+        String mainPage = getPage("");
+        postHttp(ProjectUtils.getUrl() + "submitDescription",
+                String.format(
+                        "description=&Submit=&Jenkins-Crumb=%1$s&json=%%7B%%22description%%22%%3A+%%22%%22%%2C+%%22Submit%%22%%3A+%%22%%22%%2C+%%22Jenkins-Crumb%%22%%3A+%%22%1$s%%22%%7D",
+                        getCrumbFromPage(mainPage)));
+    }
+
     public static void clearData() {
         JenkinsUtils.deleteViews();
         JenkinsUtils.deleteJobs();
         JenkinsUtils.deleteUsers();
         JenkinsUtils.deleteNodes();
+        JenkinsUtils.deleteDescription();
     }
 }
 

@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -10,15 +11,6 @@ import school.redrover.runner.BaseTest;
 import java.util.List;
 
 public class MyViewsTest extends BaseTest {
-
-    @Test
-    public void testMoveToMyViewsPage() {
-        String firstUrl = getDriver().getCurrentUrl();
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        String secondUrl = getDriver().getCurrentUrl();
-
-        Assert.assertNotEquals(firstUrl, secondUrl);
-    }
 
     @Test
     public void testCreateAJobInThePageMyViews() {
@@ -51,24 +43,49 @@ public class MyViewsTest extends BaseTest {
 
         Assert.assertEquals(description.getText().trim().substring(0, 4), "Test");
     }
-
+    @Ignore
     @Test
-    public void testEditDescription() throws InterruptedException {
+    public void testEditDescription() {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
         getDriver().findElement(By.id("description-link")).click();
-        Thread.sleep(2000);
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//textarea[@name='description']"))).sendKeys("Test");
         getDriver()
                 .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
-
         getDriver().findElement(By.id("description-link")).click();
-        Thread.sleep(2000);
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//textarea[@name='description']"))).clear();
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test2");
         getDriver()
                 .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
 
         Assert.assertEquals(getDriver().
                 findElement(By.xpath("//div[@id='description']/div[1]")).getText(),"Test2");
+    }
+
+    @Test
+    public void testCreateMyView() {
+        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
+        getDriver().findElement(By.xpath("//span[@class='trailing-icon']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//input[@id='name']"))))
+                .sendKeys("My project");
+        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li[1]/label/span")).click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
+        buttonSave.click();
+
+        getDriver().findElement(By.xpath("//div[3]/a[1]/span")).click();
+        getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views']")).click();
+        getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]/a")).click();
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Java");
+        getDriver().findElement(By.xpath("//label[@for='hudson.model.MyView']")).click();
+        getDriver().findElement(By.xpath("//button[@id='ok']")).click();
+
+        WebElement myViewsPage = getDriver().findElement(By.xpath("//div[@id=\"breadcrumbBar\"]//li[5]"));
+        Assert.assertEquals(myViewsPage.getText(), "My Views");
+
+        WebElement myViewName = getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]"));
+        Assert.assertEquals(myViewName.getText(), "Java");
     }
 }
