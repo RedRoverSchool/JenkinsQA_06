@@ -3,12 +3,14 @@ package school.redrover;
 import org.checkerframework.checker.i18nformatter.qual.I18nChecksFormat;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class CreateFreestyleProjectTest extends BaseTest {
@@ -123,5 +125,32 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//*[@id='job_New job no.3']/td[3]/a/span")).getText(),freestyleProjectName);
+    }
+
+    @Test
+    public void testCreateFreestyleProjectFromDashboard()  {
+        final String testData = "Test";
+        WebElement dashboardTab = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
+        WebElement arrow = getDriver().findElement(By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[2]"));
+
+        new Actions(getDriver())
+                .moveToElement(dashboardTab)
+                .pause(Duration.ofMillis(300))
+                .moveToElement(arrow)
+                .pause(Duration.ofMillis(300))
+                .click()
+                .pause(Duration.ofMillis(300))
+                .click()
+                .perform();
+        getDriver().findElement(By.xpath("(//span[contains(text(),'New Item')])[1]")).click();
+
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(testData);
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
+        getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
+
+        WebElement projectPage = getDriver().findElement(By.xpath("//h1[normalize-space()='Project Test']"));
+        Assert.assertEquals(projectPage.getText(), "Project " + testData);
+
     }
 }
