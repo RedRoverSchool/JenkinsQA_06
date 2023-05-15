@@ -38,6 +38,8 @@ public class HeaderTest extends BaseTest {
             By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']");
     private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
     private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
+    private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
+
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -319,6 +321,17 @@ public class HeaderTest extends BaseTest {
 
         Assert.assertNotEquals(getDriver().findElement(LOGOUT_BTN).getCssValue("background-color"),
                 logoutIconColorBefore);
+    }
+
+    @Test
+    public void testAppearanceOfPopUpMenusWhenClickingOnIcons() {
+        getDriver().findElement(NOTIFICATION_ICON).click();
+        Assert.assertTrue(getWait2().until
+                (ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN)).isDisplayed());
+
+        getDriver().findElement(ADMIN_BTN).click();
+        Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
     }
 
 }
