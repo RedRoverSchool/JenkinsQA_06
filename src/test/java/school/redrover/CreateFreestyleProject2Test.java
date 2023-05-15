@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -15,7 +16,8 @@ public class CreateFreestyleProject2Test extends BaseTest {
 
         getDriver().findElement(By.xpath("//span[text()='New Item']/../..")).click();
 
-        WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
+        WebElement itemName = getWait5().
+                until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name = 'name']")));
         itemName.click();
         itemName.sendKeys("NewProject");
         getDriver().findElement(By.xpath("//span [@class = 'label']")).click();
