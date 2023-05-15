@@ -7,63 +7,51 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TestUtils {
 
-    private static void createProject(WebDriver driver, WebDriverWait wait, String name) {
-        driver.findElement(By.linkText("New Item")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']")))
-                .sendKeys(name);
-    }
-    private static void saveProject(WebDriver driver, WebDriverWait wait, String name){
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
-        driver.findElement(By.xpath("//button[@name='Submit']")).click();
-
-        driver.findElement(By.linkText("Dashboard")).click();
+    private static void createProject(BaseTest baseTest, String name) {
+        baseTest.getDriver().findElement(By.linkText("New Item")).click();
+        baseTest.getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']"))).sendKeys(name);
     }
 
-    public static void createFreestyleProject(WebDriver driver, WebDriverWait wait , String name){
-        createProject(driver,wait,name);
+    private static void saveProject(BaseTest baseTest) {
+        baseTest.getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
+        baseTest.getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
-        driver.findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-
-        saveProject(driver,wait, name);
+        baseTest.getDriver().findElement(By.linkText("Dashboard")).click();
     }
 
-    public static void createPipeline(WebDriver driver, WebDriverWait wait , String name){
-        createProject(driver,wait,name);
-
-        driver.findElement(By.xpath("//label/span[text()='Pipeline']")).click();
-
-        saveProject(driver,wait, name);
+    public static void createFreestyleProject(BaseTest baseTest, String name) {
+        createProject(baseTest, name);
+        baseTest.getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        saveProject(baseTest);
     }
 
-    public static void createMultiConfigurationProject(WebDriver driver, WebDriverWait wait , String name){
-        createProject(driver,wait,name);
-
-        driver.findElement(By.xpath("//label/span[contains(text(), 'Multi-configuration proj')]")).click();
-
-        saveProject(driver,wait, name);
+    public static void createPipeline(BaseTest baseTest, String name) {
+        createProject(baseTest, name);
+        baseTest.getDriver().findElement(By.xpath("//label/span[text()='Pipeline']")).click();
+        saveProject(baseTest);
     }
 
-    public static void createFolder(WebDriver driver, WebDriverWait wait , String name){
-        createProject(driver,wait,name);
-
-        driver.findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
-
-        saveProject(driver,wait, name);
+    public static void createMultiConfigurationProject(BaseTest baseTest, String name) {
+        createProject(baseTest, name);
+        baseTest.getDriver().findElement(By.xpath("//label/span[contains(text(), 'Multi-configuration proj')]")).click();
+        saveProject(baseTest);
     }
 
-    public static void createMultibranchPipeline(WebDriver driver, WebDriverWait wait , String name) {
-        createProject(driver,wait,name);
-
-        driver.findElement(By.xpath("//span[text()='Multibranch Pipeline']")).click();
-
-        saveProject(driver,wait, name);
+    public static void createFolder(BaseTest baseTest, String name) {
+        createProject(baseTest, name);
+        baseTest.getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
+        saveProject(baseTest);
     }
 
-    public static void createOrganizationFolder(WebDriver driver, WebDriverWait wait , String name) {
-        createProject(driver,wait,name);
+    public static void createMultibranchPipeline(BaseTest baseTest, String name) {
+        createProject(baseTest, name);
+        baseTest.getDriver().findElement(By.xpath("//span[text()='Multibranch Pipeline']")).click();
+        saveProject(baseTest);
+    }
 
-        driver.findElement(By.xpath("//label/span[contains(text(), 'Organization Folder')]")).click();
-
-        saveProject(driver,wait, name);
+    public static void createOrganizationFolder(BaseTest baseTest, String name) {
+        createProject(baseTest, name);
+        baseTest.getDriver().findElement(By.xpath("//label/span[contains(text(), 'Organization Folder')]")).click();
+        saveProject(baseTest);
     }
 }
