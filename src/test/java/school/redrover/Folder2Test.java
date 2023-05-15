@@ -45,7 +45,7 @@ public class Folder2Test extends BaseTest {
     }
 
     @Test
-    public void testFolderCreation() {
+    public void testCreateFolder() {
         createAFolder(FOLDER1_NAME);
 
         String actualJob = getDriver().findElement(FOLDER_IN_LIST).getText();
@@ -140,7 +140,7 @@ public class Folder2Test extends BaseTest {
         Assert.assertEquals(copiedFolderDescription, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testFolderCreation")
+    @Test(dependsOnMethods = "testCreateFolder")
     public void testDeleteFolder() {
         getWait2().until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//a[@class='jenkins-table__link model-link inside']/button"))).sendKeys(Keys.RETURN);
