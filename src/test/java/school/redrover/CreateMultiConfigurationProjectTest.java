@@ -121,14 +121,12 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
     @Test
     public void testCreatingMultiConfigurationProject() {
         getDriver().findElement(NEW_ITEM).click();
-        getWait2();
 
         getDriver().findElement(SET_ITEM_NAME).sendKeys("MCP001");
         getDriver().findElement(MULTI_CONFIGURATION_PROJECT).click();
         getDriver().findElement(OK_BUTTON).click();
-        getWait2();
 
-        getDriver().findElement(SAVE_BUTTON).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(SAVE_BUTTON)).click();
 
         Assert.assertEquals(getDriver().findElement(NEW_PROJECT_HEADLINE).getText(), "Project MCP001");
     }
