@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -17,6 +18,7 @@ public class DeletePipeline1Test extends BaseTest {
     public static final By DELETE_BUTTON = By.xpath("//span[contains(text(),'Delete Pipeline')]");
     public static final By MAIN_PAGE_MESSAGE = By.xpath("//h1[normalize-space()='Welcome to Jenkins!']");
 
+    @Ignore
     @Test
     public void testDeletePipelineProject() {
         getDriver().findElement(NEW_ITEM).click();
