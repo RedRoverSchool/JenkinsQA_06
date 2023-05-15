@@ -2,10 +2,13 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import javax.swing.*;
 
 public class BuildHistoryPageTest extends BaseTest {
     private static final String NAME_PIPELINE = "Pipeline2023";
@@ -61,5 +64,25 @@ public class BuildHistoryPageTest extends BaseTest {
     @Test
     public void testAddDescriptionForBuild(){
         createNewPipeline(NAME_PIPELINE);
+
+        getDriver().findElement(LOGO_JENKINS).click();
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(BUILD_SCHEDULE)).click();
+
+        getDriver().findElement(BUILD_HISTORY).click();
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(SERIAL_NUMBER_OF_BUILD));
+        new Actions(getDriver()).moveToElement(getDriver().findElement(SERIAL_NUMBER_OF_BUILD))
+                .moveToElement(getDriver().findElement(DROP_DOWN_SERIAL_NUMBER))
+                .click()
+                .moveToElement(getDriver().findElement(EDIT_BUILD_INFORMATION))
+                .click()
+                .perform();
+
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
+
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), BUILD_DESCRIPTION);
     }
 }
