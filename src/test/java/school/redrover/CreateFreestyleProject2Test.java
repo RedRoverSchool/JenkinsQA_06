@@ -16,7 +16,7 @@ public class CreateFreestyleProject2Test extends BaseTest {
 
         getDriver().findElement(By.xpath("//span[text()='New Item']/../..")).click();
 
-        WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
+        WebElement itemName = getDriver().findElement(By.id("name"));
         itemName.click();
         itemName.sendKeys("NewProject");
         getDriver().findElement(By.xpath("//span [@class = 'label']")).click();
