@@ -12,32 +12,17 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import org.openqa.selenium.support.ui.Select;
+import school.redrover.runner.TestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultibranchPipeline3Test extends BaseTest {
-    private void createFolder() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Folder1");
-        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-    }
 
-    private void createMultibranchPipeline() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("MultibranchPipeline1");
-        getDriver().findElement(By.xpath("//span[text()='Multibranch Pipeline']")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-    }
-
-    @Ignore
     @Test
     public void testMoveMultibranchPipelineToFolder() {
-        createFolder();
-        getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']/ol[@id='breadcrumbs']/li[@class='jenkins-breadcrumbs__list-item']/a[text()='Dashboard']")).click();
-        createMultibranchPipeline();
+        TestUtils.createFolder(this,"Folder1",true);
+        TestUtils.createMultibranchPipeline(this,"MultibranchPipeline1", false);
         getDriver().findElement(By.linkText("Move")).click();
         WebElement folderList = getDriver().findElement(By.xpath("//select[@name='destination']"));
         getWait2().until(ExpectedConditions.elementToBeClickable(folderList)).click();
