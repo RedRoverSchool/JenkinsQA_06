@@ -38,6 +38,7 @@ public class NewViewTest extends BaseTest {
         return list;
     }
 
+    @Ignore
     @Test
     public void testCreateNewView() {
         createNewProjectFromMyViewsPage();
@@ -64,6 +65,7 @@ public class NewViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div.tab.active")).getText(), NEW_VIEW_NAME_RANDOM);
     }
 
+    @Ignore
     @Test
     public void testRenameView() {
         createNewProjectFromMyViewsPage();

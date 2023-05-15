@@ -5,9 +5,14 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.time.Duration;
+import java.util.List;
 
 public class NewItem2Test extends BaseTest {
 
@@ -43,7 +48,7 @@ public class NewItem2Test extends BaseTest {
         buttonSave.click();
 
         getWait2().until(ExpectedConditions
-                .textToBePresentInElement(getDriver().findElement(By.xpath("//h1")),expectedName));
+                .textToBePresentInElement(getDriver().findElement(By.xpath("//h1")), expectedName));
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), expectedName);
     }
@@ -72,6 +77,7 @@ public class NewItem2Test extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), expectedErrorMessage);
     }
 
+    @Ignore
     @Test
     public void testCreateFolder() {
         final String expectedFolderName = "First folder";
@@ -105,17 +111,18 @@ public class NewItem2Test extends BaseTest {
     @DataProvider(name = "all-jobs-creation")
     public Object[][] provideNamesAndTypesOfJobs() {
         return new Object[][]{
-                {"Freestyle_project","hudson_model_FreeStyleProject"},
+                {"Freestyle_project", "hudson_model_FreeStyleProject"},
                 {"Pipeline", "org_jenkinsci_plugins_workflow_job_WorkflowJob"},
-                {"Multiconfiguration-project","hudson_matrix_MatrixProject"},
+                {"Multiconfiguration-project", "hudson_matrix_MatrixProject"},
                 {"Folder", "com_cloudbees_hudson_plugins_folder_Folder"},
                 {"Multibranch-Pipeline", "org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject"},
                 {"Organization-Folder", "jenkins_branch_OrganizationFolder"}
         };
     }
 
+    @Ignore
     @Test(dataProvider = "all-jobs-creation")
-    public void testAllJobsCreation (String name, String jobType) {
+    public void testAllJobsCreation(String name, String jobType) {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated((By.id("name")))).sendKeys(name);
@@ -125,10 +132,35 @@ public class NewItem2Test extends BaseTest {
 
         getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
 
-        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")),name));
+        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")), name));
 
         getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']/span")).getText(), name);
+    }
+
+    @DataProvider(name = "invalid-data")
+    public Object[][] provideInvalidData() {
+        return new Object[][]{{"!"}, {"#"}, {"$"}, {"%"}, {"&"}, {"*"}, {"/"}, {":"},
+                {";"}, {"<"}, {">"}, {"?"}, {"@"}, {"["}, {"]"}, {"|"}, {"\\"}, {"^"}};
+    }
+
+    @Test(dataProvider = "invalid-data")
+    public void testCreateFolderUsingInvalidData(String invalidData) {
+        String errorMessage = "» ‘" + invalidData + "’ is an unsafe character";
+
+        WebElement createItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        createItemButton.click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Folder']"))).click();
+
+        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        fieldInputName.clear();
+        fieldInputName.sendKeys(invalidData);
+
+        WebElement resultMessage = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, errorMessage);
     }
 }

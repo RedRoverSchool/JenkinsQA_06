@@ -32,31 +32,28 @@ public class Folder2Test extends BaseTest {
     private void createAFolder(String name) {
         getDriver().findElement(NEW_ITEM).click();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(NAME_FIELD));
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(NAME_FIELD)).sendKeys(name);
 
-        getDriver().findElement(NAME_FIELD).sendKeys(name);
         getDriver().findElement(FOLDER_TYPE).click();
         getDriver().findElement(OK_BUTTON).click();
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON));
-
-        getDriver().findElement(SAVE_BUTTON).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON)).click();
 
         getWait2().until(ExpectedConditions.textToBe(FOLDER_HEADER,name));
+        getDriver().findElement(DASHBOARD_LINK).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(NEW_ITEM));
     }
 
     @Test
     public void testFolderCreation() {
         createAFolder(FOLDER1_NAME);
 
-        getDriver().findElement(DASHBOARD_LINK).click();
-
-        String actualJobsList = getDriver().findElement(FOLDER_IN_LIST).getText();
+        String actualJob = getDriver().findElement(FOLDER_IN_LIST).getText();
 
         getDriver().findElement(FOLDER_IN_LIST).click();
 
         Assert.assertEquals(getDriver().findElement(JOB_HEADER).getText(),FOLDER1_NAME);
-        Assert.assertEquals(actualJobsList,FOLDER1_NAME);
+        Assert.assertEquals(actualJob,FOLDER1_NAME);
     }
 
     @Ignore
@@ -65,12 +62,7 @@ public class Folder2Test extends BaseTest {
         List<String> expectedFoldersList = Arrays.asList(FOLDER1_NAME, FOLDER2_NAME);
 
         createAFolder(FOLDER1_NAME);
-        getDriver().findElement(DASHBOARD_LINK).click();
-
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(NEW_ITEM));
-
         createAFolder(FOLDER2_NAME);
-        getDriver().findElement(DASHBOARD_LINK).click();
 
         List <WebElement> actualFoldersList = getDriver().findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
 
@@ -99,7 +91,6 @@ public class Folder2Test extends BaseTest {
     @Test
     public void testConfigureFolderWithDescription() {
         createAFolder(FOLDER1_NAME);
-        getDriver().findElement(DASHBOARD_LINK).click();
 
         getDriver().findElement(
                 By.xpath("//a[@class='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']")).sendKeys(Keys.RETURN);
@@ -121,8 +112,9 @@ public class Folder2Test extends BaseTest {
 
     @Test
     public void testCreateFolderFromExistingFolder() {
+        final String COPY_FOLDER = "Copy_folder";
+
         createAFolder(FOLDER1_NAME);
-        getDriver().findElement(DASHBOARD_LINK).click();
 
         getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']"))
                 .sendKeys(Keys.RETURN);
@@ -134,7 +126,6 @@ public class Folder2Test extends BaseTest {
 
         getDriver().findElement(NEW_ITEM).click();
 
-        String COPY_FOLDER = "Copy_folder";
         getDriver().findElement(NAME_FIELD).sendKeys(COPY_FOLDER);
         getDriver().findElement(FOLDER_TYPE).click();
         getDriver().findElement(By.id("from")).sendKeys(FOLDER1_NAME);
