@@ -28,7 +28,7 @@ public class FreestyleProject5Test extends BaseTest {
 
     @Test
     public void testDisableFreestyleProject(){
-        TestUtils.createFreestyleProject(this, "First Freestyle Project");
+        TestUtils.createFreestyleProject(this, "First Freestyle Project", true);
 
         getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']/span")).click();
         getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
