@@ -20,13 +20,9 @@ public class FolderTest extends BaseTest {
     private static final By DISPLAY_NAME_FIELD = By.name("_.displayNameOrNull");
     private static final String FOLDER_NAME_1 = "f1";
 
-    private WebDriverWait getWait(int seconds) {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
-    }
-
     private void createFolder(String name) {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(name);
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(name);
         getDriver().findElement(By.xpath("//span[@class='label'][text()='Folder']")).click();
         getDriver().findElement(By.xpath("//div[@class='btn-decorator']")).click();
     }
@@ -42,7 +38,7 @@ public class FolderTest extends BaseTest {
         String description = "Created new folder";
 
         createFolder(FOLDER_NAME_1);
-        getWait(2).until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_FIELD)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_FIELD)).click();
         getDriver().findElement(DISPLAY_NAME_FIELD).sendKeys(name);
         WebElement descriptionField = getDriver().findElement(By.name("_.description"));
         descriptionField.sendKeys(description);
@@ -64,9 +60,9 @@ public class FolderTest extends BaseTest {
 
         WebElement folderDropdown = getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']/button", name)));
         jsClick(folderDropdown);
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
         WebElement newNameField = getDriver().findElement(By.name("newName"));
-        getWait(2).until(ExpectedConditions.elementToBeClickable(newNameField)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(newNameField)).click();
         newNameField.clear();
         newNameField.sendKeys(editedName);
         getDriver().findElement(By.name("Submit")).click();
@@ -115,7 +111,7 @@ public class FolderTest extends BaseTest {
         String errorMessage = "Error";
 
         createFolder(folderName);
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
         getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href= '/']")).click();
 
         createFolder(folderName);
