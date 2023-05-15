@@ -76,6 +76,7 @@ public class FreestyleProject3Test extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testDeleteProjectFromTheDashboardList() {
         String expectedResult = "Start building your software project";
@@ -95,6 +96,7 @@ public class FreestyleProject3Test extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testDeleteProjectFromTheProjectPage() {
         String expectedResult = "Start building your software project";

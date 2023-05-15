@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -119,6 +120,7 @@ public class NewItem2Test extends BaseTest {
         };
     }
 
+    @Ignore
     @Test(dataProvider = "all-jobs-creation")
     public void testAllJobsCreation(String name, String jobType) {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();

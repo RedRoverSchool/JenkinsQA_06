@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 public class CreateFreestyleProjectTest extends BaseTest {
 
+    private static final By DASHBOARD_BUTTON = By.linkText("Dashboard");
+
     @Test
     public void testCreateFreestyleProject() {
         String expectedProjectName = "Project Test";
@@ -32,7 +34,6 @@ public class CreateFreestyleProjectTest extends BaseTest {
     }
 
     @Test
-
     public void testCreateFreestyleProjectWithInvalidName() {
         getDriver().findElement(By.xpath("//a[contains(@href, 'newJob')]")).click();
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(
@@ -106,26 +107,21 @@ public class CreateFreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectPage.getText(), "Project " + testData);
     }
 
-    @Ignore
     @Test
-    public void testCreateFolderTestFreestyleProgect() {
+    public void testCreateFreestyleProject3() {
+        String freestyleProjectName = "New job no.3";
 
-        final String nameOfProject = "Project Test1";
+        getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]")).click();
 
-        WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        newItem.click();
-        WebElement projectName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
-        projectName.sendKeys("Test1");
-        WebElement freestyleProgect = getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']"));
-        freestyleProgect.click();
-        WebElement buttonOk = getDriver().findElement(By.xpath("//button[@class = 'jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']"));
-        getWait2().until(ExpectedConditions.elementToBeClickable(buttonOk)).click();
-        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name = 'Submit']"));
-        saveButton.click();
-        WebElement projectTest1 = getDriver().findElement(By.xpath("//h1[text() = 'Project Test1']"));
+        getDriver().findElement(By.xpath("//*[@id='name']")).sendKeys(freestyleProjectName);
+        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]")).click();
+        getDriver().findElement(By.xpath("//*[@id='ok-button']")).click();
 
-        Assert.assertEquals(projectTest1.getText(), nameOfProject);
+        getDriver().findElement(By.xpath("//*[@id='bottom-sticker']/div/button[1]")).click();
+      
+        getDriver().findElement(DASHBOARD_BUTTON).click();
 
-
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//*[@id='job_New job no.3']/td[3]/a/span")).getText(),freestyleProjectName);
     }
 }

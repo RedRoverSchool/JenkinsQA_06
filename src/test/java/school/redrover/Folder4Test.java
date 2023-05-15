@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class Folder4Test extends BaseTest {
 
@@ -16,15 +17,9 @@ public class Folder4Test extends BaseTest {
     final String NAME_VIEW = "Test2";
 
     @Test
-    public void testCreateFolder() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']")))
-                .sendKeys(NAME_FOLDER);
-        getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+    public void testCreateFolder(){
+        TestUtils.createFolder(this, NAME_FOLDER);
 
-        getDriver().findElement(By.linkText("Dashboard")).click();
         WebElement nameFolder = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>span"));
         new Actions(getDriver()).moveToElement(nameFolder).click(nameFolder).build().perform();
 
@@ -35,7 +30,7 @@ public class Folder4Test extends BaseTest {
 
     @Ignore
     @Test(dependsOnMethods = {"testCreateFolder"})
-    public void testCreateNewViewInFolder() {
+    public void testCreateNewViewInFolder(){
         Actions actions = new Actions(getDriver());
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
@@ -56,7 +51,7 @@ public class Folder4Test extends BaseTest {
 
     @Ignore
     @Test(dependsOnMethods = {"testCreateFolder"})
-    public void testRenameFolder() {
+    public void testRenameFolder(){
         final String newName = "newTestName";
         Actions actions = new Actions(getDriver());
         JavascriptExecutor js = (JavascriptExecutor) getDriver();

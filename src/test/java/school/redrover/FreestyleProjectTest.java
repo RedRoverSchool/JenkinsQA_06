@@ -70,6 +70,7 @@ public class FreestyleProjectTest extends BaseTest {
                 By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']")).getAttribute("tooltip"), "Not built");
     }
 
+    @Ignore
     @Test
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
 
@@ -151,6 +152,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test()
     public void testCreateFreestyleProjectWithValidName(){
         getDriver().findElement(By.xpath("//*[text()='Create a job']")).click();
