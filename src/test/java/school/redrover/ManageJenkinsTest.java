@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -138,5 +139,31 @@ public class ManageJenkinsTest extends BaseTest {
         getWait10().until(t -> !Objects.equals(getDriver().getCurrentUrl(), oldUrl));
 
         Assert.assertEquals(getDriver().getTitle(), "Configure System [Jenkins]");
+    }
+
+    @DataProvider(name = "keywords")
+    public Object[][] searchSettingsItem() {
+        return new Object[][]{{"manage"}, {"tool"}, {"sys"}, {"sec"}, {"cred"}, {"dow"}, {"script"}, {"jenkins"}, {"stat"}};
+    }
+
+    @Test(dataProvider = "keywords")
+    public void testSearchSettingsItemsByKeyword(String keyword) {
+        List<WebElement> actualResult, expectedResult, listSettingsItems;
+
+        getDriver().findElement(By.xpath("//div[@id='tasks']//div//a[@href='/manage']")).click();
+
+        listSettingsItems = getDriver().findElements(By.xpath("//div[@class='jenkins-section__item']//dt"));
+
+        WebElement searchSettingsField = getDriver().findElement(By.xpath("//input[@id='settings-search-bar']"));
+        searchSettingsField.click();
+        searchSettingsField.sendKeys(keyword);
+        getWait10().until(ExpectedConditions.textToBePresentInElementValue(searchSettingsField, keyword));
+
+        actualResult = getWait10().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='jenkins-search__results']//a")));
+        expectedResult = listSettingsItems.stream().filter(item -> item.getText().toLowerCase().contains(keyword)).toList();
+
+        for (int i = 0; i < expectedResult.size(); i++) {
+            Assert.assertEquals(actualResult.get(i).getText(), expectedResult.get(i).getText());
+        }
     }
 }

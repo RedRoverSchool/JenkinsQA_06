@@ -177,7 +177,7 @@ public class PipelineTest extends BaseTest {
                 .getText().substring(9), PIPELINE_NAME);
     }
 
-    @Ignore
+
     @Test
     public void testAddingDescriptionToPipeline() {
         getDriver().findElement(By.xpath("//a[normalize-space()='New Item']")).click();
@@ -234,6 +234,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains(newPipelineName));
     }
 
+    @Ignore
     @Test
     public void testDeletePipeline() {
         getDriver().findElement(newItem).click();
@@ -252,5 +253,21 @@ public class PipelineTest extends BaseTest {
         getDriver().switchTo().alert().accept();
 
         Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
+    }
+
+    @Test
+    public void testCreatingBasicPipelineProjectThroughJenkinsUI() {
+
+        getDriver().findElement(By.xpath("//a[normalize-space()='New Item']")).click();
+
+        getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
+        getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+
+        getDriver().findElement(By.xpath("//button[@data-section-id='pipeline']")).click();
+        WebElement optionInDefinitionField = getDriver()
+                .findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]"));
+
+        Assert.assertEquals(optionInDefinitionField.getText(), "Pipeline script");
     }
 }

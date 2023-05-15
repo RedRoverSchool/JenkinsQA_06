@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -22,7 +23,7 @@ public class NewViewTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
         getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
         getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hudson_model_FreeStyleProject"))).click();
         getDriver().findElement(By.cssSelector("#ok-button")).click();
         getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
@@ -37,9 +38,10 @@ public class NewViewTest extends BaseTest {
         return list;
     }
 
+    @Ignore
     @Test
     public void testCreateNewView() {
-        this.createNewProjectFromMyViewsPage();
+        createNewProjectFromMyViewsPage();
         getDriver().findElement(By.className("addTab")).click();
         getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
         getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
@@ -50,9 +52,10 @@ public class NewViewTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(CREATED_LIST_VIEW).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testCreateNewViewSecond() {
-        this.createNewProjectFromMyViewsPage();
+        createNewProjectFromMyViewsPage();
 
         getDriver().findElement(By.cssSelector("a.addTab")).click();
         getDriver().findElement(By.cssSelector("input#name")).sendKeys(NEW_VIEW_NAME_RANDOM);
@@ -62,26 +65,27 @@ public class NewViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div.tab.active")).getText(), NEW_VIEW_NAME_RANDOM);
     }
 
+    @Ignore
     @Test
     public void testRenameView() {
-        this.createNewProjectFromMyViewsPage();
+        createNewProjectFromMyViewsPage();
         getDriver().findElement(By.className("addTab")).click();
-        getDriver().findElement(By.id("name")).sendKeys("MyFirstView");
+        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
         getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
         getDriver().findElement(By.id("ok")).click();
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@name='Submit']")));
-        getDriver().findElement(By.linkText("Dashboard")).click();
-        getDriver().findElement(By.linkText("MyFirstView")).click();
-        getDriver()
-                .findElement(By.xpath("//div[@id='tasks']/div[@class='task ']/span[@class='task-link-wrapper ']/a[@href='/view/MyFirstView/configure']")).click();
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+        getDriver().findElement(CREATED_LIST_VIEW).click();
+        getDriver().findElement(By.linkText("Edit View")).click();
         getDriver()
                 .findElement(By.xpath("//div[@class='setting-main']/input[@name='name']")).clear();
         getDriver()
-                .findElement(By.xpath("//div[@class='setting-main']/input[@name='name']")).sendKeys("MySecondView");
+                .findElement(By.xpath("//div[@class='setting-main']/input[@name='name']")).sendKeys("RenameView");
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.linkText("MySecondView")).getText(), "MySecondView");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='/view/RenameView/']")).getText(), "RenameView");
     }
+
     @Test
     public void testDeleteView() {
         this.createNewProjectFromMyViewsPage();

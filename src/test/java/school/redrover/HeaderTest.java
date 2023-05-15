@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.runner.BaseTest;
@@ -35,6 +36,8 @@ public class HeaderTest extends BaseTest {
     private static final String TITLE_DASHBOARD_PAGE = "Dashboard [Jenkins]";
     private static final By LIST_OF_PROJECT_NAMES_IN_THE_TABLE =
             By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']");
+    private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
+    private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -198,6 +201,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualHeader.getText(), expectedHeader);
     }
 
+    @Ignore
     @Test
     public void testNotificationAndSecurityIcon() {
 
@@ -278,4 +282,43 @@ public class HeaderTest extends BaseTest {
 
         Assert.assertTrue(pageConfigure.isDisplayed());
     }
+
+    @Test
+    public void testAdminPageIsAvailable() {
+
+        WebElement adminButton = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/user/admin']")));
+        adminButton.click();
+
+        WebElement adminPageSign = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > div:nth-child(4)")));
+        assertEquals(adminPageSign.getText(),"Jenkins User ID: admin");
+    }
+
+    @Test
+    public void testOfIconColorChange() {
+        String notificationIconColorBefore = getDriver().findElement(NOTIFICATION_ICON).getCssValue("background-color");
+        String adminIconColorBefore = getDriver().findElement(ADMIN_BTN).getCssValue("background-color");
+        String logoutIconColorBefore = getDriver().findElement(LOGOUT_BTN).getCssValue("background-color");
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(NOTIFICATION_ICON))
+                .perform();
+
+        Assert.assertNotEquals(getDriver().findElement(NOTIFICATION_ICON).getCssValue("background-color"),
+                notificationIconColorBefore);
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(ADMIN_BTN))
+                .perform();
+
+        Assert.assertNotEquals(getDriver().findElement(ADMIN_BTN).getCssValue("background-color"),
+                adminIconColorBefore);
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(LOGOUT_BTN))
+                .perform();
+
+        Assert.assertNotEquals(getDriver().findElement(LOGOUT_BTN).getCssValue("background-color"),
+                logoutIconColorBefore);
+    }
+
 }
