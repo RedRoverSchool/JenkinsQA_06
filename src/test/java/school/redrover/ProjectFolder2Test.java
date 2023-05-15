@@ -13,7 +13,7 @@ import school.redrover.runner.BaseTest;
 import java.util.Arrays;
 import java.util.List;
 
-public class Folder2Test extends BaseTest {
+public class ProjectFolder2Test extends BaseTest {
     private final String FOLDER1_NAME = "My_folder";
     private final String FOLDER2_NAME = "MyFolder2";
     private final String FOLDER3_NAME = "FOLDER";
