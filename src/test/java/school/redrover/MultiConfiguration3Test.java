@@ -182,7 +182,6 @@ public class MultiConfiguration3Test extends BaseTest {
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
         WebElement newNameMultiCofigurationProject = getDriver().findElement(By.xpath("//td//a//span[1]"));
-
         Assert.assertEquals(newNameMultiCofigurationProject.getText(),NAME_OF_PROJECT+NEW_PROJECT_NAME);
     }
 }
