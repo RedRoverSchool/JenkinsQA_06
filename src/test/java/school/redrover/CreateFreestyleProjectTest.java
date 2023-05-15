@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 public class CreateFreestyleProjectTest extends BaseTest {
 
+    private static final By DASHBOARD_BUTTON = By.linkText("Dashboard");
+
     @Test
     public void testCreateFreestyleProject() {
         String expectedProjectName = "Project Test";
@@ -109,15 +111,15 @@ public class CreateFreestyleProjectTest extends BaseTest {
     public void testCreateFreestyleProject3() {
         String freestyleProjectName = "New job no.3";
 
-        getDriver().findElement(By.cssSelector(".task-link")).click();
+        getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]")).click();
 
-        getDriver().findElement(By.cssSelector("#name")).sendKeys(freestyleProjectName);
-        getDriver().findElement(By.cssSelector(".label")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(By.xpath("//*[@id='name']")).sendKeys(freestyleProjectName);
+        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]")).click();
+        getDriver().findElement(By.xpath("//*[@id='ok-button']")).click();
 
-        getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
+        getDriver().findElement(By.xpath("//*[@id='bottom-sticker']/div/button[1]")).click();
       
-       getDriver().findElement(By.cssSelector(".jenkins-breadcrumbs__list-item>.model-link")).click();
+        getDriver().findElement(DASHBOARD_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//*[@id='job_New job no.3']/td[3]/a/span")).getText(),freestyleProjectName);
