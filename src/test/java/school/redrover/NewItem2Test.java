@@ -103,7 +103,6 @@ public class NewItem2Test extends BaseTest {
         Assert.assertEquals(actualFolderName, expectedFolderName);
     }
 
-    @Ignore
     @DataProvider(name = "all-jobs-creation")
     public Object[][] provideNamesAndTypesOfJobs() {
         return new Object[][]{
@@ -116,6 +115,7 @@ public class NewItem2Test extends BaseTest {
         };
     }
 
+    @Ignore
     @Test(dataProvider = "all-jobs-creation")
     public void testAllJobsCreation (String name, String jobType) {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
