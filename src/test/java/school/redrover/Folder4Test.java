@@ -14,50 +14,48 @@ import school.redrover.runner.TestUtils;
 public class Folder4Test extends BaseTest {
 
     final String NAME_FOLDER = "Test";
-    final String NAME_VIEW = "Test2";
+    final String NAME_VIEW = "Test View";
 
     @Test
     public void testCreateFolder(){
         TestUtils.createFolder(this, NAME_FOLDER);
 
-        WebElement nameFolder = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>span"));
-        new Actions(getDriver()).moveToElement(nameFolder).click(nameFolder).build().perform();
+        WebElement nameFolder = getDriver().findElement(By.xpath("//span[contains(text(),'" + NAME_FOLDER + "')]"));
+        new Actions(getDriver()).moveToElement(nameFolder).click(nameFolder).perform();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), NAME_FOLDER);
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
                 "error was not shown icon folder");
     }
 
-    @Ignore
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testCreateNewViewInFolder(){
         Actions actions = new Actions(getDriver());
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
-        WebElement nameFolder = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>span"));
-        actions.moveToElement(nameFolder).click(nameFolder).build().perform();
+        WebElement nameFolder = getDriver().findElement(By.xpath("//span[contains(text(),'" + NAME_FOLDER + "')]"));
+        actions.moveToElement(nameFolder).click(nameFolder).perform();
         getDriver().findElement(By.xpath("//div[@class='tab']")).click();
 
         getDriver().findElement(By.id("name")).sendKeys(NAME_VIEW);
         WebElement myView = getDriver().findElement(By.xpath("//fieldset/div[last()]/input"));
         js.executeScript("arguments[0].scrollIntoView();", myView);
-        actions.moveToElement(myView).click(myView).build().perform();
+        actions.moveToElement(myView).click(myView).perform();
         getDriver().findElement(By.id("ok")).click();
         getDriver().findElement(By.linkText("All")).click();
-        WebElement newView = getDriver().findElement(By.linkText(NAME_FOLDER));
+        WebElement newView = getDriver().findElement(By.linkText(NAME_VIEW));
 
         Assert.assertTrue(newView.isDisplayed(), "error was not shown created view");
     }
 
-    @Ignore
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testRenameFolder(){
         final String newName = "newTestName";
         Actions actions = new Actions(getDriver());
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
-        WebElement nameFolder = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>span"));
-        actions.moveToElement(nameFolder).build().perform();
+        WebElement nameFolder = getDriver().findElement(By.xpath("//span[contains(text(),'" + NAME_FOLDER + "')]"));
+        actions.moveToElement(nameFolder).perform();
         WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + NAME_FOLDER + "/']>button"));
         js.executeScript("arguments[0].click();", arrow);
         getWait5().until(ExpectedConditions.elementToBeClickable(
@@ -70,7 +68,7 @@ public class Folder4Test extends BaseTest {
 
         getDriver().findElement(By.linkText("Dashboard")).click();
         WebElement nameRenamedFolder = getDriver().findElement(By.cssSelector("a[href='job/" + newName + "/']>span"));
-        actions.moveToElement(nameRenamedFolder).click(nameRenamedFolder).build().perform();
+        actions.moveToElement(nameRenamedFolder).click(nameRenamedFolder).perform();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), newName);
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
