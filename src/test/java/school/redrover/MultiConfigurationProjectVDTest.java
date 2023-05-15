@@ -36,7 +36,7 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//*[@class ='jenkins-table__link model-link inside']")).click();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href=\"/job/Tricky%20Project/configure\"]"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/Tricky%20Project/configure']"))).click();
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated
                         (By.xpath("//*[@name='description']")))
