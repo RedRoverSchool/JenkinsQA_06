@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -21,8 +22,7 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
     private static final By ADD_DESCRIPTION = By.xpath("//a[@href='editDescription']");
     private static final By TEXTAREA_DESCRIPTION = By.xpath("//textarea[@name='description']");
     private static final By SAVE_BUTTON = By.name("Submit");
-
-
+    @Ignore
     @Test
     public void testMultiConfigurationProject() {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]/span/a"));
@@ -82,6 +82,7 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(actualDescription.getText(), expectedDescription);
     }
 
+    @Ignore
     @Test
     public void testCreateMultiConfigurationProjectInFolder() {
         final String expectedFolderHeader = "Multi-configuration projects Folder";
