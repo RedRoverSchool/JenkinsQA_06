@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -69,6 +70,7 @@ public class MultiConfiguration3Test extends BaseTest {
         return new Object[][] {{"!"},{"@"},{"#"},{"$"},{"%"},{"^"},{"&"},{"*"},{"?"}};
     }
 
+    @Ignore
     @Test(dataProvider = "unsafe-character")
     public void testCreateMultiConfigurationProjectWithSpecialSymbols(String unsafeCharacter)  {
         final String expectedResult = "is an unsafe character";

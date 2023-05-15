@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -75,5 +76,26 @@ public class CreateFolderTest extends BaseTest {
 
         String actualFreestyleProjectName = getDriver().findElement(By.linkText(freestyleProjectName)).getText();
         Assert.assertEquals(actualFreestyleProjectName, freestyleProjectName);
+    }
+
+    @Test
+    public void testCreateFolder3() {
+        getDriver().findElement(By.cssSelector(".task-link")).click();
+
+        String nameItem = "Test Folder";
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(nameItem);
+        getDriver().findElement(By.xpath("(//span[@class='label'])[4]")).click();
+        getDriver().findElement(By.cssSelector(".btn-decorator")).click();
+
+        getDriver().findElement(By.cssSelector("[name = 'Submit']")).click();
+
+        getDriver().findElement(By.xpath("(//a[@class = 'model-link'])[2]")).click();
+
+        WebElement nameOfFolder = getDriver().findElement(By.xpath("//a[@href = 'job/Test%20Folder/']"));
+        String actualResult = nameOfFolder.getText();
+        nameOfFolder.click();
+
+        Assert.assertEquals(actualResult, nameItem);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), nameItem);
     }
 }

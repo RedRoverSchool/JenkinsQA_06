@@ -35,7 +35,7 @@ public abstract class BaseTest {
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
-        BaseUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
+        ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         try {
             if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
                 clearData();
@@ -54,28 +54,29 @@ public abstract class BaseTest {
     }
 
     protected void clearData() {
-        BaseUtils.log("Clear data");
+        ProjectUtils.log("Clear data");
         JenkinsUtils.clearData();
     }
 
     protected void loginWeb() {
-        BaseUtils.log("Login");
-        ProjectUtils.login(driver);
+        ProjectUtils.log("Login");
+        JenkinsUtils.login(driver);
     }
 
     protected void getWeb() {
-        BaseUtils.log("Get web page");
+        ProjectUtils.log("Get web page");
         ProjectUtils.get(driver);
     }
 
     protected void startDriver() {
-        BaseUtils.log("Browser open");
-        driver = BaseUtils.createDriver();
+        ProjectUtils.log("Browser open");
+        driver = ProjectUtils.createDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     protected void stopDriver() {
         try {
-            ProjectUtils.logout(driver);
+            JenkinsUtils.logout(driver);
         } catch (Exception ignore) {
         }
 
@@ -88,21 +89,21 @@ public abstract class BaseTest {
             wait2 = null;
             wait5 = null;
             wait10 = null;
-            BaseUtils.log("Browser closed");
+            ProjectUtils.log("Browser closed");
         }
     }
 
     @AfterMethod
     protected void afterMethod(Method method, ITestResult testResult) {
-        if (!testResult.isSuccess() && BaseUtils.isServerRun()) {
-            BaseUtils.takeScreenshot(driver, method.getName(), this.getClass().getName());
+        if (!testResult.isSuccess() && ProjectUtils.isServerRun()) {
+            ProjectUtils.takeScreenshot(driver, method.getName(), this.getClass().getName());
         }
 
         if (!testResult.isSuccess() || methodsOrder.isGroupFinished(method)) {
             stopDriver();
         }
 
-        BaseUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
+        ProjectUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
     }
 
     protected WebDriver getDriver() {

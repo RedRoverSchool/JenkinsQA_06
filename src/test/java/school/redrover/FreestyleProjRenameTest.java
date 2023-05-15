@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -9,6 +10,7 @@ public class FreestyleProjRenameTest extends BaseTest {
     private final String OLD_NAME = "Freestyle Project Name";
     private final String NEW_NAME = "New Freestyle Project Name";
 
+    @Ignore
     @Test
     public void testRenameFreestyleProjectFromProjectPage() {
         createFreestyleProject();

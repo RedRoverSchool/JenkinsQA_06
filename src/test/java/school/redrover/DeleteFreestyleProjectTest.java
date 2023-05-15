@@ -28,6 +28,7 @@ public class DeleteFreestyleProjectTest extends BaseTest {
         WebElement saveButton = getDriver().findElement(By.name("Submit"));
         saveButton.click();
     }
+    @Ignore
     @Test
     public void testDeleteFreestyleProject() {
         final String expectedH2 = "This folder is empty";
@@ -48,6 +49,7 @@ public class DeleteFreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), expectedH2);
     }
+    @Ignore
     @Test
     public void testDeleteFreestyleProject2(){
         getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']")).click();

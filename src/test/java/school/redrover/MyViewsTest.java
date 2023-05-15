@@ -62,4 +62,30 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(getDriver().
                 findElement(By.xpath("//div[@id='description']/div[1]")).getText(),"Test2");
     }
+
+    @Test
+    public void testCreateMyView() {
+        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
+        getDriver().findElement(By.xpath("//span[@class='trailing-icon']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//input[@id='name']"))))
+                .sendKeys("My project");
+        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li[1]/label/span")).click();
+        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+        okButton.click();
+        WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
+        buttonSave.click();
+
+        getDriver().findElement(By.xpath("//div[3]/a[1]/span")).click();
+        getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views']")).click();
+        getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]/a")).click();
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Java");
+        getDriver().findElement(By.xpath("//label[@for='hudson.model.MyView']")).click();
+        getDriver().findElement(By.xpath("//button[@id='ok']")).click();
+
+        WebElement myViewsPage = getDriver().findElement(By.xpath("//div[@id=\"breadcrumbBar\"]//li[5]"));
+        Assert.assertEquals(myViewsPage.getText(), "My Views");
+
+        WebElement myViewName = getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]"));
+        Assert.assertEquals(myViewName.getText(), "Java");
+    }
 }
