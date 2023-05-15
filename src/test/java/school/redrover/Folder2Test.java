@@ -99,7 +99,7 @@ public class Folder2Test extends BaseTest {
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).sendKeys(DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
 
-        String actualDescriptionAfterAddingIt = getDriver().findElement(By.id("view-message")).getText();
+        String actualDescriptionAfterAddingIt = getWait2().until(ExpectedConditions.presenceOfElementLocated((By.id("view-message")))).getText();
 
         getDriver().findElement(DASHBOARD_LINK).click();
 
