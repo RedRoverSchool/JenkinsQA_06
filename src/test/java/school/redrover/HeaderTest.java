@@ -40,7 +40,6 @@ public class HeaderTest extends BaseTest {
     private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
     private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
 
-
     @Test
     public void testHeaderLogoIcon() throws IOException {
         WebElement logoIcon = getDriver().findElement(By.xpath("//*[@id=\"jenkins-head-icon\"]"));
@@ -332,6 +331,16 @@ public class HeaderTest extends BaseTest {
         getDriver().findElement(ADMIN_BTN).click();
         Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
+    }
+
+    @Test
+    public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
+        getDriver().findElement(NOTIFICATION_ICON).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN));
+        getDriver().findElement(By.xpath("//a[contains(text(),'Manage Jenkins')]")).click();
+
+        Assert.assertTrue(
+                getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("main-panel"))).isDisplayed());
     }
 
 }
