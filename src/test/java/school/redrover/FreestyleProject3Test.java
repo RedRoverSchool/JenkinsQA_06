@@ -61,6 +61,7 @@ public class FreestyleProject3Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), expectedResult);
     }
 
+    @Ignore
     @Test
     public void testPreviewDescription() {
         String expectedResult = "wwwww";

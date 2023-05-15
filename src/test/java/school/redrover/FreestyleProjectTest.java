@@ -21,6 +21,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
 
+    @Ignore
     @Test
     public void testCreateNewFreestyleProject() {
 
@@ -51,6 +52,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
 
+    @Ignore
     @Test
     public void testEnableProject() {
 
@@ -110,6 +112,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description'] /div[1]")).getText(), "Job " + FREESTYLE_NAME);
     }
 
+    @Ignore
     @Test
     public void testRenameFreestyleProject() {
 

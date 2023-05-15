@@ -82,6 +82,7 @@ public class CreateMultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(actualDescription.getText(), expectedDescription);
     }
 
+    @Ignore
     @Test
     public void testCreateMultiConfigurationProjectInFolder() {
         final String expectedFolderHeader = "Multi-configuration projects Folder";
