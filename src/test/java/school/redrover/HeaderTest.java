@@ -37,13 +37,17 @@ public class HeaderTest extends BaseTest {
     private static final String TITLE_DASHBOARD_PAGE = "Dashboard [Jenkins]";
     private static final By LIST_OF_PROJECT_NAMES_IN_THE_TABLE =
             By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']");
+    private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
+    private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
+    private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
+  
     private void openAdminDropdownMenu() {
         WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
                 ("//a[@href='/user/admin']/button")));
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", dropDownMenu);
     }
-
+  
     @Test
     public void testHeaderLogoIcon() throws IOException {
         WebElement logoIcon = getDriver().findElement(By.xpath("//*[@id=\"jenkins-head-icon\"]"));
@@ -283,4 +287,44 @@ public class HeaderTest extends BaseTest {
         WebElement adminPageSign = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > div:nth-child(4)")));
         assertEquals(adminPageSign.getText(),"Jenkins User ID: admin");
     }
+
+    @Test
+    public void testOfIconColorChange() {
+        String notificationIconColorBefore = getDriver().findElement(NOTIFICATION_ICON).getCssValue("background-color");
+        String adminIconColorBefore = getDriver().findElement(ADMIN_BTN).getCssValue("background-color");
+        String logoutIconColorBefore = getDriver().findElement(LOGOUT_BTN).getCssValue("background-color");
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(NOTIFICATION_ICON))
+                .perform();
+
+        Assert.assertNotEquals(getDriver().findElement(NOTIFICATION_ICON).getCssValue("background-color"),
+                notificationIconColorBefore);
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(ADMIN_BTN))
+                .perform();
+
+        Assert.assertNotEquals(getDriver().findElement(ADMIN_BTN).getCssValue("background-color"),
+                adminIconColorBefore);
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(LOGOUT_BTN))
+                .perform();
+
+        Assert.assertNotEquals(getDriver().findElement(LOGOUT_BTN).getCssValue("background-color"),
+                logoutIconColorBefore);
+    }
+
+    @Test
+    public void testAppearanceOfPopUpMenusWhenClickingOnIcons() {
+        getDriver().findElement(NOTIFICATION_ICON).click();
+        Assert.assertTrue(getWait2().until
+                (ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN)).isDisplayed());
+
+        getDriver().findElement(ADMIN_BTN).click();
+        Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
+    }
+
 }
