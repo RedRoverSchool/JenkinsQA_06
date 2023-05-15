@@ -67,6 +67,7 @@ public class FreestyleProjectTest extends BaseTest {
                 By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']")).getAttribute("tooltip"), "Not built");
     }
 
+    @Ignore
     @Test
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
 

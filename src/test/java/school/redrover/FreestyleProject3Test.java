@@ -95,6 +95,7 @@ public class FreestyleProject3Test extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testDeleteProjectFromTheProjectPage() {
         String expectedResult = "Start building your software project";

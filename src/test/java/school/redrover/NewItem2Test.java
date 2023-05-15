@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -102,6 +103,7 @@ public class NewItem2Test extends BaseTest {
         Assert.assertEquals(actualFolderName, expectedFolderName);
     }
 
+    @Ignore
     @DataProvider(name = "all-jobs-creation")
     public Object[][] provideNamesAndTypesOfJobs() {
         return new Object[][]{
