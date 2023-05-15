@@ -49,6 +49,7 @@ public class BreadcrumbTest extends BaseTest {
                         "Version\n" +
                         "2.387.2"},
                 {"//li[@id='yui-gen21']/a/span", "Manage Old Data"},
+                {"//li[@id='yui-gen23']/a/span", "Reload Configuration from Disk: are you sure?"},
                 {"//li[@id='yui-gen24']/a/span", "Jenkins CLI"},
                 {"//li[@id='yui-gen25']/a/span", "Script Console"},
                 {"//li[@id='yui-gen26']/a/span", "Prepare for Shutdown"}};
@@ -70,7 +71,7 @@ public class BreadcrumbTest extends BaseTest {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
         new Actions(getDriver()).moveToElement(getDriver().findElement(sectionNameLocator)).perform();
 
-        if (locator.contains("24") || locator.contains("25") || locator.contains("26")) {
+        if (locator.contains("23")||locator.contains("24") || locator.contains("25") || locator.contains("26")) {
             new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
             for (int i = 0; i < 18; i++) {
                 new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
@@ -81,7 +82,15 @@ public class BreadcrumbTest extends BaseTest {
         WebElement subSection = getDriver().findElement(subsectionNameLocator);
         subSection.click();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
-        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), subsectionName);
+        String text = "";
+        if (locator.contains("23")){
+            Alert alert = getWait5().until(ExpectedConditions.alertIsPresent());
+            text = alert.getText();
+            alert.dismiss();
+            Assert.assertEquals(text, "Reload Configuration from Disk: are you sure?");
+        } else {
+            getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
+            Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), subsectionName);
+        }
     }
 }
