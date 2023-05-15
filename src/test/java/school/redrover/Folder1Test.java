@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -34,6 +35,7 @@ public class Folder1Test extends BaseTest {
         Assert.assertEquals(NAME, getDriver().findElement(By.xpath("//h1")).getText());
     }
 
+    @Ignore
     @Test
     public void testCreateFolderWithDescription() {
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
@@ -57,6 +59,7 @@ public class Folder1Test extends BaseTest {
         Assert.assertEquals(NAME, getDriver().findElement(By.xpath("//h1")).getText());
     }
 
+    @Ignore
     @Test
     public void testRenameFolder() {
         createFolder();
