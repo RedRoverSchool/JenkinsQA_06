@@ -14,6 +14,7 @@ public class FreestyleProjectTest1 extends BaseTest {
     public static final By OK_BUTTON = By.xpath("//button[@id='ok-button']");
     public static final By SAVE_BUTTON = By.xpath("//button[@name='Submit']");
     public static final By JENKINS_IMAGE_HEADER = By.xpath("//img[@alt='Jenkins']");
+    private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     @Test
     public void testDisplayFreestyleProjectOnDashboard() {
