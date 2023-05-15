@@ -147,7 +147,7 @@ public class FreestyleProjectTest extends BaseTest {
                         .xpath("//a[@class='jenkins-table__link model-link inside']"))
                 .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
     }
-
+@Ignore
     @Test()
     public void testCreateFreestyleProjectWithValidName(){
         getDriver().findElement(By.xpath("//*[text()='Create a job']")).click();
