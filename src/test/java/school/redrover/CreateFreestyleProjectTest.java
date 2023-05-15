@@ -135,7 +135,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
     public void testCreateFreestyleProjectFromDashboard()  {
         final String testData = "Test";
         WebElement dashboardTab = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
-        WebElement arrow = getDriver().findElement(By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[2]"));
+        WebElement arrow = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li[1]/a/button"));
 
         new Actions(getDriver())
                 .moveToElement(dashboardTab)
