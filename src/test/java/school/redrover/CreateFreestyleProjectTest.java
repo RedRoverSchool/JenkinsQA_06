@@ -132,13 +132,14 @@ public class CreateFreestyleProjectTest extends BaseTest {
     public void testCreateFreestyleProjectFromDashboard()  {
         final String testData = "Test";
         WebElement dashboardTab = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
-        WebElement arrow = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']//button[@class='jenkins-menu-dropdown-chevron']"));
+        WebElement arrow = getDriver().findElement(By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[2]"));
 
         new Actions(getDriver())
                 .moveToElement(dashboardTab)
                 .pause(Duration.ofMillis(300))
                 .moveToElement(arrow)
                 .pause(Duration.ofMillis(300))
+                .click()
                 .click()
                 .pause(Duration.ofMillis(300))
                 .perform();
