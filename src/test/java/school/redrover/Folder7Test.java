@@ -40,7 +40,7 @@ public class Folder7Test extends BaseTest {
 
         public void renameFolder (String beforename, String aftername) {
             getDriver().findElement(By.id("jenkins-home-link")).click();
-            getDriver().findElement(By.xpath("//a[normalize-space()='"+beforename+"']")).click();
+            getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//a[normalize-space()='"+beforename+"']")))).click();
 
             WebElement renamebutton = getDriver().findElement(By.xpath("//a[normalize-space()='Rename']"));
             getWait2().until(ExpectedConditions.visibilityOf(renamebutton)).click();
