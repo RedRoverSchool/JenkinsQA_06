@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class CreateMultiConfigurationProjectAddDescriptionTest extends BaseTest {
+
     @Ignore
     @Test
     public void testMultiConfigurationProjectAddDescription () {

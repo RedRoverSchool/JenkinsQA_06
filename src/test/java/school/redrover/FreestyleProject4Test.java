@@ -25,4 +25,17 @@ public class FreestyleProject4Test extends BaseTest {
         WebElement projectName = getDriver().findElement(By.cssSelector(".job-status-nobuilt td>a>span"));
         Assert.assertEquals(projectName.getText(), nameOfProject);
     }
+
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testDisableFreestyleProject() {
+
+        getDriver().findElement(By.cssSelector(".job-status-nobuilt td>a>span")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement((By.cssSelector("#disable-project>.jenkins-button"))))).click();
+
+        String disabledProject = getDriver().findElement(By.cssSelector("#enable-project")).getText();
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate']")).isDisplayed());
+        Assert.assertEquals(disabledProject.substring(0, disabledProject.indexOf("\n")), "This project is currently disabled");
+    }
 }

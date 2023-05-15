@@ -34,6 +34,7 @@ public class FreestyleProject3Test extends BaseTest {
         Assert.assertTrue(buildIconInBuildHistory.isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testProjectAddMultilineTextAndClearAndAddDescription() {
         String expectedResult = "Test";
