@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -109,17 +110,20 @@ public class CreateFreestyleProjectTest extends BaseTest {
     public void testCreateFreestyleProject3() {
         String freestyleProjectName = "New job no.3";
 
-        getDriver().findElement(By.xpath("//*[@id='tasks']/div[1]")).click();
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
 
-        getDriver().findElement(By.xpath("//*[@id='name']")).sendKeys(freestyleProjectName);
-        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]")).click();
-        getDriver().findElement(By.xpath("//*[@id='ok-button']")).click();
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(freestyleProjectName);
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
 
-        getDriver().findElement(By.xpath("//*[@id='bottom-sticker']/div/button[1]")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//button[@name='Submit']"))).click();
+
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
       
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(
-                By.xpath("//*[@id='job_New job no.3']/td[3]/a/span")).getText(),freestyleProjectName);
+                By.xpath("//tr[@id='job_New job no.3']/td[3]/a")).getText(),freestyleProjectName);
     }
 }
