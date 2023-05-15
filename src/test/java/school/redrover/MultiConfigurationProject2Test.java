@@ -21,7 +21,6 @@ public class MultiConfigurationProject2Test extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector("[name='Submit']")))).click();
-
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector("#jenkins-head-icon")))).click();
 
