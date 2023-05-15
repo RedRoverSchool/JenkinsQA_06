@@ -47,6 +47,5 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
                 .until(ExpectedConditions.visibilityOfElementLocated
                         (By.xpath("//*[@id='description']/div[1]")))
                 .getText(), PROJECT_NAME);
-
     }
 }
