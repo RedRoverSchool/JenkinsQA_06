@@ -98,8 +98,9 @@ public class Folder7Test extends BaseTest {
             Assert.assertEquals(getDriver().findElement(By.xpath("//a[normalize-space()='"+AFTERRENAME+"']")).getText(),AFTERRENAME);
         }
 
-        @Test(dependsOnMethods = "testCreateFolderPositive")
+        @Test
         public void testRenameFolderNegative (){
+            createBaseFolder(BEFORERENAME);
             renameFolder(BEFORERENAME, BEFORERENAME);
             Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Error");
             Assert.assertEquals(getDriver().findElement(By.cssSelector("div[id='main-panel'] p")).getText(), "The new name is the same as the current name.");
