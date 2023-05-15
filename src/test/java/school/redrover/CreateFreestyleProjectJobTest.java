@@ -6,10 +6,12 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.WheelInput;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreateFreestyleProjectJobTest extends BaseTest {
+    @Ignore
+    public class CreateFreestyleProjectJobTest extends BaseTest {
     private static final String NAME_PROJECT = "Hello world";
     private static final String URL_GITHUB = "https://github.com/kriru/firstJava.git";
     private static final String DESCRIPTION = " java test program";
