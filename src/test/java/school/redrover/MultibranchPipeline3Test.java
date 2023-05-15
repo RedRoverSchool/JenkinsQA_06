@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultibranchPipeline3Test extends BaseTest {
@@ -42,6 +43,33 @@ public class MultibranchPipeline3Test extends BaseTest {
         getDriver().findElement(By.xpath("//select/option[contains(text(),'Folder')]")).click();
         getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
 
+        String expectedMultibranchPipeline = "MultibranchPipeline1";
+        WebElement actualMultibranchPipeline = getDriver().findElement(By.xpath("//h1"));
+        Assert.assertEquals(actualMultibranchPipeline.getText(), expectedMultibranchPipeline);
+
+        new Actions(getDriver())
+                .click(getDriver().findElement(By.linkText("Folder1")))
+                .perform();
+        WebElement actualMultibranchPipeline2 = getDriver().findElement(By.linkText("MultibranchPipeline1"));
+
+        Assert.assertEquals(actualMultibranchPipeline2.getText(), expectedMultibranchPipeline);
+    }
+
+    @Test
+    public void testMoveMultibranchPipelineToFolderByDrop() {
+        createFolder();
+        getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']/ol[@id='breadcrumbs']/li[@class='jenkins-breadcrumbs__list-item']/a[text()='Dashboard']")).click();
+        createMultibranchPipeline();
+        getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']/ol[@id='breadcrumbs']/li[@class='jenkins-breadcrumbs__list-item']/a[text()='Dashboard']")).click();
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//span[text() = 'MultibranchPipeline1']")))
+                .perform();
+        getDriver().findElement(By.xpath("//a[@href='job/MultibranchPipeline1/']/button[@class = 'jenkins-menu-dropdown-chevron']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/MultibranchPipeline1/move']")).click();
+        WebElement folderList = getDriver().findElement(By.xpath("//select[@name='destination']"));
+        getWait2().until(ExpectedConditions.elementToBeClickable(folderList)).click();
+        getDriver().findElement(By.xpath("//select/option[contains(text(),'Folder')]")).click();
+        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
         String expectedMultibranchPipeline = "MultibranchPipeline1";
         WebElement actualMultibranchPipeline = getDriver().findElement(By.xpath("//h1"));
         Assert.assertEquals(actualMultibranchPipeline.getText(), expectedMultibranchPipeline);
