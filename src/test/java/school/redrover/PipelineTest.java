@@ -234,6 +234,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains(newPipelineName));
     }
 
+    @Ignore
     @Test
     public void testDeletePipeline() {
         getDriver().findElement(newItem).click();

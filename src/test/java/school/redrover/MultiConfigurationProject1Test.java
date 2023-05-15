@@ -40,6 +40,7 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
         Assert.assertEquals(actualResult, descriptionText);
     }
+
     @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
     public void testDisableProject() {
 
