@@ -15,8 +15,6 @@ public class TestUtils {
     private static void saveProject(BaseTest baseTest) {
         baseTest.getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
         baseTest.getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
-
-        baseTest.getDriver().findElement(By.linkText("Dashboard")).click();
     }
 
     public static void createFreestyleProject(BaseTest baseTest, String name) {

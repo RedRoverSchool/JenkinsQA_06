@@ -20,6 +20,7 @@ public class Folder4Test extends BaseTest {
     public void testCreateFolder(){
         TestUtils.createFolder(this, NAME_FOLDER);
 
+        getDriver().findElement(By.linkText("Dashboard")).click();
         WebElement nameFolder = getDriver().findElement(By.xpath("//span[contains(text(),'" + NAME_FOLDER + "')]"));
         new Actions(getDriver()).moveToElement(nameFolder).click(nameFolder).perform();
 
