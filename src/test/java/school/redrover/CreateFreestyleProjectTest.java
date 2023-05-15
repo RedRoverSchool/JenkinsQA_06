@@ -119,8 +119,6 @@ public class CreateFreestyleProjectTest extends BaseTest {
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//button[@name='Submit']"))).click();
 
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-      
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(
