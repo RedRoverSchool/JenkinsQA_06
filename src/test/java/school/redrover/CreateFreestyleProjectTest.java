@@ -140,8 +140,8 @@ public class CreateFreestyleProjectTest extends BaseTest {
                 .moveToElement(arrow)
                 .pause(Duration.ofMillis(300))
                 .click()
-                .click()
                 .pause(Duration.ofMillis(300))
+                .click()
                 .perform();
         getDriver().findElement(By.xpath("(//span[contains(text(),'New Item')])[1]")).click();
 
