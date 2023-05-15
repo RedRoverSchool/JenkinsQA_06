@@ -75,7 +75,6 @@ public class MultibranchPipeline3Test extends BaseTest {
         String expectedMultibranchPipeline = "MultibranchPipeline1";
         WebElement actualMultibranchPipeline = getDriver().findElement(By.xpath("//h1"));
         Assert.assertEquals(actualMultibranchPipeline.getText(), expectedMultibranchPipeline);
-
         new Actions(getDriver())
                 .click(getDriver().findElement(By.linkText("Folder1")))
                 .perform();
