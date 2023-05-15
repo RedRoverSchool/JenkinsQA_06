@@ -45,6 +45,7 @@ public class DeleteUserTest extends BaseTest {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='Submit']"))).click();
 
         List<WebElement> listOfUsersAfterDelete = getDriver().findElements(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
+
         Assert.assertNotEquals(listOfUsers, listOfUsersAfterDelete);
     }
 
