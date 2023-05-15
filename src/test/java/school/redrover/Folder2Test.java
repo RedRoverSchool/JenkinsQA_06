@@ -38,7 +38,7 @@ public class Folder2Test extends BaseTest {
         getDriver().findElement(OK_BUTTON).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON)).click();
 
-        getWait2().until(ExpectedConditions.textToBe(FOLDER_HEADER,name));
+        getWait2().until(ExpectedConditions.textToBe(FOLDER_HEADER, name));
         getDriver().findElement(DASHBOARD_LINK).click();
 
         getWait5().until(ExpectedConditions.presenceOfElementLocated(NEW_ITEM));
@@ -52,8 +52,8 @@ public class Folder2Test extends BaseTest {
 
         getDriver().findElement(FOLDER_IN_LIST).click();
 
-        Assert.assertEquals(getDriver().findElement(JOB_HEADER).getText(),FOLDER1_NAME);
-        Assert.assertEquals(actualJob,FOLDER1_NAME);
+        Assert.assertEquals(getDriver().findElement(JOB_HEADER).getText(), FOLDER1_NAME);
+        Assert.assertEquals(actualJob, FOLDER1_NAME);
     }
 
     @Ignore
@@ -64,7 +64,7 @@ public class Folder2Test extends BaseTest {
         createAFolder(FOLDER1_NAME);
         createAFolder(FOLDER2_NAME);
 
-        List <WebElement> actualFoldersList = getDriver().findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
+        List<WebElement> actualFoldersList = getDriver().findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
 
         for (int i = 0; i < actualFoldersList.size(); i++) {
 
@@ -77,15 +77,15 @@ public class Folder2Test extends BaseTest {
         return new Object[][]
                 {{FOLDER1_NAME}, {FOLDER2_NAME}, {FOLDER3_NAME}};
     }
-    
-    @Test (dataProvider = "create-folder")
-    public void testFoldersCreationWithProvider( String provideNames) {
+
+    @Test(dataProvider = "create-folder")
+    public void testFoldersCreationWithProvider(String provideNames) {
         createAFolder(provideNames);
         getDriver().findElement(DASHBOARD_LINK).click();
 
         getWait10().until(ExpectedConditions.presenceOfElementLocated(NEW_ITEM));
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span")).getText(),provideNames);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span")).getText(), provideNames);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class Folder2Test extends BaseTest {
         String actualDescriptionAfterOpeningFolder = getDriver().findElement(By.id("view-message")).getText();
 
         Assert.assertTrue(actualDescriptionAfterAddingIt.contains(DESCRIPTION));
-        Assert.assertEquals(actualDescriptionAfterOpeningFolder,actualDescriptionAfterAddingIt);
+        Assert.assertEquals(actualDescriptionAfterOpeningFolder, actualDescriptionAfterAddingIt);
     }
 
     @Test
@@ -126,7 +126,7 @@ public class Folder2Test extends BaseTest {
 
         getDriver().findElement(NEW_ITEM).click();
 
-        getDriver().findElement(NAME_FIELD).sendKeys(COPY_FOLDER);
+        getWait2().until(ExpectedConditions.presenceOfElementLocated((NAME_FIELD))).sendKeys(COPY_FOLDER);
         getDriver().findElement(FOLDER_TYPE).click();
         getDriver().findElement(By.id("from")).sendKeys(FOLDER1_NAME);
         getDriver().findElement(OK_BUTTON).click();
@@ -137,6 +137,16 @@ public class Folder2Test extends BaseTest {
         getDriver().findElement(By.id("view-message"));
 
         Assert.assertTrue(getDriver().findElement(By.id("view-message")).getText().contains(DESCRIPTION));
-        Assert.assertEquals(copiedFolderDescription,DESCRIPTION);
+        Assert.assertEquals(copiedFolderDescription, DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testFolderCreation")
+    public void testDeleteFolder() {
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//a[@class='jenkins-table__link model-link inside']/button"))).sendKeys(Keys.RETURN);
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Delete Folder"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(FOLDER1_NAME), "Deleted folder is displayed");
     }
 }
