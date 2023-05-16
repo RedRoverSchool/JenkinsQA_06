@@ -324,6 +324,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testNewFreestyleProjectFolder() {
+
         getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@name = 'name']")).sendKeys("First");
         getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']")).click();
