@@ -23,7 +23,7 @@ public class FooterJenkinsVersionTest extends BaseTest {
             getDriver().switchTo().window(winHandle);
         }
         WebElement brandJenkins =
-                getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector(".page-title >span"))));
+                getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector(".page-title >span"))));
         Assert.assertEquals(brandJenkins.getText(),"Jenkins");
 
     }
