@@ -30,4 +30,10 @@ public class MultiConfigurationProject4Test extends BaseTest {
 
         Assert.assertEquals(projectIsDisabledMessage.getText().substring(0,34), expectedResult);
     }
+
+    @Test(dependsOnMethods = {"testDisableMultiConfigurationProject"})
+    public void testEnableMultiConfigurationProject() {
+        getDriver().findElement(By.xpath(""));
+        
+    }
 }
