@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class User2Test extends BaseTest {
+public class User3Test extends BaseTest {
 
     private static final By MANAGE_JENKINS_BUTTON = By.xpath("//a[@href='/manage']");
     private static final By MANAGE_USERS_BUTTON = By.xpath("//a[@href='securityRealm/']");
