@@ -47,7 +47,7 @@ public class PipelineProject5Test extends BaseTest {
     }
 
     @Test
-    public void testPipelineNameUnsafeChar()  {
+    public void testPipelineNameUnsafeChar() {
         String[] testStrings = {"*", "&", "^", "%", "$", "#", "@", "!"};
 
         getDriver().findElement(NEW_ITEM).click();
