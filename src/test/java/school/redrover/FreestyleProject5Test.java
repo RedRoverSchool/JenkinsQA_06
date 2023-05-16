@@ -50,11 +50,11 @@ public class FreestyleProject5Test extends BaseTest {
 
         new Actions(getDriver())
                 .moveToElement(mouseOnProject)
-                .click(getWait5().until(ExpectedConditions
+                .click(getWait2().until(ExpectedConditions
                         .elementToBeClickable(By.xpath("//tr[@id='job_First Freestyle Project']/td[3]//button[@class='jenkins-menu-dropdown-chevron']"))))
                 .perform();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@id='yui-gen6']")));
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@id='yui-gen6']")));
         getDriver().findElement(By.xpath("//li[@id='yui-gen6']")).click();
 
         WebElement inputField = getDriver().findElement(By.xpath("//input[@name='newName']"));
