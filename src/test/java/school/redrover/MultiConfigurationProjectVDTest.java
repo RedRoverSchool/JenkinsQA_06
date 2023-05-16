@@ -58,10 +58,10 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class ='jenkins-table__link model-link inside']"))).click();
 
         getWait2().until(ExpectedConditions.elementToBeClickable(DISABLE_BUTTON)).click();
-        Assert.assertTrue(getWait2().until(ExpectedConditions.elementToBeClickable(ENABLE_BUTTON)).isDisplayed());
+        Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(ENABLE_BUTTON)).isDisplayed());
 
         getWait2().until(ExpectedConditions.elementToBeClickable(ENABLE_BUTTON)).click();
-        Assert.assertTrue(getWait2().until(ExpectedConditions.elementToBeClickable(DISABLE_BUTTON)).isDisplayed());
+        Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(DISABLE_BUTTON)).isDisplayed());
     }
 }
 
