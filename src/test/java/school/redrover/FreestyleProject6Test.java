@@ -84,10 +84,8 @@ public class FreestyleProject6Test extends BaseTest {
         WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '"+ PROJECT_NAME +"')]"));
         act.moveToElement(projectName, 23, 7).perform();
 
-        Actions actions = new Actions(getDriver());
-        WebElement projectDropDownButton = getDriver().findElement(By.xpath
-                ("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
-        actions.moveToElement(projectDropDownButton, 7, 7).click().perform();
+        getWait2().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"))).click();
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
