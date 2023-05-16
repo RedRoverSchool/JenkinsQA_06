@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.WheelInput;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -20,11 +21,12 @@ public class PipelineJobTest extends BaseTest {
     private static final By BUTTON_ADVANCED = By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[2]/div[1]/button");
     private static final By DISPLAY_NAME = By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[3]/div/div[2]/input");
     private static final By BUILD_NOW_PIPELINE = By.xpath("//*[@id='tasks']/div[3]/span/a");
-    private static final By CONSOLE_PIPELINE = By.xpath("//*[@id='job_RedRover']/td[4]/a");
-    private static final By CONSOLE_OUT_PIPELINE = By.xpath("//*[@id='yui-gen2']/a");
+    private static final By CONSOLE_PIPELINE = By.xpath("//*[@id='buildHistory']/div[2]/table/tbody/tr[2]/td/div[1]/div[1]/div/a/span/span");
+    private static final By CONSOLE_OUT_PIPELINE = By.xpath("//*[@id='tasks']/div[3]/span/a");
     private static final By JENKINS_MENU_DROPDOWN_CHEVRON = By.xpath("//*[@id='job_RedRover']/td[4]/a/button");
     private static final By OPTIONS_BUTTON =
-            By.xpath("//*[@id='main-panel']/form/div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select/option[2]");
+            By.xpath("//*[@id=\"main-panel\"]/form/div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select");
+    private static final By OPTIONS_DROPDOWN = By.xpath("//*[@id='main-panel']/form/div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select/option[2]");
 
     private void backToDashboard() {
         getDriver().findElement(DASHBOARD).click();
@@ -43,32 +45,25 @@ public class PipelineJobTest extends BaseTest {
         getDriver().findElement(OK_BUTTON).click();
 
         new Actions(getDriver())
-                .scrollByAmount(0, 800)
+                .scrollByAmount(0, 600)
                 .click(getDriver().findElement(BUTTON_ADVANCED))
                 .perform();
         getWait5().until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME)).sendKeys(displayName);
-
-        new Actions(getDriver())
-                .scrollByAmount(800, 900)
-                .click(getWait5().until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME)))
-                .perform();
-
+        getWait5().until(ExpectedConditions.elementToBeClickable(OPTIONS_DROPDOWN)).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON)).click();
+
         getWait5().until(ExpectedConditions.elementToBeClickable(BUILD_NOW_PIPELINE)).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(BUILD_NAME)).click();
 
-        backToDashboard();
-
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(CONSOLE_PIPELINE))
-                .click(getDriver().findElement(JENKINS_MENU_DROPDOWN_CHEVRON))
-                .perform();
+        getDriver().findElement(CONSOLE_PIPELINE).click();
         getWait10().until(ExpectedConditions.elementToBeClickable(CONSOLE_OUT_PIPELINE)).click();
     }
 
     @Test
     public void testCreatePipelineProjectJob() {
         CreatePipelineProjectJob("RedRover","R&R");
+
+        Thread.sleep(2000);
 
         Assert.assertTrue(getDriver().findElement(CONSOLE_OUT).getText().contains("Finished: SUCCESS"));
     }
