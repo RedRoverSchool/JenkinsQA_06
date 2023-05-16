@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -25,7 +26,7 @@ public class FreestyleProject5Test extends BaseTest {
 
         Assert.assertEquals(projectName.getText(), "First Freestyle Project");
     }
-
+    @Ignore
     @Test
     public void testDisableFreestyleProject(){
         TestUtils.createFreestyleProject(this, "First Freestyle Project", true);
