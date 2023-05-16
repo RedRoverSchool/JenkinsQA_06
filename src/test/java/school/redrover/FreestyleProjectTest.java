@@ -11,6 +11,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,11 +21,6 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private static final By NEW_ITEM = By.linkText("New Item");
-    private static final By NAME_FIELD = By.id("name");
-    private static final By OK_BUTTON = By.id("ok-button");
-    private static final By SAVE_BUTTON = By.name("Submit");
-
 
     @Ignore
     @Test
@@ -236,13 +232,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testDeleteFreestyleProject1() {
 
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(NAME_FIELD).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(By.xpath("//li[@class=\'hudson_model_FreeStyleProject\']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, true);
 
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.xpath("//span[contains(text(),'Delete Project')]")).click();
