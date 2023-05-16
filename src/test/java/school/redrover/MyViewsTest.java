@@ -2,9 +2,9 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -104,6 +104,8 @@ public class MyViewsTest extends BaseTest {
         plusButton.click();
         WebElement viewNameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
         viewNameBox.sendKeys("MyView");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
         getDriver().manage().window().maximize();
         WebElement checkBoxListView = getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']"));
         checkBoxListView.click();
