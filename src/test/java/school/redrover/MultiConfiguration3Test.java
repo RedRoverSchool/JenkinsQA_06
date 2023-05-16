@@ -119,13 +119,11 @@ public class MultiConfiguration3Test extends BaseTest {
         Assert.assertTrue(iconDisabled.isDisplayed());
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithDescriptionTest")
     public void testRenameMultiConfigurationProject() {
         final String NEW_PROJECT_NAME="New project renamed";
 
-        createBaseMultiConfigurationProject();
-
-        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.xpath("//*[@id='job_New project']/td[3]/a/span")).click();
         getDriver().findElement(By.xpath("//*[@id='tasks']/div[7]/span/a")).click();
 
         getDriver().findElement(By.xpath("//*[@checkdependson='newName']")).sendKeys(NEW_PROJECT_NAME);
