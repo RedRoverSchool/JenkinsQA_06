@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -22,8 +23,7 @@ public class CreateNewOrganizationFolderTest extends BaseTest {
         WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
         okButton.click();
 
-        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        saveButton.click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
 
         WebElement linkDashboard = getDriver().findElement(By.xpath("//a[contains(text(),'Dashboard')]"));
         linkDashboard.click();
