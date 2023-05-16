@@ -22,7 +22,7 @@ public class ManageUsersTest extends BaseTest {
                         {"Chewbacca", "Wookiee", "Wookiee", "Chewie", "Chewie@test.com"}};
     }
 
-    @Test(dataProvider = "userdata provider")
+    @Test (dataProvider = "userdata provider")
     public void testCreateUser(String username, String password, String confirmPassword, String name, String email) {
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(MANAGE_USERS).click();
@@ -35,10 +35,10 @@ public class ManageUsersTest extends BaseTest {
         getDriver().findElement(SUBMIT).click();
 
         Assert.assertTrue(getWait2().until(ExpectedConditions
-                .presenceOfElementLocated(USERS_TABLE)).getText().contains(username));
+                .visibilityOfElementLocated(USERS_TABLE)).getText().contains(username));
     }
 
-    @Test(dependsOnMethods = "testCreateUser")
+    @Test (dependsOnMethods = "testCreateUser")
     public void testDeleteUserFromUserList() {
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(MANAGE_USERS).click();
@@ -46,10 +46,10 @@ public class ManageUsersTest extends BaseTest {
         getDriver().findElement(SUBMIT).click();
 
         Assert.assertFalse(getWait2().until(ExpectedConditions
-                .presenceOfElementLocated(USERS_TABLE)).getText().contains("Chewbacca"));
+                .visibilityOfElementLocated(USERS_TABLE)).getText().contains("Chewbacca"));
     }
 
-    @Test (dependsOnMethods = {"testCreateUser","testDeleteUserFromUserList"})
+    @Test (dependsOnMethods = {"testCreateUser", "testDeleteUserFromUserList"})
     public void testLogInWithDeletedUserCredentials() {
         getDriver().findElement(By.xpath("//a[@href= '/logout']")).click();
         getDriver().findElement(By.id("j_username")).sendKeys("Chewbacca");
@@ -60,32 +60,34 @@ public class ManageUsersTest extends BaseTest {
                 .xpath("//div[contains(@class, 'alert-danger')]")).getText(),
                 "Invalid username or password");
     }
-    @Ignore
-    @Test
+
+    @Test (dependsOnMethods = "testCreateUser")
     public void testMakeChangesToUserProfile() {
         JavascriptExecutor js = (JavascriptExecutor)getDriver();
 
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(MANAGE_USERS).click();
 
-        WebElement user = getDriver().findElement(By.xpath("//a[@href='user/mr_churchill/']"));
+        WebElement user = getDriver().findElement(By.xpath("//a[@href='user/jabbathehutt/']"));
         new Actions(getDriver()).moveToElement(user).perform();
         WebElement chevron = getDriver().findElement(By
-                .xpath("//a[@href='user/mr_churchill/']/button"));
+                .xpath("//a[@href='user/jabbathehutt/']/button"));
         js.executeScript("arguments[0].click();", chevron);
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By
-            .xpath("//a[@href='/user/mr_churchill/configure']"))).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class = 'bd']")));
 
-        WebElement fullNameField = getDriver().findElement(By.xpath("//input[@name='_.fullName']"));
+        getDriver().findElement(By.xpath("//a[@href ='/user/jabbathehutt/configure']")).click();
+
+        WebElement fullNameField = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//input[@name='_.fullName']")));
         fullNameField.clear();
-        fullNameField.sendKeys("Chepchik");
+        fullNameField.sendKeys("Jabbka");
+
         getDriver().findElement(SUBMIT).click();
 
         Assert.assertEquals(getDriver().findElement(By
-                .xpath("//h1")).getText(), "Chepchik");
+                .xpath("//h1")).getText(), "Jabbka");
     }
-
 }
 
 
