@@ -50,7 +50,7 @@ public class FreestyleProject5Test extends BaseTest {
 
         new Actions(getDriver())
                 .moveToElement(mouseOnProject)
-                .click(getWait2().until(ExpectedConditions
+                .click(getWait5().until(ExpectedConditions
                         .elementToBeClickable(By.xpath("//tr[@id='job_First Freestyle Project']/td[3]//button[@class='jenkins-menu-dropdown-chevron']"))))
                 .perform();
 
