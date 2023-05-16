@@ -24,7 +24,7 @@ public class ManageUsersTest extends BaseTest {
 
     @Test (dataProvider = "userdata provider")
     public void testCreateUser(String username, String password, String confirmPassword, String name, String email) {
-        getDriver().findElement(MANAGE_JENKINS).click();
+       getWait2().until(ExpectedConditions.elementToBeClickable(MANAGE_JENKINS)).click();
         getDriver().findElement(MANAGE_USERS).click();
         getDriver().findElement(By.xpath("//a[@href = 'addUser']")).click();
         getDriver().findElement(By.id("username")).sendKeys(username);
@@ -62,10 +62,10 @@ public class ManageUsersTest extends BaseTest {
     }
 
     @Test (dependsOnMethods = "testCreateUser")
-    public void testMakeChangesToUserProfile() {
+    public void testMakeChangesToUserProfile() throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor)getDriver();
 
-        getDriver().findElement(MANAGE_JENKINS).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(MANAGE_JENKINS)).click();
         getDriver().findElement(MANAGE_USERS).click();
 
         WebElement user = getDriver().findElement(By.xpath("//a[@href='user/jabbathehutt/']"));
