@@ -51,7 +51,7 @@ public class PipelineJobTest extends BaseTest {
         getWait5().until(ExpectedConditions.elementToBeClickable(BUILD_NOW_PIPELINE)).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(BUILD_NAME)).click();
 
-        getDriver().findElement(CONSOLE_PIPELINE).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(CONSOLE_PIPELINE)).click();
         getWait10().until(ExpectedConditions.elementToBeClickable(CONSOLE_OUT_PIPELINE)).click();
     }
 
@@ -59,6 +59,6 @@ public class PipelineJobTest extends BaseTest {
     public void testCreatePipelineProjectJob() {
         CreatePipelineProjectJob("RedRover","R&R");
 
-        Assert.assertTrue(getDriver().findElement(CONSOLE_OUT).getText().contains("Finished: SUCCESS"));
+        Assert.assertTrue(getWait10().until(ExpectedConditions.elementToBeClickable(CONSOLE_OUT)).getText().contains("Finished: SUCCESS"));
     }
 }
