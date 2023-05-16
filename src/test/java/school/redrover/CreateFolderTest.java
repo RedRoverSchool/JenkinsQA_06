@@ -44,14 +44,13 @@ public class CreateFolderTest extends BaseTest {
         Assert.assertEquals(actualResult, "Folder_TC_04_01_02");
     }
 
-    @Ignore
     @Test
     public void testCreateFolder1() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys("Folder1");
         getDriver().findElement(By.xpath("//div[@id='j-add-item-type-nested-projects']/ul/li[1]")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.name("Submit")))).click();
         getDriver().findElement(By.linkText("Dashboard")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@id=\"job_Folder1\"]/td[3]/a/span")).getText(), "Folder1");
@@ -80,18 +79,19 @@ public class CreateFolderTest extends BaseTest {
 
     @Test
     public void testCreateFolder3() {
-        getDriver().findElement(By.cssSelector(".task-link")).click();
-
         String nameItem = "Test Folder";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(nameItem);
         getDriver().findElement(By.xpath("(//span[@class='label'])[4]")).click();
-        getDriver().findElement(By.cssSelector(".btn-decorator")).click();
+        getDriver().findElement(By.id("ok-button")).click();
 
-        getDriver().findElement(By.cssSelector("[name = 'Submit']")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("Submit"))).click();
 
-        getDriver().findElement(By.xpath("(//a[@class = 'model-link'])[2]")).click();
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']//li[1]")).click();
 
-        WebElement nameOfFolder = getDriver().findElement(By.xpath("//a[@href = 'job/Test%20Folder/']"));
+        WebElement nameOfFolder = getDriver().findElement(By.cssSelector(".jenkins-table__link"));
         String actualResult = nameOfFolder.getText();
         nameOfFolder.click();
 

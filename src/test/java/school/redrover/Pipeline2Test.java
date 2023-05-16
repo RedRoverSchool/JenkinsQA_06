@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.*;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -48,7 +47,6 @@ public class Pipeline2Test extends BaseTest {
         Assert.assertEquals(descriptionVal.getText(), desc);
     }
 
-    @Ignore
     @Test
     public void testCreatePipelineProjectCorrectName() {
         WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
@@ -60,7 +58,7 @@ public class Pipeline2Test extends BaseTest {
         WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
         typeProject.click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.name("Submit")))).click();
         getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href='/']")).click();
 
         WebElement projectExist = getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']"));
@@ -121,16 +119,16 @@ public class Pipeline2Test extends BaseTest {
         String name = "Pipeline";
         List<String> symbol = Arrays.asList("!", "@", "#", "?", "$", "%", "^", "&", "*", "[", "]", "\\", "|", "/");
 
-        for (int i = 0; i < symbol.size(); i++) {
+        for (String s : symbol) {
             WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
             newItem.click();
             WebElement itemName = getDriver().findElement(By.id("name"));
-            itemName.sendKeys(name + symbol.get(i));
+            itemName.sendKeys(name + s);
             WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
             typeProject.click();
 
             Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
-                    "» ‘" + symbol.get(i) + "’ is an unsafe character");
+                    "» ‘" + s + "’ is an unsafe character");
 
             getDriver().findElement(By.id("ok-button")).click();
 
@@ -138,7 +136,7 @@ public class Pipeline2Test extends BaseTest {
             Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))).
                     getText(), "Error");
             Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
-                    getText(), "‘" + symbol.get(i) + "’ is an unsafe character");
+                    getText(), "‘" + s + "’ is an unsafe character");
             getDriver().findElement(By.xpath("//a[contains(text(),'All')]")).click();
         }
     }
