@@ -7,10 +7,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
+
 import static org.testng.Assert.assertEquals;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -26,20 +29,16 @@ public class HeaderTest extends BaseTest {
     private static final By HEADER_MANAGE_PAGE = By.xpath("//h1[text()='Manage Jenkins']");
     private static final String NOTIFICATION_ICON_COLOR_CSS_VALUE = "background-color";
     private static final String MANAGE_JENKINS_PAGE_HEADER = "Manage Jenkins";
-    private static final By NEW_ITEM_BTN = By.xpath("//span[contains(text(),'New Item')]/..");
-    private static final By ITEM_NAME_FIELD = By.id("name");
-    private static final String ITEM_NAME = "Test Item";
-    private static final By FREESTYLE_PROJECT_BTN = By.xpath("//li[@class='hudson_model_FreeStyleProject']");
-    private static final By OK_BTN = By.id("ok-button");
-    private static final By SAVE_BTN = By.name("Submit");
-    private static final By JENKINS_ICON = By.id("jenkins-name-icon");
-    private static final String TITLE_DASHBOARD_PAGE = "Dashboard [Jenkins]";
-    private static final By LIST_OF_PROJECT_NAMES_IN_THE_TABLE =
-            By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']");
     private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
     private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
     private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
 
+    private void openAdminDropdownMenu() {
+        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//a[@href='/user/admin']/button")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", dropDownMenu);
+    }
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -231,58 +230,46 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
-        getDriver().findElement(NEW_ITEM_BTN).click();
-        getDriver().findElement(ITEM_NAME_FIELD).sendKeys(ITEM_NAME);
-        getDriver().findElement(FREESTYLE_PROJECT_BTN).click();
-        getDriver().findElement(OK_BTN).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(SAVE_BTN)).click();
+        final String itemName = "Test Item";
+        TestUtils.createFreestyleProject(this, itemName, false);
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(JENKINS_ICON)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("jenkins-name-icon"))).click();
+        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]", "Wrong title or wrong page");
 
-        Assert.assertEquals(getDriver().getTitle(), TITLE_DASHBOARD_PAGE, "Wrong title or wrong page");
+        List<WebElement> listProjectName = getDriver().findElements(
+                By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']"));
 
-        List<WebElement> listProjectName = getDriver().findElements(LIST_OF_PROJECT_NAMES_IN_THE_TABLE);
         SoftAssert softAssert = new SoftAssert();
         for (WebElement webElement : listProjectName) {
-            softAssert.assertTrue(webElement.getText().contains(ITEM_NAME),
-                    "The result list doesn't contain the item " + ITEM_NAME);
+            softAssert.assertTrue(webElement.getText().contains(itemName),
+                    "The result list doesn't contain the item " + itemName);
         }
         softAssert.assertAll();
     }
 
-    @Test
-    public void testBuildsOpenFromDropdownMenu() {
-
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
-
-        WebElement btnBuilds = getWait5().until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//div[@id='breadcrumb-menu']//span[.='Builds']")));
-        btnBuilds.click();
-
-        WebElement pageBuilds = getDriver().findElement(By.xpath("//h1[.='Builds for admin']"));
-
-        Assert.assertTrue(pageBuilds.isDisplayed());
+    @DataProvider(name = "dropDownMenuAndPageLocators")
+    public Object[][] provideDropdownMenuAndPageLocators() {
+        return new Object[][] {
+                {By.xpath("//div[@id='breadcrumb-menu']//span[.='Builds']"),
+                        By.xpath("//h1[.='Builds for admin']")},
+                {By.xpath("//span[. ='Configure']"),
+                        By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]")},
+                {By.xpath("//div[@class='bd']//span[.='My Views']"),
+                        By.xpath("//a[@href='/user/admin/my-views/']")},
+                {By.xpath("//span[.='Credentials']"),
+                        By.xpath("//h1[.='Credentials']")}
+        };
     }
 
-    @Test
-    public void testOpenConfigureFromDropdownMenu() {
+    @Test(dataProvider = "dropDownMenuAndPageLocators")
+    public void testOpenTabFromDropdownMenu(By buttonLocator, By pageLocator) {
+        openAdminDropdownMenu();
 
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
 
-        WebElement btnConfigure = getWait2().until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//span[. ='Configure']")));
-        btnConfigure.click();
+        WebElement page = getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
 
-        WebElement pageConfigure = getDriver().findElement
-                (By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]"));
-
-        Assert.assertTrue(pageConfigure.isDisplayed());
+        Assert.assertTrue(page.isDisplayed());
     }
 
     @Test
@@ -334,4 +321,28 @@ public class HeaderTest extends BaseTest {
                         By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
     }
 
+    @Test
+    public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
+        getDriver().findElement(NOTIFICATION_ICON).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN));
+        getDriver().findElement(By.xpath("//a[contains(text(),'Manage Jenkins')]")).click();
+
+        Assert.assertTrue(
+                getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("main-panel"))).isDisplayed());
+    }
+
+    @Test
+    public void testAdminButtonIsUnderlinedWhenMouseover() {
+
+        Actions act = new Actions(getDriver());
+
+        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[@class='model-link'][1]")));
+
+        act.moveToElement(adminLink).perform();
+
+        String textUnderlineAfter = adminLink.getCssValue("text-decoration");
+
+        Assert.assertTrue(textUnderlineAfter.contains("underline"));
+    }
 }
