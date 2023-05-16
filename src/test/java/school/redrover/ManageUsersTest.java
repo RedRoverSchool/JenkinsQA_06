@@ -60,6 +60,7 @@ public class ManageUsersTest extends BaseTest {
                 .xpath("//div[contains(@class, 'alert-danger')]")).getText(),
                 "Invalid username or password");
     }
+
     @Ignore
     @Test
     public void testMakeChangesToUserProfile() {
