@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -11,7 +12,6 @@ public class FooterJenkinsVersionTest extends BaseTest {
     private final String expectedJenkinsVersion = "Jenkins 2.387.2";
     private final String expectedSiteTitle = "Jenkins";
 
-    @Ignore
     @Test
     public void testFooterJenkinsVersion() {
 
@@ -22,7 +22,8 @@ public class FooterJenkinsVersionTest extends BaseTest {
         for(String winHandle : getDriver().getWindowHandles()) {
             getDriver().switchTo().window(winHandle);
         }
-        WebElement brandJenkins = getDriver().findElement(By.cssSelector(".page-title >span"));
+        WebElement brandJenkins =
+                getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector(".page-title >span"))));
         Assert.assertEquals(brandJenkins.getText(),"Jenkins");
 
     }
