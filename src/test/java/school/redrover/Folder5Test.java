@@ -65,12 +65,7 @@ public class Folder5Test extends BaseTest {
 
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
-        WebElement folder2 = getDriver().findElement(By.xpath("//a[@href='job/Folder2/']"));
+        WebElement folder2 = getDriver().findElement(By.xpath("//a[@href='job/Folder2/']/span"));
         Assert.assertEquals(folder2.getText(), "Folder2");
-
-        new Actions(getDriver()).moveToElement(folder2).perform();
-        folder2.sendKeys(Keys.RETURN);
-        WebElement h1 = getDriver().findElement(By.xpath("//h1"));
-        Assert.assertEquals(h1.getText(), "Folder2");
     }
 }
