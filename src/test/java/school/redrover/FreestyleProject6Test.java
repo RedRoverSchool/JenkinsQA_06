@@ -89,8 +89,8 @@ public class FreestyleProject6Test extends BaseTest {
                 ("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
         actions.moveToElement(projectDropDownButton, 7, 7).click().perform();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//div//li//span[contains(text(),'Delete Project')]"))).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
+        getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
         getDriver().switchTo().alert().accept();
 
         getDriver().findElement(By.xpath("//a[@href = '/me/my-views']")).click();
