@@ -3,7 +3,6 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -129,8 +128,8 @@ public class NewViewTest extends BaseTest {
         getWait2().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.xpath("//a[@href='/newView']")))).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.id("name")))).sendKeys(viewName);
-        new Actions(getDriver()).click(getDriver().findElement(By.id("hudson.model.ListView"))).perform();
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(SAVE_BUTTON))).click();
+        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
+        getDriver().findElement(SAVE_BUTTON).click();
 
         chooseJobsInJobFilters(folderName1);
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(SAVE_BUTTON))).click();
