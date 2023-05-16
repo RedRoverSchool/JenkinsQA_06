@@ -2,11 +2,13 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
@@ -43,6 +45,7 @@ public class MyViewsTest extends BaseTest {
 
         Assert.assertEquals(description.getText().trim().substring(0, 4), "Test");
     }
+
     @Ignore
     @Test
     public void testEditDescription() {
@@ -60,7 +63,7 @@ public class MyViewsTest extends BaseTest {
                 .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
 
         Assert.assertEquals(getDriver().
-                findElement(By.xpath("//div[@id='description']/div[1]")).getText(),"Test2");
+                findElement(By.xpath("//div[@id='description']/div[1]")).getText(), "Test2");
     }
 
     @Test
@@ -87,5 +90,32 @@ public class MyViewsTest extends BaseTest {
 
         WebElement myViewName = getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]"));
         Assert.assertEquals(myViewName.getText(), "Java");
+    }
+
+    private static final String NAME_FOLDER = "TestPipeline";
+
+    @Test
+    public void testCreateViewItem() {
+
+        TestUtils.createPipeline(this, NAME_FOLDER, true);
+        WebElement myViews = getDriver().findElement(By.xpath("//a[@href='/me/my-views']"));
+        myViews.click();
+        WebElement plusButton = getDriver().findElement(By.xpath("//a[@title='New View']"));
+        plusButton.click();
+        WebElement viewNameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
+        viewNameBox.sendKeys("MyView");
+        WebElement checkBoxListView = getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']"));
+        new Actions(getDriver())
+                .scrollToElement(checkBoxListView)
+                .perform();
+        checkBoxListView.click();
+        WebElement createButton = getDriver().findElement(By.id("ok"));
+        createButton.click();
+        WebElement submitButton = getDriver().findElement(By.name("Submit"));
+        submitButton.click();
+        WebElement myViewTab = getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views/view/MyView/']"));
+        Assert.assertEquals(myViewTab.getText(), "MyView");
+
+
     }
 }
