@@ -36,6 +36,10 @@ public class Footer2Test extends BaseTest {
         for (String window : getDriver().getWindowHandles()) {
              getDriver().switchTo().window(window);
         }
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Jenkins");
+
+        WebElement jenkinsSiteTitle =getDriver().findElement(By.xpath("//h1"));
+        getWait2().until(ExpectedConditions.visibilityOf(jenkinsSiteTitle));
+
+        Assert.assertEquals(jenkinsSiteTitle.getText(), "Jenkins");
     }
 }
