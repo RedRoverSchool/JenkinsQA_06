@@ -77,7 +77,6 @@ public class CreateFolderTest extends BaseTest {
         Assert.assertEquals(actualFreestyleProjectName, freestyleProjectName);
     }
 
-    @Ignore
     @Test
     public void testCreateFolder3() {
         String nameItem = "Test Folder";
