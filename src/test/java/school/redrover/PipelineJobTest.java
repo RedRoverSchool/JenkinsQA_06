@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.WheelInput;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,9 +22,6 @@ public class PipelineJobTest extends BaseTest {
     private static final By BUILD_NOW_PIPELINE = By.xpath("//*[@id='tasks']/div[3]/span/a");
     private static final By CONSOLE_PIPELINE = By.xpath("//*[@id='buildHistory']/div[2]/table/tbody/tr[2]/td/div[1]/div[1]/div/a/span/span");
     private static final By CONSOLE_OUT_PIPELINE = By.xpath("//*[@id='tasks']/div[3]/span/a");
-    private static final By JENKINS_MENU_DROPDOWN_CHEVRON = By.xpath("//*[@id='job_RedRover']/td[4]/a/button");
-    private static final By OPTIONS_BUTTON =
-            By.xpath("//*[@id=\"main-panel\"]/form/div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select");
     private static final By OPTIONS_DROPDOWN = By.xpath("//*[@id='main-panel']/form/div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select/option[2]");
 
     private void backToDashboard() {
@@ -62,8 +58,6 @@ public class PipelineJobTest extends BaseTest {
     @Test
     public void testCreatePipelineProjectJob() {
         CreatePipelineProjectJob("RedRover","R&R");
-
-        Thread.sleep(2000);
 
         Assert.assertTrue(getDriver().findElement(CONSOLE_OUT).getText().contains("Finished: SUCCESS"));
     }
