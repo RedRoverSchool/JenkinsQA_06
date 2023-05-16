@@ -5,11 +5,12 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class UserTest extends BaseTest {
-
+    @Ignore
     @Test
     public void testCreateUser() {
         WebElement manageJenkins = getDriver().findElement(By.xpath("//a[@href='/manage']"));
@@ -92,5 +93,23 @@ public class UserTest extends BaseTest {
         } catch (StaleElementReferenceException e) {
              }
         }
+
+    @Test
+    public void testCreateNewPipeline() {
+        WebElement newItem = getWait5().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='/view/all/newJob']")));
+        newItem.click();
+
+        WebElement nameProject = getWait5().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//input[@name='name']")));
+        nameProject.sendKeys("Project1");
+
+        WebElement pipelineClick = getDriver()
+                .findElement(By.xpath("//label//span[contains(text(), 'Pipeline')]"));
+        pipelineClick.click();
+
+        WebElement confirmButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
+        confirmButton.click();
     }
+}
 

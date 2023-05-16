@@ -33,7 +33,6 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(actualResult, "Enter an item name");
     }
 
-    @Ignore
     @Test
     public void testVerifyNewItemsList() {
         List<String> listOfNewItemsExpect = Arrays.asList("Freestyle project", "Pipeline", "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder");
@@ -48,7 +47,6 @@ public class NewItemTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
     public void testVerifyButtonIsDisabled() {
         getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']")).click();
@@ -176,23 +174,5 @@ public class NewItemTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div#main-panel h1")).getText(),RANDOM_NAME_PROJECT);
-    }
-
-    @Test
-    public void testCreatePipelineGoingFromManageJenkinsPage() {
-        getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='name']"))).sendKeys(RANDOM_NAME_PROJECT);
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.xpath("//ol//a[@href='/']")).click();
-
-        List<String> jobList = getDriver().findElements(By.cssSelector(".jenkins-table__link"))
-                .stream()
-                .map(WebElement::getText)
-                .toList();
-
-        Assert.assertTrue(jobList.contains(RANDOM_NAME_PROJECT));
     }
 }

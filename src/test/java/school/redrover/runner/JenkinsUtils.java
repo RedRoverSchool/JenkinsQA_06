@@ -1,5 +1,8 @@
 package school.redrover.runner;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -151,11 +154,33 @@ public class JenkinsUtils {
                 getCrumbFromPage(mainPage));
     }
 
-    public static void clearData() {
+
+    private static void deleteDescription() {
+        String mainPage = getPage("");
+        postHttp(ProjectUtils.getUrl() + "submitDescription",
+                String.format(
+                        "description=&Submit=&Jenkins-Crumb=%1$s&json=%%7B%%22description%%22%%3A+%%22%%22%%2C+%%22Submit%%22%%3A+%%22%%22%%2C+%%22Jenkins-Crumb%%22%%3A+%%22%1$s%%22%%7D",
+                        getCrumbFromPage(mainPage)));
+    }
+
+    static void clearData() {
         JenkinsUtils.deleteViews();
         JenkinsUtils.deleteJobs();
         JenkinsUtils.deleteUsers();
         JenkinsUtils.deleteNodes();
+        JenkinsUtils.deleteDescription();
+    }
+
+    static void login(WebDriver driver) {
+        driver.findElement(By.name("j_username")).sendKeys(ProjectUtils.getUserName());
+        driver.findElement(By.name("j_password")).sendKeys(ProjectUtils.getPassword());
+        driver.findElement(By.name("Submit")).click();
+    }
+
+    static void logout(WebDriver driver) {
+        ProjectUtils.get(driver);
+
+        driver.findElement(By.xpath("//a[@href='/logout']")).click();
     }
 }
 
