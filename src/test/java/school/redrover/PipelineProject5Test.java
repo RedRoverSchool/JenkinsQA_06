@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class PipelineProject4Test extends BaseTest {
+public class PipelineProject5Test extends BaseTest {
     public static String name = "My New Pipeline Project";
     public static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     public static final By INPUT_NAME = By.id("name");
