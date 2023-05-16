@@ -4,13 +4,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
 public class MyViewsTest extends BaseTest {
+
 
     @Test
     public void testCreateAJobInThePageMyViews() {
@@ -88,4 +91,32 @@ public class MyViewsTest extends BaseTest {
         WebElement myViewName = getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]"));
         Assert.assertEquals(myViewName.getText(), "Java");
     }
+
+    private static final String NAME_FOLDER = "TestPipeline";
+    @Test
+    public void testCreateViewItem(){
+    TestUtils.createPipeline(this,  NAME_FOLDER, true);
+    WebElement myViews = getDriver().findElement(By.xpath("//a[@href='/me/my-views']"));
+    myViews.click();
+    WebElement plusButton = getDriver().findElement(By.xpath("//a[@title='New View']"));
+    plusButton.click();
+    WebElement viewNameBox = getDriver().findElement(By.xpath("//input[@id='name']"));
+    viewNameBox.sendKeys("MyView");
+    getDriver().manage().window().maximize();
+    WebElement checkBoxListView = getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']"));
+    checkBoxListView.click();
+    WebElement createButton = getDriver().findElement(By.id("ok"));
+    createButton.click();
+    WebElement submitButton = getDriver().findElement(By.name("Submit"));
+    submitButton.click();
+
+    WebElement myViewTab = getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views/view/MyView/']"));
+    Assert.assertEquals(myViewTab.getText(), "MyView");
 }
+}
+
+
+
+
+
+
