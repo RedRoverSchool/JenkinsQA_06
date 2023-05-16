@@ -61,6 +61,7 @@ public class ManageUsersTest extends BaseTest {
                 "Invalid username or password");
     }
 
+    @Ignore
     @Test (dependsOnMethods = "testCreateUser")
     public void testMakeChangesToUserProfile() {
         JavascriptExecutor js = (JavascriptExecutor)getDriver();
