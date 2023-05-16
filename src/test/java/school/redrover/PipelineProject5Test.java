@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreatePipelineProject3Test extends BaseTest {
+public class PipelineProject5Test extends BaseTest {
     public static String name = "My New Pipeline Project";
     public static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     public static final By INPUT_NAME = By.id("name");
@@ -32,6 +32,17 @@ public class CreatePipelineProject3Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(
                         By.xpath("//h1[normalize-space()='Pipeline " + name + "']"))
                 .getText(), "Pipeline " + name);
+    }
+
+    @Test(dependsOnMethods = "testCreatePipelineProject")
+    public void testDeletePipelineProject() {
+        getDriver().findElement(PROJECT_IN_DASHBOARD_TABLE).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Pipeline')]")).click();
+        getWait2();
+        getDriver().switchTo().alert().accept();
+        getWait2();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[normalize-space()='Welcome to Jenkins!']")).getText(), "Welcome to Jenkins!");
     }
 
     @Test
