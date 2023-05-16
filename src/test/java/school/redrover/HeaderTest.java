@@ -331,4 +331,18 @@ public class HeaderTest extends BaseTest {
                 getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("main-panel"))).isDisplayed());
     }
 
+    @Test
+    public void testAdminButtonIsUnderlinedWhenMouseover() {
+
+        Actions act = new Actions(getDriver());
+
+        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[@class='model-link'][1]")));
+
+        act.moveToElement(adminLink).perform();
+
+        String textUnderlineAfter = adminLink.getCssValue("text-decoration");
+
+        Assert.assertTrue(textUnderlineAfter.contains("underline"));
+    }
 }
