@@ -155,9 +155,10 @@ public class Pipeline2Test extends BaseTest {
                 .click()
                 .pause(Duration.ofSeconds(10))
                 .click()
-                .pause(Duration.ofSeconds(10))
+                .pause(Duration.ofSeconds(20))
                 .perform();
         getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] "))));
+
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] ")))
                 .click()
