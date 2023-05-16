@@ -149,9 +149,10 @@ public class Pipeline2Test extends BaseTest {
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath(project))));
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath(project)))
-                .pause(500)
+                .pause(Duration.ofMillis(500))
                 .moveToElement(getDriver().findElement(By.xpath(project + "//button[@class='jenkins-menu-dropdown-chevron']")))
-                .pause(1000)
+                .pause(Duration.ofMillis(1000))
+                .click()
                 .click()
                 .perform();
         getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] "))));
