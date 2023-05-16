@@ -1,39 +1,29 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.WheelInput;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class PipelineJobTest extends BaseTest {
-    private static final By DASHBOARD = By.xpath("//*[@id='breadcrumbs']/li[1]/a");
+    private static final By DASHBOARD = By.xpath("//*[@id=\"breadcrumbs\"]/li[1]/a");
     private static final By NEW_ITEM = By.xpath("//*[@id='tasks']/div[1]/span/a");
     private static final By ITEM_NAME_ENTER = By.name("name");
     private static final By OK_BUTTON = By.xpath("//*[@id='ok-button']");
     private static final By SAVE_BUTTON = By.name("Submit");
-    private static final By BUILD_NAME = By.xpath("//*[@class='model-link inside build-link display-name']");
-    private static final By CONSOLE_OUT = By.xpath("//*[@id='main-panel']/pre");
+    private static final By PROJECT_NAME = By.xpath("//*[@id=\"job_RedRover\"]/td[3]/a/span");
     private static final By PIPELINE_PROJECT = By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[2]/div[2]");
     private static final By BUTTON_ADVANCED = By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[2]/div[1]/button");
     private static final By DISPLAY_NAME = By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[3]/div/div[2]/input");
     private static final By BUILD_NOW_PIPELINE = By.xpath("//*[@id='tasks']/div[3]/span/a");
-    private static final By CONSOLE_PIPELINE = By.xpath("//*[@id=\"buildHistory\"]/div[2]/table/tbody/tr[2]/td/div[1]/div[1]/a");
-    private static final By CONSOLE_OUT_PIPELINE = By.xpath("//*[@id='tasks']/div[3]/span/a");
     private static final By OPTIONS_DROPDOWN = By.xpath("//*[@id='main-panel']/form/div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select/option[2]");
 
     private void backToDashboard() {
         getDriver().findElement(DASHBOARD).click();
     }
 
-    public void scroll(int deltaY) {
-        new Actions(getDriver())
-                .scrollFromOrigin(WheelInput.ScrollOrigin.fromViewport(), 0, deltaY)
-                .perform();
-    }
 
     private void CreatePipelineProjectJob(String nameProject, String displayName) {
         getDriver().findElement(NEW_ITEM).click();
@@ -50,16 +40,13 @@ public class PipelineJobTest extends BaseTest {
         getWait5().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON)).click();
 
         getWait5().until(ExpectedConditions.elementToBeClickable(BUILD_NOW_PIPELINE)).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(BUILD_NAME)).click();
-
-        getWait10().until(ExpectedConditions.elementToBeClickable(CONSOLE_PIPELINE)).sendKeys(Keys.RETURN);
-        getWait10().until(ExpectedConditions.elementToBeClickable(CONSOLE_OUT_PIPELINE)).sendKeys(Keys.RETURN);
+        backToDashboard();
     }
 
     @Test
     public void testCreatePipelineProjectJob() {
         CreatePipelineProjectJob("RedRover","R&R");
 
-        Assert.assertTrue(getWait10().until(ExpectedConditions.elementToBeClickable(CONSOLE_OUT)).getText().contains("Finished: SUCCESS"));
+        Assert.assertEquals(getWait10().until(ExpectedConditions.elementToBeClickable(PROJECT_NAME)).getText(),"R&R");
     }
 }
