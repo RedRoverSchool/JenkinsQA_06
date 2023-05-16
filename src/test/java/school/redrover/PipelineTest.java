@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
 
@@ -213,15 +214,7 @@ public class PipelineTest extends BaseTest {
     public void testRenamePipeline() {
         final String newPipelineName = PIPELINE_NAME + "new";
 
-        getDriver().findElement(newItem).click();
-
-        WebElement fieldEnterName = getWait5().until(ExpectedConditions.presenceOfElementLocated(name));
-        fieldEnterName.sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
-
-        getDriver().findElement(dashboard).click();
+        TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PIPELINE_NAME + "/']"))).click();
         getDriver().findElement(By.cssSelector("a[href='/job/" + PIPELINE_NAME + "/confirm-rename']")).click();
