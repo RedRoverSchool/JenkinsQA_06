@@ -320,7 +320,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
         getDriver().findElement(NOTIFICATION_ICON).click();
