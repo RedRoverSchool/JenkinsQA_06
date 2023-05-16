@@ -253,7 +253,11 @@ public class HeaderTest extends BaseTest {
                 {By.xpath("//div[@id='breadcrumb-menu']//span[.='Builds']"),
                         By.xpath("//h1[.='Builds for admin']")},
                 {By.xpath("//span[. ='Configure']"),
-                        By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]") }
+                        By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]")},
+                {By.xpath("//div[@class='bd']//span[.='My Views']"),
+                        By.xpath("//a[@href='/user/admin/my-views/']")},
+                {By.xpath("//span[.='Credentials']"),
+                        By.xpath("//h1[.='Credentials']")}
         };
     }
 
