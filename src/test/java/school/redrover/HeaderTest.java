@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -40,6 +41,12 @@ public class HeaderTest extends BaseTest {
     private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
     private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
 
+    private void openAdminDropdownMenu() {
+        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//a[@href='/user/admin']/button")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", dropDownMenu);
+    }
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -250,39 +257,25 @@ public class HeaderTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
-    public void testBuildsOpenFromDropdownMenu() {
-
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
-
-        WebElement btnBuilds = getWait5().until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//div[@id='breadcrumb-menu']//span[.='Builds']")));
-        btnBuilds.click();
-
-        WebElement pageBuilds = getDriver().findElement(By.xpath("//h1[.='Builds for admin']"));
-
-        Assert.assertTrue(pageBuilds.isDisplayed());
+    @DataProvider(name = "dropDownMenuAndPageLocators")
+    public Object[][] provideDropdownMenuAndPageLocators() {
+        return new Object[][] {
+                {By.xpath("//div[@id='breadcrumb-menu']//span[.='Builds']"),
+                        By.xpath("//h1[.='Builds for admin']")},
+                {By.xpath("//span[. ='Configure']"),
+                        By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]") }
+        };
     }
 
-    @Test
-    public void testOpenConfigureFromDropdownMenu() {
+    @Test(dataProvider = "dropDownMenuAndPageLocators")
+    public void testOpenTabFromDropdownMenu(By buttonLocator, By pageLocator) {
+        openAdminDropdownMenu();
 
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
 
-        WebElement btnConfigure = getWait2().until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//span[. ='Configure']")));
-        btnConfigure.click();
+        WebElement page = getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
 
-        WebElement pageConfigure = getDriver().findElement
-                (By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]"));
-
-        Assert.assertTrue(pageConfigure.isDisplayed());
+        Assert.assertTrue(page.isDisplayed());
     }
 
     @Test
@@ -332,6 +325,16 @@ public class HeaderTest extends BaseTest {
         getDriver().findElement(ADMIN_BTN).click();
         Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
+    }
+
+    @Test
+    public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
+        getDriver().findElement(NOTIFICATION_ICON).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN));
+        getDriver().findElement(By.xpath("//a[contains(text(),'Manage Jenkins')]")).click();
+
+        Assert.assertTrue(
+                getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("main-panel"))).isDisplayed());
     }
 
 }
