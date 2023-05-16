@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -84,8 +85,11 @@ public class FreestyleProject6Test extends BaseTest {
         WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '"+ PROJECT_NAME +"')]"));
         act.moveToElement(projectName, 23, 7).perform();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"))).click();
+
+        Actions act2 = new Actions(getDriver());
+        WebElement dropDownButton = getDriver().findElement(By.xpath("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
+                act2.moveToElement(dropDownButton).perform();
+                dropDownButton.sendKeys(Keys.RETURN);
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
