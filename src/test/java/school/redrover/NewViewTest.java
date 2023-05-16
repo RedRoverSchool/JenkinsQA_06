@@ -3,14 +3,17 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class NewViewTest extends BaseTest {
@@ -18,6 +21,7 @@ public class NewViewTest extends BaseTest {
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
     private static final String RANDOM_LIST_VIEW_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
+    private static final By SAVE_BUTTON = By.name("Submit");
 
     private void createNewProjectFromMyViewsPage() {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
@@ -36,6 +40,16 @@ public class NewViewTest extends BaseTest {
         }
 
         return list;
+    }
+
+    private void chooseJobsInJobFilters (String name) {
+        List<WebElement> viewJobList = getDriver().findElements(By.xpath("//div[@class = 'listview-jobs']/span"));
+
+        for (WebElement el : viewJobList) {
+            if (Objects.equals(el.getText(), name)) {
+                el.click();
+            }
+        }
     }
 
     @Ignore
@@ -103,4 +117,25 @@ public class NewViewTest extends BaseTest {
         Assert.assertFalse(listViews.contains(RANDOM_LIST_VIEW_NAME));
     }
 
+    @Test
+    public void testMoveFolderToNewViewList() {
+        final String folderName1 = "f1";
+        final String folderName2 = "f2";
+        final String viewName = "view1";
+
+        TestUtils.createFolder(this, folderName1, true);
+        TestUtils.createFolder(this, folderName2, true);
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.xpath("//a[@href='/newView']")))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.id("name")))).sendKeys(viewName);
+        new Actions(getDriver()).click(getDriver().findElement(By.id("hudson.model.ListView"))).perform();
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(SAVE_BUTTON))).click();
+
+        chooseJobsInJobFilters(folderName1);
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(SAVE_BUTTON))).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText(), viewName);
+        Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", folderName1))).getText(), folderName1);
+    }
 }
