@@ -12,6 +12,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
+
 import static org.testng.Assert.assertEquals;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -228,16 +230,10 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
-        final String ITEM_NAME = "Test Item";
-
-        getDriver().findElement(By.xpath("//span[contains(text(),'New Item')]/..")).click();
-        getDriver().findElement(By.id("name")).sendKeys(ITEM_NAME);
-        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+        final String itemName = "Test Item";
+        TestUtils.createFreestyleProject(this, itemName, false);
 
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("jenkins-name-icon"))).click();
-
         Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]", "Wrong title or wrong page");
 
         List<WebElement> listProjectName = getDriver().findElements(
@@ -245,8 +241,8 @@ public class HeaderTest extends BaseTest {
 
         SoftAssert softAssert = new SoftAssert();
         for (WebElement webElement : listProjectName) {
-            softAssert.assertTrue(webElement.getText().contains(ITEM_NAME),
-                    "The result list doesn't contain the item " + ITEM_NAME);
+            softAssert.assertTrue(webElement.getText().contains(itemName),
+                    "The result list doesn't contain the item " + itemName);
         }
         softAssert.assertAll();
     }
