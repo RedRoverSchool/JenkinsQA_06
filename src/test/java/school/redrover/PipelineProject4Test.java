@@ -2,11 +2,12 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreatePipelineProject3Test extends BaseTest {
+public class PipelineProject4Test extends BaseTest {
     public static String name = "My New Pipeline Project";
     public static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     public static final By INPUT_NAME = By.id("name");
@@ -35,21 +36,22 @@ public class CreatePipelineProject3Test extends BaseTest {
     }
 
     @Test
-    public void testPipelineNameUnsafeChar() {
+    public void testPipelineNameUnsafeChar()  {
         String[] testStrings = {"*", "&", "^", "%", "$", "#", "@", "!"};
 
         getDriver().findElement(NEW_ITEM).click();
+        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//img[@src='/plugin/workflow-job/images/pipelinejob.svg']"))));
+        getWait2().until(ExpectedConditions.elementToBeClickable(PIPELINE_PROJECT_TYPE)).click();
+
         for (int i = 0; i < testStrings.length; i++) {
-            String name = testStrings[i];
-            getDriver().findElement(INPUT_NAME).sendKeys(name);
+            String letter = testStrings[i];
+            getDriver().findElement(INPUT_NAME).sendKeys(letter);
 
-            getWait2();
-            getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
-            getWait2();
             WebElement message = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+            getWait2().until(ExpectedConditions.visibilityOf(message));
 
-            Assert.assertEquals(message.getText(), "»" + " ‘" + name + "’ " + "is an unsafe character");
-            getWait2();
+            Assert.assertEquals(message.getText(), "»" + " ‘" + letter + "’ " + "is an unsafe character");
+            getWait2().until(ExpectedConditions.visibilityOf(message));
             getDriver().findElement(INPUT_NAME).clear();
         }
     }
@@ -57,8 +59,8 @@ public class CreatePipelineProject3Test extends BaseTest {
     @Test
     public void testPipelineNameAllowedChar() {
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys("_-+=”{},");
         getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
+        getDriver().findElement(INPUT_NAME).sendKeys("_-+=”{},");
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(JENKINS_LOGO).click();
