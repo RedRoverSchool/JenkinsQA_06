@@ -321,20 +321,17 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(consoleOutput.getText().contains("echo Hello"));
         Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
     }
-    ////*[local-name()='svg'][@class='svg-icon '][@title='Success']
+
     @Test
     public void testNewFreestyleProjectFolder() {
-
         getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@name = 'name']")).sendKeys("First");
         getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='ok-button']"))).click();
         getDriver().findElement(By.xpath("//button[@name ='Submit']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a/span[contains(text(),'Build Now')]/parent::a"
-        )));
-        WebElement buildNowLink = getDriver().findElement(By.xpath("//a/span[contains(text(),'Build Now')]/parent::a"));
-        buildNowLink.click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
+        ))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
         getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")).click();
         WebElement projectStatusTable = getDriver().findElement(By.xpath("//table[@id = 'projectStatus']"));
 
