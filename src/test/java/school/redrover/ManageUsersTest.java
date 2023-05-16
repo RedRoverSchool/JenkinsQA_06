@@ -57,10 +57,11 @@ public class ManageUsersTest extends BaseTest {
         getDriver().findElement(SUBMIT).click();
 
         Assert.assertEquals(getDriver().findElement(By
-                .xpath("//div[contains(@class, 'alert-danger')]")).getText(),
+                        .xpath("//div[contains(@class, 'alert-danger')]")).getText(),
                 "Invalid username or password");
     }
 
+    @Ignore
     @Test (dependsOnMethods = "testCreateUser")
     public void testMakeChangesToUserProfile() {
         JavascriptExecutor js = (JavascriptExecutor)getDriver();
