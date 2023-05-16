@@ -22,7 +22,6 @@ public class PipelineProject4Test extends BaseTest {
         WebElement pipelineName = getDriver().findElement(By.xpath("//h1[normalize-space()='Pipeline Test']"));
         Assert.assertEquals(pipelineName.getText(), "Pipeline " + testData );
         getDriver().findElement(JENKINS_ICON).click();
-
     }
 
     @Test
@@ -40,6 +39,5 @@ public class PipelineProject4Test extends BaseTest {
 
         WebElement jobName =  getDriver().findElement(By.xpath("//span[normalize-space()='First Test']"));
         Assert.assertEquals(jobName.getText(), newName);
-
     }
 }
