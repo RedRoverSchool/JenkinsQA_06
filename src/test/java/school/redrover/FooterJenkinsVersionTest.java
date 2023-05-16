@@ -13,18 +13,19 @@ public class FooterJenkinsVersionTest extends BaseTest {
     private final String expectedSiteTitle = "Jenkins";
 
     @Test
-    public void testFooterJenkinsVersion(){
+    public void testFooterJenkinsVersion() throws InterruptedException {
 
         WebElement linkVersion = getDriver().findElement(By.cssSelector("a[target =  '_blank']"));
         Assert.assertEquals(linkVersion.getText(),"Jenkins 2.387.2");
         linkVersion.click();
+        Thread.sleep(5000);
 
         for(String winHandle : getDriver().getWindowHandles()) {
             getDriver().switchTo().window(winHandle);
         }
         WebElement brandJenkins =
-                getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector("h1[class='page-title'] > span"))));
-        Assert.assertEquals(brandJenkins.getText().trim(),"Jenkins");
+                getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector(".page-title >span"))));
+        Assert.assertEquals(brandJenkins.getText(),"Jenkins");
 
     }
 
