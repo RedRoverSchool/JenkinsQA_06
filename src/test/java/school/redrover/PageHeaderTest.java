@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,8 +16,8 @@ public class PageHeaderTest extends BaseTest {
     @Test
     public void testClickLogoToReturnToDashboardPage() {
 
-        TestUtils.createFreestyleProject(this, "New Item 1");
-        TestUtils.createFolder(this, "New Item 2");
+        TestUtils.createFreestyleProject(this, "New Item 1", true);
+        TestUtils.createFolder(this, "New Item 2", false);
 
         WebElement goToUserIdPage = getDriver()
                 .findElement(By.xpath("//a[@href='/user/admin']//*[not(self::button)]"));
