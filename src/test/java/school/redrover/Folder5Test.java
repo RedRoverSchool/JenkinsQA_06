@@ -65,7 +65,8 @@ public class Folder5Test extends BaseTest {
 
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
-        WebElement folder2 = getDriver().findElement(By.xpath("//a[contains(@href, 'Folder2')]"));
+        WebElement folder2 = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'Folder2')]")));
+
         Assert.assertEquals(folder2.getText(), "Folder2");
     }
 }
