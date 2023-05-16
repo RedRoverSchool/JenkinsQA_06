@@ -27,16 +27,6 @@ public class HeaderTest extends BaseTest {
     private static final By HEADER_MANAGE_PAGE = By.xpath("//h1[text()='Manage Jenkins']");
     private static final String NOTIFICATION_ICON_COLOR_CSS_VALUE = "background-color";
     private static final String MANAGE_JENKINS_PAGE_HEADER = "Manage Jenkins";
-    private static final By NEW_ITEM_BTN = By.xpath("//span[contains(text(),'New Item')]/..");
-    private static final By ITEM_NAME_FIELD = By.id("name");
-    private static final String ITEM_NAME = "Test Item";
-    private static final By FREESTYLE_PROJECT_BTN = By.xpath("//li[@class='hudson_model_FreeStyleProject']");
-    private static final By OK_BTN = By.id("ok-button");
-    private static final By SAVE_BTN = By.name("Submit");
-    private static final By JENKINS_ICON = By.id("jenkins-name-icon");
-    private static final String TITLE_DASHBOARD_PAGE = "Dashboard [Jenkins]";
-    private static final By LIST_OF_PROJECT_NAMES_IN_THE_TABLE =
-            By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']");
     private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
     private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
     private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
@@ -238,17 +228,21 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
-        getDriver().findElement(NEW_ITEM_BTN).click();
-        getDriver().findElement(ITEM_NAME_FIELD).sendKeys(ITEM_NAME);
-        getDriver().findElement(FREESTYLE_PROJECT_BTN).click();
-        getDriver().findElement(OK_BTN).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(SAVE_BTN)).click();
+        final String ITEM_NAME = "Test Item";
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(JENKINS_ICON)).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'New Item')]/..")).click();
+        getDriver().findElement(By.id("name")).sendKeys(ITEM_NAME);
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
 
-        Assert.assertEquals(getDriver().getTitle(), TITLE_DASHBOARD_PAGE, "Wrong title or wrong page");
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("jenkins-name-icon"))).click();
 
-        List<WebElement> listProjectName = getDriver().findElements(LIST_OF_PROJECT_NAMES_IN_THE_TABLE);
+        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]", "Wrong title or wrong page");
+
+        List<WebElement> listProjectName = getDriver().findElements(
+                By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']"));
+
         SoftAssert softAssert = new SoftAssert();
         for (WebElement webElement : listProjectName) {
             softAssert.assertTrue(webElement.getText().contains(ITEM_NAME),
