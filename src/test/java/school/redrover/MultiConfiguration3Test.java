@@ -12,7 +12,6 @@ import school.redrover.runner.TestUtils;
 public class MultiConfiguration3Test extends BaseTest {
     private static final String NAME_OF_PROJECT = "New project";
     private static final String DESCRIPTION = "Description";
-    private static final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name ‘New project’";
     private static final By SAVE_BUTTON = By.name("Submit");
     private static final By DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final By NEW_ITEM_BUTTON = By.xpath("//*[@id='tasks']//span/a");
@@ -78,12 +77,14 @@ public class MultiConfiguration3Test extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithEqualName() {
-        createBaseMultiConfigurationProject();
+        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name ‘New project’";
 
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD_BUTTON).click();
+        TestUtils.createMultiConfigurationProject(this, NAME_OF_PROJECT, true);
 
-        createBaseMultiConfigurationProject();
+        getDriver().findElement(NEW_ITEM_BUTTON).click();
+        getDriver().findElement(INPUT_FIELD).sendKeys(NAME_OF_PROJECT);
+        getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
+        getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
 
         WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id='main-panel']/p"));
 
