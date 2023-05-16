@@ -26,7 +26,7 @@ public class FreestyleProject5Test extends BaseTest {
 
         Assert.assertEquals(projectName.getText(), "First Freestyle Project");
     }
-    @Ignore
+
     @Test
     public void testDisableFreestyleProject(){
         TestUtils.createFreestyleProject(this, "First Freestyle Project", true);
