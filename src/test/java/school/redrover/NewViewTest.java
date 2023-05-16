@@ -125,14 +125,13 @@ public class NewViewTest extends BaseTest {
         TestUtils.createFolder(this, folderName1, true);
         TestUtils.createFolder(this, folderName2, true);
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(
-                getDriver().findElement(By.xpath("//a[@href='/newView']")))).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.id("name")))).sendKeys(viewName);
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(viewName);
         getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
         getDriver().findElement(SAVE_BUTTON).click();
 
         chooseJobsInJobFilters(folderName1);
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(SAVE_BUTTON))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON)).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText(), viewName);
         Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", folderName1))).getText(), folderName1);
