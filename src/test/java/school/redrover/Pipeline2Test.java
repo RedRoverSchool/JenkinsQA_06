@@ -153,6 +153,7 @@ public class Pipeline2Test extends BaseTest {
                 .moveToElement(getDriver().findElement(By.xpath(project + "//button[@class='jenkins-menu-dropdown-chevron']")))
                 .pause(Duration.ofMillis(1000))
                 .click()
+                .pause(Duration.ofSeconds(2))
                 .click()
                 .perform();
         getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] "))));
