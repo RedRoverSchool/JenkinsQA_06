@@ -20,7 +20,7 @@ public class PipelineJobTest extends BaseTest {
     private static final By BUTTON_ADVANCED = By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[2]/div[1]/button");
     private static final By DISPLAY_NAME = By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[3]/div/div[2]/input");
     private static final By BUILD_NOW_PIPELINE = By.xpath("//*[@id='tasks']/div[3]/span/a");
-    private static final By CONSOLE_PIPELINE = By.xpath("//*[@id='buildHistory']/div[2]/table/tbody/tr[2]/td/div[1]/div[1]/div/a/span/span");
+    private static final By CONSOLE_PIPELINE = By.xpath("//*[@id='buildHistory']/div[2]/table/tbody/tr[2]/td/div[1]/div[1]/div/a/span");
     private static final By CONSOLE_OUT_PIPELINE = By.xpath("//*[@id='tasks']/div[3]/span/a");
     private static final By OPTIONS_DROPDOWN = By.xpath("//*[@id='main-panel']/form/div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select/option[2]");
 
