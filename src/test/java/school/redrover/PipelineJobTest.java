@@ -15,13 +15,13 @@ public class PipelineJobTest extends BaseTest {
     private static final By OK_BUTTON = By.xpath("//*[@id='ok-button']");
     private static final By SAVE_BUTTON = By.name("Submit");
     private static final By BUILD_NAME = By.xpath("//*[@class='model-link inside build-link display-name']");
-    private static final By CONSOLE_OUT = By.xpath("//*[@id=\"main-panel\"]/pre");
+    private static final By CONSOLE_OUT = By.xpath("//*[@id='main-panel']/pre");
     private static final By PIPELINE_PROJECT = By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[2]/div[2]");
-    private static final By BUTTON_ADVANCED = By.xpath("//*[@id=\"main-panel\"]/form/div[1]/div[6]/div[2]/div[1]/button");
-    private static final By DISPLAY_NAME = By.xpath("//*[@id=\"main-panel\"]/form/div[1]/div[6]/div[3]/div/div[2]/input");
-    private static final By BUILD_NOW_PIPELINE = By.xpath("//*[@id=\"tasks\"]/div[3]/span/a");
-    private static final By CONSOLE_PIPELINE = By.xpath("//*[@id=\"job_RedRover\"]/td[4]/a");
-    private static final By CONSOLE_OUT_PIPELINE = By.xpath("//*[@id=\"yui-gen2\"]/a");
+    private static final By BUTTON_ADVANCED = By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[2]/div[1]/button");
+    private static final By DISPLAY_NAME = By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[3]/div/div[2]/input");
+    private static final By BUILD_NOW_PIPELINE = By.xpath("//*[@id='tasks']/div[3]/span/a");
+    private static final By CONSOLE_PIPELINE = By.xpath("//*[@id='job_RedRover']/td[4]/a");
+    private static final By CONSOLE_OUT_PIPELINE = By.xpath("//*[@id='yui-gen2']/a");
     private static final By JENKINS_MENU_DROPDOWN_CHEVRON = By.xpath("//*[@id='job_RedRover']/td[4]/a/button");
     private static final By OPTIONS_BUTTON =
             By.xpath("//*[@id='main-panel']/form/div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select/option[2]");
@@ -63,7 +63,7 @@ public class PipelineJobTest extends BaseTest {
                 .moveToElement(getDriver().findElement(CONSOLE_PIPELINE))
                 .click(getDriver().findElement(JENKINS_MENU_DROPDOWN_CHEVRON))
                 .perform();
-        getWait5().until(ExpectedConditions.elementToBeClickable(CONSOLE_OUT_PIPELINE)).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(CONSOLE_OUT_PIPELINE)).click();
     }
 
     @Test
