@@ -143,22 +143,17 @@ public class Pipeline2Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreatePipelineProjectCorrectName")
-    public void testRenameProjectFromDashboardPage() throws InterruptedException {
+    public void testRenameProjectFromDashboardPage() {
         String project = "//a[@class='jenkins-table__link model-link inside']";
 
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath(project))));
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath(project)))
-                .pause(Duration.ofSeconds(10))
                 .moveToElement(getDriver().findElement(By.xpath(project + "//button[@class='jenkins-menu-dropdown-chevron']")))
-                .pause(Duration.ofSeconds(10))
-                .click()
-                .pause(Duration.ofSeconds(10))
-                .click()
-                .pause(Duration.ofSeconds(10))
+                .contextClick()
+                .pause(Duration.ofSeconds(2))
                 .perform();
-        Thread.sleep(10000);
-//        getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] "))));
+        getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] "))));
 
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] ")))
