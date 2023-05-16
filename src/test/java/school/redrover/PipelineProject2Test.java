@@ -23,7 +23,7 @@ public class PipelineProject2Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath(" //h1[@class= \"job-index-headline page-headline\"]")).getText(), "Pipeline " + PROJECT_NAME);
     }
 
-    @Test()
+    @Test
     public void testCreateDuplicatePipelineProject() {
 
         TestUtils.createPipeline(this, PROJECT_NAME, true);
@@ -36,7 +36,7 @@ public class PipelineProject2Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='input-validation-message']")).getText(), "» A job already exists with the name " + "‘" + PROJECT_NAME + "’");
     }
 
-    @Test()
+    @Test
     public void testRenamePipelineProject() {
 
         TestUtils.createPipeline(this, PROJECT_NAME, true);
@@ -51,7 +51,7 @@ public class PipelineProject2Test extends BaseTest {
 
     }
 
-    @Test()
+    @Test
     public void testDisablePipelineProject() {
 
         TestUtils.createPipeline(this, PROJECT_NAME, true);
