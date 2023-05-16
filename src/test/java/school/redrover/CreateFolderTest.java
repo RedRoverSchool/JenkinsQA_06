@@ -80,18 +80,19 @@ public class CreateFolderTest extends BaseTest {
 
     @Test
     public void testCreateFolder3() {
-        getDriver().findElement(By.cssSelector(".task-link")).click();
-
         String nameItem = "Test Folder";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(nameItem);
         getDriver().findElement(By.xpath("(//span[@class='label'])[4]")).click();
-        getDriver().findElement(By.cssSelector(".btn-decorator")).click();
+        getDriver().findElement(By.id("ok-button")).click();
 
-        getDriver().findElement(By.cssSelector("[name = 'Submit']")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("Submit"))).click();
 
-        getDriver().findElement(By.xpath("(//a[@class = 'model-link'])[2]")).click();
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']//li[1]")).click();
 
-        WebElement nameOfFolder = getDriver().findElement(By.xpath("//a[@href = 'job/Test%20Folder/']"));
+        WebElement nameOfFolder = getDriver().findElement(By.cssSelector(".jenkins-table__link"));
         String actualResult = nameOfFolder.getText();
         nameOfFolder.click();
 
