@@ -9,7 +9,7 @@ import school.redrover.runner.TestUtils;
 public class Pipeline8Test extends BaseTest {
 
     @Test
-    public void ChapterChangesOfPipelineSeeTheStatusOfLastBuild() {
+    public void testChapterChangesOfPipelineSeeTheStatusOfLastBuild() {
         String changesBuild = "No changes in any of the builds, or multiple SCMs in use.";
         TestUtils.createPipeline(this, "Engineer", true);
 
