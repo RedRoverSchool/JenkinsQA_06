@@ -22,6 +22,7 @@ public class ProfileTest extends BaseTest {
     @Test
     public void testProfileItems() {
         for (Map.Entry<String, String> entry : menuToUrlMap.entrySet()) {
+            getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".login .jenkins-menu-dropdown-chevron")));
             ((JavascriptExecutor) getDriver()).executeScript("document.querySelector('.login .jenkins-menu-dropdown-chevron').click()");
             getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='" + entry.getKey() + "']"))).click();
             Assert.assertTrue(getDriver().getCurrentUrl().contains(entry.getValue()));
