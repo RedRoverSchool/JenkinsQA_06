@@ -3,17 +3,20 @@ package school.redrover;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.DataTest;
+import school.redrover.runner.TestUtils;
 
 public class MultiConfigurationProject3Test extends BaseTest {
 
+    final String expectedprojectName =getProjectName();
     @Test
     public void createDefaultMultiConfigurationProjectTest(){
-        final String expectedprojectName = getProjectName();
+        //final String expectedprojectName = getProjectName();
 
         getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name = 'name']"))).sendKeys(expectedprojectName);
@@ -26,16 +29,16 @@ public class MultiConfigurationProject3Test extends BaseTest {
         Assert.assertEquals(project.getText(), expectedprojectName);
     }
 
-    private String getProjectName() {
+    private static String getProjectName() {
         Faker faker = new Faker();
         return faker.funnyName().name();
     }
 
-    @Test(dataProvider = "unsafeCharacter")
+    @Test(dataProvider = "unsafeCharacter" ,dataProviderClass = DataTest.class)
     public void verifyProjectNameCreationWithUnsafeSymbolsTest(char unsafeSymbol , String htmlUnsafeSymbol){
             getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
             getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name = 'name']")))
-                    .sendKeys(getProjectName()+unsafeSymbol );
+                    .sendKeys(expectedprojectName +unsafeSymbol );
             getDriver().findElement(By.cssSelector("li.hudson_matrix_MatrixProject span")).click();
             String errorNotification = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#itemname-invalid"))).getText();
 
@@ -50,9 +53,31 @@ public class MultiConfigurationProject3Test extends BaseTest {
             Assert.assertEquals(errorPageMessage, String.format("‘%s’ is an unsafe character", unsafeSymbol));
     }
 
-    @DataProvider(name = "unsafeCharacter")
-    public Object[][] unsafeCharacterArray() {
-        return new Object[][]{{'!', "!"}, {'@', "@"}, {'#', "#"}, {'$', "$"}, {'%', "%"}, {'^', "^"}, {'&', "&amp;"}, {'*', "*"}, {'[', "["}, {']', "]"}, {'\\', "\\"}, {'|', "|"}
-                , {';', ";"}, {':', ":"}, {'<', "&lt;"}, {'>', "&gt;"}, {'/', "/"}, {'?', "?"}};
+
+    //dependsOnMethods не работает с dataProvider, проект создается для 1 теста, очищается после 1 теста и для второго уже не вызывается
+    //поэтому задействована TestUtils.createMultiConfigurationProject(this ,expectedprojectName, true); вместо
+    //@Test(dependsOnMethods = "createDefaultMultiConfigurationProjectTest", dataProvider = "unsafeCharacter")
+    @Test(dataProvider = "unsafeCharacter",dataProviderClass = DataTest.class)
+    public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol , String htmlUnsafeSymbol){
+        TestUtils.createMultiConfigurationProject(this ,expectedprojectName, true);
+
+        WebElement project = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#projectstatus a.model-link")));
+        new Actions(getDriver()).moveToElement(project).perform();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#projectstatus .jenkins-menu-dropdown-chevron"))).click();
+        getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']//li//span[text()='Rename']")).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='newName']"))).sendKeys(expectedprojectName + unsafeSymbol);
+        new Actions(getDriver()).click(getDriver().findElement((By.cssSelector(".warning")))).perform();
+
+        String errorNotification = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".error"))).getText();
+
+        Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
+
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        String errorPageHeader = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']//h1"))).getText();
+        String errorPageMessage = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']//p"))).getText();
+
+        Assert.assertEquals(errorPageHeader, "Error");
+        Assert.assertEquals(errorPageMessage, String.format("‘%s’ is an unsafe character", htmlUnsafeSymbol));
     }
 }
