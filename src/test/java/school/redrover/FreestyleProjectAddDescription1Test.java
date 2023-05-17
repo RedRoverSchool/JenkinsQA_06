@@ -13,8 +13,7 @@ public class FreestyleProjectAddDescription1Test extends BaseTest {
     private void createFreestyleProject(){
         String nameProject = "ProjectN";
 
-        TestUtils testUtils = new TestUtils();
-        testUtils.createFreestyleProject(this,nameProject, true);
+        TestUtils.createFreestyleProject(this,nameProject, true);
     }
 
     @Test
