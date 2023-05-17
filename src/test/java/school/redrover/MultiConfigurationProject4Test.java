@@ -33,7 +33,13 @@ public class MultiConfigurationProject4Test extends BaseTest {
 
     @Test(dependsOnMethods = {"testDisableMultiConfigurationProject"})
     public void testEnableMultiConfigurationProject() {
-        getDriver().findElement(By.xpath(""));
-        
+        getDriver().findElement(By.xpath("//a[@href='job/MyProject/']/span")).click();
+
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//button[@formnovalidate='formNoValidate']"))).click();
+
+        WebElement disableButton = getDriver().findElement(By.xpath("//button[text() = 'Disable Project']"));
+
+        Assert.assertTrue(disableButton.isDisplayed());
     }
 }
