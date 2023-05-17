@@ -150,10 +150,13 @@ public class Pipeline2Test extends BaseTest {
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath(project)))
                 .moveToElement(getDriver().findElement(By.xpath(project + "//button[@class='jenkins-menu-dropdown-chevron']")))
-                .doubleClick()
+                .click()
                 .pause(Duration.ofSeconds(2))
                 .perform();
-        getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] "))));
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath(project + "//button[@class='jenkins-menu-dropdown-chevron']")), 0,8);
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] "))));
 
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] ")))
