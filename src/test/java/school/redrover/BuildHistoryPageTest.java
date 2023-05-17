@@ -1,50 +1,42 @@
 package school.redrover;
-
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-
-import javax.swing.*;
+import school.redrover.runner.TestUtils;
+import java.time.Duration;
 
 public class BuildHistoryPageTest extends BaseTest {
     private static final String NAME_PIPELINE = "Pipeline2023";
     private static final String BUILD_DESCRIPTION = "For QA";
-    private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By LOGO_JENKINS = By.id("jenkins-name-icon");
-    private static final By INPUT_NAME_FIELD = By.xpath("//input[@id='name']");
-    private static final By PIPELINE_PROJECT = By.xpath("//label/span[text()='Pipeline']");
-    private static final By OK_BUTTON = By.id("ok-button");
     private static final By SAVE_BUTTON = By.name("Submit");
-    private static final By H1_NAME_PIPELINE = By.xpath("//h1");
-    private static final By BUILD_HISTORY = By.xpath("//span[text()='Build History']");
-    private static final By BUILD_SCHEDULE = By.xpath("//span[@class='build-button-column-icon-reference-holder']");
+    private static final By BUILD_HISTORY = By.xpath("//a[@href='/view/all/builds']");
+    private static final By BUILD_SCHEDULE = By.xpath("//a[@href='job/" + NAME_PIPELINE + "/build?delay=0sec']");
     private static final By SERIAL_NUMBER_OF_BUILD = By.xpath(
-            "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']");
+            "//a[@href='/job/" + NAME_PIPELINE + "/1/']");
     private static final By DROP_DOWN_SERIAL_NUMBER = By.xpath(
-            "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']/button[@class='jenkins-menu-dropdown-chevron']");
-    private static final By EDIT_BUILD_INFORMATION = By.xpath("//span[text()='Edit Build Information']");
+            "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']//button[@class='jenkins-menu-dropdown-chevron']");
+    private static final By EDIT_BUILD_INFORMATION = By.xpath("//ul[@class='first-of-type']//a[@href='/job/" + NAME_PIPELINE + "/1/configure']");
     private static final By DESCRIPTION_FIELD = By.xpath("//textarea[@name='description']");
-    private static final By DESCRIPTION_TEXT = By.id("description");
+    private static final By DESCRIPTION_TEXT = By.xpath("//div[normalize-space()='For QA']");
 
-    private void createNewPipeline(String name){
-        getDriver().findElement(NEW_ITEM).click();
-
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(INPUT_NAME_FIELD));
-        getDriver().findElement(INPUT_NAME_FIELD).sendKeys(NAME_PIPELINE);
-
-        getDriver().findElement(PIPELINE_PROJECT).click();
-
-        getDriver().findElement(OK_BUTTON).click();
-
-        getWait10().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON)).click();
-
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(H1_NAME_PIPELINE));
+    protected void clickDropDownSerialNumberOfBuild() {
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", getDriver().findElement(By.xpath(
+                "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']//button[@class='jenkins-menu-dropdown-chevron']"
+        )));
     }
-
+    protected void clickEditBuildInformation() {
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", getDriver().findElement(By.xpath(
+                "//ul[@class='first-of-type']//a[@href='/job/" + NAME_PIPELINE + "/1/configure']"
+        )));
+    }
     @Test
     public void testNavigateToBuildHistoryPage() throws InterruptedException {
 
@@ -63,21 +55,26 @@ public class BuildHistoryPageTest extends BaseTest {
 
     @Test
     public void testAddDescriptionForBuild(){
-        createNewPipeline(NAME_PIPELINE);
+
+        TestUtils.createPipeline(this, NAME_PIPELINE, true);
 
         getDriver().findElement(LOGO_JENKINS).click();
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(BUILD_SCHEDULE)).click();
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(BUILD_SCHEDULE)).click();
 
-        getDriver().findElement(BUILD_HISTORY).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(BUILD_HISTORY)).click();
 
         getWait10().until(ExpectedConditions.elementToBeClickable(SERIAL_NUMBER_OF_BUILD));
         new Actions(getDriver()).moveToElement(getDriver().findElement(SERIAL_NUMBER_OF_BUILD))
+                .pause(Duration.ofSeconds(5))
                 .moveToElement(getDriver().findElement(DROP_DOWN_SERIAL_NUMBER))
-                .click()
-                .moveToElement(getDriver().findElement(EDIT_BUILD_INFORMATION))
-                .click()
+                .pause(Duration.ofSeconds(5))
                 .perform();
+
+        clickDropDownSerialNumberOfBuild();
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION));
+        clickEditBuildInformation();
 
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
 
