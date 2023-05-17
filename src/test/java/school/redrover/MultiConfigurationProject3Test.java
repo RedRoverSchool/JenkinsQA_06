@@ -63,7 +63,7 @@ public class MultiConfigurationProject3Test extends BaseTest {
 
         WebElement project = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#projectstatus a.model-link")));
         new Actions(getDriver()).moveToElement(project).perform();
-        WebElement menuDropdown =getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#projectstatus .jenkins-menu-dropdown-chevron")));
+        WebElement menuDropdown =getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".jenkins-table__link > .jenkins-menu-dropdown-chevron")));
         getWait5().until(ExpectedConditions.elementToBeClickable(menuDropdown)).click();
 
         getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']//li//span[text()='Rename']")).click();
