@@ -11,11 +11,8 @@ import school.redrover.runner.BaseTest;
 public class MultiConfigurationTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_NAME = RandomStringUtils.randomAlphanumeric(5);
     private static final String MULTI_CONFIGURATION_NEW_NAME = RandomStringUtils.randomAlphabetic(5);
-    private static final String DESCRIPTION = "Description";
-    private static final String DESCRIPTION_RANDOM = RandomStringUtils.randomAlphanumeric(5);
     private static final By OK_BUTTON = By.cssSelector("#ok-button");
     private static final By SAVE_BUTTON = By.name("Submit");
-    private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     private String getProjectNewName() {
         getWait5();
@@ -26,30 +23,33 @@ public class MultiConfigurationTest extends BaseTest {
     private void createMultiConfigurationProject() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(MULTI_CONFIGURATION_NAME);
-        WebElement projectButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
-        projectButton.click();
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
+        WebElement multiconfigurationButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
+        multiconfigurationButton.click();
+        WebElement okButton = getWait10().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
+        okButton.click();
+        WebElement saveButton = getWait10().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON));
+        saveButton.click();
     }
 
     @Test
-    public void testCreateMultiConfig() {
+    public void testCreateMultiConfiguration() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(MULTI_CONFIGURATION_NAME);
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("test");
-        getDriver().findElement(SAVE_BUTTON).click();
+        WebElement multiconfigurationButton = getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Multi-configuration project']")));
+        multiconfigurationButton.click();
+        WebElement okButton = getWait10().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
+        okButton.click();
+        WebElement saveButton = getWait10().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON));
+        saveButton.click();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='description']")).isDisplayed());
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']//h1[@class='matrix-project-headline page-headline']")).getText(),"Project " + MULTI_CONFIGURATION_NAME);
     }
 
     @Test
     public void testCheckExceptionToMultiConfigurationPage() {
         getDriver().findElement(By.linkText("New Item")).click();
-        WebElement element = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
-        element.click();
+        WebElement multiconfigButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
+        multiconfigButton.click();
         String exceptionText = getDriver().findElement(By.xpath("//div[text() ='» This field cannot be empty, please enter a valid name']")).getText();
 
         Assert.assertEquals(exceptionText, "» This field cannot be empty, please enter a valid name");
@@ -61,9 +61,11 @@ public class MultiConfigurationTest extends BaseTest {
         getDriver().findElement(By.id("name")).sendKeys(MULTI_CONFIGURATION_NAME);
         WebElement projectButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
         projectButton.click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.name("description")).sendKeys(DESCRIPTION);
-        getDriver().findElement(SAVE_BUTTON).click();
+        WebElement okButton = getWait10().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
+        okButton.click();
+        getDriver().findElement(By.name("description")).sendKeys("Description");
+        WebElement saveButton = getWait10().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON));
+        saveButton.click();
         WebElement descriptionText = getDriver().findElement(By.cssSelector("div#description"));
 
         Assert.assertEquals(descriptionText.getText().trim().substring(0, 11), "Description");
@@ -109,9 +111,11 @@ public class MultiConfigurationTest extends BaseTest {
         getDriver().findElement(By.id("name")).sendKeys(MULTI_CONFIGURATION_NAME);
         WebElement projectButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
         projectButton.click();
-        getDriver().findElement(OK_BUTTON).click();
+        WebElement okButton = getWait10().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
+        okButton.click();
         getDriver().findElement(By.cssSelector("label.jenkins-toggle-switch__label ")).click();
-        getDriver().findElement(SAVE_BUTTON).click();
+        WebElement saveButton = getWait10().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON));
+        saveButton.click();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("form#enable-project")).getText().trim().substring(0, 34), "This project is currently disabled");
     }

@@ -71,4 +71,34 @@ public class MultibranchPipeline3Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "MyMultibranchPipeline");
     }
+
+    @Test
+    public void testCreateNewItemWithNullName() {
+        final String expectedErrorMessage = "» This field cannot be empty, please enter a valid name";
+
+        WebElement buttonCreateItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonCreateItem));
+        buttonCreateItem.click();
+
+        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        getWait5().until(ExpectedConditions.elementToBeClickable(fieldInputName));
+        fieldInputName.click();
+
+        WebElement folderButton = getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']"));
+        new Actions(getDriver())
+                .scrollToElement(folderButton)
+                .perform();
+        folderButton.click();
+
+        WebElement multibranchPipelineButton = getDriver().findElement(By.xpath("//span[text() = 'Multibranch Pipeline']"));
+        new Actions(getDriver())
+                .scrollToElement(multibranchPipelineButton)
+                .perform();
+        getWait5().until(ExpectedConditions.elementToBeClickable(multibranchPipelineButton));
+        multibranchPipelineButton.click();
+
+        WebElement errorMessage = getDriver().findElement(By.xpath("//div[@id = 'itemname-required']"));
+
+        Assert.assertEquals(errorMessage.getText(), expectedErrorMessage);
+    }
 }

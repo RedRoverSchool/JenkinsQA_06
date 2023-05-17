@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -31,7 +30,7 @@ public class PipelineProjectTest extends BaseTest {
         return getDriver().findElement(by);
     }
 
-    public void clickPageButton(String menuButton) {
+    public void clickPageButton(String menuButton){
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//*[text()='%s']", menuButton)))).click();
     }
 
@@ -79,6 +78,10 @@ public class PipelineProjectTest extends BaseTest {
     public String statusOfProject() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.className("svg-icon"))).getAttribute("title");
+    }
+
+    public void disableProject(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.id("toggle-switch-enable-disable-project"))).click();
     }
 
     @Test
@@ -214,9 +217,8 @@ public class PipelineProjectTest extends BaseTest {
         Assert.assertFalse(isPipelineEnabledAfterDisable, "Pipeline is enabled");
     }
 
-    @Ignore
     @Test
-    public void addDescriptionPipelineProjectTest() {
+    public void addDescriptionPipelineProjectTest(){
         String description = "This is a project for school test";
         clickTaskButton("New Item");
         createPipelineProject(EXPECTED_RESULT, "Pipeline");
@@ -235,23 +237,18 @@ public class PipelineProjectTest extends BaseTest {
         Assert.assertTrue(fieldDescription.getText().contains(description));
     }
 
-    @Ignore
-    @Test
-    public void disablePipelineProjectTest() {
-        clickTaskButton("New Item");
-        createPipelineProject(EXPECTED_RESULT, "Pipeline");
+    @Test(dependsOnMethods = "addDescriptionPipelineProjectTest")
+    public void disablePipelineProjectTest(){
 
         clickPageButton("Dashboard");
         String statusBeforeDisable = statusOfProject();
 
         clickPageButton(EXPECTED_RESULT);
         clickTaskButton("Configure");
-
-        findElement(By.id("toggle-switch-enable-disable-project")).click();
+        disableProject();
         clickButtonApply();
 
         clickPageButton("Dashboard");
-
         String statusAfterDisable = statusOfProject();
 
         Assert.assertNotEquals(statusBeforeDisable, statusAfterDisable);

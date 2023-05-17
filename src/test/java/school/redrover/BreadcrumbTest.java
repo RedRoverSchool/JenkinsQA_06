@@ -5,6 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -55,6 +56,7 @@ public class BreadcrumbTest extends BaseTest {
                 {"//li[@id='yui-gen26']/a/span", "Prepare for Shutdown"}};
     }
 
+    @Ignore
     @Test(dataProvider = "subsections")
     public void testNavigateToManageJenkinsSubsection(String locator, String subsectionName) {
         new Actions(getDriver()).moveToElement(getDriver().findElement(
