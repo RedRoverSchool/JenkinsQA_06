@@ -16,7 +16,6 @@ public class MultiConfigurationProject3Test extends BaseTest {
     final String expectedprojectName =getProjectName();
     @Test
     public void createDefaultMultiConfigurationProjectTest(){
-        //final String expectedprojectName = getProjectName();
 
         getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name = 'name']"))).sendKeys(expectedprojectName);
