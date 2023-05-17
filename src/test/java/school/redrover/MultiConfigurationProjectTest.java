@@ -8,12 +8,21 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-public class MultiConfigurationProjectAddDescriptionTest extends BaseTest {
+public class MultiConfigurationProjectTest extends BaseTest {
     @Test
+    public void testMultiConfigurationProject() {
+        TestUtils.createMultiConfigurationProject(this,"My Multi configuration project",false);
+
+        WebElement nameProject = getDriver().findElement(By.xpath("//h1[text() = 'Project My Multi configuration project']"));
+
+        Assert.assertEquals(nameProject.getText(), "Project My Multi configuration project");
+    }
+
+    @Test(dependsOnMethods = "testMultiConfigurationProject")
     public void testMultiConfigurationProjectAddDescription () {
         final String text = "text";
 
-        TestUtils.createMultiConfigurationProject(this,"My Multi configuration project",false);
+//        TestUtils.createMultiConfigurationProject(this,"My Multi configuration project",false);
 
         WebElement addDescription = getDriver().findElement(By.cssSelector("#description-link"));
         addDescription.click();
