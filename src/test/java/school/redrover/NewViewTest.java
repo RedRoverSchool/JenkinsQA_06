@@ -199,7 +199,8 @@ public class NewViewTest extends BaseTest {
         chooseJobsInJobFilters(folderName2);
         getDriver().findElement(SAVE_BUTTON).click();
 
-        List<WebElement> viewJobsList = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
+        List<WebElement> viewJobsList = getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                By.cssSelector("tr[id^=job_]>td:nth-child(3) span")));
         List<String> actualViewJobsTexts = getListTexts(viewJobsList);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText(), viewName2);
