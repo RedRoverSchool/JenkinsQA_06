@@ -16,7 +16,7 @@ public class MultibranchPipeline26Test extends BaseTest {
 
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(NAME_MULTIBRANCH_PROJECT);
 
-        getDriver().findElement(By.xpath("//*[@class='hudson_matrix_MatrixProject']")).click();
+        getDriver().findElement(By.xpath("//*[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']")).click();
 
         getDriver().findElement(By.id("ok-button")).click();
 
