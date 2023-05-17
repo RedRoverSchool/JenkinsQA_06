@@ -14,7 +14,6 @@ public class FooterJenkinsVersionTest extends BaseTest {
     private final String expectedJenkinsVersion = "Jenkins 2.387.2";
     private final String expectedSiteTitle = "Jenkins";
 
-
     @Test
     public void testFooterJenkinsVersion() {
 
