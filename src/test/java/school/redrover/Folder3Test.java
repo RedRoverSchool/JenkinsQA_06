@@ -33,11 +33,8 @@ public class Folder3Test extends BaseTest {
 
         WebElement folderName = getDriver().findElement(By.xpath("(//span[normalize-space()='folder'])[1]"));
         folderName.click();
-        folderName.click();
 
-        WebElement textFolder = getDriver().findElement(By.xpath("//h1[normalize-space()='folder']"));
-
-        Assert.assertEquals(textFolder.getText(), "folder");
+        Assert.assertEquals(folderName.getText(), "folder");
     }
 
     @Test(dependsOnMethods = "testCreateFolder")
