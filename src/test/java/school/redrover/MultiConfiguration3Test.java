@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -12,19 +11,10 @@ import school.redrover.runner.TestUtils;
 public class MultiConfiguration3Test extends BaseTest {
     private static final String NAME_OF_PROJECT = "New project";
     private static final String DESCRIPTION = "Description";
-    private static final By SAVE_BUTTON = By.name("Submit");
     private static final By DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final By NEW_ITEM_BUTTON = By.xpath("//*[@id='tasks']//span/a");
     private static final By INPUT_FIELD = By.name("name");
     private static final By DISABLE_BUTTON_CONFIG_PAGE = By.xpath("//*[@id='disable-project']/button");
-
-
-    private void createBaseMultiConfigurationProject() {
-        getDriver().findElement(NEW_ITEM_BUTTON).click();
-        getDriver().findElement(INPUT_FIELD).sendKeys(NAME_OF_PROJECT);
-        getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
-        getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
-    }
 
     @Test
     public void testCreateMultiConfigurationProjectWithDescriptionTest() {
@@ -32,7 +22,7 @@ public class MultiConfiguration3Test extends BaseTest {
 
         getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
         getDriver().findElement(By.xpath("//*[@id='description']//textarea")).sendKeys(DESCRIPTION);
-        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.name("Submit")).click();
 
         WebElement nameDescription = getDriver().findElement(By.xpath("//div[@id ='description']//div"));
 
@@ -108,9 +98,9 @@ public class MultiConfiguration3Test extends BaseTest {
 
     @Test
     public void testCheckDisableIconOnDashboard() {
-        createBaseMultiConfigurationProject();
 
-        getDriver().findElement(SAVE_BUTTON).click();
+        TestUtils.createMultiConfigurationProject(this, NAME_OF_PROJECT, false);
+
         getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).click();
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
