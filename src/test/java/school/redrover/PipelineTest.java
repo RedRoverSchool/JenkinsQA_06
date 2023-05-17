@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -254,5 +255,23 @@ public class PipelineTest extends BaseTest {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PIPELINE_NAME + "/']"))).click();
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#main-panel > h1")).getText().contains(PIPELINE_NAME));
+    }
+
+    @Test
+    public void testDeletePipelineProject() {
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[data-url='/job/" + PIPELINE_NAME + "/doDelete']"))).click();
+        getDriver().switchTo().alert().dismiss();
+        getDriver().findElement(By.id("jenkins-home-link")).click();
+
+        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[contains(@href,'job/" + PIPELINE_NAME + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+        chevron.sendKeys(Keys.RETURN);
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
+        getDriver().switchTo().alert().accept();
+        getDriver().findElement(By.id("jenkins-home-link")).click();
+
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
     }
 }
