@@ -42,8 +42,6 @@ public class BuildDescriptionTest extends BaseTest {
         WebElement buildHistoryButton = getDriver().findElement(By.xpath("//*[@id = 'tasks']/div[3]//a"));
         buildHistoryButton.click();
 
-        getWait5();
-
         WebElement buildButton = getDriver()
                 .findElement(By.xpath("//a[contains (text(), '#1')]"));
         buildButton.sendKeys(Keys.RETURN);
