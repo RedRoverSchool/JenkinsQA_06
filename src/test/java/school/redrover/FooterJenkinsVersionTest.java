@@ -2,30 +2,44 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
+
 public class FooterJenkinsVersionTest extends BaseTest {
     private final String expectedJenkinsVersion = "Jenkins 2.387.2";
     private final String expectedSiteTitle = "Jenkins";
 
-    @Ignore
+
     @Test
     public void testFooterJenkinsVersion() {
 
         WebElement linkVersion = getDriver().findElement(By.cssSelector("a[target =  '_blank']"));
-        Assert.assertEquals(linkVersion.getText(),"Jenkins 2.387.2");
+        Assert.assertEquals(linkVersion.getText(), "Jenkins 2.387.2");
+        String originalWindow = getDriver().getWindowHandle();
+        assert getDriver().getWindowHandles().size() == 1;
+
         linkVersion.click();
 
-        for(String winHandle : getDriver().getWindowHandles()) {
-            getDriver().switchTo().window(winHandle);
-        }
-        WebElement brandJenkins = getDriver().findElement(By.cssSelector(".page-title >span"));
-        Assert.assertEquals(brandJenkins.getText(),"Jenkins");
+        getWait5().until(numberOfWindowsToBe(2));
 
+        for (String winHandle : getDriver().getWindowHandles()) {
+            if (!originalWindow.contentEquals(winHandle)) {
+                getDriver().switchTo().window(winHandle);
+                break;
+            }
+        }
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(".btn.btn-secondary"))));
+
+        WebElement brandJenkins =
+                getDriver().findElement(By.cssSelector(".page-title >span"));
+        Assert.assertEquals(brandJenkins.getText(), "Jenkins");
     }
+
 
     @Test
     public void testFooterJenkinsVersionOnNodesPage() {
