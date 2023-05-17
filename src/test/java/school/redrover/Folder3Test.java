@@ -31,7 +31,7 @@ public class Folder3Test extends BaseTest {
         WebElement dashboard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
         dashboard.click();
 
-        WebElement folderName = getDriver().findElement(By.xpath("//span[normalize-space()='folder']"));
+        WebElement folderName = getDriver().findElement(By.xpath("(//span[normalize-space()='folder'])[1]"));
         folderName.click();
         folderName.click();
 
