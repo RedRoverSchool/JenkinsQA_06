@@ -30,7 +30,7 @@ public class ProfileTest extends BaseTest {
 
     @Test
     public void testLogout(){
-        getDriver().findElement(By.xpath("//span[text()='log out']"));
+        getDriver().findElement(By.xpath("//span[text()='log out']")).click();
         try {
             getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
             Assert.assertTrue(true);
