@@ -2,29 +2,33 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
 
 public class FooterJenkinsVersionTest extends BaseTest {
     private final String expectedJenkinsVersion = "Jenkins 2.387.2";
     private final String expectedSiteTitle = "Jenkins";
 
     @Test
-    public void testFooterJenkinsVersion() throws InterruptedException {
+    public void testFooterJenkinsVersion(){
 
         WebElement linkVersion = getDriver().findElement(By.cssSelector("a[target =  '_blank']"));
         Assert.assertEquals(linkVersion.getText(),"Jenkins 2.387.2");
+
         linkVersion.click();
-        Thread.sleep(5000);
+
+        getWait5().until(numberOfWindowsToBe(2));
 
         for(String winHandle : getDriver().getWindowHandles()) {
             getDriver().switchTo().window(winHandle);
         }
+
         WebElement brandJenkins =
-                getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector(".page-title >span"))));
+                getDriver().findElement(By.cssSelector(".page-title >span"));
         Assert.assertEquals(brandJenkins.getText(),"Jenkins");
 
     }
