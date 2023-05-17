@@ -60,13 +60,14 @@ public class Folder5Test extends BaseTest {
                 .xpath("//a[@href='/job/Folder2/move']"))).click();
 
         getDriver().findElement(By.xpath("//select[@name='destination']")).click();
-        getDriver().findElement(By.xpath("//option[@value='/Folder1']"));
+        getDriver().findElement(By.xpath("//option[@value='/Folder1']")).click();
         getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
 
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
-        WebElement folder2 = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'Folder2')]")));
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'Folder2')]"))).click();
+        WebElement h1 = getDriver().findElement(By.xpath("//h1"));
 
-        Assert.assertEquals(folder2.getText(), "Folder2");
+        Assert.assertEquals(h1.getText(), "Folder2");
     }
 }
