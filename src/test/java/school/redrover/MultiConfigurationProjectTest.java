@@ -21,9 +21,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testMultiConfigurationProject")
     public void testMultiConfigurationProjectAddDescription () {
         final String text = "text";
-
-//        TestUtils.createMultiConfigurationProject(this,"My Multi configuration project",false);
-
         WebElement addDescription = getDriver().findElement(By.cssSelector("#description-link"));
         addDescription.click();
 
