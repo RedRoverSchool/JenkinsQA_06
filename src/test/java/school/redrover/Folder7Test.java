@@ -28,11 +28,11 @@ public class Folder7Test extends BaseTest {
 
                 new Actions(getDriver())
                         .moveToElement(getDriver().findElement(By.linkText("Dashboard")))
-                        .click(getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']//button[@class=\"jenkins-menu-dropdown-chevron\"]")))
                         .pause(500)
+                        .click(getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']//button[@class=\"jenkins-menu-dropdown-chevron\"]")))
                         .perform();
                 new Actions (getDriver())
-                        .click(getDriver().findElement(By.xpath("//ul[@class=\"first-of-type\"]//span[text()=\"New Item\"]")))
+                        .click(getDriver().findElement(By.xpath("//ul[@class='first-of-type']//span[text()='New Item']")))
                         .perform();
             }
             else {
