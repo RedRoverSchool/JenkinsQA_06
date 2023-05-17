@@ -30,7 +30,6 @@ public class FooterJenkinsVersionTest extends BaseTest {
                 break;
             }
         }
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(".btn.btn-secondary"))));
 
         WebElement brandJenkins =
                 getDriver().findElement(By.cssSelector(".page-title >span"));
