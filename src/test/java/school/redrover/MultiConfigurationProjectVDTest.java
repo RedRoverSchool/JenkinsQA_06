@@ -1,10 +1,12 @@
 package school.redrover;
 
+import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -34,6 +36,32 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
 
         WebElement expectedResult = getDriver().findElement(By.xpath("//*[@class='matrix-project-headline page-headline']"));
         Assert.assertEquals(expectedResult.getText(), "Project " + PROJECT_NAME);
+    }
+
+    @DataProvider(name = "wrong character")
+    public Object[][] wrongCharacters() {
+        return new Object[][]{
+                {"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}
+        };
+    }
+
+    @Test(dataProvider = "wrong character")
+    public void testCreateProjectWithWrongName(String wrongCharacter) {
+
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+
+        getDriver().findElement(By.xpath("//*[@class='hudson_matrix_MatrixProject']")).click();
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//*[@id='name']"))).sendKeys(wrongCharacter);
+
+        String errorName = getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@id='itemname-invalid']"))).getText();
+
+        Assert.assertEquals(errorName, "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertFalse(getDriver().findElement(By.xpath("//*[@id='ok-button']")).isEnabled());
+
+        getDriver().findElement(By.xpath("//*[@id='jenkins-name-icon']")).click();
     }
 
     @Test(dependsOnMethods = {"testCreateProject"})
