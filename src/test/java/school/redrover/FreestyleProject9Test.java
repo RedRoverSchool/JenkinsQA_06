@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class FreestyleProject8Test extends BaseTest {
+public class FreestyleProject9Test extends BaseTest {
     public static final By NEW_ITEM_BUTTON = By.xpath("//a[@href='/view/all/newJob']");
     public static final By ITEM_NAME_FIELD = By.xpath("//input[@name='name']");
     public static final By FREESTYLE_PROJECT_BUTTON = By.xpath("//li[@class='hudson_model_FreeStyleProject']");
