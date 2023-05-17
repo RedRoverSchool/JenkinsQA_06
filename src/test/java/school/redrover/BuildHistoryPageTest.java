@@ -1,12 +1,42 @@
 package school.redrover;
-
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
+import java.time.Duration;
 
 public class BuildHistoryPageTest extends BaseTest {
+    private static final String NAME_PIPELINE = "Pipeline2023";
+    private static final String BUILD_DESCRIPTION = "For QA";
+    private static final By LOGO_JENKINS = By.id("jenkins-name-icon");
+    private static final By SAVE_BUTTON = By.name("Submit");
+    private static final By BUILD_HISTORY = By.xpath("//a[@href='/view/all/builds']");
+    private static final By BUILD_SCHEDULE = By.xpath("//a[@href='job/" + NAME_PIPELINE + "/build?delay=0sec']");
+    private static final By SERIAL_NUMBER_OF_BUILD = By.xpath(
+            "//a[@href='/job/" + NAME_PIPELINE + "/1/']");
+    private static final By DROP_DOWN_SERIAL_NUMBER = By.xpath(
+            "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']//button[@class='jenkins-menu-dropdown-chevron']");
+    private static final By EDIT_BUILD_INFORMATION = By.xpath("//ul[@class='first-of-type']//a[@href='/job/" + NAME_PIPELINE + "/1/configure']");
+    private static final By DESCRIPTION_FIELD = By.xpath("//textarea[@name='description']");
+    private static final By DESCRIPTION_TEXT = By.xpath("//div[normalize-space()='For QA']");
+
+    protected void clickDropDownSerialNumberOfBuild() {
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", getDriver().findElement(By.xpath(
+                "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']//button[@class='jenkins-menu-dropdown-chevron']"
+        )));
+    }
+    protected void clickEditBuildInformation() {
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", getDriver().findElement(By.xpath(
+                "//ul[@class='first-of-type']//a[@href='/job/" + NAME_PIPELINE + "/1/configure']"
+        )));
+    }
     @Test
     public void testNavigateToBuildHistoryPage() throws InterruptedException {
 
@@ -21,5 +51,35 @@ public class BuildHistoryPageTest extends BaseTest {
 
         Assert.assertEquals(actualBuildHistoryPageTitle, expectedBuildHistoryPageTitle);
         Assert.assertEquals(actualBuildHistoryPageUrl, expectedBuildHistoryPageUrl);
+    }
+
+    @Test
+    public void testAddDescriptionForBuild(){
+
+        TestUtils.createPipeline(this, NAME_PIPELINE, true);
+
+        getDriver().findElement(LOGO_JENKINS).click();
+
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(BUILD_SCHEDULE)).click();
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(BUILD_HISTORY)).click();
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(SERIAL_NUMBER_OF_BUILD));
+        new Actions(getDriver()).moveToElement(getDriver().findElement(SERIAL_NUMBER_OF_BUILD))
+                .pause(Duration.ofSeconds(5))
+                .moveToElement(getDriver().findElement(DROP_DOWN_SERIAL_NUMBER))
+                .pause(Duration.ofSeconds(5))
+                .perform();
+
+        clickDropDownSerialNumberOfBuild();
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION));
+        clickEditBuildInformation();
+
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
+
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), BUILD_DESCRIPTION);
     }
 }
