@@ -7,8 +7,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.List;
+
 public class ManageJenkins2Test extends BaseTest {
-    public static final int QNT_EXECUTORS = 8;
+    public static final int QNT_EXECUTORS = 3;
+
     @Test
     public void testConfigureNumOfExecutorsInMasterNode() {
         WebElement manageJenkinsTab = getDriver().findElement(By.xpath("//a[@href = '/manage']"));
@@ -27,9 +30,7 @@ public class ManageJenkins2Test extends BaseTest {
         WebElement dashBoardBreadcrumb = getDriver().findElement(By.xpath("//a[@href = '/'][1]"));
         getWait5().until(ExpectedConditions.elementToBeClickable(dashBoardBreadcrumb)).click();
 
-        String executorStatusAfterChanges = getDriver().findElement(By.
-                xpath("//td[contains (text(), 'executors busy') ]")).getText();
-
-        Assert.assertEquals(executorStatusAfterChanges, "built-in node + 1 agent (0 of " + QNT_EXECUTORS + " executors busy)");
+        List<WebElement> executors = getDriver().findElements(By.xpath("//td[@class = 'pane'][2]"));
+        Assert.assertEquals(executors.size(), QNT_EXECUTORS);
     }
 }
