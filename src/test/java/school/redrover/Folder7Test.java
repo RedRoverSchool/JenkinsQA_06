@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,11 +27,13 @@ public class Folder7Test extends BaseTest {
             else if (wayToCreate.equals("dropdown")) {
                 getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.linkText("Dashboard"))));
 
+                WebElement dashboard = getDriver().findElement(By.linkText("Dashboard"));
+                WebElement pointer = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']//button[@class=\"jenkins-menu-dropdown-chevron\"]"));
                 new Actions(getDriver())
-                        .moveToElement(getDriver().findElement(By.linkText("Dashboard")))
-                        .pause(500)
-                        .click(getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']//button[@class=\"jenkins-menu-dropdown-chevron\"]")))
+                        .moveToElement(dashboard)
                         .perform();
+                pointer.sendKeys(Keys.RETURN);
+
                 new Actions (getDriver())
                         .click(getDriver().findElement(By.xpath("//ul[@class='first-of-type']//span[text()='New Item']")))
                         .perform();
