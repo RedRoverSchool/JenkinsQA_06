@@ -1,5 +1,8 @@
 package school.redrover;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -9,7 +12,7 @@ import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 public class PipelineProject7Test extends BaseTest {
-    private String name1 = "Project1";
+    private String name1 = "ProjectPipeline";
 
     @Test
     public void testCreatePipelineProject() {
@@ -23,7 +26,6 @@ public class PipelineProject7Test extends BaseTest {
     @DataProvider(name = "wrong-characters")
     public Object[][] providerWrongCharacters() {
         return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}, {"|"}, {">"}, {"["}, {"]"}};
-
     }
 
     @Test(dataProvider = "wrong-characters")
@@ -49,5 +51,30 @@ public class PipelineProject7Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid"))
                 .getText(), "» “.” is not an allowed name");
+    }
+    @Test
+    public void testCreatePipelineDashboardArrowNewItem(){
+        new Actions(getDriver()).moveToElement(getDriver().findElement(
+                By.xpath("//div[@id = 'breadcrumbBar']//a"))).perform();
+
+        WebElement arrow = getDriver().findElement(By.xpath("//div[@id = 'breadcrumbBar']//button"));
+        new Actions(getDriver()).moveToElement(arrow).perform();
+        arrow.sendKeys(Keys.RETURN);
+
+        getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
+                .click();
+
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//input[@id = 'name']"))).sendKeys(name1);
+        getDriver().findElement(By.xpath("//span[text() = 'Pipeline']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
+
+        getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumbBar']//a"))).click();
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//tr[@id='job_" + name1 + "']//a//span['" + name1 + "']"))
+                .getText(), name1);
     }
 }
