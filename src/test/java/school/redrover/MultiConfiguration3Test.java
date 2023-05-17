@@ -95,9 +95,9 @@ public class MultiConfiguration3Test extends BaseTest {
     public void testDisableMultiConfigurationProjectFromConfigurationPage() {
         final String expectedResult = "This project is currently disabled";
 
-        createBaseMultiConfigurationProject();
+        TestUtils.createMultiConfigurationProject(this, NAME_OF_PROJECT, false);
 
-        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
 
         getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).click();
 
