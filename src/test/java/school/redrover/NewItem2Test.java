@@ -59,19 +59,17 @@ public class NewItem2Test extends BaseTest {
         };
     }
 
-    @Ignore
     @Test(dataProvider = "all-jobs-creation")
-    public void testAllJobsCreation(String name, String jobType) {
+    public void testCreateAllJobs(String name, String jobType) {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated((By.id("name")))).sendKeys(name);
-
         getDriver().findElement(By.className(jobType)).click();
         getDriver().findElement(By.id("ok-button")).click();
 
         getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
 
-        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")), name));
+        getWait5().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")), name));
 
         getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']")).click();
 
