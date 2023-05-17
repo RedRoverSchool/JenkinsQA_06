@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-public class PipelineJobTest extends BaseTest {
+public class PipelineJob1Test extends BaseTest {
 
     private final String RANDOM_STRING = RandomStringUtils.randomAlphabetic(5);
 
