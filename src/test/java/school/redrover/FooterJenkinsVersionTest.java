@@ -2,6 +2,8 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -14,23 +16,28 @@ public class FooterJenkinsVersionTest extends BaseTest {
     private final String expectedSiteTitle = "Jenkins";
 
     @Test
-    public void testFooterJenkinsVersion(){
+    public void testFooterJenkinsVersion() {
 
         WebElement linkVersion = getDriver().findElement(By.cssSelector("a[target =  '_blank']"));
-        Assert.assertEquals(linkVersion.getText(),"Jenkins 2.387.2");
+        Assert.assertEquals(linkVersion.getText(), "Jenkins 2.387.2");
+        String originalWindow = getDriver().getWindowHandle();
+        assert getDriver().getWindowHandles().size() == 1;
 
         linkVersion.click();
 
         getWait5().until(numberOfWindowsToBe(2));
 
-        for(String winHandle : getDriver().getWindowHandles()) {
-            getDriver().switchTo().window(winHandle);
+        for (String winHandle : getDriver().getWindowHandles()) {
+            if (!originalWindow.contentEquals(winHandle)) {
+                getDriver().switchTo().window(winHandle);
+                break;
+            }
         }
+        getWait5().until(ExpectedConditions.titleIs("Jenkins"));
 
         WebElement brandJenkins =
                 getDriver().findElement(By.cssSelector(".page-title >span"));
-        Assert.assertEquals(brandJenkins.getText(),"Jenkins");
-
+        Assert.assertEquals(brandJenkins.getText(), "Jenkins");
     }
 
     @Test
@@ -44,12 +51,12 @@ public class FooterJenkinsVersionTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testClickOnJenkinsVersionOpensSiteOnNodesPage(){
+    public void testClickOnJenkinsVersionOpensSiteOnNodesPage() {
 
         getDriver().findElement(By.xpath("//span[@class='pane-header-title']/a")).click();
         getDriver().findElement(By.xpath("//a[@target='_blank']")).click();
 
-        for(String winHandle : getDriver().getWindowHandles()) {
+        for (String winHandle : getDriver().getWindowHandles()) {
             getDriver().switchTo().window(winHandle);
         }
 
