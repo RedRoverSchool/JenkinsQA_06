@@ -66,7 +66,7 @@ public class NewViewTest extends BaseTest {
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.id("name")))).sendKeys(jobName);
         getDriver().findElement(By.xpath("//span[@class='label'][text()='Freestyle project']")).click();
         getDriver().findElement(By.xpath("//div[@class='btn-decorator']")).click();
-        getDriver().findElement(By.name("Submit")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
         clickBreadcrumbPathItem(3, viewName);
     }
 
