@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -30,21 +31,15 @@ public class MultiConfigurationProject3Test extends BaseTest {
         return faker.funnyName().name();
     }
 
-    @Test
-    public void verifyProjectNameCreationWithUnsafeSymbolsTest(){
-
-        final char[] unsafeSymbols = new char[] {'!', '@', '#', '$','%', '^', '&', '*', '[', ']', '\\', '|', ';', ':', '<','>', '/', '?'};
-
-        for (int i = 0; i < unsafeSymbols.length; i++) {
-            getDriver().findElement(By.xpath("//a[@href='/']")).click();
-
+    @Test(dataProvider = "unsafeCharacter")
+    public void verifyProjectNameCreationWithUnsafeSymbolsTest(char unsafeSymbol , String htmlUnsafeSymbol){
             getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
             getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name = 'name']")))
-                    .sendKeys(getProjectName()+unsafeSymbols[i] );
+                    .sendKeys(getProjectName()+unsafeSymbol );
             getDriver().findElement(By.cssSelector("li.hudson_matrix_MatrixProject span")).click();
             String errorNotification = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#itemname-invalid"))).getText();
 
-            Assert.assertEquals(errorNotification, String.format("» ‘%s’ is an unsafe character", unsafeSymbols[i]));
+            Assert.assertEquals(errorNotification, String.format("» ‘%s’ is an unsafe character", unsafeSymbol));
 
             getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
 
@@ -52,7 +47,12 @@ public class MultiConfigurationProject3Test extends BaseTest {
             String errorPageMessage = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']//p"))).getText();
 
             Assert.assertEquals(errorPageHeader, "Error");
-            Assert.assertEquals(errorPageMessage, String.format("‘%s’ is an unsafe character", unsafeSymbols[i]));
-        }
+            Assert.assertEquals(errorPageMessage, String.format("‘%s’ is an unsafe character", unsafeSymbol));
+    }
+
+    @DataProvider(name = "unsafeCharacter")
+    public Object[][] unsafeCharacterArray() {
+        return new Object[][]{{'!', "!"}, {'@', "@"}, {'#', "#"}, {'$', "$"}, {'%', "%"}, {'^', "^"}, {'&', "&amp;"}, {'*', "*"}, {'[', "["}, {']', "]"}, {'\\', "\\"}, {'|', "|"}
+                , {';', ";"}, {':', ":"}, {'<', "&lt;"}, {'>', "&gt;"}, {'/', "/"}, {'?', "?"}};
     }
 }
