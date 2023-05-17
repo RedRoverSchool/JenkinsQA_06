@@ -3,6 +3,7 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -11,6 +12,7 @@ import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,6 +51,35 @@ public class NewViewTest extends BaseTest {
                 el.click();
             }
         }
+    }
+
+    private void clickBreadcrumbPathItem(int n, String name) {
+        List<WebElement> breadcrumbTree = getDriver().findElements(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']/a"));
+        if (breadcrumbTree.get(breadcrumbTree.size() - n).getText().contains(name)) {
+            breadcrumbTree.get(breadcrumbTree.size() - n).click();
+        }
+    }
+
+    private void createFreestyleProjectInsideFolderAndView(String jobName, String viewName, String folderName) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//tr[@id='job_%s']//a", folderName)))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/job/%s/newJob']", viewName, folderName)))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.id("name")))).sendKeys(jobName);
+        getDriver().findElement(By.xpath("//span[@class='label'][text()='Freestyle project']")).click();
+        getDriver().findElement(By.xpath("//div[@class='btn-decorator']")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+        clickBreadcrumbPathItem(3, viewName);
+    }
+
+    private List<String> getListTexts(List<WebElement> list) {
+        if (list.size() > 0) {
+            getWait10().until(ExpectedConditions.visibilityOfAllElements(list));
+            List<String> textList = new ArrayList<>();
+            for (WebElement element : list) {
+                textList.add(element.getText());
+            }
+            return textList;
+        }
+        return null;
     }
 
     @Ignore
@@ -135,5 +166,44 @@ public class NewViewTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText(), viewName);
         Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", folderName1))).getText(), folderName1);
+    }
+
+    @Test(dependsOnMethods = "testMoveFolderToNewViewList")
+    public void testCreateNewViewWithJobFilters() {
+        final String folderName1 = "f1";
+        final String folderName2 = "f2";
+        final String viewName1 = "view1";
+        final String viewName2 = "view2";
+        final String jobName1 = "job1";
+        final String jobName2 = "job2";
+        final String jobName3 = "job3";
+        final List<String> expectedViewJobs = Arrays.asList(folderName1 + " » " + jobName1, folderName1 + " » " + jobName3, folderName2);
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/']", viewName1)))).click();
+
+        createFreestyleProjectInsideFolderAndView(jobName1, viewName1, folderName1);
+        createFreestyleProjectInsideFolderAndView(jobName2, viewName1, folderName1);
+        createFreestyleProjectInsideFolderAndView(jobName3, viewName1, folderName1);
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.xpath("//a[@href='/newView']")))).click();
+        getDriver().findElement(By.id("name")).sendKeys(viewName2);
+        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.xpath("//label[contains(text(), 'Recurse in subfolders')]")))).click();
+
+        new Actions(getDriver()).scrollToElement(getDriver().findElement(By.id("yui-gen1-button"))).perform();
+        chooseJobsInJobFilters(folderName1 + " » " + jobName1);
+        chooseJobsInJobFilters(folderName1 + " » " + jobName3);
+        chooseJobsInJobFilters(folderName2);
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        List<WebElement> viewJobsList = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
+        List<String> actualViewJobsTexts = getListTexts(viewJobsList);
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText(), viewName2);
+        Assert.assertEquals(viewJobsList.size(), 3);
+        Assert.assertEquals(actualViewJobsTexts, expectedViewJobs);
     }
 }
