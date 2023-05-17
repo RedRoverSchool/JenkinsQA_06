@@ -6,56 +6,62 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class PipelineProject2Test extends BaseTest {
 
     private static final String PROJECT_NAME = RandomStringUtils.randomAlphanumeric(7);
-    private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By INPUT_NAME = By.name("name");
     private static final By NEW_NAME = By.name("newName");
-    private static final By SELECT_PIPELINE = By.xpath("//span[contains(text(), 'Pipeline')]");
-    private static final By OK_BUTTON = By.id("ok-button");
-    private static final By SUBMIT = By.name("Submit");
-    private static final By JENKINS_HEAD_ICON = By.id("jenkins-head-icon");
-    private static final By ERROR_MESSAGE = By.xpath("//div[@class='input-validation-message']");
 
-    private void createPipelineProject() {
 
-        getDriver().findElement(NEW_ITEM).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(INPUT_NAME)).sendKeys(PROJECT_NAME);
-        getDriver().findElement(SELECT_PIPELINE).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(SUBMIT)).click();
+    @Test
+    public void testCreatePipelineProject() {
+
+        TestUtils.createPipeline(this, PROJECT_NAME, false);
+        getDriver().findElement(By.xpath(" //h1[@class= \"job-index-headline page-headline\"]")).getText();
+        Assert.assertEquals(getDriver().findElement(By.xpath(" //h1[@class= \"job-index-headline page-headline\"]")).getText(), "Pipeline " + PROJECT_NAME);
     }
 
     @Test
     public void testCreateDuplicatePipelineProject() {
 
-        createPipelineProject();
+        TestUtils.createPipeline(this, PROJECT_NAME, true);
 
-        getDriver().findElement(JENKINS_HEAD_ICON).click();
-        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(INPUT_NAME));
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
-        getDriver().findElement(SELECT_PIPELINE).click();
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Pipeline')]")).click();
 
-        Assert.assertEquals(getDriver().findElement(ERROR_MESSAGE).getText(), "» A job already exists with the name " + "‘" + PROJECT_NAME + "’");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='input-validation-message']")).getText(), "» A job already exists with the name " + "‘" + PROJECT_NAME + "’");
     }
 
     @Test
     public void testRenamePipelineProject() {
 
-        createPipelineProject();
+        TestUtils.createPipeline(this, PROJECT_NAME, true);
 
-        getDriver().findElement(JENKINS_HEAD_ICON).click();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PROJECT_NAME + "/']"))).click();
         getDriver().findElement(By.cssSelector("a[href='/job/" + PROJECT_NAME + "/confirm-rename']")).click();
         getDriver().findElement(NEW_NAME).clear();
         getDriver().findElement(NEW_NAME).sendKeys(PROJECT_NAME + " Renamed");
-        getDriver().findElement(SUBMIT).click();
+        getDriver().findElement(By.name("Submit")).click();
 
         Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains(PROJECT_NAME + " Renamed"));
 
     }
+
+    @Test
+    public void testDisablePipelineProject() {
+
+        TestUtils.createPipeline(this, PROJECT_NAME, true);
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PROJECT_NAME + "/']"))).click();
+        getDriver().findElement(By.name("Submit")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.id("enable-project")).getText().contains("This project is currently disabled"));
+    }
 }
+
+
 

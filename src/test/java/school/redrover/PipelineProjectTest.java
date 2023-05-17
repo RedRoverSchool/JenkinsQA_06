@@ -1,13 +1,16 @@
 package school.redrover;
 
+import com.github.javafaker.Faker;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.*;
 
@@ -179,29 +182,19 @@ public class PipelineProjectTest extends BaseTest {
     }
 
     @Test
-    public void testPipelineCreation() {
+    public void testDisableDuringCreation() {
         final String PIPELINE_NAME = "My_pipeline";
 
-        WebElement newItem = getDriver().findElement(By.xpath(
-                "//a[@href='/view/all/newJob']"));
-        newItem.click();
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
 
-        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("name"))));
+        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("name")))).sendKeys(PIPELINE_NAME);
+        getDriver().findElement(By.cssSelector(".org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
+        getDriver().findElement(By.id("ok-button")).click();
 
-        WebElement pipelineType = getDriver().findElement(By.cssSelector(".org_jenkinsci_plugins_workflow_job_WorkflowJob"));
-        pipelineType.click();
-
-        WebElement nameField = getDriver().findElement(By.id("name"));
-        nameField.sendKeys(PIPELINE_NAME);
-
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-        okButton.click();
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit")));
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.id("toggle-switch-enable-disable-project")));
 
         WebElement enableToggles = getDriver().findElement(By.id("toggle-switch-enable-disable-project"));
-        boolean isPipelineEnabled = Boolean.parseBoolean(getDriver().findElement(By.xpath("//input[@name='enable']"))
-                .getAttribute("value"));
+        boolean isPipelineEnabled = Boolean.parseBoolean(getDriver().findElement(By.xpath("//input[@name='enable']")).getAttribute("value"));
         if (isPipelineEnabled) {
             enableToggles.click();
         }
@@ -209,19 +202,16 @@ public class PipelineProjectTest extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
 
         getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")), "Pipeline"));
-
         String disabledWarning = getDriver().findElement(By.id("enable-project")).getText();
 
-        WebElement configurePipeline = getDriver().findElement(By.xpath("//a[contains(@href,'configure')]"));
-        configurePipeline.click();
+        getDriver().findElement(By.xpath("//a[contains(@href,'configure')]")).click();
 
         getWait5().until(ExpectedConditions.textToBe(By.tagName("h2"), "General"));
-
         boolean isPipelineEnabledAfterDisable = Boolean.parseBoolean(getDriver().findElement(
                 By.xpath("//input[@name='enable']")).getAttribute("value"));
 
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
-        Assert.assertFalse(isPipelineEnabledAfterDisable);
+        Assert.assertFalse(isPipelineEnabledAfterDisable, "Pipeline is enabled");
     }
 
     @Ignore
@@ -267,7 +257,7 @@ public class PipelineProjectTest extends BaseTest {
         Assert.assertNotEquals(statusBeforeDisable, statusAfterDisable);
     }
 
-    @Test(dependsOnMethods = "testPipelineCreation")
+    @Test(dependsOnMethods = "testDisableDuringCreation")
     public void testSetDescription2() {
         final String newDescription = "Pipeline description";
 
@@ -311,5 +301,37 @@ public class PipelineProjectTest extends BaseTest {
                 .toList();
 
         Assert.assertTrue(jobList.contains(RANDOM_NAME_PROJECT));
+    }
+
+    @Test
+    public void buildNowFromPipelineView() {
+        String pipelineName = new Faker().name().title().replace(" ", "");
+        TestUtils.createPipeline(this, pipelineName, true);
+        getDriver().findElement(By.xpath("//*[@href='job/"+pipelineName+"/']")).click();
+
+        if (!getDriver().findElement(By.xpath("//div[@id='no-builds']")).isDisplayed()) {
+            getDriver().findElement(By.xpath("//a[@href='/toggleCollapse?paneId=buildHistory']")).click();
+        }
+
+        getDriver().findElement(By
+                .xpath("//a[@href='/job/"+pipelineName+"/build?delay=0sec']")).click();
+
+        int numberOfStartedBuilds = 1;
+        boolean lastBuildIsPresent = getWait5().until(ExpectedConditions.presenceOfElementLocated(By
+                        .xpath("//span[@class='build-status-icon__outer']//*[name()='svg']["+numberOfStartedBuilds+"]")))
+                .isDisplayed();
+        List<WebElement> list = new ArrayList<>();
+        if (lastBuildIsPresent) {
+            list = getDriver().findElements(By
+                    .xpath("//span[@class='build-status-icon__outer']//*[name()='svg']"));
+        }
+
+        try {
+            Assert.assertEquals(Color.fromString(list.get(0).getCssValue("color"))
+                    .asHex(), "#1ea64b");
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            System.out.println("there are no builds in the 'Build History' list");
+            e.printStackTrace();
+        }
     }
 }
