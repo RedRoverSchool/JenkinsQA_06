@@ -323,6 +323,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+  
     public void testNewFreestyleProjectFolder() {
         getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@name = 'name']")).sendKeys("First");
@@ -336,6 +337,22 @@ public class FreestyleProjectTest extends BaseTest {
         WebElement projectStatusTable = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id = 'projectStatus']")));
 
         Assert.assertTrue(projectStatusTable.findElement(By.xpath("//a/span[contains(text(),'First')]")).isDisplayed());
+    }
+   @Test
+  
+    public void testCreateFreestyleProject() {
+        final String name = "Test";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        getDriver().findElement(By.xpath("//*[@id='name']")).sendKeys(name);
+        getDriver().findElement(By.xpath("//*[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.xpath("//*[@class='btn-decorator']")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        String actualProjectName = getDriver().findElement(By.xpath("//h1")).getText();
+        Assert.assertEquals(actualProjectName, "Project " + name);
+
     }
 }
 
