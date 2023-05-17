@@ -81,7 +81,7 @@ public class BreadcrumbTest extends BaseTest {
         WebElement subSection = getDriver().findElement(subsectionNameLocator);
         subSection.click();
 
-        if (locator.contains("24")){
+        if (locator.contains("23")){
             Alert alert = getWait5().until(ExpectedConditions.alertIsPresent());
             String text = alert.getText();
             alert.dismiss();
