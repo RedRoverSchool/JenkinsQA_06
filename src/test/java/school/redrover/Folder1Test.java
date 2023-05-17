@@ -13,9 +13,9 @@ public class Folder1Test extends BaseTest {
 
     @Test
     public void testCreateNewFolder() {
-        TestUtils.createPipeline(this, NAME,false);
+        TestUtils.createFolder(this, NAME,false);
 
-        Assert.assertEquals(NAME, getDriver().findElement(By.xpath("//h1")).getText());
+        Assert.assertEquals(NAME, getDriver().findElement(By.cssSelector("div[id='main-panel'] h1")).getText());
     }
 
     @Test
@@ -38,12 +38,12 @@ public class Folder1Test extends BaseTest {
         WebElement submit = getDriver().findElement(By.name("Submit"));
         submit.click();
 
-        Assert.assertEquals(NAME, getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
+        Assert.assertEquals(NAME, getDriver().findElement(By.cssSelector("div[id='main-panel'] h1")).getText());
     }
 
     @Test
     public void testRenameFolder() {
-        TestUtils.createPipeline(this, NAME,false);
+        TestUtils.createFolder(this, NAME,false);
 
         WebElement rename = getDriver().findElement(By.xpath("//a[@href='/job/" + NAME + "/confirm-rename']"));
         rename.click();
@@ -55,7 +55,7 @@ public class Folder1Test extends BaseTest {
         WebElement submit = getDriver().findElement(By.name("Submit"));
         submit.click();
 
-        Assert.assertEquals("Rename", getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
+        Assert.assertEquals("Rename", getDriver().findElement(By.cssSelector("div[id='main-panel'] h1")).getText());
     }
 }
 
