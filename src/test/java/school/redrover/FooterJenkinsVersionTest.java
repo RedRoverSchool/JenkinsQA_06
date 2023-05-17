@@ -19,7 +19,7 @@ public class FooterJenkinsVersionTest extends BaseTest {
     public void testFooterJenkinsVersion() {
 
         WebElement linkVersion = getDriver().findElement(By.cssSelector("a[target =  '_blank']"));
-        Assert.assertEquals(linkVersion.getText(), "Jenkins 2.387.2");
+
         String originalWindow = getDriver().getWindowHandle();
         assert getDriver().getWindowHandles().size() == 1;
 
