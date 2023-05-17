@@ -13,7 +13,7 @@ public class PipelineProject1Test extends BaseTest {
 
     @Test
     public void testRenamePipelineProjectOnPipelineProjectPage()  {
-        String newProjectName = "Project2";
+        String newProjectName = "Project12";
 
         TestUtils.createPipeline(this, PROJECT_NAME,true);
 
