@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -19,30 +20,33 @@ public class PipelineProject5Test extends BaseTest {
     @Test
     public void testCreatePipelineProject() {
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(name);
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(INPUT_NAME)).sendKeys(name);
         getDriver().findElement(PIPELINE_PROJECT_TYPE).click();
         getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON)).click();
         getDriver().findElement(JENKINS_LOGO).click();
 
-        Assert.assertEquals(getDriver().findElement(PROJECT_IN_DASHBOARD_TABLE).getText(), name);
+        WebElement projectName = getWait2().until(ExpectedConditions.visibilityOfElementLocated(PROJECT_IN_DASHBOARD_TABLE));
 
-        getDriver().findElement(PROJECT_IN_DASHBOARD_TABLE).click();
+        Assert.assertEquals(projectName.getText(), name);
+
+        projectName.click();
 
         Assert.assertEquals(getDriver().findElement(
                         By.xpath("//h1[normalize-space()='Pipeline " + name + "']"))
-                .getText(), "Pipeline " + name);
+                        .getText(), "Pipeline " + name);
     }
 
     @Test(dependsOnMethods = "testCreatePipelineProject")
     public void testDeletePipelineProject() {
-        getDriver().findElement(PROJECT_IN_DASHBOARD_TABLE).click();
-        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Pipeline')]")).click();
-        getWait2();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(PROJECT_IN_DASHBOARD_TABLE)).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//span[contains(text(),'Delete Pipeline')]"))).click();
         getDriver().switchTo().alert().accept();
-        getWait2();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[normalize-space()='Welcome to Jenkins!']")).getText(), "Welcome to Jenkins!");
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//h1[normalize-space()='Welcome to Jenkins!']"))
+                .getText(), "Welcome to Jenkins!");
     }
 
     @Test
