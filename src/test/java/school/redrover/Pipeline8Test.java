@@ -25,7 +25,7 @@ public class Pipeline8Test extends BaseTest {
     }
 
     @Test
-    public void CreateBuildNowVisibilityTheTimeStatusBuild() {
+    public void testCreateBuildNowVisibilityTheTimeStatusBuild() {
         TestUtils.createPipeline(this, "Engineer", true);
 
         getDriver().findElement(By.xpath("//a[@href='job/Engineer/']")).click();
