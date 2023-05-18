@@ -56,7 +56,6 @@ public class BreadcrumbTest extends BaseTest {
                 {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/script']/span", "Script Console"},
                 {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/prepareShutdown']/span", "Prepare for Shutdown"}};
     }
-    @Ignore
     @Test(dataProvider = "subsections")
     public void testNavigateToManageJenkinsSubsection(String locator, String subsectionName) {
         new Actions(getDriver()).moveToElement(getDriver().findElement(
