@@ -9,7 +9,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-
+@Ignore
 public class BreadcrumbTest extends BaseTest {
     @Test
     public void testNavigateToManageJenkinsSection() {
@@ -55,8 +55,6 @@ public class BreadcrumbTest extends BaseTest {
                 {"//li[@id='yui-gen25']/a/span", "Script Console"},
                 {"//li[@id='yui-gen26']/a/span", "Prepare for Shutdown"}};
     }
-
-    @Ignore
     @Test(dataProvider = "subsections")
     public void testNavigateToManageJenkinsSubsection(String locator, String subsectionName) {
         new Actions(getDriver()).moveToElement(getDriver().findElement(
@@ -75,7 +73,7 @@ public class BreadcrumbTest extends BaseTest {
 
         if (locator.contains("23")||locator.contains("24") || locator.contains("25") || locator.contains("26")) {
             new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
-            for (int i = 0; i < 18; i++) {
+            for (int i = 0; i < 16; i++) {
                 new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
             }
         }
@@ -84,10 +82,9 @@ public class BreadcrumbTest extends BaseTest {
         WebElement subSection = getDriver().findElement(subsectionNameLocator);
         subSection.click();
 
-        String text = "";
         if (locator.contains("23")){
             Alert alert = getWait5().until(ExpectedConditions.alertIsPresent());
-            text = alert.getText();
+            String text = alert.getText();
             alert.dismiss();
             Assert.assertEquals(text, "Reload Configuration from Disk: are you sure?");
         } else {

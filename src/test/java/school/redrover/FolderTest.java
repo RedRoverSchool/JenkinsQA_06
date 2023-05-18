@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -7,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class FolderTest extends BaseTest {
 
@@ -112,6 +114,19 @@ public class FolderTest extends BaseTest {
         createFolder(folderName);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), errorMessage);
+    }
 
+    @Test
+    public void testCreateOrganizationFolderInFolder() {
+        final String name = RandomStringUtils.randomAlphanumeric(8);
+
+        TestUtils.createFolder(this, name, true);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
+
+        TestUtils.createOrganizationFolder(this, name + "Organization", true);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.id("projectstatus"))).getText().contains(name + "Organization"));
     }
 }

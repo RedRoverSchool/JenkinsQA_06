@@ -12,6 +12,8 @@ public class FreestyleProject6Test extends school.redrover.runner.BaseTest {
 
     private final String PROJECT_NAME = "Project 2";
     private final String EXPECTED_H2 = "This folder is empty";
+    private final String DESCIPTION_TEXT = "In publishing and graphic design, Lorem ipsum is a placeholder " +
+            "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
 
     private void createFreestyleProject() {
         WebElement newItemMenu = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = '/view/all/newJob']")));
@@ -98,5 +100,33 @@ public class FreestyleProject6Test extends school.redrover.runner.BaseTest {
         getDriver().findElement(By.xpath("//a[@href = '/me/my-views']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), EXPECTED_H2);
+    }
+
+    @Test
+    public void testAddDescription() {
+        createFreestyleProject();
+
+        WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
+        dashboardBreadCrumb.click();
+
+        Actions act = new Actions(getDriver());
+        WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '"+ PROJECT_NAME +"')]"));
+        act.moveToElement(projectName, 23, 7).perform();
+
+        Actions act2 = new Actions(getDriver());
+        WebElement dropDownButton = getDriver().findElement(By.xpath("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
+        act2.moveToElement(dropDownButton).perform();
+        dropDownButton.sendKeys(Keys.RETURN);
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
+        getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Configure')]")).click();
+        getDriver().findElement(By.name("description")).sendKeys(DESCIPTION_TEXT);
+        getDriver().findElement(By.xpath("//div/a[@previewendpoint='/markupFormatter/previewDescription']")).click();
+
+        WebElement previewTextArea = getDriver().findElement(By.xpath("//div[@class = 'textarea-preview']"));
+        Assert.assertEquals(previewTextArea.getText(), DESCIPTION_TEXT);
+
+        getDriver().findElement(By.name("Submit")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), DESCIPTION_TEXT);
     }
 }
