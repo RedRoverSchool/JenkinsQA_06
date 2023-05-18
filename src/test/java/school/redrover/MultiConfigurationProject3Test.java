@@ -52,18 +52,17 @@ public class MultiConfigurationProject3Test extends BaseTest {
             Assert.assertEquals(errorPageHeader, "Error");
             Assert.assertEquals(errorPageMessage, String.format("‘%s’ is an unsafe character", unsafeSymbol));
     }
-
-
+    
     //dependsOnMethods не работает с dataProvider, проект создается для 1 теста, очищается после 1 теста и для второго уже не вызывается
     //поэтому задействована TestUtils.createMultiConfigurationProject(this ,expectedprojectName, true); вместо
     //@Test(dependsOnMethods = "createDefaultMultiConfigurationProjectTest", dataProvider = "unsafeCharacter")
-    @Test(dataProvider = "unsafeCharacter",dataProviderClass = DataTest.class)
-    public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol , String htmlUnsafeSymbol){
-        TestUtils.createMultiConfigurationProject(this ,expectedprojectName, true);
+    @Test(dataProvider = "unsafeCharacter", dataProviderClass = DataTest.class)
+    public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol, String htmlUnsafeSymbol) {
+        TestUtils.createMultiConfigurationProject(this, expectedprojectName, true);
 
         WebElement project = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#projectstatus a.model-link")));
         new Actions(getDriver()).moveToElement(project).perform();
-        WebElement menuDropdown =getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".jenkins-table__link > .jenkins-menu-dropdown-chevron")));
+        WebElement menuDropdown = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".jenkins-table__link > .jenkins-menu-dropdown-chevron")));
         getWait10().until(ExpectedConditions.elementToBeClickable(menuDropdown)).sendKeys(Keys.RETURN);
 
         getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']//li//span[text()='Rename']")).click();
