@@ -12,7 +12,6 @@ public class ManageUsersTest extends BaseTest {
     private final By MANAGE_USERS = By.xpath("//a[@href='securityRealm/']");
     private final By SUBMIT = By.xpath("//button[@name='Submit']");
     private final By USERS_TABLE = By.id("people");
-    private static final By DASHBOARD = By.xpath("//img[@id='jenkins-head-icon']");
 
     @DataProvider(name = "userdata provider")
     public Object[][] provideUserData() {
