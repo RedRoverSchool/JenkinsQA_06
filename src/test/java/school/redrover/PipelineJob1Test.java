@@ -26,12 +26,21 @@ public class PipelineJob1Test extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href= 'job/" + projectName + "/']//span")).isDisplayed());
     }
+    @Test
+    public void testDisablePipeline() {
+        TestUtils.createPipeline(this, RANDOM_STRING, false);
+
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//form[@id='enable-project']")).isDisplayed());
+    }
 
     @Test
     public void testDeletePipelineByTheLeftSidebar() {
         TestUtils.createPipeline(this, RANDOM_STRING, false);
 
         String projectName = getProjectNameFromRandomString();
+
         getDriver().findElement(By.name("Submit")).click();
         getDriver().findElement(By.id("jenkins-name-icon")).click();
         getDriver().findElement(By.xpath("//li[@href = '/']")).click();
@@ -54,7 +63,7 @@ public class PipelineJob1Test extends BaseTest {
         TestUtils.createPipeline(this, RANDOM_STRING, false);
 
         String projectName = getProjectNameFromRandomString();
-        getDriver().findElement(By.name("Submit")).click();
+
         getDriver().findElement(By.id("jenkins-name-icon")).click();
         getDriver().findElement(By.xpath("//span[contains(text(),'" + projectName + "')]")).click();
         getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Pipeline')]")).click();
