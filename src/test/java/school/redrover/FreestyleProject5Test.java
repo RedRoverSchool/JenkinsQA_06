@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -52,11 +53,13 @@ public class FreestyleProject5Test extends BaseTest {
 
         new Actions(getDriver())
                 .moveToElement(mouseOnProject)
-                .click(getWait2().until(ExpectedConditions
-                        .elementToBeClickable(By.xpath("//tr[@id='job_First Freestyle Project']/td[3]//button[@class='jenkins-menu-dropdown-chevron']"))))
                 .perform();
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@id='yui-gen6']")));
+        WebElement menuDropDownShevron = getWait5()
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='job_First Freestyle Project']/td[3]//button[@class='jenkins-menu-dropdown-chevron']")));
+        menuDropDownShevron.sendKeys(Keys.RETURN);
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@id='yui-gen6']")));
         getDriver().findElement(By.xpath("//li[@id='yui-gen6']")).click();
 
         WebElement inputField = getDriver().findElement(By.xpath("//input[@name='newName']"));
