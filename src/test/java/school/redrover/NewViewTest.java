@@ -211,11 +211,6 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateMyView() {
-        /*getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.name("name")).sendKeys("TestFolder");
-        getDriver().findElement(By.xpath("//ul[@class = 'j-item-options']//li[@class= 'com_cloudbees_hudson_plugins_folder_Folder']")).click();
-        getDriver().findElement(By.id("ok-button")).click();*/
-
         TestUtils.createFolder(this, "TestFolder", true);
 
         getDriver().findElement(By.linkText("TestFolder")).click();
