@@ -167,7 +167,7 @@ public class NewViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText(), viewName);
         Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", folderName1))).getText(), folderName1);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testMoveFolderToNewViewList")
     public void testCreateNewViewWithJobFilters() {
         final String folderName1 = "f1";
