@@ -1,8 +1,8 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -128,11 +128,9 @@ public class FreestyleProject8Test extends BaseTest {
         WebElement dashboardButton = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
         dashboardButton.click();
 
-        Actions action = new Actions(getDriver());
-        action.moveToElement(getDriver().findElement(By.xpath("//*[@id='job_NewProject']/td[3]/a")))
-                .moveToElement(getDriver().findElement(By.xpath("//*[@id='job_NewProject']/td[3]/a/button")))
-                .click()
-                .perform();
+        WebElement chevron = getWait5().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//a[contains(@href,'job/NewProject/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+        chevron.sendKeys(Keys.RETURN);
 
         getWait2().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//a[contains(@href,'rename')]//span"))).click();
