@@ -6,11 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectFolder2Test extends BaseTest {
@@ -56,7 +57,6 @@ public class ProjectFolder2Test extends BaseTest {
         Assert.assertEquals(actualJob, FOLDER1_NAME);
     }
 
-    @Ignore
     @Test
     public void testTwoFoldersCreation() {
         List<String> expectedFoldersList = Arrays.asList(FOLDER1_NAME, FOLDER2_NAME);
@@ -64,12 +64,17 @@ public class ProjectFolder2Test extends BaseTest {
         createAFolder(FOLDER1_NAME);
         createAFolder(FOLDER2_NAME);
 
-        List<WebElement> actualFoldersList = getDriver().findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
+        List<WebElement> foldersList = getDriver().findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
 
-        for (int i = 0; i < actualFoldersList.size(); i++) {
-
-            Assert.assertEquals(actualFoldersList.get(actualFoldersList.size() - 1 - i).getText(), expectedFoldersList.get(i));
+        List<String> actualFoldersList = new ArrayList<>();
+        for (WebElement webElement : foldersList) {
+            actualFoldersList.add(webElement.getText());
         }
+
+        Collections.sort(expectedFoldersList);
+        Collections.sort(actualFoldersList);
+
+        Assert.assertEquals(actualFoldersList, expectedFoldersList);
     }
 
     @DataProvider(name = "create-folder")

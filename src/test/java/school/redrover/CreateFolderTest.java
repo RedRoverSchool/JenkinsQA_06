@@ -44,14 +44,13 @@ public class CreateFolderTest extends BaseTest {
         Assert.assertEquals(actualResult, "Folder_TC_04_01_02");
     }
 
-    @Ignore
     @Test
     public void testCreateFolder1() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys("Folder1");
         getDriver().findElement(By.xpath("//div[@id='j-add-item-type-nested-projects']/ul/li[1]")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.name("Submit")))).click();
         getDriver().findElement(By.linkText("Dashboard")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@id=\"job_Folder1\"]/td[3]/a/span")).getText(), "Folder1");

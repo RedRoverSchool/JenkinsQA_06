@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class Pipeline2Test extends BaseTest {
+public class PipelineProject8Test extends BaseTest {
 
     @Test
     public void TestCreatePipeline() {

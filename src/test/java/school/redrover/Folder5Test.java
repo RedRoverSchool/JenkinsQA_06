@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -9,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class Folder5Test extends BaseTest {
 
@@ -45,5 +45,29 @@ public class Folder5Test extends BaseTest {
         WebElement newFolderName = getDriver().findElement(By.xpath("//a[@href='job/New%20name%20folder/']/span"));
 
         Assert.assertEquals(newFolderName.getText(), "New name folder");
+    }
+
+    @Test
+    public void testMoveFolderToFolder() {
+        TestUtils.createFolder(this, "Folder1", true);
+        TestUtils.createFolder(this, "Folder2", true);
+
+        WebElement dropdown = getDriver().findElement(By.xpath("//a[@href='job/Folder2/']/button"));
+        new Actions(getDriver()).moveToElement(dropdown).perform();
+        dropdown.sendKeys(Keys.RETURN);
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By
+                .xpath("//a[@href='/job/Folder2/move']"))).click();
+
+        getDriver().findElement(By.xpath("//select[@name='destination']")).click();
+        getDriver().findElement(By.xpath("//option[@value='/Folder1']")).click();
+        getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'Folder2')]"))).click();
+        WebElement h1 = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(h1.getText(), "Folder2");
     }
 }
