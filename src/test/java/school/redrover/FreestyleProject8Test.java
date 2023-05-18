@@ -135,7 +135,7 @@ public class FreestyleProject8Test extends BaseTest {
                 .perform();
 
         getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//*[@href = '/job/NewProject/confirm-rename']"))).click();
+                .visibilityOfElementLocated(By.xpath("//a[contains(@href,'rename')]//span"))).click();
 
         WebElement newNameInputField = getDriver().findElement(By.xpath("//*[@name = 'newName']"));
         newNameInputField.clear();
