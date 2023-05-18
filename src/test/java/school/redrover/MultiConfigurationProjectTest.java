@@ -34,5 +34,4 @@ public class MultiConfigurationProjectTest extends BaseTest {
         WebElement inputAdd = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
         Assert.assertEquals(inputAdd.getText(), text);
     }
-
 }
