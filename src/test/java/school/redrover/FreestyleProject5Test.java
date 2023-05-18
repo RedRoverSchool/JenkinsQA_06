@@ -43,6 +43,8 @@ public class FreestyleProject5Test extends BaseTest {
 
     @Test
     public void testRenameFreestyleProject(){
+        final String newName = "Second";
+
         TestUtils.createFreestyleProject(this, "First Freestyle Project", true);
 
         WebElement mouseOnProject = getDriver()
@@ -59,13 +61,13 @@ public class FreestyleProject5Test extends BaseTest {
 
         WebElement inputField = getDriver().findElement(By.xpath("//input[@name='newName']"));
                 inputField.clear();
-                inputField.sendKeys("Second");
+                inputField.sendKeys(newName);
         getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
 
         getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@class='model-link']")).click();
         WebElement projectName =
                 getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']/span"));
 
-        Assert.assertEquals(projectName.getText(), "Second");
+        Assert.assertEquals(projectName.getText(), newName);
     }
 }
