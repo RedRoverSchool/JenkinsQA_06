@@ -17,7 +17,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(nameProject.getText(), "Project My Multi configuration project");
     }
-
     @Test(dependsOnMethods = "testMultiConfigurationProject")
     public void testMultiConfigurationProjectAddDescription () {
         final String text = "text";
