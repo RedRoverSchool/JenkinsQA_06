@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class PipelineProject5Test extends BaseTest {
     public static String name = "My New Pipeline Project";
@@ -50,9 +51,11 @@ public class PipelineProject5Test extends BaseTest {
                 .getText(), "Welcome to Jenkins!");
     }
 
-    @Test(dependsOnMethods = "testCreatePipelineProject")
+    @Test
     public void testDeletePipelineProjectDropDown() {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(PROJECT_IN_DASHBOARD_TABLE));
+        TestUtils.createPipeline(this, name, true);
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(PROJECT_IN_DASHBOARD_TABLE));
 
         new Actions(getDriver())
                 .moveToElement(getWait5().until(ExpectedConditions.elementToBeClickable(
