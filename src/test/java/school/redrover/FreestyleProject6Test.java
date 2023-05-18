@@ -13,8 +13,6 @@ public class FreestyleProject6Test extends BaseTest {
 
     private final String PROJECT_NAME = "Project 2";
     private final String EXPECTED_H2 = "This folder is empty";
-    private final String DESCRIPTION_TEXT = "In publishing and graphic design, Lorem ipsum is a placeholder " +
-            "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
     private final String NEW_NAME = "Correct name";
 
     private void createFreestyleProject() {
@@ -106,6 +104,9 @@ public class FreestyleProject6Test extends BaseTest {
 
     @Test
     public void testAddDescription() {
+        final String descriptionText = "In publishing and graphic design, Lorem ipsum is a placeholder " +
+                "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
+
         createFreestyleProject();
 
         WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
@@ -122,14 +123,15 @@ public class FreestyleProject6Test extends BaseTest {
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Configure')]")).click();
-        getDriver().findElement(By.name("description")).sendKeys(DESCRIPTION_TEXT);
+
+        getDriver().findElement(By.name("description")).sendKeys(descriptionText);
         getDriver().findElement(By.xpath("//div/a[@previewendpoint='/markupFormatter/previewDescription']")).click();
 
         WebElement previewTextArea = getDriver().findElement(By.xpath("//div[@class = 'textarea-preview']"));
-        Assert.assertEquals(previewTextArea.getText(), DESCRIPTION_TEXT);
+        Assert.assertEquals(previewTextArea.getText(), descriptionText);
 
         getDriver().findElement(By.name("Submit")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), DESCRIPTION_TEXT);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), descriptionText);
     }
 
     @Test
@@ -150,6 +152,28 @@ public class FreestyleProject6Test extends BaseTest {
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Rename')]")).click();
+
+        WebElement newNameInputField = getDriver().findElement(By.name("newName"));
+        newNameInputField.clear();
+        newNameInputField.sendKeys(NEW_NAME);
+
+        getDriver().findElement(By.name("Submit")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + NEW_NAME);
+    }
+
+    @Test
+    public void testRenameProjectFromProjectPage() {
+        createFreestyleProject();
+
+        WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
+        dashboardBreadCrumb.click();
+
+        WebElement project = getDriver().findElement(By.xpath("//span[contains(text(), '" + PROJECT_NAME + "')]"));
+        project.click();
+
+        WebElement renameProjectLink = getDriver().findElement(By.xpath("//a[contains(@href, 'rename')]"));
+        renameProjectLink.click();
 
         WebElement newNameInputField = getDriver().findElement(By.name("newName"));
         newNameInputField.clear();
