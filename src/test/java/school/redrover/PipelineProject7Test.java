@@ -77,4 +77,20 @@ public class PipelineProject7Test extends BaseTest {
                 .findElement(By.xpath("//tr[@id='job_" + name1 + "']//a//span['" + name1 + "']"))
                 .getText(), name1);
     }
+    @Test
+    public void testCreateAJobPipeline(){
+        getDriver().findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']")).click();
+
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//input[@id = 'name']"))).sendKeys(name1);
+        getDriver().findElement(By.xpath("//span[text() = 'Pipeline']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
+
+        getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumbBar']//a"))).click();
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//tr[@id='job_" + name1 + "']//a//span['" + name1 + "']"))
+                .getText(), name1);
+    }
 }
