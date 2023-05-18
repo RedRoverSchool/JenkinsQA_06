@@ -144,22 +144,23 @@ public class Pipeline2Test extends BaseTest {
 
     @Test(dependsOnMethods = "testCreatePipelineProjectCorrectName")
     public void testRenameProjectFromDashboardPage() {
-        String project = "//a[@class='jenkins-table__link model-link inside']";
+        final String project = "//a[@class='jenkins-table__link model-link inside']";
+        final String dropdownChevron = "//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']";
 
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath(project))));
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath(project)))
-                .moveToElement(getDriver().findElement(By.xpath(project + "//button[@class='jenkins-menu-dropdown-chevron']")))
-                .click()
-                .pause(Duration.ofSeconds(2))
+                .moveToElement(getDriver().findElement(By.xpath(dropdownChevron)))
                 .perform();
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(By.xpath(project + "//button[@class='jenkins-menu-dropdown-chevron']")), 0,8);
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] "))));
+        getDriver().findElement(By.xpath(dropdownChevron)).sendKeys(Keys.RETURN);
 
+        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//div[@class = 'bd']"))));
+
+        final String rename = "//div[@class = 'bd']//span[contains(text(), 'Rename')]";
         new Actions(getDriver())
-                .moveToElement(getDriver().findElement(By.xpath("//div[@class = 'bd']//span[contains(text(), 'Rename')] ")))
+                .scrollToElement(getDriver().findElement(By.xpath(rename)))
+                .moveToElement(getDriver().findElement(By.xpath(rename)))
                 .click()
                 .perform();
 
