@@ -320,4 +320,19 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(consoleOutput.getText().contains("echo Hello"));
         Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
     }
+
+    @Test
+    public void testCreateFreestyleProject() {
+        final String name = "Test";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        getDriver().findElement(By.xpath("//*[@id='name']")).sendKeys(name);
+        getDriver().findElement(By.xpath("//*[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.xpath("//*[@class='btn-decorator']")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        String actualProjectName = getDriver().findElement(By.xpath("//h1")).getText();
+        Assert.assertEquals(actualProjectName, "Project " + name);
+    }
 }

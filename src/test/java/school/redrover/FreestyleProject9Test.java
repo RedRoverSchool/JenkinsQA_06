@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class FreestyleProjectTest1 extends BaseTest {
+public class FreestyleProject9Test extends BaseTest {
     public static final By NEW_ITEM_BUTTON = By.xpath("//a[@href='/view/all/newJob']");
     public static final By ITEM_NAME_FIELD = By.xpath("//input[@name='name']");
     public static final By FREESTYLE_PROJECT_BUTTON = By.xpath("//li[@class='hudson_model_FreeStyleProject']");
@@ -18,16 +18,12 @@ public class FreestyleProjectTest1 extends BaseTest {
     @Test
     public void testDisplayFreestyleProjectOnDashboard() {
         getDriver().findElement(NEW_ITEM_BUTTON).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(ITEM_NAME_FIELD));
-        getDriver().findElement(ITEM_NAME_FIELD).sendKeys("testFreestyleProject");
+        getWait2().until(ExpectedConditions.elementToBeClickable(ITEM_NAME_FIELD)).sendKeys("testFreestyleProject");
         getDriver().findElement(FREESTYLE_PROJECT_BUTTON).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
-        getDriver().findElement(OK_BUTTON).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(OK_BUTTON)).click();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON));
-        getDriver().findElement(SAVE_BUTTON).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(JENKINS_IMAGE_HEADER));
-        getDriver().findElement(JENKINS_IMAGE_HEADER).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(JENKINS_IMAGE_HEADER)).click();
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='job_testFreestyleProject']")));
         WebElement createdFreestyleProject = getDriver().findElement(By.xpath("//a[@href='job/testFreestyleProject/']"));
 
