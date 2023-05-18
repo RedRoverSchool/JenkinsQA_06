@@ -56,6 +56,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testEnableProject() {
 
+
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
@@ -334,5 +335,40 @@ public class FreestyleProjectTest extends BaseTest {
 
         String actualProjectName = getDriver().findElement(By.xpath("//h1")).getText();
         Assert.assertEquals(actualProjectName, "Project " + name);
+
+    }
+
+    @Test
+    public void testCreateFreestyleProjectValidName() {
+        WebElement newItemButton = getDriver().findElement(By.xpath("//div[@id='tasks']/div/span/a[@href='/view/all/newJob']"));
+        newItemButton.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
+
+        WebElement inputField = getDriver().findElement(By.xpath("//input[@id='name']"));
+        inputField.sendKeys("Astra");
+
+        WebElement freestyleProject = getDriver().findElement
+                (By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li[@class='hudson_model_FreeStyleProject']"));
+        freestyleProject.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        okButton.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@name='Submit']")));
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ol[@id='breadcrumbs']/li/a[@href='/']")));
+
+        WebElement dashboardLink = getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li/a[@href='/']"));
+        dashboardLink.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/Astra/']/span")));
+
+        WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/Astra/']/span"));
+
+        Assert.assertTrue(createdProject.isDisplayed());
     }
 }
