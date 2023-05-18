@@ -61,7 +61,7 @@ public class PipelineProject5Test extends BaseTest {
                 .click()
                 .perform();
 
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='Delete Pipeline']"))).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='Delete Pipeline']"))).click();
         getDriver().switchTo().alert().accept();
 
         Assert.assertEquals(getDriver().findElement(
