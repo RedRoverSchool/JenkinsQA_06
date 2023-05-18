@@ -58,15 +58,12 @@ public class PipelineProject5Test extends BaseTest {
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(PROJECT_IN_DASHBOARD_TABLE));
 
-        new Actions(getDriver())
-                .moveToElement(getWait5().until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//a[@class='jenkins-table__link model-link inside']" +
-                        "//button[@class='jenkins-menu-dropdown-chevron']"))))
-                .sendKeys(Keys.RETURN)
-                .perform();
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(
+                        By.xpath("//a[@class ='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']")))
+                .sendKeys(Keys.RETURN);
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[normalize-space()='Delete Pipeline']"))).click();
-        getDriver().switchTo().alert().accept();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Delete Pipeline"))).click();
+        getWait2().until(ExpectedConditions.alertIsPresent()).accept();
 
         Assert.assertEquals(getDriver().findElement(
                         By.xpath("//h1[normalize-space()='Welcome to Jenkins!']"))
