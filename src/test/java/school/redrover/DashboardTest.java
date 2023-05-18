@@ -63,7 +63,9 @@ public class DashboardTest extends BaseTest {
 
         moveToElement(dropDownMenuButton);
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(dropDownMenuButton)).click();
+        getWait5().until(ExpectedConditions.attributeToBe(dropDownMenuButton, "cursor", "pointer"));
+        dropDownMenuButton.click();
+
 
         getWait5().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@id='breadcrumb-menu']//a//span")));
 
