@@ -57,7 +57,6 @@ public class ProjectFolder2Test extends BaseTest {
         Assert.assertEquals(actualJob, FOLDER1_NAME);
     }
 
-  //  @Ignore
     @Test
     public void testTwoFoldersCreation() {
         List<String> expectedFoldersList = Arrays.asList(FOLDER1_NAME, FOLDER2_NAME);
