@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -36,5 +37,38 @@ public class FreestyleProject2Test extends BaseTest {
 
         Assert.assertEquals(textProject.getText(), "First project");
 
+    }
+
+    @Test(dependsOnMethods = "testNewProject")
+    public void testAddDescription() {
+
+        String text = "As a User, I want to add description to a freestyle project," +
+                " so that I can make it clear for my colleagues what exactly this job does.\n" +
+                "Acceptance criteria:\n" +
+                "Ensure the User is able to:\n" +
+                "Add a multiline text description to a created freestyle project\n" +
+                "Preview the description before adding it\n" +
+                "See the added description on the project page\n" +
+                "Edit the project description";
+
+        getDriver().findElement(By.xpath("//span[normalize-space()='First project']")).click();
+
+        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(
+                text);
+
+        getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
+
+        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Hello! ");
+
+        getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
+
+        WebElement description = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath
+                ("//div[contains(text(),'Hello! As a User, I want to add description to a f')]")));
+
+        Assert.assertEquals(description.getText(), "Hello! " + text);
     }
 }
