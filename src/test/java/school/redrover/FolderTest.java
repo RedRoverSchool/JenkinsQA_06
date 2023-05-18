@@ -6,6 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -128,5 +129,30 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.id("projectstatus"))).getText().contains(name + "Organization"));
+    }
+
+    @DataProvider(name = "invalid-data")
+    public Object[][] provideInvalidData() {
+        return new Object[][]{{"!"}, {"#"}, {"$"}, {"%"}, {"&"}, {"*"}, {"/"}, {":"},
+                {";"}, {"<"}, {">"}, {"?"}, {"@"}, {"["}, {"]"}, {"|"}, {"\\"}, {"^"}};
+    }
+
+    @Test(dataProvider = "invalid-data")
+    public void testCreateFolderUsingInvalidData(String invalidData) {
+        String errorMessage = "» ‘" + invalidData + "’ is an unsafe character";
+
+        WebElement createItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        createItemButton.click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Folder']"))).click();
+
+        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        fieldInputName.clear();
+        fieldInputName.sendKeys(invalidData);
+
+        WebElement resultMessage = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, errorMessage);
     }
 }
