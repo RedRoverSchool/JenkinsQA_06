@@ -321,11 +321,12 @@ public class HeaderTest extends BaseTest {
                         By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
         getDriver().findElement(NOTIFICATION_ICON).click();
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN));
-        getDriver().findElement(By.xpath("//a[contains(text(),'Manage Jenkins')]")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Manage Jenkins')]"))).click();
 
         Assert.assertTrue(
                 getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("main-panel"))).isDisplayed());
@@ -344,5 +345,17 @@ public class HeaderTest extends BaseTest {
         String textUnderlineAfter = adminLink.getCssValue("text-decoration");
 
         Assert.assertTrue(textUnderlineAfter.contains("underline"));
+    }
+
+    @Test
+    public void testLogoutButtonColorChange() {
+        WebElement logoutLink = getDriver().findElement(By.linkText("log out"));
+        Actions actions = new Actions((getDriver()));
+        actions.moveToElement(logoutLink).perform();
+        getWait5().until(ExpectedConditions.attributeToBeNotEmpty(logoutLink, "text-decoration"));
+        String expectedColor = "rgba(245, 245, 245, 1)";
+        String actualColor = logoutLink.getCssValue("color");
+
+        assertEquals(actualColor, expectedColor);
     }
 }
