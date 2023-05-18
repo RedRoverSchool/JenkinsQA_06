@@ -53,9 +53,7 @@ public class MultiConfigurationProject3Test extends BaseTest {
             Assert.assertEquals(errorPageMessage, String.format("‘%s’ is an unsafe character", unsafeSymbol));
     }
     
-    //dependsOnMethods не работает с dataProvider, проект создается для 1 теста, очищается после 1 теста и для второго уже не вызывается
-    //поэтому задействована TestUtils.createMultiConfigurationProject(this ,expectedprojectName, true); вместо
-    //@Test(dependsOnMethods = "createDefaultMultiConfigurationProjectTest", dataProvider = "unsafeCharacter")
+
     @Test(dataProvider = "unsafeCharacter", dataProviderClass = DataTest.class)
     public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol, String htmlUnsafeSymbol) {
         TestUtils.createMultiConfigurationProject(this, expectedprojectName, true);
