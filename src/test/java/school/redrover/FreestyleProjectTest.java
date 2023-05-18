@@ -56,6 +56,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testEnableProject() {
 
+
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
@@ -320,4 +321,72 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(consoleOutput.getText().contains("echo Hello"));
         Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
     }
+
+    @Test
+  
+    public void testNewFreestyleProjectFolder() {
+        getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@name = 'name']")).sendKeys("First");
+        getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='ok-button']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name ='Submit']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a/span[contains(text(),'Build Now')]/parent::a"
+        ))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view/all/builds']"))).click();
+        WebElement projectStatusTable = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id = 'projectStatus']")));
+
+        Assert.assertTrue(projectStatusTable.findElement(By.xpath("//a/span[contains(text(),'First')]")).isDisplayed());
+    }
+   @Test
+  
+    public void testCreateFreestyleProject() {
+        final String name = "Test";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        getDriver().findElement(By.xpath("//*[@id='name']")).sendKeys(name);
+        getDriver().findElement(By.xpath("//*[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.xpath("//*[@class='btn-decorator']")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        String actualProjectName = getDriver().findElement(By.xpath("//h1")).getText();
+        Assert.assertEquals(actualProjectName, "Project " + name);
+
+    }
+
+    @Test
+    public void testCreateFreestyleProjectValidName() {
+        WebElement newItemButton = getDriver().findElement(By.xpath("//div[@id='tasks']/div/span/a[@href='/view/all/newJob']"));
+        newItemButton.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
+
+        WebElement inputField = getDriver().findElement(By.xpath("//input[@id='name']"));
+        inputField.sendKeys("Astra");
+
+        WebElement freestyleProject = getDriver().findElement
+                (By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li[@class='hudson_model_FreeStyleProject']"));
+        freestyleProject.click();
+
+        WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        okButton.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@name='Submit']")));
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        saveButton.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ol[@id='breadcrumbs']/li/a[@href='/']")));
+
+        WebElement dashboardLink = getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li/a[@href='/']"));
+        dashboardLink.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/Astra/']/span")));
+
+        WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/Astra/']/span"));
+
+        Assert.assertTrue(createdProject.isDisplayed());
+    }
 }
+

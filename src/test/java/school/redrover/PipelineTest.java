@@ -6,6 +6,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -31,6 +32,8 @@ public class PipelineTest extends BaseTest {
     private final By editDescription = By.xpath("//a[@id='description-link']");
     private final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
     private final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
+    private final By dashboard = By.xpath("//a[text()='Dashboard']");
+    private final By buttonSaveOnConfigurePage = By.xpath("//button[@name='Submit']");
 
     private WebDriverWait getWait(int seconds) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
@@ -237,7 +240,7 @@ public class PipelineTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[normalize-space()='New Item']")).click();
 
-        getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
+        getDriver().findElement(By.id("name")).sendKeys("Pipeline01");
         getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")).click();
         getDriver().findElement(By.id("ok-button")).click();
 
@@ -273,5 +276,46 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.id("jenkins-home-link")).click();
 
         Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
+    public void testPipelineBuildingAfterChangesInCode(){
+
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(dashboard)).click();
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By
+                .xpath("//a[@href='job/Pipeline01/']"))).click();
+
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By
+                .xpath("//a[@href='/job/Pipeline01/configure']"))).click();
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(By
+                .xpath("//button[@data-section-id='pipeline']"))).click();
+
+        WebElement trySamplePipelineField = getWait2().until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//div[@class='samples']//select")));
+
+        Select samplePipelineCode = new Select(trySamplePipelineField);
+        samplePipelineCode.selectByIndex(0);
+        getDriver().findElement(buttonSaveOnConfigurePage).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(buildNowButton)).click();
+        WebElement buildNumber=getWait10().until(ExpectedConditions.presenceOfElementLocated(By
+                .xpath("(//a[@update-parent-class='.build-row'])[1]")));
+
+        new Actions(getDriver())
+                .moveToElement(buildNumber)
+                .pause(Duration.ofSeconds(1))
+                .click()
+                .perform();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By
+                .xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']")));
+
+        WebElement buildStatusIcon =
+                getDriver().findElement(By.xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']"));
+        WebElement buildStatusText=
+                getDriver().findElement(By.xpath("//h1[@class='build-caption page-headline']"));
+
+        Assert.assertTrue(buildStatusText.getText().contains("Build #1"));
+        Assert.assertTrue(buildStatusIcon.isDisplayed());
     }
 }
