@@ -7,13 +7,15 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.runner.BaseTest;
 
-public class FreestyleProject6Test extends school.redrover.runner.BaseTest {
+public class FreestyleProject6Test extends BaseTest {
 
     private final String PROJECT_NAME = "Project 2";
     private final String EXPECTED_H2 = "This folder is empty";
-    private final String DESCIPTION_TEXT = "In publishing and graphic design, Lorem ipsum is a placeholder " +
+    private final String DESCRIPTION_TEXT = "In publishing and graphic design, Lorem ipsum is a placeholder " +
             "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
+    private final String NEW_NAME = "Correct name";
 
     private void createFreestyleProject() {
         WebElement newItemMenu = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = '/view/all/newJob']")));
@@ -84,7 +86,7 @@ public class FreestyleProject6Test extends school.redrover.runner.BaseTest {
         dashboardBreadCrumb.click();
 
         Actions act = new Actions(getDriver());
-        WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '"+ PROJECT_NAME +"')]"));
+        WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '" + PROJECT_NAME + "')]"));
         act.moveToElement(projectName, 23, 7).perform();
 
 
@@ -110,7 +112,7 @@ public class FreestyleProject6Test extends school.redrover.runner.BaseTest {
         dashboardBreadCrumb.click();
 
         Actions act = new Actions(getDriver());
-        WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '"+ PROJECT_NAME +"')]"));
+        WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '" + PROJECT_NAME + "')]"));
         act.moveToElement(projectName, 23, 7).perform();
 
         Actions act2 = new Actions(getDriver());
@@ -120,13 +122,41 @@ public class FreestyleProject6Test extends school.redrover.runner.BaseTest {
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Configure')]")).click();
-        getDriver().findElement(By.name("description")).sendKeys(DESCIPTION_TEXT);
+        getDriver().findElement(By.name("description")).sendKeys(DESCRIPTION_TEXT);
         getDriver().findElement(By.xpath("//div/a[@previewendpoint='/markupFormatter/previewDescription']")).click();
 
         WebElement previewTextArea = getDriver().findElement(By.xpath("//div[@class = 'textarea-preview']"));
-        Assert.assertEquals(previewTextArea.getText(), DESCIPTION_TEXT);
+        Assert.assertEquals(previewTextArea.getText(), DESCRIPTION_TEXT);
 
         getDriver().findElement(By.name("Submit")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), DESCIPTION_TEXT);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), DESCRIPTION_TEXT);
+    }
+
+    @Test
+    public void testRenameProjectFromDashboardPage() {
+        createFreestyleProject();
+
+        WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
+        dashboardBreadCrumb.click();
+
+        Actions act = new Actions(getDriver());
+        WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '" + PROJECT_NAME + "')]"));
+        act.moveToElement(projectName, 23, 7).perform();
+
+        Actions act2 = new Actions(getDriver());
+        WebElement dropDownButton = getDriver().findElement(By.xpath("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
+        act2.moveToElement(dropDownButton).perform();
+        dropDownButton.sendKeys(Keys.RETURN);
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
+        getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Rename')]")).click();
+
+        WebElement newNameInputField = getDriver().findElement(By.name("newName"));
+        newNameInputField.clear();
+        newNameInputField.sendKeys(NEW_NAME);
+
+        getDriver().findElement(By.name("Submit")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + NEW_NAME);
     }
 }
