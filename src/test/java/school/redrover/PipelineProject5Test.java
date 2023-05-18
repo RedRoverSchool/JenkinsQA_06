@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -46,6 +47,25 @@ public class PipelineProject5Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//h1[normalize-space()='Welcome to Jenkins!']"))
+                .getText(), "Welcome to Jenkins!");
+    }
+
+    @Test(dependsOnMethods = "testCreatePipelineProject")
+    public void testDeletePipelineProjectDropDown() {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(PROJECT_IN_DASHBOARD_TABLE));
+
+        WebElement dropDownMenu = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']"));
+
+        new Actions(getDriver())
+                .moveToElement(dropDownMenu)
+                .perform();
+
+        getWait2().until(ExpectedConditions.visibilityOf(dropDownMenu)).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='Delete Pipeline']"))).click();
+        getDriver().switchTo().alert().accept();
+
+        Assert.assertEquals(getDriver().findElement(
+                        By.xpath("//h1[normalize-space()='Welcome to Jenkins!']"))
                 .getText(), "Welcome to Jenkins!");
     }
 
