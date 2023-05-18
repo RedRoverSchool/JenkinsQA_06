@@ -35,7 +35,7 @@ public class DashboardTest extends BaseTest {
     }
 
     @Test()
-    public void testMenuIsShownWhenClickingButtonNearProjectName() throws InterruptedException {
+    public void testMenuIsShownWhenClickingButtonNearProjectName() {
         final String projectName = UUID.randomUUID().toString();
         final List<String> expectedMenus = List.of(
                 "Changes",
