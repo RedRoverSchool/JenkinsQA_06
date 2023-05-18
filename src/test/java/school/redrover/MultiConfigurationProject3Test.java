@@ -84,32 +84,4 @@ public class MultiConfigurationProject3Test extends BaseTest {
         Assert.assertEquals(errorPageHeader, "Error");
         Assert.assertEquals(errorPageMessage, String.format("‘%s’ is an unsafe character", htmlUnsafeSymbol));
     }
-//
-//    @Test(dataProvider = "unsafeCharacter",dataProviderClass = DataTest.class)
-//    public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol , String htmlUnsafeSymbol){
-//        TestUtils.createMultiConfigurationProject(this ,expectedprojectName, true);
-//
-//        WebElement project = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#projectstatus a.model-link")));
-//        new Actions(getDriver()).moveToElement(project).perform();
-//        WebElement menuDropdown =getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".jenkins-table__link > .jenkins-menu-dropdown-chevron")));
-//        getWait10().until(ExpectedConditions.elementToBeClickable(menuDropdown)).click();
-//
-//        getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']//li//span[text()='Rename']")).click();
-//        WebElement renameInput = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='newName']")));
-//        renameInput.clear();
-//        renameInput.sendKeys(expectedprojectName + unsafeSymbol);
-//        new Actions(getDriver()).click(getDriver().findElement((By.cssSelector(".error")))).perform();
-//
-//        String errorNotification = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".error"))).getText();
-//
-//        Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
-//
-//        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-//
-//        String errorPageHeader = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']//h1"))).getText();
-//        String errorPageMessage = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']//p"))).getText();
-//
-//        Assert.assertEquals(errorPageHeader, "Error");
-//        Assert.assertEquals(errorPageMessage, String.format("‘%s’ is an unsafe character", htmlUnsafeSymbol));
-//    }
 }
