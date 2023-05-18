@@ -58,7 +58,7 @@ public class FreestyleProject6Test extends BaseTest {
 
     @Test
     public void testDeleteProject() {
-        createFreestyleProject();
+        createProject();
 
         WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
         dashboardBreadCrumb.click();
@@ -78,7 +78,7 @@ public class FreestyleProject6Test extends BaseTest {
 
     @Test
     public void testDeleteProjectFromDropdown() {
-        createFreestyleProject();
+        createProject();
 
         WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
         dashboardBreadCrumb.click();
@@ -107,7 +107,7 @@ public class FreestyleProject6Test extends BaseTest {
         final String descriptionText = "In publishing and graphic design, Lorem ipsum is a placeholder " +
                 "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
 
-        createFreestyleProject();
+        createProject();
 
         WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
         dashboardBreadCrumb.click();
@@ -138,7 +138,7 @@ public class FreestyleProject6Test extends BaseTest {
 
     @Test
     public void testRenameProjectFromDashboardPage() {
-        createFreestyleProject();
+        createProject();
 
         WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
         dashboardBreadCrumb.click();
@@ -166,7 +166,7 @@ public class FreestyleProject6Test extends BaseTest {
 
     @Test
     public void testRenameProjectFromProjectPage() {
-        createFreestyleProject();
+        createProject();
 
         WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
         dashboardBreadCrumb.click();
