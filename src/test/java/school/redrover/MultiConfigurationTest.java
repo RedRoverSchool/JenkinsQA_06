@@ -15,7 +15,6 @@ public class MultiConfigurationTest extends BaseTest {
     private static final By SAVE_BUTTON = By.name("Submit");
 
     private String getProjectNewName() {
-        getWait5();
         return getDriver().findElement(By.xpath("//h1[contains(@class, 'matrix-project-headline page-headline')]"))
                 .getText();
     }
