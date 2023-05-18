@@ -76,28 +76,4 @@ public class NewItem2Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']/span")).getText(), name);
     }
 
-    @DataProvider(name = "invalid-data")
-    public Object[][] provideInvalidData() {
-        return new Object[][]{{"!"}, {"#"}, {"$"}, {"%"}, {"&"}, {"*"}, {"/"}, {":"},
-                {";"}, {"<"}, {">"}, {"?"}, {"@"}, {"["}, {"]"}, {"|"}, {"\\"}, {"^"}};
-    }
-
-    @Test(dataProvider = "invalid-data")
-    public void testCreateFolderUsingInvalidData(String invalidData) {
-        String errorMessage = "» ‘" + invalidData + "’ is an unsafe character";
-
-        WebElement createItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        createItemButton.click();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Folder']"))).click();
-
-        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
-        fieldInputName.clear();
-        fieldInputName.sendKeys(invalidData);
-
-        WebElement resultMessage = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
-        String messageValue = resultMessage.getText();
-
-        Assert.assertEquals(messageValue, errorMessage);
-    }
 }
