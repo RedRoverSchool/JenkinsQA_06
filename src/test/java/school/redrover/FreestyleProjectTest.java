@@ -56,6 +56,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testEnableProject() {
 
+
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
@@ -322,6 +323,23 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+  
+    public void testNewFreestyleProjectFolder() {
+        getDriver().findElement(By.xpath("//a[@href = '/view/all/newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@name = 'name']")).sendKeys("First");
+        getDriver().findElement(By.xpath("//li[@class = 'hudson_model_FreeStyleProject']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='ok-button']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name ='Submit']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a/span[contains(text(),'Build Now')]/parent::a"
+        ))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view/all/builds']"))).click();
+        WebElement projectStatusTable = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id = 'projectStatus']")));
+
+        Assert.assertTrue(projectStatusTable.findElement(By.xpath("//a/span[contains(text(),'First')]")).isDisplayed());
+    }
+   @Test
+  
     public void testCreateFreestyleProject() {
         final String name = "Test";
 
@@ -334,5 +352,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         String actualProjectName = getDriver().findElement(By.xpath("//h1")).getText();
         Assert.assertEquals(actualProjectName, "Project " + name);
+
     }
 }
+
