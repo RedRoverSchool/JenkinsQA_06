@@ -149,7 +149,7 @@ public class FreestyleProject8Test extends BaseTest {
     }
 
     @Test (dependsOnMethods = "testRenameProjectFromProjectPage")
-    public void testVerifyNameOnDashboardPageAfterRenameOnProjectPage () {
+    public void testVerifyNameOnDashboardPageAfterRenameFromProjectPage () {
         WebElement dashboardButton = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
         dashboardButton.click();
 
