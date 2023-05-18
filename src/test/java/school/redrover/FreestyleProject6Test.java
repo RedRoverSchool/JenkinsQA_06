@@ -15,7 +15,7 @@ public class FreestyleProject6Test extends BaseTest {
     private final String EXPECTED_H2 = "This folder is empty";
     private final String NEW_NAME = "Correct name";
 
-    private void createFreestyleProject() {
+    private void createProject() {
         WebElement newItemMenu = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = '/view/all/newJob']")));
         newItemMenu.click();
 
@@ -57,7 +57,7 @@ public class FreestyleProject6Test extends BaseTest {
     }
 
     @Test
-    public void testDeleteFreestyleProject() {
+    public void testDeleteProject() {
         createFreestyleProject();
 
         WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
@@ -77,7 +77,7 @@ public class FreestyleProject6Test extends BaseTest {
     }
 
     @Test
-    public void testDeleteFreestyleProjectFromDropdown() {
+    public void testDeleteProjectFromDropdown() {
         createFreestyleProject();
 
         WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
@@ -128,9 +128,11 @@ public class FreestyleProject6Test extends BaseTest {
         getDriver().findElement(By.xpath("//div/a[@previewendpoint='/markupFormatter/previewDescription']")).click();
 
         WebElement previewTextArea = getDriver().findElement(By.xpath("//div[@class = 'textarea-preview']"));
+
         Assert.assertEquals(previewTextArea.getText(), descriptionText);
 
         getDriver().findElement(By.name("Submit")).click();
+
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), descriptionText);
     }
 
