@@ -1,7 +1,9 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -99,5 +101,68 @@ public class FreestyleProject8Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id = 'description']/div[1]"))
                 .getText(),"Edit description");
+    }
+
+    @Test
+    public void testRenameProjectFromProjectPage () {
+        createNewProject();
+
+        WebElement renameProjectButton = getDriver()
+                .findElement(By.xpath("//*[@href = '/job/NewProject/confirm-rename']"));
+        renameProjectButton.click();
+
+        WebElement newNameInputField = getDriver().findElement(By.xpath("//*[@name = 'newName']"));
+        newNameInputField.clear();
+        newNameInputField.sendKeys("OldProject");
+
+        WebElement renameButton = getDriver().findElement(By.xpath("//*[@name = 'Submit']"));
+        renameButton.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project OldProject");
+    }
+
+    @Test
+    public void testRenameProjectFromDashboardList () {
+        createNewProject();
+
+        WebElement dashboardButton = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
+        dashboardButton.click();
+
+        WebElement chevron = getWait5().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//a[contains(@href,'job/NewProject/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+        chevron.sendKeys(Keys.RETURN);
+
+        getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//a[contains(@href,'rename')]//span"))).click();
+
+        WebElement newNameInputField = getDriver().findElement(By.xpath("//*[@name = 'newName']"));
+        newNameInputField.clear();
+        newNameInputField.sendKeys("OldProject");
+
+        WebElement renameButton = getDriver().findElement(By.xpath("//*[@name = 'Submit']"));
+        renameButton.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1"))
+                .getText(), "Project OldProject");
+    }
+
+    @Test (dependsOnMethods = "testRenameProjectFromProjectPage")
+    public void testVerifyNameOnDashboardPageAfterRenameFromProjectPage () {
+        WebElement dashboardButton = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
+        dashboardButton.click();
+
+        WebElement projectName = getDriver().findElement(By.xpath("//*[@href = 'job/OldProject/']"));
+
+        Assert.assertEquals(projectName.getText(), "OldProject");
+    }
+
+    @Test(dependsOnMethods = "testRenameProjectFromDashboardList")
+    public void testVerifyNameOnDashboardPageAfterRenameFromDashboardList () {
+        WebElement dashboardButton = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
+        dashboardButton.click();
+
+        WebElement projectName = getDriver().findElement(By.xpath("//*[@href = 'job/OldProject/']"));
+
+        Assert.assertEquals(projectName.getText(), "OldProject");
     }
 }
