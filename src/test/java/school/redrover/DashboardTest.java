@@ -69,12 +69,14 @@ public class DashboardTest extends BaseTest {
         System.out.println(dropDownMenuButton.isEnabled());
         System.out.println(dropDownMenuButton.getAttribute("class"));
 
+
+
         action.moveToElement(dropDownMenuButton).click().build().perform();
-//
-//        getWait5().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@id='breadcrumb-menu']//a//span")));
-//
-//        List<WebElement> menus = getDriver().findElements(By.xpath("//div[@id='breadcrumb-menu']//a//span"));
-//        System.out.println(getTexts(menus));
+
+        getWait5().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@id='breadcrumb-menu']//a//span")));
+
+        List<WebElement> menus = getDriver().findElements(By.xpath("//div[@id='breadcrumb-menu']//a//span"));
+        System.out.println(getTexts(menus));
 
 //        Assert.assertEquals(getTexts(menus), expectedMenus);
     }
