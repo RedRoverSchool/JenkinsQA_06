@@ -54,13 +54,13 @@ public class PipelineProject5Test extends BaseTest {
     public void testDeletePipelineProjectDropDown() {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(PROJECT_IN_DASHBOARD_TABLE));
 
-        WebElement dropDownMenu = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']"));
-
         new Actions(getDriver())
-                .moveToElement(dropDownMenu)
+                .moveToElement(getWait5().until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//a[@class='jenkins-table__link model-link inside']" +
+                        "//button[@class='jenkins-menu-dropdown-chevron']"))))
+                .click()
                 .perform();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropDownMenu)).click();
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='Delete Pipeline']"))).click();
         getDriver().switchTo().alert().accept();
 
