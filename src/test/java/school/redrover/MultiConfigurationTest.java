@@ -133,4 +133,29 @@ public class MultiConfigurationTest extends BaseTest {
         Assert.assertTrue(getWait10().until(ExpectedConditions.textToBePresentInElement(
                 getDriver().findElement(By.xpath("//form[@id='enable-project']")), "This project is currently disabled")));
     }
+
+    @Test
+    public void testCheckGeneralParametersDisplayedAndClickable() {
+        getDriver().findElement(
+                By.xpath("//span[@class='task-link-wrapper ']/a[@href='/view/all/newJob']")).click();
+
+        WebElement itemName = getDriver().findElement(By.id("name"));
+        itemName.sendKeys("TestProject");
+
+        getDriver().findElement(
+                By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
+
+        getDriver().findElement(
+                By.id("ok-button")).click();
+
+        boolean checkboxesVisibleClickable = true;
+        for (int i = 4; i <= 8; i++) {
+            if (!getDriver().findElement(By.id("cb" + i)).isDisplayed() || !getDriver().findElement(By.id("cb" + i)).isEnabled()) {
+                checkboxesVisibleClickable = false;
+                break;
+            }
+        }
+
+        Assert.assertTrue(checkboxesVisibleClickable);
+    }
 }
