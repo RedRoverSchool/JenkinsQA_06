@@ -65,7 +65,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(buttonEnabled.getText(),"Enabled");
 
         getDriver().findElement(By.xpath("//*[@id='toggle-switch-enable-disable-project']")).click();
-        WebElement buttonDisabled = getDriver().findElement(By.xpath("//span[text() = 'Disabled']"));
+        WebElement buttonDisabled = getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//span[text() = 'Disabled']"))));
 
         Assert.assertEquals(buttonDisabled.getText(),"Disabled");
     }
