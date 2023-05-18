@@ -346,4 +346,16 @@ public class HeaderTest extends BaseTest {
 
         Assert.assertTrue(textUnderlineAfter.contains("underline"));
     }
+
+    @Test
+    public void testLogoutButtonColorChange() {
+        WebElement logoutLink = getDriver().findElement(By.linkText("log out"));
+        Actions actions = new Actions((getDriver()));
+        actions.moveToElement(logoutLink).perform();
+        getWait5().until(ExpectedConditions.attributeToBeNotEmpty(logoutLink, "text-decoration"));
+        String expectedColor = "rgba(245, 245, 245, 1)";
+        String actualColor = logoutLink.getCssValue("color");
+
+        assertEquals(actualColor, expectedColor);
+    }
 }
