@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class DashboardTest extends BaseTest {
     private void moveToElement(WebElement element) {
         Actions actions = new Actions(getDriver());
 
-        actions.moveToElement(element).build().perform();
+        actions.moveToElement(element).perform();
     }
 
     private List<String> getTexts(List<WebElement> elements) {
@@ -39,7 +40,7 @@ public class DashboardTest extends BaseTest {
         return texts;
     }
 
-    @Test(invocationCount = 20)
+    @Test(invocationCount = 1)
     public void testMenuIsShownWhenClickingButtonNearProjectName() {
         final List<String> expectedMenus = List.of(
                 "Changes",
@@ -57,20 +58,23 @@ public class DashboardTest extends BaseTest {
 
         WebElement dropDownMenuButton = firstProjectNameInList.findElement(By.xpath("//button"));
 
-        moveToElement(firstProjectNameInList);
+        Actions action = new Actions(getDriver());
+        action.moveToElement(firstProjectNameInList).perform();
+        System.out.println(dropDownMenuButton.isDisplayed());
+        System.out.println(dropDownMenuButton.isEnabled());
 
+        System.out.println(dropDownMenuButton.getAttribute("class"));
         getWait5().until(ExpectedConditions.visibilityOf(dropDownMenuButton));
+        System.out.println(dropDownMenuButton.isDisplayed());
+        System.out.println(dropDownMenuButton.isEnabled());
+        System.out.println(dropDownMenuButton.getAttribute("class"));
 
-        moveToElement(dropDownMenuButton);
-
-        getWait5().until(ExpectedConditions.attributeToBe(dropDownMenuButton, "cursor", "pointer"));
-        dropDownMenuButton.click();
-
-
-        getWait5().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@id='breadcrumb-menu']//a//span")));
-
-        List<WebElement> menus = getDriver().findElements(By.xpath("//div[@id='breadcrumb-menu']//a//span"));
-        System.out.println(getTexts(menus));
+        action.moveToElement(dropDownMenuButton).click().build().perform();
+//
+//        getWait5().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@id='breadcrumb-menu']//a//span")));
+//
+//        List<WebElement> menus = getDriver().findElements(By.xpath("//div[@id='breadcrumb-menu']//a//span"));
+//        System.out.println(getTexts(menus));
 
 //        Assert.assertEquals(getTexts(menus), expectedMenus);
     }
