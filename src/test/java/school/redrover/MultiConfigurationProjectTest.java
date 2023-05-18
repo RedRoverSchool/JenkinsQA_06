@@ -20,8 +20,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testMultiConfigurationProject")
     public void testMultiConfigurationProjectAddDescription () {
         final String text = "text";
-        WebElement addDescription = getDriver().findElement(By.cssSelector("#description-link"));
-        addDescription.click();
+        getDriver().findElement(By.xpath("//span[text() = 'My Multi configuration project']")).click();
+
+        getDriver().findElement(By.cssSelector("#description-link")).click();
 
         WebElement textInput = getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector("textarea[name='description']"))));
         textInput.clear();
@@ -32,5 +33,43 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         WebElement inputAdd = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
         Assert.assertEquals(inputAdd.getText(), text);
+    }
+
+    @Test (dependsOnMethods = "testMultiConfigurationProjectAddDescription")
+    public void testMultiConfigurationProjectDisable () {
+        getDriver().findElement(By.xpath("//span[text() = 'My Multi configuration project']")).click();
+
+        getDriver().findElement(By.xpath("//button[text () = 'Disable Project']")).click();
+
+        Assert.assertEquals((getDriver().findElement(By.xpath("//button[text () = 'Enable']"))).getText(),"Enable");
+    }
+
+    @Test (dependsOnMethods = "testMultiConfigurationProjectDisable")
+    public void testMultiConfigurationProjectEnable () {
+        getDriver().findElement(By.xpath("//span[text() = 'My Multi configuration project']")).click();
+
+        getDriver().findElement(By.xpath("//*[@id='enable-project']/button")).click();
+
+        WebElement button = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//button[text () = 'Disable Project']"))));
+
+        Assert.assertEquals(button.getText(),"Disable Project");
+
+    }
+    @Test (dependsOnMethods = "testMultiConfigurationProjectDisable" )
+    public void testMultiConfigurationProjectConfigureDisabled () {
+        getDriver().findElement(By.xpath("//span[text() = 'My Multi configuration project']")).click();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
+
+        getDriver().findElement(By.xpath("//*[@id='toggle-switch-enable-disable-project']")).click();
+        WebElement buttonEnabled = getDriver().findElement(By.xpath("//span[text() = 'Enabled']"));
+
+        Assert.assertEquals(buttonEnabled.getText(),"Enabled");
+
+        getDriver().findElement(By.xpath("//*[@id='toggle-switch-enable-disable-project']")).click();
+        WebElement buttonDisabled = getDriver().findElement(By.xpath("//span[text() = 'Disabled']"));
+
+        Assert.assertEquals(buttonDisabled.getText(),"Disabled");
     }
 }
