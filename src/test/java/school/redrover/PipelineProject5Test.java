@@ -60,7 +60,8 @@ public class PipelineProject5Test extends BaseTest {
                 .moveToElement(dropDownMenu)
                 .perform();
 
-        getWait2().until(ExpectedConditions.visibilityOf(dropDownMenu)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(dropDownMenu)).click();
+
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='Delete Pipeline']"))).click();
         getDriver().switchTo().alert().accept();
 
