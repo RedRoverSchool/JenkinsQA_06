@@ -51,4 +51,23 @@ public class CreateFreestyleProject2Test extends BaseTest {
 
         Assert.assertTrue(jobIconStatusDisabled.isDisplayed());
     }
+
+    @Test(dependsOnMethods = "testDisableFreestyleProject")
+    public void testEnableFreestyleProject() {
+        getDriver().findElement(By.xpath("//a[@href ='job/New%20Freestyle%20Project/']/span")).click();
+
+        WebElement enableProject = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(
+                By.xpath("//button[@name='Submit']"))));
+        enableProject.click();
+
+        WebElement projectDisabled = getDriver().findElement(
+                By.xpath("//*[@id='disable-project']/button"));
+        Assert.assertTrue(projectDisabled.isDisplayed());
+
+        getDriver().findElement(By.xpath("//*[@id='jenkins-head-icon']")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                      By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']"))
+               .getAttribute("tooltip"), "Not built");
+    }
 }

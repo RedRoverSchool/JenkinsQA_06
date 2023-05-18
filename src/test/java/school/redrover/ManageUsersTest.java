@@ -1,14 +1,12 @@
 package school.redrover;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
 public class ManageUsersTest extends BaseTest {
     private final By MANAGE_JENKINS = By.xpath("//a[@href='/manage']");
     private final By MANAGE_USERS = By.xpath("//a[@href='securityRealm/']");
@@ -22,7 +20,7 @@ public class ManageUsersTest extends BaseTest {
                         {"Chewbacca", "Wookiee", "Wookiee", "Chewie", "Chewie@test.com"}};
     }
 
-    @Test (dataProvider = "userdata provider")
+    @Test(dataProvider = "userdata provider")
     public void testCreateUser(String username, String password, String confirmPassword, String name, String email) {
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(MANAGE_USERS).click();
@@ -38,32 +36,8 @@ public class ManageUsersTest extends BaseTest {
                 .visibilityOfElementLocated(USERS_TABLE)).getText().contains(username));
     }
 
-    @Test (dependsOnMethods = "testCreateUser")
-    public void testDeleteUserFromUserList() {
-        getDriver().findElement(MANAGE_JENKINS).click();
-        getDriver().findElement(MANAGE_USERS).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, 'chewbacca/delete')]")).click();
-        getDriver().findElement(SUBMIT).click();
-
-        Assert.assertFalse(getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(USERS_TABLE)).getText().contains("Chewbacca"));
-    }
-
-    @Test (dependsOnMethods = {"testCreateUser", "testDeleteUserFromUserList"})
-    public void testLogInWithDeletedUserCredentials() {
-        getDriver().findElement(By.xpath("//a[@href= '/logout']")).click();
-        getDriver().findElement(By.id("j_username")).sendKeys("Chewbacca");
-        getDriver().findElement(By.xpath("//input[@name='j_password']")).sendKeys("Wookiee");
-        getDriver().findElement(SUBMIT).click();
-
-        Assert.assertEquals(getDriver().findElement(By
-                        .xpath("//div[contains(@class, 'alert-danger')]")).getText(),
-                "Invalid username or password");
-    }
-
-    @Ignore
-    @Test (dependsOnMethods = "testCreateUser")
-    public void testMakeChangesToUserProfile() {
+    @Test(dependsOnMethods = "testCreateUser")
+    public void testMakeChangesToUserProfile()  {
         JavascriptExecutor js = (JavascriptExecutor)getDriver();
 
         getDriver().findElement(MANAGE_JENKINS).click();
@@ -88,6 +62,29 @@ public class ManageUsersTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By
                 .xpath("//h1")).getText(), "Jabbka");
+    }
+
+    @Test(dependsOnMethods = "testMakeChangesToUserProfile")
+    public void testDeleteUserFromUserList() {
+        getDriver().findElement(MANAGE_JENKINS).click();
+        getDriver().findElement(MANAGE_USERS).click();
+        getDriver().findElement(By.xpath("//a[contains(@href, 'chewbacca/delete')]")).click();
+        getDriver().findElement(SUBMIT).click();
+
+        Assert.assertFalse(getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(USERS_TABLE)).getText().contains("Chewbacca"));
+    }
+
+    @Test(dependsOnMethods =  "testDeleteUserFromUserList")
+    public void testLogInWithDeletedUserCredentials() {
+        getDriver().findElement(By.xpath("//a[@href= '/logout']")).click();
+        getDriver().findElement(By.id("j_username")).sendKeys("Chewbacca");
+        getDriver().findElement(By.xpath("//input[@name='j_password']")).sendKeys("Wookiee");
+        getDriver().findElement(SUBMIT).click();
+
+        Assert.assertEquals(getDriver().findElement(By
+                        .xpath("//div[contains(@class, 'alert-danger')]")).getText(),
+                "Invalid username or password");
     }
 }
 
