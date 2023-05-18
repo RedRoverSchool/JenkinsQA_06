@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -61,7 +62,7 @@ public class PipelineProject5Test extends BaseTest {
                 .moveToElement(getWait5().until(ExpectedConditions.elementToBeClickable(
                         By.xpath("//a[@class='jenkins-table__link model-link inside']" +
                         "//button[@class='jenkins-menu-dropdown-chevron']"))))
-                .click()
+                .sendKeys(Keys.RETURN)
                 .perform();
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='Delete Pipeline']"))).click();
