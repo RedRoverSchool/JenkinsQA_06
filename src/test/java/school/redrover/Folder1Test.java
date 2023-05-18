@@ -4,38 +4,20 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class Folder1Test extends BaseTest {
    private static final String NAME = RandomStringUtils.randomAlphanumeric(10);
 
-   private void createFolder(){
-
-       WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-       newItem.click();
-
-       WebElement name = getDriver().findElement(By.id("name"));
-       name.sendKeys(NAME);
-
-       WebElement folder = getDriver().findElement(By.xpath("//span[@class='label'][text()='Folder']"));
-       folder.click();
-
-       WebElement button = getDriver().findElement(By.cssSelector("#ok-button"));
-       button.click();
-
-       WebElement submit = getDriver().findElement(By.name("Submit"));
-       submit.click();
-   }
-
     @Test
     public void testCreateNewFolder() {
-        createFolder();
-        Assert.assertEquals(NAME, getDriver().findElement(By.xpath("//h1")).getText());
+        TestUtils.createFolder(this, NAME,false);
+
+        Assert.assertEquals(NAME, getDriver().findElement(By.cssSelector("div[id='main-panel'] h1")).getText());
     }
 
-    @Ignore
     @Test
     public void testCreateFolderWithDescription() {
         WebElement newItem = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
@@ -56,13 +38,12 @@ public class Folder1Test extends BaseTest {
         WebElement submit = getDriver().findElement(By.name("Submit"));
         submit.click();
 
-        Assert.assertEquals(NAME, getDriver().findElement(By.xpath("//h1")).getText());
+        Assert.assertEquals(NAME, getDriver().findElement(By.cssSelector("div[id='main-panel'] h1")).getText());
     }
 
-    @Ignore
     @Test
     public void testRenameFolder() {
-        createFolder();
+        TestUtils.createFolder(this, NAME,false);
 
         WebElement rename = getDriver().findElement(By.xpath("//a[@href='/job/" + NAME + "/confirm-rename']"));
         rename.click();
@@ -74,7 +55,7 @@ public class Folder1Test extends BaseTest {
         WebElement submit = getDriver().findElement(By.name("Submit"));
         submit.click();
 
-        Assert.assertEquals("Rename", getDriver().findElement(By.xpath("//h1")).getText());
+        Assert.assertEquals("Rename", getDriver().findElement(By.cssSelector("div[id='main-panel'] h1")).getText());
     }
 }
 

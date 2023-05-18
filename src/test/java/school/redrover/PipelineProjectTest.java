@@ -1,13 +1,15 @@
 package school.redrover;
 
+import com.github.javafaker.Faker;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.*;
 
@@ -28,7 +30,7 @@ public class PipelineProjectTest extends BaseTest {
         return getDriver().findElement(by);
     }
 
-    public void clickPageButton(String menuButton) {
+    public void clickPageButton(String menuButton){
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//*[text()='%s']", menuButton)))).click();
     }
 
@@ -76,6 +78,10 @@ public class PipelineProjectTest extends BaseTest {
     public String statusOfProject() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.className("svg-icon"))).getAttribute("title");
+    }
+
+    public void disableProject(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.id("toggle-switch-enable-disable-project"))).click();
     }
 
     @Test
@@ -211,9 +217,8 @@ public class PipelineProjectTest extends BaseTest {
         Assert.assertFalse(isPipelineEnabledAfterDisable, "Pipeline is enabled");
     }
 
-    @Ignore
     @Test
-    public void addDescriptionPipelineProjectTest() {
+    public void addDescriptionPipelineProjectTest(){
         String description = "This is a project for school test";
         clickTaskButton("New Item");
         createPipelineProject(EXPECTED_RESULT, "Pipeline");
@@ -232,23 +237,18 @@ public class PipelineProjectTest extends BaseTest {
         Assert.assertTrue(fieldDescription.getText().contains(description));
     }
 
-    @Ignore
-    @Test
-    public void disablePipelineProjectTest() {
-        clickTaskButton("New Item");
-        createPipelineProject(EXPECTED_RESULT, "Pipeline");
+    @Test(dependsOnMethods = "addDescriptionPipelineProjectTest")
+    public void disablePipelineProjectTest(){
 
         clickPageButton("Dashboard");
         String statusBeforeDisable = statusOfProject();
 
         clickPageButton(EXPECTED_RESULT);
         clickTaskButton("Configure");
-
-        findElement(By.id("toggle-switch-enable-disable-project")).click();
+        disableProject();
         clickButtonApply();
 
         clickPageButton("Dashboard");
-
         String statusAfterDisable = statusOfProject();
 
         Assert.assertNotEquals(statusBeforeDisable, statusAfterDisable);
@@ -298,5 +298,37 @@ public class PipelineProjectTest extends BaseTest {
                 .toList();
 
         Assert.assertTrue(jobList.contains(RANDOM_NAME_PROJECT));
+    }
+
+    @Test
+    public void buildNowFromPipelineView() {
+        String pipelineName = new Faker().name().title().replace(" ", "");
+        TestUtils.createPipeline(this, pipelineName, true);
+        getDriver().findElement(By.xpath("//*[@href='job/"+pipelineName+"/']")).click();
+
+        if (!getDriver().findElement(By.xpath("//div[@id='no-builds']")).isDisplayed()) {
+            getDriver().findElement(By.xpath("//a[@href='/toggleCollapse?paneId=buildHistory']")).click();
+        }
+
+        getDriver().findElement(By
+                .xpath("//a[@href='/job/"+pipelineName+"/build?delay=0sec']")).click();
+
+        int numberOfStartedBuilds = 1;
+        boolean lastBuildIsPresent = getWait5().until(ExpectedConditions.presenceOfElementLocated(By
+                        .xpath("//span[@class='build-status-icon__outer']//*[name()='svg']["+numberOfStartedBuilds+"]")))
+                .isDisplayed();
+        List<WebElement> list = new ArrayList<>();
+        if (lastBuildIsPresent) {
+            list = getDriver().findElements(By
+                    .xpath("//span[@class='build-status-icon__outer']//*[name()='svg']"));
+        }
+
+        try {
+            Assert.assertEquals(Color.fromString(list.get(0).getCssValue("color"))
+                    .asHex(), "#1ea64b");
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            System.out.println("there are no builds in the 'Build History' list");
+            e.printStackTrace();
+        }
     }
 }

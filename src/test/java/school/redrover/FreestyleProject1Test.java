@@ -4,7 +4,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -23,14 +22,12 @@ public class FreestyleProject1Test extends BaseTest {
         getDriver().findElement(By.cssSelector("#ok-button")).click();
         getDriver().findElement(By.name("Submit")).click();
     }
-
-    @Ignore
     @Test
     public void testCreateNewFreestyleProject() {
         createFreestyleProject();
 
         Assert.assertEquals("Project " + NAME,
-                getDriver().findElement(By.xpath("//h1")).getText());
+                getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
     }
 
     @Test
@@ -53,10 +50,11 @@ public class FreestyleProject1Test extends BaseTest {
         WebElement projectIcon = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//span"));
         projectIcon.click();
 
-        Assert.assertEquals("Project " + NAME, getDriver().findElement(By.xpath("//h1")).getText());
+        Assert.assertEquals("Project " + NAME,
+                getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
     }
 
-    @Ignore
+
     @Test
     public void testCreateFreestyleProjectWithDescription() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
@@ -72,10 +70,10 @@ public class FreestyleProject1Test extends BaseTest {
 
         getDriver().findElement(By.name("Submit")).click();
 
-        Assert.assertEquals("Project " + NAME, getDriver().findElement(By.xpath("//h1")).getText());
+        Assert.assertEquals("Project " + NAME,
+                getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
     }
 
-    @Ignore
     @Test
     public void testRenameFreestyleProject() {
         createFreestyleProject();
@@ -87,7 +85,8 @@ public class FreestyleProject1Test extends BaseTest {
 
         getDriver().findElement(By.name("Submit")).click();
 
-        Assert.assertEquals("Project " + RENAME_NAME, getDriver().findElement(By.xpath("//h1")).getText());
+        Assert.assertEquals("Project " + RENAME_NAME,
+                getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
     }
 
     @Test
@@ -96,7 +95,8 @@ public class FreestyleProject1Test extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@href='/job/" + NAME + "/changes']")).click();
 
-        Assert.assertEquals("Changes", getDriver().findElement(By.xpath("//h1")).getText());
+        Assert.assertEquals("Changes",
+                getDriver().findElement(By.xpath("//h1[normalize-space()='Changes']")).getText());
     }
 
     @Test
