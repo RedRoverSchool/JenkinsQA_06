@@ -3,8 +3,10 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -154,5 +156,27 @@ public class FolderTest extends BaseTest {
         String messageValue = resultMessage.getText();
 
         Assert.assertEquals(messageValue, errorMessage);
+    }
+
+    @Test
+    public void testMoveFolderToFolder(){
+        final String folderOne = RandomStringUtils.randomAlphanumeric(9);
+        final String folderTwo = folderOne + "Two";
+
+        TestUtils.createFolder(this, folderOne, true);
+        TestUtils.createFolder(this, folderTwo, true);
+
+        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+        chevron.sendKeys(Keys.RETURN);
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
+
+        new Select(getWait5().until(ExpectedConditions.elementToBeClickable(By.name("destination")))).selectByIndex(1);
+        getDriver().findElement(By.name("Submit")).click();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'job/" + folderOne + "/')]"))).click();
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]"))).isDisplayed());
     }
 }
