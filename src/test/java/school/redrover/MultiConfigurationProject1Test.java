@@ -26,7 +26,7 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
         Assert.assertEquals(actualResult, projectName);
     }
-    @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
+    @Test(dependsOnMethods = {"testCreateMultiConfiguration"}, groups = "a")
     public void testAddDescription() {
 
         String descriptionText = "There is the test project";
@@ -41,7 +41,7 @@ public class MultiConfigurationProject1Test extends BaseTest {
         Assert.assertEquals(actualResult, descriptionText);
     }
 
-    @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
+    @Test(dependsOnMethods = {"testCreateMultiConfiguration"}, groups = "a")
     public void testDisableProject() {
 
         String textOfmessage = "This project is currently disabled";
@@ -52,7 +52,7 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
         Assert.assertTrue(actualResult.contains(textOfmessage), "This element does not contain this message");
     }
-    @Test(dependsOnMethods = {"testCreateMultiConfiguration", "testDisableProject"})
+    @Test(dependsOnMethods = {"testDisableProject"}, groups = "a")
     public void testEnableProject() {
 
         clickOnProject();
@@ -62,7 +62,7 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
         Assert.assertTrue(disableButton.isDisplayed(), "The disable button is not displayed");
     }
-    @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
+    @Test(dependsOnMethods = {"testCreateMultiConfiguration"}, dependsOnGroups = "a")
     public void testRenameOnProjectPage(){
 
         String newNameProject = "newTest";
