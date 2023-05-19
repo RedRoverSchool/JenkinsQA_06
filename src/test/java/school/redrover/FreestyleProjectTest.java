@@ -388,5 +388,24 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(createdProject.isDisplayed());
     }
+
+    @Test
+    public void testCreateFreestyleProjectGoingFromPeoplePage() {
+
+        String projectName = "FreestyleProject";
+
+        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(projectName);
+        getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
+        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")).click();
+        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+
+        getDriver().findElement(By.xpath("//ol/li/a[@href='/'] ")).click();
+
+        WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']"));
+
+        Assert.assertEquals(createdProject.getText(), projectName);
+    }
 }
 
