@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-public class PipelineProject8Test extends BaseTest {
+public class Pipeline07Test extends BaseTest {
 
     @Test
     public void testNewItemSubmit() {
