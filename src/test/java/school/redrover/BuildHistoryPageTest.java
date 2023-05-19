@@ -98,6 +98,8 @@ public class BuildHistoryPageTest extends BaseTest {
                 .pause(Duration.ofSeconds(1))
                 .click()
                 .perform();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.
+                xpath("//div[@class = 'bd']")));
 
         getWait2().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).click();
 
