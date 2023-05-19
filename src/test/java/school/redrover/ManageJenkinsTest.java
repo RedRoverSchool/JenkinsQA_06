@@ -108,7 +108,6 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("settings-search-bar"))).click();
         getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-//        getWait10().until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(".jenkins-search__results__no-results-label"), "No results"));
         getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".jenkins-search__results-container--visible")));
         WebElement noResults = getDriver().findElement(By.cssSelector(".jenkins-search__results__no-results-label"));
 
