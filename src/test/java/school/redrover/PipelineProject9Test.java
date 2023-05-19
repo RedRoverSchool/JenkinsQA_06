@@ -22,7 +22,7 @@ public class PipelineProject9Test extends BaseTest {
 
     @Test
     public void testRename() {
-        final String projectNewName = "New test";
+        final String projectNewName = "New Test";
 
         getDriver().findElement(By.id("jenkins-home-link")).click();
         testCreate();
