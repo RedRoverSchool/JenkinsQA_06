@@ -24,7 +24,7 @@ public class BuildHistoryPageTest extends BaseTest {
             "//a[@href='/job/" + NAME_PIPELINE + "/1/']/button");
     private static final By EDIT_BUILD_INFORMATION = By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/configure']");
     private static final By DESCRIPTION_FIELD = By.xpath("//textarea[@name='description']");
-    private static final By DESCRIPTION_TEXT = By.xpath("//div[@id='description']/div[1]");
+    private static final By DESCRIPTION = By.xpath("//div[@id='description']/div[1]");
 
     protected void clickDropDownSerialNumberOfBuild() {
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
@@ -103,6 +103,6 @@ public class BuildHistoryPageTest extends BaseTest {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
 
-        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), BUILD_DESCRIPTION);
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION).getText(), BUILD_DESCRIPTION);
     }
 }
