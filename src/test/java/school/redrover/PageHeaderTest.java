@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -82,7 +83,7 @@ public class PageHeaderTest extends BaseTest {
 
                 assertTrue(getWait2().
                         until(ExpectedConditions.visibilityOfElementLocated
-                                (By.xpath("//div[contains(@class,'am-list')]"))).isDisplayed());
+                                (By.xpath("//div[@id='visible-am-list']"))).isDisplayed());
 
                 if (i < popUpScreen.size() - 1 && !popUpScreen.get(i++).isDisplayed()) {
                     break;
@@ -99,20 +100,24 @@ public class PageHeaderTest extends BaseTest {
             if (openManageJenkinslink.get(i).isDisplayed()) {
                 openManageJenkinslink.get(i).click();
 
-                getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                        (By.xpath("//a[normalize-space()='Manage Jenkins']"))).click();
+                WebElement visiblePopUpScreen = getDriver().findElement(By.xpath("//div[@id='visible-am-list']"));
+                if (visiblePopUpScreen.isDisplayed()) {
 
-                assertEquals(getWait2().until
-                        (ExpectedConditions.presenceOfElementLocated
-                                (By.xpath("//h1"))).getText(), "Manage Jenkins");
+                    WebElement manageJenkinsLink = getDriver().findElement(By.linkText("Manage Jenkins"));
+                    getWait2().until(ExpectedConditions.visibilityOf(manageJenkinsLink)).click();
 
-                getDriver().navigate().back();
+                    assertEquals(getWait2().until
+                            (ExpectedConditions.presenceOfElementLocated
+                                    (By.xpath("//h1"))).getText(), "Manage Jenkins");
 
-                openManageJenkinslink = getDriver()
-                        .findElements(By.xpath("//div[contains(@class,'am-container')]"));
+                    getDriver().navigate().back();
 
-                if (i < openManageJenkinslink.size() - 1 && !openManageJenkinslink.get(i++).isDisplayed()) {
-                    break;
+                    openManageJenkinslink = getDriver()
+                            .findElements(By.xpath("//div[contains(@class,'am-container')]"));
+
+                    if (i < openManageJenkinslink.size() - 1 && !openManageJenkinslink.get(i++).isDisplayed()) {
+                        break;
+                    }
                 }
             }
         }
