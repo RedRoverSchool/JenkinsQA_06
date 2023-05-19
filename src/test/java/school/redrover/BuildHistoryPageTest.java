@@ -93,12 +93,13 @@ public class BuildHistoryPageTest extends BaseTest {
         getDriver().findElement(BUILD_HISTORY).click();
 
         new Actions(getDriver()).moveToElement(getDriver().findElement(SERIAL_NUMBER_OF_BUILD))
-                .pause(Duration.ofSeconds(2))
+                .pause(Duration.ofSeconds(1))
                 .moveToElement(getDriver().findElement(DROP_DOWN_SERIAL_NUMBER))
+                .pause(Duration.ofSeconds(1))
                 .click()
                 .perform();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).click();
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
