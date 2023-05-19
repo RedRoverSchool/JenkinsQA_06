@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class FreestyleProject01Test extends BaseTest {
     private static final String FREESTYLE_NAME = "Freestyle";
@@ -36,5 +37,24 @@ public class FreestyleProject01Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), "Project " + FREESTYLE_NAME);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description']/div")).getText(), desc);
+    }
+
+    @Test
+    public void testDisableFreestyleProject(){
+        String message = "This project is currently disabled";
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, false);
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+        String projectIsDisableMessage = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("enable-project"))).getText();
+
+        projectIsDisableMessage = projectIsDisableMessage.substring(0, message.length());
+
+        Assert.assertEquals(projectIsDisableMessage, message);
+
+        getDriver().findElement(By.xpath("//a[text() = 'Dashboard']")).click();
+
+        String attrOfProjectElem = getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                            By.id("job_" + FREESTYLE_NAME))).getAttribute("class");
+        Assert.assertEquals(attrOfProjectElem, "disabledJob job-status-disabled");
     }
 }
