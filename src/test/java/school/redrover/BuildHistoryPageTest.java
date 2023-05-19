@@ -1,6 +1,8 @@
 package school.redrover;
+import net.bytebuddy.asm.Advice;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,20 +26,10 @@ public class BuildHistoryPageTest extends BaseTest {
             "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']//button[@class='jenkins-menu-dropdown-chevron']");
     private static final By EDIT_BUILD_INFORMATION = By.xpath("//ul[@class='first-of-type']//a[@href='/job/" + NAME_PIPELINE + "/1/configure']");
     private static final By DESCRIPTION_FIELD = By.xpath("//textarea[@name='description']");
-    private static final By DESCRIPTION_TEXT = By.xpath("//div[normalize-space()='For QA']");
+    private static final By DESCRIPTION_TEXT = By.cssSelector("div[id='description'] div:nth-child(1)");
 
-    protected void clickDropDownSerialNumberOfBuild() {
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", getDriver().findElement(By.xpath(
-                "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']//button[@class='jenkins-menu-dropdown-chevron']"
-        )));
-    }
-    protected void clickEditBuildInformation() {
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", getDriver().findElement(By.xpath(
-                "//ul[@class='first-of-type']//a[@href='/job/" + NAME_PIPELINE + "/1/configure']"
-        )));
-    }
+
+
     @Test
     public void testNavigateToBuildHistoryPage() throws InterruptedException {
 
@@ -53,9 +45,9 @@ public class BuildHistoryPageTest extends BaseTest {
         Assert.assertEquals(actualBuildHistoryPageTitle, expectedBuildHistoryPageTitle);
         Assert.assertEquals(actualBuildHistoryPageUrl, expectedBuildHistoryPageUrl);
     }
-    @Ignore
+
     @Test
-    public void testAddDescriptionForBuild(){
+    public void testAddDescriptionForBuild1(){
 
         TestUtils.createPipeline(this, NAME_PIPELINE, true);
 
@@ -71,11 +63,10 @@ public class BuildHistoryPageTest extends BaseTest {
                 .moveToElement(getDriver().findElement(DROP_DOWN_SERIAL_NUMBER))
                 .pause(Duration.ofSeconds(5))
                 .perform();
-
-        clickDropDownSerialNumberOfBuild();
+        getDriver().findElement(DROP_DOWN_SERIAL_NUMBER).sendKeys(Keys.RETURN);
 
         getWait10().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION));
-        clickEditBuildInformation();
+        getDriver().findElement(EDIT_BUILD_INFORMATION).sendKeys(Keys.RETURN);
 
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
 
