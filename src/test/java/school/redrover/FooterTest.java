@@ -10,12 +10,6 @@ import school.redrover.runner.BaseTest;
 
 public class FooterTest extends BaseTest {
 
-    private static final By JENKINS_VERSION_BTN = By.xpath("//div[@class='page-footer__flex-row']//a[@rel='noopener noreferrer']");
-    private static final By MANAGE_JENKINS_BTN = By.xpath("//span[contains(text(),'Manage Jenkins')]/..");
-    private static final String JENKINS_VERSION = "Jenkins 2.387.2";
-    private static final By REST_API_BTN = By.xpath("//a[contains(text(),'REST API')]");
-    private static final String TITLE = "Remote API [Jenkins]";
-
     @Test
     public void testRestAPILink() {
         getDriver().findElement(By.cssSelector("a[href='api/']")).click();
@@ -52,21 +46,24 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testVerifyJenkinsVersionOnManageJenkinsPage() {
-        getDriver().findElement(MANAGE_JENKINS_BTN).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Manage Jenkins')]/..")).click();
 
-        Actions actions = new Actions(getDriver());
-        actions.scrollToElement(getDriver().findElement(JENKINS_VERSION_BTN)).perform();
+        new Actions(getDriver())
+                .scrollToElement(getDriver().findElement(
+                        By.xpath("//div[@class='page-footer__flex-row']//a[@rel='noopener noreferrer']"))).perform();
 
-        Assert.assertEquals(getDriver().findElement(JENKINS_VERSION_BTN).getText(), JENKINS_VERSION, "Wrong version Jenkins");
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[@class='page-footer__flex-row']//a[@rel='noopener noreferrer']")).getText(),
+                "Jenkins 2.387.2", "Wrong version Jenkins");
     }
 
     @Test
     public void testVerifyRESTAPILink() {
-        Actions actions = new Actions(getDriver());
-        actions.scrollToElement(getDriver().findElement(REST_API_BTN)).perform();
+        new Actions(getDriver())
+                .scrollToElement(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]"))).perform();
 
-        getDriver().findElement(REST_API_BTN).click();
-        Assert.assertEquals(getDriver().getTitle(),TITLE, "Wrong page or page title");
+        getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")).click();
+        Assert.assertEquals(getDriver().getTitle(), "Remote API [Jenkins]", "Wrong page or page title");
     }
 
 }

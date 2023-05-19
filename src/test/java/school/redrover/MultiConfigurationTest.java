@@ -2,11 +2,16 @@ package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+
+import java.time.Duration;
+import java.util.List;
 
 public class MultiConfigurationTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_NAME = RandomStringUtils.randomAlphanumeric(5);
@@ -15,7 +20,6 @@ public class MultiConfigurationTest extends BaseTest {
     private static final By SAVE_BUTTON = By.name("Submit");
 
     private String getProjectNewName() {
-        getWait5();
         return getDriver().findElement(By.xpath("//h1[contains(@class, 'matrix-project-headline page-headline')]"))
                 .getText();
     }
@@ -132,5 +136,49 @@ public class MultiConfigurationTest extends BaseTest {
 
         Assert.assertTrue(getWait10().until(ExpectedConditions.textToBePresentInElement(
                 getDriver().findElement(By.xpath("//form[@id='enable-project']")), "This project is currently disabled")));
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    public void testDeleteProject() {
+        WebElement projectName = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='job/" + MULTI_CONFIGURATION_NAME + "/']")));
+
+        Actions action = new Actions(getDriver());
+        action.moveToElement(projectName).perform();
+        projectName.click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@data-message, 'Delete')]"))).click();
+        getDriver().switchTo().alert().accept();
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
+
+        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]");
+
+        List<WebElement> projects = getDriver().findElements(By.xpath("//a[@href='job/" + MULTI_CONFIGURATION_NAME + "/']"));
+
+        Assert.assertEquals(projects.size(), 0);
+    }
+
+    @Test
+    public void testCheckGeneralParametersDisplayedAndClickable() {
+        getDriver().findElement(
+                By.xpath("//span[@class='task-link-wrapper ']/a[@href='/view/all/newJob']")).click();
+
+        WebElement itemName = getDriver().findElement(By.id("name"));
+        itemName.sendKeys("TestProject");
+
+        getDriver().findElement(
+                By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
+
+        getDriver().findElement(
+                By.id("ok-button")).click();
+
+        boolean checkboxesVisibleClickable = true;
+        for (int i = 4; i <= 8; i++) {
+            if (!getDriver().findElement(By.id("cb" + i)).isDisplayed() || !getDriver().findElement(By.id("cb" + i)).isEnabled()) {
+                checkboxesVisibleClickable = false;
+                break;
+            }
+        }
+
+        Assert.assertTrue(checkboxesVisibleClickable);
     }
 }

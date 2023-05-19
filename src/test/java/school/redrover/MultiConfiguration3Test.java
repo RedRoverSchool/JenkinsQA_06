@@ -1,7 +1,10 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -118,6 +121,35 @@ public class MultiConfiguration3Test extends BaseTest {
 
         getDriver().findElement(By.xpath("//*[@checkdependson='newName']")).sendKeys(NEW_PROJECT_NAME);
         getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
+        getDriver().findElement(DASHBOARD_BUTTON).click();
+
+        WebElement newNameMultiCofigurationProject = getDriver().findElement(By.xpath("//td//a//span[1]"));
+
+        Assert.assertEquals(newNameMultiCofigurationProject.getText(),NAME_OF_PROJECT+NEW_PROJECT_NAME);
+    }
+
+    @Test
+    public void testRenameFromDropDownMenu() {
+        final String NEW_PROJECT_NAME="New project renamed";
+
+        TestUtils.createMultiConfigurationProject(this, NAME_OF_PROJECT, true);
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//td//a[@class='jenkins-table__link model-link inside']")))
+                .pause(1000)
+                .perform();
+
+        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td//a//button")));
+        chevron.sendKeys(Keys.RETURN);
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//*[text()='Rename']")))
+                .click()
+                .perform();
+
+        getDriver().findElement(By.xpath("//div//input[@checkdependson='newName']")).sendKeys(NEW_PROJECT_NAME);
+        getDriver().findElement(By.xpath("//*[@id='bottom-sticker']//button")).click();
+
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
         WebElement newNameMultiCofigurationProject = getDriver().findElement(By.xpath("//td//a//span[1]"));

@@ -19,7 +19,7 @@ public class PipelineProject9Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[normalize-space()='Pipeline "+ projectName +"']")).getText(), "Pipeline "+ projectName);
     }
-
+  
     @Test
     public void testRename() {
         final String projectNewName = "New Test";
