@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static org.testng.Assert.assertEquals;
+
 
 public class NewViewTest extends BaseTest {
     private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
@@ -205,5 +207,21 @@ public class NewViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText(), viewName2);
         Assert.assertEquals(viewJobsList.size(), 3);
         Assert.assertEquals(actualViewJobsTexts, expectedViewJobs);
+    }
+
+    @Test
+    public void testCreateMyView() {
+        TestUtils.createFolder(this, "TestFolder", true);
+
+        getDriver().findElement(By.linkText("TestFolder")).click();
+        getDriver().findElement(By.xpath("//a[@title= 'New View']")).click();
+
+        getDriver().findElement(By.name("name")).sendKeys("TestView");
+        getDriver().findElement(By.xpath("//label[@for= 'hudson.model.MyView']")).click();
+        getDriver().findElement(By.id("ok")).click();
+
+        WebElement newView = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("TestView")));
+
+        assertEquals(newView.getText(), "TestView");
     }
 }
