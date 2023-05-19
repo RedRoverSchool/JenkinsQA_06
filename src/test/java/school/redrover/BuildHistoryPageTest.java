@@ -98,7 +98,7 @@ public class BuildHistoryPageTest extends BaseTest {
                 .click()
                 .perform();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).click();
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
