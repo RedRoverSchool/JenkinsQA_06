@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class MultiConfigurationProject5Test extends BaseTest {
     private static final String PROJECT_NAME = "TestName";
@@ -32,4 +33,17 @@ public class MultiConfigurationProject5Test extends BaseTest {
         WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
         Assert.assertEquals(actualDescription.getText(),textDescription);
     }
+    @Test
+    public void testDisableEnableProject(){
+        TestUtils.createMultiConfigurationProject(this, "DisableTestName", false);
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+        String expectedString = getDriver().findElement(By.id("enable-project")).getText();
+        Assert.assertTrue(expectedString.contains("This project is currently disabled"));
+
+        WebElement enableButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
+        enableButton.click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).isDisplayed());
+    }
+
 }
