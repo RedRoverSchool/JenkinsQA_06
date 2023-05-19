@@ -10,6 +10,7 @@ import static org.testng.Assert.assertEquals;
 public class ConfigureFolder2Test extends BaseTest {
     private static final String PROJECT_NAME = "qwerty";
 
+
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob'][@class='task-link ']");
     private static final By PROJECT_NAME_FIELD = By.xpath("//input[@name='name']");
     private static final By FOLDER_PROJECT = By.xpath("//li[@class = 'com_cloudbees_hudson_plugins_folder_Folder']");
