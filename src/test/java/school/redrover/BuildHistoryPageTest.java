@@ -21,10 +21,10 @@ public class BuildHistoryPageTest extends BaseTest {
     private static final By SERIAL_NUMBER_OF_BUILD = By.xpath(
             "//a[@href='/job/" + NAME_PIPELINE + "/1/']");
     private static final By DROP_DOWN_SERIAL_NUMBER = By.xpath(
-            "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']//button[@class='jenkins-menu-dropdown-chevron']");
-    private static final By EDIT_BUILD_INFORMATION = By.xpath("//ul[@class='first-of-type']//a[@href='/job/" + NAME_PIPELINE + "/1/configure']");
+            "//a[@href='/job/" + NAME_PIPELINE + "/1/']/button");
+    private static final By EDIT_BUILD_INFORMATION = By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/configure']");
     private static final By DESCRIPTION_FIELD = By.xpath("//textarea[@name='description']");
-    private static final By DESCRIPTION_TEXT = By.xpath("//div[normalize-space()='For QA']");
+    private static final By DESCRIPTION_TEXT = By.xpath("//div[@id='description']/div[1]");
 
     protected void clickDropDownSerialNumberOfBuild() {
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
@@ -79,6 +79,28 @@ public class BuildHistoryPageTest extends BaseTest {
 
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
 
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), BUILD_DESCRIPTION);
+    }
+
+    @Test
+    public void testAddDescriptionToBuild()  {
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
+        TestUtils.createPipeline(this, NAME_PIPELINE, true);
+
+        getDriver().findElement(LOGO_JENKINS).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(BUILD_SCHEDULE)).click();
+        getDriver().findElement(BUILD_HISTORY).click();
+
+        new Actions(getDriver()).moveToElement(getDriver().findElement(SERIAL_NUMBER_OF_BUILD)).perform();
+
+        js.executeScript("arguments[0].click();", getDriver().findElement(By
+                .xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/']/button")));
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).click();
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), BUILD_DESCRIPTION);
