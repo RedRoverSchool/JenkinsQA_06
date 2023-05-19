@@ -27,11 +27,16 @@ public class FreestyleProject26Test extends BaseTest {
     }
 
     @Test(dependsOnMethods={"testCreate"})
-    public void testAddDescription() {
+    public void testOpenProject() {
+
         getDriver().findElement(By.xpath("//*[@id='job_" + NAME_FREESTYLE_PROJECT + "']/td[3]/a/span")).click();
 
         WebElement h1Element = getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']"));
         Assert.assertEquals(h1Element.getText(), "Project " + NAME_FREESTYLE_PROJECT);
+    }
+
+    @Test(dependsOnMethods={"testOpenProject"})
+    public void testAddDescription() {
 
         getDriver().findElement(By.id("description-link")).click();
         getDriver().findElement(By.xpath("//textarea[@class='jenkins-input   ']")).sendKeys(DESCRIPTION_PROJECT);

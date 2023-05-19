@@ -165,4 +165,33 @@ public class FreestyleProject8Test extends BaseTest {
 
         Assert.assertEquals(projectName.getText(), "OldProject");
     }
+
+    @Test
+    public void testVerifyProjectIsDisabled () {
+        createNewProject();
+
+        WebElement disableButton = getDriver()
+                .findElement(By.xpath("//*[contains(text(), 'Disable Project')]"));
+        disableButton.click();
+
+        WebElement warningText = getDriver()
+                .findElement(By.xpath("//*[contains (text(), 'This project is currently disabled')]"));
+
+        Assert.assertEquals(warningText.getText().substring(0 , 34),"This project is currently disabled");
+    }
+
+    @Test
+    public void testVerifyProjectIsEnabled () {
+        createNewProject();
+
+        WebElement disableButton = getDriver()
+                .findElement(By.xpath("//*[contains(text(), 'Disable Project')]"));
+        disableButton.click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector("#enable-project > button")))).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[contains(text(), 'Disable Project')]"))
+                .getText(), "Disable Project");
+    }
 }

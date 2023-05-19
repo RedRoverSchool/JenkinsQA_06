@@ -51,4 +51,15 @@ public class FreeStyleProject13Test extends BaseTest {
                 .findElement(By.xpath("//div[@id ='main-panel']//h1[text()='Project " + name + "']"))
                 .getText(), "Project " + name);
     }
+    @Test
+    public void testDisableFreestyleProject(){
+         TestUtils.createFreestyleProject(this, name, false);
+
+        getDriver().findElement(By.name("Submit")).click();
+
+        WebElement enableButton = getDriver().findElement(By.name("Submit"));
+        getWait2().until(ExpectedConditions.visibilityOf(enableButton));
+
+        Assert.assertEquals(enableButton.getText(), "Enable");
+    }
 }
