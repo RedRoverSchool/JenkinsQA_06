@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 public class NewJobPage extends BasePage {
@@ -18,7 +19,7 @@ public class NewJobPage extends BasePage {
     }
 
     public NewJobPage enterItemName(String nameJob) {
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(nameJob);
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='name']"))).sendKeys(nameJob);
         return this;
     }
 
