@@ -85,21 +85,18 @@ public class BuildHistoryPageTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionToBuild() {
+    public void testAddDescriptionToBuild()  {
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
         TestUtils.createPipeline(this, NAME_PIPELINE, true);
 
         getDriver().findElement(LOGO_JENKINS).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(BUILD_SCHEDULE)).click();
         getDriver().findElement(BUILD_HISTORY).click();
 
-        new Actions(getDriver()).moveToElement(getDriver().findElement(SERIAL_NUMBER_OF_BUILD))
-                .pause(Duration.ofSeconds(1))
-                .moveToElement(getDriver().findElement(DROP_DOWN_SERIAL_NUMBER))
-                .pause(Duration.ofSeconds(1))
-                .click()
-                .perform();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.
-                xpath("//div[@class = 'bd']")));
+        new Actions(getDriver()).moveToElement(getDriver().findElement(SERIAL_NUMBER_OF_BUILD)).perform();
+
+        js.executeScript("arguments[0].click();", getDriver().findElement(By
+                .xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/']/button")));
 
         getWait2().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).click();
 
