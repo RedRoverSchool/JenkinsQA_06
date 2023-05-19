@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -48,7 +49,7 @@ public class Folder4Test extends BaseTest {
 
         WebElement nameFolder = getDriver().findElement(By.xpath("//span[contains(text(),'" + NAME_FOLDER + "')]"));
         actions.moveToElement(nameFolder).click(nameFolder).perform();
-        getDriver().findElement(By.xpath("//div[@class='tab']")).click();
+        new FolderPage(getDriver()).newView();
 
         getDriver().findElement(By.id("name")).sendKeys(NAME_VIEW);
         WebElement myView = getDriver().findElement(By.xpath("//fieldset/div[last()]/input"));

@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static org.testng.Assert.assertEquals;
+
 
 public class NewViewTest extends BaseTest {
     private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
@@ -167,7 +169,7 @@ public class NewViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText(), viewName);
         Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", folderName1))).getText(), folderName1);
     }
-    @Ignore
+
     @Test(dependsOnMethods = "testMoveFolderToNewViewList")
     public void testCreateNewViewWithJobFilters() {
         final String folderName1 = "f1";
@@ -199,11 +201,28 @@ public class NewViewTest extends BaseTest {
         chooseJobsInJobFilters(folderName2);
         getDriver().findElement(SAVE_BUTTON).click();
 
-        List<WebElement> viewJobsList = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
+        List<WebElement> viewJobsList = getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                By.cssSelector("tr[id^=job_]>td:nth-child(3) span")));
         List<String> actualViewJobsTexts = getListTexts(viewJobsList);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText(), viewName2);
         Assert.assertEquals(viewJobsList.size(), 3);
         Assert.assertEquals(actualViewJobsTexts, expectedViewJobs);
+    }
+
+    @Test
+    public void testCreateMyView() {
+        TestUtils.createFolder(this, "TestFolder", true);
+
+        getDriver().findElement(By.linkText("TestFolder")).click();
+        getDriver().findElement(By.xpath("//a[@title= 'New View']")).click();
+
+        getDriver().findElement(By.name("name")).sendKeys("TestView");
+        getDriver().findElement(By.xpath("//label[@for= 'hudson.model.MyView']")).click();
+        getDriver().findElement(By.id("ok")).click();
+
+        WebElement newView = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("TestView")));
+
+        assertEquals(newView.getText(), "TestView");
     }
 }

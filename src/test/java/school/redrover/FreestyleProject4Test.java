@@ -2,10 +2,12 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class FreestyleProject4Test extends BaseTest {
 
@@ -37,5 +39,25 @@ public class FreestyleProject4Test extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate']")).isDisplayed());
         Assert.assertEquals(disabledProject.substring(0, disabledProject.indexOf("\n")), "This project is currently disabled");
+    }
+
+    @Test
+    public void testBuildNowProject() {
+        final String nameOfProject = "NewFreestyleProject";
+        TestUtils.createFreestyleProject(this, nameOfProject, true);
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//a[@href = 'job/"+ nameOfProject + "/']")))
+                .click()
+                .perform();
+
+        getDriver().findElement(By.xpath("//span[text() = 'Build Now']/ancestor::a")).click();
+
+        new Actions(getDriver())
+                .moveToElement(getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='build-status-link']"))))
+                .perform();
+
+        String actualBuildStatus = getDriver().findElement(By.xpath("//div[@class='tippy-box']")).getText();
+        Assert.assertEquals(actualBuildStatus, "Success > Console Output");
     }
 }
