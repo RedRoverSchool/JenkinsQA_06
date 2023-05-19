@@ -38,6 +38,7 @@ public class FreestyleProject01Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), "Project " + FREESTYLE_NAME);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description']/div")).getText(), desc);
     }
+
     @Test
     public void testDisableFreestyleProject(){
         String message = "This project is currently disabled";
