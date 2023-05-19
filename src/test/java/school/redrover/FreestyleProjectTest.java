@@ -11,6 +11,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private String name = "First Project";
 
     @Ignore
     @Test
@@ -387,6 +389,20 @@ public class FreestyleProjectTest extends BaseTest {
         WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/Astra/']/span"));
 
         Assert.assertTrue(createdProject.isDisplayed());
+    }
+
+    @Test
+    public void testMakeProjectDisabled() {
+        TestUtils.createFreestyleProject(this, name, false);
+
+        WebElement actualProjectHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualProjectHeader.getText(), "Project First Project");
+
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+        WebElement receivedMessage = getDriver().findElement(By.xpath("//div/form[@id='enable-project']"));
+
+        Assert.assertEquals(receivedMessage.getText().substring(0,34), "This project is currently disabled");
     }
 }
 
