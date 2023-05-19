@@ -26,7 +26,7 @@ public class MultiConfigurationProject1Test extends BaseTest {
 
         Assert.assertEquals(actualResult, projectName);
     }
-    @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
+    @Test(dependsOnMethods = {"testCreateMultiConfiguration"}, groups = "a")
     public void testAddDescription() {
 
         String descriptionText = "There is the test project";
@@ -41,18 +41,18 @@ public class MultiConfigurationProject1Test extends BaseTest {
         Assert.assertEquals(actualResult, descriptionText);
     }
 
-    @Test(dependsOnMethods = {"testCreateMultiConfiguration"})
+    @Test(dependsOnMethods = {"testCreateMultiConfiguration"}, groups = "a")
     public void testDisableProject() {
 
-        String textOfmassage = "This project is currently disabled";
+        String textOfmessage = "This project is currently disabled";
 
         clickOnProject();
         getDriver().findElement(By.xpath("//form/button[@formnovalidate = 'formNoValidate']")).click();
         String actualResult = getDriver().findElement(By.xpath("//form[@id = 'enable-project']")).getText();
 
-        Assert.assertTrue(actualResult.contains(textOfmassage));
+        Assert.assertTrue(actualResult.contains(textOfmessage), "This element does not contain this message");
     }
-    @Test(dependsOnMethods = {"testCreateMultiConfiguration", "testDisableProject"})
+    @Test(dependsOnMethods = {"testDisableProject"}, groups = "a")
     public void testEnableProject() {
 
         clickOnProject();
@@ -60,10 +60,25 @@ public class MultiConfigurationProject1Test extends BaseTest {
         new Actions(getDriver()).moveToElement(enableButton).click(enableButton).build().perform();
         WebElement disableButton = getDriver().findElement(By.xpath("//button[text() = 'Disable Project']"));
 
-        Assert.assertTrue(disableButton.isDisplayed());
+        Assert.assertTrue(disableButton.isDisplayed(), "The disable button is not displayed");
+    }
+    @Test(dependsOnMethods = {"testCreateMultiConfiguration"}, dependsOnGroups = "a")
+    public void testRenameOnProjectPage(){
+
+        String newNameProject = "newTest";
+
+        clickOnProject();
+        getDriver().findElement(By.linkText("Rename")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@checkdependson='newName']"))).clear();
+        getDriver().findElement((By.xpath("//input[@checkdependson='newName']"))).sendKeys(newNameProject);
+        getDriver().findElement(By.xpath("//button[@name = 'Submit']")).click();
+        WebElement newName = getDriver().findElement(By.xpath("//h1[@class = 'matrix-project-headline page-headline']"));
+
+        Assert.assertEquals(newName.getText(), "Project " + newNameProject);
     }
     private void clickOnProject() {
         WebElement projectName = getDriver().findElement(By.cssSelector(" [href='job/test/']"));
         new Actions(getDriver()).moveToElement(projectName).click(projectName).build().perform();
     }
+
 }
