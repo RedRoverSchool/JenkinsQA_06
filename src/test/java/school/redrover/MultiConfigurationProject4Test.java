@@ -45,20 +45,19 @@ public class MultiConfigurationProject4Test extends BaseTest {
     }
 
     @DataProvider(name = "unsafeCharacter")
-    public static Object[][] provideWrongCharacters() {
+    public static Object[][] provideUnsafeCharacters() {
         return new Object[][]{{'!'}, {'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'&'},
                 {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'},
                 {'<'}, {'>'}, {'/'}, {'?'}};
     }
 
     @Test(dataProvider = "unsafeCharacter")
-    public void testVerifyAnErrorAboutUnsafeCharacterIfCreatingMultiConfigurationProjectWithUnsafeCharacterInName(char unsafeSymbol) {
-        String projectName = "MyProject";
+    public void testVerifyAnErrorIfCreatingMultiConfigurationProjectWithUnsafeCharacterInName(char unsafeSymbol) {
 
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getWait2().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//input[@name='name']")))
-                .sendKeys(unsafeSymbol + projectName);
+                .sendKeys(unsafeSymbol + "MyProject");
 
         WebElement errorMessage = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
 
