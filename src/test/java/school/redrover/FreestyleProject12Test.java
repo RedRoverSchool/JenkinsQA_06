@@ -6,7 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
-import school.redrover.runner.TestUtils;
 
 public class FreestyleProject12Test extends BaseTest {
 
