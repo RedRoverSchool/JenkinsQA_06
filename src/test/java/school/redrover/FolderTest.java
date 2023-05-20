@@ -189,7 +189,7 @@ public class FolderTest extends BaseTest {
                 .newItem().enterItemName(nameItem)
                 .selectFolder()
                 .saveConfigurePageAndGoToProjectPage()
-                .navigateToMainPageByBreadscrumbs();;
+                .navigateToMainPageByBreadscrumbs();
 
         String actualResult = mainPage.getFolderName().getText();
 
