@@ -70,4 +70,10 @@ public class NewJobPage extends BasePage {
                 .sendKeys(typeToAutocomplete);
         return this;
     }
+
+    public PipelineConfigPage selectPipelineAndClickOK() {
+        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
+        okButton.click();
+        return new PipelineConfigPage(getDriver());
+    }
 }

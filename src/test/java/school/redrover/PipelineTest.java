@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -168,10 +169,14 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineProject() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+        WebElement projectName = new MainPage(getDriver())
+                .newItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndClickOK()
+                .clickSaveButton()
+                .clickDashboard().getProjectName();
 
-        Assert.assertEquals(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")))
-                .getText().substring(9), PIPELINE_NAME);
+        Assert.assertEquals(projectName.getText(), PIPELINE_NAME);
     }
 
 
