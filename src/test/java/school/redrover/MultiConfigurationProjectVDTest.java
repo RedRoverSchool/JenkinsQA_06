@@ -1,9 +1,8 @@
 package school.redrover;
 
-import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -27,10 +26,10 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//*[@id='name']"))).sendKeys(PROJECT_NAME);
+                (By.xpath("//input[@id='name']"))).sendKeys(PROJECT_NAME);
 
-        getDriver().findElement(By.xpath("//*[@class='hudson_matrix_MatrixProject']")).click();
-        getDriver().findElement(By.xpath("//*[@id='ok-button']")).click();
+        getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
+        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
 
         getWait5().until(ExpectedConditions.elementToBeClickable(OK_BUTTON)).click();
 
@@ -50,18 +49,17 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
 
-        getDriver().findElement(By.xpath("//*[@class='hudson_matrix_MatrixProject']")).click();
+        getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//*[@id='name']"))).sendKeys(wrongCharacter);
+                (By.xpath("//input[@id='name']"))).sendKeys(wrongCharacter);
 
         String errorName = getWait2().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@id='itemname-invalid']"))).getText();
 
         Assert.assertEquals(errorName, "» ‘" + wrongCharacter + "’ is an unsafe character");
-        Assert.assertFalse(getDriver().findElement(By.xpath("//*[@id='ok-button']")).isEnabled());
+        Assert.assertFalse(getDriver().findElement(By.xpath("//button[@id='ok-button']")).isEnabled());
 
-        getDriver().findElement(By.xpath("//*[@id='jenkins-name-icon']")).click();
     }
 
     @Test(dependsOnMethods = {"testCreateProject"})
@@ -90,6 +88,35 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
 
         getWait2().until(ExpectedConditions.elementToBeClickable(ENABLE_BUTTON)).click();
         Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(DISABLE_BUTTON)).isDisplayed());
+    }
+
+    @Test
+    public void testBuildProject() {
+
+        TestUtils.createMultiConfigurationProject(this, PROJECT_NAME, true);
+
+        if (getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[local-name()='svg' and @title = 'Not built']"))).isDisplayed()) {
+
+            new Actions(getDriver())
+                    .moveToElement(getDriver().findElement
+                            (By.xpath("//a[@class='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']")))
+                    .click()
+                    .perform();
+
+            new Actions(getDriver()).moveToElement(getDriver().findElement
+                            (By.xpath("//span[normalize-space()='Build Now']")))
+                    .click()
+                    .perform();
+        } else {
+            System.out.println("The project " + PROJECT_NAME + " has already built");
+        }
+
+        getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")).click();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" +PROJECT_NAME + "/1/console']"))).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//pre[@class='console-output']")).getText().contains( "Finished: SUCCESS"), "The build has failed");
+
     }
 }
 
