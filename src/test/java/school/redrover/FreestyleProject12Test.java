@@ -19,7 +19,9 @@ public class FreestyleProject12Test extends BaseTest {
     @Test(dataProvider = "specialCharacters")
     public void testCreateWithInvalidName(Character specialCharacter) {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+
         getDriver().findElement(By.id("name")).sendKeys(String.valueOf(specialCharacter));
+        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         WebElement unsafeCharMessage = getDriver().findElement(By.id("itemname-invalid"));
 
         Assert.assertEquals(unsafeCharMessage.getText(), String.format("» ‘%s’ is an unsafe character", specialCharacter));
