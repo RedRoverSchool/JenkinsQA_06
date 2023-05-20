@@ -358,4 +358,21 @@ public class HeaderTest extends BaseTest {
 
         assertEquals(actualColor, expectedColor);
     }
+    public void iconChangeColor(By el){
+        String colorBefore = getDriver().findElement(el).getCssValue("background-color");
+        String colorAfter = "";
+        new Actions(getDriver()).moveToElement(getDriver().findElement(el)).perform();
+        colorAfter = getDriver().findElement(el).getCssValue("background-color");
+
+        Assert.assertNotEquals(colorBefore, colorAfter);
+    }
+
+     @Test
+    public void testNotificationIcon(){
+        iconChangeColor(NOTIFICATION_ICON);
+        getDriver().findElement(NOTIFICATION_ICON).click();
+        String actualRes = getDriver().findElement(MANAGE_JENKINS_LINK).getText();
+        Assert.assertEquals(actualRes, "Manage Jenkins");
+    }
+
 }

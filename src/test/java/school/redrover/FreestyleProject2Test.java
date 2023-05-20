@@ -71,4 +71,25 @@ public class FreestyleProject2Test extends BaseTest {
 
         Assert.assertEquals(description.getText(), "Hello! " + text);
     }
+
+    @Test(dependsOnMethods = "testNewProject")
+    public void testRenameProject() {
+
+        getDriver().findElement(By.xpath("//span[normalize-space()='First project']")).click();
+
+        getDriver().findElement(By.xpath("(//a[@class='task-link '])[5]")).click();
+
+        WebElement newName = getDriver().findElement(By.xpath("//input[@name='newName']"));
+        newName.sendKeys(Keys.CONTROL+"a");
+        newName.sendKeys(Keys.DELETE);
+        newName.sendKeys("My first project");
+
+        getDriver().findElement(By.xpath("//button[normalize-space()='Rename']")).click();
+
+        getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']")).click();
+
+        WebElement projectName = getDriver().findElement(By.xpath("//span[normalize-space()='My first project']"));
+
+        Assert.assertEquals(projectName.getText(), "My first project");
+    }
 }

@@ -38,6 +38,7 @@ public class FreestyleProject01Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), "Project " + FREESTYLE_NAME);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description']/div")).getText(), desc);
     }
+
     @Test
     public void testDisableFreestyleProject(){
         String message = "This project is currently disabled";
@@ -54,6 +55,22 @@ public class FreestyleProject01Test extends BaseTest {
 
         String attrOfProjectElem = getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                             By.id("job_" + FREESTYLE_NAME))).getAttribute("class");
+
         Assert.assertEquals(attrOfProjectElem, "disabledJob job-status-disabled");
+    }
+
+    @Test
+    public void testEnableFreestyleProject(){
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, false);
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("Submit"))).click();
+
+        getDriver().findElement(By.xpath("//a[text() = 'Dashboard']")).click();
+
+        String attrOfProjectElem = getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.id("job_" + FREESTYLE_NAME))).getAttribute("class");
+
+        Assert.assertEquals(attrOfProjectElem, " job-status-nobuilt");
     }
 }
