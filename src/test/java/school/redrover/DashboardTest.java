@@ -59,4 +59,17 @@ public class DashboardTest extends BaseTest {
 
         Assert.assertEquals(getTexts(menus), expectedMenus);
     }
+
+    @Test
+    public void testReturnToDashboardPage() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.id("name")).sendKeys("One");
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']"))).click();
+        getDriver().findElement(By.xpath("//a[@class='model-link'][contains(text(),'Dashboard')]")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/One/']")).getText(),"One");
+    }
 }
