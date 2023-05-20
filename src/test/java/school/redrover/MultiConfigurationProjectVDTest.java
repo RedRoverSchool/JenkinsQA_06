@@ -103,8 +103,8 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
                     .click()
                     .perform();
 
-            new Actions(getDriver()).moveToElement(getDriver().findElement
-                            (By.xpath("//span[normalize-space()='Build Now']")))
+            new Actions(getDriver()).moveToElement(getWait2().until(ExpectedConditions.elementToBeClickable
+                            (By.xpath("//span[normalize-space()='Build Now']"))))
                     .click()
                     .perform();
         } else {
@@ -113,9 +113,9 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")).click();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" +PROJECT_NAME + "/1/console']"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + PROJECT_NAME + "/1/console']"))).click();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//pre[@class='console-output']")).getText().contains( "Finished: SUCCESS"), "The build has failed");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//pre[@class='console-output']")).getText().contains("Finished: SUCCESS"), "The build has failed");
 
     }
 }
