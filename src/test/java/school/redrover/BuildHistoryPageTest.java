@@ -6,11 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-import java.time.Duration;
+
 
 public class BuildHistoryPageTest extends BaseTest {
     private static final String NAME_PIPELINE = "Pipeline2023";
@@ -22,7 +21,7 @@ public class BuildHistoryPageTest extends BaseTest {
     private static final By SERIAL_NUMBER_OF_BUILD = By.xpath(
             "//a[@href='/job/" + NAME_PIPELINE + "/1/']");
     private static final By DROP_DOWN_SERIAL_NUMBER = By.xpath(
-            "//a[@href='/job/" + NAME_PIPELINE + "/1/']/button");
+            "//a[contains(@class, 'badge model-link inside')]/button");
     private static final By EDIT_BUILD_INFORMATION = By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/configure']");
     private static final By DESCRIPTION_FIELD = By.xpath("//textarea[@name='description']");
     private static final By DESCRIPTION_TEXT = By.xpath("//div[@id='description']/div[1]");
@@ -55,16 +54,11 @@ public class BuildHistoryPageTest extends BaseTest {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(BUILD_HISTORY)).click();
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(SERIAL_NUMBER_OF_BUILD));
-        new Actions(getDriver()).moveToElement(getDriver().findElement(SERIAL_NUMBER_OF_BUILD))
-                .pause(Duration.ofSeconds(5))
-                .moveToElement(getDriver().findElement(DROP_DOWN_SERIAL_NUMBER))
-                .pause(Duration.ofSeconds(5))
+        new Actions(getDriver()).moveToElement(getWait5().until(ExpectedConditions.visibilityOfElementLocated(SERIAL_NUMBER_OF_BUILD)))
                 .perform();
         getDriver().findElement(DROP_DOWN_SERIAL_NUMBER).sendKeys(Keys.RETURN);
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION));
-        getDriver().findElement(EDIT_BUILD_INFORMATION).sendKeys(Keys.RETURN);
+        getWait10().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).sendKeys(Keys.RETURN);
 
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
 
