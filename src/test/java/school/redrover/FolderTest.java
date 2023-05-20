@@ -10,10 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.ConfigurePage;
 import school.redrover.model.MainPage;
-import school.redrover.model.NewJobPage;
-import school.redrover.model.ProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
