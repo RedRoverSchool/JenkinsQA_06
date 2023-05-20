@@ -9,7 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreateFreestyleJobTest extends BaseTest {
+public class FreestyleJobTest extends BaseTest {
     private static final String NAME_PROJECT = "Hello world";
 
     public void scroll(int deltaY) {
