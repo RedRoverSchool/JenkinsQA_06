@@ -23,10 +23,10 @@ public class NewJobPage extends BasePage {
         return this;
     }
 
-    public NewJobPage selectFreestyleProjectAndOk() {
+    public ConfigureFreestyleProjectPage selectFreestyleProjectAndOk() {
         getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
         okButton.click();
-        return this;
+        return new ConfigureFreestyleProjectPage(getDriver());
     }
 
     public NewJobPage selectPipelineAndOk() {

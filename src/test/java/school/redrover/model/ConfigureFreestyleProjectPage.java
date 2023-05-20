@@ -1,13 +1,17 @@
-package school.redrover;
+package school.redrover.model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import school.redrover.model.base.BasePage;
 
-public class ConfigureFreestylePage extends BasePage {
+public class ConfigureFreestyleProjectPage extends BasePage {
 
-    public ConfigureFreestylePage(WebDriver driver) {
+    public ConfigureFreestyleProjectPage(WebDriver driver) {
         super(driver);
     }
 
-    public 
+   public ConfigureFreestyleProjectPage buttonSave() {
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        return this;
+   }
 }

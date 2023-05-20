@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.ConfigurePage;
+import school.redrover.model.MainPage;
 import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 
@@ -13,9 +15,11 @@ public class NewProject3Test extends BaseTest {
     public void testCreateFreestyleProject() {
         String expectedResult = "Engineer2";
 
-        getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
-        new NewJobPage(getDriver()).enterItemName("Engineer2").selectFreestyleProjectAndOk();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        new MainPage(getDriver())
+                .newItem()
+                .enterItemName("Engineer2")
+                .selectFreestyleProjectAndOk()
+                .buttonSave();
         getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
 
         String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer2/']")).getText();
