@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.time.Duration;
+
 public class MultiConfigurationProjectVDTest extends BaseTest {
 
     private static final String PROJECT_NAME = "Tricky_Project";
@@ -97,24 +99,26 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
 
         if (getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[local-name()='svg' and @title = 'Not built']"))).isDisplayed()) {
 
-            new Actions(getDriver()).moveToElement(getWait5().until(ExpectedConditions.elementToBeClickable
+            new Actions(getDriver()).moveToElement(getWait2().until(ExpectedConditions.elementToBeClickable
                             (By.xpath("//a[@class='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']"))))
+                    .pause(Duration.ofSeconds(1))
                     .click()
                     .perform();
 
-            new Actions(getDriver()).moveToElement(getWait5().until(ExpectedConditions.elementToBeClickable
+            new Actions(getDriver()).moveToElement(getWait2().until(ExpectedConditions.elementToBeClickable
                             (By.xpath("//span[normalize-space()='Build Now']"))))
+                    .pause(Duration.ofSeconds(1))
                     .click()
                     .perform();
         } else {
             System.out.println("The project " + PROJECT_NAME + " has already built");
         }
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")).click();
+
 
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + PROJECT_NAME + "/1/console']"))).click();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//pre[@class='console-output']")).getText().contains("Finished: SUCCESS"), "The build has failed");
+        Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//pre[@class='console-output']"))).getText().contains("Finished: SUCCESS"), "The build has failed");
 
     }
 }
