@@ -3,10 +3,10 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.*;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class Pipeline2Test extends BaseTest {
+public class PipelineProject8Test extends BaseTest {
 
     @Test
     public void TestCreatePipeline() {
@@ -48,7 +48,6 @@ public class Pipeline2Test extends BaseTest {
         Assert.assertEquals(descriptionVal.getText(), desc);
     }
 
-    @Ignore
     @Test
     public void testCreatePipelineProjectCorrectName() {
         WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
@@ -60,7 +59,7 @@ public class Pipeline2Test extends BaseTest {
         WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
         typeProject.click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.name("Submit")))).click();
         getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[@href='/']")).click();
 
         WebElement projectExist = getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']"));
@@ -106,14 +105,14 @@ public class Pipeline2Test extends BaseTest {
         dashboardLink.click();
 
         getWait2().until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//a[@class ='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']")))
+                        By.xpath("//a[@class ='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']")))
                 .sendKeys(Keys.RETURN);
 
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Delete Pipeline"))).click();
 
         getWait2().until(ExpectedConditions.alertIsPresent()).accept();
 
-        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME),"Pipeline is not deleted");
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME), "Pipeline is not deleted");
     }
 
     @Test
@@ -121,16 +120,16 @@ public class Pipeline2Test extends BaseTest {
         String name = "Pipeline";
         List<String> symbol = Arrays.asList("!", "@", "#", "?", "$", "%", "^", "&", "*", "[", "]", "\\", "|", "/");
 
-        for (int i = 0; i < symbol.size(); i++) {
+        for (String s : symbol) {
             WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
             newItem.click();
             WebElement itemName = getDriver().findElement(By.id("name"));
-            itemName.sendKeys(name + symbol.get(i));
+            itemName.sendKeys(name + s);
             WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
             typeProject.click();
 
             Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
-                    "» ‘" + symbol.get(i) + "’ is an unsafe character");
+                    "» ‘" + s + "’ is an unsafe character");
 
             getDriver().findElement(By.id("ok-button")).click();
 
@@ -138,8 +137,41 @@ public class Pipeline2Test extends BaseTest {
             Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))).
                     getText(), "Error");
             Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
-                    getText(), "‘" + symbol.get(i) + "’ is an unsafe character");
+                    getText(), "‘" + s + "’ is an unsafe character");
             getDriver().findElement(By.xpath("//a[contains(text(),'All')]")).click();
         }
+    }
+
+    @Test(dependsOnMethods = "testCreatePipelineProjectCorrectName")
+    public void testRenameProjectFromDashboardPage() {
+        final String project = "//a[@class='jenkins-table__link model-link inside']";
+        final String dropdownChevron = "//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']";
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath(project))));
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath(project)))
+                .moveToElement(getDriver().findElement(By.xpath(dropdownChevron)))
+                .perform();
+
+        getDriver().findElement(By.xpath(dropdownChevron)).sendKeys(Keys.RETURN);
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//div[@class = 'bd']"))));
+
+        final String rename = "//div[@class = 'bd']//span[contains(text(), 'Rename')]";
+        new Actions(getDriver())
+                .scrollToElement(getDriver().findElement(By.xpath(rename)))
+                .moveToElement(getDriver().findElement(By.xpath(rename)))
+                .click()
+                .perform();
+
+        WebElement projectName = getDriver().findElement(By.name("newName"));
+        projectName.clear();
+        String newProjectName = "RedRoverProject";
+        projectName.sendKeys(newProjectName + "\n");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'main-panel']/h1")).getText(), "Pipeline " + newProjectName);
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath(project)).getText(), newProjectName);
     }
 }

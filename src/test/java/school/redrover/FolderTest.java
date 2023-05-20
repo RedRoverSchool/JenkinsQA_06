@@ -1,12 +1,18 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class FolderTest extends BaseTest {
 
@@ -72,19 +78,8 @@ public class FolderTest extends BaseTest {
         String folderName = "Folder_1";
         String projectName = "Project_1";
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(folderName);
-        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
-        getDriver().findElement(By.xpath("//ol/li/a[@href='/'] ")).click();
-
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(projectName);
-        getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
-        getDriver().findElement(By.xpath("//ol/li/a[@href='/']")).click();
+        TestUtils.createFolder(this, folderName, true);
+        TestUtils.createFreestyleProject(this, projectName, true);
 
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']",projectName)))).click();
         getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/move']", projectName))).click();
@@ -112,6 +107,84 @@ public class FolderTest extends BaseTest {
         createFolder(folderName);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), errorMessage);
+    }
 
+    @Test
+    public void testCreateOrganizationFolderInFolder() {
+        final String name = RandomStringUtils.randomAlphanumeric(8);
+
+        TestUtils.createFolder(this, name, true);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
+
+        TestUtils.createOrganizationFolder(this, name + "Organization", true);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.id("projectstatus"))).getText().contains(name + "Organization"));
+    }
+
+    @DataProvider(name = "invalid-data")
+    public Object[][] provideInvalidData() {
+        return new Object[][]{{"!"}, {"#"}, {"$"}, {"%"}, {"&"}, {"*"}, {"/"}, {":"},
+                {";"}, {"<"}, {">"}, {"?"}, {"@"}, {"["}, {"]"}, {"|"}, {"\\"}, {"^"}};
+    }
+
+    @Test(dataProvider = "invalid-data")
+    public void testCreateFolderUsingInvalidData(String invalidData) {
+        String errorMessage = "» ‘" + invalidData + "’ is an unsafe character";
+
+        WebElement createItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+        createItemButton.click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Folder']"))).click();
+
+        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
+        fieldInputName.clear();
+        fieldInputName.sendKeys(invalidData);
+
+        WebElement resultMessage = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
+        String messageValue = resultMessage.getText();
+
+        Assert.assertEquals(messageValue, errorMessage);
+    }
+
+    @Test
+    public void testMoveFolderToFolder(){
+        final String folderOne = RandomStringUtils.randomAlphanumeric(9);
+        final String folderTwo = folderOne + "Two";
+
+        TestUtils.createFolder(this, folderOne, true);
+        TestUtils.createFolder(this, folderTwo, true);
+
+        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+        chevron.sendKeys(Keys.RETURN);
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
+
+        new Select(getWait5().until(ExpectedConditions.elementToBeClickable(By.name("destination")))).selectByIndex(1);
+        getDriver().findElement(By.name("Submit")).click();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'job/" + folderOne + "/')]"))).click();
+
+        Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]"))).isDisplayed());
+    }
+
+    @Test
+    public void testCreateFolder3() {
+        String nameItem = "Test Folder";
+
+        MainPage mainPage  = new MainPage(getDriver())
+                .newItem().enterItemName(nameItem)
+                .selectFolder()
+                .saveConfigurePageAndGoToProjectPage()
+                .navigateToMainPageByBreadcrumbs();
+
+        String actualResult = mainPage.getFolderName().getText();
+
+        WebElement webElement = mainPage.navigateToProjectPage().getNameProject();
+
+        Assert.assertEquals(actualResult, nameItem);
+        Assert.assertEquals(webElement.getText(), nameItem);
     }
 }

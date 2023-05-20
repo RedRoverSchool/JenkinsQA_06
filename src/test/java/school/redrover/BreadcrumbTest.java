@@ -34,27 +34,27 @@ public class BreadcrumbTest extends BaseTest {
 
     @DataProvider(name = "subsections")
     public Object[][] provideSubsections() {
-        return new Object[][]{{"//li[@id='yui-gen6']/a/span", "Configure System"},
-                {"//li[@id='yui-gen7']/a/span", "Global Tool Configuration"},
-                {"//li[@id='yui-gen8']/a/span", "Plugins"},
-                {"//li[@id='yui-gen9']/a/span", "Manage nodes and clouds"},
-                {"//li[@id='yui-gen11']/a/span", "Configure Global Security"},
-                {"//li[@id='yui-gen12']/a/span", "Credentials"},
-                {"//li[@id='yui-gen13']/a/span", "Configure Credential Providers"},
-                {"//li[@id='yui-gen14']/a/span", "Users"},
-                {"//li[@id='yui-gen16']/a/span", "System Information"},
-                {"//li[@id='yui-gen17']/a/span", "Log Recorders"},
-                {"//li[@id='yui-gen18']/a/span", "Load statistics: Jenkins"},
-                {"//li[@id='yui-gen19']/a/span", "Jenkins\n" +
+        return new Object[][]{{"//div[@id='submenu0']/div/ul/li/a[@href='/manage/configure']/span", "Configure System"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/configureTools']/span", "Global Tool Configuration"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/pluginManager']/span", "Plugins"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/computer']/span", "Manage nodes and clouds"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/configureSecurity']/span", "Configure Global Security"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/credentials']/span", "Credentials"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/configureCredentials']/span", "Configure Credential Providers"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/securityRealm/']/span", "Users"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/systemInfo']/span", "System Information"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/log']/span", "Log Recorders"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/load-statistics']/span", "Load statistics: Jenkins"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/about']/span", "Jenkins\n" +
                         "Version\n" +
                         "2.387.2"},
-                {"//li[@id='yui-gen21']/a/span", "Manage Old Data"},
-                {"//li[@id='yui-gen23']/a/span", "Reload Configuration from Disk: are you sure?"},
-                {"//li[@id='yui-gen24']/a/span", "Jenkins CLI"},
-                {"//li[@id='yui-gen25']/a/span", "Script Console"},
-                {"//li[@id='yui-gen26']/a/span", "Prepare for Shutdown"}};
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/administrativeMonitor/OldData/']/span", "Manage Old Data"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='#' and @class='yuimenuitemlabel']/span",
+                        "Reload Configuration from Disk: are you sure?"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/cli']/span", "Jenkins CLI"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/script']/span", "Script Console"},
+                {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/prepareShutdown']/span", "Prepare for Shutdown"}};
     }
-
     @Test(dataProvider = "subsections")
     public void testNavigateToManageJenkinsSubsection(String locator, String subsectionName) {
         new Actions(getDriver()).moveToElement(getDriver().findElement(
@@ -71,9 +71,10 @@ public class BreadcrumbTest extends BaseTest {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
         new Actions(getDriver()).moveToElement(getDriver().findElement(sectionNameLocator)).perform();
 
-        if (locator.contains("23")||locator.contains("24") || locator.contains("25") || locator.contains("26")) {
+        if (locator.contains("@class='yuimenuitemlabel'")||
+                locator.contains("/cli") || locator.contains("/script") || locator.contains("/prepareShutdown")) {
             new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
-            for (int i = 0; i < 18; i++) {
+            for (int i = 0; i < 16; i++) {
                 new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
             }
         }
@@ -82,10 +83,9 @@ public class BreadcrumbTest extends BaseTest {
         WebElement subSection = getDriver().findElement(subsectionNameLocator);
         subSection.click();
 
-        String text = "";
-        if (locator.contains("23")){
+        if (locator.contains("@class='yuimenuitemlabel'")){
             Alert alert = getWait5().until(ExpectedConditions.alertIsPresent());
-            text = alert.getText();
+            String text = alert.getText();
             alert.dismiss();
             Assert.assertEquals(text, "Reload Configuration from Disk: are you sure?");
         } else {
