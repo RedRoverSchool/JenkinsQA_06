@@ -60,6 +60,7 @@ public class DashboardTest extends BaseTest {
         Assert.assertEquals(getTexts(menus), expectedMenus);
     }
 
+
     @Test
     public void testReturnToDashboardPage() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
