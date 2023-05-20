@@ -197,6 +197,6 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(actualResult, nameItem);
         Assert.assertEquals(webElement.getText(), nameItem);
-    Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), nameItem);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), nameItem);
     }
 }
