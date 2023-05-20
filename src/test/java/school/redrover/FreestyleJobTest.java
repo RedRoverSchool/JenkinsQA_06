@@ -70,6 +70,7 @@ import school.redrover.runner.BaseTest;
             getWait2().until(ExpectedConditions.elementToBeClickable(
                     By.name("Submit")
             )).click();
+
             clickPerform(getWait2().until(ExpectedConditions.elementToBeClickable(
                     By.xpath("//*[@id='tasks']/div[4]/span/a"))));
             getWait5().until(ExpectedConditions.elementToBeClickable(
