@@ -13,17 +13,17 @@ public class NewProject3Test extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject() {
-        String expectedResult = "Engineer2";
+        String nameProject = "Engineer2";
 
         new MainPage(getDriver())
                 .newItem()
                 .enterItemName("Engineer2")
                 .selectFreestyleProjectAndOk()
-                .buttonSave();
-        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+                .buttonSave()
+                .selectDashboard();
 
         String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer2/']")).getText();
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(actualResult, nameProject);
     }
 
     @Test

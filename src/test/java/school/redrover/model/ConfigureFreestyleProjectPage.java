@@ -14,4 +14,9 @@ public class ConfigureFreestyleProjectPage extends BasePage {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return this;
    }
+
+   public MainPage selectDashboard() {
+       getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+       return new MainPage(getDriver());
+   }
 }
