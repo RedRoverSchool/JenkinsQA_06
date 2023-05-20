@@ -41,6 +41,12 @@ public class NewJobPage extends BasePage {
         return this;
     }
 
+    public ConfigurePage selectMultiConfigurationProject() {
+        getDriver().findElement(By.xpath("//span[.='Multi-configuration project']")).click();
+        okButton.click();
+        return new ConfigurePage(getDriver());
+    }
+
     public NewJobPage selectFolderAndOk() {
         getDriver().findElement(By.xpath("//input[contains(@value, 'folder.Folder')]")).click();
         okButton.click();
