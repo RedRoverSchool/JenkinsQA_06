@@ -23,4 +23,14 @@ public class MainPage extends BasePage {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".job-status-nobuilt td>a>span"))));
     }
+
+    public WebElement getFolderName() {
+        return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector(".jenkins-table__link"))));
+    }
+
+    public ProjectPage navigateToProjectPage() {
+        getDriver().findElement(By.cssSelector(".jenkins-table__link")).click();
+        return new ProjectPage(getDriver());
+    }
 }

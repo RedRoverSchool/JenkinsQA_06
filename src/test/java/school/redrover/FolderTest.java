@@ -10,6 +10,10 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.ConfigurePage;
+import school.redrover.model.MainPage;
+import school.redrover.model.NewJobPage;
+import school.redrover.model.ProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -178,5 +182,24 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]"))).isDisplayed());
+    }
+
+    @Test
+    public void testCreateFolder3() {
+        String nameItem = "Test Folder";
+
+        MainPage mainPage  = new MainPage(getDriver())
+                .newItem().enterItemName(nameItem)
+                .selectFolder()
+                .saveConfigurePageAndGoToProjectPage()
+                .navigateToMainPageByBreadscrumbs();;
+
+        String actualResult = mainPage.getFolderName().getText();
+
+        WebElement webElement = mainPage.navigateToProjectPage().getNameProject();
+
+        Assert.assertEquals(actualResult, nameItem);
+        Assert.assertEquals(webElement.getText(), nameItem);
+    Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), nameItem);
     }
 }

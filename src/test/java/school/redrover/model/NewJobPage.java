@@ -53,6 +53,12 @@ public class NewJobPage extends BasePage {
         return this;
     }
 
+    public ConfigurePage selectFolder() {
+        getDriver().findElement(By.xpath("//span[.='Folder']")).click();
+        okButton.click();
+        return new ConfigurePage(getDriver());
+    }
+
     public NewJobPage selectMultibranchPipelineAndOk() {
         getDriver().findElement(By.xpath("//input[contains(@value, 'WorkflowMultiBranchProject')]")).click();
         okButton.click();
