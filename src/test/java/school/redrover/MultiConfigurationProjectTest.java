@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -13,9 +15,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testMultiConfigurationProject() {
         TestUtils.createMultiConfigurationProject(this,"My Multi configuration project",false);
 
-        WebElement nameProject = getDriver().findElement(By.xpath("//h1[text() = 'Project My Multi configuration project']"));
+        MultiConfigurationProjectPage multiConfigurationProjectPage = new MultiConfigurationProjectPage(getDriver());
 
-        Assert.assertEquals(nameProject.getText(), "Project My Multi configuration project");
+        Assert.assertEquals(multiConfigurationProjectPage.getProjectName().getText(), "Project My Multi configuration project");
     }
     @Test(dependsOnMethods = "testMultiConfigurationProject")
     public void testMultiConfigurationProjectAddDescription () {
