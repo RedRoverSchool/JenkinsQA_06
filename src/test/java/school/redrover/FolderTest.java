@@ -175,7 +175,7 @@ public class FolderTest extends BaseTest {
         String nameItem = "Test Folder";
 
         MainPage mainPage  = new MainPage(getDriver())
-                .newItem().enterItemName(nameItem)
+                .clickNewItem().enterItemName(nameItem)
                 .selectFolder()
                 .saveConfigurePageAndGoToProjectPage()
                 .navigateToMainPageByBreadcrumbs();

@@ -104,14 +104,13 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
     }
 
-    @Ignore
     @Test
     public void testSearchNumericSymbol() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("settings-search-bar"))).click();
         getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-        getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".jenkins-search__results-container--visible")));
-        WebElement noResults = getDriver().findElement(By.cssSelector(".jenkins-search__results__no-results-label"));
+        //getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".jenkins-search__results-container--visible")));
+        WebElement noResults = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".jenkins-search__results__no-results-label")));
 
         Assert.assertEquals(noResults.getText(), "No results");
     }

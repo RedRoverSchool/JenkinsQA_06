@@ -22,7 +22,7 @@ public class MultiConfigurationTest extends BaseTest {
     @Test
     public void testCreateMultiConfiguration() {
         MainPage mainPage = new MainPage(getDriver());
-        final String projectName = mainPage.newItem()
+        final String projectName = mainPage.clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProject()
                 .saveConfigurePageAndGoToProjectPage()

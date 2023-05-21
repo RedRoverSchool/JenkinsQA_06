@@ -18,7 +18,7 @@ public class NewProject3Test extends BaseTest {
         String nameProject = "Engineer2";
 
         new MainPage(getDriver())
-                .newItem()
+                .clickNewItem()
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
                 .projectSave();
@@ -33,7 +33,7 @@ public class NewProject3Test extends BaseTest {
         String nameProject = "Engineer";
 
         new MainPage(getDriver())
-                .newItem()
+                .clickNewItem()
                 .enterItemName(nameProject)
                 .selectPipelineAndOk()
                 .clickSaveButton();

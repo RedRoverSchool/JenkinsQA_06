@@ -33,7 +33,7 @@ public class Folder4Test extends BaseTest {
     @Test
     public void testCreateFolder() {
         new MainPage(getDriver())
-                .newItem()
+                .clickNewItem()
                 .enterItemName(FOLDER_NAME)
                 .selectFolderAndOk()
                 .clickDashboard();

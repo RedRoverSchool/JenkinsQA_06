@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 import school.redrover.model.base.BasePage;
 
 public class MainPage extends BasePage {
@@ -14,7 +12,7 @@ public class MainPage extends BasePage {
         super(driver);
     }
 
-    public  NewJobPage newItem() {
+    public  NewJobPage clickNewItem() {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
     }

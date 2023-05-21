@@ -170,7 +170,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreatePipelineProject() {
         WebElement projectName = new MainPage(getDriver())
-                .newItem()
+                .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOK()
                 .clickSaveButton()

@@ -13,6 +13,12 @@ public class NewJobPage extends BasePage {
     @FindBy(xpath = "//button[@id='ok-button']")
     private WebElement okButton;
 
+    @FindBy(className = "hudson_model_FreeStyleProject")
+    private WebElement freestyleProject;
+
+    @FindBy(id = "itemname-invalid")
+    private WebElement itemInvalidNameMessage;
+
     public NewJobPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(getDriver(), this);
@@ -24,7 +30,7 @@ public class NewJobPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage selectFreestyleProjectAndOk() {
-        getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
+        freestyleProject.click();
         okButton.click();
         return new FreestyleProjectConfigPage(getDriver());
     }
@@ -81,5 +87,18 @@ public class NewJobPage extends BasePage {
         getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
         okButton.click();
         return new PipelineConfigPage(getDriver());
+    }
+
+    public String getItemInvalidMessage() {
+        return getWait2().until(ExpectedConditions.visibilityOf(itemInvalidNameMessage)).getText();
+    }
+
+    public NewJobPage selectFreestyleProject() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(freestyleProject)).click();
+        return this;
+    }
+
+    public boolean isOkButtonEnabled() {
+        return okButton.isEnabled();
     }
 }

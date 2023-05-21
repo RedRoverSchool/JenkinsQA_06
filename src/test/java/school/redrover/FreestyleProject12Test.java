@@ -5,8 +5,12 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
+import static org.testng.Assert.*;
 
 public class FreestyleProject12Test extends BaseTest {
 
@@ -21,14 +25,13 @@ public class FreestyleProject12Test extends BaseTest {
 
     @Test(dataProvider = "specialCharacters")
     public void testCreateWithInvalidName(Character specialCharacter) {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(String.valueOf(specialCharacter))
+                .selectFreestyleProject();
 
-        getDriver().findElement(By.id("name")).sendKeys(String.valueOf(specialCharacter));
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-        WebElement unsafeCharMessage = getDriver().findElement(By.id("itemname-invalid"));
-
-        Assert.assertEquals(unsafeCharMessage.getText(), String.format("» ‘%s’ is an unsafe character", specialCharacter));
-        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
+        assertEquals(newJobPage.getItemInvalidMessage(), String.format("» ‘%s’ is an unsafe character", specialCharacter));
+        assertFalse(newJobPage.isOkButtonEnabled());
     }
 
     @Test
@@ -41,7 +44,7 @@ public class FreestyleProject12Test extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
         WebElement alreadyExistsMessage = getDriver().findElement(By.xpath("//div[@id='main-panel']/p"));
 
-        Assert.assertEquals(alreadyExistsMessage.getText(),
+        assertEquals(alreadyExistsMessage.getText(),
                 String.format("A job already exists with the name ‘%s’", PROJECT_NAME));
     }
 }
