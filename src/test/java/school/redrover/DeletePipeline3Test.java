@@ -6,8 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-import java.time.Duration;
-
 public class DeletePipeline3Test extends BaseTest {
 
     String namePipeline = "testPipeline";
@@ -30,7 +28,6 @@ public class DeletePipeline3Test extends BaseTest {
 
     @Test(dependsOnMethods = { "testCreatePipeline" })
     public void testDeletePipeline (){
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         WebElement dashboardLink = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
         dashboardLink.click();
 
@@ -38,8 +35,11 @@ public class DeletePipeline3Test extends BaseTest {
         WebElement testPipelineLink =  getWait10()
                 .until(ExpectedConditions.presenceOfElementLocated((By.xpath("//a[@href='job/" + namePipeline + "/']/span"))));
         actions.moveToElement(testPipelineLink).perform();
-        getWait10()
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + namePipeline + "/']/button"))).click();
+
+        WebElement dropdownMenuButton = getDriver().findElement(By.xpath("//a[@href='job/" + namePipeline + "/']/button"));
+        actions.moveToElement(dropdownMenuButton).perform();
+        dropdownMenuButton.click();
+
         getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Pipeline')]"))
                 .click();
 
