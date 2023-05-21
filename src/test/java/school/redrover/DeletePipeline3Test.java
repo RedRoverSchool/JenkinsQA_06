@@ -34,7 +34,7 @@ public class DeletePipeline3Test extends BaseTest {
         Actions action = new Actions(getDriver());
         WebElement testPipelineLink =  getWait10()
                 .until(ExpectedConditions.presenceOfElementLocated((By.xpath("//a[@href='job/" + namePipeline + "/']/span"))));
-        action.moveToElement(testPipelineLink).perform();
+        action.moveToElement(testPipelineLink, 23, 7).perform();
 
         Actions action1 = new Actions(getDriver());
 
