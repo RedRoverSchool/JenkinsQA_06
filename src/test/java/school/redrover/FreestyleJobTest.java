@@ -30,7 +30,7 @@ import school.redrover.runner.BaseTest;
                     .perform();
         }
 
-        public void CreateFreestyleProjectJob(String nameProject) {
+        public void createFreestyleProjectJob(String nameProject) {
             getDriver().findElement(
                     By.xpath("//*[@id='tasks']/div[1]/span/a")
             ).click();
@@ -82,7 +82,7 @@ import school.redrover.runner.BaseTest;
 
         @Test
         public void testFreestyleJob() {
-            CreateFreestyleProjectJob("Hello world");
+            createFreestyleProjectJob("Hello world");
 
             Assert.assertTrue(getWait5().until(ExpectedConditions.elementToBeClickable(
                     By.xpath("//*[@class='console-output']")
