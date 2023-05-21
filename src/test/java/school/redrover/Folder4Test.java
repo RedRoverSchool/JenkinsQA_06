@@ -16,7 +16,7 @@ import school.redrover.runner.TestUtils;
 public class Folder4Test extends BaseTest {
 
     final String FOLDER_NAME = "Test";
-    final String NAME_VIEW = "Test View";
+    final String VIEW_NAME = "Test View";
 
     private void projectDropDownMenu(String nameProject, String nameItemMenu) {
         Actions actions = new Actions(getDriver());
@@ -46,21 +46,15 @@ public class Folder4Test extends BaseTest {
 
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testCreateNewViewInFolder() {
-        Actions actions = new Actions(getDriver());
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
-        WebElement nameFolder = getDriver().findElement(By.xpath("//span[contains(text(),'" + FOLDER_NAME + "')]"));
-        actions.moveToElement(nameFolder).click(nameFolder).perform();
-        new FolderPage(getDriver()).newView();
+        new MainPage(getDriver())
+                .clickFolderName(FOLDER_NAME)
+                .newView()
+                .interViewName(VIEW_NAME)
+                .selectMyViewAndClickCreate()
+                .clickAll();
 
-        getDriver().findElement(By.id("name")).sendKeys(NAME_VIEW);
-        WebElement myView = getDriver().findElement(By.xpath("//fieldset/div[last()]/input"));
-        js.executeScript("arguments[0].scrollIntoView();", myView);
-        actions.moveToElement(myView).click(myView).perform();
-        getDriver().findElement(By.id("ok")).click();
-        getDriver().findElement(By.linkText("All")).click();
-        WebElement newView = getDriver().findElement(By.linkText(NAME_VIEW));
-
+        WebElement newView = getDriver().findElement(By.linkText(VIEW_NAME));
         Assert.assertTrue(newView.isDisplayed(), "error was not shown created view");
     }
 
