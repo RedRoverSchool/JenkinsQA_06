@@ -102,9 +102,8 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
 
         TestUtils.createMultiConfigurationProject(this, PROJECT_NAME, true);
 
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']")))
-                .click()
-                .perform();
+        String link = getDriver().findElement(By.xpath("//*[@id='job_" + PROJECT_NAME + "']/td[3]/a")).getAttribute("href");
+        getDriver().get(link);
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + PROJECT_NAME + "/confirm-rename']"))).click();
 
