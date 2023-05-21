@@ -1,8 +1,11 @@
 package school.redrover;
 
+import org.bouncycastle.util.Arrays;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -11,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PeoplePageTest extends BaseTest {
+    private static final By CREATE_USER = By.xpath("//a[@href = 'addUser']");
+    private static final By USER_NAME = By.xpath("//input[@id = 'username']");
+    private static final By PASSWORD = By.xpath("//input[@name= 'password1']");
+    private static final By CONFIRM_PASSWORD = By.xpath("//input[@name= 'password2']");
+    private static final By FULL_NAME = By.xpath("//input[@name= 'fullname']");
+    private static final By EMAIL_ADRESS = By.xpath("//input[@name='email']");
+    private static final By SUBMIT = By.xpath("//button[@name ='Submit']");
 
     public static List<String> ListText(List<WebElement> elementList) {
         List<String> stringList = new ArrayList<>();
@@ -59,10 +69,9 @@ public class PeoplePageTest extends BaseTest {
                 By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
         Assert.assertEquals(userIdBtnSortArrowDownAfterSecondClick, "  ↓");
 
-        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'Name')]")).click();
+            getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'Name')]")).click();
 
-        WebElement userIdBtnNoArrowAfterAnotherButtonClick = getDriver().findElement(
-                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
+                 By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
         Assert.assertTrue(userIdBtnNoArrowAfterAnotherButtonClick.getText().isEmpty());
     }
 
@@ -79,6 +88,40 @@ public class PeoplePageTest extends BaseTest {
                 By.xpath("//div[contains(text(), 'Jenkins User ID:')]"));
 
         Assert.assertEquals(actualUserName.getText(), "Jenkins User ID: " + expectedUserName);
+    }
+    @Test
+    public void testPeopleSortingListOfUsers() {
+
+//        List<String> expectedResult = List.of(new String[]{"admin","Mark","Peter"});
+
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = 'securityRealm/']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(CREATE_USER)).click();
+        getDriver().findElement(USER_NAME).sendKeys("Peter");
+        getDriver().findElement(PASSWORD).sendKeys("12");
+        getDriver().findElement(CONFIRM_PASSWORD).sendKeys("12");
+        getDriver().findElement(FULL_NAME).sendKeys("Peter Pen");
+        getWait10().until(ExpectedConditions.elementToBeClickable(EMAIL_ADRESS)).sendKeys("pen@gmail.com");
+        getWait2().until(ExpectedConditions.elementToBeClickable(SUBMIT)).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(CREATE_USER)).click();
+        getDriver().findElement(USER_NAME).sendKeys("Mark");
+        getDriver().findElement(PASSWORD).sendKeys("34");
+        getDriver().findElement(CONFIRM_PASSWORD).sendKeys("34");
+        getDriver().findElement(FULL_NAME).sendKeys("Mark Sobol");
+        getWait10().until(ExpectedConditions.elementToBeClickable(EMAIL_ADRESS)).sendKeys("mark@gmail.com");
+        getWait2().until(ExpectedConditions.elementToBeClickable(SUBMIT)).click();
+        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).click();
+
+        WebElement actualResult1 = getDriver().findElement(By.linkText("admin"));
+        Assert.assertEquals(actualResult1.getText(),"admin");
+
+        WebElement actualResult2 = getDriver().findElement(By.linkText("Mark"));
+        Assert.assertEquals(actualResult2.getText(),"Mark");
+
+        WebElement actualResult3 = getDriver().findElement(By.linkText("Peter"));
+        Assert.assertEquals(actualResult3.getText(),"Peter");
+
     }
 }
 
