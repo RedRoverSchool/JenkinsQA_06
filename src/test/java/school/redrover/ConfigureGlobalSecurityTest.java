@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -67,5 +68,29 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         navigateToConfigureGlobalSecurityPage();
 
         Assert.assertEquals(getNumberOfHelpButton(), expectedNumberOfHelpButton);
+    }
+
+    @Test
+    public void testHostKeyVerificationStrategyDropdownMenuOptions() {
+        List<String> expectedMenuNames = List.of(
+                "Accept first connection",
+                "Known hosts file",
+                "Manually provided keys",
+                "No verification");
+
+        navigateToConfigureGlobalSecurityPage();
+
+        Actions action = new Actions(getDriver());
+        WebElement hostKeyVerificationDropdown = getDriver().findElement(By.xpath("//div[@class='jenkins-form-item ']//div[@class='jenkins-select']"));
+        action.moveToElement(hostKeyVerificationDropdown).click().perform();
+
+        List<WebElement> menus = getDriver().findElements(
+                By.xpath("//div[@class='jenkins-form-item ']//div[@class='jenkins-select']//option"));
+        List<String> actualMenuNames = new ArrayList<>();
+        for (WebElement element : menus) {
+            actualMenuNames.add(element.getText());
+        }
+
+        Assert.assertEquals(actualMenuNames, expectedMenuNames);
     }
 }
