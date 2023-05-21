@@ -86,7 +86,7 @@ public class DashboardTest extends BaseTest {
         new Actions(getDriver())
                 .moveToElement(dashboardButton)
                 .moveToElement(dropDownButton)
-                .click()
+                .sendKeys(Keys.RETURN)
                 .perform();
 
         WebElement manageJenkinsButton = getDriver()
