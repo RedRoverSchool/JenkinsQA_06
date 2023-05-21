@@ -2,13 +2,12 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
-
 
 import java.util.Arrays;
 import java.util.List;
@@ -106,15 +105,13 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testSearchNumericSymbol() {
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("settings-search-bar"))).click();
-        getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
 
-        Actions action = new Actions(getDriver());
-        WebElement dropdownPanel = getDriver().findElement(By.cssSelector("div.jenkins-search__results-container--visible"));
-        action.moveToElement(dropdownPanel).perform();
+        String searchText = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField("1")
+                .getNoResultTextInSearchField();
 
-        Assert.assertEquals(dropdownPanel.getText(), "No results");
+        Assert.assertEquals(searchText, "No results");
     }
 
     @Test

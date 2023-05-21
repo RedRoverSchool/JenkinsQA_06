@@ -5,8 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 import school.redrover.model.base.BasePage;
 
 public class MainPage extends BasePage {
@@ -43,5 +41,10 @@ public class MainPage extends BasePage {
     public FolderPage clickFolderName(String FolderName){
         new Actions(getDriver()).moveToElement(getJobName(FolderName)).click(getJobName(FolderName)).perform();
         return new FolderPage(getDriver());
+    }
+
+    public ManageJenkinsPage navigateToManageJenkinsPage() {
+        getDriver().findElement(By.cssSelector("[href='/manage']")).click();
+        return new ManageJenkinsPage(getDriver());
     }
 }

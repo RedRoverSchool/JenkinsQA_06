@@ -10,6 +10,7 @@ import school.redrover.model.base.BasePage;
 
 public class NewJobPage extends BasePage {
 
+
     @FindBy(xpath = "//button[@id='ok-button']")
     private WebElement okButton;
 
