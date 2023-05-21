@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -96,12 +97,14 @@ public class GroupLargusTest extends BaseTest {
     }
 @Test
            public void testToDescription(){
+    Actions actions = new Actions(getDriver());
     String projectName = "Myfolder";
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(projectName);
         getDriver().findElement(By.xpath("//input[@ value='com.cloudbees.hudson.plugins.folder.Folder']/..")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.xpath("//*button[@name='Submit']")).click();
+        WebElement okay = getDriver().findElement(By.id("ok-button"));
+        actions.scrollToElement(okay).moveToElement(okay).click().build().perform();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         getDriver().findElement(By.id("jenkins-home-link"));
 
     getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
