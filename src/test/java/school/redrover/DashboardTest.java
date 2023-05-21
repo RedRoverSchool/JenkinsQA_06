@@ -81,13 +81,11 @@ public class DashboardTest extends BaseTest {
 
         WebElement dashboardButton = getDriver()
                 .findElement(By.xpath("//a[text()='Dashboard']"));
-        WebElement dropDownButton = getDriver()
-                .findElement(By.xpath("//a[text()='Dashboard']/button"));
         new Actions(getDriver())
                 .moveToElement(dashboardButton)
-                .moveToElement(dropDownButton)
-                .sendKeys(Keys.RETURN)
                 .perform();
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
 
         WebElement manageJenkinsButton = getDriver()
                 .findElement(By.xpath("//a[@class='yuimenuitemlabel yuimenuitemlabel-hassubmenu']"));
