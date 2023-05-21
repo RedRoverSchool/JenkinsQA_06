@@ -35,4 +35,9 @@ public class FolderConfigPage extends BasePage {
         getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
         return new MainPage(getDriver());
     }
+    public FolderPage saveProjectAndGoToFolderPage(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector("[name='Submit']")))).click();
+        return new FolderPage(getDriver());
+    }
 }
