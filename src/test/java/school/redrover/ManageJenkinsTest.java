@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -108,10 +109,12 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("settings-search-bar"))).click();
         getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-        getWait2().until(ExpectedConditions.attributeToBe(By.cssSelector("[style='height: 98px;']"), "height", "98px"));
-        WebElement noResults = getDriver().findElement(By.cssSelector(".jenkins-search__results__no-results-label"));
 
-        Assert.assertEquals(noResults.getText(), "No results");
+        Actions action = new Actions(getDriver());
+        WebElement dropdownPanel = getDriver().findElement(By.cssSelector("div.jenkins-search__results-container--visible"));
+        action.moveToElement(dropdownPanel).perform();
+
+        Assert.assertEquals(dropdownPanel.getText(), "No results");
     }
 
     @Test
