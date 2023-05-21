@@ -23,16 +23,16 @@ public class NewJobPage extends BasePage {
         return this;
     }
 
-    public ConfigureFreestyleProjectPage selectFreestyleProjectAndOk() {
+    public FreestyleProjectConfigPage selectFreestyleProjectAndOk() {
         getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
         okButton.click();
-        return new ConfigureFreestyleProjectPage(getDriver());
+        return new FreestyleProjectConfigPage(getDriver());
     }
 
-    public NewJobPage selectPipelineAndOk() {
+    public PipelineConfigPage selectPipelineAndOk() {
         getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
         okButton.click();
-        return this;
+        return new PipelineConfigPage(getDriver());
     }
 
     public NewJobPage selectMultiConfigurationProjectAndOk() {
