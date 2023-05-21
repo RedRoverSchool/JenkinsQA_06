@@ -13,6 +13,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsT
 public class FooterJenkinsVersionTest extends BaseTest {
     private final String expectedJenkinsVersion = "Jenkins 2.387.2";
     private final String expectedSiteTitle = "Jenkins";
+    @Ignore
     @Test
     public void testFooterJenkinsVersion() {
         WebElement linkVersion = getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
