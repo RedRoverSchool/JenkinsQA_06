@@ -15,4 +15,22 @@ public class PipelinePage extends BasePage {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
         return new MainPage(getDriver());
     }
+
+    public PipelinePage clickRename() {
+        getDriver().findElement(By.xpath("//a[contains(@href, '/confirm-rename')]")).click();
+        return this;
+    }
+
+    public PipelinePage clearNameField() {
+        getDriver().findElement(By.name("newName")).clear();
+        return this;
+    }
+    public PipelinePage enterNewName(String newName) {
+        getDriver().findElement(By.name("newName")).sendKeys(newName);
+        return this;
+    }
+    public PipelinePage clickRenameButton() {
+        getDriver().findElement(By.name("Submit")).click();
+        return this;
+    }
 }

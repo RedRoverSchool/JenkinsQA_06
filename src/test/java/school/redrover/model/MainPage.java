@@ -42,4 +42,14 @@ public class MainPage extends BasePage {
         new Actions(getDriver()).moveToElement(getJobName(FolderName)).click(getJobName(FolderName)).perform();
         return new FolderPage(getDriver());
     }
+
+    public ManageJenkinsPage navigateToManageJenkinsPage() {
+        getDriver().findElement(By.cssSelector("[href='/manage']")).click();
+        return new ManageJenkinsPage(getDriver());
+    }
+
+    public PipelinePage clickPipelineProject(String pipelineName) {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + pipelineName + "/']"))).click();
+        return new PipelinePage(getDriver());
+    }
 }
