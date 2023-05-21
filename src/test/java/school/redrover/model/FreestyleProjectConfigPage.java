@@ -11,14 +11,9 @@ public class FreestyleProjectConfigPage extends BasePage {
         super(driver);
     }
 
-    public FreestyleProjectConfigPage buttonSave() {
+    public FreestyleProjectConfigPage projectSave() {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return this;
-    }
-
-    public MainPage selectDashboard() {
-        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
-        return new MainPage(getDriver());
     }
 
     public FreestyleProjectConfigPage switchEnableAndDisable() {
