@@ -24,7 +24,7 @@ public class MultiConfigurationTest extends BaseTest {
         MainPage mainPage = new MainPage(getDriver());
         final String projectName = mainPage.newItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProject()
+                .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage()
                 .navigateToHomePageUsingJenkinsIcon()
                 .getProjectName().getText();

@@ -35,28 +35,16 @@ public class NewJobPage extends BasePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public NewJobPage selectMultiConfigurationProjectAndOk() {
-        getDriver().findElement(By.cssSelector("[value$='MatrixProject'] + span")).click();
-        okButton.click();
-        return this;
-    }
-
-    public ConfigurePage selectMultiConfigurationProject() {
+    public MultiConfigurationProjectConfigPage selectMultiConfigurationProjectAndOk() {
         getDriver().findElement(By.xpath("//span[.='Multi-configuration project']")).click();
         okButton.click();
-        return new ConfigurePage(getDriver());
+        return new MultiConfigurationProjectConfigPage(getDriver());
     }
 
-    public NewJobPage selectFolderAndOk() {
-        getDriver().findElement(By.xpath("//input[contains(@value, 'folder.Folder')]")).click();
-        okButton.click();
-        return this;
-    }
-
-    public ConfigurePage selectFolder() {
+    public FolderConfigPage selectFolderAndOk() {
         getDriver().findElement(By.xpath("//span[.='Folder']")).click();
         okButton.click();
-        return new ConfigurePage(getDriver());
+        return new FolderConfigPage(getDriver());
     }
 
     public NewJobPage selectMultibranchPipelineAndOk() {

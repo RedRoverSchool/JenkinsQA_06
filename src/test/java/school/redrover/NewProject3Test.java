@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.ConfigurePage;
 import school.redrover.model.MainPage;
 import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;

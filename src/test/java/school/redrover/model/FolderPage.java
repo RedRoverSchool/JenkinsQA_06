@@ -62,4 +62,10 @@ public class FolderPage extends BasePage {
         getDriver().findElement(By.cssSelector("[href='newJob']")).click();
         return new NewJobPage(getDriver());
     }
+
+    public MainPage navigateToMainPageByBreadcrumbs() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//ol[@id='breadcrumbs']//li[1]")))).click();
+        return new MainPage(getDriver());
+    }
 }
