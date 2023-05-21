@@ -22,6 +22,11 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         return listTitle.size();
     }
 
+    public int getNumberOfHelpButton() {
+        List<WebElement> listHelpButton = new ArrayList<>(getDriver().findElements(By.xpath("//a[starts-with(@tooltip,'Help')]")));
+        return listHelpButton.size();
+    }
+
     @Test
     public void testCheckTitleTexts() {
         List<String> expectedTitleTexts = List.of(
@@ -53,5 +58,14 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         navigateToConfigureGlobalSecurityPage();
 
         Assert.assertEquals(getNumberOfTitles(), expectedNumberOfTitles);
+    }
+
+    @Test
+    public void testCheckNumberOfHelpButton() {
+        int expectedNumberOfHelpButton = 15;
+
+        navigateToConfigureGlobalSecurityPage();
+
+        Assert.assertEquals(getNumberOfHelpButton(), expectedNumberOfHelpButton);
     }
 }
