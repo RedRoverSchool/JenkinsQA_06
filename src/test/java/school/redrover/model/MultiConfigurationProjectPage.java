@@ -18,5 +18,16 @@ public class MultiConfigurationProjectPage extends BasePage {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//h1"))));
     }
+    public MultiConfigurationProjectPage getAddDescription() {
+        final String text = "text";
+
+        getDriver().findElement(By.cssSelector("#description-link")).click();
+
+        WebElement textInput = getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector("textarea[name='description']"))));
+        textInput.clear();
+        textInput.sendKeys(text);
+        return this;
+
+    }
 
 }
