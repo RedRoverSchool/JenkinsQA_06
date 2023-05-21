@@ -106,7 +106,7 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
                 .click()
                 .perform();
 
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + PROJECT_NAME + "/confirm-rename']"))).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + PROJECT_NAME + "/confirm-rename']"))).click();
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(INPUT_NEW_ITEM_FIELD)).clear();
 
