@@ -33,4 +33,6 @@ public class MainPage extends BasePage {
         getDriver().findElement(By.cssSelector(".jenkins-table__link")).click();
         return new ProjectPage(getDriver());
     }
+
+
 }

@@ -82,4 +82,5 @@ public class NewJobPage extends BasePage {
         okButton.click();
         return new PipelineConfigPage(getDriver());
     }
+
 }
