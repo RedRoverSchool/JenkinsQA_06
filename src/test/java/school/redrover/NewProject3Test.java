@@ -17,7 +17,7 @@ public class NewProject3Test extends BaseTest {
 
         new MainPage(getDriver())
                 .newItem()
-                .enterItemName("Engineer2")
+                .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
                 .buttonSave()
                 .selectDashboard();
