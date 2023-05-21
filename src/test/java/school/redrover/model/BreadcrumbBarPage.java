@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import school.redrover.model.base.BasePage;
 
-public class BreadcrumbBar extends BasePage {
+public class BreadcrumbBarPage extends BasePage {
 
-    public BreadcrumbBar(WebDriver driver) {
+    public BreadcrumbBarPage(WebDriver driver) {
         super(driver);
     }
 
