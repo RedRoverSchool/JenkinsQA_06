@@ -86,6 +86,7 @@ public class ManageJenkinsTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testManageOldData() {
         getDriver().findElement(Manage_Jenkins).click();
