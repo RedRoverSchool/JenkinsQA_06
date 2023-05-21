@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 public class CreateNewFolder2Test extends BaseTest {
 
     @Test
-    public void createNewFolder100 () {
+    public void testCreateNewFolder100 () {
 
         String folderName = "Folder100";
 
