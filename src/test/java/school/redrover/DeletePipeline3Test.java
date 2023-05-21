@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
+import java.time.Duration;
+
 public class DeletePipeline3Test extends BaseTest {
 
     String namePipeline = "testPipeline";
@@ -28,6 +30,7 @@ public class DeletePipeline3Test extends BaseTest {
 
     @Test(dependsOnMethods = { "testCreatePipeline" })
     public void testDeletePipeline (){
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         WebElement dashboardLink = getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']"));
         dashboardLink.click();
 
