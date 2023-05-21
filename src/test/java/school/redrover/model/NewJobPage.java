@@ -47,10 +47,10 @@ public class NewJobPage extends BasePage {
         return new ConfigurePage(getDriver());
     }
 
-    public NewJobPage selectFolderAndOk() {
-        getDriver().findElement(By.xpath("//input[contains(@value, 'folder.Folder')]")).click();
+    public FolderConfigPage selectFolderAndOk() {
+        getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
         okButton.click();
-        return this;
+        return new FolderConfigPage(getDriver());
     }
 
     public ConfigurePage selectFolder() {

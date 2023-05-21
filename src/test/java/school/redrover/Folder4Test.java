@@ -7,15 +7,15 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.FolderPage;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 public class Folder4Test extends BaseTest {
 
-    final String NAME_FOLDER = "Test";
+    final String FOLDER_NAME = "Test";
     final String NAME_VIEW = "Test View";
 
     private void projectDropDownMenu(String nameProject, String nameItemMenu) {
@@ -32,12 +32,14 @@ public class Folder4Test extends BaseTest {
 
     @Test
     public void testCreateFolder() {
-        TestUtils.createFolder(this, NAME_FOLDER, true);
+        new MainPage(getDriver())
+                .newItem()
+                .enterItemName(FOLDER_NAME)
+                .selectFolderAndOk()
+                .clickDashboard();
 
-        WebElement nameFolder = getDriver().findElement(By.xpath("//span[contains(text(),'" + NAME_FOLDER + "')]"));
-        new Actions(getDriver()).moveToElement(nameFolder).click(nameFolder).perform();
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), NAME_FOLDER);
+        Assert.assertTrue(new MainPage(getDriver()).getJobName(FOLDER_NAME).isDisplayed(),
+                "error was not show name folder");
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
                 "error was not shown icon folder");
     }
@@ -47,7 +49,7 @@ public class Folder4Test extends BaseTest {
         Actions actions = new Actions(getDriver());
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
-        WebElement nameFolder = getDriver().findElement(By.xpath("//span[contains(text(),'" + NAME_FOLDER + "')]"));
+        WebElement nameFolder = getDriver().findElement(By.xpath("//span[contains(text(),'" + FOLDER_NAME + "')]"));
         actions.moveToElement(nameFolder).click(nameFolder).perform();
         new FolderPage(getDriver()).newView();
 
@@ -65,7 +67,7 @@ public class Folder4Test extends BaseTest {
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testRenameFolder() {
         final String newName = "newTestName";
-        projectDropDownMenu(NAME_FOLDER, "Rename");
+        projectDropDownMenu(FOLDER_NAME, "Rename");
 
         WebElement inputFieldNewName = getDriver().findElement(By.xpath("//input[@name='newName']"));
         inputFieldNewName.clear();
@@ -83,18 +85,18 @@ public class Folder4Test extends BaseTest {
 
     @Test
     public void testMoveFolderToFolder(){
-        TestUtils.createFolder(this, NAME_FOLDER, true);
-        TestUtils.createFolder(this, NAME_FOLDER + " 2", true);
+        TestUtils.createFolder(this, FOLDER_NAME, true);
+        TestUtils.createFolder(this, FOLDER_NAME + " 2", true);
 
-        projectDropDownMenu(NAME_FOLDER, "Move");
+        projectDropDownMenu(FOLDER_NAME, "Move");
 
         WebElement selectInput = getDriver().findElement(By.xpath("//select"));
         new Select(selectInput).selectByVisibleText("Jenkins » Test 2");
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getDriver().findElement(By.xpath("//a[contains(text(),'" + NAME_FOLDER + " 2" + "')]")).click();
+        getDriver().findElement(By.xpath("//a[contains(text(),'" + FOLDER_NAME + " 2" + "')]")).click();
 
         Assert.assertTrue(
-                getDriver().findElement(By.xpath("//a[contains(text(),'" + NAME_FOLDER + "')]")).isDisplayed(),
+                getDriver().findElement(By.xpath("//a[contains(text(),'" + FOLDER_NAME + "')]")).isDisplayed(),
                 "error was not shown moved folder");
     }
 }

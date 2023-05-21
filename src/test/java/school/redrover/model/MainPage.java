@@ -29,8 +29,18 @@ public class MainPage extends BasePage {
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
 
+    public WebElement getJobName(String jobName) {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]"))));
+    }
+
     public ProjectPage navigateToProjectPage() {
         getDriver().findElement(By.cssSelector(".jenkins-table__link")).click();
         return new ProjectPage(getDriver());
+    }
+
+    public FolderPage clickFolderName(String FolderName){
+        getJobName(FolderName).click();
+        return new FolderPage(getDriver());
     }
 }
