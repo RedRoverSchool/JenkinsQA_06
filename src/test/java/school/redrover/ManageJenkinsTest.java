@@ -118,6 +118,16 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
+    public void testSearchNumericSymbolByInnerText() {
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+        getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
+        WebElement ele = getDriver().findElement(By.className("jenkins-search__results"));
+        String actualText = ele.getAttribute("innerText");
+
+        Assert.assertEquals(actualText, "No results");
+    }
+
+    @Test
     public void testSearchConfigureSystemByC() {
         String oldUrl = getDriver().getCurrentUrl();
 
