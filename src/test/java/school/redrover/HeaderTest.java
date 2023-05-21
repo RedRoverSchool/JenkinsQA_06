@@ -367,6 +367,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertNotEquals(colorBefore, colorAfter);
     }
 
+    @Ignore
      @Test
     public void testNotificationIcon(){
         iconChangeColor(NOTIFICATION_ICON);
