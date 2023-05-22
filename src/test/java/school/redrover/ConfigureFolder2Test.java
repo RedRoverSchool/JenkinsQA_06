@@ -18,7 +18,7 @@ public class ConfigureFolder2Test extends BaseTest {
     private static final By FOLDER_NAME_FIELD = By.xpath("//input [@name='_.displayNameOrNull']");
     private static final By FOLDER_SUBMIT_BUTTON = By.xpath("//button [@name='Submit']");
 
-    private void CreateFolder(){
+    private void createFolder(){
         getDriver().findElement(NEW_ITEM).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(PROJECT_NAME_FIELD)).sendKeys(PROJECT_NAME);
 
@@ -29,7 +29,7 @@ public class ConfigureFolder2Test extends BaseTest {
 
     @Test
     public void testSetDisplayName(){
-        CreateFolder();
+        createFolder();
         String FOLDER_NAME = "folder";
 
         getDriver().findElement(FOLDER_NAME_FIELD).sendKeys(FOLDER_NAME);
@@ -40,7 +40,7 @@ public class ConfigureFolder2Test extends BaseTest {
 
     @Test
     public void testAddDescription(){
-        CreateFolder();
+        createFolder();
         String fodlerDescription = "description of the Folder Project";
 
         getDriver().findElement(By.name("_.description")).sendKeys(fodlerDescription);
