@@ -23,7 +23,7 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage addDescription(String description) {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).sendKeys(description);
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
         return this;
     }
 
