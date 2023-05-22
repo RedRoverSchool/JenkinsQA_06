@@ -11,7 +11,7 @@ import school.redrover.runner.BaseTest;
 
 public class NewProject3Test extends BaseTest {
 
-     private final By HEADER_PIPELINE = By.cssSelector("[class$='headline']");
+    private final By HEADER_PIPELINE = By.cssSelector("[class$='headline']");
 
     @Test
     public void testCreateFreestyleProject() {
@@ -45,14 +45,14 @@ public class NewProject3Test extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProject() {
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("Engineer3")
+                .selectMultiConfigurationProjectAndOk()
+                .saveConfigurePageAndGoToProjectPage();
+        new BreadcrumbBarPage(getDriver()).selectDashboard();
 
-        getDriver().findElement(By.cssSelector("[href$='/newJob']")).click();
-        new NewJobPage(getDriver()).enterItemName("Engineer3").selectMultiConfigurationProjectAndOk();
-        getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
-        getDriver().findElement(By.cssSelector("li:nth-child(1) > a")).click();
-
-        WebElement result = getDriver().findElement(By.cssSelector("#projectstatus"));
-        Assert.assertTrue(result.isDisplayed(), "project no display");
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("#projectstatus")).isDisplayed(), "project no display");
     }
 
 

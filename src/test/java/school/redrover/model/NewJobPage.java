@@ -53,16 +53,16 @@ public class NewJobPage extends BasePage {
         return new FolderConfigPage(getDriver());
     }
 
-    public NewJobPage selectMultibranchPipelineAndOk() {
+    public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {
         getDriver().findElement(By.xpath("//input[contains(@value, 'WorkflowMultiBranchProject')]")).click();
         okButton.click();
-        return this;
+        return new MultibranchPipelineConfigPage(getDriver());
     }
 
-    public NewJobPage selectOrganizationFolderAndOk() {
+    public OrganizationFolderConfigPage selectOrganizationFolderAndOk() {
         getDriver().findElement(By.xpath("//input[contains(@value, 'OrganizationFolder')]")).click();
         okButton.click();
-        return this;
+        return new OrganizationFolderConfigPage(getDriver());
     }
 
     public NewJobPage copyFrom(String typeToAutocomplete) {
