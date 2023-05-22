@@ -17,6 +17,11 @@ public class PipelinePage extends BasePage {
         return new MainPage(getDriver());
     }
 
+    public String getProjectName() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText();
+    }
+
+
     public PipelinePage clickRename() {
         getDriver().findElement(By.xpath("//a[contains(@href, '/confirm-rename')]")).click();
         return this;
