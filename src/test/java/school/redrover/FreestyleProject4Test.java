@@ -60,7 +60,7 @@ public class FreestyleProject4Test extends BaseTest {
                 .moveToElement(getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='build-status-link']"))))
                 .perform();
 
-        String actualBuildStatus = getDriver().findElement(By.xpath("//div[@class='tippy-box']")).getText();
+        String actualBuildStatus = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'Success')]"))).getText();
         Assert.assertEquals(actualBuildStatus, expectedBuildStatus);
     }
 

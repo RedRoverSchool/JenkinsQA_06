@@ -8,6 +8,10 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.NewJobPage;
+import school.redrover.model.PipelinePage;
+import school.redrover.model.ProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -21,6 +25,19 @@ public class PipelineProject7Test extends BaseTest {
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//tr[@id='job_" + name1 + "']//a//span['" + name1 + "']"))
                 .getText(), name1);
+    }
+
+    @Test
+    public void testCreatePipelineProjectNewItem() {
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem();
+
+        PipelinePage pipelinePage = new NewJobPage(getDriver())
+                .enterItemName(name1)
+                .selectPipelineAndOk()
+                .clickSaveButton();
+
+        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + name1);
     }
 
     @DataProvider(name = "wrong-characters")

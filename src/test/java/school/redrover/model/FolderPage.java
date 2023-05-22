@@ -73,4 +73,9 @@ public class FolderPage extends BasePage {
     public WebElement getHeading1() {
         return getDriver().findElement(By.xpath("//h1"));
     }
+
+    public WebElement getMultibranchPipelineName() {
+        return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector(".jenkins-table__link"))));
+    }
 }
