@@ -29,6 +29,7 @@ public class BreadcrumbTest extends BaseTest {
         WebElement manageJenkinsHeader = getDriver().findElement(By.tagName("h1"));
         getWait2().until(ExpectedConditions.visibilityOf(manageJenkinsHeader));
 
+
         Assert.assertEquals(manageJenkinsHeader.getText(), "Manage Jenkins");
     }
 
