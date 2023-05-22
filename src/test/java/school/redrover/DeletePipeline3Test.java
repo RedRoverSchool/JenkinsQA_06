@@ -37,11 +37,9 @@ public class DeletePipeline3Test extends BaseTest {
         action.moveToElement(testPipelineLink).perform();
 
         Actions action1 = new Actions(getDriver());
-
-        WebElement dropdownMenuButton = getWait10()
-                .until(ExpectedConditions.elementToBeClickable((By.xpath("//a[@href='job/" + namePipeline + "/']/button"))));
+        WebElement dropdownMenuButton = getDriver().findElement(By.xpath("//a[@href='job/" + namePipeline + "/']/button"));
         action1.moveToElement(dropdownMenuButton).perform();
-        dropdownMenuButton.click();
+        dropdownMenuButton.sendKeys(Keys.RETURN);
 
         getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Pipeline')]"))
                 .click();
