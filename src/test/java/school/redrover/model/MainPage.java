@@ -45,12 +45,12 @@ public class MainPage extends BasePage {
         return new ProjectPage(getDriver());
     }
 
-    public FolderPage clickFolderName(String FolderName){
+    public FolderPage clickFolderName(String FolderName) {
         new Actions(getDriver()).moveToElement(getJobInList(FolderName)).click(getJobInList(FolderName)).perform();
         return new FolderPage(getDriver());
     }
 
-    public MainPage clickJobDropdownMenu(String jobName){
+    public MainPage clickJobDropdownMenu(String jobName) {
         WebElement projectName = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='job/" + jobName + "/']")));
         //WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/" + jobName + "/']"));
         Actions action = new Actions(getDriver());
@@ -85,8 +85,22 @@ public class MainPage extends BasePage {
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
     }
 
+
     public WebElement getRestApiLink(){
         return getDriver().findElement(By.xpath("//a[contains(@href,'api')]"));
+    }
+
+
+    public FreestyleProjectPage clickFreestyleProjectName(String name) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
+
+        return new FreestyleProjectPage(getDriver());
+    }
+
+    public String getJobBuildStatusIcon(String name) {
+        return getDriver().findElement(By.id(String.format("job_%s", name))).findElement(
+                        By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']"))
+                .getAttribute("tooltip");
     }
 
 }
