@@ -12,6 +12,16 @@ import java.time.Duration;
 
 public class MainPage extends BasePage {
 
+    private void openJobDropDownMenu(String jobName) {
+        Actions actions = new Actions(getDriver());
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
+        actions.moveToElement(getJobInList(jobName)).perform();
+        WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
+        js.executeScript("arguments[0].click();", arrow);
+
+    }
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -31,7 +41,7 @@ public class MainPage extends BasePage {
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
 
-    public WebElement getJobName(String jobName) {
+    public WebElement getJobInList(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]"))));
     }
@@ -47,7 +57,7 @@ public class MainPage extends BasePage {
     }
 
     public FolderPage clickFolderName(String folderName){
-        new Actions(getDriver()).moveToElement(getJobName(folderName)).click(getJobName(folderName)).perform();
+        new Actions(getDriver()).moveToElement(getJobInList(folderName)).click(getJobInList(folderName)).perform();
         return new FolderPage(getDriver());
     }
 
@@ -81,16 +91,6 @@ public class MainPage extends BasePage {
         return new PipelinePage(getDriver());
     }
 
-    private void openJobDropDownMenu(String jobName) {
-        Actions actions = new Actions(getDriver());
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-
-        actions.moveToElement(getJobName(jobName)).perform();
-        WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
-        js.executeScript("arguments[0].click();", arrow);
-
-    }
-
     public RenameProjectPage selectJobDropDownMenuRename(String jobName){
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
@@ -101,5 +101,9 @@ public class MainPage extends BasePage {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
         return this;
+    }
+
+    public String getJobName(String jobName) {
+        return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
     }
 }
