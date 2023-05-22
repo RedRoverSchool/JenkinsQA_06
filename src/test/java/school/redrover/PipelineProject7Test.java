@@ -37,7 +37,7 @@ public class PipelineProject7Test extends BaseTest {
                 .selectPipelineAndOk()
                 .clickSaveButton();
 
-    Assert.assertEquals(pipelinePage.NameProject().getText(), "Pipeline " + name1);
+        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + name1);
     }
 
     @DataProvider(name = "wrong-characters")
