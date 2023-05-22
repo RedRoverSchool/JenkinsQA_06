@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
@@ -11,6 +12,15 @@ import java.time.Duration;
 
 public class MainPage extends BasePage {
 
+    private static final String NAME_PIPELINE = "New Builds";
+    @FindBy(xpath = "//a[@href='/view/all/newJob']")
+    private WebElement newItemButton;
+
+    @FindBy(xpath = "//a[@href='job/New%20Builds/build?delay=0sec']")
+    private WebElement playBuildForATestButton;
+
+    @FindBy(xpath = "//a[@href='/view/all/builds']")
+    private WebElement buildsHistoryButton;
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -83,5 +93,20 @@ public class MainPage extends BasePage {
 
     public String getJobName(String jobName) {
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
+    }
+
+    public ViewPage clickNewItemButton() {
+        click(newItemButton);
+        return new ViewPage(getDriver());
+    }
+
+    public MainPage clickPlayBuildForATestButton() {
+        click(playBuildForATestButton);
+        return new MainPage(getDriver());
+    }
+
+    public BuildPage clickBuildsHistoryButton() {
+        click(buildsHistoryButton);
+        return new BuildPage(getDriver());
     }
 }
