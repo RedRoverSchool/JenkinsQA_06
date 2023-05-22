@@ -423,9 +423,8 @@ public class FreestyleProjectTest extends BaseTest {
     }
     @Test(dependsOnMethods = "testCreateFreestyleProjectValidName")
     public void testAddDescription() {
-        WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/Astra/']/span"));
-        new Actions(getDriver()).moveToElement(projectName).perform();
-        projectName.click();
+        WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/Astra/']"));
+        new Actions(getDriver()).moveToElement(projectName).click(projectName).perform();
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1")));
 
@@ -442,7 +441,7 @@ public class FreestyleProjectTest extends BaseTest {
         WebElement previewTextArea = getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
         Assert.assertEquals(previewTextArea.getText(), forTextArea);
 
-        WebElement saveButton = getDriver().findElement(By.xpath("//form/div/button[@name='Submit']"));
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[contains(text(), 'Save')]"));
         saveButton.click();
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='editDescription']")));
