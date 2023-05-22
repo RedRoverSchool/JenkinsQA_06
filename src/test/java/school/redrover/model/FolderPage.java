@@ -8,8 +8,6 @@ import school.redrover.model.base.BasePage;
 
 public class FolderPage extends BasePage {
 
-    public final WebElement HEADING1 = getDriver().findElement(By.xpath("//h1"));
-
     public FolderPage(WebDriver driver) {
         super(driver);
     }
@@ -70,5 +68,9 @@ public class FolderPage extends BasePage {
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//ol[@id='breadcrumbs']//li[1]")))).click();
         return new MainPage(getDriver());
+    }
+
+    public WebElement getHeading1() {
+        return getDriver().findElement(By.xpath("//h1"));
     }
 }

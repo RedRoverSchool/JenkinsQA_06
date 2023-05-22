@@ -26,7 +26,7 @@ public class FreestyleProject3Test extends BaseTest {
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
-        Assert.assertTrue(new BuildPage(getDriver()).BUILD_HEADER.isDisplayed(), "build not created");
+        Assert.assertTrue(new BuildPage(getDriver()).getBuildHeader().isDisplayed(), "build not created");
     }
 
     @Ignore
