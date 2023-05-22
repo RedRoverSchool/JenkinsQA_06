@@ -15,7 +15,7 @@ public class MainPage extends BasePage {
         super(driver);
     }
 
-    public  NewJobPage clickNewItem() {
+    public NewJobPage clickNewItem() {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
     }
@@ -35,7 +35,7 @@ public class MainPage extends BasePage {
                 .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]"))));
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return getDriver().getTitle();
     }
 
@@ -45,12 +45,12 @@ public class MainPage extends BasePage {
         return new ProjectPage(getDriver());
     }
 
-    public FolderPage clickFolderName(String FolderName){
+    public FolderPage clickFolderName(String FolderName) {
         new Actions(getDriver()).moveToElement(getJobName(FolderName)).click(getJobName(FolderName)).perform();
         return new FolderPage(getDriver());
     }
 
-    public MainPage clickJobDropdownMenu(String jobName){
+    public MainPage clickJobDropdownMenu(String jobName) {
         WebElement projectName = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='job/" + jobName + "/']")));
         //WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/" + jobName + "/']"));
         Actions action = new Actions(getDriver());
@@ -59,10 +59,11 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public WebElement getNoJobsMainPageHeader(){
+    public WebElement getNoJobsMainPageHeader() {
         return getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1"));
     }
-    public MainPage selectJobDropdownMenuDelete(){
+
+    public MainPage selectJobDropdownMenuDelete() {
         //getDriver().findElement(By.xpath("//a[contains(@data-message, 'Delete')]")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@data-message, 'Delete')]"))).click();
         getDriver().switchTo().alert().accept();

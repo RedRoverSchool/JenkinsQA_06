@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.BreadcrumbBarComponent;
@@ -11,6 +12,7 @@ import school.redrover.runner.BaseTest;
 public class NewProject3Test extends BaseTest {
 
     private final By HEADER_PIPELINE = By.cssSelector("[class$='headline']");
+
 
     @Test
     public void testCreateFreestyleProject() {
@@ -84,5 +86,16 @@ public class NewProject3Test extends BaseTest {
         Assert.assertEquals(mainPage.getFolderName().getText(), nameJob);
     }
 
+    @Test
+    public void testCreateOrganizationFolder() {
+        String nameFolder = "Engineer";
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameFolder)
+                .selectOrganizationFolderAndOk()
+                .projectSave();
+        new BreadcrumbBarComponent(getDriver()).selectDashboard();
 
+        Assert.assertEquals(mainPage.getFolderName().getText(), nameFolder);
+    }
 }

@@ -60,7 +60,7 @@ public class NewJobPage extends BasePage {
     }
 
     public OrganizationFolderConfigPage selectOrganizationFolderAndOk() {
-        getDriver().findElement(By.xpath("//input[contains(@value, 'OrganizationFolder')]")).click();
+        getDriver().findElement(By.xpath("//li[contains(@class, 'OrganizationFolder')]")).click();
         okButton.click();
         return new OrganizationFolderConfigPage(getDriver());
     }
