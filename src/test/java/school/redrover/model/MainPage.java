@@ -94,11 +94,6 @@ public class MainPage extends BasePage {
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
     }
 
-    public ViewPage clickNewItemButton() {
-        click(newItemButton);
-        return new ViewPage(getDriver());
-    }
-
     public MainPage clickPlayBuildForATestButton() {
         click(playBuildForATestButton);
         return new MainPage(getDriver());
@@ -107,5 +102,10 @@ public class MainPage extends BasePage {
     public BuildPage clickBuildsHistoryButton() {
         click(buildsHistoryButton);
         return new BuildPage(getDriver());
+    }
+
+    public ViewPage clickNewItemButton() {
+        click(newItemButton);
+        return new ViewPage(getDriver());
     }
 }
