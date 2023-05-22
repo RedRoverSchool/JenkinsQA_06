@@ -17,7 +17,7 @@ public class FreestyleProjectPage extends BasePage {
     }
 
     public BuildPage selectBuildItemTheHistoryOnBuildPage() {
-        getWait5().until(ExpectedConditions
+        getWait10().until(ExpectedConditions
                 .visibilityOfElementLocated(By.cssSelector("[href$='console']"))).click();
         return new BuildPage(getDriver());
     }
