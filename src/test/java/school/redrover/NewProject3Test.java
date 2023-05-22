@@ -41,6 +41,7 @@ public class NewProject3Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(HEADER_PIPELINE).getText(), expectedPipeline);
         new BreadcrumbBarPage(getDriver()).selectDashboard();
+
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
 
