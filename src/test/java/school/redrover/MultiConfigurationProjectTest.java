@@ -71,10 +71,4 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(buttonEnabled.getText(),"Enabled");
     }
-
-
-
-
-
-
 }

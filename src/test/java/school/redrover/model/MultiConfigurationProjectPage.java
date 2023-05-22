@@ -12,8 +12,6 @@ public class MultiConfigurationProjectPage extends BasePage {
         super(driver);
     }
 
-
-
     public WebElement getMultiProjectName() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
@@ -28,7 +26,6 @@ public class MultiConfigurationProjectPage extends BasePage {
         textInput.clear();
         textInput.sendKeys(text);
         return this;
-
     }
 
     public MultiConfigurationProjectPage getSaveButton(){
