@@ -96,6 +96,33 @@ public class PipelineProject5Test extends BaseTest {
     }
 
     @Test
+    public void testRenamePipelineDropDownMenu() {
+        TestUtils.createPipeline(this, name, true);
+
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(
+                        By.xpath("//a[@class ='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']")))
+                .sendKeys(Keys.RETURN);
+
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Rename"))).click();
+
+        WebElement inputRename = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='newName']")));
+        inputRename.clear();
+        inputRename.sendKeys(rename + Keys.TAB);
+
+        Assert.assertEquals(getDriver().findElements(By.xpath("//div[@class='validation-error-area validation-error-area--visible']")).isEmpty(), true);
+
+        getDriver().findElement(By.xpath("//button[normalize-space()='Rename']")).click();
+
+        Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//h1[normalize-space()='Pipeline " + rename + "']")))
+                .getText(), "Pipeline " + rename);
+
+        getDriver().findElement(JENKINS_LOGO).click();
+
+        Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='" + rename + "']"))).getText(), rename);
+    }
+
+    @Test
     public void testPipelineNameUnsafeChar() {
         String[] testStrings = {"*", "&", "^", "%", "$", "#", "@", "!"};
 
