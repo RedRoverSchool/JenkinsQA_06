@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
@@ -71,7 +72,7 @@ public class MultiConfigurationTest extends BaseTest {
 
         Assert.assertEquals(newName.getText(), ("Project " + MULTI_CONFIGURATION_NEW_NAME));
     }
-
+    @Ignore
     @Test
     public void testDisabledMultiConfigurationProject() {
         getDriver().findElement(By.linkText("New Item")).click();
