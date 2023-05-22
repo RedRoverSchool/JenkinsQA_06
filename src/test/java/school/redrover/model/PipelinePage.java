@@ -33,4 +33,19 @@ public class PipelinePage extends BasePage {
         getDriver().findElement(By.name("Submit")).click();
         return this;
     }
+
+    public PipelinePage clickDeletePipeline() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@data-url, '/doDelete')]"))).click();
+        return this;
+    }
+
+    public MainPage acceptAlert() {
+        getDriver().switchTo().alert().accept();
+        return new MainPage(getDriver());
+    }
+
+    public MainPage dismissAlert() {
+        getDriver().switchTo().alert().dismiss();
+        return new MainPage(getDriver());
+    }
 }

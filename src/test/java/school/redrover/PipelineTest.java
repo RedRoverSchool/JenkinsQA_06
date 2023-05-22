@@ -226,16 +226,16 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(projectName.getText(), newPipelineName);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineProject")
     public void testDeletePipeline() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PIPELINE_NAME + "/']"))).click();
+        WebElement projectName = new MainPage(getDriver())
+            .clickPipelineProject(PIPELINE_NAME)
+            .clickDeletePipeline()
+            .acceptAlert()
+            .getProjectName();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[data-url='/job/" + PIPELINE_NAME + "/doDelete']"))).click();
-        getDriver().switchTo().alert().accept();
-
-        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(projectName.getText()));
     }
 
     @Test
