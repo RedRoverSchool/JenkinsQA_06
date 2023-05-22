@@ -228,14 +228,12 @@ public class PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreatePipelineProject")
     public void testDeletePipeline() {
-
-        WebElement projectName = new MainPage(getDriver())
+        new MainPage(getDriver())
             .clickPipelineProject(PIPELINE_NAME)
             .clickDeletePipeline()
-            .acceptAlert()
-            .getProjectName();
+            .acceptAlert();
 
-        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(projectName.getText()));
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
     }
 
     @Test
