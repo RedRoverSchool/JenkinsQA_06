@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -45,8 +46,8 @@ public class MainPage extends BasePage {
         return new ProjectPage(getDriver());
     }
 
-    public FolderPage clickFolderName(String FolderName){
-        new Actions(getDriver()).moveToElement(getJobName(FolderName)).click(getJobName(FolderName)).perform();
+    public FolderPage clickFolderName(String folderName){
+        new Actions(getDriver()).moveToElement(getJobName(folderName)).click(getJobName(folderName)).perform();
         return new FolderPage(getDriver());
     }
 
@@ -78,5 +79,27 @@ public class MainPage extends BasePage {
     public PipelinePage clickPipelineProject(String pipelineName) {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + pipelineName + "/']"))).click();
         return new PipelinePage(getDriver());
+    }
+
+    private void openJobDropDownMenu(String jobName) {
+        Actions actions = new Actions(getDriver());
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
+        actions.moveToElement(getJobName(jobName)).perform();
+        WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
+        js.executeScript("arguments[0].click();", arrow);
+
+    }
+
+    public RenameProjectPage selectJobDropDownMenuRename(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
+        return new RenameProjectPage(getDriver());
+    }
+
+    public MainPage selectJobDropDownMenuMove(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
+        return this;
     }
 }
