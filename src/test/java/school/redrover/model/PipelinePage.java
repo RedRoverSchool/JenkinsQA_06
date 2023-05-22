@@ -16,7 +16,7 @@ public class PipelinePage extends BasePage {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
         return new MainPage(getDriver());
     }
-    public WebElement getNameProject() {
+    public final WebElement NameProject() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1")));
     }
 
