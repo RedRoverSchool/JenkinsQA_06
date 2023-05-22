@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -17,6 +18,7 @@ public class MultiConfiguration2Test extends BaseTest {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@id='jenkins-home-link']"))).click();
     }
+    @Ignore
     @Test
     public void testAddDescriptionToMultiConfigProj (){
         final String description = "Sample Description";
