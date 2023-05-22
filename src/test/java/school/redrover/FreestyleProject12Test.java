@@ -13,7 +13,7 @@ import static org.testng.Assert.*;
 
 public class FreestyleProject12Test extends BaseTest {
 
-    private static final String PROJECT_NAME = "A-freestyle-project";
+    private static final String PROJECT_NAME = "A freestyle project";
 
     @DataProvider(name = "specialCharacters")
     public static Object[][] specialCharacters() {
@@ -46,5 +46,12 @@ public class FreestyleProject12Test extends BaseTest {
 
         assertEquals(itemAlreadyExistsMessage,
                 String.format("A job already exists with the name ‘%s’", PROJECT_NAME));
+    }
+
+    @Test
+    public void testCreatedProjectIsOnDashboard() {
+        TestUtils.createFreestyleProject(this, PROJECT_NAME, true);
+
+        assertEquals(new MainPage(getDriver()).getJobName(PROJECT_NAME), PROJECT_NAME);
     }
 }
