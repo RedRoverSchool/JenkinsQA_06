@@ -20,6 +20,7 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -93,7 +94,7 @@ public class MainPage extends BasePage {
     public String getJobName(String jobName) {
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
     }
-  
+
     public FreestyleProjectPage clickFreestyleProjectName(String name) {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
 
@@ -105,6 +106,7 @@ public class MainPage extends BasePage {
                         By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']"))
                 .getAttribute("tooltip");
     }
+
     public MainPage clickPlayBuildForATestButton() {
         click(playBuildForATestButton);
         return new MainPage(getDriver());
@@ -118,4 +120,5 @@ public class MainPage extends BasePage {
     public ViewPage clickNewItemButton() {
         click(newItemButton);
         return new ViewPage(getDriver());
+    }
 }
