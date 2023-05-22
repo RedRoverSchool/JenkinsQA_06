@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
+import school.redrover.runner.TestUtils;
 
 public class MultiConfigurationProjectPage extends BasePage {
 
@@ -12,14 +13,13 @@ public class MultiConfigurationProjectPage extends BasePage {
         super(driver);
     }
 
-
-
-    public WebElement getMultiProjectName() {
+    public WebElement getProjectName() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//h1"))));
     }
-    public MultiConfigurationProjectPage getAddDescription(String text) {
+    public MultiConfigurationProjectPage getAddDescription() {
+        final String text = "text";
 
         getDriver().findElement(By.cssSelector("#description-link")).click();
 
@@ -29,26 +29,5 @@ public class MultiConfigurationProjectPage extends BasePage {
         return this;
 
     }
-    public MultiConfigurationProjectPage getSaveButton(){
-
-        WebElement saveButton = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
-        saveButton.click();
-        return this;
-    }
-
-    public WebElement getInputAdd (){
-      return getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
-    }
-
-    public MultiConfigurationProjectPage getDisable() {
-        getDriver().findElement(By.xpath("//button[text () = 'Disable Project']")).click();
-        return this;
-    }
-    public WebElement Enable (){
-    return getDriver().findElement(By.xpath("//button[text () = 'Enable']"));
-    }
-
-
-
 
 }
