@@ -37,13 +37,14 @@ public class FreestyleProject12Test extends BaseTest {
     public void testCreateWithExistingName() {
         TestUtils.createFreestyleProject(this, PROJECT_NAME, true);
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        WebElement alreadyExistsMessage = getDriver().findElement(By.xpath("//div[@id='main-panel']/p"));
+        String itemAlreadyExistsMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PROJECT_NAME)
+                .selectFreestyleProject()
+                .clickOkToCreateWithExistingName()
+                .getErrorMessage();
 
-        assertEquals(alreadyExistsMessage.getText(),
+        assertEquals(itemAlreadyExistsMessage,
                 String.format("A job already exists with the name ‘%s’", PROJECT_NAME));
     }
 }

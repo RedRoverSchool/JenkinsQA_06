@@ -89,4 +89,9 @@ public class NewJobPage extends BasePage {
     public boolean isOkButtonEnabled() {
         return okButton.isEnabled();
     }
+
+    public CreateItemErrorPage clickOkToCreateWithExistingName() {
+        okButton.click();
+        return new CreateItemErrorPage(getDriver());
+    }
 }
