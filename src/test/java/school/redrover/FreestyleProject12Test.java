@@ -13,7 +13,7 @@ import static org.testng.Assert.*;
 
 public class FreestyleProject12Test extends BaseTest {
 
-    private static final String PROJECT_NAME = "A-freestyle-project";
+    private static final String PROJECT_NAME = "A freestyle project";
 
     @DataProvider(name = "specialCharacters")
     public static Object[][] specialCharacters() {
@@ -37,13 +37,21 @@ public class FreestyleProject12Test extends BaseTest {
     public void testCreateWithExistingName() {
         TestUtils.createFreestyleProject(this, PROJECT_NAME, true);
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        WebElement alreadyExistsMessage = getDriver().findElement(By.xpath("//div[@id='main-panel']/p"));
+        String itemAlreadyExistsMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PROJECT_NAME)
+                .selectFreestyleProject()
+                .clickOkToCreateWithExistingName()
+                .getErrorMessage();
 
-        assertEquals(alreadyExistsMessage.getText(),
+        assertEquals(itemAlreadyExistsMessage,
                 String.format("A job already exists with the name ‘%s’", PROJECT_NAME));
+    }
+
+    @Test
+    public void testCreatedProjectIsOnDashboard() {
+        TestUtils.createFreestyleProject(this, PROJECT_NAME, true);
+
+        assertEquals(new MainPage(getDriver()).getJobName(PROJECT_NAME), PROJECT_NAME);
     }
 }

@@ -48,13 +48,13 @@ public class NewJobPage extends BasePage {
     }
 
     public FolderConfigPage selectFolderAndOk() {
-        getDriver().findElement(By.xpath("//span[.='Folder']")).click();
+        getDriver().findElement(By.xpath("//li[contains(@class, 'folder_Folder')]")).click();
         okButton.click();
         return new FolderConfigPage(getDriver());
     }
 
     public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {
-        getDriver().findElement(By.xpath("//input[contains(@value, 'WorkflowMultiBranchProject')]")).click();
+        getDriver().findElement(By.xpath("//li[contains(@class, 'WorkflowMultiBranchProject')]")).click();
         okButton.click();
         return new MultibranchPipelineConfigPage(getDriver());
     }
@@ -88,5 +88,10 @@ public class NewJobPage extends BasePage {
 
     public boolean isOkButtonEnabled() {
         return okButton.isEnabled();
+    }
+
+    public CreateItemErrorPage clickOkToCreateWithExistingName() {
+        okButton.click();
+        return new CreateItemErrorPage(getDriver());
     }
 }

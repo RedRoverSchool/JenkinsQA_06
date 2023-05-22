@@ -2,10 +2,13 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 public class FolderPage extends BasePage {
+
+    public final WebElement HEADING1 = getDriver().findElement(By.xpath("//h1"));
 
     public FolderPage(WebDriver driver) {
         super(driver);

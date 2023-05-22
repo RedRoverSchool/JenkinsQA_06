@@ -9,7 +9,7 @@ public class MultibranchPipelineConfigPage extends BasePage {
         super(driver);
     }
 
-    public MultibranchPipelinePage projectSave() {
+    public MultibranchPipelinePage saveButton() {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return new MultibranchPipelinePage(getDriver());
     }

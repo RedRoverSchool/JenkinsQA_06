@@ -27,7 +27,7 @@ public class FolderConfigPage extends BasePage {
     }
 
     public FolderPage clickSaveButton() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='_.description']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
         return new FolderPage(getDriver());
     }
 
