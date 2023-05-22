@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -13,6 +14,28 @@ public class MainPage extends BasePage {
 
     public MainPage(WebDriver driver) {
         super(driver);
+    }
+
+    private void openDropDownMenu(String jobName) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
+        new Actions(getDriver()).moveToElement(getJobWebElement(jobName)).perform();
+        WebElement arrow = getDriver().findElement(By.cssSelector(String.format("a[href='job/%s/']>button", jobName)));
+        js.executeScript("arguments[0].click();", arrow);
+    }
+
+    public RenameProjectPage selectRenameDropDownMenu(String jobName){
+        openDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Rename')]"))).click();
+        return new RenameProjectPage(getDriver());
+    }
+
+    public MainPage selectMoveDropDownMenu(String jobName){
+        openDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(), 'Move')]"))).click();
+        return this;
     }
 
     public  NewJobPage clickNewItem() {
@@ -30,9 +53,9 @@ public class MainPage extends BasePage {
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
 
-    public WebElement getJobInList(String jobName) {
+    public WebElement getJobWebElement(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]"))));
+                .findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName)))));
     }
 
     public String getTitle(){
@@ -46,7 +69,7 @@ public class MainPage extends BasePage {
     }
 
     public FolderPage clickFolderName(String FolderName){
-        new Actions(getDriver()).moveToElement(getJobInList(FolderName)).click(getJobInList(FolderName)).perform();
+        new Actions(getDriver()).moveToElement(getJobWebElement(FolderName)).click(getJobWebElement(FolderName)).perform();
         return new FolderPage(getDriver());
     }
 
