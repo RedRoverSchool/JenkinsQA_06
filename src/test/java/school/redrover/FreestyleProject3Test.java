@@ -8,37 +8,32 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.BuildPage;
+import school.redrover.model.FreestyleProjectPage;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 
 public class FreestyleProject3Test extends BaseTest {
 
-    private void createFreestyleProject() {
-        getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Engineer");
-        getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
-    }
-
     @Test
-    public void testCreatedNewBuild() {
-        createFreestyleProject();
+    public void testCreatedNewBuild() throws InterruptedException {
+        TestUtils.createFreestyleProject(this, "Engineer", true);
 
-        getDriver().findElement(By.cssSelector("[href$='Engineer/']")).click();
-        getDriver().findElement(By.cssSelector("[href*='build?']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[href$='console']"))).click();
+        new MainPage(getDriver()).getProjectName().click();
+        new FreestyleProjectPage(getDriver())
+                .selectBuildNow()
+                .selectBuildItemTheHistoryOnBuildPage();
 
-        WebElement buildIconInBuildHistory = getDriver().findElement(By.cssSelector(".jenkins-icon-adjacent"));
-        Assert.assertTrue(buildIconInBuildHistory.isDisplayed());
+        Assert.assertTrue(new BuildPage(getDriver()).BUILD_ICON_IN_BUILD_HISTORY.isDisplayed());
     }
 
     @Ignore
     @Test
     public void testProjectAddMultilineTextAndClearAndAddDescription() {
         String expectedResult = "Test";
-        createFreestyleProject();
+        TestUtils.createFreestyleProject(this, "Engineer", true);
 
         getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a")).click();
         WebElement description = getDriver().findElement(By.xpath("//a[@id='description-link']"));
@@ -65,7 +60,7 @@ public class FreestyleProject3Test extends BaseTest {
     @Test
     public void testPreviewDescription() {
         String expectedResult = "wwwww";
-        createFreestyleProject();
+        TestUtils.createFreestyleProject(this, "Engineer", true);
 
         getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a")).click();
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
@@ -81,7 +76,7 @@ public class FreestyleProject3Test extends BaseTest {
     @Test
     public void testDeleteProjectFromTheDashboardList() {
         String expectedResult = "Start building your software project";
-        createFreestyleProject();
+        TestUtils.createFreestyleProject(this, "Engineer", true);
 
         Actions actions = new Actions(getDriver());
         WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
@@ -101,7 +96,7 @@ public class FreestyleProject3Test extends BaseTest {
     @Test
     public void testDeleteProjectFromTheProjectPage() {
         String expectedResult = "Start building your software project";
-        createFreestyleProject();
+        TestUtils.createFreestyleProject(this, "Engineer", true);
 
         WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
         nameProject.click();
@@ -116,7 +111,7 @@ public class FreestyleProject3Test extends BaseTest {
     public void testRenamingProjectFromTheDashboard() {
         String expectedResultProjectPage = "Project Engineer2";
         String expectedResultDashboardPage = "Engineer2";
-        createFreestyleProject();
+        TestUtils.createFreestyleProject(this, "Engineer", true);
 
         Actions actions = new Actions(getDriver());
         WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
@@ -144,7 +139,7 @@ public class FreestyleProject3Test extends BaseTest {
     public void testRenamingProjectFromTheProjectPage() {
         String newNameProjectOnProjectPage = "Project Engineer2";
         String newNameProjectOnDashboardPage = "Engineer2";
-        createFreestyleProject();
+        TestUtils.createFreestyleProject(this, "Engineer", true);
 
         getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a")).click();
         getDriver().findElement(By.xpath("//a[contains(@href, 'confirm-rename')]")).click();

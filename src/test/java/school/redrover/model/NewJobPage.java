@@ -13,6 +13,12 @@ public class NewJobPage extends BasePage {
     @FindBy(xpath = "//button[@id='ok-button']")
     private WebElement okButton;
 
+    @FindBy(className = "hudson_model_FreeStyleProject")
+    private WebElement freestyleProject;
+
+    @FindBy(id = "itemname-invalid")
+    private WebElement itemInvalidNameMessage;
+
     public NewJobPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(getDriver(), this);
@@ -23,28 +29,28 @@ public class NewJobPage extends BasePage {
         return this;
     }
 
-    public NewJobPage selectFreestyleProjectAndOk() {
-        getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
+    public FreestyleProjectConfigPage selectFreestyleProjectAndOk() {
+        freestyleProject.click();
         okButton.click();
-        return this;
+        return new FreestyleProjectConfigPage(getDriver());
     }
 
-    public NewJobPage selectPipelineAndOk() {
+    public PipelineConfigPage selectPipelineAndOk() {
         getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
         okButton.click();
-        return this;
+        return new PipelineConfigPage(getDriver());
     }
 
-    public NewJobPage selectMultiConfigurationProjectAndOk() {
-        getDriver().findElement(By.cssSelector("[value$='MatrixProject'] + span")).click();
+    public MultiConfigurationProjectConfigPage selectMultiConfigurationProjectAndOk() {
+        getDriver().findElement(By.xpath("//span[.='Multi-configuration project']")).click();
         okButton.click();
-        return this;
+        return new MultiConfigurationProjectConfigPage(getDriver());
     }
 
-    public NewJobPage selectFolderAndOk() {
-        getDriver().findElement(By.xpath("//input[contains(@value, 'folder.Folder')]")).click();
+    public FolderConfigPage selectFolderAndOk() {
+        getDriver().findElement(By.xpath("//span[.='Folder']")).click();
         okButton.click();
-        return this;
+        return new FolderConfigPage(getDriver());
     }
 
     public NewJobPage selectMultibranchPipelineAndOk() {
@@ -63,5 +69,24 @@ public class NewJobPage extends BasePage {
         getDriver().findElement(By.xpath("//input[contains(@autocompleteurl, 'autoCompleteCopyNewItemFrom')]"))
                 .sendKeys(typeToAutocomplete);
         return this;
+    }
+
+    public PipelineConfigPage selectPipelineAndClickOK() {
+        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
+        okButton.click();
+        return new PipelineConfigPage(getDriver());
+    }
+
+    public String getItemInvalidMessage() {
+        return getWait2().until(ExpectedConditions.visibilityOf(itemInvalidNameMessage)).getText();
+    }
+
+    public NewJobPage selectFreestyleProject() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(freestyleProject)).click();
+        return this;
+    }
+
+    public boolean isOkButtonEnabled() {
+        return okButton.isEnabled();
     }
 }

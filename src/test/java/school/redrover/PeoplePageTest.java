@@ -1,10 +1,8 @@
 package school.redrover;
 
-import org.bouncycastle.util.Arrays;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -71,7 +69,8 @@ public class PeoplePageTest extends BaseTest {
 
             getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'Name')]")).click();
 
-                 By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
+        WebElement userIdBtnNoArrowAfterAnotherButtonClick = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
         Assert.assertTrue(userIdBtnNoArrowAfterAnotherButtonClick.getText().isEmpty());
     }
 
@@ -121,6 +120,12 @@ public class PeoplePageTest extends BaseTest {
 
         WebElement actualResult3 = getDriver().findElement(By.linkText("Peter"));
         Assert.assertEquals(actualResult3.getText(),"Peter");
+
+        String arrowUp = getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
+        Assert.assertEquals(arrowUp, "  ↑");
+
+        String arrowDown = getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
+        Assert.assertEquals(arrowUp, "  ↓");
 
     }
 }
