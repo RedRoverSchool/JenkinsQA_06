@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
+import java.time.Duration;
+
 public class ProjectPage extends BasePage {
 
     public ProjectPage(WebDriver driver) {
@@ -28,8 +30,28 @@ public class ProjectPage extends BasePage {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel>h1")));
     }
 
+    public WebElement getEnableForm(){
+        return getDriver().findElement(By.cssSelector("form#enable-project"));
+    }
+
+    public WebElement getDisableButton(){
+        return getDriver().findElement(By.xpath("//form[@id='disable-project']/button"));
+    }
+
     public RenameProjectPage clickRename() {
         getDriver().findElement(By.linkText("Rename")).click();
         return new RenameProjectPage(getDriver());
+    }
+
+    public ProjectPage enableProject(){
+        getDriver().findElement(By.xpath("//form[@id='enable-project']/button")).click();
+        return this;
+    }
+
+    public MainPage deleteProject(){
+        getDriver().findElement(By.xpath("//a/span[text()='Delete Multi-configuration project']/..")).click();
+        getDriver().switchTo().alert().accept();
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
+        return new MainPage(getDriver());
     }
 }

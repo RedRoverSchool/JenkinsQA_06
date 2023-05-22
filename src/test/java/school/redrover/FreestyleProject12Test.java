@@ -2,15 +2,18 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import static org.testng.Assert.*;
+
 public class FreestyleProject12Test extends BaseTest {
 
-    private static final String PROJECT_NAME = "A-freestyle-project";
+    private static final String PROJECT_NAME = "A freestyle project";
 
     @DataProvider(name = "specialCharacters")
     public static Object[][] specialCharacters() {
@@ -21,27 +24,34 @@ public class FreestyleProject12Test extends BaseTest {
 
     @Test(dataProvider = "specialCharacters")
     public void testCreateWithInvalidName(Character specialCharacter) {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(String.valueOf(specialCharacter))
+                .selectFreestyleProject();
 
-        getDriver().findElement(By.id("name")).sendKeys(String.valueOf(specialCharacter));
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-        WebElement unsafeCharMessage = getDriver().findElement(By.id("itemname-invalid"));
-
-        Assert.assertEquals(unsafeCharMessage.getText(), String.format("» ‘%s’ is an unsafe character", specialCharacter));
-        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
+        assertEquals(newJobPage.getItemInvalidMessage(), String.format("» ‘%s’ is an unsafe character", specialCharacter));
+        assertFalse(newJobPage.isOkButtonEnabled());
     }
 
     @Test
     public void testCreateWithExistingName() {
         TestUtils.createFreestyleProject(this, PROJECT_NAME, true);
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        WebElement alreadyExistsMessage = getDriver().findElement(By.xpath("//div[@id='main-panel']/p"));
+        String itemAlreadyExistsMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PROJECT_NAME)
+                .selectFreestyleProject()
+                .clickOkToCreateWithExistingName()
+                .getErrorMessage();
 
-        Assert.assertEquals(alreadyExistsMessage.getText(),
+        assertEquals(itemAlreadyExistsMessage,
                 String.format("A job already exists with the name ‘%s’", PROJECT_NAME));
+    }
+
+    @Test
+    public void testCreatedProjectIsOnDashboard() {
+        TestUtils.createFreestyleProject(this, PROJECT_NAME, true);
+
+        assertEquals(new MainPage(getDriver()).getJobName(PROJECT_NAME), PROJECT_NAME);
     }
 }
