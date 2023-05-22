@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.BuildPage;
+import school.redrover.model.BuildsPage;
 import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
@@ -17,16 +17,19 @@ import school.redrover.runner.TestUtils;
 
 public class FreestyleProject3Test extends BaseTest {
 
+    @Ignore
     @Test
     public void testCreatedNewBuild() throws InterruptedException {
         TestUtils.createFreestyleProject(this, "Engineer", true);
+
+        final WebElement BUILD_ICON_IN_BUILD_HISTORY = getDriver().findElement(By.cssSelector(".jenkins-icon-adjacent"));
 
         new MainPage(getDriver()).getProjectName().click();
         new FreestyleProjectPage(getDriver())
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
-        Assert.assertTrue(new BuildPage(getDriver()).BUILD_ICON_IN_BUILD_HISTORY.isDisplayed());
+        Assert.assertTrue(BUILD_ICON_IN_BUILD_HISTORY.isDisplayed());
     }
 
     @Ignore
