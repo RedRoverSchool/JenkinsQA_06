@@ -48,6 +48,7 @@ public class Folder4Test extends BaseTest {
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testRenameFolder() {
         final String newName = "newTestName";
+
         new MainPage(getDriver())
                 .selectRenameDropDownMenu(FOLDER_NAME)
                 .enterNewName(newName)
