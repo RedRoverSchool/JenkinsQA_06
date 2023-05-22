@@ -74,7 +74,7 @@ public class MultiConfigurationTest extends BaseTest {
     @Test
     public void testDisabledMultiConfigurationProject() {
         ProjectPage disabledProjPage = new MainPage(getDriver())
-                .newItem()
+                .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
                 .toggleDisable()
@@ -117,7 +117,7 @@ public class MultiConfigurationTest extends BaseTest {
     @Test
     public void testCheckGeneralParametersDisplayedAndClickable() {
         MultiConfigurationProjectConfigPage config = new MainPage(getDriver())
-                .newItem()
+                .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk();
 
