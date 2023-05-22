@@ -35,6 +35,4 @@ public class FreestyleProjectConfigPage extends BasePage {
         }
         return this;
     }
-
-
 }
