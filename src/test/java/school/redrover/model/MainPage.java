@@ -16,6 +16,16 @@ public class MainPage extends BasePage {
         super(driver);
     }
 
+    private void openJobDropDownMenu(String jobName) {
+        Actions actions = new Actions(getDriver());
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
+        actions.moveToElement(getJobName(jobName)).perform();
+        WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
+        js.executeScript("arguments[0].click();", arrow);
+
+    }
+
     public  NewJobPage clickNewItem() {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
@@ -79,16 +89,6 @@ public class MainPage extends BasePage {
     public PipelinePage clickPipelineProject(String pipelineName) {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + pipelineName + "/']"))).click();
         return new PipelinePage(getDriver());
-    }
-
-    private void openJobDropDownMenu(String jobName) {
-        Actions actions = new Actions(getDriver());
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-
-        actions.moveToElement(getJobName(jobName)).perform();
-        WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
-        js.executeScript("arguments[0].click();", arrow);
-
     }
 
     public RenameProjectPage selectJobDropDownMenuRename(String jobName){
