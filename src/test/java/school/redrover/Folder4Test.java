@@ -54,7 +54,7 @@ public class Folder4Test extends BaseTest {
               .clickSubmit()
               .navigateToMainPageByBreadcrumbs();
 
-        Assert.assertTrue(new MainPage(getDriver()).getJobName(newName).isDisplayed(),"error was not show new name folder");
+        Assert.assertTrue(new MainPage(getDriver()).getJobInList(newName).isDisplayed(),"error was not show new name folder");
     }
 
   @Test
