@@ -26,7 +26,7 @@ public class FreestyleProject3Test extends BaseTest {
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
-        Assert.assertTrue(new BuildPage(getDriver()).BUILD_ICON_IN_BUILD_HISTORY.isDisplayed());
+        Assert.assertTrue(new BuildPage(getDriver()).BUILD_HEADER.isDisplayed());
     }
 
     @Ignore

@@ -48,21 +48,21 @@ public class NewJobPage extends BasePage {
     }
 
     public FolderConfigPage selectFolderAndOk() {
-        getDriver().findElement(By.xpath("//span[.='Folder']")).click();
+        getDriver().findElement(By.xpath("//li[contains(@class, 'folder_Folder')]")).click();
         okButton.click();
         return new FolderConfigPage(getDriver());
     }
 
-    public NewJobPage selectMultibranchPipelineAndOk() {
-        getDriver().findElement(By.xpath("//input[contains(@value, 'WorkflowMultiBranchProject')]")).click();
+    public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {
+        getDriver().findElement(By.xpath("//li[contains(@class, 'WorkflowMultiBranchProject')]")).click();
         okButton.click();
-        return this;
+        return new MultibranchPipelineConfigPage(getDriver());
     }
 
-    public NewJobPage selectOrganizationFolderAndOk() {
+    public OrganizationFolderConfigPage selectOrganizationFolderAndOk() {
         getDriver().findElement(By.xpath("//input[contains(@value, 'OrganizationFolder')]")).click();
         okButton.click();
-        return this;
+        return new OrganizationFolderConfigPage(getDriver());
     }
 
     public NewJobPage copyFrom(String typeToAutocomplete) {
@@ -88,5 +88,10 @@ public class NewJobPage extends BasePage {
 
     public boolean isOkButtonEnabled() {
         return okButton.isEnabled();
+    }
+
+    public CreateItemErrorPage clickOkToCreateWithExistingName() {
+        okButton.click();
+        return new CreateItemErrorPage(getDriver());
     }
 }

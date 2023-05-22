@@ -1,17 +1,16 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.BreadcrumbBarPage;
+import school.redrover.model.BreadcrumbBarComponent;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
-import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 
 public class NewProject3Test extends BaseTest {
 
-     private final By HEADER_PIPELINE = By.cssSelector("[class$='headline']");
+    private final By HEADER_PIPELINE = By.cssSelector("[class$='headline']");
 
     @Test
     public void testCreateFreestyleProject() {
@@ -22,7 +21,7 @@ public class NewProject3Test extends BaseTest {
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
                 .projectSave();
-        new BreadcrumbBarPage(getDriver()).selectDashboard();
+        new BreadcrumbBarComponent(getDriver()).selectDashboard();
 
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
@@ -39,20 +38,50 @@ public class NewProject3Test extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(getDriver().findElement(HEADER_PIPELINE).getText(), expectedPipeline);
-        new BreadcrumbBarPage(getDriver()).selectDashboard();
+        new BreadcrumbBarComponent(getDriver()).selectDashboard();
+
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
 
     @Test
     public void testCreateMultiConfigurationProject() {
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("Engineer3")
+                .selectMultiConfigurationProjectAndOk()
+                .saveConfigurePageAndGoToProjectPage();
+        new BreadcrumbBarComponent(getDriver()).selectDashboard();
 
-        getDriver().findElement(By.cssSelector("[href$='/newJob']")).click();
-        new NewJobPage(getDriver()).enterItemName("Engineer3").selectMultiConfigurationProjectAndOk();
-        getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
-        getDriver().findElement(By.cssSelector("li:nth-child(1) > a")).click();
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("#projectstatus")).isDisplayed(), "project no display");
+    }
 
-        WebElement result = getDriver().findElement(By.cssSelector("#projectstatus"));
-        Assert.assertTrue(result.isDisplayed(), "project no display");
+    @Test
+    public void testCreateNewFolder() {
+        String nameProject = "Engineer";
+
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameProject)
+                .selectFolderAndOk()
+                .clickSaveButton();
+        new BreadcrumbBarComponent(getDriver()).selectDashboard();
+
+        Assert.assertTrue(mainPage.getFolderName().isDisplayed());
+        mainPage.getFolderName().click();
+        Assert.assertTrue(new FolderPage(getDriver()).HEADING1.getText().contains(nameProject), "folder cannot be opened");
+    }
+
+    @Test
+    public void testCreateMultibranchPipeline() {
+        String nameJob = "Engineer";
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameJob)
+                .selectMultibranchPipelineAndOk()
+                .saveButton();
+        new BreadcrumbBarComponent(getDriver()).selectDashboard();
+
+        Assert.assertEquals(mainPage.getFolderName().getText(), nameJob);
     }
 
 
