@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -186,5 +187,22 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(actualResult, nameItem);
         Assert.assertEquals(webElement.getText(), nameItem);
+    }
+
+    @Test(dependsOnMethods = "testCreateFolder3")
+    public void testCreateMultibranchPipelineInFolder() {
+
+        FolderPage folderPage  = new MainPage(getDriver())
+                .clickFolderName("Test Folder")
+                .newItem()
+                .enterItemName("My Multibranch Pipeline")
+                .selectMultibranchPipelineAndOk()
+                .saveButton()
+                .navigateToMainPageByBreadcrumbs()
+                .clickFolderName("Test Folder");
+
+        String actualResult = folderPage.getMultibranchPipelineName().getText();
+
+        Assert.assertEquals(actualResult, "My Multibranch Pipeline");
     }
 }
