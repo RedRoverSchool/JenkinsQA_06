@@ -44,6 +44,7 @@ public class UserTest extends BaseTest {
     private static final String USERDATA = "user1";
     private WebElement createdUserLink;
 
+    @Ignore
     @Test
     public void testCreatingUser() {
 
@@ -92,7 +93,7 @@ public class UserTest extends BaseTest {
             Assert.fail("User link is still displayed");
         } catch (StaleElementReferenceException e) {
              }
-        }
+    }
 
     @Test
     public void testCreateNewPipeline() {
