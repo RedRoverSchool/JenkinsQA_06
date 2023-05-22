@@ -15,7 +15,7 @@ public class MainPage extends BasePage {
         super(driver);
     }
 
-    public  NewJobPage clickNewItem() {
+    public NewJobPage clickNewItem() {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
     }
@@ -30,12 +30,12 @@ public class MainPage extends BasePage {
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
 
-    public WebElement getJobName(String jobName) {
+    public WebElement getJobInList(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]"))));
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return getDriver().getTitle();
     }
 
@@ -46,7 +46,7 @@ public class MainPage extends BasePage {
     }
 
     public FolderPage clickFolderName(String FolderName){
-        new Actions(getDriver()).moveToElement(getJobName(FolderName)).click(getJobName(FolderName)).perform();
+        new Actions(getDriver()).moveToElement(getJobInList(FolderName)).click(getJobInList(FolderName)).perform();
         return new FolderPage(getDriver());
     }
 
@@ -59,10 +59,11 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public WebElement getNoJobsMainPageHeader(){
+    public WebElement getNoJobsMainPageHeader() {
         return getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1"));
     }
-    public MainPage selectJobDropdownMenuDelete(){
+
+    public MainPage selectJobDropdownMenuDelete() {
         //getDriver().findElement(By.xpath("//a[contains(@data-message, 'Delete')]")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@data-message, 'Delete')]"))).click();
         getDriver().switchTo().alert().accept();
@@ -78,5 +79,9 @@ public class MainPage extends BasePage {
     public PipelinePage clickPipelineProject(String pipelineName) {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + pipelineName + "/']"))).click();
         return new PipelinePage(getDriver());
+    }
+
+    public String getJobName(String jobName) {
+        return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
     }
 }
