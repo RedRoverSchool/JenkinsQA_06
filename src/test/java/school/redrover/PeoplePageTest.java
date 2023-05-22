@@ -91,8 +91,6 @@ public class PeoplePageTest extends BaseTest {
     @Test
     public void testPeopleSortingListOfUsers() {
 
-//        List<String> expectedResult = List.of(new String[]{"admin","Mark","Peter"});
-
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = 'securityRealm/']"))).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(CREATE_USER)).click();
@@ -123,9 +121,6 @@ public class PeoplePageTest extends BaseTest {
 
         String arrowUp = getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
         Assert.assertEquals(arrowUp, "  ↑");
-
-        String arrowDown = getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
-        Assert.assertEquals(arrowUp, "  ↓");
 
     }
 }
