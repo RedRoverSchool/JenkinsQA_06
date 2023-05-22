@@ -45,7 +45,7 @@ public class FreestyleProjectPage extends BasePage {
     }
 
     public String getDescription() {
-        return  description.getText();
+        return description.getText();
     }
 
     public FreestyleProjectConfigPage clickAddDescription() {

@@ -16,7 +16,7 @@ public class FreestyleProject01Test extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .projectSave();
+                .clickSave();
 
         Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), "Project " + FREESTYLE_NAME);
     }
@@ -30,7 +30,7 @@ public class FreestyleProject01Test extends BaseTest {
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .addDescription(desc)
-                .projectSave();
+                .clickSave();
 
         Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), "Project " + FREESTYLE_NAME);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description']/div")).getText(), desc);
@@ -44,7 +44,7 @@ public class FreestyleProject01Test extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .projectSave()
+                .clickSave()
                 .clickTheDisableProjectButton();
 
                 Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
@@ -59,7 +59,7 @@ public class FreestyleProject01Test extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .projectSave()
+                .clickSave()
                 .clickTheDisableProjectButton()
                 .clickTheEnableProjectButton();
 
