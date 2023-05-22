@@ -3,7 +3,6 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -12,6 +11,7 @@ import school.redrover.runner.TestUtils;
 
 public class PipelineProject5Test extends BaseTest {
     public static String name = "My New Pipeline Project";
+    public static String rename = "Pipeline Project";
     public static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     public static final By INPUT_NAME = By.id("name");
     public static final By PIPELINE_PROJECT_TYPE = By.xpath("//img[@src='/plugin/workflow-job/images/pipelinejob.svg']");
@@ -68,6 +68,31 @@ public class PipelineProject5Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(
                         By.xpath("//h1[normalize-space()='Welcome to Jenkins!']"))
                 .getText(), "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testRenamePipelineFromProjectPage() {
+        TestUtils.createPipeline(this, name, true);
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(PROJECT_IN_DASHBOARD_TABLE)).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[7]//span[1]//a[1]"))).click();
+
+        WebElement inputRename = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='newName']")));
+        inputRename.clear();
+        inputRename.sendKeys(rename + Keys.TAB);
+
+        Assert.assertEquals(getDriver().findElements(By.xpath("//div[@class='validation-error-area validation-error-area--visible']")).isEmpty(), true);
+        Assert.assertEquals(getDriver().findElements(By.xpath("//div[@class='validation-error-area validation-error-area--visible']")).isEmpty(), true);
+
+        getDriver().findElement(By.xpath("//button[normalize-space()='Rename']")).click();
+
+        Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//h1[normalize-space()='Pipeline " + rename + "']")))
+                .getText(), "Pipeline " + rename);
+
+        getDriver().findElement(JENKINS_LOGO).click();
+
+        Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='" + rename + "']"))).getText(), rename);
     }
 
     @Test
