@@ -20,6 +20,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String TEST_NAME = "Test";
 
     @Ignore
     @Test
@@ -387,6 +388,38 @@ public class FreestyleProjectTest extends BaseTest {
         WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/Astra/']/span"));
 
         Assert.assertTrue(createdProject.isDisplayed());
+    }
+
+    @Test
+    public void testCreateFreestyleProjectGoingFromPeoplePage() {
+
+        String projectName = "FreestyleProject";
+
+        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(projectName);
+        getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
+        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")).click();
+        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+
+        getDriver().findElement(By.xpath("//ol/li/a[@href='/'] ")).click();
+
+        WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']"));
+
+        Assert.assertEquals(createdProject.getText(), projectName);
+    }
+
+    @Test(dependsOnMethods={"testCreateFreestyleProject"})
+    public void testFreestyleProjectNameDisplayedWithoutDescription(){
+        getDriver().findElement(By.xpath("//span[normalize-space()='"+ TEST_NAME +"']")).click();
+        getDriver().findElement(By.xpath("//span[normalize-space()='Changes']")).click();
+        getDriver().findElement(By.xpath("//span[normalize-space()='Status']")).click();
+
+        String actualProjectName = getDriver().findElement(By.xpath("//h1")).getText();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("description-link")));
+
+        Assert.assertEquals(actualProjectName, "Project " + TEST_NAME);
+        Assert.assertEquals(getDriver().findElement(By.id("description-link")).getText(),"Add description");
     }
 }
 

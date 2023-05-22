@@ -2,10 +2,13 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 public class FolderPage extends BasePage {
+
+    public final WebElement HEADING1 = getDriver().findElement(By.xpath("//h1"));
 
     public FolderPage(WebDriver driver) {
         super(driver);
@@ -46,9 +49,9 @@ public class FolderPage extends BasePage {
         return this;
     }
 
-    public FolderPage newView(){
+    public NewViewFolderPage newView(){
         getDriver().findElement(By.xpath("//div[@class='tab']")).click();
-        return this;
+        return new NewViewFolderPage(getDriver());
     }
 
     public FolderPage addDescription(String description){
@@ -61,5 +64,11 @@ public class FolderPage extends BasePage {
     public NewJobPage newJob(){
         getDriver().findElement(By.cssSelector("[href='newJob']")).click();
         return new NewJobPage(getDriver());
+    }
+
+    public MainPage navigateToMainPageByBreadcrumbs() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//ol[@id='breadcrumbs']//li[1]")))).click();
+        return new MainPage(getDriver());
     }
 }
