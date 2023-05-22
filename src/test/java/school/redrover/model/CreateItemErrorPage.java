@@ -20,5 +20,4 @@ public class CreateItemErrorPage extends BasePage {
     public String getErrorMessage() {
         return getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
     }
-
 }
