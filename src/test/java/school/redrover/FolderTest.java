@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -77,19 +78,8 @@ public class FolderTest extends BaseTest {
         String folderName = "Folder_1";
         String projectName = "Project_1";
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(folderName);
-        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
-        getDriver().findElement(By.xpath("//ol/li/a[@href='/'] ")).click();
-
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(projectName);
-        getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
-        getDriver().findElement(By.xpath("//ol/li/a[@href='/']")).click();
+        TestUtils.createFolder(this, folderName, true);
+        TestUtils.createFreestyleProject(this, projectName, true);
 
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']",projectName)))).click();
         getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/move']", projectName))).click();
@@ -178,5 +168,23 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]"))).isDisplayed());
+    }
+
+    @Test
+    public void testCreateFolder3() {
+        String nameItem = "Test Folder";
+
+        MainPage mainPage  = new MainPage(getDriver())
+                .clickNewItem().enterItemName(nameItem)
+                .selectFolderAndOk()
+                .saveProjectAndGoToFolderPage()
+                .navigateToMainPageByBreadcrumbs();
+
+        String actualResult = mainPage.getFolderName().getText();
+
+        WebElement webElement = mainPage.navigateToProjectPage().getNameProject();
+
+        Assert.assertEquals(actualResult, nameItem);
+        Assert.assertEquals(webElement.getText(), nameItem);
     }
 }

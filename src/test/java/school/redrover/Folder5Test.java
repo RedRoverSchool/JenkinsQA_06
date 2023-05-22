@@ -12,7 +12,7 @@ import school.redrover.runner.TestUtils;
 
 public class Folder5Test extends BaseTest {
 
-    private static final By DASHBOARD = By.xpath("//img[@id='jenkins-head-icon']");
+    private static final By DASHBOARD = By.linkText("Dashboard");
 
     @Test
     public void testCreateNewFolder() {
@@ -64,8 +64,14 @@ public class Folder5Test extends BaseTest {
         getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
 
         getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'Folder2')]"))).click();
+        WebElement folder1 = getDriver().findElement(By.xpath("//a[@href='job/Folder1/']"));
+        new Actions(getDriver()).moveToElement(folder1).perform();
+        folder1.click();
+
+        WebElement folder2 = getDriver().findElement(By.xpath("//a[@href='job/Folder2/']"));
+        new Actions(getDriver()).moveToElement(folder2).perform();
+        folder2.click();
+
         WebElement h1 = getDriver().findElement(By.xpath("//h1"));
 
         Assert.assertEquals(h1.getText(), "Folder2");
