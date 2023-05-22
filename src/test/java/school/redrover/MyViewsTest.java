@@ -115,7 +115,46 @@ public class MyViewsTest extends BaseTest {
         submitButton.click();
         WebElement myViewTab = getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views/view/MyView/']"));
         Assert.assertEquals(myViewTab.getText(), "MyView");
+    }
 
+    private static final String DESCRIPTION_EDIT = "//textarea[@name='description']";
+    private static final String DESCRIPTION_FIELD = "//div[@id='description']//div[not(a[@id='description-link'])]";
 
+    private void createNewItem() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys("Item1");
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
+    }
+
+    private void createNewView() {
+        getDriver().findElement(By.xpath("//a[@class='addTab']")).click();
+        getDriver().findElement(By.id("name")).sendKeys("View1");
+        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
+        getDriver().findElement(By.id("ok")).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
+    }
+
+    @Test
+    public void editDescriptionTest() {
+        createNewItem();
+        createNewView();
+
+        getDriver().findElement(By.linkText("View1")).click();
+        getDriver().findElement(By.linkText("Edit View")).click();
+        getDriver().findElement(By.xpath(DESCRIPTION_EDIT)).clear();
+        getDriver().findElement(By.xpath(DESCRIPTION_EDIT)).sendKeys("New description");
+        getDriver().findElement(By.name("Submit")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath(DESCRIPTION_FIELD)).getText(), "New description");
+
+        getDriver().findElement(By.linkText("Edit View")).click();
+        getDriver().findElement(By.xpath(DESCRIPTION_EDIT)).clear();
+        getDriver().findElement(By.xpath(DESCRIPTION_EDIT)).sendKeys("Old description");
+        getDriver().findElement(By.name("Submit")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath(DESCRIPTION_FIELD)).getText(), "Old description");
     }
 }
