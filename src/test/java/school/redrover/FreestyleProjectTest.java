@@ -421,5 +421,35 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualProjectName, "Project " + TEST_NAME);
         Assert.assertEquals(getDriver().findElement(By.id("description-link")).getText(),"Add description");
     }
+    @Test(dependsOnMethods = "testCreateFreestyleProjectValidName")
+    public void testAddDescription() {
+        WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/Astra/']/span"));
+        new Actions(getDriver()).moveToElement(projectName).perform();
+        projectName.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1")));
+
+        WebElement addDescriptionButton = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        addDescriptionButton.click();
+
+        WebElement textArea = getDriver().findElement(By.tagName("textarea"));
+        String forTextArea = "123\nAAA\nSSS";
+        textArea.sendKeys(forTextArea);
+
+        WebElement previewButton = getDriver().findElement(By.xpath("//a[@previewendpoint='/markupFormatter/previewDescription']"));
+        previewButton.click();
+
+        WebElement previewTextArea = getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
+        Assert.assertEquals(previewTextArea.getText(), forTextArea);
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//form/div/button[@name='Submit']"));
+        saveButton.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='editDescription']")));
+
+        WebElement description = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
+
+        Assert.assertEquals(description.getText(), forTextArea);
+    }
 }
 
