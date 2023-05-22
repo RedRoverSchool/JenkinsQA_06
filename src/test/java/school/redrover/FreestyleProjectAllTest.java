@@ -60,4 +60,24 @@ public class FreestyleProjectAllTest extends BaseTest {
                 "Project " + projectName);
         Assert.assertTrue(getDriver().findElement(By.linkText("Build Now")).isDisplayed(), "The 'Build Now' button is not displayed");
     }
+
+    @Test
+    public void testVisibleProjectNameAndDescriptionFromViewPage() {
+        final String description = "This is a description for My Freestyle Project";
+
+        TestUtils.createFreestyleProject(this, projectName, false);
+
+        getDriver().findElement(By.linkText("Add description")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name = 'description']")))
+                .sendKeys(description);
+        getDriver().findElement(By.name("Submit")).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
+        getDriver().findElement(By.linkText(projectName)).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Project " + projectName);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[contains(text(),'" + description + "')]")).getText(),
+                description);
+    }
 }

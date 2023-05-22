@@ -6,11 +6,10 @@ import org.testng.annotations.Test;
 import school.redrover.model.BreadcrumbBarComponent;
 import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
+import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
 
 public class NewProject3Test extends BaseTest {
-
-    private final By HEADER_PIPELINE = By.cssSelector("[class$='headline']");
 
     @Test
     public void testCreateFreestyleProject() {
@@ -37,7 +36,7 @@ public class NewProject3Test extends BaseTest {
                 .selectPipelineAndOk()
                 .clickSaveButton();
 
-        Assert.assertEquals(getDriver().findElement(HEADER_PIPELINE).getText(), expectedPipeline);
+        Assert.assertEquals(new PipelinePage(getDriver()).getHeaderPipeline().getText(), expectedPipeline);
         new BreadcrumbBarComponent(getDriver()).selectDashboard();
 
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
@@ -68,7 +67,7 @@ public class NewProject3Test extends BaseTest {
 
         Assert.assertTrue(mainPage.getFolderName().isDisplayed());
         mainPage.getFolderName().click();
-        Assert.assertTrue(new FolderPage(getDriver()).HEADING1.getText().contains(nameProject), "folder cannot be opened");
+        Assert.assertTrue(new FolderPage(getDriver()).getHeading1().getText().contains(nameProject), "folder cannot be opened");
     }
 
     @Test
@@ -84,5 +83,16 @@ public class NewProject3Test extends BaseTest {
         Assert.assertEquals(mainPage.getFolderName().getText(), nameJob);
     }
 
+    @Test
+    public void testCreateOrganizationFolder() {
+        String nameFolder = "Engineer";
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameFolder)
+                .selectOrganizationFolderAndOk()
+                .projectSave();
+        new BreadcrumbBarComponent(getDriver()).selectDashboard();
 
+        Assert.assertEquals(mainPage.getFolderName().getText(), nameFolder);
+    }
 }
