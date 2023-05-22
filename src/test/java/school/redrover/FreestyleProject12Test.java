@@ -1,18 +1,15 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.FreestyleProjectConfigPage;
 import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 public class FreestyleProject12Test extends BaseTest {
 
