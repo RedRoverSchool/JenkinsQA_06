@@ -41,7 +41,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         mainPageName.getProjectName()
                 .click();
         WebElement disable = (WebElement) new MultiConfigurationProjectPage(getDriver())
-                .getDisable().Enable();
+                .getDisableClick().getEnableSwitch();
 
         Assert.assertEquals(disable.getText(),"Enable");
     }

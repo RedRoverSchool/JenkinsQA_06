@@ -19,6 +19,7 @@ public class MultiConfigurationProjectPage extends BasePage {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//h1"))));
     }
+
     public MultiConfigurationProjectPage getAddDescription(String text) {
 
         getDriver().findElement(By.cssSelector("#description-link")).click();
@@ -29,6 +30,7 @@ public class MultiConfigurationProjectPage extends BasePage {
         return this;
 
     }
+
     public MultiConfigurationProjectPage getSaveButton(){
 
         WebElement saveButton = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
@@ -40,15 +42,12 @@ public class MultiConfigurationProjectPage extends BasePage {
       return getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
     }
 
-    public MultiConfigurationProjectPage getDisable() {
+    public MultiConfigurationProjectPage getDisableClick() {
         getDriver().findElement(By.xpath("//button[text () = 'Disable Project']")).click();
         return this;
     }
-    public WebElement Enable (){
+
+    public WebElement getEnableSwitch (){
     return getDriver().findElement(By.xpath("//button[text () = 'Enable']"));
     }
-
-
-
-
 }
