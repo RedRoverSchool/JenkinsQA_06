@@ -6,11 +6,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class DeletePipeline3Test extends BaseTest {
+public class Pipeline10Test extends BaseTest {
 
     String namePipeline = "testPipeline";
 
     @Test
+
     public void testCreatePipeline() {
         getDriver().findElement(By.cssSelector(".task:first-child")).click();
         getWait10()
