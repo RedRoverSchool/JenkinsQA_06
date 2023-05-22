@@ -21,4 +21,16 @@ public class FreestyleProjectPage extends BasePage {
                 .visibilityOfElementLocated(By.cssSelector("[href$='console']"))).click();
         return new BuildPage(getDriver());
     }
+
+    public FreestyleProjectPage clickTheDisableProjectButton() {
+        getWait5().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//button[text() = 'Disable Project']"))).click();
+        return this;
+    }
+
+    public FreestyleProjectPage clickTheEnableProjectButton() {
+        getWait5().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//button[text() = 'Enable']"))).click();
+        return this;
+    }
 }
