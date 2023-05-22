@@ -37,7 +37,7 @@ public class Folder4Test extends BaseTest {
                 .selectFolderAndOk()
                 .clickDashboard();
 
-        Assert.assertTrue(new MainPage(getDriver()).getJobFromList(FOLDER_NAME).isDisplayed(),
+        Assert.assertTrue(new MainPage(getDriver()).getJobInList(FOLDER_NAME).isDisplayed(),
                 "error was not show name folder");
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
                 "error was not shown icon folder");

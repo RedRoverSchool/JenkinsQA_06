@@ -30,7 +30,7 @@ public class MainPage extends BasePage {
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
 
-    public WebElement getJobFromList(String jobName) {
+    public WebElement getJobInList(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]"))));
     }
@@ -46,7 +46,7 @@ public class MainPage extends BasePage {
     }
 
     public FolderPage clickFolderName(String FolderName){
-        new Actions(getDriver()).moveToElement(getJobFromList(FolderName)).click(getJobFromList(FolderName)).perform();
+        new Actions(getDriver()).moveToElement(getJobInList(FolderName)).click(getJobInList(FolderName)).perform();
         return new FolderPage(getDriver());
     }
 
