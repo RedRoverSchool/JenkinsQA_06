@@ -30,7 +30,7 @@ public class MainPage extends BasePage {
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
 
-    public WebElement getJobName(String jobName) {
+    public WebElement getJobInList(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]"))));
     }
@@ -45,12 +45,12 @@ public class MainPage extends BasePage {
         return new ProjectPage(getDriver());
     }
 
-    public FolderPage clickFolderName(String FolderName) {
-        new Actions(getDriver()).moveToElement(getJobName(FolderName)).click(getJobName(FolderName)).perform();
+    public FolderPage clickFolderName(String FolderName){
+        new Actions(getDriver()).moveToElement(getJobInList(FolderName)).click(getJobInList(FolderName)).perform();
         return new FolderPage(getDriver());
     }
 
-    public MainPage clickJobDropdownMenu(String jobName) {
+    public MainPage clickJobDropdownMenu(String jobName){
         WebElement projectName = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='job/" + jobName + "/']")));
         //WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/" + jobName + "/']"));
         Actions action = new Actions(getDriver());
@@ -79,5 +79,9 @@ public class MainPage extends BasePage {
     public PipelinePage clickPipelineProject(String pipelineName) {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + pipelineName + "/']"))).click();
         return new PipelinePage(getDriver());
+    }
+
+    public String getJobName(String jobName) {
+        return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
     }
 }

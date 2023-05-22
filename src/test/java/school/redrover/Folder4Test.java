@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -38,7 +37,7 @@ public class Folder4Test extends BaseTest {
                 .selectFolderAndOk()
                 .clickDashboard();
 
-        Assert.assertTrue(new MainPage(getDriver()).getJobName(FOLDER_NAME).isDisplayed(),
+        Assert.assertTrue(new MainPage(getDriver()).getJobInList(FOLDER_NAME).isDisplayed(),
                 "error was not show name folder");
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
                 "error was not shown icon folder");
