@@ -76,7 +76,7 @@ public class MainPage extends BasePage {
     }
 
     public PipelinePage clickPipelineProject(String pipelineName) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + pipelineName + "/']"))).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + pipelineName + "/']"))).click();
         return new PipelinePage(getDriver());
     }
 }
