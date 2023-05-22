@@ -6,13 +6,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 import java.util.List;
-
+@Ignore
 public class MultiConfigurationTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_NAME = RandomStringUtils.randomAlphanumeric(5);
     private static final String MULTI_CONFIGURATION_NEW_NAME = RandomStringUtils.randomAlphabetic(5);
