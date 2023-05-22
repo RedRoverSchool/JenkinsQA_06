@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.BreadcrumbBarPage;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
@@ -53,6 +54,22 @@ public class NewProject3Test extends BaseTest {
         new BreadcrumbBarPage(getDriver()).selectDashboard();
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#projectstatus")).isDisplayed(), "project no display");
+    }
+
+    @Test
+    public void testCreateNewFolder() {
+        String nameProject = "Engineer";
+
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameProject)
+                .selectFolderAndOk()
+                .clickSaveButton();
+        new BreadcrumbBarPage(getDriver()).selectDashboard();
+
+        Assert.assertTrue(mainPage.getFolderName().isDisplayed());
+        mainPage.getFolderName().click();
+        Assert.assertTrue(new FolderPage(getDriver()).HEADING1.getText().contains(nameProject), "folder cannot be opened");
     }
 
 

@@ -48,7 +48,7 @@ public class NewJobPage extends BasePage {
     }
 
     public FolderConfigPage selectFolderAndOk() {
-        getDriver().findElement(By.xpath("//span[.='Folder']")).click();
+        getDriver().findElement(By.xpath("//li[contains(@class, 'folder_Folder')]")).click();
         okButton.click();
         return new FolderConfigPage(getDriver());
     }
