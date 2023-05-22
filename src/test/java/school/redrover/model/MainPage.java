@@ -84,4 +84,9 @@ public class MainPage extends BasePage {
     public String getJobName(String jobName) {
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
     }
+
+    public WebElement getRestApiLink(){
+        return getDriver().findElement(By.xpath("//a[contains(@href,'api')]"));
+    }
+
 }
