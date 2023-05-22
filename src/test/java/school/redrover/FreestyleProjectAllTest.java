@@ -6,13 +6,13 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class FreestyleProjectAllTest extends BaseTest {
+    private final String projectName = "My Freestyle Project";
 
     @Test
     public void testCreateFreestyleProjectWithValidData() {
-        final String projectName = "My Freestyle Project";
-
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("name"))).sendKeys(projectName);
@@ -48,5 +48,16 @@ public class FreestyleProjectAllTest extends BaseTest {
 
         Assert.assertEquals(actualWarningUnsafeMessage, "» ‘" + wildcard + "’ is an unsafe character");
         Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled(), "Button is disabled, but if you see this message, button is enabled");
+    }
+
+    @Test
+    public void testOpenViewProjectPageFromDashboard() {
+        TestUtils.createFreestyleProject(this, projectName, true);
+
+        getDriver().findElement(By.linkText(projectName)).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Project " + projectName);
+        Assert.assertTrue(getDriver().findElement(By.linkText("Build Now")).isDisplayed(), "The 'Build Now' button is not displayed");
     }
 }
