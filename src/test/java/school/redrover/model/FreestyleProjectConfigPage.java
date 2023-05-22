@@ -11,7 +11,7 @@ public class FreestyleProjectConfigPage extends BasePage {
         super(driver);
     }
 
-    public FreestyleProjectPage projectSave() {
+    public FreestyleProjectPage clickSave() {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return new FreestyleProjectPage(getDriver());
     }
@@ -23,7 +23,7 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage addDescription(String description) {
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).sendKeys(description);
         return this;
     }
 
@@ -35,4 +35,6 @@ public class FreestyleProjectConfigPage extends BasePage {
         }
         return this;
     }
+
+
 }

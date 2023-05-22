@@ -20,7 +20,7 @@ public class NewProject3Test extends BaseTest {
                 .clickNewItem()
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
-                .projectSave();
+                .clickSave();
         new BreadcrumbBarComponent(getDriver()).selectDashboard();
 
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
