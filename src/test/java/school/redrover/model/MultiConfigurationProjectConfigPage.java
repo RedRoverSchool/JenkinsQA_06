@@ -2,13 +2,23 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
-public class ConfigurePage extends BasePage {
+public class MultiConfigurationProjectConfigPage extends BasePage {
 
-    public ConfigurePage(WebDriver driver) {
+    public MultiConfigurationProjectConfigPage(WebDriver driver) {
         super(driver);
+    }
+
+    public MultiConfigurationProjectConfigPage toggleDisable(){
+        getDriver().findElement(By.cssSelector("label.jenkins-toggle-switch__label ")).click();
+        return this;
+    }
+
+    public WebElement getCheckboxById(int id){
+        return getDriver().findElement(By.id("cb" + id));
     }
 
     public ProjectPage saveConfigurePageAndGoToProjectPage(){

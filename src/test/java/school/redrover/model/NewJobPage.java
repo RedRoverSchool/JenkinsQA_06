@@ -13,6 +13,12 @@ public class NewJobPage extends BasePage {
     @FindBy(xpath = "//button[@id='ok-button']")
     private WebElement okButton;
 
+    @FindBy(className = "hudson_model_FreeStyleProject")
+    private WebElement freestyleProject;
+
+    @FindBy(id = "itemname-invalid")
+    private WebElement itemInvalidNameMessage;
+
     public NewJobPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(getDriver(), this);
@@ -24,7 +30,7 @@ public class NewJobPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage selectFreestyleProjectAndOk() {
-        getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
+        freestyleProject.click();
         okButton.click();
         return new FreestyleProjectConfigPage(getDriver());
     }
@@ -35,40 +41,28 @@ public class NewJobPage extends BasePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public NewJobPage selectMultiConfigurationProjectAndOk() {
-        getDriver().findElement(By.cssSelector("[value$='MatrixProject'] + span")).click();
-        okButton.click();
-        return this;
-    }
-
-    public ConfigurePage selectMultiConfigurationProject() {
+    public MultiConfigurationProjectConfigPage selectMultiConfigurationProjectAndOk() {
         getDriver().findElement(By.xpath("//span[.='Multi-configuration project']")).click();
         okButton.click();
-        return new ConfigurePage(getDriver());
+        return new MultiConfigurationProjectConfigPage(getDriver());
     }
 
     public FolderConfigPage selectFolderAndOk() {
-        getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
+        getDriver().findElement(By.xpath("//li[contains(@class, 'folder_Folder')]")).click();
         okButton.click();
         return new FolderConfigPage(getDriver());
     }
 
-    public ConfigurePage selectFolder() {
-        getDriver().findElement(By.xpath("//span[.='Folder']")).click();
+    public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {
+        getDriver().findElement(By.xpath("//li[contains(@class, 'WorkflowMultiBranchProject')]")).click();
         okButton.click();
-        return new ConfigurePage(getDriver());
+        return new MultibranchPipelineConfigPage(getDriver());
     }
 
-    public NewJobPage selectMultibranchPipelineAndOk() {
-        getDriver().findElement(By.xpath("//input[contains(@value, 'WorkflowMultiBranchProject')]")).click();
+    public OrganizationFolderConfigPage selectOrganizationFolderAndOk() {
+        getDriver().findElement(By.xpath("//li[contains(@class, 'OrganizationFolder')]")).click();
         okButton.click();
-        return this;
-    }
-
-    public NewJobPage selectOrganizationFolderAndOk() {
-        getDriver().findElement(By.xpath("//input[contains(@value, 'OrganizationFolder')]")).click();
-        okButton.click();
-        return this;
+        return new OrganizationFolderConfigPage(getDriver());
     }
 
     public NewJobPage copyFrom(String typeToAutocomplete) {
@@ -81,5 +75,23 @@ public class NewJobPage extends BasePage {
         getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
         okButton.click();
         return new PipelineConfigPage(getDriver());
+    }
+
+    public String getItemInvalidMessage() {
+        return getWait2().until(ExpectedConditions.visibilityOf(itemInvalidNameMessage)).getText();
+    }
+
+    public NewJobPage selectFreestyleProject() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(freestyleProject)).click();
+        return this;
+    }
+
+    public boolean isOkButtonEnabled() {
+        return okButton.isEnabled();
+    }
+
+    public CreateItemErrorPage clickOkToCreateWithExistingName() {
+        okButton.click();
+        return new CreateItemErrorPage(getDriver());
     }
 }

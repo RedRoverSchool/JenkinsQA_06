@@ -27,12 +27,17 @@ public class FolderConfigPage extends BasePage {
     }
 
     public FolderPage clickSaveButton() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='_.description']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
         return new FolderPage(getDriver());
     }
 
     public MainPage clickDashboard() {
         getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
         return new MainPage(getDriver());
+    }
+    public FolderPage saveProjectAndGoToFolderPage(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector("[name='Submit']")))).click();
+        return new FolderPage(getDriver());
     }
 }

@@ -3,15 +3,15 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.MultiConfigurationProjectConfigPage;
+import school.redrover.model.ProjectPage;
 import school.redrover.runner.BaseTest;
 
-import java.time.Duration;
-import java.util.List;
 
 public class MultiConfigurationTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_NAME = RandomStringUtils.randomAlphanumeric(5);
@@ -22,9 +22,9 @@ public class MultiConfigurationTest extends BaseTest {
     @Test
     public void testCreateMultiConfiguration() {
         MainPage mainPage = new MainPage(getDriver());
-        final String projectName = mainPage.newItem()
+        final String projectName = mainPage.clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProject()
+                .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage()
                 .navigateToHomePageUsingJenkinsIcon()
                 .getProjectName().getText();
@@ -74,69 +74,58 @@ public class MultiConfigurationTest extends BaseTest {
 
     @Test
     public void testDisabledMultiConfigurationProject() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(MULTI_CONFIGURATION_NAME);
-        WebElement projectButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
-        projectButton.click();
-        WebElement okButton = getWait10().until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
-        okButton.click();
-        getDriver().findElement(By.cssSelector("label.jenkins-toggle-switch__label ")).click();
-        WebElement saveButton = getWait10().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON));
-        saveButton.click();
+        ProjectPage disabledProjPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(MULTI_CONFIGURATION_NAME)
+                .selectMultiConfigurationProjectAndOk()
+                .toggleDisable()
+                .saveConfigurePageAndGoToProjectPage();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("form#enable-project")).getText().trim().substring(0, 34), "This project is currently disabled");
     }
 
-    @Test
-    public void testProjectDisabled() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//input[@id='name']"))).sendKeys("Project001");
-        getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='ok-button']"))).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.cssSelector("label.jenkins-toggle-switch__label"))).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+    @Test(dependsOnMethods = "testDisabledMultiConfigurationProject")
+    public void testEnabledMultiConfigurationProject(){
+        ProjectPage enabledProjPage = new MainPage(getDriver())
+                .navigateToProjectPage()
+                .enableProject();
 
-        Assert.assertTrue(getWait10().until(ExpectedConditions.textToBePresentInElement(
-                getDriver().findElement(By.xpath("//form[@id='enable-project']")), "This project is currently disabled")));
+        Assert.assertEquals(enabledProjPage.getDisableButton().getText(), "Disable Project");
     }
 
     @Test(dependsOnMethods = "testRenameMultiConfigurationProjectFromDashboard")
-    public void testDeleteProject() {
-        WebElement projectName = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='job/" + MULTI_CONFIGURATION_NEW_NAME + "/']")));
+    public void testJobDropdownDelete() {
+        MainPage deletedProjPage = new MainPage((getDriver()))
+                .clickJobDropdownMenu(MULTI_CONFIGURATION_NEW_NAME)
+                .selectJobDropdownMenuDelete();
 
-        Actions action = new Actions(getDriver());
-        action.moveToElement(projectName).perform();
-        projectName.click();
+        Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@data-message, 'Delete')]"))).click();
-        getDriver().switchTo().alert().accept();
-        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
+        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(),"Welcome to Jenkins!");
+    }
 
-        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]");
+    @Test(dependsOnMethods = "testEnabledMultiConfigurationProject")
+    public void testProjectPageDelete(){
+        MainPage deletedProjPage = new MainPage(getDriver())
+                .navigateToProjectPage()
+                .deleteProject();
 
-        List<WebElement> projects = getDriver().findElements(By.xpath("//a[@href='job/" + MULTI_CONFIGURATION_NEW_NAME + "/']"));
+        Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
 
-        Assert.assertEquals(projects.size(), 0);
+        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(),"Welcome to Jenkins!");
     }
 
     @Test
     public void testCheckGeneralParametersDisplayedAndClickable() {
-        getDriver().findElement(
-                By.xpath("//span[@class='task-link-wrapper ']/a[@href='/view/all/newJob']")).click();
-
-        WebElement itemName = getDriver().findElement(By.id("name"));
-        itemName.sendKeys("TestProject");
-
-        getDriver().findElement(
-                By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
-
-        getDriver().findElement(
-                By.id("ok-button")).click();
+        MultiConfigurationProjectConfigPage config = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(MULTI_CONFIGURATION_NAME)
+                .selectMultiConfigurationProjectAndOk();
 
         boolean checkboxesVisibleClickable = true;
         for (int i = 4; i <= 8; i++) {
-            if (!getDriver().findElement(By.id("cb" + i)).isDisplayed() || !getDriver().findElement(By.id("cb" + i)).isEnabled()) {
+            WebElement checkbox = config.getCheckboxById(i);
+            if (!checkbox.isDisplayed() || !checkbox.isEnabled()) {
                 checkboxesVisibleClickable = false;
                 break;
             }

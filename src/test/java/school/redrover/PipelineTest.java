@@ -170,7 +170,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreatePipelineProject() {
         WebElement projectName = new MainPage(getDriver())
-                .newItem()
+                .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOK()
                 .clickSaveButton()
@@ -211,33 +211,29 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(projectDescription.getText(), pipelineDescription);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineProject")
     public void testRenamePipeline() {
         final String newPipelineName = PIPELINE_NAME + "new";
 
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+        WebElement projectName = new MainPage(getDriver())
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickRename()
+                .clearNameField()
+                .enterNewName(newPipelineName)
+                .clickRenameButton()
+                .clickDashboard().getProjectName();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PIPELINE_NAME + "/']"))).click();
-        getDriver().findElement(By.cssSelector("a[href='/job/" + PIPELINE_NAME + "/confirm-rename']")).click();
-
-        getDriver().findElement(By.name("newName")).clear();
-        getDriver().findElement(By.name("newName")).sendKeys(newPipelineName);
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.id("jenkins-home-link")).click();
-
-        Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains(newPipelineName));
+        Assert.assertEquals(projectName.getText(), newPipelineName);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testCreatePipelineProject", "testRenamePipeline"})
     public void testDeletePipeline() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+        new MainPage(getDriver())
+                .clickPipelineProject(PIPELINE_NAME + "new")
+                .clickDeletePipeline()
+                .acceptAlert();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PIPELINE_NAME + "/']"))).click();
-
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[data-url='/job/" + PIPELINE_NAME + "/doDelete']"))).click();
-        getDriver().switchTo().alert().accept();
-
-        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME + "new"));
     }
 
     @Test

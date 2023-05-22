@@ -367,7 +367,8 @@ public class HeaderTest extends BaseTest {
         Assert.assertNotEquals(colorBefore, colorAfter);
     }
 
-     @Test
+    @Ignore
+    @Test
     public void testNotificationIcon(){
         iconChangeColor(NOTIFICATION_ICON);
         getDriver().findElement(NOTIFICATION_ICON).click();

@@ -4,37 +4,37 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import static org.testng.Assert.assertEquals;
 
 public class ConfigureFolder2Test extends BaseTest {
-
-    private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob'][@class='task-link ']");
-    private static final By PROJECT_NAME = By.xpath("//input[@name='name']");
-    private static final By FOLDER_PROJECT = By.xpath("//li[@class = 'com_cloudbees_hudson_plugins_folder_Folder']");
-    private static final By CREATE_PROJECT_BUTTON = By.xpath("//button [@id='ok-button']");
-    private static final By FOLDER_NAME_FIELD = By.xpath("//input [@name='_.displayNameOrNull']");
+    private static final String PROJECT_NAME = "qwerty";
     private static final By FOLDER_SUBMIT_BUTTON = By.xpath("//button [@name='Submit']");
-
-    private void CreateFolder(String name){
-        getDriver().findElement(NEW_ITEM).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(PROJECT_NAME)).sendKeys(name);
-
-        getDriver().findElement(FOLDER_PROJECT).click();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(CREATE_PROJECT_BUTTON)).click();
-    }
 
     @Test
     public void testSetDisplayName(){
-        String projectName = "qwerty";
-        String folderName = "folder";
+        String FOLDER_NAME = "folder";
+        TestUtils.createFolder(this, PROJECT_NAME, false);
 
-        CreateFolder(projectName);
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a [@href='/job/qwerty/configure']"))).click();
 
-        getDriver().findElement(FOLDER_NAME_FIELD).sendKeys(folderName);
+        getDriver().findElement(By.xpath("//input [@name='_.displayNameOrNull']")).sendKeys(FOLDER_NAME);
         getDriver().findElement(FOLDER_SUBMIT_BUTTON).click();
 
-        assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), folderName);
+        assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), FOLDER_NAME);
+    }
+
+    @Test
+    public void testAddDescription(){
+        String fodlerDescription = "description of the Folder Project";
+        TestUtils.createFolder(this, PROJECT_NAME, false);
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a [@href='/job/qwerty/configure']"))).click();
+
+        getDriver().findElement(By.name("_.description")).sendKeys(fodlerDescription);
+        getDriver().findElement(FOLDER_SUBMIT_BUTTON).click();
+
+        assertEquals(getDriver().findElement(By.xpath("//div[@id='view-message']")).getText(), fodlerDescription);
     }
 }
