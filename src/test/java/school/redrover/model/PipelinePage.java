@@ -44,8 +44,8 @@ public class PipelinePage extends BasePage {
         return new MainPage(getDriver());
     }
 
-    public MainPage dismissAlert() {
+    public PipelinePage dismissAlert() {
         getDriver().switchTo().alert().dismiss();
-        return new MainPage(getDriver());
+        return this;
     }
 }

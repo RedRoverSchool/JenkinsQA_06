@@ -226,14 +226,21 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(projectName.getText(), newPipelineName);
     }
 
-    @Test(dependsOnMethods = "testCreatePipelineProject")
+    @Test
     public void testDeletePipeline() {
-        new MainPage(getDriver())
-            .clickPipelineProject(PIPELINE_NAME)
-            .clickDeletePipeline()
-            .acceptAlert();
+        final String newPipelineName = PIPELINE_NAME + "1";
 
-        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(newPipelineName)
+                .selectPipelineAndClickOK()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickPipelineProject(newPipelineName)
+                .clickDeletePipeline()
+                .acceptAlert();
+
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(newPipelineName));
     }
 
     @Test
@@ -252,7 +259,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(optionInDefinitionField.getText(), "Pipeline script");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineProject")
     public void testOpenCreatedPipeline() {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
