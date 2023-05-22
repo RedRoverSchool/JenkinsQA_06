@@ -12,7 +12,6 @@ import java.time.Duration;
 
 public class MainPage extends BasePage {
 
-    private static final String NAME_PIPELINE = "New Builds";
     @FindBy(xpath = "//a[@href='/view/all/newJob']")
     private WebElement newItemButton;
 
