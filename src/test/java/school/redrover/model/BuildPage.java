@@ -7,7 +7,8 @@ import school.redrover.model.base.BasePage;
 
 public class BuildPage extends BasePage {
 
-    public final WebElement BUILD_ICON_IN_BUILD_HISTORY = getDriver().findElement(By.cssSelector(".jenkins-icon-adjacent"));
+    public final WebElement BUILD_HEADER = getDriver().findElement(By.xpath("//h1"));
+
 
     public BuildPage(WebDriver driver) {
         super(driver);

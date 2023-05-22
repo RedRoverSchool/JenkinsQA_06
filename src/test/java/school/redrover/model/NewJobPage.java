@@ -54,7 +54,7 @@ public class NewJobPage extends BasePage {
     }
 
     public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {
-        getDriver().findElement(By.xpath("//input[contains(@value, 'WorkflowMultiBranchProject')]")).click();
+        getDriver().findElement(By.xpath("//li[contains(@class, 'WorkflowMultiBranchProject')]")).click();
         okButton.click();
         return new MultibranchPipelineConfigPage(getDriver());
     }
