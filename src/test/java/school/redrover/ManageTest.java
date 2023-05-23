@@ -112,7 +112,7 @@ public class ManageTest extends BaseTest {
     }
 
     @Test(dataProvider = "KeyWordsToSearch")
-    public void test1SearchSettingsByWord(String keyword) {
+    public void testSearchSettingsByWord(String keyword) {
 
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
 
