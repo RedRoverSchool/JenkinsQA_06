@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -156,18 +157,16 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folderOne, true);
         TestUtils.createFolder(this, folderTwo, true);
 
-        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
-        chevron.sendKeys(Keys.RETURN);
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
+        WebElement folderName = new MainPage(getDriver())
+                .clickDropDownMenuFolderName(folderTwo)
+                .selectMoveFromDropDownMenu()
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(folderOne)
+                .getNestedFolderName(folderTwo);
 
-        new Select(getWait5().until(ExpectedConditions.elementToBeClickable(By.name("destination")))).selectByIndex(1);
-        getDriver().findElement(By.name("Submit")).click();
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'job/" + folderOne + "/')]"))).click();
-
-        Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]"))).isDisplayed());
+        Assert.assertTrue(folderName.isDisplayed());
     }
 
     @Test
@@ -186,5 +185,22 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(actualResult, nameItem);
         Assert.assertEquals(webElement.getText(), nameItem);
+    }
+
+    @Test(dependsOnMethods = "testCreateFolder3")
+    public void testCreateMultibranchPipelineInFolder() {
+
+        FolderPage folderPage  = new MainPage(getDriver())
+                .clickFolderName("Test Folder")
+                .newItem()
+                .enterItemName("My Multibranch Pipeline")
+                .selectMultibranchPipelineAndOk()
+                .saveButton()
+                .navigateToMainPageByBreadcrumbs()
+                .clickFolderName("Test Folder");
+
+        String actualResult = folderPage.getMultibranchPipelineName().getText();
+
+        Assert.assertEquals(actualResult, "My Multibranch Pipeline");
     }
 }

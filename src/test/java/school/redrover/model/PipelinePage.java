@@ -2,6 +2,7 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
@@ -15,6 +16,11 @@ public class PipelinePage extends BasePage {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
         return new MainPage(getDriver());
     }
+
+    public String getProjectName() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText();
+    }
+
 
     public PipelinePage clickRename() {
         getDriver().findElement(By.xpath("//a[contains(@href, '/confirm-rename')]")).click();
@@ -44,5 +50,9 @@ public class PipelinePage extends BasePage {
     public MainPage acceptAlert() {
         getDriver().switchTo().alert().accept();
         return new MainPage(getDriver());
+    }
+
+    public WebElement getHeaderPipeline() {
+        return getDriver().findElement(By.cssSelector("[class$='headline']"));
     }
 }
