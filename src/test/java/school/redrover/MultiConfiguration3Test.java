@@ -113,6 +113,14 @@ public class MultiConfiguration3Test extends BaseTest {
         Assert.assertTrue(iconDisabled.isDisplayed());
     }
 
+    @Test(dependsOnMethods = "testDisableMultiConfigurationProjectFromConfigurationPage")
+    public void testEnableDisabledProject(){
+        getDriver().findElement(By.xpath("//*[@id='job_New project']/td[3]/a/span")).click();
+        getDriver().findElement(By.xpath("//*[@id='enable-project']/button")).click();
+
+        Assert.assertEquals(getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).getText(),"Disable Project");
+    }
+
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithDescriptionTest")
     public void testRenameMultiConfigurationProject() {
         getDriver().findElement(By.xpath("//*[@id='job_New project']/td[3]/a/span")).click();
