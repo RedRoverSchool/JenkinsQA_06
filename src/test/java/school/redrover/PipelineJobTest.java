@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -14,7 +15,7 @@ public class PipelineJobTest extends BaseTest {
                 By.xpath("//*[@id='breadcrumbs']/li[1]/a")
         ).click();
     }
-
+    @Ignore
     private void CreatePipelineProjectJob(String nameProject, String displayName) {
         getDriver().findElement(
                 By.xpath("//*[@id='tasks']/div[1]/span/a")

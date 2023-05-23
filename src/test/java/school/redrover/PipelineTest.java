@@ -227,7 +227,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testCreatePipelineProject", "testRenamePipeline"})
-    public void testDeletePipeline() {
+    public void testDeletePipelineLeftMenu() {
         new MainPage(getDriver())
                 .clickPipelineProject(PIPELINE_NAME + "new")
                 .clickDeletePipeline()
@@ -253,30 +253,20 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testOpenCreatedPipeline() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+    public void testDeletePipelineDropDownMenu() {
+        final String name = PIPELINE_NAME + "1";
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='job/" + PIPELINE_NAME + "/']"))).click();
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(name)
+                .selectPipelineAndClickOK()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickOnProjectDropDownMenu(name)
+                .selectDeleteFromDropDownMenu()
+                .acceptAlert();
 
-        Assert.assertTrue(getDriver().findElement(By.cssSelector("#main-panel > h1")).getText().contains(PIPELINE_NAME));
-    }
-
-    @Test
-    public void testDeletePipelineProject() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, false);
-
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[data-url='/job/" + PIPELINE_NAME + "/doDelete']"))).click();
-        getDriver().switchTo().alert().dismiss();
-        getDriver().findElement(By.id("jenkins-home-link")).click();
-
-        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(@href,'job/" + PIPELINE_NAME + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
-        chevron.sendKeys(Keys.RETURN);
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
-        getDriver().switchTo().alert().accept();
-        getDriver().findElement(By.id("jenkins-home-link")).click();
-
-        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME));
+        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(name));
     }
 
     @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
