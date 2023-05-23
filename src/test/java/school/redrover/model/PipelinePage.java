@@ -56,7 +56,7 @@ public class PipelinePage extends BasePage {
         return this;
     }
 
-    public boolean displayedDisableBottom() {
+    public boolean getDisableBotton() {
         return getDriver().findElement(By.xpath("//button[normalize-space()='Disable Project']")).isDisplayed();
     }
 

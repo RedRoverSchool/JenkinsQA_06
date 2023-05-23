@@ -145,7 +145,7 @@ public class PipelineProject5Test extends BaseTest {
                 .clickPipelineProject(projectName)
                 .clickDisableProject()
                 .clickEnableProject();
-        Assert.assertTrue(mainPage.displayedDisableBottom());
+        Assert.assertTrue(mainPage.getDisableBotton());
 
         Assert.assertEquals(mainPage.clickDashboard()
                 .getJobBuildStatusIcon(name), "Not built");
