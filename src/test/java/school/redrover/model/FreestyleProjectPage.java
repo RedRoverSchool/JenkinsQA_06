@@ -85,4 +85,17 @@ public class FreestyleProjectPage extends BasePage {
         return new MainPage(getDriver());
     }
 
+    public String getProjectName() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
+    }
+
+    public boolean isProjectEnableButtonDisplayed() {
+        return getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//button[text() = 'Enable']"))).isDisplayed();
+    }
+
+    public int getBuildsQuantity() {
+        return Arrays.asList(getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//tr[@class = 'build-row multi-line overflow-checked']")))).size();
+    }
 }
