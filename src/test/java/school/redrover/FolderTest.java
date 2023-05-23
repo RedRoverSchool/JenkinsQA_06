@@ -2,11 +2,8 @@ package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -17,11 +14,6 @@ import school.redrover.runner.TestUtils;
 
 public class FolderTest extends BaseTest {
 
-    private static final By SAVE_BUTTON = By.name("Submit");
-    private static final By DASHBOARD_LINK = By.xpath("//div[@id='breadcrumbBar']//a");
-    private static final By DISPLAY_NAME_FIELD = By.name("_.displayNameOrNull");
-    private static final String FOLDER_NAME_1 = "f1";
-
     private void createFolder(String name) {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(name);
@@ -29,48 +21,37 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@class='btn-decorator']")).click();
     }
 
-    private void jsClick(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].click();", element);
-    }
-
     @Test
     public void testCreateNewFolderWithDescription() {
-        String name = "NewFolder";
-        String description = "Created new folder";
+        final String folderName = "f1";
+        final String displayName = "NewFolder";
+        final String description = "Created new folder";
 
-        createFolder(FOLDER_NAME_1);
-        getWait2().until(ExpectedConditions.elementToBeClickable(DISPLAY_NAME_FIELD)).click();
-        getDriver().findElement(DISPLAY_NAME_FIELD).sendKeys(name);
-        WebElement descriptionField = getDriver().findElement(By.name("_.description"));
-        descriptionField.sendKeys(description);
-        getDriver().findElement(SAVE_BUTTON).click();
+        TestUtils.createFolder(this, folderName, false);
+        FolderPage folderPage = new FolderPage(getDriver());
+        folderPage.clickConfigureSideMenu()
+                .enterDisplayName(displayName)
+                .enterDescription(description)
+                .clickSaveButton();
 
-    Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), name);
-    Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]")).getText().contains("Folder name: " + FOLDER_NAME_1));
-    Assert.assertEquals(getDriver().findElement(By.id("view-message")).getText(), description);
+        Assert.assertEquals(folderPage.getFolderDisplayName(), displayName);
+        Assert.assertTrue(folderPage.getFolderName().contains("Folder name: " + folderName));
+        Assert.assertEquals(folderPage.getFolderDescription(), description);
     }
 
     @Test()
     public void testEditFolderName() {
-        String name = "AnotherFolder";
-        String editedName = "NewFolderName";
+        final String name = "AnotherFolder";
+        final String editedName = "NewFolderName";
 
-        createFolder(name);
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD_LINK).click();
+        TestUtils.createFolder(this, name, true);
+        FolderPage folderPage = new MainPage(getDriver())
+                .clickJobDropdownMenu(name)
+                .clickRenameInDropDownMenu()
+                .setNewName(editedName)
+                .clickRenameButton();
 
-        WebElement folderDropdown = getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']/button", name)));
-        jsClick(folderDropdown);
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
-        WebElement newNameField = getDriver().findElement(By.name("newName"));
-        getWait5().until(ExpectedConditions.elementToBeClickable(newNameField)).click();
-        newNameField.clear();
-        newNameField.sendKeys(editedName);
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), editedName);
-        Assert.assertNotEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), name);
+        Assert.assertEquals(folderPage.getFolderDisplayName(), editedName);
     }
 
     @Test

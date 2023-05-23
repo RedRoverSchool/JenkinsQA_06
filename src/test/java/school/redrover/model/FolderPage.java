@@ -88,4 +88,23 @@ public class FolderPage extends BasePage {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
     }
+
+    public String getFolderDisplayName() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='main-panel']/h1"))));
+    }
+
+    public String getFolderName() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))));
+    }
+    public String getFolderDescription() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
+    }
+
+    public FolderConfigPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+        return new FolderConfigPage(getDriver());
+    }
 }

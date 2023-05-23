@@ -198,6 +198,13 @@ public class MainPage extends BasePage {
         return new RenameProjectPage(getDriver());
     }
 
+
+ 
+    public MyViewsPage clickMyViewsSideMenuLink(){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/me/my-views']"))).click();
+        return new MyViewsPage(getDriver());
+    }
+  
     public RestApiPage clickOnRestApiLink(){
         getDriver().findElement(By.xpath("//a[contains(@href,'api')]")).click();
 
@@ -215,4 +222,11 @@ public class MainPage extends BasePage {
         scrollToElementByJavaScript(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
         return this;
     }
+  
+    public RenameFolderPage clickRenameInDropDownMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
+
+        return new RenameFolderPage(getDriver());
+    }
+
 }

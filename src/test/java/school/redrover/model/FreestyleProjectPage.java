@@ -1,5 +1,6 @@
 package school.redrover.model;
 
+import org.apache.hc.client5.http.impl.classic.MainClientExec;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 import java.util.Arrays;
+
+import static org.openqa.selenium.By.cssSelector;
 
 public class FreestyleProjectPage extends BasePage {
 
@@ -34,13 +37,13 @@ public class FreestyleProjectPage extends BasePage {
     }
 
     public FreestyleProjectPage selectBuildNow() {
-        getDriver().findElement(By.cssSelector("[href*='build?']")).click();
+        getDriver().findElement(cssSelector("[href*='build?']")).click();
         return this;
     }
 
     public BuildPage selectBuildItemTheHistoryOnBuildPage() {
         getWait10().until(ExpectedConditions
-                .visibilityOfElementLocated(By.cssSelector("[href$='console']"))).click();
+                .visibilityOfElementLocated(cssSelector("[href$='console']"))).click();
         return new BuildPage(getDriver());
     }
 
@@ -77,6 +80,11 @@ public class FreestyleProjectPage extends BasePage {
     public boolean isProjectDisabledButtonDisplayed() {
 
         return projectDisabledButton.isDisplayed();
+    }
+
+    public MainPage clickDashboard() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Dashboard"))).click();
+        return new MainPage(getDriver());
     }
 
     public String getProjectName() {
