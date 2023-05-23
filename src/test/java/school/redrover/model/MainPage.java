@@ -63,7 +63,6 @@ public class MainPage extends BasePage {
 
     public MainPage clickJobDropdownMenu(String jobName) {
         WebElement projectName = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='job/" + jobName + "/']")));
-        //WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/" + jobName + "/']"));
         Actions action = new Actions(getDriver());
         action.moveToElement(projectName).perform();
         projectName.click();
@@ -138,5 +137,17 @@ public class MainPage extends BasePage {
     public MainPage acceptAlert() {
         getDriver().switchTo().alert().accept();
         return this;
+    }
+
+    public MainPage clickDropDownMenuFolderName(String nameFolder) {
+        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+        chevron.sendKeys(Keys.RETURN);
+        return this;
+    }
+
+    public MovePage selectMoveFromDropDownMenu() {
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
+        return new MovePage(getDriver());
     }
 }
