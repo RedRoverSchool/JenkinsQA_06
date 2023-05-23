@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import school.redrover.model.base.BasePage;
 
 import java.time.Duration;
@@ -18,6 +19,9 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
+
+    @FindBy(css = ".login>a.model-link")
+    private WebElement adminLink;
 
     private void openJobDropDownMenu(String jobName) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
@@ -229,4 +233,34 @@ public class MainPage extends BasePage {
         return new RenameFolderPage(getDriver());
     }
 
+    public MainPage hoverOverAdminLink() {
+        Actions act = new Actions(getDriver());
+        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector(".login>a.model-link")));
+        act.moveToElement(adminLink).perform();
+        return this;
+    }
+
+    public String getTextDecorationValue() {
+        return adminLink.getCssValue("text-decoration");
+    }
+
+    public void openAdminDropdownMenu() {
+        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//a[@href='/user/admin']/button")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", dropDownMenu);
+    }
+
+    public MainPage openTabFromAdminDropdownMenu(By buttonLocator, By pageLocator) {
+        openAdminDropdownMenu();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
+
+        WebElement page = getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
+
+        Assert.assertTrue(page.isDisplayed());
+
+        return this;
+    }
 }
