@@ -160,4 +160,8 @@ public class MainPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
         return new RenameProjectPage(getDriver());
     }
+
+    public WebElement restApiLink(){
+        return getDriver().findElement(By.xpath("//a[contains(@href,'api')]"));
+    }
 }

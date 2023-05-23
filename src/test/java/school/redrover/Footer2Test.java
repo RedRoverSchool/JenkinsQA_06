@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.RestApiPage;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
 
@@ -14,12 +16,9 @@ public class Footer2Test extends BaseTest {
 
     @Test
     public void testRestApiLink() {
-        getDriver().findElement(By.xpath("//a[contains(@href,'api')]")).click();
+       new MainPage(getDriver()).restApiLink().click();
 
-        WebElement restApiPage =getDriver().findElement(By.xpath("//h1"));
-
-        getWait2().until(ExpectedConditions.visibilityOf(restApiPage));
-        Assert.assertEquals(restApiPage.getText(),"REST API");
+        Assert.assertEquals(new RestApiPage(getDriver()).restApiPageTitle().getText(),"REST API");
     }
 
     @Ignore
