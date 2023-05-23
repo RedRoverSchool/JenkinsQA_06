@@ -150,4 +150,10 @@ public class MainPage extends BasePage {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
         return new MovePage(getDriver());
     }
+
+    public MainPage getMultiConfigPage() {
+        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector(".jenkins-table__link")))).click();
+        return this;
+    }
 }
