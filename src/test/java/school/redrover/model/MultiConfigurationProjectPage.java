@@ -47,4 +47,14 @@ public class MultiConfigurationProjectPage extends BasePage {
     public WebElement getEnableSwitch (){
     return getDriver().findElement(By.xpath("//button[text () = 'Enable']"));
     }
+
+    public MultiConfigurationProjectPage getEnableClick() {
+        getDriver().findElement(By.xpath("//button[text () = 'Enable']")).click();
+        return this;
+    }
+
+    public WebElement getDisableSwitch (){
+        return getDriver().findElement(By.xpath("//button[text () = 'Disable Project']"));
+    }
+
 }
