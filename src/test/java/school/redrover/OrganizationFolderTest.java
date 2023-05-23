@@ -8,10 +8,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
-import school.redrover.runner.TestUtils;
 
 public class OrganizationFolderTest extends BaseTest {
 
@@ -61,14 +59,21 @@ public class OrganizationFolderTest extends BaseTest {
         final String nameFolder = RandomStringUtils.randomAlphanumeric(8);
         final String nameOrganizationFolder = nameFolder + "Organization";
 
-        TestUtils.createFolder(this, nameFolder, true);
+        WebElement createdOrganizationFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameFolder)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .clickNewItem()
+                .enterItemName(nameOrganizationFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedFolder(nameOrganizationFolder);
 
-        new MainPage(getDriver())
-                .clickFolderName(nameFolder);
-
-        TestUtils.createOrganizationFolder(this, nameOrganizationFolder, false);
-
-        Assert.assertTrue(new FolderPage(getDriver()).getFolderDisplayName().contains(nameOrganizationFolder));
+        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
     }
 }
-

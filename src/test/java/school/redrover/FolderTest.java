@@ -131,7 +131,7 @@ public class FolderTest extends BaseTest {
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderOne)
-                .getNestedFolderName(folderTwo);
+                .getNestedFolder(folderTwo);
 
         Assert.assertTrue(folderName.isDisplayed());
     }

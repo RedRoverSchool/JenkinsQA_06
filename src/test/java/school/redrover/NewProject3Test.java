@@ -90,7 +90,7 @@ public class NewProject3Test extends BaseTest {
         mainPage.clickNewItem()
                 .enterItemName(nameFolder)
                 .selectOrganizationFolderAndOk()
-                .projectSave();
+                .clickSaveButton();
         new BreadcrumbBarComponent(getDriver()).selectDashboard();
 
         Assert.assertEquals(mainPage.getFolderName().getText(), nameFolder);
