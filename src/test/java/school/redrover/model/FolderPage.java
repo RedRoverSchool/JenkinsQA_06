@@ -3,7 +3,6 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
@@ -16,12 +15,6 @@ public class FolderPage extends BasePage {
     public FolderPage configure(){
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(2)")).click();
         return this;
-    }
-
-    public FolderConfigPage clickConfigureSideMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
-        return new FolderConfigPage(getDriver());
     }
 
     public NewJobPage newItem(){
@@ -86,6 +79,16 @@ public class FolderPage extends BasePage {
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
 
+    public MainPage clickDashboard() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
+        return new MainPage(getDriver());
+    }
+
+    public WebElement getNestedFolderName(String nameFolder) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+    }
+
     public String getFolderDisplayName() {
 
         return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
@@ -100,5 +103,11 @@ public class FolderPage extends BasePage {
     public String getFolderDescription() {
 
         return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
+    }
+
+    public FolderConfigPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+        return new FolderConfigPage(getDriver());
     }
 }

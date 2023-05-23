@@ -140,6 +140,18 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    public MainPage clickDropDownMenuFolderName(String nameFolder) {
+        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+        chevron.sendKeys(Keys.RETURN);
+        return this;
+    }
+
+    public MovePage selectMoveFromDropDownMenu() {
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
+        return new MovePage(getDriver());
+    }
+
     public RenameFolderPage clickRenameInDropDownMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
 
