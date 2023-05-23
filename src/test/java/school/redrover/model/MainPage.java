@@ -121,4 +121,10 @@ public class MainPage extends BasePage {
         click(newItemButton);
         return new ViewPage(getDriver());
     }
+
+    public RenameFolderPage clickRenameInDropDownMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
+
+        return new RenameFolderPage(getDriver());
+    }
 }
