@@ -173,4 +173,10 @@ public class MainPage extends BasePage {
         return new MovePage(getDriver());
 
     }
+
+    public MainPage scrollToRestApiInFooter() {
+        scrollToElementByJavaScript(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
+        return this;
+    }
+
 }
