@@ -173,4 +173,10 @@ public class MainPage extends BasePage {
         return new MovePage(getDriver());
 
     }
+
+    public RenameFolderPage clickRenameInDropDownMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
+
+        return new RenameFolderPage(getDriver());
+    }
 }

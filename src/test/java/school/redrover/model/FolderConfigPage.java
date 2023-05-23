@@ -12,15 +12,15 @@ public class FolderConfigPage extends BasePage {
         super(driver);
     }
 
-    public FolderConfigPage interDisplayName(String displayName) {
+    public FolderConfigPage enterDisplayName(String displayName) {
         WebElement inputDisplayName = getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']"));
         inputDisplayName.click();
         inputDisplayName.sendKeys(displayName);
         return this;
     }
 
-    public FolderConfigPage interDescription(String description) {
-        WebElement inputDescription = getDriver().findElement(By.xpath("//input[@name='_.description']"));
+    public FolderConfigPage enterDescription(String description) {
+        WebElement inputDescription = getDriver().findElement(By.xpath("//textarea[@name='_.description']"));
         inputDescription.click();
         inputDescription.sendKeys(description);
         return this;
