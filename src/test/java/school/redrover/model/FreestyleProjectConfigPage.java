@@ -11,7 +11,7 @@ public class FreestyleProjectConfigPage extends BasePage {
         super(driver);
     }
 
-    public FreestyleProjectPage projectSave() {
+    public FreestyleProjectPage clickSave() {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return new FreestyleProjectPage(getDriver());
     }

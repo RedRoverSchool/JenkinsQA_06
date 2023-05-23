@@ -5,8 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.ViewPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -30,20 +32,6 @@ public class MyViewsTest extends BaseTest {
 
             Assert.assertTrue(td.getText().contains("First Project"));
         }
-    }
-
-    @Ignore
-    @Test
-    public void testAddDescription() {
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test");
-        getDriver()
-                .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
-
-        WebElement description = getDriver().findElement(By.cssSelector("div#description"));
-
-        Assert.assertEquals(description.getText().trim().substring(0, 4), "Test");
     }
 
     @Ignore
@@ -156,5 +144,19 @@ public class MyViewsTest extends BaseTest {
         getDriver().findElement(By.name("Submit")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath(DESCRIPTION_FIELD)).getText(), "Old description");
+    }
+    @DataProvider(name = "description")
+    public Object [][] provideDescription() {
+        return new Object[][]
+                {{"Description first"},{"Description second"}};
+    }
+    @Test(dataProvider = "description")
+    public void testAddDescription(String desc) {
+        ViewPage viewPage = new ViewPage(getDriver());
+        viewPage.clickAddDescription().
+                inputDescText(desc).
+                saveDescription();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[normalize-space()='"+desc+"']")).isDisplayed());
     }
 }

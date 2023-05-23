@@ -1,12 +1,15 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
+import java.util.List;
 
 public class FreestyleProjectAllTest extends BaseTest {
     private final String projectName = "My Freestyle Project";
@@ -59,5 +62,45 @@ public class FreestyleProjectAllTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
                 "Project " + projectName);
         Assert.assertTrue(getDriver().findElement(By.linkText("Build Now")).isDisplayed(), "The 'Build Now' button is not displayed");
+    }
+
+    @Test
+    public void testVisibleProjectNameAndDescriptionFromViewPage() {
+        final String description = "This is a description for My Freestyle Project";
+
+        TestUtils.createFreestyleProject(this, projectName, false);
+
+        getDriver().findElement(By.linkText("Add description")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name = 'description']")))
+                .sendKeys(description);
+        getDriver().findElement(By.name("Submit")).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
+        getDriver().findElement(By.linkText(projectName)).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Project " + projectName);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[contains(text(),'" + description + "')]")).getText(),
+                description);
+    }
+
+    @Test
+    public void testDisableFreestyleProject() {
+        TestUtils.createFreestyleProject(this, projectName, false);
+
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+
+        String actualWarning = getDriver().findElement(By.xpath("//form[@id='enable-project']")).getText();
+        actualWarning = actualWarning.substring(0, actualWarning.length() - "Enable".length() - 1);
+
+        List<WebElement> projectActions = getDriver().findElements(By.xpath("//*[@class='task ']//a"));
+
+        Assert.assertEquals(actualWarning, "This project is currently disabled");
+        for (WebElement actualPossibilityBuildProject : projectActions) {
+            Assert.assertNotEquals(actualPossibilityBuildProject.getText(), "Build Now",
+                    "The 'Build Now' button is displayed");
+        }
+        Assert.assertTrue(getDriver().findElement(By.xpath("//button[contains(text(),'Enable')]")).isDisplayed(),
+                "The 'Enable' button is not displayed");
     }
 }
