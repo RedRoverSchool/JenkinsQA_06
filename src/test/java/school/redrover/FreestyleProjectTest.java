@@ -53,18 +53,16 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testEnableProject() {
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
+        MainPage projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickTheDisableProjectButton()
+                .clickTheEnableProjectButton()
+                .clickDashboard();
 
-        getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary ")).click();
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']")).getAttribute("tooltip"), "Not built");
+        Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
     @Ignore
