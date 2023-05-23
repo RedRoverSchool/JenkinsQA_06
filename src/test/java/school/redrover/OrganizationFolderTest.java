@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -7,7 +8,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class OrganizationFolderTest extends BaseTest {
 
@@ -51,4 +55,20 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(actualRenamedFolderName, expectedRenamedFolderName);
     }
+
+    @Test
+    public void testCreateOrganizationFolderInFolder() {
+        final String nameFolder = RandomStringUtils.randomAlphanumeric(8);
+        final String nameOrganizationFolder = nameFolder + "Organization";
+
+        TestUtils.createFolder(this, nameFolder, true);
+
+        new MainPage(getDriver())
+                .clickFolderName(nameFolder);
+
+        TestUtils.createOrganizationFolder(this, nameOrganizationFolder, false);
+
+        Assert.assertTrue(new FolderPage(getDriver()).getFolderDisplayName().contains(nameOrganizationFolder));
+    }
 }
+

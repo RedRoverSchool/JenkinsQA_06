@@ -92,7 +92,6 @@ public class MainPage extends BasePage {
     }
 
     public MainPage selectJobDropdownMenuDelete() {
-        //getDriver().findElement(By.xpath("//a[contains(@data-message, 'Delete')]")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@data-message, 'Delete')]"))).click();
         getDriver().switchTo().alert().accept();
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
@@ -140,13 +139,6 @@ public class MainPage extends BasePage {
         return new ViewPage(getDriver());
     }
 
-    public MainPage clickOnProjectDropDownMenu(String projectName) {
-        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(@href,'job/" + projectName + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
-        chevron.sendKeys(Keys.RETURN);
-        return this;
-    }
-
     public MainPage selectDeleteFromDropDownMenu() {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
         return this;
@@ -157,7 +149,7 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public MainPage clickDropDownMenuFolderName(String nameFolder) {
+    public MainPage clickOnProjectDropDownMenu(String nameFolder) {
         WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
         chevron.sendKeys(Keys.RETURN);
@@ -198,8 +190,6 @@ public class MainPage extends BasePage {
         return new RenameProjectPage(getDriver());
     }
 
-
- 
     public MyViewsPage clickMyViewsSideMenuLink(){
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/me/my-views']"))).click();
         return new MyViewsPage(getDriver());
