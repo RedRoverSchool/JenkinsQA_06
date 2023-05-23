@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -8,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.model.ViewPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -16,21 +18,24 @@ import java.util.List;
 
 public class MyViewsTest extends BaseTest {
 
+    private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
+
     @Test
     public void testCreateAJobInThePageMyViews() {
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
-        getDriver().findElement(By.id("name")).sendKeys("First Project");
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
+        new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJob()
+                .enterAnItemName(NEW_VIEW_NAME_RANDOM)
+                .clickFreestyleProject()
+                .clickOkButton()
+                .clickSaveButton()
+                .clickOnDashboardPage()
+                .clickOnNewJob();
 
         List<WebElement> table = getDriver().findElements(By.xpath("//tr[@class =' job-status-nobuilt']/td"));
         for (WebElement td : table) {
 
-            Assert.assertTrue(td.getText().contains("First Project"));
+            Assert.assertTrue(td.getText().contains(NEW_VIEW_NAME_RANDOM));
         }
     }
 

@@ -186,12 +186,25 @@ public class MainPage extends BasePage {
         return new MovePage(getDriver());
     }
 
+    public MainPage getMultiConfigPage() {
+        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector(".jenkins-table__link")))).click();
+        return this;
+    }
+
     public RenameProjectPage selectRenameJobDropDownMenu(String jobName){
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
         return new RenameProjectPage(getDriver());
     }
 
+
+ 
+    public MyViewsPage clickMyViewsSideMenuLink(){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/me/my-views']"))).click();
+        return new MyViewsPage(getDriver());
+    }
+  
     public RestApiPage clickOnRestApiLink(){
         getDriver().findElement(By.xpath("//a[contains(@href,'api')]")).click();
 
@@ -208,6 +221,12 @@ public class MainPage extends BasePage {
     public MainPage scrollToRestApiInFooter() {
         scrollToElementByJavaScript(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
         return this;
+    }
+  
+    public RenameFolderPage clickRenameInDropDownMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
+
+        return new RenameFolderPage(getDriver());
     }
 
     public MultiConfigurationProjectPage clickJobWebElement(String jobName) {

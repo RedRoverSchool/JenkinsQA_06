@@ -21,7 +21,6 @@ public class PipelinePage extends BasePage {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText();
     }
 
-
     public PipelinePage clickRename() {
         getDriver().findElement(By.xpath("//a[contains(@href, '/confirm-rename')]")).click();
         return this;
@@ -45,6 +44,20 @@ public class PipelinePage extends BasePage {
     public PipelinePage clickDeletePipeline() {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@data-url,'/doDelete')]"))).click();
         return this;
+    }
+
+    public PipelinePage clickDisableProject() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[normalize-space()='Disable Project']"))).click();
+        return this;
+    }
+
+    public PipelinePage clickEnableProject() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[normalize-space()='Enable']"))).click();
+        return this;
+    }
+
+    public boolean getDisableBotton() {
+        return getDriver().findElement(By.xpath("//button[normalize-space()='Disable Project']")).isDisplayed();
     }
 
     public MainPage acceptAlert() {
