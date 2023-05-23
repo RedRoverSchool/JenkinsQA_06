@@ -60,6 +60,21 @@ public class Folder4Test extends BaseTest {
                 "error was not show new name folder");
     }
 
+    @Test(dependsOnMethods = {"testCreateFolder"})
+    public void testAddDisplayNameAndDescription() {
+        final String displayName = "TestDisplayName";
+        final String description = "TestDescription";
+
+        new MainPage(getDriver())
+                .selectConfigureJobDropDownMenu(FOLDER_NAME)
+                .enterDisplayName(displayName)
+                .enterDescription(description)
+                .saveProjectAndGoToFolderPage();
+
+        Assert.assertEquals(new FolderPage(getDriver()).getFolderDisplayName(), displayName);
+        Assert.assertEquals(new FolderPage(getDriver()).getFolderDescription(), description);
+    }
+
     @Test
     public void testMoveFolderToFolder(){
         final String folder2Name = "newTestName";
@@ -78,20 +93,4 @@ public class Folder4Test extends BaseTest {
                 getDriver().findElement(By.xpath("//a[contains(text(),'" + FOLDER_NAME + "')]")).isDisplayed(),
                 "error was not shown moved folder");
     }
-
-    @Test(dependsOnMethods = {"testCreateFolder"})
-    public void testAddDisplayNameAndDescription() {
-        final String displayName = "TestDisplayName";
-        final String description = "TestDescription";
-
-        new MainPage(getDriver())
-                .selectConfigureJobDropDownMenu(FOLDER_NAME)
-                .enterDisplayName(displayName)
-                .enterDescription(description)
-                .saveProjectAndGoToFolderPage();
-
-        Assert.assertEquals(new FolderPage(getDriver()).getFolderDisplayName(), displayName);
-        Assert.assertEquals(new FolderPage(getDriver()).getFolderDescription(), description);
-    }
-
 }
