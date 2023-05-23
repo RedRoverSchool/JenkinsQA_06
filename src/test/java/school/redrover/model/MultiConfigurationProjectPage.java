@@ -71,7 +71,6 @@ public class MultiConfigurationProjectPage extends BasePage {
         return this;
     }
 
-
     public WebElement getTextDisable (){
 
        return getWait5().until(ExpectedConditions.elementToBeClickable

@@ -83,5 +83,4 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(configPage.getText(),"Enabled");
     }
-
 }
