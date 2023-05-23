@@ -1,31 +1,16 @@
 package school.redrover;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.NewJobPage;
 import school.redrover.model.PipelinePage;
-import school.redrover.model.ProjectPage;
 import school.redrover.runner.BaseTest;
-import school.redrover.runner.TestUtils;
 
 public class PipelineProject7Test extends BaseTest {
-    private String name1 = "ProjectPipeline";
-
-    @Test
-    public void testCreatePipelineProject() {
-        TestUtils.createPipeline(this, name1, true);
-
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//tr[@id='job_" + name1 + "']//a//span['" + name1 + "']"))
-                .getText(), name1);
-    }
+    private final String pipelineProjectName = "ProjectPipeline";
 
     @Test
     public void testCreatePipelineProjectNewItem() {
@@ -33,11 +18,11 @@ public class PipelineProject7Test extends BaseTest {
                 .clickNewItem();
 
         PipelinePage pipelinePage = new NewJobPage(getDriver())
-                .enterItemName(name1)
+                .enterItemName(pipelineProjectName)
                 .selectPipelineAndOk()
                 .clickSaveButton();
 
-        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + name1);
+        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + pipelineProjectName);
     }
 
     @DataProvider(name = "wrong-characters")
@@ -47,67 +32,52 @@ public class PipelineProject7Test extends BaseTest {
 
     @Test(dataProvider = "wrong-characters")
     public void testWrongCharactersBeforeNameProject(String wrongCharacters) {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.id("name"))).sendKeys(wrongCharacters);
-
-        Assert.assertEquals(getDriver()
-                .findElement(By.id("itemname-invalid"))
-                .getText(), "» ‘" + wrongCharacters + "’ is an unsafe character");
-
-        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
-
-        getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(wrongCharacters);
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(),"» ‘" + wrongCharacters + "’ is an unsafe character");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled());
     }
 
     @Test
     public void testDotBeforeNameProject() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.id("name"))).sendKeys(".");
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(".");
 
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid"))
-                .getText(), "» “.” is not an allowed name");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
     }
+
     @Test
-    public void testCreatePipelineDashboardArrowNewItem(){
-        new Actions(getDriver()).moveToElement(getDriver().findElement(
-                By.xpath("//div[@id = 'breadcrumbBar']//a"))).perform();
+    public void testCreatePipelineDashboardSliderNewItem(){
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickOnSliderDashboardInDropDownMenu()
+                .clickNewItemInDashboardDropDownMenu();
 
-        WebElement arrow = getDriver().findElement(By.xpath("//div[@id = 'breadcrumbBar']//button"));
-        new Actions(getDriver()).moveToElement(arrow).perform();
-        arrow.sendKeys(Keys.RETURN);
+        PipelinePage PipelinePage = new NewJobPage(getDriver())
+                .enterItemName(pipelineProjectName)
+                .selectPipelineAndOk()
+                .clickSaveButton();
 
-        getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
-                .click();
+        MainPage mainPage = new PipelinePage(getDriver())
+                .clickDashboard();
 
-        getWait2().until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//input[@id = 'name']"))).sendKeys(name1);
-        getDriver().findElement(By.xpath("//span[text() = 'Pipeline']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
-
-        getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumbBar']//a"))).click();
-
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//tr[@id='job_" + name1 + "']//a//span['" + name1 + "']"))
-                .getText(), name1);
+        Assert.assertEquals(mainPage.getProjectNameMainPage(pipelineProjectName), pipelineProjectName);
     }
+
     @Test
     public void testCreateAJobPipeline(){
-        getDriver().findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']")).click();
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickCreateAJob();
 
-        getWait2().until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//input[@id = 'name']"))).sendKeys(name1);
-        getDriver().findElement(By.xpath("//span[text() = 'Pipeline']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
+        PipelinePage PipelinePage = new NewJobPage(getDriver())
+                .enterItemName(pipelineProjectName)
+                .selectPipelineAndOk()
+                .clickSaveButton();
 
-        getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumbBar']//a"))).click();
+        MainPage mainPage = new PipelinePage(getDriver())
+                .clickDashboard();
 
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//tr[@id='job_" + name1 + "']//a//span['" + name1 + "']"))
-                .getText(), name1);
+        Assert.assertEquals(mainPage.getProjectNameMainPage(pipelineProjectName), pipelineProjectName);
     }
 }

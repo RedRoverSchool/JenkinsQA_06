@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
 public class FooterTest extends BaseTest {
@@ -46,15 +47,11 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testVerifyJenkinsVersionOnManageJenkinsPage() {
-        getDriver().findElement(By.xpath("//span[contains(text(),'Manage Jenkins')]/..")).click();
+        ManageJenkinsPage manageJenkinsPage = new ManageJenkinsPage(getDriver())
+                .navigateToManageJenkinsPage()
+                        .scrollToFooterPageByJenkinsVersionBTN();
 
-        new Actions(getDriver())
-                .scrollToElement(getDriver().findElement(
-                        By.xpath("//div[@class='page-footer__flex-row']//a[@rel='noopener noreferrer']"))).perform();
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//div[@class='page-footer__flex-row']//a[@rel='noopener noreferrer']")).getText(),
-                "Jenkins 2.387.2", "Wrong version Jenkins");
+        Assert.assertTrue(manageJenkinsPage.getVersionJenkinsFromFooter(), "Wrong version Jenkins");
     }
 
     @Test

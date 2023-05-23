@@ -1,7 +1,9 @@
 package school.redrover.model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BasePage;
 
@@ -34,5 +36,23 @@ public class ViewPage extends BasePage {
     public ConfigurePage clickSaveButton() {
         click(saveButton);
         return new ConfigurePage(getDriver());
+    }
+
+    public ViewPage clickAddDescription() {
+        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+        return this;
+    }
+
+    public ViewPage inputDescText(String desc) {
+        new Actions(getDriver()).
+                click(getDriver().findElement(By.xpath("//textarea[@name='description']"))).
+                sendKeys(desc).
+                perform();
+        return this;
+    }
+
+    public ViewPage saveDescription() {
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        return this;
     }
 }
