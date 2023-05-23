@@ -13,9 +13,9 @@ public class MultiConfigProject26Test extends BaseTest {
     public void testCreate() {
 
         WebElement projectName = new MainPage(getDriver())
-                .newItem()
+                .clickNewItem()
                 .enterItemName(NAME_MULTICONFIG_PROJECT)
-                .selectMultiConfigurationProject()
+                .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage()
                 .navigateToHomePageUsingJenkinsIcon()
                 .getProjectName();
