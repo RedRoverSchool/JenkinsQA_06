@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import school.redrover.model.base.BasePage;
 
 import java.util.List;
@@ -18,12 +17,6 @@ public class ManagePage extends BasePage {
 
     private static final String NEW_USER_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By SEARCH_SETTINGS = By.id("settings-search-bar");
-    private static final By LIST_ELEMENTS;
-
-    static {
-        LIST_ELEMENTS = By.xpath("//div[@class='jenkins-section__item']//dt");
-    }
-
 
     public ManagePage navigateToManagePage() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
@@ -43,10 +36,10 @@ public class ManagePage extends BasePage {
     }
 
     public ManagePage assertNoResultsDisplayed() {
-        Assert.assertEquals("No results", getDriver().findElement
-                (By.xpath(" //div[@class='jenkins-search__results']")).getText());
-        return this;
-    }
+        Assert.assertEquals("No results",
+                getDriver().findElement(By.xpath(" //div[@class='jenkins-search__results']")).getText());
+       return new ManagePage(getDriver());
+        }
 
     public ManagePage selectOnTheFirstLineInDropdown() {
 
@@ -179,109 +172,28 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public void clickConfigureMasterNode() {
+    public ManagePage clickConfigureMasterNode() {
         getDriver().findElement(By.xpath("//a[@class='jenkins-table__button']//*[name()='svg']")).click();
+        return this;
     }
+
 
     public ManagePage changeNumberOfExecutorsAndSave(String number) {
         WebElement changeNumber = getDriver().findElement(By.name("_.numExecutors"));
         changeNumber.clear();
         changeNumber.sendKeys(number);
         getDriver().findElement(By.name("Submit")).click();
-        return this;
+        return new ManagePage(getDriver());
     }
 
-    public void navigateToMasterNodeConfiguration() {
+    public ManagePage navigateToMasterNodeConfiguration() {
         getDriver().findElement(By.xpath("//a[@href='/manage/computer/(built-in)/configure']")).click();
-    }
-
-    public void assertNumberOfExecutors(String expectedNumber) {
-        Assert.assertEquals(expectedNumber, getDriver().findElement(By.name("_.numExecutors")).getAttribute("value"));
-    }
-
-    public class TestData {
-        @DataProvider(name = "KeyWordsToSearch")
-        public static Object[][] searchWordsKey() {
-            return new Object[][]{{"manage"}, {"tool"}, {"system"}, {"sec"}, {"cre"}, {"do"}, {"scr"}, {"jen"}, {"stat"}};
-        }
-    }
-
-    public void testSearchSettingsByWord(String keyword) {
-        navigateToManageUsersPage();
-        enterKeywordInSearch(keyword);
-        List<WebElement> actualResults = getSearchResults();
-        List<WebElement> expectedSearchResults = getExpectedSearchResults(keyword);
-        verifySearchResults(actualResults, expectedSearchResults);
-    }
-
-
-    public ManagePage enterKeywordInSearch(String keyword) {
-        WebElement searchLink = getDriver().findElement(By.xpath("//input[@id='settings-search-bar']"));
-        searchLink.click();
-        searchLink.sendKeys(keyword);
-        getWait5().until(ExpectedConditions.textToBePresentInElementValue(searchLink, keyword));
         return this;
     }
 
-
-    private List<WebElement> getSearchResults() {
-        return getWait5().until(ExpectedConditions.presenceOfAllElementsLocatedBy(
-                By.xpath("//div[@class='jenkins-search__results']//a")));
-    }
-
-    private List<WebElement> getExpectedSearchResults(String keyword) {
-        List<WebElement> listElements = getDriver().findElements(
-                By.xpath("//div[@class='jenkins-section__item']//dt"));
-        return listElements.stream()
-                .filter(item -> item.getText().toLowerCase().contains(keyword))
-                .toList();
-    }
-
-    public ManagePage verifySearchResults(List<WebElement> actualResults, List<WebElement> expectedResults) {
-        for (int i = 0; i < expectedResults.size(); i++) {
-            Assert.assertEquals(actualResults.get(i).getText(), expectedResults.get(i).getText());
-        }
+    public ManagePage assertNumberOfExecutors(String expectedNumber) {
+        Assert.assertEquals(expectedNumber, getDriver().findElement(By.name("_.numExecutors")).getAttribute("value"));
         return this;
     }
 }
-
-
-
-//    public List<WebElement> getListElements() {
-//        return getDriver().findElements(By.xpath("//div[@class='jenkins-section__item']//dt"));
-//    }
-//
-//    public ManagePage getSearchLink(String keyword) {
-//        WebElement searchLink = getDriver().findElement(By.xpath("//input[@id='settings-search-bar']"));
-//        searchLink.click();
-//        searchLink.sendKeys(keyword);
-//
-//        getWait5().until(ExpectedConditions.textToBePresentInElementValue(searchLink, keyword));
-//        return this;
-//    }
-//
-//
-//    public ManagePage getSearchResults() {
-//       getWait5().until(ExpectedConditions.presenceOfAllElementsLocatedBy
-//                (By.xpath("//div[@class='jenkins-search__results']//a")));
-//        return this;
-//    }
-//
-//    public ManagePage filterExpectedSearchResults(List<WebElement> listElements, String keyword) {
-//        getListElements().stream()
-//                 .filter(item -> item.getText().toLowerCase().contains(keyword))
-//                .toList();
-//        return this;
-//    }
-//
-//    public ManagePage assertSearchResults(List<WebElement> actualResults, List<WebElement> expectedSearchResults) {
-//        for (int i = 0; i < expectedSearchResults.size(); i++) {
-//            Assert.assertEquals(actualResults.get(i).getText(), expectedSearchResults.get(i).getText());
-//            return this;
-//        }
-//        return this;
-//    }
-
-
-
 
