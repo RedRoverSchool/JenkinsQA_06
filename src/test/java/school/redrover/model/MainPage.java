@@ -1,9 +1,6 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,6 +18,13 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
+
+    private void openJobDropDownMenu(String jobName) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        new Actions(getDriver()).moveToElement(getJobInList(jobName)).perform();
+        WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
+        js.executeScript("arguments[0].click();", arrow);
+    }
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -149,5 +153,11 @@ public class MainPage extends BasePage {
     public MovePage selectMoveFromDropDownMenu() {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
         return new MovePage(getDriver());
+    }
+
+    public RenameProjectPage selectJobDropDownMenuRename(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
+        return new RenameProjectPage(getDriver());
     }
 }
