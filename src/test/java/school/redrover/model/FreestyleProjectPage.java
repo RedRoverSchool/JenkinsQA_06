@@ -16,6 +16,16 @@ public class FreestyleProjectPage extends BasePage {
     @FindBy(id = "description-link")
     private WebElement addDescriptionButton;
 
+    @FindBy(id = "enable-project")
+    private WebElement warningMessage;
+
+    @FindBy(xpath = "//*[@id='disable-project']/button")
+    private WebElement projectDisabledButton;
+
+    @FindBy(xpath = "//*[@id='jenkins-head-icon']")
+    private WebElement jenkinsIconButton;
+
+
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(getDriver(), this);
@@ -52,4 +62,19 @@ public class FreestyleProjectPage extends BasePage {
         addDescriptionButton.click();
         return new FreestyleProjectConfigPage(getDriver());
     }
+
+    public MainPage navigateToMainPageViaJenkinsIcon() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(jenkinsIconButton)).click();
+        return new MainPage(getDriver());
+    }
+
+    public String getWarningMessage() {
+        return warningMessage.getText().substring(0, warningMessage.getText().indexOf("\n"));
+    }
+
+    public boolean isProjectDisabledButtonDisplayed() {
+
+        return projectDisabledButton.isDisplayed();
+    }
+
 }

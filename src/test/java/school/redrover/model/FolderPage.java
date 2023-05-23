@@ -73,4 +73,19 @@ public class FolderPage extends BasePage {
     public WebElement getHeading1() {
         return getDriver().findElement(By.xpath("//h1"));
     }
+
+    public WebElement getMultibranchPipelineName() {
+        return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector(".jenkins-table__link"))));
+    }
+
+    public MainPage clickDashboard() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
+        return new MainPage(getDriver());
+    }
+
+    public WebElement getNestedFolderName(String nameFolder) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+    }
 }
