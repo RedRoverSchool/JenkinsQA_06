@@ -22,4 +22,9 @@ public class RenameProjectPage extends BasePage {
         getDriver().findElement(By.name("Submit")).click();
         return new ProjectPage(getDriver());
     }
+
+    public FolderPage SubmitNewNameFolder() {
+        getDriver().findElement(By.name("Submit")).click();
+        return new FolderPage(getDriver());
+    }
 }

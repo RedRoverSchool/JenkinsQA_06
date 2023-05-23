@@ -12,6 +12,8 @@ public class ManageJenkinsPage extends MainPage {
         super(driver);
     }
 
+    private static final By JENKINS_VERSION_BTN = By.xpath("//div[@class='page-footer__flex-row']//a[@rel='noopener noreferrer']");
+
     public ManageJenkinsPage inputToSearchField(String text) {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("settings-search-bar"))).sendKeys(text);
         return new ManageJenkinsPage(getDriver());
@@ -23,4 +25,16 @@ public class ManageJenkinsPage extends MainPage {
         action.moveToElement(searchResultDropdown).perform();
         return searchResultDropdown.getText();
     }
+
+    public ManageJenkinsPage scrollToFooterPageByJenkinsVersionBTN() {
+        new Actions(getDriver())
+                .scrollToElement(getDriver().findElement(JENKINS_VERSION_BTN))
+                .perform();
+        return this;
+    }
+
+    public boolean getVersionJenkinsFromFooter(){
+        return getDriver().findElement(JENKINS_VERSION_BTN).getText().equals("Jenkins 2.387.2");
+    }
+
 }
