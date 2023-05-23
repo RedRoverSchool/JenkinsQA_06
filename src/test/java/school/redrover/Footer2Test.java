@@ -16,9 +16,9 @@ public class Footer2Test extends BaseTest {
 
     @Test
     public void testRestApiLink() {
-       new MainPage(getDriver()).clickOnRestApiLink();
+      String restApiTitle = new MainPage(getDriver()).clickOnRestApiLink().getRestApiPageTitle();
 
-        Assert.assertEquals(new RestApiPage(getDriver()).getRestApiPageTitle(),"REST API");
+        Assert.assertEquals(restApiTitle,"REST API");
     }
 
     @Ignore
