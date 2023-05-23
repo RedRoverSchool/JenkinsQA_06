@@ -160,4 +160,9 @@ public class MainPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
         return new RenameProjectPage(getDriver());
     }
+
+    public MyViewsPage clickMyViewsSideMenuLink(){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/me/my-views']"))).click();
+        return new MyViewsPage(getDriver());
+    }
 }
