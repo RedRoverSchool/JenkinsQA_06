@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -120,6 +122,19 @@ public class PipelineProject5Test extends BaseTest {
         getDriver().findElement(JENKINS_LOGO).click();
 
         Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='" + rename + "']"))).getText(), rename);
+    }
+
+    @Test
+    public void testDisablePipeline() {
+        TestUtils.createPipeline(this, name, true);
+        String projectName = name.replaceAll(" ", "%20");
+        PipelinePage mainPage = new MainPage(getDriver())
+                .clickPipelineProject(projectName)
+                .clickDisableProject();
+        Assert.assertEquals(getDriver().findElement(By.id("enable-project")).isDisplayed(), true);
+
+        Assert.assertEquals(mainPage.clickDashboard()
+                .getJobBuildStatusIcon(name), "Disabled");
     }
 
     @Test
