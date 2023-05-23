@@ -166,18 +166,6 @@ public class FolderTest extends BaseTest {
                 .clickFolderName(folderOne)
                 .getNestedFolderName(folderTwo);
 
-
-
-//        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-//                By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
-//        chevron.sendKeys(Keys.RETURN);
-//        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
-//
-//        new Select(getWait5().until(ExpectedConditions.elementToBeClickable(By.name("destination")))).selectByIndex(1);
-//        getDriver().findElement(By.name("Submit")).click();
-//
-//        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'job/" + folderOne + "/')]"))).click();
-
         Assert.assertTrue(folderName.isDisplayed());
     }
 
