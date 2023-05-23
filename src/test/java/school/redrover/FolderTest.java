@@ -25,22 +25,20 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateNewFolderWithDescription() {
-        final String folderName1 = "f1";
-        final String name = "NewFolder";
+        final String folderName = "f1";
+        final String displeyName = "NewFolder";
         final String description = "Created new folder";
 
-        TestUtils.createFolder(this, folderName1, false);
+        TestUtils.createFolder(this, folderName, false);
         FolderPage folderPage = new FolderPage(getDriver());
         folderPage.clickConfigureSideMenu()
-                .enterDisplayName(name)
+                .enterDisplayName(displeyName)
                 .enterDescription(description)
                 .clickSaveButton();
 
-        Assert.assertEquals(folderPage.getText(
-                getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))), name);
-        Assert.assertTrue(folderPage.getText(
-                getDriver().findElement(By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))).contains("Folder name: " + folderName1));
-        Assert.assertEquals(folderPage.getText(getDriver().findElement(By.id("view-message"))), description);
+        Assert.assertEquals(folderPage.getFolderDisplayName(), displeyName);
+        Assert.assertTrue(folderPage.getFolderName().contains("Folder name: " + folderName));
+        Assert.assertEquals(folderPage.getFolderDescription(), description);
     }
 
     @Test()
@@ -55,8 +53,7 @@ public class FolderTest extends BaseTest {
                 .setNewName(editedName)
                 .clickRenameButton();
 
-        Assert.assertEquals(folderPage.getText(getDriver().findElement(
-                By.xpath("//div[@id='main-panel']/h1"))), editedName);
+        Assert.assertEquals(folderPage.getFolderDisplayName(), editedName);
     }
 
     @Test

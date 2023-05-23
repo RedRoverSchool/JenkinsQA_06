@@ -96,7 +96,7 @@ public abstract class BasePage {
         getWait20().until(ExpectedConditions.visibilityOf(element));
     }
 
-    public String getText(WebElement element) {
+    protected String getText(WebElement element) {
 
         if (!element.getText().isEmpty()) {
             wait20ElementToBeVisible(element);

@@ -85,4 +85,20 @@ public class FolderPage extends BasePage {
         return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
+
+    public String getFolderDisplayName() {
+
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='main-panel']/h1"))));
+    }
+
+    public String getFolderName() {
+
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))));
+    }
+    public String getFolderDescription() {
+
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
+    }
 }
