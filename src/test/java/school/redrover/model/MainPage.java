@@ -35,9 +35,23 @@ public class MainPage extends BasePage {
         return new NewJobPage(getDriver());
     }
 
+    public NewJobPage clickCreateAJob(){
+        WebElement createAJob = getDriver()
+                .findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']"));
+        getWait2().until(ExpectedConditions.elementToBeClickable(createAJob));
+        createAJob.click();
+        return new NewJobPage(getDriver());
+    }
+
     public WebElement getProjectName() {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".job-status-nobuilt td>a>span"))));
+    }
+
+    public String getProjectNameMainPage(String projectName) {
+        return getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//tr[@id='job_" + projectName + "']//a//span['" + projectName + "']")))
+                .getText();
     }
 
     public WebElement getFolderName() {
@@ -150,6 +164,23 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    public MainPage clickOnSliderDashboardInDropDownMenu(){
+        new Actions(getDriver()).moveToElement(getDriver().findElement(
+                By.xpath("//div[@id = 'breadcrumbBar']//a"))).perform();
+
+        WebElement slider = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id = 'breadcrumbBar']//button")));
+        new Actions(getDriver()).moveToElement(slider).perform();
+        slider.sendKeys(Keys.RETURN);
+        return this;
+    }
+
+    public NewJobPage clickNewItemInDashboardDropDownMenu(){
+        getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
+                .click();
+        return new NewJobPage(getDriver());
+    }
+
     public MovePage selectMoveFromDropDownMenu() {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
         return new MovePage(getDriver());
@@ -174,6 +205,11 @@ public class MainPage extends BasePage {
 
     }
 
+    public MainPage scrollToRestApiInFooter() {
+        scrollToElementByJavaScript(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
+        return this;
+    }
+  
     public RenameFolderPage clickRenameInDropDownMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
 
