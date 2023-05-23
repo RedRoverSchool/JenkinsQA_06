@@ -157,18 +157,16 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folderOne, true);
         TestUtils.createFolder(this, folderTwo, true);
 
-        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
-        chevron.sendKeys(Keys.RETURN);
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
+        WebElement folderName = new MainPage(getDriver())
+                .clickDropDownMenuFolderName(folderTwo)
+                .selectMoveFromDropDownMenu()
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(folderOne)
+                .getNestedFolderName(folderTwo);
 
-        new Select(getWait5().until(ExpectedConditions.elementToBeClickable(By.name("destination")))).selectByIndex(1);
-        getDriver().findElement(By.name("Submit")).click();
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'job/" + folderOne + "/')]"))).click();
-
-        Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + folderTwo + "/')]"))).isDisplayed());
+        Assert.assertTrue(folderName.isDisplayed());
     }
 
     @Test
