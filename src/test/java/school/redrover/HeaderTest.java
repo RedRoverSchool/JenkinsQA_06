@@ -281,6 +281,15 @@ public class HeaderTest extends BaseTest {
         WebElement adminPageSign = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > div:nth-child(4)")));
         assertEquals(adminPageSign.getText(),"Jenkins User ID: admin");
     }
+    @Test
+    public void testButtonNotificationsWorks() {
+
+        WebElement notificationsButton = getDriver().findElement(By.xpath("//a[@id='visible-am-button']"));
+        notificationsButton.click();
+
+        WebElement manageJenkinsString = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#visible-am-list > p > a")));
+        assertEquals(manageJenkinsString.getText(),"Manage Jenkins");
+    }
 
     @Test
     public void testOfIconColorChange() {
@@ -358,4 +367,22 @@ public class HeaderTest extends BaseTest {
 
         assertEquals(actualColor, expectedColor);
     }
+    public void iconChangeColor(By el){
+        String colorBefore = getDriver().findElement(el).getCssValue("background-color");
+        String colorAfter = "";
+        new Actions(getDriver()).moveToElement(getDriver().findElement(el)).perform();
+        colorAfter = getDriver().findElement(el).getCssValue("background-color");
+
+        Assert.assertNotEquals(colorBefore, colorAfter);
+    }
+
+    @Ignore
+    @Test
+    public void testNotificationIcon(){
+        iconChangeColor(NOTIFICATION_ICON);
+        getDriver().findElement(NOTIFICATION_ICON).click();
+        String actualRes = getDriver().findElement(MANAGE_JENKINS_LINK).getText();
+        Assert.assertEquals(actualRes, "Manage Jenkins");
+    }
+
 }

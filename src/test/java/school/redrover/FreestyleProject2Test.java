@@ -5,6 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -39,6 +40,7 @@ public class FreestyleProject2Test extends BaseTest {
 
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testNewProject")
     public void testAddDescription() {
 

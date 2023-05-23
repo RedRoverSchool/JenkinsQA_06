@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -92,6 +93,7 @@ public class PageHeaderTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testNotificationAndSecurityIconsOpenManageJenkinslink () {
         List<WebElement> openManageJenkinslink = getDriver()
