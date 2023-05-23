@@ -1,10 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -16,7 +13,6 @@ import school.redrover.runner.TestUtils;
 public class Folder4Test extends BaseTest {
 
     final String FOLDER_NAME = "Test";
-    final String VIEW_NAME = "Test View";
 
     @Test
     public void testCreateFolder() {
@@ -26,7 +22,7 @@ public class Folder4Test extends BaseTest {
                 .selectFolderAndOk()
                 .clickDashboard();
 
-        Assert.assertTrue(new MainPage(getDriver()).getJobInList(FOLDER_NAME).isDisplayed(),
+        Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(FOLDER_NAME).isDisplayed(),
                 "error was not show name folder");
         Assert.assertTrue(getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed(),
                 "error was not shown icon folder");
@@ -34,15 +30,16 @@ public class Folder4Test extends BaseTest {
 
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testCreateNewViewInFolder() {
+        final String viewName = "Test View";
 
         new MainPage(getDriver())
                 .clickFolderName(FOLDER_NAME)
                 .newView()
-                .interViewName(VIEW_NAME)
+                .interViewName(viewName)
                 .selectMyViewAndClickCreate()
                 .clickAll();
 
-        WebElement newView = getDriver().findElement(By.linkText(VIEW_NAME));
+        WebElement newView = getDriver().findElement(By.linkText(viewName));
         Assert.assertTrue(newView.isDisplayed(), "error was not shown created view");
     }
 
@@ -51,25 +48,28 @@ public class Folder4Test extends BaseTest {
         final String newName = "newTestName";
 
         new MainPage(getDriver())
-                .selectJobDropDownMenuRename(FOLDER_NAME)
+                .selectRenameJobDropDownMenu(FOLDER_NAME)
                 .enterNewName(newName)
                 .SubmitNewNameFolder()
                 .navigateToMainPageByBreadcrumbs();
 
-        Assert.assertTrue(new MainPage(getDriver()).getJobInList(FOLDER_NAME).isDisplayed(),
+        Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(FOLDER_NAME).isDisplayed(),
                 "error was not show new name folder");
     }
 
-    @Ignore
     @Test
     public void testMoveFolderToFolder(){
-        TestUtils.createFolder(this, FOLDER_NAME, true);
-        TestUtils.createFolder(this, FOLDER_NAME + " 2", true);
+        final String folder2Name = "newTestName";
 
-        WebElement selectInput = getDriver().findElement(By.xpath("//select"));
-        new Select(selectInput).selectByVisibleText("Jenkins » Test 2");
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getDriver().findElement(By.xpath("//a[contains(text(),'" + FOLDER_NAME + " 2" + "')]")).click();
+        TestUtils.createFolder(this, FOLDER_NAME, true);
+        TestUtils.createFolder(this, folder2Name, true);
+
+        new MainPage(getDriver())
+                .selectMoveJobDropDownMenu(FOLDER_NAME)
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .navigateToMainPageByBreadcrumbs()
+                .clickFolderName(folder2Name);
 
         Assert.assertTrue(
                 getDriver().findElement(By.xpath("//a[contains(text(),'" + FOLDER_NAME + "')]")).isDisplayed(),
