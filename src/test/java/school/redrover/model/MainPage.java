@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -120,5 +121,22 @@ public class MainPage extends BasePage {
     public ViewPage clickNewItemButton() {
         click(newItemButton);
         return new ViewPage(getDriver());
+    }
+
+    public MainPage clickOnProjectDropDownMenu(String projectName) {
+        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[contains(@href,'job/" + projectName + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+        chevron.sendKeys(Keys.RETURN);
+        return this;
+    }
+
+    public MainPage selectDeleteFromDropDownMenu() {
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
+        return this;
+    }
+
+    public MainPage acceptAlert() {
+        getDriver().switchTo().alert().accept();
+        return this;
     }
 }
