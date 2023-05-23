@@ -1,7 +1,10 @@
 package school.redrover.model.base;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -13,10 +16,12 @@ public abstract class BasePage {
     private WebDriverWait wait5;
     private WebDriverWait wait10;
 
+    private WebDriverWait wait20;
     private final WebDriver driver;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(getDriver(), this);
     }
 
     protected WebDriver getDriver() {
@@ -43,18 +48,40 @@ public abstract class BasePage {
         }
         return wait10;
     }
+  
     protected void click(WebElement element) {
 
         getWait10().until(ExpectedConditions.visibilityOf(element));
         getWait10().until(ExpectedConditions.elementToBeClickable(element)).click();
+
+
+    protected WebDriverWait getWait20() {
+        if (wait20 == null) {
+            wait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        }
+        return wait20;
+    }
+
+    protected void click(WebElement element) {
+
+        wait10ElementToBeVisible(element);
+        wait10ElementToBeClickable(element).click();
+
     }
 
     protected void clear(WebElement element) {
 
+
         getWait5().until(ExpectedConditions.elementToBeClickable(element)).clear();
+
+        wait20ElementToBeClickable(element).clear();
+
     }
 
     protected void input(String text, WebElement element) {
+
+
+        click(element);
 
         element.sendKeys(text);
     }
@@ -65,9 +92,47 @@ public abstract class BasePage {
         input(text, element);
     }
 
+
     protected String getText(WebElement element) {
 
         return element.getText();
+    }
+
+
+    protected WebElement wait10ElementToBeClickable(WebElement element) {
+
+        return getWait10().until(ExpectedConditions.elementToBeClickable(element));
+    }
+
+    protected WebElement wait20ElementToBeClickable(WebElement element) {
+
+        return getWait20().until(ExpectedConditions.elementToBeClickable(element));
+    }
+
+    protected void wait10ElementToBeVisible(WebElement element) {
+        getWait10().until(ExpectedConditions.visibilityOf(element));
+    }
+
+    protected void wait20ElementToBeVisible(WebElement element) {
+        getWait20().until(ExpectedConditions.visibilityOf(element));
+    }
+
+    protected String getText(WebElement element) {
+
+        if (!element.getText().isEmpty()) {
+            wait20ElementToBeVisible(element);
+        }
+        return element.getText();
+    }
+
+    protected void scrollToElementByJavaScript(WebElement element) {
+        JavascriptExecutor jsc = (JavascriptExecutor) getDriver();
+        jsc.executeScript("arguments[0].scrollIntoView();", wait20ElementToBeClickable(element));
+    }
+
+    protected void clickByJavaScript(WebElement element) {
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", element);
     }
 
 }

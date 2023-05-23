@@ -8,8 +8,6 @@ import school.redrover.model.base.BasePage;
 
 public class FolderPage extends BasePage {
 
-    public final WebElement HEADING1 = getDriver().findElement(By.xpath("//h1"));
-
     public FolderPage(WebDriver driver) {
         super(driver);
     }
@@ -70,5 +68,43 @@ public class FolderPage extends BasePage {
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//ol[@id='breadcrumbs']//li[1]")))).click();
         return new MainPage(getDriver());
+    }
+
+    public WebElement getHeading1() {
+        return getDriver().findElement(By.xpath("//h1"));
+    }
+
+    public WebElement getMultibranchPipelineName() {
+        return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector(".jenkins-table__link"))));
+    }
+
+    public MainPage clickDashboard() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
+        return new MainPage(getDriver());
+    }
+
+    public WebElement getNestedFolderName(String nameFolder) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+    }
+
+    public String getFolderDisplayName() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='main-panel']/h1"))));
+    }
+
+    public String getFolderName() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))));
+    }
+    public String getFolderDescription() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
+    }
+
+    public FolderConfigPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+        return new FolderConfigPage(getDriver());
     }
 }

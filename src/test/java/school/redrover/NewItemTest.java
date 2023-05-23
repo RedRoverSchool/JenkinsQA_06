@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
@@ -75,15 +76,13 @@ public class NewItemTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFreestyleProjectWithEmptyNameError() {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+    public void testErrorRequiredCreateFreestyleProjectWithEmptyName() {
+        String actualErrorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .selectFreestyleProject()
+                .getItemNameRequiredMessage();
 
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.cssSelector(".hudson_model_FreeStyleProject")))
-                .click();
-
-        WebElement errorMsg = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required")));
-        Assert.assertEquals(errorMsg.getText(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(actualErrorMessage, "» This field cannot be empty, please enter a valid name");
     }
 
     public void createProject(String nameOfProject, String typeOfProject){

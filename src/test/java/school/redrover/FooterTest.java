@@ -2,10 +2,12 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.RestApiPage;
 import school.redrover.runner.BaseTest;
 
 public class FooterTest extends BaseTest {
@@ -46,24 +48,20 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testVerifyJenkinsVersionOnManageJenkinsPage() {
-        getDriver().findElement(By.xpath("//span[contains(text(),'Manage Jenkins')]/..")).click();
+        ManageJenkinsPage manageJenkinsPage = new ManageJenkinsPage(getDriver())
+                .navigateToManageJenkinsPage()
+                        .scrollToFooterPageByJenkinsVersionBTN();
 
-        new Actions(getDriver())
-                .scrollToElement(getDriver().findElement(
-                        By.xpath("//div[@class='page-footer__flex-row']//a[@rel='noopener noreferrer']"))).perform();
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//div[@class='page-footer__flex-row']//a[@rel='noopener noreferrer']")).getText(),
-                "Jenkins 2.387.2", "Wrong version Jenkins");
+        Assert.assertTrue(manageJenkinsPage.getVersionJenkinsFromFooter(), "Wrong version Jenkins");
     }
 
     @Test
     public void testVerifyRESTAPILink() {
-        new Actions(getDriver())
-                .scrollToElement(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]"))).perform();
+        RestApiPage restApiPage = new MainPage(getDriver())
+                .scrollToRestApiInFooter()
+                .clickOnRestApiLink();
 
-        getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")).click();
-        Assert.assertEquals(getDriver().getTitle(), "Remote API [Jenkins]", "Wrong page or page title");
+        Assert.assertTrue(restApiPage.isRestApiPageIsOpen(), "RestApi page is not open");
     }
 
 }

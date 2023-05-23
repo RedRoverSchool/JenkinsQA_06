@@ -2,6 +2,7 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
@@ -11,7 +12,7 @@ public class FreestyleProjectConfigPage extends BasePage {
         super(driver);
     }
 
-    public FreestyleProjectPage projectSave() {
+    public FreestyleProjectPage clickSave() {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return new FreestyleProjectPage(getDriver());
     }
@@ -35,4 +36,5 @@ public class FreestyleProjectConfigPage extends BasePage {
         }
         return this;
     }
+
 }

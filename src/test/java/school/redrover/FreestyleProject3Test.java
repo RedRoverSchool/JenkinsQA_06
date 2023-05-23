@@ -18,7 +18,7 @@ import school.redrover.runner.TestUtils;
 public class FreestyleProject3Test extends BaseTest {
 
     @Test
-    public void testCreatedNewBuild() throws InterruptedException {
+    public void testCreatedNewBuild()  {
         TestUtils.createFreestyleProject(this, "Engineer", true);
 
         new MainPage(getDriver()).getProjectName().click();
@@ -26,7 +26,7 @@ public class FreestyleProject3Test extends BaseTest {
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
-        Assert.assertTrue(new BuildPage(getDriver()).BUILD_HEADER.isDisplayed());
+        Assert.assertTrue(new BuildPage(getDriver()).getBuildHeader().isDisplayed(), "build not created");
     }
 
     @Ignore
