@@ -161,7 +161,8 @@ public class MainPage extends BasePage {
         return new RenameProjectPage(getDriver());
     }
 
-    public WebElement restApiLink(){
-        return getDriver().findElement(By.xpath("//a[contains(@href,'api')]"));
+    public MainPage clickOnRestApiLink(){
+        getDriver().findElement(By.xpath("//a[contains(@href,'api')]")).click();
+        return this;
     }
 }

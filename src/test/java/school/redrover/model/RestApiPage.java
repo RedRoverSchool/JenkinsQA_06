@@ -12,7 +12,7 @@ public class RestApiPage extends BasePage {
         super(driver);
     }
 
-    public WebElement restApiPageTitle(){
-       return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1")));
+    public String getRestApiPageTitle(){
+       return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
     }
 }
