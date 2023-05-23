@@ -2,10 +2,13 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderConfigPage;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -75,4 +78,20 @@ public class Folder4Test extends BaseTest {
                 getDriver().findElement(By.xpath("//a[contains(text(),'" + FOLDER_NAME + "')]")).isDisplayed(),
                 "error was not shown moved folder");
     }
+
+    @Test(dependsOnMethods = {"testCreateFolder"})
+    public void testAddDisplayNameAndDescription() {
+        final String displayName = "TestDisplayName";
+        final String description = "TestDescription";
+
+        new MainPage(getDriver())
+                .selectConfigureJobDropDownMenu(FOLDER_NAME)
+                .enterDisplayName(displayName)
+                .enterDescription(description)
+                .saveProjectAndGoToFolderPage();
+
+        Assert.assertEquals(new FolderPage(getDriver()).getFolderDisplayName(), displayName);
+        Assert.assertEquals(new FolderPage(getDriver()).getFolderDescription(), description);
+    }
+
 }
