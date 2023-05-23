@@ -8,7 +8,6 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
-import school.redrover.model.RestApiPage;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
 

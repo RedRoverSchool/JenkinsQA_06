@@ -163,6 +163,7 @@ public class MainPage extends BasePage {
 
     public RestApiPage clickOnRestApiLink(){
         getDriver().findElement(By.xpath("//a[contains(@href,'api')]")).click();
+
         return new RestApiPage(getDriver());
     }
 }
