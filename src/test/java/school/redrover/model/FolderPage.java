@@ -84,7 +84,7 @@ public class FolderPage extends BasePage {
         return new MainPage(getDriver());
     }
 
-    public WebElement getNestedFolderName(String nameFolder) {
+    public WebElement getNestedFolder(String nameFolder) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
     }
@@ -106,5 +106,10 @@ public class FolderPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
         return new FolderConfigPage(getDriver());
+    }
+
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
+        return new NewJobPage(getDriver());
     }
 }
