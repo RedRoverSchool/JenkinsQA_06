@@ -21,7 +21,7 @@ public class MainPage extends BasePage {
 
     private void openJobDropDownMenu(String jobName) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        new Actions(getDriver()).moveToElement(getJobInList(jobName)).perform();
+        new Actions(getDriver()).moveToElement(getJobWebElement(jobName)).perform();
         WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
         js.executeScript("arguments[0].click();", arrow);
     }
@@ -45,7 +45,7 @@ public class MainPage extends BasePage {
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
 
-    public WebElement getJobInList(String jobName) {
+    public WebElement getJobWebElement(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]"))));
     }
@@ -61,7 +61,7 @@ public class MainPage extends BasePage {
     }
 
     public FolderPage clickFolderName(String FolderName) {
-        new Actions(getDriver()).moveToElement(getJobInList(FolderName)).click(getJobInList(FolderName)).perform();
+        new Actions(getDriver()).moveToElement(getJobWebElement(FolderName)).click(getJobWebElement(FolderName)).perform();
         return new FolderPage(getDriver());
     }
 
@@ -155,9 +155,15 @@ public class MainPage extends BasePage {
         return new MovePage(getDriver());
     }
 
-    public RenameProjectPage selectJobDropDownMenuRename(String jobName){
+    public RenameProjectPage selectRenameJobDropDownMenu(String jobName){
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
         return new RenameProjectPage(getDriver());
+    }
+
+    public MovePage selectMoveJobDropDownMenu(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
+        return new MovePage(getDriver());
     }
 }
