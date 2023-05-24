@@ -56,8 +56,12 @@ public class PipelinePage extends BasePage {
         return this;
     }
 
-    public boolean getDisableBotton() {
+    public boolean getDisableButton() {
         return getDriver().findElement(By.xpath("//button[normalize-space()='Disable Project']")).isDisplayed();
+    }
+
+    public boolean getEnableButton() {
+        return getDriver().findElement(By.xpath("//button[normalize-space()='Enable']")).isDisplayed();
     }
 
     public MainPage acceptAlert() {
