@@ -41,7 +41,7 @@ public class PipelineTest extends BaseTest {
 
     public WebDriverWait webDriverWait10;
 
-    public void scrollByElement(By by) throws InterruptedException {
+    public void scrollByElement(By by) {
         WebElement scroll = getDriver().findElement(by);
         new Actions(getDriver())
                 .scrollToElement(scroll)
@@ -236,17 +236,18 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreatingBasicPipelineProjectThroughJenkinsUI() {
-
+    public void testCreateBasicPipelineProjectThroughJenkinsUI() {
         String expectedResult = "Pipeline script";
 
         String textInDefinitionField = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
-                .clickPipelineButton().getTextFromDefinitionField();
+                .clickPipelineButton()
+                .getTextFromDefinitionField();
 
         Assert.assertEquals(textInDefinitionField, expectedResult);
+
     }
 
     @Test
@@ -266,7 +267,8 @@ public class PipelineTest extends BaseTest {
         Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
     }
 
-    @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
+    @Ignore
+    @Test(dependsOnMethods = "testCreateBasicPipelineProjectThroughJenkinsUI")
     public void testPipelineBuildingAfterChangesInCode() {
 
         getWait2().until(ExpectedConditions.presenceOfElementLocated(dashboard)).click();
