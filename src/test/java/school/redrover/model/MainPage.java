@@ -339,4 +339,23 @@ public class MainPage extends BasePage {
         new Actions(getDriver()).moveToElement(logoutButton).perform();
         return this;
     }
+
+    public MainPage clickJobDropdownMenuBuildNow() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Build Now']"))).click();
+        return this;
+    }
+
+    public MultiConfigurationProjectPage clickJobMultiConfigurationProject(String jobName) {
+        WebElement job = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//a[@href='job/" + jobName + "/']"))));
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(job).click().perform();
+        return new MultiConfigurationProjectPage(getDriver());
+    }
+
+    public String getJobBuildStatus(String jobName) {
+        WebElement buildStatus = getDriver().findElement(By.id(String.format("job_%s", jobName)))
+                .findElement(By.xpath(".//*[name()='svg']"));
+        return buildStatus.getAttribute("tooltip");
+    }
 }
