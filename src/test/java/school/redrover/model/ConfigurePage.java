@@ -58,4 +58,9 @@ public class ConfigurePage extends BasePage {
         click(saveButton);
         return new JobPage(getDriver());
     }
+
+    public PipelinePage clickSavePipelineButton() {
+        click(saveButton);
+        return new PipelinePage(getDriver());
+    }
 }

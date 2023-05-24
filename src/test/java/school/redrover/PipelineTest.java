@@ -11,6 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
@@ -306,5 +307,22 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertTrue(buildStatusText.getText().contains("Build #1"));
         Assert.assertTrue(buildStatusIcon.isDisplayed());
+    }
+
+    @Test
+    public void testCreatePipelineViaNewItem() {
+        final String itemName = "First Project";
+
+        PipelinePage pipelinePage = new MainPage(getDriver()).clickNewItemButton()
+                .inputAnItemName(itemName)
+                .clickPipelineProject()
+                .clickSaveButton()
+                .clickSavePipelineButton();
+
+        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + itemName);
+
+        MainPage mainPage = new PipelinePage(getDriver()).clickDashboard();
+
+        Assert.assertEquals(mainPage.getJobName(itemName), itemName);
     }
 }
