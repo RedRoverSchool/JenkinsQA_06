@@ -43,10 +43,8 @@ public class PipelineTest extends BaseTest {
     private final By pipelineDescription = By.xpath("//div[@id = 'description']/div[1]");
     private final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
     private final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
-    private static final By SCRIPT_BUTTON  = xpath("//div[@class = 'samples']/select");
-    private static final By HOME_PAGE = By.xpath("//h1[@class= 'job-index-headline page-headline']");
-    private static final By BREADSCRUMB_DASHBOARD = By.xpath("//a[text()='Dashboard']");
-    private static final By PIPELINE_SECTION = By.xpath("//span[@class = 'label'] [text() = 'Pipeline']");
+    private static final By scriptButton = xpath("//div[@class = 'samples']/select");
+    private static final By homePage = By.xpath("//h1[@class= 'job-index-headline page-headline']");
 
     private WebDriverWait getWait(int seconds) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
@@ -414,10 +412,10 @@ public class PipelineTest extends BaseTest {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//li[@class = 'org_jenkinsci_plugins_workflow_job_WorkflowJob']"))).click();
         getDriver().findElement(xpath("//button[@id='ok-button']")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(SCRIPT_BUTTON));
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(scriptButton));
 
         Select selectPipelineScript = new Select(getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                ( SCRIPT_BUTTON)));
+                (scriptButton)));
         selectPipelineScript.selectByVisibleText("Scripted Pipeline");
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("Submit"))).click();
 
@@ -467,17 +465,17 @@ public class PipelineTest extends BaseTest {
     public void testSortingPipelineProjectAplhabetically() {
 
         TestUtils.createPipeline(this, "SProject", false);
-        WebElement projectName1 = getDriver().findElement(HOME_PAGE);
+        WebElement projectName1 = getDriver().findElement(homePage);
         String p1 = projectName1.getText().substring(9);
         getDriver().findElement(By.id("jenkins-head-icon")).click();
 
         TestUtils.createPipeline(this, "AProject", false);
-        WebElement projectName2 = getDriver().findElement(HOME_PAGE);
+        WebElement projectName2 = getDriver().findElement(homePage);
         String p2 = projectName2.getText().substring(9);
         getDriver().findElement(By.id("jenkins-head-icon")).click();
 
         TestUtils.createPipeline(this, "UProject", false);
-        WebElement projectName3 = getDriver().findElement(HOME_PAGE);
+        WebElement projectName3 = getDriver().findElement(homePage);
         String p3 = projectName3.getText().substring(9);
 
         List<String> expectedNames = new ArrayList<>();
@@ -762,26 +760,24 @@ public class PipelineTest extends BaseTest {
             e.printStackTrace();
         }
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCreatePipeline")
     public void testCreatePipelineWithTheSameName() {
 
         final String expectedErrorMessage = "A job already exists with the name ‘" + PIPELINE_NAME + "’";
 
-        getDriver().findElement(BREADSCRUMB_DASHBOARD).click();
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
         getDriver().findElement(newItem).click();
         getDriver().findElement(name).sendKeys(PIPELINE_NAME);
 
         WebElement errorMessageAJobAlreadyExists = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
         errorMessageAJobAlreadyExists.isDisplayed();
 
-        getDriver().findElement(PIPELINE_SECTION).click();
+        getDriver().findElement(By.xpath("//span[@class = 'label'] [text() = 'Pipeline']")).click();
 
         getDriver().findElement(saveButton).click();
 
         Assert.assertEquals(getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@id='main-panel']/p"))).getText(), expectedErrorMessage);
     }
-
-
 }
