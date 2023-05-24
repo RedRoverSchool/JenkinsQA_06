@@ -9,6 +9,8 @@ import school.redrover.model.base.BasePage;
 
 import java.time.Duration;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
+
 public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='/view/all/newJob']")
@@ -288,4 +290,9 @@ public class MainPage extends BasePage {
         getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
         return new MainPage(getDriver());
     }
+
+    public WebElement getLinkVersion () {
+        return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+    }
+
 }
