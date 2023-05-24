@@ -35,6 +35,33 @@ public class MultiConfigurationProject4Test extends BaseTest {
         Assert.assertTrue(disableProject.isDisplayed());
     }
 
+    @Test(dependsOnMethods = {"testEnableMultiConfigurationProject"})
+    public void testDisableMultiConfigurationProjectOnConfigurePage() {
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.getMultiConfigPage();
+
+        WebElement disableButton = new MultiConfigurationProjectPage(getDriver())
+                .getConfigPage()
+                .switchCheckboxDisable()
+                .getTextDisable();
+
+        Assert.assertEquals(disableButton.getText(),"Disabled");
+        getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
+    }
+
+    @Test(dependsOnMethods = {"testDisableMultiConfigurationProjectOnConfigurePage"})
+    public void testEnableMultiConfigurationProjectOnConfigurePage() {
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.getMultiConfigPage();
+
+        WebElement enableButton = new MultiConfigurationProjectPage(getDriver())
+                .getConfigPage()
+                .switchCheckboxEnabled()
+                .getTextEnabled();
+
+        Assert.assertEquals(enableButton.getText(), "Enabled");
+    }
+
     @DataProvider(name = "unsafeCharacter")
     public static Object[][] provideUnsafeCharacters() {
         return new Object[][]{{'!'}, {'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'&'},
