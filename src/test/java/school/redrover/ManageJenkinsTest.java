@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.base.BasePage;
 import school.redrover.runner.BaseTest;
 import java.util.List;
 import java.util.Objects;
@@ -138,10 +139,9 @@ public class ManageJenkinsTest extends BaseTest {
     @Test(dataProvider = "ToolsAndActions")
     public void testSearchToolsAndActions(String inputText)  {
 
-        MainPage mainPage = new MainPage(getDriver())
-            .navigateToManageJenkinsPage();
-        ManageJenkinsPage manageJenkinsPage = new ManageJenkinsPage(getDriver())
-                .inputToSearchField(inputText);
+        ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
+            .navigateToManageJenkinsPage()
+            .inputToSearchField(inputText);
         Assert.assertEquals(manageJenkinsPage.getDropdownResultsInSearchField(), inputText);
 
     }
