@@ -1,9 +1,9 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
@@ -13,6 +13,7 @@ import java.util.*;
 public class DashboardLineTest extends BaseTest {
     @Test
     public void testVerifyDashboardDropdownMenuOptionsName() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
         WebElement dashboardLink = getDriver()
                 .findElement(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']"));
@@ -21,11 +22,9 @@ public class DashboardLineTest extends BaseTest {
                 .moveToElement(dashboardLink)
                 .perform();
 
-        WebElement dashboardDropdownMenu = getDriver()
+        WebElement dashboardDropdownMenuButton = getDriver()
                 .findElement(By.xpath("//div[@id='breadcrumbBar']//button[@class='jenkins-menu-dropdown-chevron']"));
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(dashboardDropdownMenu));
-        dashboardDropdownMenu.click();
+        js.executeScript("arguments[0].click();", dashboardDropdownMenuButton);
 
         String[] expectedText = {"New Item", "People", "Build History", "Manage Jenkins", "My Views"};
 
