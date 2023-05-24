@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String TEST_NAME = "Test";
+    private String name = "First Project";
 
     @Test
     public void testCreateNewFreestyleProject() {
@@ -53,18 +55,16 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testEnableProject() {
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
+        MainPage projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickTheDisableProjectButton()
+                .clickTheEnableProjectButton()
+                .clickDashboard();
 
-        getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary ")).click();
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']")).getAttribute("tooltip"), "Not built");
+        Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
     @Ignore
@@ -383,6 +383,20 @@ public class FreestyleProjectTest extends BaseTest {
         WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/Astra/']/span"));
 
         Assert.assertTrue(createdProject.isDisplayed());
+    }
+
+    @Test
+    public void testMakeProjectDisabled() {
+        TestUtils.createFreestyleProject(this, name, false);
+
+        WebElement actualProjectHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualProjectHeader.getText(), "Project First Project");
+
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+        WebElement receivedMessage = getDriver().findElement(By.xpath("//div/form[@id='enable-project']"));
+
+        Assert.assertEquals(receivedMessage.getText().substring(0,34), "This project is currently disabled");
     }
 
     @Test

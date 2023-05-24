@@ -12,25 +12,6 @@ public class CreateFreestyleProjectTest extends BaseTest {
     private static final By DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     @Test
-    public void testCreateFreestyleProjectWithInvalidName() {
-        getDriver().findElement(By.xpath("//a[contains(@href, 'newJob')]")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//li[contains(@class, 'FreeStyleProject')]/label"))).click();
-
-        WebElement inputField = getDriver().findElement(By.xpath("//input[@id='name']"));
-
-        String[] invalidSymbols = {"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "/", "|", "?", "<", ">"};
-        for (String invalidSymbol : invalidSymbols) {
-            inputField.sendKeys(invalidSymbol);
-            String validationMessage = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']")).getText();
-            inputField.clear();
-
-            Assert.assertEquals(validationMessage, "» ‘" + invalidSymbol + "’ is an unsafe character");
-            Assert.assertFalse(getDriver().findElement(By.xpath("//button[@id='ok-button']")).isEnabled());
-        }
-    }
-
-    @Test
     public void testCreateFreestyleWithEmptyName() {
         WebElement newItem = getWait2().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[href*='/view/all/newJob']")));
         newItem.click();

@@ -7,12 +7,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.*;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class PipelineProject8Test extends BaseTest {
@@ -115,31 +114,34 @@ public class PipelineProject8Test extends BaseTest {
         Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME), "Pipeline is not deleted");
     }
 
-    @Test
-    public void testCreatePipelineProjectIncorrectName() {
+    @DataProvider(name = "wrong-character")
+    public Object[][] provideWrongCharacter() {
+        return new Object[][]{{"!"}, {"@"}, {"#"}, {"?"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"["}, {"]"},
+                {"\\"}, {"|"}, {"/"}};
+    }
+
+    @Test(dataProvider = "wrong-character")
+    public void testCreatePipelineProjectIncorrectName(String character) {
         String name = "Pipeline";
-        List<String> symbol = Arrays.asList("!", "@", "#", "?", "$", "%", "^", "&", "*", "[", "]", "\\", "|", "/");
 
-        for (String s : symbol) {
-            WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
-            newItem.click();
-            WebElement itemName = getDriver().findElement(By.id("name"));
-            itemName.sendKeys(name + s);
-            WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
-            typeProject.click();
+        WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
+        newItem.click();
+        WebElement itemName = getDriver().findElement(By.id("name"));
+        itemName.sendKeys(name + character);
+        WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        typeProject.click();
 
-            Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
-                    "» ‘" + s + "’ is an unsafe character");
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
+                "» ‘" + character + "’ is an unsafe character");
 
-            getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.id("ok-button")).click();
 
-            getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))));
-            Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))).
-                    getText(), "Error");
-            Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
-                    getText(), "‘" + s + "’ is an unsafe character");
-            getDriver().findElement(By.xpath("//a[contains(text(),'All')]")).click();
-        }
+        Assert.assertEquals((getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(
+                By.xpath("//div[@id='main-panel']/h1")))).getText()), "Error");
+        Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
+                getText(), "‘" + character + "’ is an unsafe character");
+
+        getDriver().findElement(By.xpath("//a[contains(text(),'All')]")).click();
     }
 
     @Test(dependsOnMethods = "testCreatePipelineProjectCorrectName")

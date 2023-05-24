@@ -51,6 +51,19 @@ public class PipelinePage extends BasePage {
         return this;
     }
 
+    public PipelinePage clickEnableProject() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[normalize-space()='Enable']"))).click();
+        return this;
+    }
+
+    public boolean getDisableButton() {
+        return getDriver().findElement(By.xpath("//button[normalize-space()='Disable Project']")).isDisplayed();
+    }
+
+    public boolean getEnableButton() {
+        return getDriver().findElement(By.xpath("//button[normalize-space()='Enable']")).isDisplayed();
+    }
+
     public MainPage acceptAlert() {
         getDriver().switchTo().alert().accept();
         return new MainPage(getDriver());
