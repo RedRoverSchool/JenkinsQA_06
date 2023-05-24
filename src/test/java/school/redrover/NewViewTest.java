@@ -226,4 +226,34 @@ public class NewViewTest extends BaseTest {
 
         assertEquals(newView.getText(), "TestView");
     }
+    @Test
+    public void testHelpForFeatureDescription() {
+
+        String randomName = RandomStringUtils.randomAlphanumeric(9);
+        String expectedResult =
+                "This message will be displayed on the view page . Useful " +
+                        "for describing what this view does or linking to " +
+                        "relevant resources. Can contain HTML tags or whatever" +
+                        " markup language is defined for the system.";
+
+        this.createNewProjectFromMyViewsPage();
+
+        getDriver().findElement(By.xpath("//div/a[@href='/newView']")).click();
+        getDriver().findElement(By.xpath("//div/input[@checkurl='checkViewName']")).sendKeys(randomName);
+        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        getDriver().findElement(By.xpath("//div/ol/li/a[@href='/']")).click();
+
+        getDriver().findElement(By.xpath("//div/a[@href='/view/" + randomName + "/']")).click();
+        getDriver().findElement(By.xpath("//div/span/a[@href='/view/" + randomName + "/configure']")).click();
+
+        getDriver().findElement(By.xpath("//div/a[@helpurl='/help/view-config/description.html']")).click();
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@class='help-area tr']/div/div")).getText(),
+                expectedResult
+        );
+    }
 }

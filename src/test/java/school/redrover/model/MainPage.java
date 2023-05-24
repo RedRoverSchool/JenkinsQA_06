@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -20,6 +21,9 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
+
+    @FindBy(css = ".login>a.model-link")
+    private WebElement adminLink;
 
     private void openJobDropDownMenu(String jobName) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
@@ -94,7 +98,6 @@ public class MainPage extends BasePage {
     }
 
     public MainPage selectJobDropdownMenuDelete() {
-        //getDriver().findElement(By.xpath("//a[contains(@data-message, 'Delete')]")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@data-message, 'Delete')]"))).click();
         getDriver().switchTo().alert().accept();
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
@@ -142,13 +145,6 @@ public class MainPage extends BasePage {
         return new ViewPage(getDriver());
     }
 
-    public MainPage clickOnProjectDropDownMenu(String projectName) {
-        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(@href,'job/" + projectName + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
-        chevron.sendKeys(Keys.RETURN);
-        return this;
-    }
-
     public MainPage selectDeleteFromDropDownMenu() {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
         return this;
@@ -159,9 +155,9 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public MainPage clickDropDownMenuFolderName(String nameFolder) {
+    public MainPage clickJobDropDownMenu(String name) {
         WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+                By.xpath("//a[contains(@href,'job/" + name + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
         chevron.sendKeys(Keys.RETURN);
         return this;
     }
@@ -229,8 +225,76 @@ public class MainPage extends BasePage {
         return new RenameFolderPage(getDriver());
     }
 
+
     public MainPage clickOnManageJenkinsMenu(){
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
         return new ManageJenkinsPage(getDriver());
     }
+
+    public MainPage moveCursorNotificationIcon() {
+        new Actions(getDriver())
+                .pause(Duration.ofMillis(500))
+                .moveToElement(getDriver().findElement(By.id("visible-am-button")))
+                .perform();
+        return this;
+    }
+
+    public MainPage clickNotificationIcon() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.id("visible-am-button"))).click();
+        return this;
+    }
+
+    public String getBackgroundColorNotificationIcon() {
+        return getDriver().findElement(By.id("visible-am-button")).getCssValue("background-color");
+    }
+
+    public MainPage clickManageJenkinsLink() {
+        new Actions(getDriver())
+                .pause(Duration.ofMillis(500))
+                .click(getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Manage Jenkins']"))))
+                .perform();
+        return new ManageJenkinsPage(getDriver());
+    }
+    public MainPage hoverOverAdminLink() {
+        Actions act = new Actions(getDriver());
+        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector(".login>a.model-link")));
+        act.moveToElement(adminLink).perform();
+        return this;
+    }
+
+    public String getTextDecorationValue() {
+        return adminLink.getCssValue("text-decoration");
+    }
+
+    public void openAdminDropdownMenu() {
+        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//a[@href='/user/admin']/button")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", dropDownMenu);
+    }
+
+    public MainPage openTabFromAdminDropdownMenu(By buttonLocator, By pageLocator) {
+        openAdminDropdownMenu();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
+
+        WebElement page = getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
+
+        Assert.assertTrue(page.isDisplayed());
+
+        return this;
+    }
+  
+    public MultiConfigurationProjectPage clickJobWebElement(String jobName) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]")))).click();
+        return new MultiConfigurationProjectPage(getDriver());
+    }
+
+    public MainPage selectDashboard() {
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+        return new MainPage(getDriver());
+    }
+
 }

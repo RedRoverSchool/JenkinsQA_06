@@ -46,11 +46,11 @@ public class ManageJenkinsPage extends MainPage {
         return getDriver().findElement(JENKINS_VERSION_BTN).getText().equals("Jenkins 2.387.2");
     }
 
-
     public ManageUsersPage clickManageUsers() {
         getWait2().until(ExpectedConditions.elementToBeClickable(manageUsers)).click();
         return new ManageUsersPage(getDriver());
     }
+
 
     public ManageJenkinsPage clickOnJenkinsVersionInTheFooter(){
         new Actions(getDriver())
@@ -65,5 +65,10 @@ public class ManageJenkinsPage extends MainPage {
         for (String window : getDriver().getWindowHandles()) {
             getDriver().switchTo().window(window); }
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
+
+    public String getActualHeader() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+                "//h1[text()='Manage Jenkins']"))).getText();
+
     }
 }
