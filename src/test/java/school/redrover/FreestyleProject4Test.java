@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -64,7 +63,6 @@ public class FreestyleProject4Test extends BaseTest {
         Assert.assertEquals(actualBuildStatus, expectedBuildStatus);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testBuildNowProject")
     public void testBuildNowProjectWithBooleanParameter() {
         new Actions(getDriver())
@@ -98,7 +96,7 @@ public class FreestyleProject4Test extends BaseTest {
         new Actions(getDriver())
                 .moveToElement(getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='build-status-link']"))))
                 .perform();
-        boolean actualBuildStatus = getWait5().until(ExpectedConditions.attributeToBe(By.xpath("//div[@class='tippy-content']"), "innerText", expectedBuildStatus));
-        Assert.assertTrue(actualBuildStatus, "Build is not success");
+        boolean actualBuildStatus = getWait10().until(ExpectedConditions.attributeToBe(By.xpath("//div[@class='tippy-content']"), "innerText", expectedBuildStatus));
+        Assert.assertTrue(actualBuildStatus);
     }
 }
