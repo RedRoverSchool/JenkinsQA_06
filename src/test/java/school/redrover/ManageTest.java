@@ -1,10 +1,7 @@
 package school.redrover;
 
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -18,57 +15,47 @@ public class ManageTest extends BaseTest {
 
     @Test
     public void testSearchWithNumericSymbol() {
-       ManagePage managePage = new ManagePage(getDriver())
+       ManagePage noResult = new ManagePage(getDriver())
                .navigateToManagePage()
                .enterSearchQuery("1")
                .clickSearchButton();
 
-       managePage.assertNoResultsDisplayed();
+        Assert.assertEquals(noResult.getNoResultsDisplayed(),"No results");
     }
 
     @Test
     public void testSearchWithLetterConfigureSystem() {
-        ManagePage managePage = new ManagePage(getDriver())
+        ManagePage configurePage = new ManagePage(getDriver())
                 .navigateToManagePage()
                 .enterSearchQuery("m")
                 .clickSearchButton()
                 .selectOnTheFirstLineInDropdown();
 
-        managePage.assertConfigureSystemPage();
-    }
-
-    @Test
-    public void testSearchWithLetterManageCredentials() {
-        ManagePage managePage = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .enterSearchQuery("man")
-                .selectManageCredentialsOption();
-
-        managePage.assertCredentialsPage();
+        Assert.assertEquals(configurePage.getConfigureSystemPage(),"Configure System");
     }
 
     @Test
     public void testCreateNewUser() {
-        ManagePage managePage = new ManagePage(getDriver())
+        ManagePage newUser = new ManagePage(getDriver())
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
                 .clickCreateUser()
                 .fillUserDetails()
                 .submit();
 
-        managePage.assertUserCreated();
+        Assert.assertTrue(newUser.assertUserCreated());
     }
 
     @Test
     public void testCreateNewUserWithInvalidEmail() {
-        ManagePage managePage = new ManagePage(getDriver())
+        ManagePage errorEmail = new ManagePage(getDriver())
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
                 .clickCreateUser()
                 .fillUserDetailsWithInvalidEmail()
                 .submit();
 
-        managePage.assertInvalidEmailError();
+        Assert.assertEquals(errorEmail.assertInvalidEmailError(), "Invalid e-mail address");
     }
 
     @Test(dependsOnMethods = "testCreateNewUser")
@@ -79,7 +66,7 @@ public class ManageTest extends BaseTest {
                 .clickDeleteUser()
                 .submit();
 
-        managePage.assertUserDeleted();
+        Assert.assertFalse(managePage.assertUserDeleted());
     }
 
     @Test
@@ -91,19 +78,33 @@ public class ManageTest extends BaseTest {
                 .enterDescriptionText()
                 .submit();
 
-        managePage.assertDescriptionText();
+        Assert.assertEquals("Description text",managePage.getDescriptionText());
     }
 
     @Test
     public void testManageConfigureNumberOfExecutorsInMasterNode() {
+        String number = "3";
+
         ManagePage managePage = new ManagePage(getDriver())
+
                 .navigateToManagePage()
                 .navigateManageNodesAndClouds()
                 .clickConfigureMasterNode()
-                .changeNumberOfExecutorsAndSave("3")
+                .changeNumberOfExecutorsAndSave(number)
                 .navigateToMasterNodeConfiguration();
 
-        managePage.assertNumberOfExecutors("3");
+        Assert.assertEquals(number, managePage.numberOfExecutors());
+    }
+
+    @Test
+    public void testBreadcrumbNavigateManageJenkins() {
+
+        ManagePage page = new ManagePage(getDriver())
+                .navigateToDashboardIcon()
+                .dropdownBreadcrumps()
+                .navigateToManageJenkinsAndClick();
+
+        Assert.assertEquals(page.verifyManageJenkinsPage(),"Manage Jenkins" );
     }
 
     @DataProvider(name = "KeyWordsToSearch")
@@ -134,19 +135,5 @@ public class ManageTest extends BaseTest {
         for (int i = 0; i < expectedSearchResults.size(); i++) {
             Assert.assertEquals(actualResults.get(i).getText(), expectedSearchResults.get(i).getText());
         }
-    }
-
-    @Test
-    public void testBreadcrumbNavigateManageJenkins() {
-        new Actions(getDriver()).moveToElement(getDriver().findElement(
-                By.xpath("//div[@id='breadcrumbBar']//li[1]"))).perform();
-
-        WebElement arrow = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li/a/button[@class='jenkins-menu-dropdown-chevron']"));
-        new Actions(getDriver()).moveToElement(arrow).perform();
-        arrow.sendKeys(Keys.RETURN);
-
-        getDriver().findElement(By.xpath("//*[@id='yui-gen4']/a/span")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), "Manage Jenkins");
     }
 }

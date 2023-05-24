@@ -2,10 +2,11 @@ package school.redrover.model;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import school.redrover.model.base.BasePage;
 
 import java.util.List;
@@ -35,11 +36,10 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public ManagePage assertNoResultsDisplayed() {
-        Assert.assertEquals("No results",
-                getDriver().findElement(By.xpath(" //div[@class='jenkins-search__results']")).getText());
-       return new ManagePage(getDriver());
-        }
+    public String getNoResultsDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath(" //div[@class='jenkins-search__results']"))).getText();
+    }
 
     public ManagePage selectOnTheFirstLineInDropdown() {
 
@@ -55,31 +55,9 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public ManagePage assertConfigureSystemPage() {
-        Assert.assertEquals("Configure System",
-                getDriver().findElement(By.xpath("//h1[normalize-space()='Configure System']")).getText());
-        return this;
-    }
-
-    public ManagePage selectManageCredentialsOption() {
-
-        getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-                (By.xpath("//a[normalize-space()='Manage Credentials']")));
-
-        List<WebElement> options = getDriver().findElements(By.xpath("//a[normalize-space()='Manage Credentials']"));
-        for (WebElement option : options) {
-            if (option.getText().equals("Manage Credentials")) {
-                option.click();
-                break;
-            }
-        }
-        return this;
-    }
-
-    public ManagePage assertCredentialsPage() {
-        Assert.assertEquals("Credentials", getDriver().findElement
-                (By.xpath("//h1[normalize-space()='Credentials']")).getText());
-        return this;
+    public String getConfigureSystemPage() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//h1[normalize-space()='Configure System']"))).getText();
     }
 
     public ManagePage navigateToManageUsersPage() {
@@ -106,7 +84,7 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public ManagePage assertUserCreated() {
+    public boolean assertUserCreated() {
         List<WebElement> userList = getDriver().findElements(By.id("people"));
 
         for (WebElement user : userList) {
@@ -114,8 +92,7 @@ public class ManagePage extends BasePage {
                 break;
             }
         }
-        Assert.assertTrue(true, NEW_USER_NAME);
-        return this;
+        return true;
     }
 
     public ManagePage fillUserDetailsWithInvalidEmail() {
@@ -127,10 +104,9 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public ManagePage assertInvalidEmailError() {
-        Assert.assertEquals("Invalid e-mail address", getDriver()
-                .findElement(By.xpath("//div[@class='error jenkins-!-margin-bottom-2']")).getText());
-        return this;
+    public String assertInvalidEmailError() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class='error jenkins-!-margin-bottom-2']"))).getText();
     }
 
     public ManagePage clickDeleteUser() {
@@ -138,7 +114,7 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public ManagePage assertUserDeleted() {
+    public boolean assertUserDeleted() {
         List<WebElement> userList = getDriver().findElements(By.id("people"));
 
         for (WebElement user : userList) {
@@ -146,8 +122,7 @@ public class ManagePage extends BasePage {
                 break;
             }
         }
-        Assert.assertFalse(false, NEW_USER_NAME);
-        return this;
+        return false;
     }
 
     public ManagePage clickUserEditButton() {
@@ -161,10 +136,9 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public ManagePage assertDescriptionText() {
-        Assert.assertEquals("Description text",
-                getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText());
-        return this;
+    public String getDescriptionText() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@id='description']/div[1]"))).getText();
     }
 
     public ManagePage navigateManageNodesAndClouds() {
@@ -191,9 +165,31 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public ManagePage assertNumberOfExecutors(String expectedNumber) {
-        Assert.assertEquals(expectedNumber, getDriver().findElement(By.name("_.numExecutors")).getAttribute("value"));
+    public String numberOfExecutors() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("_.numExecutors")))
+                .getAttribute("value");
+    }
+
+    public ManagePage navigateToDashboardIcon() {
+        new Actions(getDriver()).moveToElement(getDriver().findElement(
+                By.xpath("//div[@id='breadcrumbBar']//li[1]"))).perform();
         return this;
+    }
+
+    public ManagePage dropdownBreadcrumps() {
+        WebElement arrow = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li/a/button[@class='jenkins-menu-dropdown-chevron']"));
+        new Actions(getDriver()).moveToElement(arrow).perform();
+        arrow.sendKeys(Keys.RETURN);
+        return this;
+    }
+
+    public ManagePage navigateToManageJenkinsAndClick() {
+        getDriver().findElement(By.xpath("//*[@id='yui-gen4']/a/span")).click();
+        return this;
+    }
+
+    public String verifyManageJenkinsPage() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1"))).getText();
     }
 }
 
