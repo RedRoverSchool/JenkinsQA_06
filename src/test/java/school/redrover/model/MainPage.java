@@ -261,4 +261,9 @@ public class MainPage extends BasePage {
         return new MultiConfigurationProjectPage(getDriver());
 
     }
+
+    public MainPage selectDashboard() {
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+        return new MainPage(getDriver());
+    }
 }
