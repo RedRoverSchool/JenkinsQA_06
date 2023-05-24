@@ -2,10 +2,13 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderConfigPage;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -28,7 +31,7 @@ public class Folder4Test extends BaseTest {
                 "error was not shown icon folder");
     }
 
-    @Test(dependsOnMethods = {"testCreateFolder"})
+    @Test(dependsOnMethods = "testCreateFolder")
     public void testCreateNewViewInFolder() {
         final String viewName = "Test View";
 
@@ -44,6 +47,21 @@ public class Folder4Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testCreateFolder"})
+    public void testAddDisplayNameAndDescription() {
+        final String displayName = "TestDisplayName";
+        final String description = "TestDescription";
+
+        new MainPage(getDriver())
+                .selectConfigureJobDropDownMenu(FOLDER_NAME)
+                .enterDisplayName(displayName)
+                .enterDescription(description)
+                .saveProjectAndGoToFolderPage();
+
+        Assert.assertEquals(new FolderPage(getDriver()).getFolderDisplayName(), displayName);
+        Assert.assertEquals(new FolderPage(getDriver()).getFolderDescription(), description);
+    }
+
+    @Test(dependsOnMethods = {"testCreateFolder", "testCreateNewViewInFolder", "testAddDisplayNameAndDescription"})
     public void testRenameFolder() {
         final String newName = "newTestName";
 
@@ -59,7 +77,7 @@ public class Folder4Test extends BaseTest {
 
     @Test
     public void testMoveFolderToFolder(){
-        final String folder2Name = "newTestName";
+        final String folder2Name = "test2";
 
         TestUtils.createFolder(this, FOLDER_NAME, true);
         TestUtils.createFolder(this, folder2Name, true);
@@ -71,8 +89,7 @@ public class Folder4Test extends BaseTest {
                 .navigateToMainPageByBreadcrumbs()
                 .clickFolderName(folder2Name);
 
-        Assert.assertTrue(
-                getDriver().findElement(By.xpath("//a[contains(text(),'" + FOLDER_NAME + "')]")).isDisplayed(),
+        Assert.assertTrue(new FolderPage(getDriver()).getNestedFolder(FOLDER_NAME).isDisplayed(),
                 "error was not shown moved folder");
     }
 }
