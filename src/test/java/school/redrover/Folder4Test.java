@@ -31,7 +31,7 @@ public class Folder4Test extends BaseTest {
                 "error was not shown icon folder");
     }
 
-    @Test(dependsOnMethods = {"testCreateFolder"})
+    @Test(dependsOnMethods = "testCreateFolder")
     public void testCreateNewViewInFolder() {
         final String viewName = "Test View";
 
@@ -47,20 +47,6 @@ public class Folder4Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testCreateFolder"})
-    public void testRenameFolder() {
-        final String newName = "newTestName";
-
-        new MainPage(getDriver())
-                .selectRenameJobDropDownMenu(FOLDER_NAME)
-                .enterNewName(newName)
-                .SubmitNewNameFolder()
-                .navigateToMainPageByBreadcrumbs();
-
-        Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(FOLDER_NAME).isDisplayed(),
-                "error was not show new name folder");
-    }
-
-    @Test(dependsOnMethods = {"testCreateFolder"})
     public void testAddDisplayNameAndDescription() {
         final String displayName = "TestDisplayName";
         final String description = "TestDescription";
@@ -73,6 +59,20 @@ public class Folder4Test extends BaseTest {
 
         Assert.assertEquals(new FolderPage(getDriver()).getFolderDisplayName(), displayName);
         Assert.assertEquals(new FolderPage(getDriver()).getFolderDescription(), description);
+    }
+
+    @Test(dependsOnMethods = {"testCreateFolder", "testCreateNewViewInFolder", "testAddDisplayNameAndDescription"})
+    public void testRenameFolder() {
+        final String newName = "newTestName";
+
+        new MainPage(getDriver())
+                .selectRenameJobDropDownMenu(FOLDER_NAME)
+                .enterNewName(newName)
+                .SubmitNewNameFolder()
+                .navigateToMainPageByBreadcrumbs();
+
+        Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(FOLDER_NAME).isDisplayed(),
+                "error was not show new name folder");
     }
 
     @Test
