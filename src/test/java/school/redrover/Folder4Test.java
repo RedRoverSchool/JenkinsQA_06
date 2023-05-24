@@ -46,7 +46,7 @@ public class Folder4Test extends BaseTest {
         Assert.assertTrue(newView.isDisplayed(), "error was not shown created view");
     }
 
-    @Test(dependsOnMethods = {"testCreateFolder"})
+    @Test(dependsOnMethods = "testCreateFolder")
     public void testAddDisplayNameAndDescription() {
         final String displayName = "TestDisplayName";
         final String description = "TestDescription";
@@ -61,7 +61,7 @@ public class Folder4Test extends BaseTest {
         Assert.assertEquals(new FolderPage(getDriver()).getFolderDescription(), description);
     }
 
-    @Test(dependsOnMethods = {"testCreateFolder", "testCreateNewViewInFolder", "testAddDisplayNameAndDescription"})
+       @Test(dependsOnMethods = {"testCreateFolder", "testCreateNewViewInFolder", "testAddDisplayNameAndDescription"})
     public void testRenameFolder() {
         final String newName = "newTestName";
 
@@ -73,6 +73,17 @@ public class Folder4Test extends BaseTest {
 
         Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(FOLDER_NAME).isDisplayed(),
                 "error was not show new name folder");
+    }
+
+    @Test
+    public void testDeleteFolder() {
+        TestUtils.createFolder(this, FOLDER_NAME, true);
+        new MainPage(getDriver())
+                .selectDeleteFolderDropDownMenu(FOLDER_NAME)
+                .clickYes();
+
+        Assert.assertTrue(new MainPage(getDriver()).getWelcomeWebElement().isDisplayed(),
+                "error was not show Welcome to Jenkins!");
     }
 
     @Test

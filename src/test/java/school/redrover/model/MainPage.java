@@ -202,10 +202,10 @@ public class MainPage extends BasePage {
         return new NewJobPage(getDriver());
     }
 
-    public MainPage selectDeleteFolderJobDropDownMenu(String jobName){
+    public DeleteFolderPage selectDeleteFolderDropDownMenu(String jobName){
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Delete Folder')]"))).click();
-        return this;
+        return new DeleteFolderPage(getDriver());
     }
 
     public RenameProjectPage selectRenameJobDropDownMenu(String jobName){
@@ -312,4 +312,7 @@ public class MainPage extends BasePage {
         return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
     }
 
+    public WebElement getWelcomeWebElement(){
+        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
+    }
 }
