@@ -32,9 +32,9 @@ public class FreestyleProject9Test extends BaseTest {
 
     @Test(dependsOnMethods = "testDisplayFreestyleProjectOnDashboard")
     public void testOpenFreestyleProjectPageFromDashboard() {
-        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).click();
+        getDriver().findElement(By.xpath("//a[@href='job/testFreestyleProject/']")).click();
 
-        WebElement freestyleProjectPageHeader = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='job-index-headline page-headline']")));
+        WebElement freestyleProjectPageHeader = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[ancestor::div[@id='main-panel']]")));
 
         Assert.assertEquals(freestyleProjectPageHeader.getText(), "Project testFreestyleProject");
     }
