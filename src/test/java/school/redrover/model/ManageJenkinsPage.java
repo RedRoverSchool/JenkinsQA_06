@@ -11,13 +11,13 @@ import java.time.Duration;
 
 public class ManageJenkinsPage extends MainPage {
 
-    @FindBy(xpath ="//a[@href='securityRealm/']")
+    @FindBy(xpath = "//a[@href='securityRealm/']")
     private WebElement manageUsers;
 
-    @FindBy(xpath ="//a[text()='Jenkins 2.387.2']")
+    @FindBy(xpath = "//a[text()='Jenkins 2.387.2']")
     private WebElement jenkinsVersion;
 
-    public ManageJenkinsPage(WebDriver driver){
+    public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
 
@@ -42,7 +42,7 @@ public class ManageJenkinsPage extends MainPage {
         return this;
     }
 
-    public boolean getVersionJenkinsFromFooter(){
+    public boolean getVersionJenkinsFromFooter() {
         return getDriver().findElement(JENKINS_VERSION_BTN).getText().equals("Jenkins 2.387.2");
     }
 
@@ -52,7 +52,7 @@ public class ManageJenkinsPage extends MainPage {
     }
 
 
-    public ManageJenkinsPage clickOnJenkinsVersionInTheFooter(){
+    public ManageJenkinsPage clickOnJenkinsVersionInTheFooter() {
         new Actions(getDriver())
                 .scrollToElement(jenkinsVersion)
                 .pause(Duration.ofSeconds(1))
@@ -63,12 +63,15 @@ public class ManageJenkinsPage extends MainPage {
 
     public String getJenkinsSiteTitle() {
         for (String window : getDriver().getWindowHandles()) {
-            getDriver().switchTo().window(window); }
+            getDriver().switchTo().window(window);
+        }
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
-
-    public String getActualHeader() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-                "//h1[text()='Manage Jenkins']"))).getText();
-
     }
-}
+
+        public String getActualHeader () {
+            return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+                    "//h1[text()='Manage Jenkins']"))).getText();
+
+        }
+    }
+
