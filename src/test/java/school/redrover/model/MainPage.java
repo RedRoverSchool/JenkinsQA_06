@@ -267,4 +267,10 @@ public class MainPage extends BasePage {
 
         return new NewViewPage(getDriver());
     }
+
+    public ViewPage clickOnView (String viewName) {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/']", viewName)))).click();
+
+        return new ViewPage(getDriver());
+    }
 }

@@ -70,7 +70,7 @@ public class ViewPage extends BasePage {
 
     public String getViewName () {
 
-        return getDriver().findElement(By.xpath("//div[@class = 'tab active']")).getText();
+        return getText(getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
     }
 
     public void clickBreadcrumbPathItem(int n, String name) {
