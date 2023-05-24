@@ -46,5 +46,4 @@ public class PipelineProject1Test extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Welcome to Jenkins!");
     }
-
 }
