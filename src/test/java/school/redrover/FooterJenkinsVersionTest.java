@@ -10,7 +10,6 @@ import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 
-
 public class FooterJenkinsVersionTest extends BaseTest {
     private final String expectedJenkinsVersion = "Jenkins 2.387.2";
     private final String expectedSiteTitle = "Jenkins";
