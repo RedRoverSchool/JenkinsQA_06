@@ -138,6 +138,20 @@ public class PipelineProject5Test extends BaseTest {
     }
 
     @Test
+    public void testEnablePipeline() {
+        TestUtils.createPipeline(this, name, true);
+        String projectName = name.replaceAll(" ", "%20");
+        PipelinePage mainPage = new MainPage(getDriver())
+                .clickPipelineProject(projectName)
+                .clickDisableProject()
+                .clickEnableProject();
+        Assert.assertTrue(mainPage.getDisableBotton());
+
+        Assert.assertEquals(mainPage.clickDashboard()
+                .getJobBuildStatusIcon(name), "Not built");
+    }
+
+    @Test
     public void testPipelineNameUnsafeChar() {
         String[] testStrings = {"*", "&", "^", "%", "$", "#", "@", "!"};
 

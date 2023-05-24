@@ -103,4 +103,22 @@ public class FreestyleProjectAllTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//button[contains(text(),'Enable')]")).isDisplayed(),
                 "The 'Enable' button is not displayed");
     }
+
+    @Test(dependsOnMethods = "testDisableFreestyleProject")
+    public void testEnableFreestyleProject() {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.linkText(projectName))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+
+        List<WebElement> projectActions = getDriver().findElements(By.xpath("//*[@class='task ']//a"));
+        String actualPossibilityToBuildProject = "";
+        for (WebElement button : projectActions) {
+            if (button.getText().contains("Build Now")) {
+                actualPossibilityToBuildProject = button.getText();
+                break;
+            }
+        }
+        Assert.assertEquals(actualPossibilityToBuildProject, "Build Now",
+                "The 'Build Now' button is not displayed");
+        Assert.assertEquals(getDriver().findElement(By.name("Submit")).getText(), "Disable Project");
+    }
 }
