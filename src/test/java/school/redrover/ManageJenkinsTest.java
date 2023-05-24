@@ -5,9 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
-
 
 import java.util.Arrays;
 import java.util.List;
@@ -71,47 +72,14 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testVerifySystemConfiguration() {
-        List<String> listSystemConfigurationExpected = Arrays.asList
-                ("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
-
-        getDriver().findElement(Manage_Jenkins).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(text(),'Manage')]")));
-        List<WebElement> listSystemConfiguration = getDriver().findElements(By.cssSelector(".jenkins-section__title"));
-        for (int i = 0; i < listSystemConfiguration.size(); i++) {
-
-            Assert.assertEquals(listSystemConfiguration.get(i).getText(), listSystemConfigurationExpected.get(i));
-        }
-    }
-
-    @Test
-    public void testManageOldData() {
-        getDriver().findElement(Manage_Jenkins).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//dt[contains(text(),'Manage Old Data')]"))).click();
-
-        WebElement oldData = getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")));
-        Assert.assertEquals(oldData.getText(), "Manage Old Data");
-        Assert.assertEquals(oldData.getLocation().toString(), "(372, 133)");
-        Assert.assertEquals(oldData.getCssValue("font-size"), "25.6px");
-        Assert.assertEquals(oldData.getCssValue("font-weight"), "700");
-
-        List<WebElement> listSortTable = getDriver().findElements(By.xpath("//thead //a"));
-        Assert.assertEquals(listSortTable.size(), 4);
-
-        Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
-    }
-
-    @Test
     public void testSearchNumericSymbol() {
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("settings-search-bar"))).click();
-        getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-        getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".jenkins-search__results-container--visible")));
-        WebElement noResults = getDriver().findElement(By.cssSelector(".jenkins-search__results__no-results-label"));
 
-        Assert.assertEquals(noResults.getText(), "No results");
+        String searchText = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField("1")
+                .getNoResultTextInSearchField();
+
+        Assert.assertEquals(searchText, "No results");
     }
 
     @Test

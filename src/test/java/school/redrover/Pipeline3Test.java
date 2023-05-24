@@ -20,19 +20,14 @@ public class Pipeline3Test extends BaseTest {
     private static final By PROJECT_NAME_IN_PROJECT_STATUS_TABLE =
             By.xpath("//a[@class='jenkins-table__link model-link inside']//span");
 
-    private void createPipelineProject(String itemName) {
+    @Test
+    public void testCreatePipelineViaNewItem() {
 
         getDriver().findElement(NEW_ITEM_MENU).click();
         getDriver().findElement(PROJECT_NAME_FIELD).sendKeys(itemName);
         getDriver().findElement(PIPELINE_SECTION).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SUBMIT_BUTTON).click();
-    }
-
-    @Test
-    public void testCreatePipelineViaNewItem() {
-
-        createPipelineProject(itemName);
 
         Assert.assertEquals(getDriver().findElement(PIPELINE_HEADING).getText(), "Pipeline " + itemName);
 
@@ -41,11 +36,10 @@ public class Pipeline3Test extends BaseTest {
         Assert.assertEquals(getDriver().findElement(PROJECT_NAME_IN_PROJECT_STATUS_TABLE).getText(), itemName);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineViaNewItem")
     public void testCreatePipelineWithTheSameName() {
 
         final String expectedErrorMessage = "A job already exists with the name ‘" + itemName + "’";
-        createPipelineProject(itemName);
 
         getDriver().findElement(BREADSCRUMB_DASHBOARD).click();
         getDriver().findElement(NEW_ITEM_MENU).click();
@@ -62,3 +56,4 @@ public class Pipeline3Test extends BaseTest {
                 (By.xpath("//div[@id='main-panel']/p")).getText(), expectedErrorMessage);
     }
 }
+

@@ -11,6 +11,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -32,13 +33,6 @@ public class HeaderTest extends BaseTest {
     private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
     private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
     private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
-
-    private void openAdminDropdownMenu() {
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
-    }
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -263,13 +257,9 @@ public class HeaderTest extends BaseTest {
 
     @Test(dataProvider = "dropDownMenuAndPageLocators")
     public void testOpenTabFromDropdownMenu(By buttonLocator, By pageLocator) {
-        openAdminDropdownMenu();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
-
-        WebElement page = getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
-
-        Assert.assertTrue(page.isDisplayed());
+        MainPage mainPage = new MainPage(getDriver())
+                .openTabFromAdminDropdownMenu(buttonLocator, pageLocator);
     }
 
     @Test
@@ -280,6 +270,15 @@ public class HeaderTest extends BaseTest {
 
         WebElement adminPageSign = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > div:nth-child(4)")));
         assertEquals(adminPageSign.getText(),"Jenkins User ID: admin");
+    }
+    @Test
+    public void testButtonNotificationsWorks() {
+
+        WebElement notificationsButton = getDriver().findElement(By.xpath("//a[@id='visible-am-button']"));
+        notificationsButton.click();
+
+        WebElement manageJenkinsString = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#visible-am-list > p > a")));
+        assertEquals(manageJenkinsString.getText(),"Manage Jenkins");
     }
 
     @Test
@@ -333,16 +332,11 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testAdminButtonIsUnderlinedWhenMouseover() {
+    public void testAdminButtonIsUnderlinedWhenMouseOver() {
 
-        Actions act = new Actions(getDriver());
-
-        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[@class='model-link'][1]")));
-
-        act.moveToElement(adminLink).perform();
-
-        String textUnderlineAfter = adminLink.getCssValue("text-decoration");
+        String textUnderlineAfter = new MainPage(getDriver())
+                .hoverOverAdminLink()
+                .getTextDecorationValue();
 
         Assert.assertTrue(textUnderlineAfter.contains("underline"));
     }
@@ -358,4 +352,22 @@ public class HeaderTest extends BaseTest {
 
         assertEquals(actualColor, expectedColor);
     }
+    public void iconChangeColor(By el){
+        String colorBefore = getDriver().findElement(el).getCssValue("background-color");
+        String colorAfter = "";
+        new Actions(getDriver()).moveToElement(getDriver().findElement(el)).perform();
+        colorAfter = getDriver().findElement(el).getCssValue("background-color");
+
+        Assert.assertNotEquals(colorBefore, colorAfter);
+    }
+
+    @Ignore
+    @Test
+    public void testNotificationIcon(){
+        iconChangeColor(NOTIFICATION_ICON);
+        getDriver().findElement(NOTIFICATION_ICON).click();
+        String actualRes = getDriver().findElement(MANAGE_JENKINS_LINK).getText();
+        Assert.assertEquals(actualRes, "Manage Jenkins");
+    }
+
 }

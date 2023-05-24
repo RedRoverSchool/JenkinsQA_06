@@ -2,6 +2,7 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
@@ -46,9 +47,9 @@ public class FolderPage extends BasePage {
         return this;
     }
 
-    public FolderPage newView(){
+    public NewViewFolderPage newView(){
         getDriver().findElement(By.xpath("//div[@class='tab']")).click();
-        return this;
+        return new NewViewFolderPage(getDriver());
     }
 
     public FolderPage addDescription(String description){
@@ -60,6 +61,55 @@ public class FolderPage extends BasePage {
 
     public NewJobPage newJob(){
         getDriver().findElement(By.cssSelector("[href='newJob']")).click();
+        return new NewJobPage(getDriver());
+    }
+
+    public MainPage navigateToMainPageByBreadcrumbs() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//ol[@id='breadcrumbs']//li[1]")))).click();
+        return new MainPage(getDriver());
+    }
+
+    public WebElement getHeading1() {
+        return getDriver().findElement(By.xpath("//h1"));
+    }
+
+    public WebElement getMultibranchPipelineName() {
+        return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector(".jenkins-table__link"))));
+    }
+
+    public MainPage clickDashboard() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
+        return new MainPage(getDriver());
+    }
+
+    public WebElement getNestedFolder(String nameFolder) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+    }
+
+    public String getFolderDisplayName() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='main-panel']/h1"))));
+    }
+
+    public String getFolderName() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))));
+    }
+    public String getFolderDescription() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
+    }
+
+    public FolderConfigPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+        return new FolderConfigPage(getDriver());
+    }
+
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
     }
 }

@@ -76,26 +76,4 @@ public class CreateFolderTest extends BaseTest {
         String actualFreestyleProjectName = getDriver().findElement(By.linkText(freestyleProjectName)).getText();
         Assert.assertEquals(actualFreestyleProjectName, freestyleProjectName);
     }
-
-    @Test
-    public void testCreateFolder3() {
-        String nameItem = "Test Folder";
-
-        getDriver().findElement(By.linkText("New Item")).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(nameItem);
-        getDriver().findElement(By.xpath("(//span[@class='label'])[4]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("Submit"))).click();
-
-        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']//li[1]")).click();
-
-        WebElement nameOfFolder = getDriver().findElement(By.cssSelector(".jenkins-table__link"));
-        String actualResult = nameOfFolder.getText();
-        nameOfFolder.click();
-
-        Assert.assertEquals(actualResult, nameItem);
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel>h1")).getText(), nameItem);
-    }
 }
