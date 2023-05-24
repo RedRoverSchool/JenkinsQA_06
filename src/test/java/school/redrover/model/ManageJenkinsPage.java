@@ -63,8 +63,7 @@ public class ManageJenkinsPage extends MainPage {
 
     public String getJenkinsSiteTitle() {
         for (String window : getDriver().getWindowHandles()) {
-            getDriver().switchTo().window(window);
-        }
+            getDriver().switchTo().window(window); }
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
     }
 }
