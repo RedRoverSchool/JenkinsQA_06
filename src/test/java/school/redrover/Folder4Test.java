@@ -61,7 +61,7 @@ public class Folder4Test extends BaseTest {
         Assert.assertEquals(new FolderPage(getDriver()).getFolderDescription(), description);
     }
 
-       @Test(dependsOnMethods = {"testCreateFolder", "testCreateNewViewInFolder", "testAddDisplayNameAndDescription"})
+    @Test(dependsOnMethods = {"testCreateFolder", "testCreateNewViewInFolder", "testAddDisplayNameAndDescription"})
     public void testRenameFolder() {
         final String newName = "newTestName";
 
