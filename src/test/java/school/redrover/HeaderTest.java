@@ -251,9 +251,11 @@ public class HeaderTest extends BaseTest {
 
     @Test(dataProvider = "dropDownMenuAndPageLocators")
     public void testOpenTabFromDropdownMenu(By buttonLocator, By pageLocator) {
-
-        MainPage mainPage = new MainPage(getDriver())
+        WebElement page = new MainPage(getDriver())
+                .openAdminDropdownMenu()
                 .openTabFromAdminDropdownMenu(buttonLocator, pageLocator);
+
+        Assert.assertTrue(page.isDisplayed());
     }
 
     @Test
