@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
@@ -48,27 +47,40 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test (dependsOnMethods = "testMultiConfigurationProjectDisable")
     public void testMultiConfigurationProjectEnable () {
-        getWait10().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'My Multi configuration project']")))).click();
+        MainPage mainPageName = new MainPage(getDriver());
+        mainPageName.getMultiConfigPage();
 
-        getDriver().findElement(By.xpath("//*[@id='enable-project']/button")).click();
+        WebElement enable = (WebElement) new MultiConfigurationProjectPage (getDriver())
+                .getEnableClick().getDisableElem();
 
-        WebElement button = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//button[text () = 'Disable Project']"))));
-
-        Assert.assertEquals(button.getText(),"Disable Project");
+        Assert.assertEquals(enable.getText(),"Disable Project");
     }
 
-    @Test (dependsOnMethods = "testMultiConfigurationProjectEnable" )
+    @Test (dependsOnMethods = "testMultiConfigurationProjectEnable")
     public void testMultiConfigurationProjectConfigureDisabled() {
-        getDriver().findElement(By.xpath("//span[text() = 'My Multi configuration project']")).click();
+        MainPage mainPageName = new MainPage(getDriver());
+        mainPageName.getMultiConfigPage();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
+        WebElement configPage = new MultiConfigurationProjectPage(getDriver())
+                .getConfigPage()
+                .switchCheckboxDisable()
+                .getTextDisable();
 
-        getDriver().findElement(By.xpath("//*[@id='toggle-switch-enable-disable-project']")).click();
-        WebElement buttonEnabled = getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']"))));
+        Assert.assertEquals(configPage.getText(),"Disabled");
+        getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
 
-        Assert.assertEquals(buttonEnabled.getText(),"Enabled");
+    }
+
+    @Test (dependsOnMethods = "testMultiConfigurationProjectConfigureDisabled")
+    public void testMultiConfigurationProjectConfigureEnable() {
+        MainPage mainPageName = new MainPage(getDriver());
+        mainPageName.getMultiConfigPage();
+
+        WebElement configPage = new MultiConfigurationProjectPage(getDriver())
+                .getConfigPage()
+                .switchCheckboxEnabled()
+                .getTextEnabled();
+
+        Assert.assertEquals(configPage.getText(),"Enabled");
     }
 }

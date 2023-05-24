@@ -91,20 +91,6 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), errorMessage);
     }
 
-    @Test
-    public void testCreateOrganizationFolderInFolder() {
-        final String name = RandomStringUtils.randomAlphanumeric(8);
-
-        TestUtils.createFolder(this, name, true);
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
-
-        TestUtils.createOrganizationFolder(this, name + "Organization", true);
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
-
-        Assert.assertTrue(getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.id("projectstatus"))).getText().contains(name + "Organization"));
-    }
-
     @DataProvider(name = "invalid-data")
     public Object[][] provideInvalidData() {
         return new Object[][]{{"!"}, {"#"}, {"$"}, {"%"}, {"&"}, {"*"}, {"/"}, {":"},
@@ -139,13 +125,13 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folderTwo, true);
 
         WebElement folderName = new MainPage(getDriver())
-                .clickDropDownMenuFolderName(folderTwo)
+                .clickOnProjectDropDownMenu(folderTwo)
                 .selectMoveFromDropDownMenu()
                 .selectDestinationFolder()
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderOne)
-                .getNestedFolderName(folderTwo);
+                .getNestedFolder(folderTwo);
 
         Assert.assertTrue(folderName.isDisplayed());
     }

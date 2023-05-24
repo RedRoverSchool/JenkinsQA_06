@@ -76,4 +76,28 @@ public class FreestyleProject5Test extends BaseTest {
         Assert.assertFalse(getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody")).getText().contains(name));
         Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody")).getText().contains(newName));
     }
+
+    @Test
+    public void testDeleteProjectFromDashboardPage(){
+        final String name = "First";
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
+        TestUtils.createFreestyleProject(this, name, true);
+
+        WebElement mouseOnProject = getDriver()
+                .findElement(By.xpath("//a[@href='job/" + name + "/']"));
+
+        new Actions(getDriver())
+                .moveToElement(mouseOnProject)
+                .perform();
+
+        WebElement menuDropDownShevron = getDriver().findElement(By.xpath("//a[@href='job/" + name + "/']/button"));
+        js.executeScript("arguments[0].click();", menuDropDownShevron);
+
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='#']/span[text()='Delete Project']"))).click();
+        getDriver().switchTo().alert().accept();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Welcome to Jenkins!");
+    }
 }
