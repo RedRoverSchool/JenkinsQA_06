@@ -13,7 +13,6 @@ import java.util.List;
 
 public class FreestyleProjectAllTest extends BaseTest {
     private final String projectName = "My_Freestyle_Project";
-    private final String newProjectName = "New_Freestyle_Project_Name";
 
     @Test
     public void testCreateFreestyleProjectWithValidData() {
@@ -125,6 +124,8 @@ public class FreestyleProjectAllTest extends BaseTest {
 
     @Test
     public void testRenameProject() {
+        final String newProjectName = "New_Freestyle_Project_Name";
+
         TestUtils.createFreestyleProject(this, projectName, false);
 
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + projectName + "/confirm-rename']"))).click();
