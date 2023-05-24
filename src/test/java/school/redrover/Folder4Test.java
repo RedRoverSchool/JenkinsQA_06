@@ -77,7 +77,7 @@ public class Folder4Test extends BaseTest {
 
     @Test
     public void testMoveFolderToFolder(){
-        final String folder2Name = "newTestName";
+        final String folder2Name = "test2";
 
         TestUtils.createFolder(this, FOLDER_NAME, true);
         TestUtils.createFolder(this, folder2Name, true);
@@ -89,8 +89,7 @@ public class Folder4Test extends BaseTest {
                 .navigateToMainPageByBreadcrumbs()
                 .clickFolderName(folder2Name);
 
-        Assert.assertTrue(
-                getDriver().findElement(By.xpath("//a[contains(text(),'" + FOLDER_NAME + "')]")).isDisplayed(),
+        Assert.assertTrue(new FolderPage(getDriver()).getNestedFolder(FOLDER_NAME).isDisplayed(),
                 "error was not shown moved folder");
     }
 }
