@@ -5,6 +5,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
+import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
 
@@ -198,8 +200,6 @@ public class MainPage extends BasePage {
         return new RenameProjectPage(getDriver());
     }
 
-
- 
     public MyViewsPage clickMyViewsSideMenuLink(){
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/me/my-views']"))).click();
         return new MyViewsPage(getDriver());
@@ -229,4 +229,8 @@ public class MainPage extends BasePage {
         return new RenameFolderPage(getDriver());
     }
 
+    public MainPage clickOnManageJenkinsMenu(){
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        return new ManageJenkinsPage(getDriver());
+    }
 }

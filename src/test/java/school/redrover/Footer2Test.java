@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
 
@@ -20,26 +21,14 @@ public class Footer2Test extends BaseTest {
         Assert.assertEquals(restApiTitle,"REST API");
     }
 
-    @Ignore
     @Test
     public void testJenkinsSiteOpenOnManageJenkinsPage()  {
-        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+       new MainPage(getDriver()).clickOnManageJenkinsMenu();
 
-        WebElement jenkinsVersionLink= getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+      String jenkinsSiteTitle = new ManageJenkinsPage(getDriver())
+               .clickOnJenkinsVersionInTheFooter()
+               .getJenkinsSiteTitle();
 
-        new Actions(getDriver())
-                .scrollToElement(jenkinsVersionLink)
-                .pause(Duration.ofSeconds(1))
-                .click(jenkinsVersionLink)
-                .perform();
-
-        for (String window : getDriver().getWindowHandles()) {
-             getDriver().switchTo().window(window);
-        }
-
-        WebElement jenkinsSiteTitle =getDriver().findElement(By.xpath("//h1"));
-        getWait2().until(ExpectedConditions.visibilityOf(jenkinsSiteTitle));
-
-        Assert.assertEquals(jenkinsSiteTitle.getText(), "Jenkins");
+        Assert.assertEquals(jenkinsSiteTitle, "Jenkins");
     }
 }

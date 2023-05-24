@@ -7,10 +7,15 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.time.Duration;
+
 public class ManageJenkinsPage extends MainPage {
 
     @FindBy(xpath ="//a[@href='securityRealm/']")
     private WebElement manageUsers;
+
+    @FindBy(xpath ="//a[text()='Jenkins 2.387.2']")
+    private WebElement jenkinsVersion;
 
     public ManageJenkinsPage(WebDriver driver){
         super(driver);
@@ -45,5 +50,21 @@ public class ManageJenkinsPage extends MainPage {
     public ManageUsersPage clickManageUsers() {
         getWait2().until(ExpectedConditions.elementToBeClickable(manageUsers)).click();
         return new ManageUsersPage(getDriver());
+    }
+
+    public ManageJenkinsPage clickOnJenkinsVersionInTheFooter(){
+        new Actions(getDriver())
+                .scrollToElement(jenkinsVersion)
+                .pause(Duration.ofSeconds(1))
+                .click(jenkinsVersion)
+                .perform();
+        return this;
+    }
+
+    public String getJenkinsSiteTitle() {
+        for (String window : getDriver().getWindowHandles()) {
+            getDriver().switchTo().window(window);
+        }
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
     }
 }

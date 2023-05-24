@@ -7,33 +7,25 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
-import java.security.Key;
-import java.time.Duration;
 
 public class PipelineProject1Test extends BaseTest {
     private  final String PROJECT_NAME = "Project1";
 
     @Test
     public void testRenamePipelineProjectOnPipelineProjectPage()  {
-        String newProjectName = "Project12";
 
-        TestUtils.createPipeline(this, PROJECT_NAME,true);
+        TestUtils.createPipeline(this, PROJECT_NAME,false);
+        String newProjectName = "Project2";
 
-        WebElement actualProjectName = getDriver().findElement(By.xpath("//td/a[contains(@href,'job')]/span"));
-        actualProjectName.click();
+        new PipelinePage(getDriver())
+                .clickOnRenameButtonOnSideMenu()
+                .changeProjectName(newProjectName)
+                .clickRenameButton();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//a[contains(@href,'confirm-rename')]")))).click();
-
-        WebElement newNameInputField = getDriver().findElement(By.xpath("//input[@checkdependson='newName']"));
-        newNameInputField.clear();
-        newNameInputField.sendKeys(newProjectName);
-
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")). getText(),"Pipeline " + newProjectName);
+        Assert.assertEquals(new PipelinePage(getDriver()).getNewProjectName(),"Pipeline " + newProjectName);
     }
 
     @Test

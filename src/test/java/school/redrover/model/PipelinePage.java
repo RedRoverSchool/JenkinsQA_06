@@ -3,10 +3,14 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 public class PipelinePage extends BasePage {
+
+    @FindBy(xpath = "//input[@checkdependson='newName']")
+    private WebElement newNameInputField;
 
     public PipelinePage(WebDriver driver) {
         super(driver);
@@ -68,4 +72,21 @@ public class PipelinePage extends BasePage {
     public WebElement getHeaderPipeline() {
         return getDriver().findElement(By.cssSelector("[class$='headline']"));
     }
+
+    public PipelinePage clickOnRenameButtonOnSideMenu(){
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//a[contains(@href,'confirm-rename')]")))).click();
+        return this;
+    }
+
+    public PipelinePage changeProjectName(String newProjectName) {
+         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@checkdependson='newName']"))).clear();
+         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@checkdependson='newName']"))).sendKeys(newProjectName);
+         return this;
+    }
+
+    public String getNewProjectName(){
+         return getDriver().findElement(By.xpath("//h1")). getText();
+    }
 }
+
+
