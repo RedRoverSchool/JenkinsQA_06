@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -7,6 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
@@ -50,5 +52,28 @@ public class OrganizationFolderTest extends BaseTest {
         String actualRenamedFolderName = getDriver().findElement(By.xpath("//a[@href='job/Project/']")).getText();
 
         Assert.assertEquals(actualRenamedFolderName, expectedRenamedFolderName);
+    }
+
+    @Test
+    public void testCreateOrganizationFolderInFolder() {
+        final String nameFolder = RandomStringUtils.randomAlphanumeric(8);
+        final String nameOrganizationFolder = nameFolder + "Organization";
+
+        WebElement createdOrganizationFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameFolder)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .clickNewItem()
+                .enterItemName(nameOrganizationFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedFolder(nameOrganizationFolder);
+
+        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
     }
 }
