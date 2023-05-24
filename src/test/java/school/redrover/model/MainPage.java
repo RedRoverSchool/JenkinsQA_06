@@ -9,6 +9,8 @@ import school.redrover.model.base.BasePage;
 
 import java.time.Duration;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
+
 public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='/view/all/newJob']")
@@ -153,9 +155,9 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public MainPage clickOnProjectDropDownMenu(String nameFolder) {
+    public MainPage clickJobDropDownMenu(String name) {
         WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+                By.xpath("//a[contains(@href,'job/" + name + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
         chevron.sendKeys(Keys.RETURN);
         return this;
     }
@@ -188,10 +190,34 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    public FolderConfigPage selectConfigureJobDropDownMenu(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Configure')]"))).click();
+        return new FolderConfigPage(getDriver());
+    }
+
+    public NewJobPage selectNewItemJobDropDownMenu(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'New Item')]"))).click();
+        return new NewJobPage(getDriver());
+    }
+
+    public MainPage selectDeleteFolderJobDropDownMenu(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Delete Folder')]"))).click();
+        return this;
+    }
+
     public RenameProjectPage selectRenameJobDropDownMenu(String jobName){
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
         return new RenameProjectPage(getDriver());
+    }
+
+    public MovePage selectMoveJobDropDownMenu(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
+        return new MovePage(getDriver());
     }
 
     public MyViewsPage clickMyViewsSideMenuLink(){
@@ -203,13 +229,6 @@ public class MainPage extends BasePage {
         getDriver().findElement(By.xpath("//a[contains(@href,'api')]")).click();
 
         return new RestApiPage(getDriver());
-    }
-
-    public MovePage selectMoveJobDropDownMenu(String jobName){
-        openJobDropDownMenu(jobName);
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
-        return new MovePage(getDriver());
-
     }
 
     public MainPage scrollToRestApiInFooter() {
@@ -284,7 +303,16 @@ public class MainPage extends BasePage {
         return new MultiConfigurationProjectPage(getDriver());
     }
 
-    public NewViewPage createNewView() {
+    public MainPage selectDashboard() {
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+        return new MainPage(getDriver());
+    }
+
+    public WebElement getLinkVersion () {
+        return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+    }
+  
+      public NewViewPage createNewView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
 
         return new NewViewPage(getDriver());
