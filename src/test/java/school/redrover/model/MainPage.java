@@ -44,7 +44,7 @@ public class MainPage extends BasePage {
         return new NewJobPage(getDriver());
     }
 
-    public NewJobPage clickCreateAJob(){
+    public NewJobPage clickCreateAJob() {
         WebElement createAJob = getDriver()
                 .findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']"));
         getWait2().until(ExpectedConditions.elementToBeClickable(createAJob));
@@ -165,7 +165,7 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public MainPage clickOnSliderDashboardInDropDownMenu(){
+    public MainPage clickOnSliderDashboardInDropDownMenu() {
         new Actions(getDriver()).moveToElement(getDriver().findElement(
                 By.xpath("//div[@id = 'breadcrumbBar']//a"))).perform();
 
@@ -175,7 +175,7 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public NewJobPage clickNewItemInDashboardDropDownMenu(){
+    public NewJobPage clickNewItemInDashboardDropDownMenu() {
         getWait2().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
                 .click();
@@ -223,12 +223,12 @@ public class MainPage extends BasePage {
         return new MovePage(getDriver());
     }
 
-    public MyViewsPage clickMyViewsSideMenuLink(){
+    public MyViewsPage clickMyViewsSideMenuLink() {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/me/my-views']"))).click();
         return new MyViewsPage(getDriver());
     }
-  
-    public RestApiPage clickOnRestApiLink(){
+
+    public RestApiPage clickOnRestApiLink() {
         getDriver().findElement(By.xpath("//a[contains(@href,'api')]")).click();
 
         return new RestApiPage(getDriver());
@@ -238,7 +238,7 @@ public class MainPage extends BasePage {
         scrollToElementByJavaScript(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
         return this;
     }
-  
+
     public RenameFolderPage clickRenameInDropDownMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
 
@@ -314,17 +314,17 @@ public class MainPage extends BasePage {
     public WebElement getLinkVersion () {
         return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
     }
-  
+
       public NewViewPage createNewView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
 
         return new NewViewPage(getDriver());
     }
 
-    public WebElement getWelcomeWebElement(){
-        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));      
+    public WebElement getWelcomeWebElement() {
+        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
     }
-  
+
     public ViewPage clickOnView (String viewName) {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/']", viewName)))).click();
 
