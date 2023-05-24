@@ -12,6 +12,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -27,8 +28,6 @@ public class HeaderTest extends BaseTest {
 
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
     private static final By MANAGE_JENKINS_LINK = By.xpath("//a[text()='Manage Jenkins']");
-    private static final By HEADER_MANAGE_PAGE = By.xpath("//h1[text()='Manage Jenkins']");
-    private static final String NOTIFICATION_ICON_COLOR_CSS_VALUE = "background-color";
     private static final String MANAGE_JENKINS_PAGE_HEADER = "Manage Jenkins";
     private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
     private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
@@ -196,29 +195,24 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualHeader.getText(), expectedHeader);
     }
 
-    @Ignore
     @Test
     public void testNotificationAndSecurityIcon() {
 
-        WebElement notificationIcon = getDriver().findElement(NOTIFICATION_ICON);
-        String backgroundColorBefore = notificationIcon.getCssValue(NOTIFICATION_ICON_COLOR_CSS_VALUE);
+        String backgroundColorBefore = new MainPage(getDriver())
+                .getBackgroundColorNotificationIcon();
 
-        new Actions(getDriver())
-                .pause(Duration.ofMillis(300))
-                .moveToElement(getDriver().findElement(NOTIFICATION_ICON))
-                .perform();
+        String backgroundColorAfter = new MainPage(getDriver())
+                .moveCursorNotificationIcon()
+                .clickNotificationIcon()
+                .getBackgroundColorNotificationIcon();
 
-        String backgroundColorAfter = notificationIcon.getCssValue(NOTIFICATION_ICON_COLOR_CSS_VALUE);
-        Assert.assertNotEquals(backgroundColorBefore, backgroundColorAfter, "The color of icon is not changed");
-        getWait2().until(ExpectedConditions.elementToBeClickable(NOTIFICATION_ICON)).click();
+        new MainPage(getDriver())
+                .clickManageJenkinsLink();
 
-        new Actions(getDriver())
-                .pause(Duration.ofMillis(300))
-                .click(getWait2().until(ExpectedConditions.elementToBeClickable(MANAGE_JENKINS_LINK)))
-                .perform();
+        String actualHeader = new ManageJenkinsPage(getDriver())
+                .getActualHeader();
 
-        String actualHeader = getWait2().until(ExpectedConditions.visibilityOfElementLocated(HEADER_MANAGE_PAGE)).getText();
-
+        Assert.assertNotEquals(backgroundColorBefore, backgroundColorAfter, " The color of icon is not changed");
         Assert.assertEquals(actualHeader,MANAGE_JENKINS_PAGE_HEADER);
     }
 
