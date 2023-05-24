@@ -51,7 +51,6 @@ public class ManageJenkinsPage extends MainPage {
         return new ManageUsersPage(getDriver());
     }
 
-
     public ManageJenkinsPage clickOnJenkinsVersionInTheFooter() {
         new Actions(getDriver())
                 .scrollToElement(jenkinsVersion)
