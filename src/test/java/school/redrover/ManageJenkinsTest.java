@@ -5,12 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -129,5 +127,22 @@ public class ManageJenkinsTest extends BaseTest {
         for (int i = 0; i < expectedResult.size(); i++) {
             Assert.assertEquals(actualResult.get(i).getText(), expectedResult.get(i).getText());
         }
+    }
+
+    @DataProvider(name = "ToolsAndActions")
+    public Object [][] searchToolsAndActions() {
+        return new Object [][] {{"Script Console"}, {"Jenkins CLI"}, {"Prepare for Shutdown"}};
+    }
+
+
+    @Test(dataProvider = "ToolsAndActions")
+    public void testSearchToolsAndActions(String inputText)  {
+
+        MainPage mainPage = new MainPage(getDriver())
+            .navigateToManageJenkinsPage();
+        ManageJenkinsPage manageJenkinsPage = new ManageJenkinsPage(getDriver())
+                .inputToSearchField(inputText);
+        Assert.assertEquals(manageJenkinsPage.getDropdownResultsInSearchField(), inputText);
+
     }
 }
