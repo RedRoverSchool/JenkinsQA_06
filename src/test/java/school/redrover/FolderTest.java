@@ -125,7 +125,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folderTwo, true);
 
         WebElement folderName = new MainPage(getDriver())
-                .clickOnProjectDropDownMenu(folderTwo)
+                .clickJobDropDownMenu(folderTwo)
                 .selectMoveFromDropDownMenu()
                 .selectDestinationFolder()
                 .clickMoveButton()

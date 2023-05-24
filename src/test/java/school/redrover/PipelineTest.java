@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,7 +12,6 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
-import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
 
@@ -233,7 +231,7 @@ public class PipelineTest extends BaseTest {
                 .clickDeletePipeline()
                 .acceptAlert();
 
-        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(PIPELINE_NAME + "new"));
+        Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
     }
 
     @Test
@@ -262,11 +260,11 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndClickOK()
                 .clickSaveButton()
                 .clickDashboard()
-                .clickOnProjectDropDownMenu(name)
+                .clickJobDropDownMenu(name)
                 .selectDeleteFromDropDownMenu()
                 .acceptAlert();
 
-        Assert.assertFalse(getDriver().findElement(By.id("main-panel")).getText().contains(name));
+        Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
     }
 
     @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")

@@ -153,9 +153,9 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public MainPage clickOnProjectDropDownMenu(String nameFolder) {
+    public MainPage clickJobDropDownMenu(String name) {
         WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
+                By.xpath("//a[contains(@href,'job/" + name + "/')]/button[@class='jenkins-menu-dropdown-chevron']")));
         chevron.sendKeys(Keys.RETURN);
         return this;
     }
