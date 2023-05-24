@@ -18,4 +18,14 @@ public class PipelineConfigPage extends BasePage {
         return new PipelinePage(getDriver());
     }
 
+    public PipelineConfigPage clickPipelineButton() {
+        getDriver().findElement(By.xpath("//button[@data-section-id='pipeline']")).click();
+        return this;
+    }
+
+    public String getTextFromDefinitionField() {
+        return getDriver()
+                .findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]"))
+                .getText();
+    }
 }

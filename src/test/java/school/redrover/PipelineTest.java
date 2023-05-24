@@ -11,6 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
@@ -237,17 +238,15 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreatingBasicPipelineProjectThroughJenkinsUI() {
 
-        getDriver().findElement(By.xpath("//a[normalize-space()='New Item']")).click();
+        String expectedResult = "Pipeline script";
 
-        getDriver().findElement(By.id("name")).sendKeys("Pipeline01");
-        getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
+        String textInDefinitionField = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickPipelineButton().getTextFromDefinitionField();
 
-        getDriver().findElement(By.xpath("//button[@data-section-id='pipeline']")).click();
-        WebElement optionInDefinitionField = getDriver()
-                .findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]"));
-
-        Assert.assertEquals(optionInDefinitionField.getText(), "Pipeline script");
+        Assert.assertEquals(textInDefinitionField, expectedResult);
     }
 
     @Test
@@ -268,7 +267,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
-    public void testPipelineBuildingAfterChangesInCode(){
+    public void testPipelineBuildingAfterChangesInCode() {
 
         getWait2().until(ExpectedConditions.presenceOfElementLocated(dashboard)).click();
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By
@@ -287,7 +286,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(buttonSaveOnConfigurePage).click();
 
         getWait5().until(ExpectedConditions.presenceOfElementLocated(buildNowButton)).click();
-        WebElement buildNumber=getWait10().until(ExpectedConditions.presenceOfElementLocated(By
+        WebElement buildNumber = getWait10().until(ExpectedConditions.presenceOfElementLocated(By
                 .xpath("(//a[@update-parent-class='.build-row'])[1]")));
 
         new Actions(getDriver())
@@ -301,7 +300,7 @@ public class PipelineTest extends BaseTest {
 
         WebElement buildStatusIcon =
                 getDriver().findElement(By.xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']"));
-        WebElement buildStatusText=
+        WebElement buildStatusText =
                 getDriver().findElement(By.xpath("//h1[@class='build-caption page-headline']"));
 
         Assert.assertTrue(buildStatusText.getText().contains("Build #1"));
