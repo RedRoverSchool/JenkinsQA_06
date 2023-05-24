@@ -87,6 +87,17 @@ public class Folder4Test extends BaseTest {
     }
 
     @Test
+    public void testCancelDeleting() {
+        TestUtils.createFolder(this, FOLDER_NAME, true);
+        new MainPage(getDriver())
+                .selectDeleteFolderDropDownMenu(FOLDER_NAME)
+                .clickDashboard();
+
+        Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(FOLDER_NAME).isDisplayed(),
+                "error was not show name folder");
+    }
+
+    @Test
     public void testMoveFolderToFolder(){
         final String folder2Name = "test2";
 
