@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 
 public class Pipeline3Test extends BaseTest {
@@ -22,18 +23,17 @@ public class Pipeline3Test extends BaseTest {
 
     @Test
     public void testCreatePipelineViaNewItem() {
+        new MainPage(getDriver()).clickNewItem();
+        new ViewPage(getDriver()).inputAnItemName("First Project");
+        new ViewPage(getDriver()).clickPipelineProject();
+        new ViewPage(getDriver()).clickSaveButton();
+        new ConfigurePage(getDriver()).clickSaveButton();
 
-        getDriver().findElement(NEW_ITEM_MENU).click();
-        getDriver().findElement(PROJECT_NAME_FIELD).sendKeys(itemName);
-        getDriver().findElement(PIPELINE_SECTION).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
+        Assert.assertEquals(new PipelinePage(getDriver()).getProjectName(), "Pipeline " + "First Project");
 
-        Assert.assertEquals(getDriver().findElement(PIPELINE_HEADING).getText(), "Pipeline " + itemName);
+        new PipelinePage(getDriver()).clickDashboard();
 
-        getDriver().findElement(BREADSCRUMB_DASHBOARD).click();
-
-        Assert.assertEquals(getDriver().findElement(PROJECT_NAME_IN_PROJECT_STATUS_TABLE).getText(), itemName);
+        Assert.assertEquals(new MainPage(getDriver()).getJobName("First Project"), "First Project");
     }
 
     @Test(dependsOnMethods = "testCreatePipelineViaNewItem")
