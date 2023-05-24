@@ -5,12 +5,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectConfigPage;
+import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.model.ProjectPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 
 public class MultiConfigurationTest extends BaseTest {
@@ -85,7 +86,7 @@ public class MultiConfigurationTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDisabledMultiConfigurationProject")
-    public void testEnabledMultiConfigurationProject(){
+    public void testEnabledMultiConfigurationProject() {
         ProjectPage enabledProjPage = new MainPage(getDriver())
                 .navigateToProjectPage()
                 .enableProject();
@@ -101,18 +102,18 @@ public class MultiConfigurationTest extends BaseTest {
 
         Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
 
-        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(),"Welcome to Jenkins!");
+        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(), "Welcome to Jenkins!");
     }
 
     @Test(dependsOnMethods = "testEnabledMultiConfigurationProject")
-    public void testProjectPageDelete(){
+    public void testProjectPageDelete() {
         MainPage deletedProjPage = new MainPage(getDriver())
                 .navigateToProjectPage()
                 .deleteProject();
 
         Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
 
-        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(),"Welcome to Jenkins!");
+        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(), "Welcome to Jenkins!");
     }
 
     @Test
@@ -132,5 +133,21 @@ public class MultiConfigurationTest extends BaseTest {
         }
 
         Assert.assertTrue(checkboxesVisibleClickable);
+    }
+
+    @Test
+    public void testBuildNowDropDownMenuMultiConfigurationProject() {
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+
+        MainPage mainPage = new MainPage(getDriver())
+                .clickJobDropDownMenu(MULTI_CONFIGURATION_NAME);
+
+        Assert.assertEquals(mainPage.getJobBuildStatus(MULTI_CONFIGURATION_NAME), "Not built");
+
+        MultiConfigurationProjectPage multiConfigurationProjectPage = new MainPage(getDriver())
+                .clickJobDropdownMenuBuildNow()
+                .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME);
+
+        Assert.assertEquals(multiConfigurationProjectPage.getJobBuildStatus(MULTI_CONFIGURATION_NAME), "Success");
     }
 }

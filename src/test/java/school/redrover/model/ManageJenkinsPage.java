@@ -71,7 +71,11 @@ public class ManageJenkinsPage extends MainPage {
         public String getActualHeader () {
             return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
                     "//h1[text()='Manage Jenkins']"))).getText();
-
         }
     }
+
+    public String getDropdownResultsInSearchField() {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='jenkins-search__results']"))).getText();
+    }
+}
 

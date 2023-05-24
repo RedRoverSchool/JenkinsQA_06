@@ -1,6 +1,5 @@
 package school.redrover.model;
 
-import org.apache.hc.client5.http.impl.classic.MainClientExec;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -99,5 +98,11 @@ public class FreestyleProjectPage extends BasePage {
     public int getBuildsQuantity() {
         return Arrays.asList(getWait10().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//tr[@class = 'build-row multi-line overflow-checked']")))).size();
+    }
+
+    public RenameFreestyleProjectPage clickRenameProject() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@href = '/job/Freestyle/confirm-rename']"))).click();
+        return new RenameFreestyleProjectPage(getDriver());
     }
 }
