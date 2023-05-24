@@ -15,7 +15,7 @@ public class PipelineJobTest extends BaseTest {
         ).click();
     }
 
-    private void CreatePipelineProjectJob(String nameProject, String displayName) {
+    private void createPipelineProjectJob(String nameProject, String displayName) {
         getDriver().findElement(
                 By.xpath("//*[@id='tasks']/div[1]/span/a")
         ).click();
@@ -30,16 +30,21 @@ public class PipelineJobTest extends BaseTest {
         ).click();
 
         new Actions(getDriver())
-                .scrollByAmount(0, 600)
+                .scrollByAmount(0, 800)
                 .click(getDriver().findElement(
                         By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[2]/div[1]/button")
                 ))
                 .perform();
+
+        new Actions(getDriver())
+                .click( getWait5().until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//*[@id='main-panel']//div[1]/div[6]/div[3]/div/div[2]")
+                )))
+                .sendKeys(displayName)
+                .perform();
+
         getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//*[@id='main-panel']/form/div[1]/div[6]/div[3]/div/div[2]/input")
-        )).sendKeys(displayName);
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//*[@id='main-panel']/form/div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select/option[2]")
+                By.xpath("//*[@id='main-panel']//div[1]/div[7]/div[3]/div/div/div[2]/div[2]/div/div[1]/select/option[2]")
         )).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 By.name("Submit")
@@ -53,7 +58,7 @@ public class PipelineJobTest extends BaseTest {
 
     @Test
     public void testCreatePipelineProjectJob() {
-        CreatePipelineProjectJob("RedRover","R&R");
+        createPipelineProjectJob("RedRover","R&R");
 
         Assert.assertEquals(getWait10().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//*[@id='job_RedRover']/td[3]/a/span"

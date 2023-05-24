@@ -14,7 +14,6 @@ public class FreestyleProject9Test extends BaseTest {
     public static final By OK_BUTTON = By.xpath("//button[@id='ok-button']");
     public static final By SAVE_BUTTON = By.xpath("//button[@name='Submit']");
     public static final By JENKINS_IMAGE_HEADER = By.xpath("//img[@alt='Jenkins']");
-    private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     @Test
     public void testDisplayFreestyleProjectOnDashboard() {
@@ -29,5 +28,14 @@ public class FreestyleProject9Test extends BaseTest {
         WebElement createdFreestyleProject = getDriver().findElement(By.xpath("//a[@href='job/testFreestyleProject/']"));
 
         Assert.assertEquals(createdFreestyleProject.getText(), "testFreestyleProject");
+    }
+
+    @Test(dependsOnMethods = "testDisplayFreestyleProjectOnDashboard")
+    public void testOpenFreestyleProjectPageFromDashboard() {
+        getDriver().findElement(By.xpath("//a[@href='job/testFreestyleProject/']")).click();
+
+        WebElement freestyleProjectPageHeader = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[ancestor::div[@id='main-panel']]")));
+
+        Assert.assertEquals(freestyleProjectPageHeader.getText(), "Project testFreestyleProject");
     }
 }

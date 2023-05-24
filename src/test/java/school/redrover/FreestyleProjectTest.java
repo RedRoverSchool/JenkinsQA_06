@@ -10,7 +10,10 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.FreestyleProjectPage;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,55 +24,47 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String TEST_NAME = "Test";
+    private String name = "First Project";
 
-    @Ignore
     @Test
     public void testCreateNewFreestyleProject() {
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
+        WebElement projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickDashboard().getProjectName();
 
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(projectName.getText(),  FREESTYLE_NAME);
     }
 
-    @Ignore
     @Test
     public void testDisableProject() {
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
+        FreestyleProjectPage projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickTheDisableProjectButton();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'warning']")).getText().trim().substring(0, 34),
-                "This project is currently disabled");
+        Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
     }
 
-
-    @Ignore
     @Test
     public void testEnableProject() {
 
+        MainPage projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickTheDisableProjectButton()
+                .clickTheEnableProjectButton()
+                .clickDashboard();
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate='formNoValidate']")).click();
-
-        getDriver().findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary ")).click();
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']")).getAttribute("tooltip"), "Not built");
+        Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
     @Ignore
@@ -391,6 +386,20 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testMakeProjectDisabled() {
+        TestUtils.createFreestyleProject(this, name, false);
+
+        WebElement actualProjectHeader = getDriver().findElement(By.xpath("//h1"));
+
+        Assert.assertEquals(actualProjectHeader.getText(), "Project First Project");
+
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+        WebElement receivedMessage = getDriver().findElement(By.xpath("//div/form[@id='enable-project']"));
+
+        Assert.assertEquals(receivedMessage.getText().substring(0,34), "This project is currently disabled");
+    }
+
+    @Test
     public void testCreateFreestyleProjectGoingFromPeoplePage() {
 
         String projectName = "FreestyleProject";
@@ -420,6 +429,35 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualProjectName, "Project " + TEST_NAME);
         Assert.assertEquals(getDriver().findElement(By.id("description-link")).getText(),"Add description");
+    }
+    @Test(dependsOnMethods = "testCreateFreestyleProjectValidName")
+    public void testAddDescription() {
+        WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/Astra/']"));
+        new Actions(getDriver()).moveToElement(projectName).click(projectName).perform();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1")));
+
+        WebElement addDescriptionButton = getDriver().findElement(By.xpath("//a[@id='description-link']"));
+        addDescriptionButton.click();
+
+        WebElement textArea = getDriver().findElement(By.tagName("textarea"));
+        String forTextArea = "123\nAAA\nSSS";
+        textArea.sendKeys(forTextArea);
+
+        WebElement previewButton = getDriver().findElement(By.xpath("//a[@previewendpoint='/markupFormatter/previewDescription']"));
+        previewButton.click();
+
+        WebElement previewTextArea = getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
+        Assert.assertEquals(previewTextArea.getText(), forTextArea);
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[contains(text(), 'Save')]"));
+        saveButton.click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='editDescription']")));
+
+        WebElement description = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
+
+        Assert.assertEquals(description.getText(), forTextArea);
     }
 }
 
