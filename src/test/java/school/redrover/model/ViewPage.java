@@ -5,7 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewPage extends BasePage {
 
@@ -20,6 +24,9 @@ public class ViewPage extends BasePage {
 
     @FindBy(xpath = "//button[@id = 'ok-button']")
     private WebElement saveButton;
+
+    @FindBy(xpath = "//tbody/tr/td/a/span")
+    private List<WebElement> jobList;
 
     public ViewPage(WebDriver driver) {
         super(driver);
@@ -62,4 +69,53 @@ public class ViewPage extends BasePage {
     public String getDescriptionText() {
         return description.getText();
     }
+
+    public String getJobName (String name) {
+
+        return getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", name))).getText();
+    }
+
+    public String getViewName () {
+
+        return getText(getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
+    }
+
+    public void clickBreadcrumbPathItem(int n, String name) {
+        List<WebElement> breadcrumbTree = getDriver().findElements(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']/a"));
+        if (breadcrumbTree.get(breadcrumbTree.size() - n).getText().contains(name)) {
+            breadcrumbTree.get(breadcrumbTree.size() - n).click();
+        }
+    }
+
+    public ViewPage createFreestyleProjectInsideFolderAndView(String jobName, String viewName, String folderName) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//tr[@id='job_%s']//a", folderName)))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/job/%s/newJob']", viewName, folderName)))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.id("name")))).sendKeys(jobName);
+        getDriver().findElement(By.xpath("//span[@class='label'][text()='Freestyle project']")).click();
+        getDriver().findElement(By.xpath("//div[@class='btn-decorator']")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+        clickBreadcrumbPathItem(3, viewName);
+
+        return new ViewPage(getDriver());
+    }
+
+    public NewViewPage createNewView() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
+
+        return new NewViewPage(getDriver());
+    }
+
+    public List<String> getJobNamesList() {
+        if (jobList.size() > 0) {
+            getWait10().until(ExpectedConditions.visibilityOfAllElements(jobList));
+            List<String> textList = new ArrayList<>();
+            for (WebElement element : jobList) {
+                textList.add(element.getText());
+            }
+            return textList;
+        }
+        return null;
+    }
+
+
 }

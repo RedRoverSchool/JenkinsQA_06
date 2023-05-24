@@ -4,12 +4,12 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
+
 
 public class MainPage extends BasePage {
 
@@ -21,9 +21,6 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
-
-    @FindBy(css = ".login>a.model-link")
-    private WebElement adminLink;
 
     private void openJobDropDownMenu(String jobName) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
@@ -41,7 +38,7 @@ public class MainPage extends BasePage {
         return new NewJobPage(getDriver());
     }
 
-    public NewJobPage clickCreateAJob(){
+    public NewJobPage clickCreateAJob() {
         WebElement createAJob = getDriver()
                 .findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']"));
         getWait2().until(ExpectedConditions.elementToBeClickable(createAJob));
@@ -162,7 +159,7 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public MainPage clickOnSliderDashboardInDropDownMenu(){
+    public MainPage clickOnSliderDashboardInDropDownMenu() {
         new Actions(getDriver()).moveToElement(getDriver().findElement(
                 By.xpath("//div[@id = 'breadcrumbBar']//a"))).perform();
 
@@ -172,7 +169,7 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public NewJobPage clickNewItemInDashboardDropDownMenu(){
+    public NewJobPage clickNewItemInDashboardDropDownMenu() {
         getWait2().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
                 .click();
@@ -190,35 +187,52 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    public FolderConfigPage selectConfigureJobDropDownMenu(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Configure')]"))).click();
+        return new FolderConfigPage(getDriver());
+    }
+
+    public NewJobPage selectNewItemJobDropDownMenu(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'New Item')]"))).click();
+        return new NewJobPage(getDriver());
+    }
+
+    public DeleteFolderPage selectDeleteFolderDropDownMenu(String jobName){
+        openJobDropDownMenu(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Delete Folder')]"))).click();
+        return new DeleteFolderPage(getDriver());
+    }
+
     public RenameProjectPage selectRenameJobDropDownMenu(String jobName){
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
         return new RenameProjectPage(getDriver());
     }
 
-    public MyViewsPage clickMyViewsSideMenuLink(){
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/me/my-views']"))).click();
-        return new MyViewsPage(getDriver());
-    }
-  
-    public RestApiPage clickOnRestApiLink(){
-        getDriver().findElement(By.xpath("//a[contains(@href,'api')]")).click();
-
-        return new RestApiPage(getDriver());
-    }
-
     public MovePage selectMoveJobDropDownMenu(String jobName){
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
         return new MovePage(getDriver());
+    }
 
+    public MyViewsPage clickMyViewsSideMenuLink() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/me/my-views']"))).click();
+        return new MyViewsPage(getDriver());
+    }
+
+    public RestApiPage clickOnRestApiLink() {
+        getDriver().findElement(By.xpath("//a[contains(@href,'api')]")).click();
+
+        return new RestApiPage(getDriver());
     }
 
     public MainPage scrollToRestApiInFooter() {
         scrollToElementByJavaScript(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
         return this;
     }
-  
+
     public RenameFolderPage clickRenameInDropDownMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
 
@@ -264,28 +278,24 @@ public class MainPage extends BasePage {
     }
 
     public String getTextDecorationValue() {
+        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector(".login>a.model-link")));
         return adminLink.getCssValue("text-decoration");
     }
 
-    public void openAdminDropdownMenu() {
+    public MainPage openAdminDropdownMenu() {
         WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
                 ("//a[@href='/user/admin']/button")));
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", dropDownMenu);
-    }
-
-    public MainPage openTabFromAdminDropdownMenu(By buttonLocator, By pageLocator) {
-        openAdminDropdownMenu();
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
-
-        WebElement page = getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
-
-        Assert.assertTrue(page.isDisplayed());
-
         return this;
     }
-  
+
+    public WebElement openTabFromAdminDropdownMenu(By buttonLocator, By pageLocator) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
+    }
+
     public MultiConfigurationProjectPage clickJobWebElement(String jobName) {
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]")))).click();
@@ -297,4 +307,42 @@ public class MainPage extends BasePage {
         return new MainPage(getDriver());
     }
 
+    public WebElement getLinkVersion () {
+        return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+    }
+
+      public NewViewPage createNewView() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
+
+        return new NewViewPage(getDriver());
+    }
+
+    public WebElement getWelcomeWebElement() {
+        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
+    }
+
+    public ViewPage clickOnView (String viewName) {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/']", viewName)))).click();
+
+        return new ViewPage(getDriver());
+    }
+
+    public MainPage clickJobDropdownMenuBuildNow() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Build Now']"))).click();
+        return this;
+    }
+
+    public MultiConfigurationProjectPage clickJobMultiConfigurationProject(String jobName) {
+        WebElement job = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//a[@href='job/" + jobName + "/']"))));
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(job).click().perform();
+        return new MultiConfigurationProjectPage(getDriver());
+    }
+
+    public String getJobBuildStatus(String jobName) {
+        WebElement buildStatus = getDriver().findElement(By.id(String.format("job_%s", jobName)))
+                .findElement(By.xpath(".//*[name()='svg']"));
+        return buildStatus.getAttribute("tooltip");
+    }
 }
