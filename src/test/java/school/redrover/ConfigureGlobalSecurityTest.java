@@ -6,9 +6,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.ConfigureGlobalSecurityPage;
+import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.base.BasePage;
 import school.redrover.runner.BaseTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConfigureGlobalSecurityTest extends BaseTest {
@@ -92,5 +97,14 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         }
 
         Assert.assertEquals(actualMenuNames, expectedMenuNames);
+    }
+    @Test
+    public void testVerifyGLobalSecuritySections() {
+        ConfigureGlobalSecurityPage configure = new MainPage(getDriver()).
+                navigateToManageJenkinsPage().
+                accessConfigureGlobalSecurity();
+        List<String> expectedSections = Arrays.asList("Authentication","Markup Formatter","Agents","CSRF Protection","Git plugin notifyCommit access tokens", "Git Hooks", "Hidden security warnings","API Token","SSH Server", "Git Host Key Verification Configuration");
+
+        Assert.assertTrue(configure.titlesAreAsExpected(expectedSections,new ArrayList<>()));
     }
 }

@@ -46,4 +46,9 @@ public class ManageJenkinsPage extends MainPage {
         getWait2().until(ExpectedConditions.elementToBeClickable(manageUsers)).click();
         return new ManageUsersPage(getDriver());
     }
+
+    public ConfigureGlobalSecurityPage accessConfigureGlobalSecurity() {
+        getDriver().findElement(By.xpath("//dt[normalize-space()='Configure Global Security']")).click();
+        return new ConfigureGlobalSecurityPage(getDriver());
+    }
 }
