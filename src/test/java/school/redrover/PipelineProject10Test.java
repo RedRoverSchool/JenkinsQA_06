@@ -17,7 +17,6 @@ public class PipelineProject10Test extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard();
 
-                Assert.assertEquals(getDriver().findElement(By.xpath("//span[text()='newProject']"))
-                        .getText(), "newProject");
+        Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(),"newProject");
     }
 }
