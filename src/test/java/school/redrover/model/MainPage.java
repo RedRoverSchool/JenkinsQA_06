@@ -25,6 +25,9 @@ public class MainPage extends BasePage {
     @FindBy(css = ".login>a.model-link")
     private WebElement adminLink;
 
+    @FindBy(xpath="//a[@href='/logout']")
+    private WebElement logoutButton;
+
     private void openJobDropDownMenu(String jobName) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         new Actions(getDriver()).moveToElement(getJobWebElement(jobName)).perform();
@@ -326,5 +329,14 @@ public class MainPage extends BasePage {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/']", viewName)))).click();
 
         return new ViewPage(getDriver());
+    }
+
+    public String getLogOutBtnColor() {
+        return logoutButton.getCssValue("background-color");
+    }
+
+    public MainPage mouseOverLogOutBtn() {
+        new Actions(getDriver()).moveToElement(logoutButton).perform();
+        return this;
     }
 }

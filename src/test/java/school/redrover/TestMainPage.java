@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
@@ -74,6 +75,13 @@ public class TestMainPage extends BaseTest {
         String logOutIconText = getDriver().findElement(By.xpath("//a[@href='/logout']/span")).getText();
         Assert.assertEquals(logOutIconText, "log out");
     }
+    @Test
+    public void testVerifyLogOutBtnColorChange() {
+        MainPage mainPage = new MainPage(getDriver());
+        String bfrColor = mainPage.getLogOutBtnColor();
+        String afrColor = mainPage.mouseOverLogOutBtn().
+                          getLogOutBtnColor();
 
-
+        Assert.assertNotEquals(afrColor,bfrColor);
+    }
 }
