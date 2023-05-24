@@ -19,4 +19,17 @@ public class PipelineProject10Test extends BaseTest {
 
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(),"newProject");
     }
+
+    @Test(dependsOnMethods = {"testCreatePipelineProject"})
+    public void testRenamePipeline() {
+        new MainPage(getDriver())
+                .clickPipelineProject("newProject")
+                .clickRename()
+                .clearNameField()
+                .enterNewName("newProject1")
+                .clickRenameButton()
+                .clickDashboard();
+
+        Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(),"newProject1");
+    }
 }
