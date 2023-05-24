@@ -11,7 +11,6 @@ import school.redrover.runner.BaseTest;
 import java.util.*;
 
 public class DashboardLineTest extends BaseTest {
-
     @Test
     public void testVerifyDashboardDropdownMenuOptionsName() {
 
@@ -26,25 +25,16 @@ public class DashboardLineTest extends BaseTest {
                 .findElement(By.xpath("//div[@id='breadcrumbBar']//button[@class='jenkins-menu-dropdown-chevron']"));
 
         getWait2().until(ExpectedConditions.elementToBeClickable(dashboardDropdownMenu));
-
         dashboardDropdownMenu.click();
 
-//        Assert.assertEquals(getDriver().
-//                findElement(By.xpath("//div[@id='breadcrumb-menu']//span[text()='People']")).getText(), "People");
+        String[] expectedText = {"New Item", "People", "Build History", "Manage Jenkins", "My Views"};
 
-        List<String> expectedText = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
-
-
-        List<WebElement> menuList = getDriver()
+        List<WebElement> menuOptions = getDriver()
                 .findElements(By.xpath("//div[@id='breadcrumb-menu-target']//li[@class='yuimenuitem first-of-type']/parent::ul/li"));
-//        for(WebElement el : menuList) {
-//
-//            Assert.assertEquals(el.getText(), expectedText);
-//        }
 
-//        for (int i = 0; i < 5; i++) {
-//            Assert.assertEquals(menuList.get(i).getText(), expectedText[i]);
+        for (int i = 0;  i < menuOptions.size(); i++) {
 
+            Assert.assertEquals(menuOptions.get(i).getText(), expectedText[i]);
         }
     }
 }
