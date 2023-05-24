@@ -71,6 +71,19 @@ public class FreestyleProject01Test extends BaseTest {
                 .selectBuildNow();
 
         Assert.assertEquals(freestyleProjectPage.getBuildsQuantity(), 1);
+    }
 
+    @Test
+    public void testRenameProjectName() {
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickRenameProject()
+                .enterNewName(FREESTYLE_NAME + " New")
+                .submitNewName();
+
+        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
     }
 }
