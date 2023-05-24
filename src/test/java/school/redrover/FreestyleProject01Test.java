@@ -1,10 +1,12 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
+import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 
 public class FreestyleProject01Test extends BaseTest {
@@ -12,50 +14,46 @@ public class FreestyleProject01Test extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject(){
-        new MainPage(getDriver())
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .clickSave();
 
-        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME);
     }
 
     @Test
     public void testNameAndDescAreDisplayed(){
-        String desc = "Description";
-
-        new MainPage(getDriver())
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .addDescription(desc)
+                .addDescription("Description")
                 .clickSave();
 
-        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), "Project " + FREESTYLE_NAME);
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description']/div")).getText(), desc);
+        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
     }
 
     @Test
     public void testDisableFreestyleProject(){
         String message = "This project is currently disabled";
 
-        new MainPage(getDriver())
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .clickSave()
                 .clickTheDisableProjectButton();
 
-                Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                        By.id("enable-project"))).getText().substring(0, message.length()), message);
-
-                Assert.assertTrue(getDriver().findElement(By.xpath("//button[text() = 'Enable']")).isDisplayed());
+                Assert.assertEquals(freestyleProjectPage.getWarningMessage(), message);
+                Assert.assertTrue(freestyleProjectPage.isProjectEnableButtonDisplayed());
         }
 
     @Test
     public void testEnableFreestyleProject(){
-        new MainPage(getDriver())
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
@@ -63,6 +61,39 @@ public class FreestyleProject01Test extends BaseTest {
                 .clickTheDisableProjectButton()
                 .clickTheEnableProjectButton();
 
-                Assert.assertTrue(getDriver().findElement(By.xpath("//button[text() = 'Disable Project']")).isDisplayed());
+                Assert.assertTrue(freestyleProjectPage.isProjectDisabledButtonDisplayed());
+    }
+
+    @Test
+    public void testBuildNowProject() {
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .selectBuildNow();
+
+        Assert.assertEquals(freestyleProjectPage.getBuildsQuantity(), 1);
+
+    }
+
+    @Test(dataProvider = "invalidSymbols")
+    public void testCreatingProjectWithInvalidName(String invalidSymbols){
+       String validationMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .selectFreestyleProject()
+                .enterItemName(invalidSymbols)
+                .getItemInvalidMessage();
+
+       boolean okButton = new NewJobPage(getDriver())
+               .isOkButtonEnabled();
+
+        Assert.assertEquals(validationMessage, "» ‘" + invalidSymbols + "’ is an unsafe character");
+        Assert.assertFalse(okButton);
+    }
+
+    @DataProvider(name = "invalidSymbols")
+    public Object[][] invalidSymbols(){
+        return new Object[][] {{"!"},{"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}};
     }
 }

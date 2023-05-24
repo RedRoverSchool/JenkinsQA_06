@@ -9,6 +9,9 @@ import school.redrover.model.base.BasePage;
 
 public class ViewPage extends BasePage {
 
+    @FindBy(xpath = "//div[@id='description']/child::*")
+    private WebElement description;
+
     @FindBy(xpath = "//input[@id = 'name']")
     private WebElement stringSearchItemName;
 
@@ -54,5 +57,9 @@ public class ViewPage extends BasePage {
     public ViewPage saveDescription() {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return this;
+    }
+
+    public String getDescriptionText() {
+        return description.getText();
     }
 }

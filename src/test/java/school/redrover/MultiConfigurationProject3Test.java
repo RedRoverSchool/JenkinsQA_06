@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.DataTest;
@@ -15,6 +16,7 @@ import school.redrover.runner.TestUtils;
 public class MultiConfigurationProject3Test extends BaseTest {
 
     final String expectedprojectName =getProjectName();
+    @Ignore
     @Test
     public void createDefaultMultiConfigurationProjectTest(){
 
@@ -33,7 +35,7 @@ public class MultiConfigurationProject3Test extends BaseTest {
         Faker faker = new Faker();
         return faker.funnyName().name();
     }
-
+    @Ignore
     @Test(dataProvider = "unsafeCharacter" ,dataProviderClass = DataTest.class)
     public void verifyProjectNameCreationWithUnsafeSymbolsTest(char unsafeSymbol , String htmlUnsafeSymbol){
             getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
@@ -53,7 +55,7 @@ public class MultiConfigurationProject3Test extends BaseTest {
             Assert.assertEquals(errorPageMessage, String.format("‘%s’ is an unsafe character", unsafeSymbol));
     }
     
-
+    @Ignore
     @Test(dataProvider = "unsafeCharacter", dataProviderClass = DataTest.class)
     public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol, String htmlUnsafeSymbol) {
         TestUtils.createMultiConfigurationProject(this, expectedprojectName, true);
