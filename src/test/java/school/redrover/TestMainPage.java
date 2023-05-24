@@ -66,7 +66,6 @@ public class TestMainPage extends BaseTest {
         for (int i = 0; i < getList.size(); i++) {
             Assert.assertEquals(getList.get(i).getText(),expectedList.get(i));
         }
-
     }
 
     @Test
@@ -74,6 +73,4 @@ public class TestMainPage extends BaseTest {
         String logOutIconText = getDriver().findElement(By.xpath("//a[@href='/logout']/span")).getText();
         Assert.assertEquals(logOutIconText, "log out");
     }
-
-
 }

@@ -8,8 +8,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.ConfigureGlobalSecurityPage;
 import school.redrover.model.MainPage;
-import school.redrover.model.ManageJenkinsPage;
-import school.redrover.model.base.BasePage;
 import school.redrover.runner.BaseTest;
 
 import java.util.ArrayList;
