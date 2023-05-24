@@ -222,4 +222,10 @@ public class MainPage extends BasePage {
 
         return new RenameFolderPage(getDriver());
     }
+
+    public NewViewPage createNewView() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
+
+        return new NewViewPage(getDriver());
+    }
 }
