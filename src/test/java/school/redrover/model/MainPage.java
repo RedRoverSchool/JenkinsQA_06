@@ -311,8 +311,20 @@ public class MainPage extends BasePage {
     public WebElement getLinkVersion () {
         return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
     }
+  
+      public NewViewPage createNewView() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
+
+        return new NewViewPage(getDriver());
+    }
 
     public WebElement getWelcomeWebElement(){
-        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
+        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));      
+    }
+  
+    public ViewPage clickOnView (String viewName) {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/']", viewName)))).click();
+
+        return new ViewPage(getDriver());
     }
 }
