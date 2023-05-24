@@ -11,6 +11,9 @@ import school.redrover.runner.TestUtils;
 
 public class FreestyleProject4Test extends BaseTest {
 
+    private final String nameOfProject = "NewFreestyleProject";
+    private final String expectedBuildStatus = "Success > Console Output";
+
     @Test
     public void testCreateFreestyleProject() {
         String nameOfProject = "NewFreestyleProject";
@@ -43,7 +46,6 @@ public class FreestyleProject4Test extends BaseTest {
 
     @Test
     public void testBuildNowProject() {
-        final String nameOfProject = "NewFreestyleProject";
         TestUtils.createFreestyleProject(this, nameOfProject, true);
 
         new Actions(getDriver())
@@ -57,7 +59,44 @@ public class FreestyleProject4Test extends BaseTest {
                 .moveToElement(getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='build-status-link']"))))
                 .perform();
 
-        String actualBuildStatus = getDriver().findElement(By.xpath("//div[@class='tippy-box']")).getText();
-        Assert.assertEquals(actualBuildStatus, "Success > Console Output");
+        String actualBuildStatus = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'Success')]"))).getText();
+        Assert.assertEquals(actualBuildStatus, expectedBuildStatus);
+    }
+
+    @Test(dependsOnMethods = "testBuildNowProject")
+    public void testBuildNowProjectWithBooleanParameter() {
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//a[@href = 'job/"+ nameOfProject + "/']")))
+                .click()
+                .perform();
+
+        getDriver().findElement(By.xpath("//span[text()='Configure']/ancestor::a")).click();
+
+        new Actions(getDriver())
+                .scrollToElement(getDriver().findElement(By.xpath("//div[@id='source-code-management']")))
+                .click(getDriver().findElement(By.xpath("//div[@ref='cb6']//span")))
+                .perform();
+
+        getDriver().findElement(By.xpath("//button[contains(text(), 'Parameter')]")).click();
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//a[contains(text(), 'Boolean')]")))
+                .click()
+                .perform();
+
+        getDriver().findElement(By.xpath("//input[@name='parameter.name']")).sendKeys("BooleanParameter");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        getWait2().until(ExpectedConditions.
+                visibilityOfElementLocated(By.xpath("//span[contains(text(), 'with Parameters')]/ancestor::a"))).click();
+
+        getDriver().findElement(By.xpath("//span[@class='jenkins-checkbox']")).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        new Actions(getDriver())
+                .moveToElement(getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='build-status-link']"))))
+                .perform();
+        boolean actualBuildStatus = getWait5().until(ExpectedConditions.attributeToBe(By.xpath("//div[@class='tippy-content']"), "innerText", expectedBuildStatus));
+        Assert.assertTrue(actualBuildStatus, "Build is not success");
     }
 }

@@ -6,10 +6,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class CreateNewItem extends BaseTest{
+public class CreateNewItemTest extends BaseTest{
 
         @Test
-        public void testCreateItem() {
+        public void testCreateNewItem() {
             WebElement buttonNewJob = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
             buttonNewJob.click();
 
