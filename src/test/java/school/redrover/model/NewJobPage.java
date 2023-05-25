@@ -94,11 +94,16 @@ public class NewJobPage extends BasePage {
     }
 
     public CreateItemErrorPage clickOkToCreateWithExistingName() {
-        okButton.click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='ok-button']"))).click();
         return new CreateItemErrorPage(getDriver());
     }
 
     public String getItemNameRequiredMessage() {
         return itemNameRequiredMessage.getText();
+    }
+
+    public NewJobPage selectPipelineProject() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Pipeline']"))).click();
+        return new NewJobPage(getDriver());
     }
 }
