@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 import java.time.Duration;
+import java.util.List;
 
 
 public class MainPage extends BasePage {
@@ -357,5 +358,12 @@ public class MainPage extends BasePage {
         WebElement buildStatus = getDriver().findElement(By.id(String.format("job_%s", jobName)))
                 .findElement(By.xpath(".//*[name()='svg']"));
         return buildStatus.getAttribute("tooltip");
+    }
+
+    public List<String> getJobList() {
+        return getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
     }
 }

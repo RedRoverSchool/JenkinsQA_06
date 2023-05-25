@@ -782,11 +782,15 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineGoingFromManageJenkinsPage() {
-        new MainPage(getDriver())
+        List<String> jobList = new MainPage(getDriver())
                 .clickManageJenkins()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk();
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .getJobList();
 
+        Assert.assertTrue(jobList.contains(PIPELINE_NAME));
     }
 }
