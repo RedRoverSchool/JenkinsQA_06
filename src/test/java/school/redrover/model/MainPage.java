@@ -362,6 +362,13 @@ public class MainPage extends BasePage {
         return new FreestyleProjectPage(getDriver());
     }
 
+    public MainPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return this;
+    }
+
     public List<String> getJobList() {
         return getDriver().findElements(By.cssSelector(".jenkins-table__link"))
                 .stream()
