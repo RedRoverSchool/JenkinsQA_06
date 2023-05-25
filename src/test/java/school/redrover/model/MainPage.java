@@ -266,7 +266,10 @@ public class MainPage extends BasePage {
     }
 
     public ManageJenkinsPage clickManageJenkins() {
-        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        new Actions(getDriver())
+                .pause(Duration.ofMillis(500))
+                .click(getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Manage Jenkins']"))))
+                .perform();
 
         return new ManageJenkinsPage(getDriver());
     }
