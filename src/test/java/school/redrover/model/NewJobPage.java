@@ -19,8 +19,6 @@ public class NewJobPage extends BasePage {
     @FindBy(id = "itemname-invalid")
     private WebElement itemInvalidNameMessage;
 
-    @FindBy(id = "itemname-required")
-    private WebElement itemNameRequiredMessage;
 
     public NewJobPage(WebDriver driver) {
         super(driver);
@@ -99,6 +97,6 @@ public class NewJobPage extends BasePage {
     }
 
     public String getItemNameRequiredMessage() {
-        return itemNameRequiredMessage.getText();
+        return getDriver().findElement(By.id("itemname-required")).getText();
     }
 }
