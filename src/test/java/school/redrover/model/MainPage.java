@@ -20,6 +20,16 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
 
+    private WebElement logoutButton = getDriver().findElement(By.xpath("//a[@href='/logout']"));
+
+    public WebElement getLogoutButton() {
+        return logoutButton;
+    }
+
+    public WebElement projectsTable() {
+       return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//table[@id='projectstatus']"))));
+    }
+
     private void openJobDropDownMenu(String jobName) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         new Actions(getDriver()).moveToElement(getJobWebElement(jobName)).perform();
@@ -319,6 +329,15 @@ public class MainPage extends BasePage {
         return new ViewPage(getDriver());
     }
 
+    public String getLogOutBtnColor() {
+        return logoutButton.getCssValue("background-color");
+    }
+
+    public MainPage mouseOverLogOutBtn() {
+        new Actions(getDriver()).moveToElement(logoutButton).perform();
+        return this;
+    }
+
     public MainPage clickJobDropdownMenuBuildNow() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Build Now']"))).click();
         return this;
@@ -336,5 +355,10 @@ public class MainPage extends BasePage {
         WebElement buildStatus = getDriver().findElement(By.id(String.format("job_%s", jobName)))
                 .findElement(By.xpath(".//*[name()='svg']"));
         return buildStatus.getAttribute("tooltip");
+    }
+
+    public FreestyleProjectPage getProjectNameClick() {
+        getProjectName().click();
+        return new FreestyleProjectPage(getDriver());
     }
 }

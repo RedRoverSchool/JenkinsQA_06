@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.CreateUserPage;
+import school.redrover.model.MainPage;
+import school.redrover.model.ManageUsersPage;
 import school.redrover.model.StatusUserPage;
 import school.redrover.runner.BaseTest;
 
@@ -35,26 +37,27 @@ public class UserProfileTest extends BaseTest {
         Assert.assertEquals(actualDisplayedDescriptionText, displayedDescriptionText);
     }
 
-    @Test(dependsOnMethods = {"testAddDescriptionToUser"})
+    @Test(dependsOnMethods = "testAddDescriptionToUser")
     public void testEditDescriptionToUser() {
         final String displayedDescriptionText = "User Description Updated";
-        final String existingDescriptionText = "Test User Description";
 
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.xpath("//a[@href='securityRealm/']")).click();
-        getDriver().findElement(By.xpath(USER_LINK)).click();
+        new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers();
 
-        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+        new ManageUsersPage(getDriver())
+                .clickUserIDName(USER_NAME);
 
-        WebElement descriptionInputField = getDriver()
-                .findElement(By.xpath("//textarea[@name='description']"));
-        descriptionInputField.click();
-        descriptionInputField.clear();
-        descriptionInputField.sendKeys(displayedDescriptionText);
-        getDriver().findElement(By.name("Submit")).click();
+        StatusUserPage statusUserPage = new StatusUserPage(getDriver());
+        String existingDescriptionText = statusUserPage
+                .clickAddDescriptionLink()
+                .getDescriptionText();
 
-        String actualDisplayedDescriptionText = getDriver()
-                .findElement(By.xpath("//div[@id='description']/div[1]")).getText();
+        String actualDisplayedDescriptionText = statusUserPage
+                .clearDescriptionInputField()
+                .setDescription(displayedDescriptionText)
+                .clickSaveButton()
+                .getDescription();
 
         Assert.assertEquals(actualDisplayedDescriptionText, displayedDescriptionText);
         Assert.assertNotEquals(actualDisplayedDescriptionText, existingDescriptionText);
