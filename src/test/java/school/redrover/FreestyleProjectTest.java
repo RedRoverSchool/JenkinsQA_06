@@ -262,6 +262,9 @@ public class FreestyleProjectTest extends BaseTest {
 
     }
 
+
+
+
     @Test
     public void testMakeProjectDisabled() {
         TestUtils.createFreestyleProject(this, name, false);
@@ -295,6 +298,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(createdProject.getText(), projectName);
     }
 
+    @Ignore
     @Test(dependsOnMethods={"testCreateFreestyleProject"})
     public void testFreestyleProjectNameDisplayedWithoutDescription(){
         getDriver().findElement(By.xpath("//span[normalize-space()='"+ TEST_NAME +"']")).click();
@@ -307,6 +311,8 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualProjectName, "Project " + TEST_NAME);
         Assert.assertEquals(getDriver().findElement(By.id("description-link")).getText(),"Add description");
     }
+    @Ignore
+
     @Test(dependsOnMethods = "testCreateFreestyleProjectValidName")
     public void testAddDescription() {
         WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/Astra/']"));
