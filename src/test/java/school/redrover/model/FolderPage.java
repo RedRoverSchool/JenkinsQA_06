@@ -122,7 +122,7 @@ public class FolderPage extends BasePage {
     }
 
     public MovePage clickMove() {
-        getDriver().findElement(By.xpath("//span[text()='Move']")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Move']"))).click();
         return new MovePage(getDriver());
     }
 }
