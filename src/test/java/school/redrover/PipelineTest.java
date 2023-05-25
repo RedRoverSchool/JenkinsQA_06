@@ -31,18 +31,18 @@ import static org.openqa.selenium.By.xpath;
 public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
-    public static String rename = "Pipeline Project";
+    private static final String rename = "Pipeline Project";
 
-    private final By newItem = By.linkText("New Item");
-    private final By name = By.id("name");
-    private final By pipelineItem = By.xpath("//span[text() = 'Pipeline']");
-    private final By okButton = By.id("ok-button");
-    private final By saveButton = By.xpath("//button[contains(@class,'jenkins-button jenkins-button--primary')]");
-    private final By jenkinsIconHeader = By.id("jenkins-name-icon");
-    private final By textAreaDescription = By.xpath("//textarea[@name='description']");
-    private final By pipelineDescription = By.xpath("//div[@id = 'description']/div[1]");
-    private final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
-    private final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
+    private static final By newItem = By.linkText("New Item");
+    private static final By name = By.id("name");
+    private static final By pipelineItem = By.xpath("//span[text() = 'Pipeline']");
+    private static final By okButton = By.id("ok-button");
+    private static final By saveButton = By.xpath("//button[contains(@class,'jenkins-button jenkins-button--primary')]");
+    private static final By jenkinsIconHeader = By.id("jenkins-name-icon");
+    private static final By textAreaDescription = By.xpath("//textarea[@name='description']");
+    private static final By pipelineDescription = By.xpath("//div[@id = 'description']/div[1]");
+    private static final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
+    private static final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
     private static final By homePage = By.xpath("//h1[@class= 'job-index-headline page-headline']");
 
@@ -593,8 +593,6 @@ public class PipelineTest extends BaseTest {
                 getText(), "No name is specified");
     }
 
-    //--------------------------
-
     @Test
     public void testSetDescription() {
         String descriptionText = "This is a test description";
@@ -760,6 +758,7 @@ public class PipelineTest extends BaseTest {
             e.printStackTrace();
         }
     }
+    
     @Ignore
     @Test(dependsOnMethods = "testCreatePipeline")
     public void testCreatePipelineWithTheSameName() {
