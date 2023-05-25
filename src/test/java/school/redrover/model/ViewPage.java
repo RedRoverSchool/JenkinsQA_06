@@ -117,5 +117,8 @@ public class ViewPage extends BasePage {
         return null;
     }
 
-
+    public ViewPage clickMultiBranchPipeline() {
+        click(getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
+        return this;
+    }
 }
