@@ -359,4 +359,9 @@ public class MainPage extends BasePage {
                 .findElement(By.xpath(".//*[name()='svg']"));
         return buildStatus.getAttribute("tooltip");
     }
+
+    public FreestyleProjectPage getProjectNameClick() {
+        getProjectName().click();
+        return new FreestyleProjectPage(getDriver());
+    }
 }

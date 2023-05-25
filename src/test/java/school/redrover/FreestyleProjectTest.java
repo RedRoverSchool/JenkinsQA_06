@@ -449,8 +449,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSave()
                 .clickDashboard()
-                .getProjectName().click();
-        new FreestyleProjectPage(getDriver())
+                .getProjectNameClick()
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
