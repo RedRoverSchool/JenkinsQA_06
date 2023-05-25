@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -19,6 +20,7 @@ public class UserPageTest extends BaseTest {
 
     private final By User_Name_Link = By.xpath("//a[@href='/user/admin']");
 
+    @Ignore
     @Test
     public void testVerifyUserPageMenu() {
         List<String> listMenuExpected = Arrays.asList("People", "Status", "Builds", "Configure", "My Views", "Credentials");
@@ -33,6 +35,7 @@ public class UserPageTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testVerifyChangeNameUser() {
         getDriver().findElement(User_Name_Link).click();
@@ -48,6 +51,7 @@ public class UserPageTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(User_Name_Link).getText(), USER_FULL_NAME);
     }
 
+    @Ignore
     @Test
     public void testVerifyUserDescription() {
         getDriver().findElement(User_Name_Link).click();

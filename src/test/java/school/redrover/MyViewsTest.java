@@ -151,7 +151,7 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath(DESCRIPTION_FIELD)).getText(), "Old description");
     }
     @DataProvider(name = "description")
-    public Object [][] provideDescription() {
+    public static Object [][] provideDescription() {
         return new Object[][]
                 {{"Description first"},{"Description second"}};
     }
@@ -162,6 +162,6 @@ public class MyViewsTest extends BaseTest {
                 inputDescText(desc).
                 saveDescription();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[normalize-space()='"+desc+"']")).isDisplayed());
+        Assert.assertEquals(viewPage.getDescriptionText(), desc);
     }
 }

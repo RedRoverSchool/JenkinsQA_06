@@ -29,7 +29,7 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage clickPreviewSeeOrHide(Boolean seeAndHidePreview) {
-        if(seeAndHidePreview) {
+        if (seeAndHidePreview) {
             getDriver().findElement(By.xpath("//a[contains(@previewendpoint, 'previewDescription')]")).click();
         } else {
             getDriver().findElement(By.xpath("//a[normalize-space(text())='Hide preview']")).click();
