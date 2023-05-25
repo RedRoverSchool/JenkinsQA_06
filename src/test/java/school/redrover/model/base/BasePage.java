@@ -20,7 +20,6 @@ public abstract class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(getDriver(), this);
     }
 
     protected WebDriver getDriver() {
@@ -89,10 +88,12 @@ public abstract class BasePage {
     }
 
     protected void wait10ElementToBeVisible(WebElement element) {
+
         getWait10().until(ExpectedConditions.visibilityOf(element));
     }
 
     protected void wait20ElementToBeVisible(WebElement element) {
+
         getWait20().until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -105,11 +106,13 @@ public abstract class BasePage {
     }
 
     protected void scrollToElementByJavaScript(WebElement element) {
+
         JavascriptExecutor jsc = (JavascriptExecutor) getDriver();
         jsc.executeScript("arguments[0].scrollIntoView();", wait20ElementToBeClickable(element));
     }
 
     protected void clickByJavaScript(WebElement element) {
+
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", element);
     }

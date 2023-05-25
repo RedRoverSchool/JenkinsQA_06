@@ -8,11 +8,6 @@ import school.redrover.model.base.BasePage;
 
 public class BuildPage extends BasePage {
 
-    @FindBy(xpath = "//td[normalize-space()='broken since this build']")
-    private WebElement statusOfBuild;
-
-    @FindBy(xpath = "//a[normalize-space()='Build']")
-    private WebElement buildHistoryTitle;
     public BuildPage(WebDriver driver) {
         super(driver);
     }
@@ -23,10 +18,13 @@ public class BuildPage extends BasePage {
 
     public String getStatusMessageText() {
 
+        WebElement statusOfBuild = getDriver().findElement(By.xpath("//td[normalize-space()='broken since this build']"));
         return getText(statusOfBuild);
     }
 
     public BuildPage scrollToIconElement() {
+
+        WebElement buildHistoryTitle = getDriver().findElement(By.xpath("//a[normalize-space()='Build']"));
         scrollToElementByJavaScript(buildHistoryTitle);
         return new BuildPage(getDriver());
     }

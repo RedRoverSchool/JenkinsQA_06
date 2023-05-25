@@ -16,15 +16,6 @@ public class ViewPage extends BasePage {
     @FindBy(xpath = "//div[@id='description']/child::*")
     private WebElement description;
 
-    @FindBy(xpath = "//input[@id = 'name']")
-    private WebElement stringSearchItemName;
-
-    @FindBy(xpath = "//span[normalize-space()='Pipeline']")
-    private WebElement pipelineProject;
-
-    @FindBy(xpath = "//button[@id = 'ok-button']")
-    private WebElement saveButton;
-
     @FindBy(xpath = "//tbody/tr/td/a/span")
     private List<WebElement> jobList;
 
@@ -34,16 +25,21 @@ public class ViewPage extends BasePage {
 
     public ViewPage inputAnItemName(String text) {
 
+        WebElement stringSearchItemName = getDriver().findElement(By.xpath("//input[@id = 'name']"));
         sendTextToInput(stringSearchItemName, text);
         return new ViewPage(getDriver());
     }
 
     public ViewPage clickPipelineProject() {
+
+        WebElement pipelineProject = getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']"));
         click(pipelineProject);
         return new ViewPage(getDriver());
     }
 
     public ConfigurePage clickSaveButton() {
+
+        WebElement saveButton = getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
         click(saveButton);
         return new ConfigurePage(getDriver());
     }

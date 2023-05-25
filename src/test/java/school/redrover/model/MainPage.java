@@ -11,20 +11,12 @@ import java.time.Duration;
 
 public class MainPage extends BasePage {
 
-    @FindBy(xpath = "//a[@href='/view/all/newJob']")
-    private WebElement newItemButton;
-
-    @FindBy(xpath = "//a[@href='job/New%20Builds/build?delay=0sec']")
-    private WebElement playBuildForATestButton;
-
-    @FindBy(xpath = "//a[@href='/view/all/builds']")
-    private WebElement buildsHistoryButton;
-
     @FindBy(css = ".login>a.model-link")
     private WebElement adminLink;
 
     @FindBy(xpath="//a[@href='/logout']")
     private WebElement logoutButton;
+
 
     private void openJobDropDownMenu(String jobName) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
@@ -132,16 +124,22 @@ public class MainPage extends BasePage {
     }
 
     public MainPage clickPlayBuildForATestButton() {
+
+        WebElement playBuildForATestButton = getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']"));
         click(playBuildForATestButton);
         return new MainPage(getDriver());
     }
 
     public BuildPage clickBuildsHistoryButton() {
+
+        WebElement buildsHistoryButton = getDriver().findElement(By.xpath("//a[@href='/view/all/builds']"));
         click(buildsHistoryButton);
         return new BuildPage(getDriver());
     }
 
     public ViewPage clickNewItemButton() {
+
+        WebElement newItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
         click(newItemButton);
         return new ViewPage(getDriver());
     }
