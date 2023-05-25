@@ -18,7 +18,7 @@ public class FreestyleProject16Test extends BaseTest {
         FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
                 .clickFreestyleProjectName(FREESTYLE_PROJECT_NAME)
                 .clickTheDisableProjectButton();
-        Assert.assertEquals(freestyleProjectPage.getWarningMessage()[0], "This project is currently disabled");
+        Assert.assertEquals(freestyleProjectPage.getWarningMessage(), "This project is currently disabled");
 
         MainPage mainPage = freestyleProjectPage.navigateToMainPageViaJenkinsIcon();
         Assert.assertEquals(mainPage.getJobBuildStatusIcon(FREESTYLE_PROJECT_NAME), "Disabled");

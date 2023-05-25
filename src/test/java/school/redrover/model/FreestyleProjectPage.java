@@ -64,9 +64,9 @@ public class FreestyleProjectPage extends BasePage {
         return new MainPage(getDriver());
     }
 
-    public String [] getWarningMessage() {
+    public String  getWarningMessage() {
 
-        return getDriver().findElement(By.id("enable-project")).getText().split("\n");
+        return getDriver().findElement(By.id("enable-project")).getText().substring(0,34);
     }
 
     public boolean isProjectDisabledButtonDisplayed() {
