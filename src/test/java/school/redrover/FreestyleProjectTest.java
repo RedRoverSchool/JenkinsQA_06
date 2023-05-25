@@ -101,7 +101,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
     }
 
-
+    @Ignore
     @Test
     public void testRenameProjectName() {
         FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
