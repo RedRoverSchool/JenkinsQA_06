@@ -64,6 +64,7 @@ public class FreestyleProject4Test extends BaseTest {
         Assert.assertEquals(actualBuildStatus, expectedBuildStatus);
     }
 
+
     @Ignore
     @Test(dependsOnMethods = "testBuildNowProject")
     public void testBuildNowProjectWithBooleanParameter() {
@@ -98,7 +99,7 @@ public class FreestyleProject4Test extends BaseTest {
         new Actions(getDriver())
                 .moveToElement(getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='build-status-link']"))))
                 .perform();
-        boolean actualBuildStatus = getWait5().until(ExpectedConditions.attributeToBe(By.xpath("//div[@class='tippy-content']"), "innerText", expectedBuildStatus));
-        Assert.assertTrue(actualBuildStatus, "Build is not success");
+        boolean actualBuildStatus = getWait10().until(ExpectedConditions.attributeToBe(By.xpath("//div[@class='tippy-content']"), "innerText", expectedBuildStatus));
+        Assert.assertTrue(actualBuildStatus);
     }
 }

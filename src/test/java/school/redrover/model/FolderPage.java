@@ -47,7 +47,7 @@ public class FolderPage extends BasePage {
         return this;
     }
 
-    public NewViewFolderPage newView(){
+    public NewViewFolderPage clickNewView(){
         getDriver().findElement(By.xpath("//div[@class='tab']")).click();
         return new NewViewFolderPage(getDriver());
     }

@@ -87,4 +87,9 @@ public class MultiConfigurationProjectPage extends BasePage {
         return getDriver().findElement(By.xpath("//button[text () = 'Disable Project']"));
     }
 
+    public String getJobBuildStatus(String jobName) {
+        WebElement buildStatus = getWait20().until(ExpectedConditions.visibilityOf(getDriver()
+                .findElement(By.xpath("//div[@id='matrix']//span[@class='build-status-icon__outer']/child::*"))));
+        return buildStatus.getAttribute("tooltip");
+    }
 }

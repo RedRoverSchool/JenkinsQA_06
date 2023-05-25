@@ -12,7 +12,7 @@ import school.redrover.runner.TestUtils;
 import java.util.List;
 
 public class FreestyleProjectAllTest extends BaseTest {
-    private final String projectName = "My Freestyle Project";
+    private final String projectName = "My_Freestyle_Project";
 
     @Test
     public void testCreateFreestyleProjectWithValidData() {
@@ -120,5 +120,21 @@ public class FreestyleProjectAllTest extends BaseTest {
         Assert.assertEquals(actualPossibilityToBuildProject, "Build Now",
                 "The 'Build Now' button is not displayed");
         Assert.assertEquals(getDriver().findElement(By.name("Submit")).getText(), "Disable Project");
+    }
+
+    @Test
+    public void testRenameProject() {
+        final String newProjectName = "New_Freestyle_Project_Name";
+
+        TestUtils.createFreestyleProject(this, projectName, false);
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + projectName + "/confirm-rename']"))).click();
+        WebElement renameBox = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("newName")));
+        renameBox.clear();
+        renameBox.sendKeys(newProjectName);
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
+
+        Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//h1"))).getText().substring("Project ".length()), newProjectName);
     }
 }
