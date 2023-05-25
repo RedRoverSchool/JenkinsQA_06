@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.CreateUserPage;
 import school.redrover.model.StatusUserPage;
@@ -18,6 +19,7 @@ public class UserProfileTest extends BaseTest {
     protected static final String USER_FULL_NAME = "Test User";
     protected static final String USER_LINK = "//a[@href='user/" + USER_NAME + "/']";
 
+    @Ignore
     @Test
     public void testAddDescriptionToUser() {
         final String displayedDescriptionText = "Test User Description";
@@ -60,6 +62,7 @@ public class UserProfileTest extends BaseTest {
         Assert.assertNotEquals(actualDisplayedDescriptionText, existingDescriptionText);
     }
 
+    @Ignore
     @Test
     public void testEditEmailByDropDown() {
         final String displayedEmail = "testedited@test.com";

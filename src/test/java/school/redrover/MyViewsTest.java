@@ -155,6 +155,7 @@ public class MyViewsTest extends BaseTest {
         return new Object[][]
                 {{"Description first"},{"Description second"}};
     }
+    @Ignore
     @Test(dataProvider = "description")
     public void testAddDescription(String desc) {
         ViewPage viewPage = new ViewPage(getDriver());

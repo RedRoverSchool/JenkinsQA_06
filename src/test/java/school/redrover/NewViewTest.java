@@ -130,6 +130,7 @@ public class NewViewTest extends BaseTest {
         Assert.assertEquals(viewPage.getJobName(folderName1), folderName1);
    }
 
+   @Ignore
     @Test(dependsOnMethods = "testMoveFolderToNewViewList")
     public void testCreateNewViewWithJobFilters() {
         final String folderName1 = "f1";

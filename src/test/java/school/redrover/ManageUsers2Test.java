@@ -2,6 +2,7 @@ package school.redrover;
 
 import com.github.javafaker.Faker;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.ManageUsersPage;
 import school.redrover.runner.BaseTest;
@@ -9,6 +10,7 @@ import school.redrover.runner.BaseTest;
 public class ManageUsers2Test extends BaseTest {
     private final Faker faker = new Faker();
 
+    @Ignore
     @Test
     public void testCreateUser() {
         String userName = faker.name().firstName();

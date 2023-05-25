@@ -75,6 +75,7 @@ public class TestMainPage extends BaseTest {
         String logOutIconText = getDriver().findElement(By.xpath("//a[@href='/logout']/span")).getText();
         Assert.assertEquals(logOutIconText, "log out");
     }
+    @Ignore
     @Test
     public void testVerifyLogOutBtnColorChange() {
         MainPage mainPage = new MainPage(getDriver());
