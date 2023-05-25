@@ -64,6 +64,7 @@ public class FreestyleProject4Test extends BaseTest {
         Assert.assertEquals(actualBuildStatus, expectedBuildStatus);
     }
 
+
     @Ignore
     @Test(dependsOnMethods = "testBuildNowProject")
     public void testBuildNowProjectWithBooleanParameter() {
