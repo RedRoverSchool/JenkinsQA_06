@@ -8,9 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.CreateUserPage;
-import school.redrover.model.ManageUsersPage;
-import school.redrover.model.StatusUserPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
@@ -62,7 +60,8 @@ public class UsersTest extends BaseTest {
 
         new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        getDriver().findElement(By.xpath(USER_LINK)).click();
+        new ManageUsersPage(getDriver()).clickUserIDName(USER_NAME);
+
         String actualDisplayedDescriptionText = new StatusUserPage(getDriver())
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
@@ -73,26 +72,27 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualDisplayedDescriptionText, displayedDescriptionText);
     }
 
-    @Test(dependsOnMethods = {"testAddDescriptionToUser"})
+    @Test(dependsOnMethods = "testAddDescriptionToUser")
     public void testEditDescriptionToUser() {
         final String displayedDescriptionText = "User Description Updated";
-        final String existingDescriptionText = "Test User Description";
 
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.xpath("//a[@href='securityRealm/']")).click();
-        getDriver().findElement(By.xpath(USER_LINK)).click();
+        new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers();
 
-        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+        new ManageUsersPage(getDriver())
+                .clickUserIDName(USER_NAME);
 
-        WebElement descriptionInputField = getDriver()
-                .findElement(By.xpath("//textarea[@name='description']"));
-        descriptionInputField.click();
-        descriptionInputField.clear();
-        descriptionInputField.sendKeys(displayedDescriptionText);
-        getDriver().findElement(By.name("Submit")).click();
+        StatusUserPage statusUserPage = new StatusUserPage(getDriver());
+        String existingDescriptionText = statusUserPage
+                .clickAddDescriptionLink()
+                .getDescriptionText();
 
-        String actualDisplayedDescriptionText = getDriver()
-                .findElement(By.xpath("//div[@id='description']/div[1]")).getText();
+        String actualDisplayedDescriptionText = statusUserPage
+                .clearDescriptionInputField()
+                .setDescription(displayedDescriptionText)
+                .clickSaveButton()
+                .getDescription();
 
         Assert.assertEquals(actualDisplayedDescriptionText, displayedDescriptionText);
         Assert.assertNotEquals(actualDisplayedDescriptionText, existingDescriptionText);
@@ -104,24 +104,19 @@ public class UsersTest extends BaseTest {
 
         new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        getDriver().findElement(
-                        By.xpath(USER_LINK + "/button[@class='jenkins-menu-dropdown-chevron']"))
-                .sendKeys(Keys.ENTER);
-        getDriver().findElement(By.xpath("//li[@class='yuimenuitem']/a")).click();
+        new ManageUsersPage(getDriver())
+                .clickUserIDDropDownMenu(USER_NAME)
+                .selectConfigureUserIDDropDownMenu();
 
-        WebElement emailInputField = getDriver()
-                .findElement(By.xpath("//input[@name='email.address']"));
-        String oldEmail = emailInputField.getAttribute("value");
+        ConfigureUserPage configureUserPage = new ConfigureUserPage(getDriver());
 
-        emailInputField.clear();
-        emailInputField.sendKeys(displayedEmail);
-        emailInputField.sendKeys(Keys.ENTER);
+        String oldEmail = configureUserPage.getEmailValue("value");
 
-        getDriver().findElement(By.xpath("//a[@href='/user/" + USER_NAME + "/configure']")).click();
+        configureUserPage
+                .setEmail("testedited@test.com")
+                .clickConfigureSideMenu();
 
-        String actualEmail = getDriver()
-                .findElement(By.xpath("//input[@name='email.address']"))
-                .getAttribute("value");
+        String actualEmail = configureUserPage.getEmailValue("value");
 
         Assert.assertNotEquals(actualEmail, oldEmail);
         Assert.assertEquals(actualEmail, displayedEmail);
