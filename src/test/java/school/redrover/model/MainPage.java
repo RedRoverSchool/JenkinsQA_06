@@ -20,9 +20,6 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
 
-    @FindBy(css = ".login>a.model-link")
-    private WebElement adminLink;
-
     private WebElement logoutButton = getDriver().findElement(By.xpath("//a[@href='/logout']"));
 
     public WebElement getLogoutButton() {
