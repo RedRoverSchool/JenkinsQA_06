@@ -1,15 +1,13 @@
 package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.BuildPage;
 import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
@@ -18,17 +16,27 @@ import school.redrover.runner.TestUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.testng.Assert.assertEquals;
+
 public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private static final String TEST_NAME = "Test";
-    private String name = "First Project";
+    private final String descriptionText = "This is new description for the project";
+
+    private void createFreestyleProject() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+
+        WebElement name = getDriver().findElement(By.id("name"));
+        name.sendKeys(FREESTYLE_NAME);
+
+        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(By.name("Submit")).click();
+    }
 
     @Test
     public void testCreateNewFreestyleProject() {
-
         WebElement projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
@@ -40,89 +48,11 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testDisableProject() {
-
-        FreestyleProjectPage projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectFreestyleProjectAndOk()
-                .clickSave()
-                .clickTheDisableProjectButton();
-
-        Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
-    }
-
-    @Test
-    public void testEnableProject() {
-
-        MainPage projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectFreestyleProjectAndOk()
-                .clickSave()
-                .clickTheDisableProjectButton()
-                .clickTheEnableProjectButton()
-                .clickDashboard();
-
-        Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
-    }
-
-    @Test
-    public void testAddDescriptionToFreestyleProject() {
-
-        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectFreestyleProjectAndOk()
-                .addDescription("Description")
-                .clickSave();
-
-        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME);
-        Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
-    }
-
-    @Test
-    public void testRenameFreestyleProject() {
-        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectFreestyleProjectAndOk()
-                .clickSave()
-                .clickRenameProject(FREESTYLE_NAME)
-                .enterNewName(FREESTYLE_NAME + " New")
-                .submitNewName();
-
-        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
-    }
-
-    @Test
-    public void testDeleteFreestyleProject() {
-
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(NEW_FREESTYLE_NAME);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
-
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-
-        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Project')]")).click();
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
-
-        Assert.assertFalse(getDriver().findElements(By
-                        .xpath("//a[@class='jenkins-table__link model-link inside']"))
-                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
-    }
-
-    @Test
     public void testNewFreestyleProjectCreated() {
         final String PROJECT_NAME = "Project1";
 
         WebElement createAJobArrow = getDriver().findElement(
-                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")
-        );
+                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']"));
         createAJobArrow.click();
 
         WebElement inputItemName = getDriver().findElement(By.id("name"));
@@ -130,16 +60,14 @@ public class FreestyleProjectTest extends BaseTest {
                 .sendKeys(PROJECT_NAME);
 
         WebElement freestyleProjectTab = getDriver().findElement(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']")
-        );
+                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"));
         freestyleProjectTab.click();
 
         WebElement okButton = getDriver().findElement(By.className("btn-decorator"));
         okButton.click();
 
         WebElement dashboardLink = getDriver().findElement(
-                By.xpath("//ol[@id='breadcrumbs']/li/a[text() = 'Dashboard']")
-        );
+                By.xpath("//ol[@id='breadcrumbs']/li/a[text() = 'Dashboard']"));
         dashboardLink.click();
 
         Assert.assertTrue(getDriver().findElement(By.id("projectstatus")).isDisplayed());
@@ -149,10 +77,49 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(newProjectsList.size(), 1);
 
         List<WebElement> projectDetailsList = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']/tbody/tr/td")
-        );
+                By.xpath("//table[@id='projectstatus']/tbody/tr/td"));
 
         Assert.assertEquals(projectDetailsList.get(2).getText(), PROJECT_NAME);
+    }
+
+    @Test
+    public void testCreateFreestyleProjectGoingFromPeoplePage() {
+        String projectName = "FreestyleProject";
+
+        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(projectName);
+        getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
+        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")).click();
+        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+
+        getDriver().findElement(By.xpath("//ol/li/a[@href='/'] ")).click();
+
+        WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']"));
+
+        Assert.assertEquals(createdProject.getText(), projectName);
+    }
+
+    @Test
+    public void testCreatedProjectIsOnDashboard() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, true);
+
+        assertEquals(new MainPage(getDriver()).getJobName(FREESTYLE_NAME), FREESTYLE_NAME);
+    }
+
+    @Test
+    public void testCreateWithExistingName() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, true);
+
+        String itemAlreadyExistsMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProject()
+                .clickOkToCreateWithExistingName()
+                .getErrorMessage();
+
+        assertEquals(itemAlreadyExistsMessage,
+                String.format("A job already exists with the name ‘%s’", FREESTYLE_NAME));
     }
 
     @Test
@@ -197,6 +164,237 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(validationMessage, "» ‘" + wrongCharacter + "’ is an unsafe character");
         Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
+    }
+
+    @Test
+    public void testFindNewProjectOnDashboard() {
+        createFreestyleProject();
+
+        WebElement dashboard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
+        dashboard.click();
+
+        Assert.assertEquals(FREESTYLE_NAME,
+                getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//span")).getText());
+    }
+
+    @Test
+    public void testFindNewProjectOnDashboardAndOpen() {
+        createFreestyleProject();
+
+        WebElement dashboard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
+        dashboard.click();
+        WebElement projectIcon = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//span"));
+        projectIcon.click();
+
+        Assert.assertEquals("Project " + FREESTYLE_NAME,
+                getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
+    }
+
+    @Test
+    public void testNavigateToChangePage() {
+        createFreestyleProject();
+
+        getDriver().findElement(By.xpath("//a[@href='/job/" + FREESTYLE_NAME + "/changes']")).click();
+
+        Assert.assertEquals("Changes",
+                getDriver().findElement(By.xpath("//h1[normalize-space()='Changes']")).getText());
+    }
+
+    @Test
+    public void testCreateFreestyleProjectWithDescription() {
+
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .addDescription("Description")
+                .clickSave();
+
+        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
+    }
+
+    @Test
+    public void testEditDescription () {
+        createFreestyleProject();
+
+        WebElement descriptionButton = getDriver().findElement(By.xpath("//*[@id = 'description-link']"));
+        descriptionButton.click();
+
+        WebElement descInputField = getDriver().findElement(By.xpath("//*[@name = 'description']"));
+        descInputField.sendKeys(descriptionText);
+
+        WebElement saveButton = getDriver()
+                .findElement(By.xpath("//*[@id='description']/form/div[2]/button"));
+        saveButton.click();
+
+        WebElement editButton = getDriver().findElement(By.xpath("//*[@href = 'editDescription']"));
+        editButton.click();
+
+        WebElement oldDescription = getDriver().findElement(By.xpath("//*[@id='description']/form/div[1]/div[1]/textarea"));
+        oldDescription.clear();
+        oldDescription.sendKeys("Edit description");
+
+        WebElement saveButton2 = getDriver()
+                .findElement(By.xpath("//*[@id='description']/form/div[2]/button"));
+        saveButton2.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id = 'description']/div[1]"))
+                .getText(),"Edit description");
+    }
+
+    @Test
+    public void testPreviewDescription () {
+        createFreestyleProject();
+
+        WebElement descriptionButton = getDriver().findElement(By.xpath("//*[@id = 'description-link']"));
+        descriptionButton.click();
+
+        WebElement descInputField = getDriver().findElement(By.xpath("//*[@name = 'description']"));
+        descInputField.sendKeys(descriptionText);
+
+        WebElement previewButton = getDriver()
+                .findElement(By.xpath("//a[@class = 'textarea-show-preview']"));
+        previewButton.click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@class = 'textarea-preview']"))
+                .getText(), descriptionText);
+    }
+
+    @Test
+    public void testVisibleProjectNameAndDescriptionFromViewPage() {
+        final String description = "This is a description for My Freestyle Project";
+
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, false);
+
+        getDriver().findElement(By.linkText("Add description")).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name = 'description']")))
+                .sendKeys(description);
+        getDriver().findElement(By.name("Submit")).click();
+
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
+        getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
+
+        assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Project " + FREESTYLE_NAME);
+        assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[contains(text(),'" + description + "')]")).getText(),
+                description);
+    }
+
+
+    @Test
+    public void testDisableProject() {
+        FreestyleProjectPage projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickTheDisableProjectButton();
+
+        Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
+    }
+
+    @Test
+    public void testEnableProject() {
+        MainPage projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickTheDisableProjectButton()
+                .clickTheEnableProjectButton()
+                .clickDashboard();
+
+        Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
+    }
+
+    @Test
+    public void testRenameFreestyleProject() {
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickRenameProject(FREESTYLE_NAME)
+                .enterNewName(FREESTYLE_NAME + " New")
+                .submitNewName();
+
+        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
+    }
+
+    @Test
+    public void testRenamingProjectFromTheDashboard() {
+        String expectedResultProjectPage = "Project Engineer2";
+        String expectedResultDashboardPage = "Engineer2";
+        TestUtils.createFreestyleProject(this, "Engineer", true);
+
+        Actions actions = new Actions(getDriver());
+        WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
+        actions.moveToElement(nameProject).perform();
+
+        WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", dropdown);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
+        WebElement inputName = getDriver().findElement(By.xpath("//input[@name='newName']"));
+        inputName.clear();
+        inputName.click();
+        inputName.sendKeys("Engineer2");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), expectedResultProjectPage);
+
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]"))
+                .getText(), expectedResultDashboardPage);
+    }
+
+    @Test
+    public void testDeleteFreestyleProject() {
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(NEW_FREESTYLE_NAME);
+        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
+
+        getDriver().findElement(By.linkText("Dashboard")).click();
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Project')]")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        Assert.assertFalse(getDriver().findElements(By
+                        .xpath("//a[@class='jenkins-table__link model-link inside']"))
+                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
+    }
+
+    @Test
+    public void testDeleteProjectFromDropdown() {
+        createFreestyleProject();
+
+        WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
+        dashboardBreadCrumb.click();
+
+        Actions act = new Actions(getDriver());
+        WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '" + FREESTYLE_NAME + "')]"));
+        act.moveToElement(projectName, 23, 7).perform();
+
+
+        Actions act2 = new Actions(getDriver());
+        WebElement dropDownButton = getDriver().findElement(By.xpath("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
+        act2.moveToElement(dropDownButton).perform();
+        dropDownButton.sendKeys(Keys.RETURN);
+
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
+        getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
+        getDriver().switchTo().alert().accept();
+
+        getDriver().findElement(By.xpath("//a[@href = '/me/my-views']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), "This folder is empty");
     }
 
     @Test
@@ -245,102 +443,43 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
     }
 
-   @Test
-  
-    public void testCreateFreestyleProject() {
-        final String name = "Test";
-
-        getDriver().findElement(By.linkText("New Item")).click();
-
-        getDriver().findElement(By.xpath("//*[@id='name']")).sendKeys(name);
-        getDriver().findElement(By.xpath("//*[@class='hudson_model_FreeStyleProject']")).click();
-        getDriver().findElement(By.xpath("//*[@class='btn-decorator']")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        String actualProjectName = getDriver().findElement(By.xpath("//h1")).getText();
-        Assert.assertEquals(actualProjectName, "Project " + name);
-
-    }
-
-
-
-
     @Test
-    public void testMakeProjectDisabled() {
-        TestUtils.createFreestyleProject(this, name, false);
+    public void testCreatedNewBuild() {
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("Engineer")
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickDashboard()
+                .getProjectName().click();
+        new FreestyleProjectPage(getDriver())
+                .selectBuildNow()
+                .selectBuildItemTheHistoryOnBuildPage();
 
-        WebElement actualProjectHeader = getDriver().findElement(By.xpath("//h1"));
-
-        Assert.assertEquals(actualProjectHeader.getText(), "Project First Project");
-
-        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
-        WebElement receivedMessage = getDriver().findElement(By.xpath("//div/form[@id='enable-project']"));
-
-        Assert.assertEquals(receivedMessage.getText().substring(0,34), "This project is currently disabled");
+        Assert.assertTrue(new BuildPage(getDriver()).getBuildHeader().isDisplayed(), "build not created");
     }
 
     @Test
-    public void testCreateFreestyleProjectGoingFromPeoplePage() {
+    public void testBuildLinks() {
+        createFreestyleProject();
 
-        String projectName = "FreestyleProject";
+        WebElement buildNowBtn = getDriver().findElement(By.xpath("//*[@class='task '][4]/span/a"));
+        buildNowBtn.click();
 
-        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(projectName);
-        getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+        WebElement dashBoardBtn = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li[1]/a"));
+        dashBoardBtn.click();
 
-        getDriver().findElement(By.xpath("//ol/li/a[@href='/'] ")).click();
+        WebElement greenCheckmark = getDriver().findElement(By.xpath("//*[@class='svg-icon ']"));
 
-        WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']"));
+        Assert.assertTrue(greenCheckmark.isDisplayed());
 
-        Assert.assertEquals(createdProject.getText(), projectName);
-    }
+        WebElement projectNameBtn = getDriver()
+                .findElement(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
+        projectNameBtn.click();
 
-    @Ignore
-    @Test(dependsOnMethods={"testCreateFreestyleProject"})
-    public void testFreestyleProjectNameDisplayedWithoutDescription(){
-        getDriver().findElement(By.xpath("//span[normalize-space()='"+ TEST_NAME +"']")).click();
-        getDriver().findElement(By.xpath("//span[normalize-space()='Changes']")).click();
-        getDriver().findElement(By.xpath("//span[normalize-space()='Status']")).click();
-
-        String actualProjectName = getDriver().findElement(By.xpath("//h1")).getText();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("description-link")));
-
-        Assert.assertEquals(actualProjectName, "Project " + TEST_NAME);
-        Assert.assertEquals(getDriver().findElement(By.id("description-link")).getText(),"Add description");
-    }
-    @Ignore
-
-    @Test(dependsOnMethods = "testCreateFreestyleProjectValidName")
-    public void testAddDescription() {
-        WebElement projectName = getDriver().findElement(By.xpath("//a[@href='job/Astra/']"));
-        new Actions(getDriver()).moveToElement(projectName).click(projectName).perform();
-
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1")));
-
-        WebElement addDescriptionButton = getDriver().findElement(By.xpath("//a[@id='description-link']"));
-        addDescriptionButton.click();
-
-        WebElement textArea = getDriver().findElement(By.tagName("textarea"));
-        String forTextArea = "123\nAAA\nSSS";
-        textArea.sendKeys(forTextArea);
-
-        WebElement previewButton = getDriver().findElement(By.xpath("//a[@previewendpoint='/markupFormatter/previewDescription']"));
-        previewButton.click();
-
-        WebElement previewTextArea = getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
-        Assert.assertEquals(previewTextArea.getText(), forTextArea);
-
-        WebElement saveButton = getDriver().findElement(By.xpath("//button[contains(text(), 'Save')]"));
-        saveButton.click();
-
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='editDescription']")));
-
-        WebElement description = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
-
-        Assert.assertEquals(description.getText(), forTextArea);
+        WebElement permaLinks = getDriver()
+                .findElement(By.xpath("//*[@class='permalink-link model-link inside tl-tr']"));
+        Assert.assertTrue(permaLinks.isDisplayed());
     }
 }
 
