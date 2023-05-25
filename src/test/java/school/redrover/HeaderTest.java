@@ -205,7 +205,7 @@ public class HeaderTest extends BaseTest {
                 .getBackgroundColorNotificationIcon();
 
         new MainPage(getDriver())
-                .clickManageJenkins();
+                .clickManageJenkinsLink();
 
         String actualHeader = new ManageJenkinsPage(getDriver())
                 .getActualHeader();
