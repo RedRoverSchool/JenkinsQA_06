@@ -70,7 +70,19 @@ public abstract class BaseTest {
 
     protected void startDriver() {
         ProjectUtils.log("Browser open");
-        driver = ProjectUtils.createDriver();
+
+        int count = 0;
+        do {
+            try {
+                Thread.sleep(500);
+                driver = ProjectUtils.createDriver();
+            } catch (Exception e) {
+                if (++count >= 3) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } while (driver == null);
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
@@ -86,6 +98,7 @@ public abstract class BaseTest {
     protected void closeDriver() {
         if (driver != null) {
             driver.quit();
+            driver = null;
             wait2 = null;
             wait5 = null;
             wait10 = null;
