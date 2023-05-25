@@ -115,6 +115,7 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
         Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//h1[@class='matrix-project-headline page-headline']"))).getText(), "Project " + NEW_NAME);
     }
+
 }
 
 

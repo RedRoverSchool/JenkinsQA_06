@@ -97,4 +97,5 @@ public class MultiConfigurationProjectPage extends BasePage {
     public WebElement selectNameLink() {
         return getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class ='jenkins-table__link model-link inside']")));
     }
+
 }
