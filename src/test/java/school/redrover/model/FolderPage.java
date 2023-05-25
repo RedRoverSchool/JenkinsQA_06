@@ -112,4 +112,12 @@ public class FolderPage extends BasePage {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
     }
+
+    public NewJobPage clickCreateAJob() {
+        WebElement createAJob = getDriver()
+                .findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']"));
+        getWait2().until(ExpectedConditions.elementToBeClickable(createAJob));
+        createAJob.click();
+        return new NewJobPage(getDriver());
+    }
 }

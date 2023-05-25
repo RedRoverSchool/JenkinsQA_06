@@ -84,7 +84,6 @@ public class NewJobPage extends BasePage {
         getOkButton().click();
         return new CreateItemErrorPage(getDriver());
     }
-
     public String getItemNameRequiredMessage() {
         return getDriver().findElement(By.id("itemname-required")).getText();
     }

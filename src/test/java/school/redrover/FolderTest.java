@@ -10,10 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderConfigPage;
-import school.redrover.model.FolderPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.NewJobPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -372,5 +369,20 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(actualPipelineName, "Pipeline " + pipelineName);
         Assert.assertTrue(isPipelinePresent);
+    }
+    @Test
+    public void testCreateMulticonfigurationProjectInFolder(){
+
+        ProjectPage mainpage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("TC 00.04 New item Create Folder")
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickCreateAJob()
+                .enterItemName("Mine Project")
+                .selectMultiConfigurationProjectAndOk()
+                .saveConfigurePageAndGoToProjectPage();
+
+        Assert.assertTrue(new ProjectPage(getDriver()).projectsHeadline().getText().contains("Mine Project"));
     }
 }
