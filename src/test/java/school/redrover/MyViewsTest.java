@@ -25,6 +25,8 @@ public class MyViewsTest extends BaseTest {
 
     private static final String NAME_FOLDER = "TestPipeline";
 
+    private static final String NEW_VIEW_NEW_DESCRIPTION_RANDOM = RandomStringUtils.randomAlphanumeric(7);
+
 
 
     @Test
@@ -59,24 +61,21 @@ public class MyViewsTest extends BaseTest {
 
     }
 
-    @Ignore
+
+
     @Test
     public void testEditDescription() {
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//textarea[@name='description']"))).sendKeys("Test");
-        getDriver()
-                .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//textarea[@name='description']"))).clear();
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test2");
-        getDriver()
-                .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+        MyViewsPage myViewsPage = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickOnDescription()
+                .enterDescription(NEW_VIEW_DESCRIPTION_RANDOM)
+                .clickSaveButtonDescription()
+                .clickOnDescription()
+                .clearTextFromDescription()
+                .enterNewDescription(NEW_VIEW_NEW_DESCRIPTION_RANDOM)
+                .clickSaveButtonDescription();
 
-        Assert.assertEquals(getDriver().
-                findElement(By.xpath("//div[@id='description']/div[1]")).getText(), "Test2");
+        Assert.assertEquals(myViewsPage.getTextFromDescription(), NEW_VIEW_NEW_DESCRIPTION_RANDOM);
     }
 
     @Test
@@ -145,18 +144,4 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(viewPage.getDescriptionText(), desc);
     }
 
-    @Test
-    public void testEditMyViewDescription() {
-        MyViewsPage myViewsPage = new MainPage(getDriver())
-                .clickMyViewsSideMenuLink()
-                .clickOnDescription()
-                .enterDescription(NEW_VIEW_DESCRIPTION_RANDOM)
-                .clickSaveButtonDescription()
-                .clickEditDescription()
-                .clearDescriptionField()
-                .enterDescription("New Description")
-                .clickSaveButtonDescription();
-
-        Assert.assertEquals(myViewsPage.getTextFromDescription(),"New Description");
-    }
 }

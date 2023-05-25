@@ -67,17 +67,16 @@ public class MyViewsPage extends BasePage {
         return getTextDescription;
     }
 
-    public MyViewsPage clickEditDescription (){
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[@href='editDescription']"))).click();
+    public MyViewsPage clearTextFromDescription() {
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//textarea[@name='description']"))).clear();
         return new MyViewsPage(getDriver());
     }
 
-    public MyViewsPage clearDescriptionField() {
+    public MyViewsPage enterNewDescription (String name){
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//textarea[@name='description']"))).clear();
-
-        return this;
+                By.xpath("//textarea[@name='description']"))).sendKeys(name);
+        return new MyViewsPage(getDriver());
     }
 }
 
