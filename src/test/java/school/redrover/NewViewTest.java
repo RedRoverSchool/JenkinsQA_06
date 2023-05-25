@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -213,17 +214,16 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateMyView() {
-        TestUtils.createFolder(this, "TestFolder", true);
+        WebElement newView = new MainPage(getDriver())
+                 .clickNewItem()
+                 .enterItemName("TestFolder")
+                 .selectFolderAndOk().clickDashboard()
+                 .clickFolderName("TestFolder")
+                 .clickNewView()
+                 .enterViewName("MyNewView")
+                 .selectMyViewAndClickCreate()
+                 .getMyView();
 
-        getDriver().findElement(By.linkText("TestFolder")).click();
-        getDriver().findElement(By.xpath("//a[@title= 'New View']")).click();
-
-        getDriver().findElement(By.name("name")).sendKeys("TestView");
-        getDriver().findElement(By.xpath("//label[@for= 'hudson.model.MyView']")).click();
-        getDriver().findElement(By.id("ok")).click();
-
-        WebElement newView = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("TestView")));
-
-        assertEquals(newView.getText(), "TestView");
+        assertEquals(newView.getText(), "MyNewView");
     }
 }

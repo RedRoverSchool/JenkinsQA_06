@@ -2,9 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
@@ -34,8 +32,8 @@ public class Folder4Test extends BaseTest {
 
         new MainPage(getDriver())
                 .clickFolderName(FOLDER_NAME)
-                .newView()
-                .interViewName(viewName)
+                .clickNewView()
+                .enterViewName(viewName)
                 .selectMyViewAndClickCreate()
                 .clickAll();
 
