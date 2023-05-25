@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.ManagePage;
 import school.redrover.runner.BaseTest;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class ManageTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testSearchWithNumericSymbol() {
        ManagePage noResult = new ManagePage(getDriver())

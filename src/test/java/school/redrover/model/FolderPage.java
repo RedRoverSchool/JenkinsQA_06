@@ -22,9 +22,9 @@ public class FolderPage extends BasePage {
         return new NewJobPage(getDriver());
     }
 
-    public FolderPage deleteFolder(){
+    public DeleteFolderPage delete(){
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
-        return this;
+        return new DeleteFolderPage(getDriver());
     }
 
     public FolderPage people(){
@@ -37,9 +37,9 @@ public class FolderPage extends BasePage {
         return this;
     }
 
-    public FolderPage rename(){
+    public RenameFolderPage rename(){
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(7)")).click();
-        return this;
+        return new RenameFolderPage(getDriver());
     }
 
     public FolderPage credentials(){
@@ -110,6 +110,14 @@ public class FolderPage extends BasePage {
 
     public NewJobPage clickNewItem() {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
+        return new NewJobPage(getDriver());
+    }
+
+    public NewJobPage clickCreateAJob() {
+        WebElement createAJob = getDriver()
+                .findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']"));
+        getWait2().until(ExpectedConditions.elementToBeClickable(createAJob));
+        createAJob.click();
         return new NewJobPage(getDriver());
     }
 }

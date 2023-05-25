@@ -21,9 +21,6 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
 
-    @FindBy(css = ".login>a.model-link")
-    private WebElement adminLink;
-
     private WebElement logoutButton = getDriver().findElement(By.xpath("//a[@href='/logout']"));
 
     public WebElement getLogoutButton() {
@@ -358,6 +355,11 @@ public class MainPage extends BasePage {
         WebElement buildStatus = getDriver().findElement(By.id(String.format("job_%s", jobName)))
                 .findElement(By.xpath(".//*[name()='svg']"));
         return buildStatus.getAttribute("tooltip");
+    }
+
+    public FreestyleProjectPage getProjectNameClick() {
+        getProjectName().click();
+        return new FreestyleProjectPage(getDriver());
     }
 
     public List<String> getJobList() {
