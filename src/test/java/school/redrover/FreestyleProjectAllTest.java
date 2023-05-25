@@ -1,11 +1,13 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -136,5 +138,28 @@ public class FreestyleProjectAllTest extends BaseTest {
 
         Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
                 .xpath("//h1"))).getText().substring("Project ".length()), newProjectName);
+    }
+
+    @Test
+    public void testCreateProjectWithDescription() {
+        final String description = RandomStringUtils.randomAlphanumeric(10);
+        final String projectName = RandomStringUtils.randomAlphanumeric(10);
+
+        String actualDescription = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(projectName)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickAddDescription()
+                .addDescription(description)
+                .clickSave()
+                .getDescription();
+
+        String actualProjectName = new MainPage(getDriver())
+                .clickFreestyleProjectName(projectName)
+                .getProjectName();
+
+        Assert.assertEquals(actualProjectName.substring("Project ".length()), projectName);
+        Assert.assertEquals(actualDescription, description);
     }
 }
