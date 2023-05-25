@@ -18,7 +18,7 @@ public class NewViewFolderPage extends BasePage {
         PageFactory.initElements(getDriver(), this);
     }
 
-    public NewViewFolderPage interViewName(String viewName){
+    public NewViewFolderPage enterViewName(String viewName){
         getDriver().findElement(By.id("name")).sendKeys(viewName);
         return this;
     }

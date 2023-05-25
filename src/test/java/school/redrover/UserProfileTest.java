@@ -16,7 +16,6 @@ public class UserProfileTest extends BaseTest {
     protected static final String PASSWORD = "p@ssword123";
     protected static final String EMAIL = "test@test.com";
     protected static final String USER_FULL_NAME = "Test User";
-    protected static final String USER_LINK = "//a[@href='user/" + USER_NAME + "/']";
 
     @Test
     public void testAddDescriptionToUser() {

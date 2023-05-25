@@ -8,6 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
@@ -75,5 +76,29 @@ public class OrganizationFolderTest extends BaseTest {
                 .getNestedFolder(nameOrganizationFolder);
 
         Assert.assertTrue(createdOrganizationFolder.isDisplayed());
+    }
+
+    @Test
+    public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage()  {
+        final String folderName = "TestFolder";
+        final String organizationFolderName = "TestOrgFolder";
+        WebElement movedOrgFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(folderName)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickNewItem()
+                .enterItemName(organizationFolderName)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickMoveOnLeftMenu()
+                .selectDestinationFolder()
+                .clickMoveButtonOnOrgPage()
+                .clickDashboard()
+                .clickFolderName(folderName)
+                .getNestedFolder(organizationFolderName);
+
+        Assert.assertTrue(movedOrgFolder.isDisplayed());
+        Assert.assertTrue(movedOrgFolder.isEnabled());
     }
 }

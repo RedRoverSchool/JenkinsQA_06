@@ -10,6 +10,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.MyViewsPage;
 import school.redrover.model.ViewPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -19,6 +20,12 @@ import java.util.List;
 public class MyViewsTest extends BaseTest {
 
     private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
+
+    private static final String NEW_VIEW_DESCRIPTION_RANDOM = RandomStringUtils.randomAlphanumeric(7);
+
+    private static final String NAME_FOLDER = "TestPipeline";
+
+
 
     @Test
     public void testCreateAJobInThePageMyViews() {
@@ -37,6 +44,19 @@ public class MyViewsTest extends BaseTest {
 
             Assert.assertTrue(td.getText().contains(NEW_VIEW_NAME_RANDOM));
         }
+    }
+
+    @Test
+    public void testAddDescriptionFromMyViewsPage() {
+
+        MyViewsPage myViewsPage = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickOnDescription()
+                .enterDescription(NEW_VIEW_DESCRIPTION_RANDOM)
+                .clickSaveButtonDescription();
+
+        Assert.assertEquals(myViewsPage.getTextFromDescription(),NEW_VIEW_DESCRIPTION_RANDOM);
+
     }
 
     @Ignore
@@ -85,7 +105,7 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(myViewName.getText(), "Java");
     }
 
-    private static final String NAME_FOLDER = "TestPipeline";
+
 
     @Test
     public void testCreateViewItem() {
@@ -110,46 +130,6 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(myViewTab.getText(), "MyView");
     }
 
-    private static final String DESCRIPTION_EDIT = "//textarea[@name='description']";
-    private static final String DESCRIPTION_FIELD = "//div[@id='description']//div[not(a[@id='description-link'])]";
-
-    private void createNewItem() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys("Item1");
-        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-    }
-
-    private void createNewView() {
-        getDriver().findElement(By.xpath("//a[@class='addTab']")).click();
-        getDriver().findElement(By.id("name")).sendKeys("View1");
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-        getDriver().findElement(By.id("ok")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-    }
-
-    @Test
-    public void editDescriptionTest() {
-        createNewItem();
-        createNewView();
-
-        getDriver().findElement(By.linkText("View1")).click();
-        getDriver().findElement(By.linkText("Edit View")).click();
-        getDriver().findElement(By.xpath(DESCRIPTION_EDIT)).clear();
-        getDriver().findElement(By.xpath(DESCRIPTION_EDIT)).sendKeys("New description");
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath(DESCRIPTION_FIELD)).getText(), "New description");
-
-        getDriver().findElement(By.linkText("Edit View")).click();
-        getDriver().findElement(By.xpath(DESCRIPTION_EDIT)).clear();
-        getDriver().findElement(By.xpath(DESCRIPTION_EDIT)).sendKeys("Old description");
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath(DESCRIPTION_FIELD)).getText(), "Old description");
-    }
     @DataProvider(name = "description")
     public static Object [][] provideDescription() {
         return new Object[][]

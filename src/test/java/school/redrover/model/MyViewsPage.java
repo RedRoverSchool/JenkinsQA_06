@@ -44,4 +44,26 @@ public class MyViewsPage extends BasePage {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, '/view/all/newJob')]"))).click();
         return new MyViewsPage(getDriver());
     }
+
+    public MyViewsPage clickOnDescription() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("description-link"))).click();
+        return new MyViewsPage(getDriver());
+    }
+
+    public MyViewsPage enterDescription (String name){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//textarea[@name='description']"))).sendKeys(name);
+        return new MyViewsPage(getDriver());
+    }
+
+    public MyViewsPage clickSaveButtonDescription(){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']"))).click();
+        return new MyViewsPage(getDriver());
+    }
+
+    public String getTextFromDescription(){
+        String getTextDescription = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='description']/div[not(@class)]"))).getText();
+        return getTextDescription;
+    }
 }

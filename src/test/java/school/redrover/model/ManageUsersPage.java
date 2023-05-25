@@ -57,14 +57,6 @@ public class ManageUsersPage extends MainPage {
         return this;
     }
 
-    public String getUserIDName(String userName) {
-        WebElement userIDNameLink = getDriver()
-                .findElement(By.xpath("//a[@href='user/" + userName + "/']"));
-        userIDNameLink.getText();
-
-        return userIDNameLink.getText();
-    }
-
     public ManageUsersPage clickUserIDDropDownMenu(String userName){
         getDriver()
                 .findElement(By.xpath("//a[@href='user/" + userName + "/']/button[@class='jenkins-menu-dropdown-chevron']"))
