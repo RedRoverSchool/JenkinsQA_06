@@ -13,7 +13,7 @@ import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
-public class CreateMultibranchPipeline1Test extends BaseTest {
+public class  CreateMultibranchPipeline1Test extends BaseTest {
 
     private WebDriverWait webDriverWait10;
 

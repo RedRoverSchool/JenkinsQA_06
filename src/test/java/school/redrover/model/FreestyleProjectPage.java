@@ -20,15 +20,6 @@ public class FreestyleProjectPage extends BasePage {
     @FindBy(id = "description-link")
     private WebElement addDescriptionButton;
 
-    @FindBy(id = "enable-project")
-    private WebElement warningMessage;
-
-    @FindBy(xpath = "//*[@id='disable-project']/button")
-    private WebElement projectDisabledButton;
-
-    @FindBy(xpath = "//*[@id='jenkins-head-icon']")
-    private WebElement jenkinsIconButton;
-
 
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
@@ -68,17 +59,19 @@ public class FreestyleProjectPage extends BasePage {
     }
 
     public MainPage navigateToMainPageViaJenkinsIcon() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(jenkinsIconButton)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//*[@id='jenkins-head-icon']"))).click();
         return new MainPage(getDriver());
     }
 
-    public String getWarningMessage() {
-        return warningMessage.getText().substring(0, warningMessage.getText().indexOf("\n"));
+    public String  getWarningMessage() {
+
+        return getDriver().findElement(By.id("enable-project")).getText().substring(0,34);
     }
 
     public boolean isProjectDisabledButtonDisplayed() {
 
-        return projectDisabledButton.isDisplayed();
+        return getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).isDisplayed();
     }
 
     public MainPage clickDashboard() {
@@ -100,9 +93,9 @@ public class FreestyleProjectPage extends BasePage {
                 By.xpath("//tr[@class = 'build-row multi-line overflow-checked']")))).size();
     }
 
-    public RenameFreestyleProjectPage clickRenameProject() {
+    public RenameFreestyleProjectPage clickRenameProject(String projectName) {
         getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@href = '/job/Freestyle/confirm-rename']"))).click();
+                By.xpath("//a[@href = '/job/" + projectName + "/confirm-rename']"))).click();
         return new RenameFreestyleProjectPage(getDriver());
     }
 }
