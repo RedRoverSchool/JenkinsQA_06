@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.devtools.v85.layertree.model.StickyPositionConstraint;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -477,6 +478,26 @@ public class FreestyleProjectTest extends BaseTest {
         WebElement permaLinks = getDriver()
                 .findElement(By.xpath("//*[@class='permalink-link model-link inside tl-tr']"));
         Assert.assertTrue(permaLinks.isDisplayed());
+    }
+
+    @Test
+
+    public void testCreateFreestyleProject() {
+        String nameFreestyle = "FreestyleProject";
+        String description = "First project";
+
+        new MainPage(getDriver())
+                .clickNewItemButton()
+                .inputAnItemName(nameFreestyle)
+                .clickFreestyleProject()
+                .clickSaveButton()
+                .sendAreDescriptionInputString(description)
+                .clickSaveButton()
+                .clickDashBoardButton();
+
+        String actualFreestyleName = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText();
+
+        Assert.assertEquals(actualFreestyleName,nameFreestyle);
     }
 }
 

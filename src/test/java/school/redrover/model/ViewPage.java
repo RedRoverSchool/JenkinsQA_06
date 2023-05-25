@@ -117,8 +117,13 @@ public class ViewPage extends BasePage {
         return null;
     }
 
+
     public ViewPage clickMultiBranchPipeline() {
         click(getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
+
+    public ViewPage clickFreestyleProject(){
+        click(getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
+
         return this;
     }
 }
