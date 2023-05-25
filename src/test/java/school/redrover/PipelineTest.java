@@ -758,25 +758,18 @@ public class PipelineTest extends BaseTest {
             e.printStackTrace();
         }
     }
-    
-    @Ignore
-    @Test(dependsOnMethods = "testCreatePipeline")
-    public void testCreatePipelineWithTheSameName() {
 
+    @Test(dependsOnMethods = "testCreatedPipelineIsDisplayedOnDashboard")
+    public void testCreatePipelineWithTheSameName() throws InterruptedException {
         final String expectedErrorMessage = "A job already exists with the name ‘" + PIPELINE_NAME + "’";
 
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-        getDriver().findElement(newItem).click();
-        getDriver().findElement(name).sendKeys(PIPELINE_NAME);
+        String actualErrorMessage = new PipelinePage(getDriver()).clickDashboard()
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineProject()
+                .clickOkToCreateWithExistingName()
+                .getErrorMessage();
 
-        WebElement errorMessageAJobAlreadyExists = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
-        errorMessageAJobAlreadyExists.isDisplayed();
-
-        getDriver().findElement(By.xpath("//span[@class = 'label'] [text() = 'Pipeline']")).click();
-
-        getDriver().findElement(saveButton).click();
-
-        Assert.assertEquals(getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@id='main-panel']/p"))).getText(), expectedErrorMessage);
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 }

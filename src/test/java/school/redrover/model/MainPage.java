@@ -361,4 +361,11 @@ public class MainPage extends BasePage {
         getProjectName().click();
         return new FreestyleProjectPage(getDriver());
     }
+
+    public MainPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return this;
+    }
 }

@@ -99,4 +99,9 @@ public class NewJobPage extends BasePage {
     private WebElement getItemInvalidNameMessage() {
        return getDriver().findElement(By.id("itemname-invalid"));
     }
+
+    public NewJobPage selectPipelineProject() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Pipeline']"))).click();
+        return new NewJobPage(getDriver());
+    }
 }
