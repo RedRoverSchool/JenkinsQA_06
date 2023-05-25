@@ -98,6 +98,7 @@ public abstract class BaseTest {
     protected void closeDriver() {
         if (driver != null) {
             driver.quit();
+            driver = null;
             wait2 = null;
             wait5 = null;
             wait10 = null;
