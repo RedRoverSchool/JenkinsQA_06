@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class MultibranchPipeline26Test extends BaseTest {
+public class  MultibranchPipeline26Test extends BaseTest {
     private static final String NAME_MULTIBRANCH_PROJECT = "multibranch";
     @Test
     public void testCreate() {

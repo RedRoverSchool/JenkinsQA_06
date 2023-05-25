@@ -23,8 +23,15 @@ public class MainPage extends BasePage {
     @FindBy(css = ".login>a.model-link")
     private WebElement adminLink;
 
-    @FindBy(xpath="//a[@href='/logout']")
-    private WebElement logoutButton;
+    private WebElement logoutButton = getDriver().findElement(By.xpath("//a[@href='/logout']"));
+
+    public WebElement getLogoutButton() {
+        return logoutButton;
+    }
+
+    public WebElement projectsTable() {
+       return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//table[@id='projectstatus']"))));
+    }
 
     private void openJobDropDownMenu(String jobName) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();

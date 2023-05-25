@@ -17,4 +17,5 @@ public class MultibranchPipelinePage extends BasePage {
 
         return new MainPage(getDriver());
     }
+
 }
