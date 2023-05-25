@@ -144,4 +144,19 @@ public class MyViewsTest extends BaseTest {
 
         Assert.assertEquals(viewPage.getDescriptionText(), desc);
     }
+
+    @Test
+    public void testEditMyViewDescription() {
+        MyViewsPage myViewsPage = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickOnDescription()
+                .enterDescription(NEW_VIEW_DESCRIPTION_RANDOM)
+                .clickSaveButtonDescription()
+                .clickEditDescription()
+                .clearDescriptionField()
+                .enterDescription("New Description")
+                .clickSaveButtonDescription();
+
+        Assert.assertEquals(myViewsPage.getTextFromDescription(),"New Description");
+    }
 }
