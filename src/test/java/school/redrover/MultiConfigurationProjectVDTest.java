@@ -1,19 +1,17 @@
 package school.redrover;
 
-import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 public class MultiConfigurationProjectVDTest extends BaseTest {
 
-    Faker faker = new Faker();
     private static final String PROJECT_NAME = "Tricky_Project";
 
     private static final String NEW_NAME = "Batman";
@@ -88,12 +86,13 @@ public class MultiConfigurationProjectVDTest extends BaseTest {
 
         TestUtils.createMultiConfigurationProject(this, PROJECT_NAME, true);
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class ='jenkins-table__link model-link inside']"))).click();
+        MultiConfigurationProjectPage multiConfigurationProjectPage = new MultiConfigurationProjectPage(getDriver());
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(DISABLE_BUTTON)).click();
+        multiConfigurationProjectPage.selectNameLink().click();
+        multiConfigurationProjectPage.getDisableClick();
         Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(ENABLE_BUTTON)).isDisplayed());
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(ENABLE_BUTTON)).click();
+        multiConfigurationProjectPage.getEnableClick();
         Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(DISABLE_BUTTON)).isDisplayed());
     }
 
