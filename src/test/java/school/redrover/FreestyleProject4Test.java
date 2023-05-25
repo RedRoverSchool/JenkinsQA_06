@@ -63,6 +63,8 @@ public class FreestyleProject4Test extends BaseTest {
         String actualBuildStatus = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'Success')]"))).getText();
         Assert.assertEquals(actualBuildStatus, expectedBuildStatus);
     }
+
+
     @Ignore
     @Test(dependsOnMethods = "testBuildNowProject")
     public void testBuildNowProjectWithBooleanParameter() {
