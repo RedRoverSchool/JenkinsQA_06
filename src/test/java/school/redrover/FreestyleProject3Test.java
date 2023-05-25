@@ -18,10 +18,14 @@ import school.redrover.runner.TestUtils;
 public class FreestyleProject3Test extends BaseTest {
 
     @Test
-    public void testCreatedNewBuild()  {
-        TestUtils.createFreestyleProject(this, "Engineer", true);
-
-        new MainPage(getDriver()).getProjectName().click();
+    public void testCreatedNewBuild() {
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("Engineer")
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickDashboard()
+                .getProjectName().click();
         new FreestyleProjectPage(getDriver())
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
