@@ -43,7 +43,7 @@ public class ManageTest extends BaseTest {
                 .fillUserDetails()
                 .submit();
 
-        Assert.assertTrue(newUser.assertUserCreated());
+        Assert.assertTrue(newUser.findUserCreated());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ManageTest extends BaseTest {
                 .clickDeleteUser()
                 .submit();
 
-        Assert.assertFalse(managePage.assertUserDeleted());
+        Assert.assertFalse(managePage.getUserDeleted());
     }
 
     @Test
