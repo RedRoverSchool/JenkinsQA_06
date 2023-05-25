@@ -5,8 +5,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -101,5 +104,25 @@ public class FreestyleProject4Test extends BaseTest {
                 .perform();
         boolean actualBuildStatus = getWait10().until(ExpectedConditions.attributeToBe(By.xpath("//div[@class='tippy-content']"), "innerText", expectedBuildStatus));
         Assert.assertTrue(actualBuildStatus);
+    }
+
+    @Test(dataProvider = "invalidSymbols")
+    public void testCreatingProjectWithInvalidName(String invalidSymbols){
+        String validationMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .selectFreestyleProject()
+                .enterItemName(invalidSymbols)
+                .getItemInvalidMessage();
+
+        boolean okButton = new NewJobPage(getDriver())
+                .isOkButtonEnabled();
+
+        Assert.assertEquals(validationMessage, "» ‘" + invalidSymbols + "’ is an unsafe character");
+        Assert.assertFalse(okButton);
+    }
+
+    @DataProvider(name = "invalidSymbols")
+    public Object[][] invalidSymbols(){
+        return new Object[][] {{"!"},{"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}};
     }
 }
