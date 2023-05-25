@@ -10,19 +10,8 @@ import school.redrover.model.base.BasePage;
 
 public class NewJobPage extends BasePage {
 
-    @FindBy(xpath = "//button[@id='ok-button']")
-    private WebElement okButton;
-
-    @FindBy(className = "hudson_model_FreeStyleProject")
-    private WebElement freestyleProject;
-
-    @FindBy(id = "itemname-invalid")
-    private WebElement itemInvalidNameMessage;
-
-
     public NewJobPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(getDriver(), this);
     }
 
     public NewJobPage enterItemName(String nameJob) {
@@ -31,38 +20,38 @@ public class NewJobPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage selectFreestyleProjectAndOk() {
-        freestyleProject.click();
-        okButton.click();
+        getFreestyleProject().click();
+        getOkButton().click();
         return new FreestyleProjectConfigPage(getDriver());
     }
 
     public PipelineConfigPage selectPipelineAndOk() {
         getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
-        okButton.click();
+        getOkButton().click();
         return new PipelineConfigPage(getDriver());
     }
 
     public MultiConfigurationProjectConfigPage selectMultiConfigurationProjectAndOk() {
         getDriver().findElement(By.xpath("//span[.='Multi-configuration project']")).click();
-        okButton.click();
+        getOkButton().click();
         return new MultiConfigurationProjectConfigPage(getDriver());
     }
 
     public FolderConfigPage selectFolderAndOk() {
         getDriver().findElement(By.xpath("//li[contains(@class, 'folder_Folder')]")).click();
-        okButton.click();
+        getOkButton().click();
         return new FolderConfigPage(getDriver());
     }
 
     public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {
         getDriver().findElement(By.xpath("//li[contains(@class, 'WorkflowMultiBranchProject')]")).click();
-        okButton.click();
+        getOkButton().click();
         return new MultibranchPipelineConfigPage(getDriver());
     }
 
     public OrganizationFolderConfigPage selectOrganizationFolderAndOk() {
         getDriver().findElement(By.xpath("//li[contains(@class, 'OrganizationFolder')]")).click();
-        okButton.click();
+        getOkButton().click();
         return new OrganizationFolderConfigPage(getDriver());
     }
 
@@ -74,29 +63,41 @@ public class NewJobPage extends BasePage {
 
     public PipelineConfigPage selectPipelineAndClickOK() {
         getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
-        okButton.click();
+        getOkButton().click();
         return new PipelineConfigPage(getDriver());
     }
 
     public String getItemInvalidMessage() {
-        return getWait2().until(ExpectedConditions.visibilityOf(itemInvalidNameMessage)).getText();
+        return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
     }
 
     public NewJobPage selectFreestyleProject() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(freestyleProject)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getFreestyleProject())).click();
         return this;
     }
 
     public boolean isOkButtonEnabled() {
-        return okButton.isEnabled();
+        return getOkButton().isEnabled();
     }
 
     public CreateItemErrorPage clickOkToCreateWithExistingName() {
-        okButton.click();
+        getOkButton().click();
         return new CreateItemErrorPage(getDriver());
     }
 
     public String getItemNameRequiredMessage() {
         return getDriver().findElement(By.id("itemname-required")).getText();
+    }
+
+    private WebElement getOkButton() {
+        return getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+    }
+
+    private WebElement getFreestyleProject() {
+        return getDriver().findElement(By.className("hudson_model_FreeStyleProject"));
+    }
+
+    private WebElement getItemInvalidNameMessage() {
+       return getDriver().findElement(By.id("itemname-invalid"));
     }
 }
