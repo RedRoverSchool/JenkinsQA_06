@@ -80,7 +80,7 @@ public class FreestyleProject01Test extends BaseTest {
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .clickSave()
-                .clickRenameProject()
+                .clickRenameProject(FREESTYLE_NAME)
                 .enterNewName(FREESTYLE_NAME + " New")
                 .submitNewName();
 

@@ -100,9 +100,9 @@ public class FreestyleProjectPage extends BasePage {
                 By.xpath("//tr[@class = 'build-row multi-line overflow-checked']")))).size();
     }
 
-    public RenameFreestyleProjectPage clickRenameProject() {
+    public RenameFreestyleProjectPage clickRenameProject(String projectName) {
         getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@href = '/job/Freestyle/confirm-rename']"))).click();
+                By.xpath("//a[@href = '/job/" + projectName + "/confirm-rename']"))).click();
         return new RenameFreestyleProjectPage(getDriver());
     }
 }
