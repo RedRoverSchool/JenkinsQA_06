@@ -120,4 +120,9 @@ public class FolderPage extends BasePage {
         createAJob.click();
         return new NewJobPage(getDriver());
     }
+
+    public MovePage clickMove() {
+        getDriver().findElement(By.xpath("//span[text()='Move']")).click();
+        return new MovePage(getDriver());
+    }
 }

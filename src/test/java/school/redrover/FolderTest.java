@@ -385,4 +385,24 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(new ProjectPage(getDriver()).projectsHeadline().getText().contains("Mine Project"));
     }
+
+    @Test
+    public void testMoveFolderToFolderFromSideMenu() {
+        String folder1 = "Folder1";
+        String folder2 = "Folder2";
+
+        TestUtils.createFolder(this, folder1, true);
+        TestUtils.createFolder(this, folder2, true);
+
+        WebElement nestedFolder = new MainPage(getDriver())
+                .clickToOpenFolder(folder2)
+                .clickMove()
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(folder1)
+                .getNestedFolder(folder2);
+
+        Assert.assertEquals(nestedFolder.getText(), folder2);
+    }
 }
