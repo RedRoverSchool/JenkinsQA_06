@@ -1,65 +1,48 @@
 package school.redrover.model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class CreateUserPage extends MainPage {
 
-    @FindBy(id = "username")
-    private WebElement username;
-
-    @FindBy(name = "password1")
-    private WebElement password;
-
-    @FindBy(name = "password2")
-    private WebElement confirmPassword;
-
-    @FindBy(name = "fullname")
-    private WebElement fullName;
-
-    @FindBy(name = "email")
-    private WebElement email;
-
-    @FindBy(name = "Submit")
-    private WebElement createUserButton;
-
     public CreateUserPage(WebDriver driver) {
         super(driver);
     }
 
     public CreateUserPage setUsername(String name) {
-        username.sendKeys(name);
+        getDriver().findElement(By.id("username")).sendKeys(name);
 
         return this;
     }
 
     public CreateUserPage setPassword(String name) {
-        password.sendKeys(name);
+        getDriver().findElement(By.name("password1")).sendKeys(name);
 
         return this;
     }
 
     public CreateUserPage confirmPassword(String name) {
-        confirmPassword.sendKeys(name);
+        getDriver().findElement(By.name("password2")).sendKeys(name);
 
         return this;
     }
 
     public CreateUserPage setFullName(String name) {
-        fullName.sendKeys(name);
+        getDriver().findElement(By.name("fullname")).sendKeys(name);
 
         return this;
     }
 
     public CreateUserPage setEmail(String name) {
-        email.sendKeys(name);
+        getDriver().findElement(By.name("email")).sendKeys(name);
 
         return this;
     }
 
     public CreateUserPage clickCreateUserButton() {
-        createUserButton.click();
+        getDriver().findElement(By.name("Submit")).click();
 
         return new CreateUserPage(getDriver());
     }

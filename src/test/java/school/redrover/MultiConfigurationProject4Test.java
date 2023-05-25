@@ -1,13 +1,12 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectPage;
+import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -44,14 +43,13 @@ public class MultiConfigurationProject4Test extends BaseTest {
 
     @Test(dataProvider = "unsafeCharacter")
     public void testVerifyAnErrorIfCreatingMultiConfigurationProjectWithUnsafeCharacterInName(char unsafeSymbol) {
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem();
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait2().until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//input[@name='name']")))
-                .sendKeys(unsafeSymbol + "MyProject");
+        String invalidMessage = new NewJobPage(getDriver())
+                .enterItemName(unsafeSymbol + "MyProject")
+                .getItemInvalidMessage();
 
-        WebElement errorMessage = getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"));
-
-        Assert.assertEquals(errorMessage.getText(), "» ‘" + unsafeSymbol + "’" + " is an unsafe character");
+        Assert.assertEquals(invalidMessage, "» ‘" + unsafeSymbol + "’" + " is an unsafe character");
     }
 }
