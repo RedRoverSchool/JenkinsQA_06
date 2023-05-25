@@ -267,13 +267,12 @@ public class MainPage extends BasePage {
         return getDriver().findElement(By.id("visible-am-button")).getCssValue("background-color");
     }
 
-    public MainPage clickManageJenkinsLink() {
-        new Actions(getDriver())
-                .pause(Duration.ofMillis(500))
-                .click(getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Manage Jenkins']"))))
-                .perform();
+    public ManageJenkinsPage clickManageJenkins() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+
         return new ManageJenkinsPage(getDriver());
     }
+
     public MainPage hoverOverAdminLink() {
         Actions act = new Actions(getDriver());
         WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(

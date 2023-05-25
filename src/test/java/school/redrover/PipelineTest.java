@@ -779,4 +779,14 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@id='main-panel']/p"))).getText(), expectedErrorMessage);
     }
+
+    @Test
+    public void testCreatePipelineGoingFromManageJenkinsPage() {
+        new MainPage(getDriver())
+                .clickManageJenkins()
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk();
+
+    }
 }

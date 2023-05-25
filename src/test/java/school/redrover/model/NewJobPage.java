@@ -26,7 +26,7 @@ public class NewJobPage extends BasePage {
     }
 
     public PipelineConfigPage selectPipelineAndOk() {
-        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
+        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
         getOkButton().click();
         return new PipelineConfigPage(getDriver());
     }
