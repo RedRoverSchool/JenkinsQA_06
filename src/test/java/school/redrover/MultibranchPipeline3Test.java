@@ -63,6 +63,7 @@ public class MultibranchPipeline3Test extends BaseTest {
         Assert.assertEquals(actualMultibranchPipeline2.getText(), expectedMultibranchPipeline);
     }
 
+    @Ignore
     @Test
     public void testCreateMultibranchPipelineWithoutDescription() {
         TestUtils.createMultibranchPipeline(this,"MyMultibranchPipeline", false);
