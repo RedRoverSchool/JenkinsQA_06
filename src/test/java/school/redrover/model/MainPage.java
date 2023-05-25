@@ -352,4 +352,11 @@ public class MainPage extends BasePage {
                 .findElement(By.xpath(".//*[name()='svg']"));
         return buildStatus.getAttribute("tooltip");
     }
+
+    public MainPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return this;
+    }
 }
