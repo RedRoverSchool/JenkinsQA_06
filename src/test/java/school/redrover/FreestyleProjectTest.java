@@ -12,6 +12,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
+import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -188,15 +189,12 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dataProvider = "wrong-character")
     public void testCreateFreestyleProjectWithInvalidName(String wrongCharacter){
-        getDriver().findElement(By.linkText("New Item")).click();
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(wrongCharacter);
 
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(wrongCharacter);
-        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
-
-        String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
-
-        Assert.assertEquals(validationMessage, "» ‘" + wrongCharacter + "’ is an unsafe character");
-        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled());
     }
 
     @Test
