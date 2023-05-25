@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +10,7 @@ import school.redrover.model.base.BasePage;
 
 import java.util.List;
 
-public class ManageUsersPage extends BasePage {
+public class ManageUsersPage extends MainPage {
     @FindBy(xpath = "//a[@class ='jenkins-table__link model-link inside']")
     private WebElement usersTable;
 
@@ -37,18 +38,13 @@ public class ManageUsersPage extends BasePage {
     @FindBy(xpath = "//button[@name = 'Submit']")
     private WebElement submitBtn;
 
-    @FindBy(xpath = "//a[@href='addUser']")
-    private WebElement createUser;
-
-    @FindBy(linkText = "Configure")
-    private WebElement configureUserLink;
-
     public ManageUsersPage(WebDriver driver) {
         super(driver);
     }
 
     public CreateUserPage clickCreateUser() {
-        createUser.click();
+        getDriver().findElement(By.xpath("//a[@href='addUser']")).click();
+
         return new CreateUserPage(getDriver());
     }
 
@@ -61,12 +57,17 @@ public class ManageUsersPage extends BasePage {
         return this;
     }
 
-    public String getUserIDName(String userName) {
-        WebElement userIDNameLink = getDriver()
-                .findElement(By.xpath("//a[@href='user/" + userName + "/']"));
-        userIDNameLink.getText();
+    public ManageUsersPage clickUserIDDropDownMenu(String userName){
+        getDriver()
+                .findElement(By.xpath("//a[@href='user/" + userName + "/']/button[@class='jenkins-menu-dropdown-chevron']"))
+                        .sendKeys(Keys.ENTER);
+        return this;
+    }
 
-        return userIDNameLink.getText();
+    public ManageUsersPage selectConfigureUserIDDropDownMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Configure')]"))).click();
+
+        return this;
     }
 
     public ManageUsersPage openUsersPage() {
@@ -76,7 +77,7 @@ public class ManageUsersPage extends BasePage {
     }
 
     public ManageUsersPage clickCreateUserBtn() {
-        createUser.click();
+        getDriver().findElement(By.xpath("//a[@href='addUser']")).click();
         return this;
     }
 

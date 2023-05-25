@@ -20,11 +20,15 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
 
-    @FindBy(css = ".login>a.model-link")
-    private WebElement adminLink;
+    private WebElement logoutButton = getDriver().findElement(By.xpath("//a[@href='/logout']"));
 
-    @FindBy(xpath="//a[@href='/logout']")
-    private WebElement logoutButton;
+    public WebElement getLogoutButton() {
+        return logoutButton;
+    }
+
+    public WebElement projectsTable() {
+       return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//table[@id='projectstatus']"))));
+    }
 
     private void openJobDropDownMenu(String jobName) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
@@ -351,5 +355,17 @@ public class MainPage extends BasePage {
         WebElement buildStatus = getDriver().findElement(By.id(String.format("job_%s", jobName)))
                 .findElement(By.xpath(".//*[name()='svg']"));
         return buildStatus.getAttribute("tooltip");
+    }
+
+    public FreestyleProjectPage getProjectNameClick() {
+        getProjectName().click();
+        return new FreestyleProjectPage(getDriver());
+    }
+
+    public MainPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return this;
     }
 }

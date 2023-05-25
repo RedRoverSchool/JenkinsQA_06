@@ -4,13 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ManageJenkinsPage extends MainPage {
 
-    @FindBy(xpath ="//a[@href='securityRealm/']")
-    private WebElement manageUsers;
 
     public ManageJenkinsPage(WebDriver driver){
         super(driver);
@@ -42,7 +39,9 @@ public class ManageJenkinsPage extends MainPage {
     }
 
     public ManageUsersPage clickManageUsers() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(manageUsers)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@href='securityRealm/']")))
+                .click();
         return new ManageUsersPage(getDriver());
     }
 
