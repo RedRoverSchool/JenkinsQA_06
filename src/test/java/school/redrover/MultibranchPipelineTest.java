@@ -53,7 +53,6 @@ public class MultibranchPipelineTest extends BaseTest {
 
         Assert.assertTrue(new MultibranchPipelineConfigPage(getDriver()).viewDescription().getText().isEmpty());
     }
-}
     @Test
     public void deleteMultibranchPipelineTest() {
         new MainPage(getDriver())
