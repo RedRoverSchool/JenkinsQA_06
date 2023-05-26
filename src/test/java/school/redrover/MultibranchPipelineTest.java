@@ -42,6 +42,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
         Assert.assertTrue(new MultibranchPipelinePage(getDriver()).multibranchPipeline().getText().contains("MultibranchPipeline"));
     }
+  
     @Test
     public void deleteMultibranchPipelineTest() {
         String WelcomeJenkinsPage = new MainPage(getDriver())
