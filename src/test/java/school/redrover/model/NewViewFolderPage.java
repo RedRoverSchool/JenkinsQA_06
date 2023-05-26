@@ -4,14 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.PageFactory;
 import school.redrover.model.base.BasePage;
 
 public class NewViewFolderPage extends BasePage {
 
     public NewViewFolderPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(getDriver(), this);
     }
 
     private WebElement getOkButton() {

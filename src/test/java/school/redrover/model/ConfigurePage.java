@@ -11,20 +11,8 @@ public class ConfigurePage extends BasePage {
         super(driver);
     }
 
-    private WebElement getDescriptionField() {
-        return getDriver().findElement(By.xpath("//textarea[@name='description']"));
-    }
-
-    private WebElement getBuildTriggerCheckBox() {
-        return getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']"));
-    }
-
     private WebElement getAreContentInputString() {
         return getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea"));
-    }
-
-    private WebElement getSaveButton() {
-        return getDriver().findElement(By.xpath("//button[@name='Submit']"));
     }
 
     private WebElement getBuildTriggersSection() {
@@ -36,12 +24,12 @@ public class ConfigurePage extends BasePage {
     }
 
     public ConfigurePage sendAreDescriptionInputString(String text) {
-        sendTextToInput(getDescriptionField(), text);
+        sendTextToInput(getDriver().findElement(By.xpath("//textarea[@name='description']")), text);
         return this;
     }
 
     public ConfigurePage clickBuildTriggerCheckBox() {
-        click(getBuildTriggerCheckBox());
+        click(getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")));
         return this;
     }
 
@@ -62,7 +50,7 @@ public class ConfigurePage extends BasePage {
     }
 
     public JobPage clickSaveButton() {
-        click(getSaveButton());
+        click(getDriver().findElement(By.xpath("//button[@name='Submit']")));
         return new JobPage(getDriver());
     }
 }

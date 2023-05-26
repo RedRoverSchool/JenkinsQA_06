@@ -7,15 +7,12 @@ import school.redrover.model.base.BasePage;
 
 public class JobPage extends BasePage {
 
-    private WebElement getDashBoardButton() {
-        return getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[text()='Dashboard']"));
-    }
     public JobPage(WebDriver driver) {
         super(driver);
     }
 
     public MainPage clickDashBoardButton() {
-        click(getDashBoardButton());
+        click(getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[text()='Dashboard']")));
         return new  MainPage(getDriver());
     }
 }
