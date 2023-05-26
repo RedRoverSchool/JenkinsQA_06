@@ -42,6 +42,14 @@ public class MainPage extends BasePage {
         return new NewJobPage(getDriver());
     }
 
+    public NewJobPage clickCreateAJobArrow() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")))
+                .click();
+
+        return new NewJobPage(getDriver());
+    }
+
     public WebElement getProjectName() {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".job-status-nobuilt td>a>span"))));

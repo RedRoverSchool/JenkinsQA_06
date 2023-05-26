@@ -102,4 +102,8 @@ public class NewJobPage extends BasePage {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Pipeline']"))).click();
         return new NewJobPage(getDriver());
     }
+
+    public String getItemNameRequiredErrorText() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
+    }
 }

@@ -122,15 +122,14 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testErrorWhenCreatingFreeStyleProjectWithEmptyName() {
-        final String EXPECTED_ERROR = "» This field cannot be empty, please enter a valid name";
+        final String expectedError = "» This field cannot be empty, please enter a valid name";
 
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
+        String actualError = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .selectFreestyleProject()
+                .getItemNameRequiredErrorText();
 
-        String actualError = getDriver().findElement(By.id("itemname-required")).getText();
-
-        Assert.assertEquals(actualError, EXPECTED_ERROR);
+        Assert.assertEquals(actualError, expectedError);
     }
 
     @Test
