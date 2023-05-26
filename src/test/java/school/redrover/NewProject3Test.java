@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.FolderPage;
+import school.redrover.model.MainPage;
 import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
 
