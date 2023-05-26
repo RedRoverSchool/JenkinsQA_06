@@ -32,8 +32,12 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void deleteMultibranchPipelineTest() {
-        TestUtils.createMultibranchPipeline(this, "MultibranchPipeline", true);
         new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("MultibranchPipeline")
+                .selectMultibranchPipelineAndOk()
+                .saveButton()
+                .navigateToMainPageByBreadcrumbs()
                 .clickJobDropDownMenu("MultibranchPipeline")
                 .selectDeleteFromDropDownMenu()
                 .clickYesDeleteJobDropDownMenu();
