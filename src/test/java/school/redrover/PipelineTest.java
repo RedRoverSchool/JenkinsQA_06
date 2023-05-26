@@ -760,7 +760,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreatedPipelineIsDisplayedOnDashboard")
-    public void testCreatePipelineWithTheSameName() throws InterruptedException {
+    public void testCreatePipelineWithTheSameName() {
         final String expectedErrorMessage = "A job already exists with the name ‘" + PIPELINE_NAME + "’";
 
         String actualErrorMessage = new PipelinePage(getDriver()).clickDashboard()
