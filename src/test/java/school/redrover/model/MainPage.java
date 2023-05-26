@@ -102,6 +102,14 @@ public class MainPage extends BasePage {
         return new ManageJenkinsPage(getDriver());
     }
 
+    public ConfigureGlobalSecurityPage navigateToConfigureGlobalSecurityPage() {
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+        getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
+        getWait5()
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
+        return new ConfigureGlobalSecurityPage(getDriver());
+    }
+
     public PipelinePage clickPipelineProject(String pipelineName) {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + pipelineName + "/']"))).click();
         return new PipelinePage(getDriver());

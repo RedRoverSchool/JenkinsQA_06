@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.ArrayList;
@@ -16,11 +17,6 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
-    }
-
-    public int getNumberOfTitles() {
-        List<WebElement> listTitle = new ArrayList<>(getDriver().findElements(By.cssSelector(".jenkins-form-label")));
-        return listTitle.size();
     }
 
     public int getNumberOfHelpButton() {
@@ -56,9 +52,11 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
     public void testCheckNumberOfTitles() {
         int expectedNumberOfTitles = 10;
 
-        navigateToConfigureGlobalSecurityPage();
+        int actualNumberOfTitles = new MainPage(getDriver())
+                .navigateToConfigureGlobalSecurityPage()
+                .getNumberOfTitles();
 
-        Assert.assertEquals(getNumberOfTitles(), expectedNumberOfTitles);
+        Assert.assertEquals(actualNumberOfTitles, expectedNumberOfTitles);
     }
 
     @Test
