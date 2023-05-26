@@ -10,7 +10,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;

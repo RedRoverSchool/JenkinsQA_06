@@ -6,7 +6,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.JenkinsVersionPage;
-import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 

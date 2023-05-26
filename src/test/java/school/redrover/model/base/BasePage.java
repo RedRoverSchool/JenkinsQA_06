@@ -21,7 +21,6 @@ public abstract class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(getDriver(), this);
     }
 
     protected WebDriver getDriver() {
