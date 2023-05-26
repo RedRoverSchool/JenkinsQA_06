@@ -66,4 +66,18 @@ public class MyViewsPage extends BasePage {
                 By.xpath("//div[@id='description']/div[not(@class)]"))).getText();
         return getTextDescription;
     }
+
+    public MyViewsPage clearTextFromDescription() {
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//textarea[@name='description']"))).clear();
+        return new MyViewsPage(getDriver());
+    }
+
+    public MyViewsPage enterNewDescription (String name){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//textarea[@name='description']"))).sendKeys(name);
+        return new MyViewsPage(getDriver());
+    }
 }
+
+

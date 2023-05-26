@@ -53,4 +53,10 @@ public class ManageJenkinsPage extends MainPage {
     public String getDropdownResultsInSearchField() {
         return getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='jenkins-search__results']"))).getText();
     }
+
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        return new NewJobPage(getDriver());
+    }
 }

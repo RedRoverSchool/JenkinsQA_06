@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 import java.time.Duration;
+import java.util.List;
 
 
 public class MainPage extends BasePage {
@@ -365,6 +366,25 @@ public class MainPage extends BasePage {
     public MainPage clickConfigureSideMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return this;
+    }
+
+    public List<String> getJobList() {
+        return getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+    }
+
+    public ManageJenkinsPage clickManageJenkins() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+
+    public MainPage clickYesDeleteJobDropDownMenu(){
+        getDriver().findElement(By.name("Submit")).click();
 
         return this;
     }
