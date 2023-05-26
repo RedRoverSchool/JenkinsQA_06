@@ -20,4 +20,6 @@ public class ViewFolderPage extends BasePage {
     public WebElement getMyView() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tab active']")));
     }
+
+
 }
