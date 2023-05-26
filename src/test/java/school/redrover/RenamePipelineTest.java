@@ -28,5 +28,4 @@ public class RenamePipelineTest extends BaseTest {
 
        Assert.assertEquals(renamePipelineFolder,updatedProjectName);
    }
-
 }
