@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectConfigPage;
 import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.model.ProjectPage;

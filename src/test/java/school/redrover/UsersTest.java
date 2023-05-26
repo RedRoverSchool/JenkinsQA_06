@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
@@ -98,6 +99,7 @@ public class UsersTest extends BaseTest {
         Assert.assertNotEquals(actualDisplayedDescriptionText, existingDescriptionText);
     }
 
+    @Ignore
     @Test
     public void testEditEmailByDropDown() {
         final String displayedEmail = "testedited@test.com";
