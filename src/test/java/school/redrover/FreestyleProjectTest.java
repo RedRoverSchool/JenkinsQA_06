@@ -240,17 +240,17 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testPreviewDescription () {
-        FreestyleProjectConfigPage freestyleProjectPage = new MainPage(getDriver())
+        String previewDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .clickSave()
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
-                .clickPreviewButton();
+                .clickPreviewButton()
+                .getPreviewDescription();
 
-        Assert.assertEquals(freestyleProjectPage.getPreviewDescription(), DESCRIPTION_TEXT);
-
+        Assert.assertEquals(previewDescription, DESCRIPTION_TEXT);
     }
 
     @Test

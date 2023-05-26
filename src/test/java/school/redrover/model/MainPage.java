@@ -2,24 +2,33 @@ package school.redrover.model;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 import java.time.Duration;
 import java.util.List;
 
-
 public class MainPage extends BasePage {
 
-    @FindBy(xpath = "//a[@href='/view/all/newJob']")
-    private WebElement newItemButton;
+    public MainPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
 
-    @FindBy(xpath = "//a[@href='job/New%20Builds/build?delay=0sec']")
-    private WebElement playBuildForATestButton;
+    private WebElement getNewItemButton() {
+        return getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
+    }
 
-    @FindBy(xpath = "//a[@href='/view/all/builds']")
-    private WebElement buildsHistoryButton;
+    private WebElement getPlayBuildForATestButton() {
+        return getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']"));
+    }
+
+    private WebElement getBuildsHistoryButton() {
+        return getDriver().findElement(By.xpath( "//a[@href='/view/all/builds']"));
+    }
+
+
 
     private WebElement logoutButton = getDriver().findElement(By.xpath("//a[@href='/logout']"));
 
@@ -28,7 +37,7 @@ public class MainPage extends BasePage {
     }
 
     public WebElement projectsTable() {
-       return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//table[@id='projectstatus']"))));
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//table[@id='projectstatus']"))));
     }
 
     private void openJobDropDownMenu(String jobName) {
@@ -38,9 +47,7 @@ public class MainPage extends BasePage {
         js.executeScript("arguments[0].click();", arrow);
     }
 
-    public MainPage(WebDriver driver) {
-        super(driver);
-    }
+
 
     public NewJobPage clickNewItem() {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
@@ -62,7 +69,7 @@ public class MainPage extends BasePage {
 
     public String getProjectNameMainPage(String projectName) {
         return getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//tr[@id='job_" + projectName + "']//a//span['" + projectName + "']")))
+                        .visibilityOfElementLocated(By.xpath("//tr[@id='job_" + projectName + "']//a//span['" + projectName + "']")))
                 .getText();
     }
 
@@ -137,17 +144,17 @@ public class MainPage extends BasePage {
     }
 
     public MainPage clickPlayBuildForATestButton() {
-        click(playBuildForATestButton);
+        click(getPlayBuildForATestButton());
         return new MainPage(getDriver());
     }
 
     public BuildPage clickBuildsHistoryButton() {
-        click(buildsHistoryButton);
+        click(getBuildsHistoryButton());
         return new BuildPage(getDriver());
     }
 
     public ViewPage clickNewItemButton() {
-        click(newItemButton);
+        click(getNewItemButton());
         return new ViewPage(getDriver());
     }
 
@@ -180,7 +187,7 @@ public class MainPage extends BasePage {
 
     public NewJobPage clickNewItemInDashboardDropDownMenu() {
         getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
+                        .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
                 .click();
         return new NewJobPage(getDriver());
     }
@@ -314,7 +321,7 @@ public class MainPage extends BasePage {
         return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
     }
 
-      public NewViewPage createNewView() {
+    public NewViewPage createNewView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
 
         return new NewViewPage(getDriver());
@@ -388,4 +395,6 @@ public class MainPage extends BasePage {
 
         return this;
     }
+
+
 }
