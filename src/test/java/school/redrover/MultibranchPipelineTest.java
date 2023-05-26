@@ -11,6 +11,7 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
 import school.redrover.model.ProjectPage;
+import school.redrover.runner.TestUtils;
 
 
 
@@ -27,6 +28,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
         Assert.assertTrue(new MultibranchPipelineConfigPage(getDriver()).titleMultibranchPipeline().getText().contains("Random Name"));
     }
+
     @Test
     public void testRenameMultibranchPipeline() {
         RenameMultibranchPipelinePage mainpage = new MainPage(getDriver())
@@ -40,6 +42,8 @@ public class MultibranchPipelineTest extends BaseTest {
 
         Assert.assertTrue(new MultibranchPipelinePage(getDriver()).multibranchPipeline().getText().contains("MultibranchPipeline"));
     }
+       }
+       
     @Test
     public void deleteMultibranchPipelineTest() {
         new MainPage(getDriver())
