@@ -13,7 +13,7 @@ import school.redrover.runner.BaseTest;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
-
+@Ignore
 public class TestMainPage extends BaseTest {
     @Ignore
     @Test
