@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
@@ -13,38 +12,27 @@ import java.util.List;
 
 public class ViewPage extends BasePage {
 
-    @FindBy(xpath = "//div[@id='description']/child::*")
-    private WebElement description;
-
-    @FindBy(xpath = "//input[@id = 'name']")
-    private WebElement stringSearchItemName;
-
-    @FindBy(xpath = "//span[normalize-space()='Pipeline']")
-    private WebElement pipelineProject;
-
-    @FindBy(xpath = "//button[@id = 'ok-button']")
-    private WebElement saveButton;
-
-    @FindBy(xpath = "//tbody/tr/td/a/span")
-    private List<WebElement> jobList;
-
     public ViewPage(WebDriver driver) {
         super(driver);
     }
 
+    private List<WebElement> getJobList() {
+        return getDriver().findElements(By.xpath("//tbody/tr/td/a/span"));
+    }
+
     public ViewPage inputAnItemName(String text) {
 
-        sendTextToInput(stringSearchItemName, text);
+        sendTextToInput(getDriver().findElement(By.xpath("//input[@id = 'name']")), text);
         return new ViewPage(getDriver());
     }
 
     public ViewPage clickPipelineProject() {
-        click(pipelineProject);
+        click(getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
         return new ViewPage(getDriver());
     }
 
     public ConfigurePage clickSaveButton() {
-        click(saveButton);
+        click(getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
         return new ConfigurePage(getDriver());
     }
 
@@ -67,15 +55,15 @@ public class ViewPage extends BasePage {
     }
 
     public String getDescriptionText() {
-        return description.getText();
+        return getDriver().findElement(By.xpath("//div[@id='description']/child::*")).getText();
     }
 
-    public String getJobName (String name) {
+    public String getJobName(String name) {
 
         return getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", name))).getText();
     }
 
-    public String getViewName () {
+    public String getViewName() {
 
         return getText(getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
     }
@@ -106,10 +94,10 @@ public class ViewPage extends BasePage {
     }
 
     public List<String> getJobNamesList() {
-        if (jobList.size() > 0) {
-            getWait10().until(ExpectedConditions.visibilityOfAllElements(jobList));
+        if (getJobList().size() > 0) {
+            getWait10().until(ExpectedConditions.visibilityOfAllElements(getJobList()));
             List<String> textList = new ArrayList<>();
-            for (WebElement element : jobList) {
+            for (WebElement element : getJobList()) {
                 textList.add(element.getText());
             }
             return textList;
@@ -117,7 +105,7 @@ public class ViewPage extends BasePage {
         return null;
     }
 
-    public ViewPage clickFreestyleProject(){
+    public ViewPage clickFreestyleProject() {
         click(getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
         return this;
     }

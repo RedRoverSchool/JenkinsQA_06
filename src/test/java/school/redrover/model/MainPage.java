@@ -2,32 +2,24 @@ package school.redrover.model;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 import java.time.Duration;
-
+import java.util.List;
 
 public class MainPage extends BasePage {
 
-    @FindBy(xpath = "//a[@href='/view/all/newJob']")
-    private WebElement newItemButton;
-
-    @FindBy(xpath = "//a[@href='job/New%20Builds/build?delay=0sec']")
-    private WebElement playBuildForATestButton;
-
-    @FindBy(xpath = "//a[@href='/view/all/builds']")
-    private WebElement buildsHistoryButton;
-
-    private WebElement logoutButton = getDriver().findElement(By.xpath("//a[@href='/logout']"));
+    public MainPage(WebDriver driver) {
+        super(driver);
+    }
 
     public WebElement getLogoutButton() {
-        return logoutButton;
+        return getDriver().findElement(By.xpath("//a[@href='/logout']"));
     }
 
     public WebElement projectsTable() {
-       return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//table[@id='projectstatus']"))));
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//table[@id='projectstatus']"))));
     }
 
     private void openJobDropDownMenu(String jobName) {
@@ -35,10 +27,6 @@ public class MainPage extends BasePage {
         new Actions(getDriver()).moveToElement(getJobWebElement(jobName)).perform();
         WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
         js.executeScript("arguments[0].click();", arrow);
-    }
-
-    public MainPage(WebDriver driver) {
-        super(driver);
     }
 
     public NewJobPage clickNewItem() {
@@ -61,7 +49,7 @@ public class MainPage extends BasePage {
 
     public String getProjectNameMainPage(String projectName) {
         return getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//tr[@id='job_" + projectName + "']//a//span['" + projectName + "']")))
+                        .visibilityOfElementLocated(By.xpath("//tr[@id='job_" + projectName + "']//a//span['" + projectName + "']")))
                 .getText();
     }
 
@@ -136,17 +124,17 @@ public class MainPage extends BasePage {
     }
 
     public MainPage clickPlayBuildForATestButton() {
-        click(playBuildForATestButton);
+        click(getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']")));
         return new MainPage(getDriver());
     }
 
     public BuildPage clickBuildsHistoryButton() {
-        click(buildsHistoryButton);
+        click(getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
         return new BuildPage(getDriver());
     }
 
     public ViewPage clickNewItemButton() {
-        click(newItemButton);
+        click(getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
         return new ViewPage(getDriver());
     }
 
@@ -179,7 +167,7 @@ public class MainPage extends BasePage {
 
     public NewJobPage clickNewItemInDashboardDropDownMenu() {
         getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
+                        .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
                 .click();
         return new NewJobPage(getDriver());
     }
@@ -195,31 +183,31 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public FolderConfigPage selectConfigureJobDropDownMenu(String jobName){
+    public FolderConfigPage selectConfigureJobDropDownMenu(String jobName) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Configure')]"))).click();
         return new FolderConfigPage(getDriver());
     }
 
-    public NewJobPage selectNewItemJobDropDownMenu(String jobName){
+    public NewJobPage selectNewItemJobDropDownMenu(String jobName) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'New Item')]"))).click();
         return new NewJobPage(getDriver());
     }
 
-    public DeleteFolderPage selectDeleteFolderDropDownMenu(String jobName){
+    public DeleteFolderPage selectDeleteFolderDropDownMenu(String jobName) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Delete Folder')]"))).click();
         return new DeleteFolderPage(getDriver());
     }
 
-    public RenameProjectPage selectRenameJobDropDownMenu(String jobName){
+    public RenameProjectPage selectRenameJobDropDownMenu(String jobName) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
         return new RenameProjectPage(getDriver());
     }
 
-    public MovePage selectMoveJobDropDownMenu(String jobName){
+    public MovePage selectMoveJobDropDownMenu(String jobName) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
         return new MovePage(getDriver());
@@ -271,6 +259,7 @@ public class MainPage extends BasePage {
                 .perform();
         return new ManageJenkinsPage(getDriver());
     }
+
     public MainPage hoverOverAdminLink() {
         Actions act = new Actions(getDriver());
         WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
@@ -309,11 +298,11 @@ public class MainPage extends BasePage {
         return new MainPage(getDriver());
     }
 
-    public WebElement getLinkVersion () {
+    public WebElement getLinkVersion() {
         return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
     }
 
-      public NewViewPage createNewView() {
+    public NewViewPage createNewView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
 
         return new NewViewPage(getDriver());
@@ -323,18 +312,18 @@ public class MainPage extends BasePage {
         return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
     }
 
-    public ViewPage clickOnView (String viewName) {
+    public ViewPage clickOnView(String viewName) {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/']", viewName)))).click();
 
         return new ViewPage(getDriver());
     }
 
     public String getLogOutBtnColor() {
-        return logoutButton.getCssValue("background-color");
+        return getLogoutButton().getCssValue("background-color");
     }
 
     public MainPage mouseOverLogOutBtn() {
-        new Actions(getDriver()).moveToElement(logoutButton).perform();
+        new Actions(getDriver()).moveToElement(getLogoutButton()).perform();
         return this;
     }
 
@@ -361,4 +350,32 @@ public class MainPage extends BasePage {
         getProjectName().click();
         return new FreestyleProjectPage(getDriver());
     }
+
+    public MainPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return this;
+    }
+
+    public List<String> getJobList() {
+        return getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+    }
+
+    public ManageJenkinsPage clickManageJenkins() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+
+    public MainPage clickYesDeleteJobDropDownMenu() {
+        getDriver().findElement(By.name("Submit")).click();
+
+        return this;
+    }
+
+
 }

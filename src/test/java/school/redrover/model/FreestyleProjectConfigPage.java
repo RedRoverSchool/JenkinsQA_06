@@ -2,7 +2,6 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
@@ -37,4 +36,12 @@ public class FreestyleProjectConfigPage extends BasePage {
         return this;
     }
 
+    public FreestyleProjectConfigPage clickPreviewButton () {
+        getDriver().findElement(By.xpath("//a[@class = 'textarea-show-preview']")).click();
+        return this;
+    }
+
+    public String getPreviewDescription () {
+        return getDriver().findElement(By.xpath("//*[@class = 'textarea-preview']")).getText();
+    }
 }

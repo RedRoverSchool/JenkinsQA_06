@@ -760,7 +760,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreatedPipelineIsDisplayedOnDashboard")
-    public void testCreatePipelineWithTheSameName() throws InterruptedException {
+    public void testCreatePipelineWithTheSameName() {
         final String expectedErrorMessage = "A job already exists with the name ‘" + PIPELINE_NAME + "’";
 
         String actualErrorMessage = new PipelinePage(getDriver()).clickDashboard()
@@ -771,5 +771,19 @@ public class PipelineTest extends BaseTest {
                 .getErrorMessage();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+    }
+
+    @Test
+    public void testCreatePipelineGoingFromManageJenkinsPage() {
+        List<String> jobList = new MainPage(getDriver())
+                .clickManageJenkins()
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .getJobList();
+
+        Assert.assertTrue(jobList.contains(PIPELINE_NAME));
     }
 }

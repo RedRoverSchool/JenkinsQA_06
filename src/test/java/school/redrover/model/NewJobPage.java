@@ -3,8 +3,6 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
@@ -26,7 +24,7 @@ public class NewJobPage extends BasePage {
     }
 
     public PipelineConfigPage selectPipelineAndOk() {
-        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
+        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
         getOkButton().click();
         return new PipelineConfigPage(getDriver());
     }
