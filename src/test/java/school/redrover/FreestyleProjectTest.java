@@ -121,7 +121,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testErrorWhenCreatingFreeStyleProjectWithEmptyName() {
+    public void testEmptyNameError() {
         final String expectedError = "» This field cannot be empty, please enter a valid name";
 
         String actualError = new MainPage(getDriver())
@@ -133,12 +133,11 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testOKButtonIsDisabledWhenCreatingFreestyleProjectWithEmptyName() {
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
-
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+    public void testOKButtonIsDisabledWhenEmptyName() {
+       WebElement okButton = new MainPage(getDriver())
+               .clickCreateAJobArrow()
+               .selectFreestyleProject()
+               .getOkButton();
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }

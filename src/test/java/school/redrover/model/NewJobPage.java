@@ -86,7 +86,7 @@ public class NewJobPage extends BasePage {
         return getDriver().findElement(By.id("itemname-required")).getText();
     }
 
-    private WebElement getOkButton() {
+    public WebElement getOkButton() {
         return getDriver().findElement(By.xpath("//button[@id='ok-button']"));
     }
 
