@@ -43,8 +43,19 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertTrue(new MultibranchPipelinePage(getDriver()).multibranchPipeline().getText().contains("MultibranchPipeline"));
     }
     @Test
+    public void testCreateMultibranchPipelineWithoutDescription() {
+        MultibranchPipelinePage pageWithOutDescription = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("MineMultibranchPipelineWhitOutDescription")
+                .selectMultibranchPipelineAndOk()
+                .displayName("Random name")
+                .saveButton();
+
+        Assert.assertTrue(new MultibranchPipelineConfigPage(getDriver()).viewDescription().getText().isEmpty());
+    }
+    @Test
     public void deleteMultibranchPipelineTest() {
-        String WelcomeJenkinsPage = new MainPage(getDriver())
+        new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
@@ -52,10 +63,8 @@ public class MultibranchPipelineTest extends BaseTest {
                 .navigateToMainPageByBreadcrumbs()
                 .clickJobDropDownMenu("MultibranchPipeline")
                 .selectDeleteFromDropDownMenu()
-                .clickYesDeleteJobDropDownMenu()
-                .getWelcomeWebElement()
-                .getText();
+                .clickYesDeleteJobDropDownMenu();
 
-        Assert.assertEquals(WelcomeJenkinsPage, "Welcome to Jenkins!");
+        Assert.assertEquals(new MainPage(getDriver()).getWelcomeWebElement().getText(), "Welcome to Jenkins!");
     }
 }
