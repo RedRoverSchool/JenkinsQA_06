@@ -13,6 +13,7 @@ import school.redrover.model.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
 import school.redrover.model.ProjectPage;
+import school.redrover.runner.TestUtils;
 
 
 public class MultibranchPipelineTest extends BaseTest {
@@ -27,5 +28,16 @@ public class MultibranchPipelineTest extends BaseTest {
                 .saveButton();
 
         Assert.assertTrue(new MultibranchPipelineConfigPage(getDriver()).titleMultibranchPipeline().getText().contains("Random Name"));
+    }
+
+    @Test
+    public void deleteMultibranchPipelineTest() {
+        TestUtils.createMultibranchPipeline(this, "MultibranchPipeline", true);
+        new MainPage(getDriver())
+                .clickJobDropDownMenu("MultibranchPipeline")
+                .selectDeleteFromDropDownMenu()
+                .clickYesDeleteJobDropDownMenu();
+
+        Assert.assertEquals(new MainPage(getDriver()).getWelcomeWebElement().getText(), "Welcome to Jenkins!");
     }
 }
