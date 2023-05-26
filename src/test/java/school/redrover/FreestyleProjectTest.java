@@ -2,16 +2,12 @@ package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.devtools.v85.layertree.model.StickyPositionConstraint;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.BuildPage;
-import school.redrover.model.FreestyleProjectPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.NewJobPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -24,7 +20,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private final String descriptionText = "This is new description for the project";
+    private static final String DESCRIPTION_TEXT = RandomStringUtils.randomAlphanumeric(15);
 
     private void createFreestyleProject() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
@@ -221,7 +217,7 @@ public class FreestyleProjectTest extends BaseTest {
         descriptionButton.click();
 
         WebElement descInputField = getDriver().findElement(By.xpath("//*[@name = 'description']"));
-        descInputField.sendKeys(descriptionText);
+        descInputField.sendKeys(DESCRIPTION_TEXT);
 
         WebElement saveButton = getDriver()
                 .findElement(By.xpath("//*[@id='description']/form/div[2]/button"));
@@ -244,20 +240,17 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testPreviewDescription () {
-        createFreestyleProject();
+        FreestyleProjectConfigPage freestyleProjectPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickAddDescription()
+                .addDescription(DESCRIPTION_TEXT)
+                .clickPreviewButton();
 
-        WebElement descriptionButton = getDriver().findElement(By.xpath("//*[@id = 'description-link']"));
-        descriptionButton.click();
+        Assert.assertEquals(freestyleProjectPage.getPreviewDescription(), DESCRIPTION_TEXT);
 
-        WebElement descInputField = getDriver().findElement(By.xpath("//*[@name = 'description']"));
-        descInputField.sendKeys(descriptionText);
-
-        WebElement previewButton = getDriver()
-                .findElement(By.xpath("//a[@class = 'textarea-show-preview']"));
-        previewButton.click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@class = 'textarea-preview']"))
-                .getText(), descriptionText);
     }
 
     @Test
