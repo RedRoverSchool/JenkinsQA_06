@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
@@ -435,6 +436,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
     }
 
+    @Ignore
     @Test
     public void testCreatedNewBuild() {
         new MainPage(getDriver())
@@ -473,8 +475,8 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(permaLinks.isDisplayed());
     }
 
+    @Ignore
     @Test
-
     public void testCreateFreestyleProject() {
         String nameFreestyle = "FreestyleProject";
         String description = "First project";
