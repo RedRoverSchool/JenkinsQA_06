@@ -17,5 +17,11 @@ public class MultibranchPipelinePage extends BasePage {
 
         return new MainPage(getDriver());
     }
-
+    public RenameMultibranchPipelinePage renameMultibranchPipelinePage () {
+        getDriver().findElement(By.xpath("//body/div[@id='page-body']/div[@id='side-panel']/div[@id='tasks']/div[8]/span[1]/a[1]")).click();
+        return new RenameMultibranchPipelinePage(getDriver());
+    }
+    public WebElement multibranchPipeline() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))));
+    }
 }
