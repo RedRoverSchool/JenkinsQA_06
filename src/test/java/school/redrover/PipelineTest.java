@@ -772,4 +772,18 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
+
+    @Test
+    public void testCreatePipelineGoingFromManageJenkinsPage() {
+        List<String> jobList = new MainPage(getDriver())
+                .clickManageJenkins()
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .getJobList();
+
+        Assert.assertTrue(jobList.contains(PIPELINE_NAME));
+    }
 }

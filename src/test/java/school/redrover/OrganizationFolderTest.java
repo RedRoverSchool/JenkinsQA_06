@@ -8,27 +8,22 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
 
-    private static final By DASHBOARD = By.xpath("//a[contains(text(),'Dashboard')]");
-
     @Test
     public void testCreateOrganizationFolder() {
         final String expectedNewFolderName = "Project1";
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//input[@name='name']"))).sendKeys(expectedNewFolderName);
-        getDriver().findElement(By.xpath("//li[@class='jenkins_branch_OrganizationFolder']")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
-        getDriver().findElement(DASHBOARD).click();
-
-        String actualNewFolderName = getDriver().findElement(By.xpath("//a[@href='job/Project1/']")).getText();
+        String actualNewFolderName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(expectedNewFolderName)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .getProjectNameMainPage(expectedNewFolderName);
 
         Assert.assertEquals(actualNewFolderName, expectedNewFolderName);
     }
@@ -48,7 +43,7 @@ public class OrganizationFolderTest extends BaseTest {
         folderNameField.sendKeys(expectedRenamedFolderName);
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
 
-        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath("//a[contains(text(),'Dashboard')]")).click();
 
         String actualRenamedFolderName = getDriver().findElement(By.xpath("//a[@href='job/Project/']")).getText();
 
@@ -79,7 +74,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage()  {
+    public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
         final String folderName = "TestFolder";
         final String organizationFolderName = "TestOrgFolder";
         WebElement movedOrgFolder = new MainPage(getDriver())
