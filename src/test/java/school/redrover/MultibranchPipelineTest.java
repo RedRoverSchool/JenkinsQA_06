@@ -7,18 +7,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.MainPage;
-import school.redrover.model.MultibranchPipelineConfigPage;
-import school.redrover.model.MultibranchPipelinePage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import java.time.Duration;
-import school.redrover.model.ProjectPage;
-import school.redrover.runner.TestUtils;
 
 
 public class MultibranchPipelineTest extends BaseTest {
     @Test
-    public void createMultibranchPipelineTest()  {
+    public void createMultibranchPipelineTest() {
         MultibranchPipelinePage mainpage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipeline")
@@ -31,17 +27,16 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void deleteMultibranchPipelineTest() {
-        new MainPage(getDriver())
+    public void testRenameMultibranchPipeline() {
+        RenameMultibranchPipelinePage mainpage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName("MultibranchPipeline")
+                .enterItemName("MineMultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
                 .saveButton()
-                .navigateToMainPageByBreadcrumbs()
-                .clickJobDropDownMenu("MultibranchPipeline")
-                .selectDeleteFromDropDownMenu()
-                .clickYesDeleteJobDropDownMenu();
+                .renameMultibranchPipelinePage()
+                .enterNewName("MultibranchPipeline")
+                .renameButton();
 
-        Assert.assertEquals(new MainPage(getDriver()).getWelcomeWebElement().getText(), "Welcome to Jenkins!");
+        Assert.assertTrue(new MultibranchPipelinePage(getDriver()).multibranchPipeline().getText().contains("MultibranchPipeline"));
     }
-}
+       }
