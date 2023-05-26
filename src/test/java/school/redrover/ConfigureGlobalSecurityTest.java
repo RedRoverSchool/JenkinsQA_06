@@ -19,11 +19,6 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
     }
 
-    public int getNumberOfHelpButton() {
-        List<WebElement> listHelpButton = new ArrayList<>(getDriver().findElements(By.xpath("//a[starts-with(@tooltip,'Help')]")));
-        return listHelpButton.size();
-    }
-
     @Test
     public void testCheckTitleTexts() {
         List<String> expectedTitleTexts = List.of(
@@ -63,9 +58,11 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
     public void testCheckNumberOfHelpButton() {
         int expectedNumberOfHelpButton = 15;
 
-        navigateToConfigureGlobalSecurityPage();
+        int actualNumberOfHelpButton = new MainPage(getDriver())
+                .navigateToConfigureGlobalSecurityPage()
+                .getNumberOfHelpButton();
 
-        Assert.assertEquals(getNumberOfHelpButton(), expectedNumberOfHelpButton);
+        Assert.assertEquals(actualNumberOfHelpButton, expectedNumberOfHelpButton);
     }
 
     @Test
