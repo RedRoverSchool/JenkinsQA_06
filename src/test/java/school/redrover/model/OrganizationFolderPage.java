@@ -14,4 +14,10 @@ public class OrganizationFolderPage extends BasePage {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
         return new MainPage(getDriver());
     }
+
+    public MovePage clickMoveOnLeftMenu() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//span[normalize-space(.)='Move']/a"))).click();
+        return new MovePage(getDriver());
+    }
 }

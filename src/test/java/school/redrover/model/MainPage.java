@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
 import java.time.Duration;
+import java.util.List;
 
 
 public class MainPage extends BasePage {
@@ -19,9 +20,6 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='/view/all/builds']")
     private WebElement buildsHistoryButton;
-
-    @FindBy(css = ".login>a.model-link")
-    private WebElement adminLink;
 
     private WebElement logoutButton = getDriver().findElement(By.xpath("//a[@href='/logout']"));
 
@@ -358,5 +356,36 @@ public class MainPage extends BasePage {
         WebElement buildStatus = getDriver().findElement(By.id(String.format("job_%s", jobName)))
                 .findElement(By.xpath(".//*[name()='svg']"));
         return buildStatus.getAttribute("tooltip");
+    }
+
+    public FreestyleProjectPage getProjectNameClick() {
+        getProjectName().click();
+        return new FreestyleProjectPage(getDriver());
+    }
+
+    public MainPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return this;
+    }
+
+    public List<String> getJobList() {
+        return getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+    }
+
+    public ManageJenkinsPage clickManageJenkins() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+
+    public MainPage clickYesDeleteJobDropDownMenu(){
+        getDriver().findElement(By.name("Submit")).click();
+
+        return this;
     }
 }

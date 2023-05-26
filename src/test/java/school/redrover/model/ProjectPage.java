@@ -54,4 +54,7 @@ public class ProjectPage extends BasePage {
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
         return new MainPage(getDriver());
     }
+    public WebElement projectsHeadline() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//h1[contains(text(),'Project')]"))));
+    }
 }

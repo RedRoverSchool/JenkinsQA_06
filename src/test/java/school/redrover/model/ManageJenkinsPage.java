@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ManageJenkinsPage extends MainPage {
@@ -53,5 +52,11 @@ public class ManageJenkinsPage extends MainPage {
 
     public String getDropdownResultsInSearchField() {
         return getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='jenkins-search__results']"))).getText();
+    }
+
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        return new NewJobPage(getDriver());
     }
 }

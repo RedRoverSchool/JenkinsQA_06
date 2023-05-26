@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
-public class ConfigureFolderTest extends BaseTest {
+public class ConfigurationFolderTest extends BaseTest {
 
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By NAME_FIELD = By.xpath("//input[@id= 'name'] ");
