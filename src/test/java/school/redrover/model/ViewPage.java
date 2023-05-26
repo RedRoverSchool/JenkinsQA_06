@@ -109,5 +109,10 @@ public class ViewPage extends BasePage {
         }
         return null;
     }
+
+    public ViewPage clickFreestyleProject(){
+        click(getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
+        return this;
+    }
 }
 
