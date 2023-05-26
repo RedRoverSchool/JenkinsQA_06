@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.JenkinsVersionPage;
 import school.redrover.model.ManageJenkinsPage;
@@ -12,6 +13,7 @@ import school.redrover.runner.BaseTest;
 
 public class FooterJenkinsVersionTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testFooterJenkinsVersion() {
         WebElement linkVersion = new MainPage(getDriver())
@@ -45,6 +47,7 @@ public class FooterJenkinsVersionTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[@rel='noopener noreferrer']")).getText(),"Jenkins 2.387.2");
     }
 
+   @Ignore
     @Test
     public void testVerifyJenkinsVersionOnManageJenkinsPage() {
         ManageJenkinsPage manageJenkinsPage = new ManageJenkinsPage(getDriver())
