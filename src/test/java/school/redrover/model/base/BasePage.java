@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import school.redrover.model.MultibranchPipelineConfigPage;
 
 import java.time.Duration;
 
@@ -20,7 +21,6 @@ public abstract class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(getDriver(), this);
     }
 
     protected WebDriver getDriver() {
@@ -114,3 +114,4 @@ public abstract class BasePage {
         executor.executeScript("arguments[0].click();", element);
     }
 }
+

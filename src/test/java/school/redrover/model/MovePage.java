@@ -20,4 +20,8 @@ public class MovePage extends BuildPage{
         getDriver().findElement(By.name("Submit")).click();
         return new FolderPage(getDriver());
     }
+    public OrganizationFolderPage clickMoveButtonOnOrgPage() {
+        getDriver().findElement(By.name("Submit")).click();
+        return new OrganizationFolderPage(getDriver());
+    }
 }

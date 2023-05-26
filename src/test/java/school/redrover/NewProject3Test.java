@@ -3,9 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.BreadcrumbBarComponent;
 import school.redrover.model.FolderPage;
-import school.redrover.model.MainPage;
 import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
 
@@ -15,12 +13,12 @@ public class NewProject3Test extends BaseTest {
     public void testCreateFreestyleProject() {
         String nameProject = "Engineer2";
 
-        new MainPage(getDriver())
-                .clickNewItem()
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
                 .clickSave();
-        new BreadcrumbBarComponent(getDriver()).selectDashboard();
+        mainPage.selectDashboard();
 
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
@@ -30,26 +28,25 @@ public class NewProject3Test extends BaseTest {
         String expectedPipeline = "Pipeline Engineer";
         String nameProject = "Engineer";
 
-        new MainPage(getDriver())
-                .clickNewItem()
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
                 .enterItemName(nameProject)
                 .selectPipelineAndOk()
                 .clickSaveButton();
 
         Assert.assertEquals(new PipelinePage(getDriver()).getHeaderPipeline().getText(), expectedPipeline);
-        new BreadcrumbBarComponent(getDriver()).selectDashboard();
-
+        mainPage.selectDashboard();
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
 
     @Test
     public void testCreateMultiConfigurationProject() {
-        new MainPage(getDriver())
-                .clickNewItem()
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
                 .enterItemName("Engineer3")
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage();
-        new BreadcrumbBarComponent(getDriver()).selectDashboard();
+        mainPage.selectDashboard();
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#projectstatus")).isDisplayed(), "project no display");
     }
@@ -63,7 +60,7 @@ public class NewProject3Test extends BaseTest {
                 .enterItemName(nameProject)
                 .selectFolderAndOk()
                 .clickSaveButton();
-        new BreadcrumbBarComponent(getDriver()).selectDashboard();
+        mainPage.selectDashboard();
 
         Assert.assertTrue(mainPage.getFolderName().isDisplayed());
         mainPage.getFolderName().click();
@@ -78,7 +75,7 @@ public class NewProject3Test extends BaseTest {
                 .enterItemName(nameJob)
                 .selectMultibranchPipelineAndOk()
                 .saveButton();
-        new BreadcrumbBarComponent(getDriver()).selectDashboard();
+        mainPage.selectDashboard();
 
         Assert.assertEquals(mainPage.getFolderName().getText(), nameJob);
     }
@@ -90,8 +87,8 @@ public class NewProject3Test extends BaseTest {
         mainPage.clickNewItem()
                 .enterItemName(nameFolder)
                 .selectOrganizationFolderAndOk()
-                .projectSave();
-        new BreadcrumbBarComponent(getDriver()).selectDashboard();
+                .clickSaveButton();
+        mainPage.selectDashboard();
 
         Assert.assertEquals(mainPage.getFolderName().getText(), nameFolder);
     }

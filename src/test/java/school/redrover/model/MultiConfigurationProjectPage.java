@@ -43,8 +43,53 @@ public class MultiConfigurationProjectPage extends BasePage {
         getDriver().findElement(By.xpath("//button[text () = 'Disable Project']")).click();
         return this;
     }
+    public WebElement getDisableElem() {
+        return getDriver().findElement(By.xpath("//button[text () = 'Disable Project']"));
+    }
 
     public WebElement getEnableSwitch (){
     return getDriver().findElement(By.xpath("//button[text () = 'Enable']"));
+    }
+
+    public MultiConfigurationProjectPage getEnableClick () {
+        getDriver().findElement(By.xpath("//*[@id='enable-project']/button")).click();
+        return this;
+    }
+
+    public MultiConfigurationProjectPage getConfigPage () {
+        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
+        return this;
+    }
+
+    public MultiConfigurationProjectPage switchCheckboxDisable () {
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).click();
+        return this;
+    }
+
+    public MultiConfigurationProjectPage switchCheckboxEnabled () {
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//label[@for='enable-disable-project']")))).click();
+        return this;
+    }
+
+    public WebElement getTextDisable (){
+
+       return getWait5().until(ExpectedConditions.elementToBeClickable
+                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']"))));
+    }
+
+    public WebElement getTextEnabled (){
+
+        return getWait5().until(ExpectedConditions.elementToBeClickable
+                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']"))));
+    }
+
+    public WebElement getDisableSwitch (){
+        return getDriver().findElement(By.xpath("//button[text () = 'Disable Project']"));
+    }
+
+    public String getJobBuildStatus(String jobName) {
+        WebElement buildStatus = getWait20().until(ExpectedConditions.visibilityOf(getDriver()
+                .findElement(By.xpath("//div[@id='matrix']//span[@class='build-status-icon__outer']/child::*"))));
+        return buildStatus.getAttribute("tooltip");
     }
 }

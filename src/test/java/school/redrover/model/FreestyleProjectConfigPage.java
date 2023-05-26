@@ -28,11 +28,20 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage clickPreviewSeeOrHide(Boolean seeAndHidePreview) {
-        if(seeAndHidePreview) {
+        if (seeAndHidePreview) {
             getDriver().findElement(By.xpath("//a[contains(@previewendpoint, 'previewDescription')]")).click();
         } else {
             getDriver().findElement(By.xpath("//a[normalize-space(text())='Hide preview']")).click();
         }
         return this;
+    }
+
+    public FreestyleProjectConfigPage clickPreviewButton () {
+        getDriver().findElement(By.xpath("//a[@class = 'textarea-show-preview']")).click();
+        return this;
+    }
+
+    public String getPreviewDescription () {
+        return getDriver().findElement(By.xpath("//*[@class = 'textarea-preview']")).getText();
     }
 }

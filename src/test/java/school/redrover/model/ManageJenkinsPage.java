@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ManageJenkinsPage extends MainPage {
 
+
     public ManageJenkinsPage(WebDriver driver){
         super(driver);
     }
@@ -37,4 +38,25 @@ public class ManageJenkinsPage extends MainPage {
         return getDriver().findElement(JENKINS_VERSION_BTN).getText().equals("Jenkins 2.387.2");
     }
 
+    public ManageUsersPage clickManageUsers() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@href='securityRealm/']")))
+                .click();
+        return new ManageUsersPage(getDriver());
+    }
+
+    public String getActualHeader() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+                "//h1[text()='Manage Jenkins']"))).getText();
+    }
+
+    public String getDropdownResultsInSearchField() {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='jenkins-search__results']"))).getText();
+    }
+
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        return new NewJobPage(getDriver());
+    }
 }

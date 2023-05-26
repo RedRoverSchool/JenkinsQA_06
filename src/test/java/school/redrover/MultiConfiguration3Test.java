@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 import java.util.List;
+import school.redrover.model.MultiConfigurationProjectPage;
 
 public class MultiConfiguration3Test extends BaseTest {
     private static final String NAME_OF_PROJECT = "New project";
@@ -25,13 +26,11 @@ public class MultiConfiguration3Test extends BaseTest {
     public void testCreateMultiConfigurationProjectWithDescriptionTest() {
         TestUtils.createMultiConfigurationProject(this, NAME_OF_PROJECT, false);
 
-        getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
-        getDriver().findElement(By.xpath("//*[@id='description']//textarea")).sendKeys(DESCRIPTION);
-        getDriver().findElement(By.name("Submit")).click();
+        MultiConfigurationProjectPage multiCongigProjectWithDescription = new MultiConfigurationProjectPage(getDriver())
+                .getAddDescription(DESCRIPTION)
+                .getSaveButton();
 
-        WebElement nameDescription = getDriver().findElement(By.xpath("//div[@id ='description']//div"));
-
-        Assert.assertEquals(nameDescription.getText(),DESCRIPTION);
+        Assert.assertEquals(multiCongigProjectWithDescription.getInputAdd().getText(),DESCRIPTION);
     }
 
     @Test
@@ -111,6 +110,14 @@ public class MultiConfiguration3Test extends BaseTest {
         WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
 
         Assert.assertTrue(iconDisabled.isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "testDisableMultiConfigurationProjectFromConfigurationPage")
+    public void testEnableDisabledProject(){
+        getDriver().findElement(By.xpath("//*[@id='job_New project']/td[3]/a/span")).click();
+        getDriver().findElement(By.xpath("//*[@id='enable-project']/button")).click();
+
+        Assert.assertEquals(getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).getText(),"Disable Project");
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithDescriptionTest")
