@@ -29,4 +29,7 @@ public class MultibranchPipelineConfigPage extends BasePage {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))));
 
     }
+    public  WebElement viewDescription(){
+        return getDriver().findElement(By.xpath("//*[@id=\"description\"]/div[1]"));
+    }
 }

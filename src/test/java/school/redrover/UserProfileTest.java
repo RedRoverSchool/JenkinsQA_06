@@ -3,7 +3,6 @@ package school.redrover;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.CreateUserPage;
-import school.redrover.model.MainPage;
 import school.redrover.model.ManageUsersPage;
 import school.redrover.model.StatusUserPage;
 import school.redrover.model.ConfigureUserPage;
