@@ -5,12 +5,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.base.BasePage;
 import school.redrover.runner.BaseTest;
-
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,50 +71,14 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testVerifySystemConfiguration() {
-        List<String> listSystemConfigurationExpected = Arrays.asList
-                ("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
-
-        getDriver().findElement(Manage_Jenkins).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(text(),'Manage')]")));
-        List<WebElement> listSystemConfiguration = getDriver().findElements(By.cssSelector(".jenkins-section__title"));
-        for (int i = 0; i < listSystemConfiguration.size(); i++) {
-
-            Assert.assertEquals(listSystemConfiguration.get(i).getText(), listSystemConfigurationExpected.get(i));
-        }
-    }
-
-    @Test
-    public void testManageOldData() {
-        getDriver().findElement(Manage_Jenkins).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//dt[contains(text(),'Manage Old Data')]"))).click();
-
-        WebElement oldData = getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")));
-        Assert.assertEquals(oldData.getText(), "Manage Old Data");
-        Assert.assertEquals(oldData.getLocation().toString(), "(372, 133)");
-        Assert.assertEquals(oldData.getCssValue("font-size"), "25.6px");
-        Assert.assertEquals(oldData.getCssValue("font-weight"), "700");
-
-        List<WebElement> listSortTable = getDriver().findElements(By.xpath("//thead //a"));
-        Assert.assertEquals(listSortTable.size(), 4);
-
-        Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
-    }
-
-    @Ignore
-    @Test
     public void testSearchNumericSymbol() {
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("settings-search-bar")));
-        getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-        WebElement visibleElement = getDriver().findElement(By.cssSelector(".jenkins-search__results-container--visible"));
-        String valueOuterHTMLOfvisibleElement = visibleElement.getAttribute("outerHTML");
-        getWait2().until(ExpectedConditions.domPropertyToBe(visibleElement,"outerHTML", valueOuterHTMLOfvisibleElement));
-        WebElement noResults = getDriver().findElement(By.cssSelector(".jenkins-search__results__no-results-label"));
 
-        Assert.assertEquals(noResults.getText(), "No results");
+        String searchText = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField("1")
+                .getNoResultTextInSearchField();
+
+        Assert.assertEquals(searchText, "No results");
     }
 
     @Test
@@ -165,5 +128,21 @@ public class ManageJenkinsTest extends BaseTest {
         for (int i = 0; i < expectedResult.size(); i++) {
             Assert.assertEquals(actualResult.get(i).getText(), expectedResult.get(i).getText());
         }
+    }
+
+    @DataProvider(name = "ToolsAndActions")
+    public Object [][] searchToolsAndActions() {
+        return new Object [][] {{"Script Console"}, {"Jenkins CLI"}, {"Prepare for Shutdown"}};
+    }
+
+
+    @Test(dataProvider = "ToolsAndActions")
+    public void testSearchToolsAndActions(String inputText)  {
+
+        ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
+            .navigateToManageJenkinsPage()
+            .inputToSearchField(inputText);
+        Assert.assertEquals(manageJenkinsPage.getDropdownResultsInSearchField(), inputText);
+
     }
 }

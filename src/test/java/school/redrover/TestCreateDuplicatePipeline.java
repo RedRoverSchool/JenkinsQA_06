@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
 public class TestCreateDuplicatePipeline extends BaseTest {
+
     @Test
     public void testCreatePipelineJobWithDuplicateName() {
 

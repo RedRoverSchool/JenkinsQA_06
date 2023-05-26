@@ -1,62 +1,97 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.BreadcrumbBarComponent;
+import school.redrover.model.FolderPage;
+import school.redrover.model.MainPage;
+import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
 
 public class NewProject3Test extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject() {
-        String expectedResult = "Engineer2";
+        String nameProject = "Engineer2";
 
-        getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Engineer2");
-        getDriver().findElement(By.cssSelector("[value='hudson.model.FreeStyleProject'] + span")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameProject)
+                .selectFreestyleProjectAndOk()
+                .clickSave();
+        mainPage.selectDashboard();
 
-        String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer2/']")).getText();
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
 
     @Test
     public void testCreatePipProject() {
         String expectedPipeline = "Pipeline Engineer";
-        String expectedResult = "Engineer";
+        String nameProject = "Engineer";
 
-        getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']")).click();
-        WebElement itemName = getDriver().findElement(By.xpath("//input[@name = 'name']"));
-        itemName.click();
-        itemName.sendKeys(expectedResult);
-        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formNoValidate='formNoValidate']")).click();
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameProject)
+                .selectPipelineAndOk()
+                .clickSaveButton();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("[class$='headline']")).getText(), expectedPipeline);
-
-        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
-        String actualResult = getDriver().findElement(By.cssSelector("[href$='Engineer/']")).getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(new PipelinePage(getDriver()).getHeaderPipeline().getText(), expectedPipeline);
+        mainPage.selectDashboard();
+        Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
 
     @Test
     public void testCreateMultiConfigurationProject() {
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName("Engineer3")
+                .selectMultiConfigurationProjectAndOk()
+                .saveConfigurePageAndGoToProjectPage();
+        mainPage.selectDashboard();
 
-        getDriver().findElement(By.cssSelector("[href$='/newJob']")).click();
-        getDriver().findElement(By.cssSelector("input[id='name']")).sendKeys("Engineer3");
-        getDriver().findElement(By.cssSelector("[value$='MatrixProject'] + span")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.cssSelector("button[name='Submit']")).click();
-        getDriver().findElement(By.cssSelector("li:nth-child(1) > a")).click();
-
-        WebElement result = getDriver().findElement(By.cssSelector("#projectstatus"));
-        Assert.assertTrue(result.isDisplayed(), "project no display");
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("#projectstatus")).isDisplayed(), "project no display");
     }
 
+    @Test
+    public void testCreateNewFolder() {
+        String nameProject = "Engineer";
 
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameProject)
+                .selectFolderAndOk()
+                .clickSaveButton();
+        mainPage.selectDashboard();
+
+        Assert.assertTrue(mainPage.getFolderName().isDisplayed());
+        mainPage.getFolderName().click();
+        Assert.assertTrue(new FolderPage(getDriver()).getHeading1().getText().contains(nameProject), "folder cannot be opened");
+    }
+
+    @Test
+    public void testCreateMultibranchPipeline() {
+        String nameJob = "Engineer";
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameJob)
+                .selectMultibranchPipelineAndOk()
+                .saveButton();
+        mainPage.selectDashboard();
+
+        Assert.assertEquals(mainPage.getFolderName().getText(), nameJob);
+    }
+
+    @Test
+    public void testCreateOrganizationFolder() {
+        String nameFolder = "Engineer";
+        MainPage mainPage = new MainPage(getDriver());
+        mainPage.clickNewItem()
+                .enterItemName(nameFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton();
+        mainPage.selectDashboard();
+
+        Assert.assertEquals(mainPage.getFolderName().getText(), nameFolder);
+    }
 }

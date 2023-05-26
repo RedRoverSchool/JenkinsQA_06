@@ -1,12 +1,17 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
+import school.redrover.model.MyViewsPage;
+import school.redrover.model.ViewPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -14,56 +19,63 @@ import java.util.List;
 
 public class MyViewsTest extends BaseTest {
 
+    private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
+
+    private static final String NEW_VIEW_DESCRIPTION_RANDOM = RandomStringUtils.randomAlphanumeric(7);
+
+    private static final String NAME_FOLDER = "TestPipeline";
+
+    private static final String NEW_VIEW_NEW_DESCRIPTION_RANDOM = RandomStringUtils.randomAlphanumeric(7);
+
+
+
     @Test
     public void testCreateAJobInThePageMyViews() {
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
-        getDriver().findElement(By.id("name")).sendKeys("First Project");
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
+        new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJob()
+                .enterAnItemName(NEW_VIEW_NAME_RANDOM)
+                .clickFreestyleProject()
+                .clickOkButton()
+                .clickSaveButton()
+                .clickOnDashboardPage()
+                .clickOnNewJob();
 
         List<WebElement> table = getDriver().findElements(By.xpath("//tr[@class =' job-status-nobuilt']/td"));
         for (WebElement td : table) {
 
-            Assert.assertTrue(td.getText().contains("First Project"));
+            Assert.assertTrue(td.getText().contains(NEW_VIEW_NAME_RANDOM));
         }
     }
 
-    @Ignore
     @Test
-    public void testAddDescription() {
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test");
-        getDriver()
-                .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+    public void testAddDescriptionFromMyViewsPage() {
 
-        WebElement description = getDriver().findElement(By.cssSelector("div#description"));
+        MyViewsPage myViewsPage = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickOnDescription()
+                .enterDescription(NEW_VIEW_DESCRIPTION_RANDOM)
+                .clickSaveButtonDescription();
 
-        Assert.assertEquals(description.getText().trim().substring(0, 4), "Test");
+        Assert.assertEquals(myViewsPage.getTextFromDescription(),NEW_VIEW_DESCRIPTION_RANDOM);
+
     }
 
-    @Ignore
+
+
     @Test
     public void testEditDescription() {
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//textarea[@name='description']"))).sendKeys("Test");
-        getDriver()
-                .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//textarea[@name='description']"))).clear();
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Test2");
-        getDriver()
-                .findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+        MyViewsPage myViewsPage = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickOnDescription()
+                .enterDescription(NEW_VIEW_DESCRIPTION_RANDOM)
+                .clickSaveButtonDescription()
+                .clickOnDescription()
+                .clearTextFromDescription()
+                .enterNewDescription(NEW_VIEW_NEW_DESCRIPTION_RANDOM)
+                .clickSaveButtonDescription();
 
-        Assert.assertEquals(getDriver().
-                findElement(By.xpath("//div[@id='description']/div[1]")).getText(), "Test2");
+        Assert.assertEquals(myViewsPage.getTextFromDescription(), NEW_VIEW_NEW_DESCRIPTION_RANDOM);
     }
 
     @Test
@@ -92,7 +104,7 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(myViewName.getText(), "Java");
     }
 
-    private static final String NAME_FOLDER = "TestPipeline";
+
 
     @Test
     public void testCreateViewItem() {
@@ -115,7 +127,21 @@ public class MyViewsTest extends BaseTest {
         submitButton.click();
         WebElement myViewTab = getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views/view/MyView/']"));
         Assert.assertEquals(myViewTab.getText(), "MyView");
-
-
     }
+
+    @DataProvider(name = "description")
+    public static Object [][] provideDescription() {
+        return new Object[][]
+                {{"Description first"},{"Description second"}};
+    }
+    @Test(dataProvider = "description")
+    public void testAddDescription(String desc) {
+        ViewPage viewPage = new ViewPage(getDriver());
+        viewPage.clickAddDescription().
+                inputDescText(desc).
+                saveDescription();
+
+        Assert.assertEquals(viewPage.getDescriptionText(), desc);
+    }
+
 }
