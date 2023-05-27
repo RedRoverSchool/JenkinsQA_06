@@ -11,8 +11,8 @@ public class Folder8Test extends BaseTest {
     public void creatFolderTest() {
         String name = "MyBalcon";
 
-        WebElement item = getDriver().findElement(By.xpath("//div[@id='tasks']//span/a"));
-        item.click();
+        WebElement creatajob = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]/div/section[1]/ul/li/a"));
+        creatajob.click();
 
         WebElement folder = getDriver().findElement(By.xpath("//*[@id='j-add-item-type-nested-projects']/ul/li[1]"));
         folder.click();
