@@ -14,6 +14,9 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
@@ -58,6 +61,21 @@ public class FolderTest extends BaseTest {
                 .perform();
 
         createNewFolder(name, clickDashboard);
+    }
+
+    private void createAFolder(String name) {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(name);
+
+        getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+
+        getWait2().until(ExpectedConditions.textToBe(By.tagName("h1"), name));
+        getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']")).click();
+
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/view/all/newJob']")));
     }
 
     @Test
@@ -346,5 +364,75 @@ public class FolderTest extends BaseTest {
                 .saveConfigurePageAndGoToProjectPage();
 
         Assert.assertTrue(new ProjectPage(getDriver()).projectsHeadline().getText().contains("Mine Project"));
+    }
+
+    @Test
+    public void testTwoFoldersCreation() {
+        final String FOLDER1_NAME = "My_folder";
+        final String FOLDER2_NAME = "MyFolder2";
+        List<String> expectedFoldersList = Arrays.asList(FOLDER1_NAME, FOLDER2_NAME);
+
+        createAFolder(FOLDER1_NAME);
+        createAFolder(FOLDER2_NAME);
+
+        List<WebElement> foldersList = getDriver().findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
+
+        List<String> actualFoldersList = new ArrayList<>();
+        for (WebElement webElement : foldersList) {
+            actualFoldersList.add(webElement.getText());
+        }
+
+        Collections.sort(expectedFoldersList);
+        Collections.sort(actualFoldersList);
+
+        Assert.assertEquals(actualFoldersList, expectedFoldersList);
+    }
+
+    @DataProvider(name = "create-folder")
+    public Object[][] provideFoldersNames() {
+        return new Object[][]
+                {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
+    }
+
+    @Test(dataProvider = "create-folder")
+    public void testFoldersCreationWithProvider(String provideNames) {
+        createAFolder(provideNames);
+        getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']")).click();
+
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/view/all/newJob']")));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span")).getText(), provideNames);
+    }
+
+    @Test
+    public void testCreateFolderFromExistingFolder() {
+        final String FOLDER1_NAME = "My_folder";
+        final String COPY_FOLDER = "Copy_folder";
+        final String DESCRIPTION = "This is a test folder";
+
+        createAFolder(FOLDER1_NAME);
+
+        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']"))
+                .sendKeys(Keys.RETURN);
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Configure"))).click();
+
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).sendKeys(DESCRIPTION);
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']")).click();
+
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+
+        getWait2().until(ExpectedConditions.presenceOfElementLocated((By.id("name")))).sendKeys(COPY_FOLDER);
+        getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
+        getDriver().findElement(By.id("from")).sendKeys(FOLDER1_NAME);
+        getDriver().findElement(By.id("ok-button")).click();
+
+        String copiedFolderDescription = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).getText();
+
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.id("view-message"));
+
+        Assert.assertTrue(getDriver().findElement(By.id("view-message")).getText().contains(DESCRIPTION));
+        Assert.assertEquals(copiedFolderDescription, DESCRIPTION);
     }
 }
