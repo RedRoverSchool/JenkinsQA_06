@@ -87,7 +87,7 @@ public class MainPage extends BasePage {
     }
 
     public MainPage clickJobDropdownMenu(String jobName) {
-        WebElement projectName = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='job/" + jobName + "/']")));
+        WebElement projectName = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='job/" + jobName + "/']")));
         Actions action = new Actions(getDriver());
         action.moveToElement(projectName).perform();
         projectName.click();
@@ -387,7 +387,7 @@ public class MainPage extends BasePage {
         return new ManageJenkinsPage(getDriver());
     }
 
-    public MainPage clickYesDeleteJobDropDownMenu() {
+    public MainPage clickYesDeletePage() {
         getDriver().findElement(By.name("Submit")).click();
 
         return this;
