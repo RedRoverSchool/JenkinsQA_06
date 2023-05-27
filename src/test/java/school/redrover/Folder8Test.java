@@ -8,17 +8,17 @@ import school.redrover.runner.BaseTest;
 
 public class Folder8Test extends BaseTest {
     @Test
-    public void creatFolderTest() {
+    public void createFolderByCreateAJobButtonOnMainPageTest() {
         String name = "MyBalcon";
 
-        WebElement creatajob = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]/div/section[1]/ul/li/a"));
-        creatajob.click();
+        WebElement createAJob = getDriver().findElement(By.xpath("//*[@id='main-panel']/div[2]/div/section[1]/ul/li/a"));
+        createAJob.click();
 
-        WebElement folder = getDriver().findElement(By.xpath("//*[@id='j-add-item-type-nested-projects']/ul/li[1]"));
-        folder.click();
+        WebElement inputName = getDriver().findElement(By.xpath("//*[@id='name']"));
+        inputName.sendKeys(name);
 
-        WebElement input = getDriver().findElement(By.xpath("//*[@id='name']"));
-        input.sendKeys(name);
+        WebElement folderInList = getDriver().findElement(By.xpath("//*[@id='j-add-item-type-nested-projects']/ul/li[1]"));
+        folderInList.click();
 
         getDriver().findElement(By.xpath("//*[@id='ok-button']")).click();
 
@@ -28,7 +28,7 @@ public class Folder8Test extends BaseTest {
         WebElement dashButton = getDriver().findElement(By.xpath("//*[@id='breadcrumbs']/li[1]/a"));
         dashButton.click();
 
-        WebElement actualresult = getDriver().findElement(By.xpath("//*[@id='job_" + name + "']/td[3]/a/span"));
-        Assert.assertEquals(actualresult.getText(), name);
+        WebElement actualResult = getDriver().findElement(By.xpath("//*[@id='job_" + name + "']/td[3]/a/span"));
+        Assert.assertEquals(actualResult.getText(), name);
     }
 }
