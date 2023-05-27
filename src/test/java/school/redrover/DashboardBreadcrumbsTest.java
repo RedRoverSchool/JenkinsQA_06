@@ -16,7 +16,6 @@ public class DashboardBreadcrumbsTest extends BaseTest {
 
     @Test
     public void testDashboardDropdownMenu() {
-
         new Actions(getDriver())
                 .moveToElement(getDriver()
                 .findElement(dashboardButtonChevron))
