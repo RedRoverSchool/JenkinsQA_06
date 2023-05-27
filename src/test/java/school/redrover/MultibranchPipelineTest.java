@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -68,5 +69,20 @@ public class MultibranchPipelineTest extends BaseTest {
                 .getText();
 
         Assert.assertEquals(WelcomeJenkinsPage, "Welcome to Jenkins!");
+    }
+    @Test
+    public void testCreateMultiPipeline() {
+        final String nameMultiPipeline = "Multi";
+        new MainPage(getDriver())
+                .clickNewItemButton()
+                .inputAnItemName(nameMultiPipeline)
+                .clickMultiBranchPipeline()
+                .clickSaveButton()
+                .clickSaveButton()
+                .clickDashBoardButton();
+
+        String actualMultiBranchName = getDriver().findElement(By.xpath("//a[@href = 'job/Multi/']")).getText();
+
+        Assert.assertEquals(actualMultiBranchName,nameMultiPipeline);
     }
 }
