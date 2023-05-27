@@ -44,4 +44,9 @@ public class FreestyleProjectConfigPage extends BasePage {
     public String getPreviewDescription () {
         return getDriver().findElement(By.xpath("//*[@class = 'textarea-preview']")).getText();
     }
+
+    public MainPage clickJenkinsLogo() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.id("jenkins-home-link"))).click();
+        return new MainPage(getDriver());
+    }
 }
