@@ -3,7 +3,6 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.BreadcrumbBarComponent;
 import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.PipelinePage;
@@ -80,18 +79,5 @@ public class NewProject3Test extends BaseTest {
         mainPage.selectDashboard();
 
         Assert.assertEquals(mainPage.getFolderName().getText(), nameJob);
-    }
-
-    @Test
-    public void testCreateOrganizationFolder() {
-        String nameFolder = "Engineer";
-        MainPage mainPage = new MainPage(getDriver());
-        mainPage.clickNewItem()
-                .enterItemName(nameFolder)
-                .selectOrganizationFolderAndOk()
-                .clickSaveButton();
-        mainPage.selectDashboard();
-
-        Assert.assertEquals(mainPage.getFolderName().getText(), nameFolder);
     }
 }

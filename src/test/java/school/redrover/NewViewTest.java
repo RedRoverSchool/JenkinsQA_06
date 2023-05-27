@@ -44,21 +44,27 @@ public class NewViewTest extends BaseTest {
         return list;
     }
 
-    @Ignore
     @Test
-    public void testCreateNewView() {
-        createNewProjectFromMyViewsPage();
-        getDriver().findElement(By.className("addTab")).click();
-        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-        getDriver().findElement(By.id("ok")).click();
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//button[@name='Submit']"))).click();
+    public void testCreateListView() {
+        String freestyleProjectName = "TestFreestyleProject";
+        String expectedName = "TestName";
+        String actualName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewItem()
+                .enterItemName(freestyleProjectName)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickDashboard()
+                .createNewView()
+                .setNewViewName(expectedName)
+                .selectListView()
+                .clickCreateButton()
+                .clickViewConfigOkButton()
+                .getViewName();
 
-        Assert.assertTrue(getDriver().findElement(CREATED_LIST_VIEW).isDisplayed());
+        assertEquals(actualName, expectedName);
     }
 
-    @Ignore
     @Test
     public void testCreateNewViewSecond() {
         createNewProjectFromMyViewsPage();
@@ -166,18 +172,17 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateMyView() {
-        TestUtils.createFolder(this, "TestFolder", true);
+        WebElement newView = new MainPage(getDriver())
+                 .clickNewItem()
+                 .enterItemName("TestFolder")
+                 .selectFolderAndOk().clickDashboard()
+                 .clickFolderName("TestFolder")
+                 .clickNewView()
+                 .enterViewName("MyNewView")
+                 .selectMyViewAndClickCreate()
+                 .getMyView();
 
-        getDriver().findElement(By.linkText("TestFolder")).click();
-        getDriver().findElement(By.xpath("//a[@title= 'New View']")).click();
-
-        getDriver().findElement(By.name("name")).sendKeys("TestView");
-        getDriver().findElement(By.xpath("//label[@for= 'hudson.model.MyView']")).click();
-        getDriver().findElement(By.id("ok")).click();
-
-        WebElement newView = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("TestView")));
-
-        assertEquals(newView.getText(), "TestView");
+        assertEquals(newView.getText(), "MyNewView");
     }
     @Test
     public void testHelpForFeatureDescription() {

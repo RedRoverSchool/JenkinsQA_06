@@ -3,9 +3,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
-public class NewViewPage extends BasePage {
+public class NewViewPage extends BaseModel {
 
     public NewViewPage(WebDriver driver) {
         super(driver);

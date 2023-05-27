@@ -5,20 +5,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import school.redrover.model.base.BaseModel;
 
-public class RenameFreestyleProjectPage extends BaseModel {
-    public RenameFreestyleProjectPage(WebDriver driver) {
+public class RenameMultibranchPipelinePage extends BaseModel {
+    public RenameMultibranchPipelinePage(WebDriver driver) {
         super(driver);
     }
 
-    public RenameFreestyleProjectPage enterNewName(String name) {
+    public RenameMultibranchPipelinePage enterNewName (String name) {
         WebElement inputTextbox = getDriver().findElement(By.name("newName"));
         inputTextbox.clear();
         inputTextbox.sendKeys(name);
         return this;
     }
-
-    public FreestyleProjectPage submitNewName() {
+    public RenameMultibranchPipelinePage renameButton () {
         getDriver().findElement(By.name("Submit")).click();
-        return new FreestyleProjectPage(getDriver());
+        return new RenameMultibranchPipelinePage(getDriver());
     }
+
 }
