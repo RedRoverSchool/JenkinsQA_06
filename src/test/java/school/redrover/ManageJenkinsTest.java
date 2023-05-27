@@ -143,7 +143,8 @@ public class ManageJenkinsTest extends BaseTest {
                 .clickPermanentAgentRadioButton()
                 .clickCreateButton()
                 .clearNameField()
-                .clickSaveButtonWhenNameFieldEmpty().getTextError();
+                .clickSaveButtonWhenNameFieldEmpty()
+                .getTextError();
 
         Assert.assertEquals(textError, "Query parameter 'name' is required");
     }
