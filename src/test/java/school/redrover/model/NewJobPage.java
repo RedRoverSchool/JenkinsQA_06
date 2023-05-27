@@ -113,8 +113,4 @@ public class NewJobPage extends BasePage {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
     }
 
-    public MultiConfigurationProjectConfigPage selectMultiConfigurationProject() {
-        getDriver().findElement(By.xpath("//span[.='Multi-configuration project']")).click();
-        return new MultiConfigurationProjectConfigPage(getDriver());
-    }
 }

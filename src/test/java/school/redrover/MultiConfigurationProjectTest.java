@@ -307,6 +307,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
         Assert.assertFalse(newJobPage.isOkButtonEnabled());
         createPage.returnToMainPage();
+
     }
 
     @Test
