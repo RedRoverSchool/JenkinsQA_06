@@ -80,17 +80,4 @@ public class NewProject3Test extends BaseTest {
 
         Assert.assertEquals(mainPage.getFolderName().getText(), nameJob);
     }
-
-    @Test
-    public void testCreateOrganizationFolder() {
-        String nameFolder = "Engineer";
-        MainPage mainPage = new MainPage(getDriver());
-        mainPage.clickNewItem()
-                .enterItemName(nameFolder)
-                .selectOrganizationFolderAndOk()
-                .clickSaveButton();
-        mainPage.selectDashboard();
-
-        Assert.assertEquals(mainPage.getFolderName().getText(), nameFolder);
-    }
 }

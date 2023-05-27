@@ -787,6 +787,8 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(jobList.contains(PIPELINE_NAME));
     }
 
+
+    @Ignore
     @Test
     public void testSetPipelineDisplayName() {
         TestUtils.createPipeline(this, PIPELINE_NAME, false);

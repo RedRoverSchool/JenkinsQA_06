@@ -32,6 +32,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_NEW_NAME = RandomStringUtils.randomAlphabetic(5);
     private static final By SAVE_BUTTON = By.name("Submit");
 
+    private void createMultiConfigurationProject(String name, Boolean goToHomePage) {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']"))).sendKeys(name);
+        getDriver().findElement(By.xpath("//label/span[contains(text(), 'Multi-configuration proj')]")).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
+
+        if (goToHomePage) {
+            getDriver().findElement(By.linkText("Dashboard")).click();
+        }
+    }
+
     @Test
     public void testCreateMultiConfiguration() {
         MainPage mainPage = new MainPage(getDriver());
@@ -285,21 +297,13 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dataProvider = "wrong character")
     public void testCreateProjectWithWrongName(String wrongCharacter) {
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .selectMultiConfigurationProject()
+                .enterItemName(wrongCharacter);
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-
-        getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//input[@id='name']"))).sendKeys(wrongCharacter);
-
-        String errorName = getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@id='itemname-invalid']"))).getText();
-
-        Assert.assertEquals(errorName, "» ‘" + wrongCharacter + "’ is an unsafe character");
-        Assert.assertFalse(getDriver().findElement(By.xpath("//button[@id='ok-button']")).isEnabled());
-
-        getDriver().findElement(By.xpath("//*[@id='jenkins-name-icon']")).click();
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled());
     }
 
     @Test
@@ -569,5 +573,32 @@ public class MultiConfigurationProjectTest extends BaseTest {
         WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
 
         Assert.assertEquals(actualDescription.getText(), expectedDescription);
+    }
+
+    @DataProvider(name = "unsafeCharacters")
+    public static Object[][] unsafeCharacterArray() {
+        return new Object[][]{
+                {'!', "!"}, {'@', "@"}, {'#', "#"}, {'$', "$"}, {'%', "%"}, {'^', "^"}, {'&', "&amp;"},
+                {'*', "*"}, {'[', "["}, {']', "]"}, {'\\', "\\"}, {'|', "|"}, {';', ";"}, {':', ":"},
+                {'<', "&lt;"}, {'>', "&gt;"}, {'/', "/"}, {'?', "?"}};
+    }
+
+    @Test(dataProvider = "unsafeCharacters")
+    public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol, String htmlUnsafeSymbol) {
+
+        createMultiConfigurationProject(MULTI_CONFIGURATION_NAME, true);
+
+        String errorNotification = new MainPage(getDriver())
+                .selectRenameJobDropDownMenu(MULTI_CONFIGURATION_NAME)
+                .enterNewName(MULTI_CONFIGURATION_NAME + unsafeSymbol)
+                .getErrorMessage();
+
+        Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
+
+        CreateItemErrorPage createItemErrorPage = new RenameProjectPage(getDriver())
+                .clickRenameButton();
+
+        Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
+        Assert.assertEquals(createItemErrorPage.getErrorMessage(), String.format("‘%s’ is an unsafe character", htmlUnsafeSymbol));
     }
 }
