@@ -28,62 +28,63 @@ public class MultiConfigurationProjectPage extends BasePage {
         return this;
     }
 
-    public MultiConfigurationProjectPage getSaveButton(){
+    public MultiConfigurationProjectPage getSaveButton() {
 
         WebElement saveButton = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
         saveButton.click();
         return this;
     }
 
-    public WebElement getInputAdd (){
-      return getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
+    public WebElement getInputAdd() {
+        return getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
     }
 
     public MultiConfigurationProjectPage getDisableClick() {
         getDriver().findElement(By.xpath("//button[text () = 'Disable Project']")).click();
         return this;
     }
+
     public WebElement getDisableElem() {
         return getDriver().findElement(By.xpath("//button[text () = 'Disable Project']"));
     }
 
-    public WebElement getEnableSwitch (){
-    return getDriver().findElement(By.xpath("//button[text () = 'Enable']"));
+    public WebElement getEnableSwitch() {
+        return getDriver().findElement(By.xpath("//button[text () = 'Enable']"));
     }
 
-    public MultiConfigurationProjectPage getEnableClick () {
+    public MultiConfigurationProjectPage getEnableClick() {
         getDriver().findElement(By.xpath("//*[@id='enable-project']/button")).click();
         return this;
     }
 
-    public MultiConfigurationProjectPage getConfigPage () {
+    public MultiConfigurationProjectPage getConfigPage() {
         getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
         return this;
     }
 
-    public MultiConfigurationProjectPage switchCheckboxDisable () {
+    public MultiConfigurationProjectPage switchCheckboxDisable() {
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).click();
         return this;
     }
 
-    public MultiConfigurationProjectPage switchCheckboxEnabled () {
+    public MultiConfigurationProjectPage switchCheckboxEnabled() {
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//label[@for='enable-disable-project']")))).click();
         return this;
     }
 
-    public WebElement getTextDisable (){
+    public WebElement getTextDisable() {
 
-       return getWait5().until(ExpectedConditions.elementToBeClickable
+        return getWait5().until(ExpectedConditions.elementToBeClickable
                 (getDriver().findElement(By.xpath("//span[text() = 'Disabled']"))));
     }
 
-    public WebElement getTextEnabled (){
+    public WebElement getTextEnabled() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable
                 (getDriver().findElement(By.xpath("//span[text() = 'Enabled']"))));
     }
 
-    public WebElement getDisableSwitch (){
+    public WebElement getDisableSwitch() {
         return getDriver().findElement(By.xpath("//button[text () = 'Disable Project']"));
     }
 
@@ -91,5 +92,14 @@ public class MultiConfigurationProjectPage extends BasePage {
         WebElement buildStatus = getWait20().until(ExpectedConditions.visibilityOf(getDriver()
                 .findElement(By.xpath("//div[@id='matrix']//span[@class='build-status-icon__outer']/child::*"))));
         return buildStatus.getAttribute("tooltip");
+    }
+
+    public String getDisableText() {
+        return getDriver().findElement(By.id("enable-project")).getText();
+    }
+
+    public boolean isDisableButtonDisplayed() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//form[@id='disable-project']/button"))))
+                .isDisplayed();
     }
 }
