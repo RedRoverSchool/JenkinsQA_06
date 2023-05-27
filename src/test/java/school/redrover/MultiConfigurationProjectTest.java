@@ -297,21 +297,13 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dataProvider = "wrong character")
     public void testCreateProjectWithWrongName(String wrongCharacter) {
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .selectMultiConfigurationProject()
+                .enterItemName(wrongCharacter);
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-
-        getDriver().findElement(By.xpath("//li[@class='hudson_matrix_MatrixProject']")).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//input[@id='name']"))).sendKeys(wrongCharacter);
-
-        String errorName = getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@id='itemname-invalid']"))).getText();
-
-        Assert.assertEquals(errorName, "» ‘" + wrongCharacter + "’ is an unsafe character");
-        Assert.assertFalse(getDriver().findElement(By.xpath("//button[@id='ok-button']")).isEnabled());
-
-        getDriver().findElement(By.xpath("//*[@id='jenkins-name-icon']")).click();
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled());
     }
 
     @Test

@@ -34,7 +34,7 @@ public class ManageJenkinsPage extends MainPage {
         return this;
     }
 
-    public boolean getVersionJenkinsFromFooter(){
+    public boolean isVersionJenkinsFromFooterCorrect(){
         return getDriver().findElement(JENKINS_VERSION_BTN).getText().equals("Jenkins 2.387.2");
     }
 
