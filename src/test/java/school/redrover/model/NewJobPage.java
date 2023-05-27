@@ -64,12 +64,6 @@ public class NewJobPage extends BasePage {
         return this;
     }
 
-    public PipelineConfigPage selectPipelineAndClickOK() {
-        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
-        getOkButton().click();
-        return new PipelineConfigPage(getDriver());
-    }
-
     public String getItemInvalidMessage() {
         return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
     }
@@ -106,7 +100,7 @@ public class NewJobPage extends BasePage {
 
     public NewJobPage selectPipelineProject() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Pipeline']"))).click();
-        return new NewJobPage(getDriver());
+        return this;
     }
 
     public String getItemNameRequiredErrorText() {

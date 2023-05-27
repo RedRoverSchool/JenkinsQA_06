@@ -163,7 +163,7 @@ public class PipelineTest extends BaseTest {
         WebElement projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndClickOK()
+                .selectPipelineAndOk()
                 .clickSaveButton()
                 .clickDashboard().getProjectName();
 
@@ -222,7 +222,7 @@ public class PipelineTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndClickOK()
+                .selectPipelineAndOk()
                 .clickSaveButton()
                 .clickDashboard()
                 .clickPipelineProject(PIPELINE_NAME)
@@ -255,7 +255,7 @@ public class PipelineTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
-                .selectPipelineAndClickOK()
+                .selectPipelineAndOk()
                 .clickSaveButton()
                 .clickDashboard()
                 .clickJobDropDownMenu(name)
@@ -450,15 +450,18 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreateDuplicatePipelineProject() {
 
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+        String jobExists = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineProject()
+                .getItemInvalidMessage();
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(name));
-        getDriver().findElement(name).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Pipeline')]")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='input-validation-message']"))
-                .getText(), "» A job already exists with the name " + "‘" + PIPELINE_NAME + "’");
+        Assert.assertEquals(jobExists, "» A job already exists with the name " + "‘" + PIPELINE_NAME + "’");
     }
 
     @Test
