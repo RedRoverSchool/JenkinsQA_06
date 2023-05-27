@@ -59,4 +59,10 @@ public class ManageJenkinsPage extends MainPage {
 
         return new NewJobPage(getDriver());
     }
+
+    public ManageNodesPage clickManageNodes() {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='/computer/']"))).click();
+        return new ManageNodesPage(getDriver());
+    }
 }
