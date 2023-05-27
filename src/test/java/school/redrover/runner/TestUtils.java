@@ -1,9 +1,11 @@
 package school.redrover.runner;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestUtils {
 
@@ -55,5 +57,14 @@ public class TestUtils {
         createProject(baseTest, name);
         baseTest.getDriver().findElement(By.xpath("//label/span[contains(text(), 'Organization Folder')]")).click();
         saveProject(baseTest, goToHomePage);
+    }
+
+    public static List<String> getTexts(List<WebElement> elements) {
+        List<String> texts = new ArrayList<>();
+
+        for (WebElement element : elements) {
+            texts.add(element.getText());
+        }
+        return texts;
     }
 }

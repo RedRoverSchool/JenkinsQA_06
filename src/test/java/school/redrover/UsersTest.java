@@ -42,15 +42,17 @@ public class UsersTest extends BaseTest {
         String email = faker.internet().emailAddress();
 
         boolean isNewUserCreated = new ManageUsersPage(getDriver())
-                .openUsersPage()
-                .clickCreateUserBtn()
-                .inputUsername(userName)
-                .inputPassword(password)
-                .inputConfirmPassword(password)
-                .inputFullName(fullName)
-                .inputEmail(email)
-                .clickSubmitBtn()
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .enterUsername(userName)
+                .enterPassword(password)
+                .enterConfirmPassword(password)
+                .enterFullName(fullName)
+                .enterEmail(email)
+                .clickCreateUserButton()
                 .isUserExist(userName);
+
         Assert.assertTrue(isNewUserCreated);
     }
 

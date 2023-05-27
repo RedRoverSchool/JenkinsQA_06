@@ -3,7 +3,6 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
 
@@ -15,15 +14,6 @@ public class FreestyleProjectPage extends BasePage {
 
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(getDriver(), this);
-    }
-
-    private WebElement description() {
-        return getDriver().findElement(By.xpath("//*[@id='description']/div"));
-    }
-
-    private WebElement getAddDescriptionButton() {
-        return getDriver().findElement(By.id("description-link"));
     }
 
     public FreestyleProjectPage selectBuildNow() {
@@ -50,11 +40,11 @@ public class FreestyleProjectPage extends BasePage {
     }
 
     public String getDescription() {
-        return description().getText();
+        return getDriver().findElement(By.xpath("//*[@id='description']/div")).getText();
     }
 
     public FreestyleProjectConfigPage clickAddDescription() {
-        getAddDescriptionButton().click();
+        getDriver().findElement(By.id("description-link")).click();
         return new FreestyleProjectConfigPage(getDriver());
     }
 

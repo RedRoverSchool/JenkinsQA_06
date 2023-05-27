@@ -16,39 +16,23 @@ public class ViewPage extends BasePage {
         super(driver);
     }
 
-    private WebElement getDescription() {
-        return getDriver().findElement(By.xpath("//div[@id='description']/child::*"));
-    }
-
-    private WebElement getStringSearchItemName() {
-        return getDriver().findElement(By.xpath("//input[@id = 'name']"));
-    }
-
-    private WebElement getPipelineProject() {
-        return getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']"));
-    }
-
-    private WebElement getSaveButton() {
-        return getDriver().findElement(By.xpath("//button[@id = 'ok-button']"));
-    }
-
     private List<WebElement> getJobList() {
         return getDriver().findElements(By.xpath("//tbody/tr/td/a/span"));
     }
 
     public ViewPage inputAnItemName(String text) {
 
-        sendTextToInput(getStringSearchItemName(), text);
+        sendTextToInput(getDriver().findElement(By.xpath("//input[@id = 'name']")), text);
         return new ViewPage(getDriver());
     }
 
     public ViewPage clickPipelineProject() {
-        click(getPipelineProject());
+        click(getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
         return new ViewPage(getDriver());
     }
 
     public ConfigurePage clickSaveButton() {
-        click(getSaveButton());
+        click(getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
         return new ConfigurePage(getDriver());
     }
 
@@ -71,7 +55,7 @@ public class ViewPage extends BasePage {
     }
 
     public String getDescriptionText() {
-        return getDescription().getText();
+        return getDriver().findElement(By.xpath("//div[@id='description']/child::*")).getText();
     }
 
     public String getJobName(String name) {
