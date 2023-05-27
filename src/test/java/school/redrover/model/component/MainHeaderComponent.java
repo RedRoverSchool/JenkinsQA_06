@@ -1,13 +1,14 @@
-package school.redrover.model.base;
+package school.redrover.model.component;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
+import school.redrover.model.base.BaseHeaderComponent;
 
-public abstract class Header extends BasePage {
+public class MainHeaderComponent extends BaseHeaderComponent {
 
-    public Header(WebDriver driver) {
+    public MainHeaderComponent(WebDriver driver) {
         super(driver);
     }
 

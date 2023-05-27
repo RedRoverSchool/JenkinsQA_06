@@ -4,14 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 import school.redrover.runner.TestUtils;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigureGlobalSecurityPage extends BasePage {
+public class ConfigureGlobalSecurityPage extends BaseModel {
 
     public ConfigureGlobalSecurityPage(WebDriver driver) {
         super(driver);

@@ -3,10 +3,10 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
 
-public class LoginPage extends BasePage {
+public class LoginPage extends BaseModel {
 
     public LoginPage(WebDriver driver) {
         super(driver);

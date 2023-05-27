@@ -3,9 +3,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
-public class ConfigurePage extends BasePage {
+public class ConfigurePage extends BaseModel {
 
     public ConfigurePage(WebDriver driver) {
         super(driver);
