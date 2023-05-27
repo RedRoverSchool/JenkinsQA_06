@@ -78,6 +78,11 @@ public class MyViewsPage extends BasePage {
                 By.xpath("//textarea[@name='description']"))).sendKeys(name);
         return new MyViewsPage(getDriver());
     }
+
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
+        return new NewJobPage(getDriver());
+    }
 }
 
 

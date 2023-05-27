@@ -21,6 +21,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String DESCRIPTION_TEXT = RandomStringUtils.randomAlphanumeric(15);
+    private static final String NEW_DESCRIPTION_TEXT = RandomStringUtils.randomAlphanumeric(15);
 
     private void createFreestyleProject() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
@@ -189,31 +190,20 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testEditDescription () {
-        createFreestyleProject();
+        String editDescription = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickAddDescription()
+                .addDescription(DESCRIPTION_TEXT)
+                .clickSaveDescription()
+                .clickEditDescription()
+                .removeOldDescriptionAndAddNew(NEW_DESCRIPTION_TEXT)
+                .clickSaveDescription()
+                .getDescription();
 
-        WebElement descriptionButton = getDriver().findElement(By.xpath("//*[@id = 'description-link']"));
-        descriptionButton.click();
-
-        WebElement descInputField = getDriver().findElement(By.xpath("//*[@name = 'description']"));
-        descInputField.sendKeys(DESCRIPTION_TEXT);
-
-        WebElement saveButton = getDriver()
-                .findElement(By.xpath("//*[@id='description']/form/div[2]/button"));
-        saveButton.click();
-
-        WebElement editButton = getDriver().findElement(By.xpath("//*[@href = 'editDescription']"));
-        editButton.click();
-
-        WebElement oldDescription = getDriver().findElement(By.xpath("//*[@id='description']/form/div[1]/div[1]/textarea"));
-        oldDescription.clear();
-        oldDescription.sendKeys("Edit description");
-
-        WebElement saveButton2 = getDriver()
-                .findElement(By.xpath("//*[@id='description']/form/div[2]/button"));
-        saveButton2.click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id = 'description']/div[1]"))
-                .getText(),"Edit description");
+        Assert.assertEquals(editDescription, NEW_DESCRIPTION_TEXT);
     }
 
     @Test
