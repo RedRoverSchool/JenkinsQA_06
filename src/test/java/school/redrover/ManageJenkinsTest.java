@@ -236,10 +236,10 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test(dataProvider = "ToolsAndActions")
     public void testSearchToolsAndActions(String inputText)  {
-
-        ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
+        String searchResult = new MainPage(getDriver())
             .navigateToManageJenkinsPage()
-            .inputToSearchField(inputText);
-        Assert.assertEquals(manageJenkinsPage.getDropdownResultsInSearchField(), inputText);
+            .inputToSearchField(inputText)
+            .getDropdownResultsInSearchField();
+        Assert.assertEquals(searchResult, inputText);
     }
 }

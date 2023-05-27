@@ -35,6 +35,11 @@ public class NewJobPage extends BasePage {
         return new MultiConfigurationProjectConfigPage(getDriver());
     }
 
+    public NewJobPage selectMultiConfigurationProject() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@class='hudson_matrix_MatrixProject']"))).click();
+        return this;
+    }
+
     public FolderConfigPage selectFolderAndOk() {
         getDriver().findElement(By.xpath("//li[contains(@class, 'folder_Folder')]")).click();
         getOkButton().click();
