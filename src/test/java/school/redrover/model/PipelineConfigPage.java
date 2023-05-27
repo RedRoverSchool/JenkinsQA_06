@@ -8,14 +8,23 @@ import school.redrover.model.base.BasePage;
 
 public class PipelineConfigPage extends BasePage {
 
-    public PipelineConfigPage(WebDriver driver){
+    public PipelineConfigPage(WebDriver driver) {
         super(driver);
     }
 
-    public PipelinePage clickSaveButton(){
+    public PipelinePage clickSaveButton() {
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector("[name='Submit']")))).click();
         return new PipelinePage(getDriver());
     }
 
+    public PipelineConfigPage addProjectDescription () {
+        getWait5().until(ExpectedConditions
+                .presenceOfElementLocated(By.name("description")))
+                .sendKeys("This a basic Pipeline project.");
+
+        return this;
+    }
 }
+
+

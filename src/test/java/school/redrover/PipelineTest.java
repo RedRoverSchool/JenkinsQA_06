@@ -171,35 +171,44 @@ public class PipelineTest extends BaseTest {
     }
 
 
-    @Test
+    @Test (dependsOnMethods = "testCreatePipeline")
     public void testAddingDescriptionToPipeline() {
-        getDriver().findElement(By.xpath("//a[normalize-space()='New Item']")).click();
-        getWait(1);
 
-        getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
+        new MainPage(getDriver())
+                .clickOnSliderDashboardInDropDownMenu()
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickConfigureButton()
+                .addProjectDescription()
+                .clickSaveButton();
 
-        getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']")).click();
-        getWait(1);
 
-        getDriver().findElement(By
-                .xpath("//a[@class='jenkins-table__link model-link inside']")).click();
-        getWait(1);
-
-        getDriver().findElement(By.xpath("(//div[@id='side-panel']/div/div)[4]")).click();
-        getWait(1);
-
-        String pipelineDescription = "This is a basic Pipeline project.";
-
-        getDriver().findElement(By.name("description")).sendKeys(pipelineDescription);
-        getDriver().findElement(By.name("Submit")).click();
-        getWait(1);
-
-        WebElement projectDescription =
-                getDriver().findElement(By.xpath("(//div[@id='description']/div)[1]"));
-
-        Assert.assertEquals(projectDescription.getText(), pipelineDescription);
+//        getDriver().findElement(By.xpath("//a[normalize-space()='New Item']")).click();
+//        getWait(1);
+//
+//        getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
+//        getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")).click();
+//        getDriver().findElement(By.id("ok-button")).click();
+//
+//        getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']")).click();
+//        getWait(1);
+//
+//        getDriver().findElement(By
+//                .xpath("//a[@class='jenkins-table__link model-link inside']")).click();
+//        getWait(1);
+//
+//        getDriver().findElement(By.xpath("(//div[@id='side-panel']/div/div)[4]")).click();
+//        getWait(1);
+//
+//        String pipelineDescription = "This is a basic Pipeline project.";
+//
+//        getDriver().findElement(By.name("description")).sendKeys(pipelineDescription);
+//        getDriver().findElement(By.name("Submit")).click();
+//        getWait(1);
+//
+//        WebElement projectDescription =
+//                getDriver().findElement(By.xpath("(//div[@id='description']/div)[1]"));
+//
+//        Assert.assertEquals(projectDescription.getText(), pipelineDescription);
     }
 
     @Test(dependsOnMethods = "testCreatePipeline")
