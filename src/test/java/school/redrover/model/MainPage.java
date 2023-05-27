@@ -387,7 +387,7 @@ public class MainPage extends BasePage {
         return new ManageJenkinsPage(getDriver());
     }
 
-    public MainPage clickYesDeleteJobDropDownMenu() {
+    public MainPage clickYesDeletePage() {
         getDriver().findElement(By.name("Submit")).click();
 
         return this;
