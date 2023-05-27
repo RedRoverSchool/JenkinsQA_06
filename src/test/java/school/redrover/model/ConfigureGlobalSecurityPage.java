@@ -3,7 +3,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import school.redrover.model.base.BasePage;
+import school.redrover.runner.TestUtils;
 
 
 import java.util.ArrayList;
@@ -24,4 +26,21 @@ public class ConfigureGlobalSecurityPage extends BasePage {
         List<WebElement> listHelpButton = new ArrayList<>(getDriver().findElements(By.xpath("//a[starts-with(@tooltip,'Help')]")));
         return listHelpButton.size();
     }
+
+
+    public ConfigureGlobalSecurityPage navigateToHostKeyVerificationStrategyDropdownAndClick() {
+        Actions action = new Actions(getDriver());
+        WebElement hostKeyVerificationDropdown = getDriver().findElement(By.xpath("//div[@class='jenkins-form-item ']//div[@class='jenkins-select']"));
+        action.moveToElement(hostKeyVerificationDropdown).click().perform();
+
+        return this;
+    }
+
+    public List<String> getDropDownMenuTexts() {
+        List<WebElement> menus = getDriver().findElements(
+                By.xpath("//div[@class='jenkins-form-item ']//div[@class='jenkins-select']//option"));
+
+        return TestUtils.getTexts(menus);
+    }
+
 }
