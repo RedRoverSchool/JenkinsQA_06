@@ -49,8 +49,23 @@ public class ConfigurePage extends BaseModel {
         return new ConfigurePage(getDriver());
     }
 
-    public JobPage clickSaveButton() {
+
+    public JobPage selectSaveButton() {
         click(getDriver().findElement(By.xpath("//button[@name='Submit']")));
         return new JobPage(getDriver());
+    }
+
+    public ConfigurePage clickPreview() {
+        getDriver().findElement(By.cssSelector("[previewendpoint$='previewDescription']")).click();
+        return this;
+    }
+
+    public WebElement getPreview() {
+        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
+    }
+
+    public ConfigurePage clearDescriptionArea() {
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
+        return this;
     }
 }

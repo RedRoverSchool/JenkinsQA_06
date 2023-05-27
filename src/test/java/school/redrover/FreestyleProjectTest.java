@@ -454,7 +454,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProject()
                 .clickSaveButton()
                 .sendAreDescriptionInputString(description)
-                .clickSaveButton()
+                .selectSaveButton()
                 .clickDashBoardButton();
 
         String actualFreestyleName = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText();
