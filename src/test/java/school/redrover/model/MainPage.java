@@ -46,7 +46,7 @@ public class MainPage extends BasePage {
 
     public NewJobPage clickCreateAJobArrow() {
         getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")))
+                        By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")))
                 .click();
 
         return new NewJobPage(getDriver());
@@ -59,7 +59,7 @@ public class MainPage extends BasePage {
 
     public String getProjectNameMainPage(String projectName) {
         return getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//tr[@id='job_" + projectName + "']//a//span['" + projectName + "']")))
+                        .visibilityOfElementLocated(By.xpath("//tr[@id='job_" + projectName + "']//a//span['" + projectName + "']")))
                 .getText();
     }
 
@@ -137,7 +137,7 @@ public class MainPage extends BasePage {
 
     public String getJobBuildStatusIcon(String name) {
         return getDriver().findElement(By.id(String.format("job_%s", name))).findElement(
-                By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']"))
+                        By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']"))
                 .getAttribute("tooltip");
     }
 
@@ -185,7 +185,7 @@ public class MainPage extends BasePage {
 
     public NewJobPage clickNewItemInDashboardDropDownMenu() {
         getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
+                        .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
                 .click();
         return new NewJobPage(getDriver());
     }
@@ -396,17 +396,17 @@ public class MainPage extends BasePage {
     }
 
     public WebElement getMainPanel() {
-      
+
         return getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("main-panel")));
     }
 
     public WebElement getProjectStatusTable() {
-      
+
         return getMainPanel().findElement(By.id("projectstatus"));
     }
 
     public List<WebElement> getProjectsList() {
-      
+
         return getProjectStatusTable().findElements(By.xpath("./tbody/tr"));
     }
 
@@ -421,5 +421,10 @@ public class MainPage extends BasePage {
                 By.xpath("//div[@id = 'breadcrumb-menu' and @class = 'yui-module yui-overlay yuimenu visible']//li/a/span"));
 
         return TestUtils.getTexts(menus);
+    }
+
+    public MainPage returnToMainPage() {
+        getDriver().findElement(By.xpath("//a[@id='jenkins-home-link']")).click();
+        return this;
     }
 }
