@@ -8,14 +8,13 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.ManagePage;
 import school.redrover.runner.BaseTest;
 import java.util.List;
 import java.util.Objects;
 
 public class ManageJenkinsTest extends BaseTest {
     final String NAME_NEW_NODE = "testNameNewNode";
-
-    private final By Manage_Jenkins = By.xpath("//a[@href='/manage']");
 
     public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
         for (WebElement element : titleTexts) {
@@ -24,6 +23,106 @@ public class ManageJenkinsTest extends BaseTest {
             }
         }
         return false;
+    }
+
+    @Test
+    public void testSearchWithLetterConfigureSystem() {
+        String configurePage = new ManagePage(getDriver())
+                .navigateToManagePage()
+
+                .enterSearchQuery("m")
+                .clickSearchButton()
+
+                .selectOnTheFirstLineInDropdown()
+
+                .getConfigureSystemPage();
+        Assert.assertEquals(configurePage,"Configure System");
+    }
+
+    @Test
+    public void testCreateNewUser() {
+        boolean newUser = new ManagePage(getDriver())
+                .navigateToManagePage()
+                .navigateToManageUsersPage()
+
+                .clickCreateUser()
+                .fillUserDetails()
+                .submit()
+
+                .findUserCreated();
+        Assert.assertTrue(newUser);
+    }
+
+    @Test
+    public void testCreateNewUserWithInvalidEmail() {
+        String errorEmail = new ManagePage(getDriver())
+                .navigateToManagePage()
+                .navigateToManageUsersPage()
+                .clickCreateUser()
+
+                .fillUserDetailsWithInvalidEmail()
+                .submit()
+
+                .assertInvalidEmailError();
+        Assert.assertEquals(errorEmail, "Invalid e-mail address");
+    }
+
+    @Test(dependsOnMethods = "testCreateNewUser")
+    public void testDeleteUser() {
+        boolean userNotFound = new ManagePage(getDriver())
+                .navigateToManagePage()
+                .navigateToManageUsersPage()
+
+                .clickDeleteUser()
+                .submit()
+
+                .getUserDeleted();
+        Assert.assertFalse(userNotFound);
+    }
+
+    @Test
+    public void testAddDescriptionToUserOnTheUserProfilePage() {
+        String descriptionText = new ManagePage(getDriver())
+                .navigateToManagePage()
+                .navigateToManageUsersPage()
+
+                .clickUserEditButton()
+                .enterDescriptionText()
+                .submit()
+
+                .getDescriptionText();
+
+        Assert.assertEquals("Description text",descriptionText);
+    }
+
+    @Test
+    public void testManageConfigureNumberOfExecutorsInMasterNode() {
+        String number = "3";
+
+        String numberInLine = new ManagePage(getDriver())
+
+                .navigateToManagePage()
+                .navigateManageNodesAndClouds()
+
+                .clickConfigureMasterNode()
+                .changeNumberOfExecutorsAndSave(number)
+
+                .navigateToMasterNodeConfiguration()
+                .numberOfExecutors();
+
+        Assert.assertEquals(number, numberInLine);
+    }
+
+    @Test
+    public void testBreadcrumbNavigateManageJenkins() {
+
+        String page = new ManagePage(getDriver())
+                .navigateToDashboardIcon()
+                .dropdownBreadcrumps()
+                .navigateToManageJenkinsAndClick()
+                .verifyManageJenkinsPage();
+
+        Assert.assertEquals(page,"Manage Jenkins" );
     }
 
     @Test
@@ -142,6 +241,5 @@ public class ManageJenkinsTest extends BaseTest {
             .navigateToManageJenkinsPage()
             .inputToSearchField(inputText);
         Assert.assertEquals(manageJenkinsPage.getDropdownResultsInSearchField(), inputText);
-
     }
 }

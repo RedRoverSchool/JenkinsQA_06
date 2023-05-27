@@ -44,21 +44,27 @@ public class NewViewTest extends BaseTest {
         return list;
     }
 
-    @Ignore
     @Test
-    public void testCreateNewView() {
-        createNewProjectFromMyViewsPage();
-        getDriver().findElement(By.className("addTab")).click();
-        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-        getDriver().findElement(By.id("ok")).click();
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//button[@name='Submit']"))).click();
+    public void testCreateListView() {
+        String freestyleProjectName = "TestFreestyleProject";
+        String expectedName = "TestName";
+        String actualName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewItem()
+                .enterItemName(freestyleProjectName)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickDashboard()
+                .createNewView()
+                .setNewViewName(expectedName)
+                .selectListView()
+                .clickCreateButton()
+                .clickViewConfigOkButton()
+                .getViewName();
 
-        Assert.assertTrue(getDriver().findElement(CREATED_LIST_VIEW).isDisplayed());
+        assertEquals(actualName, expectedName);
     }
 
-    @Ignore
     @Test
     public void testCreateNewViewSecond() {
         createNewProjectFromMyViewsPage();

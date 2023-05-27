@@ -55,7 +55,7 @@ public class MultibranchPipelineTest extends BaseTest {
     }
     @Test
     public void deleteMultibranchPipelineTest() {
-        new MainPage(getDriver())
+        String WelcomeJenkinsPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
@@ -63,8 +63,10 @@ public class MultibranchPipelineTest extends BaseTest {
                 .navigateToMainPageByBreadcrumbs()
                 .clickJobDropDownMenu("MultibranchPipeline")
                 .selectDeleteFromDropDownMenu()
-                .clickYesDeleteJobDropDownMenu();
+                .clickYesDeletePage()
+                .getWelcomeWebElement()
+                .getText();
 
-        Assert.assertEquals(new MainPage(getDriver()).getWelcomeWebElement().getText(), "Welcome to Jenkins!");
+        Assert.assertEquals(WelcomeJenkinsPage, "Welcome to Jenkins!");
     }
 }
