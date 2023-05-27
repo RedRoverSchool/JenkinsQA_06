@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
 
-public class Header extends BasePage {
+public abstract class Header extends BasePage {
 
     public Header(WebDriver driver) {
         super(driver);
