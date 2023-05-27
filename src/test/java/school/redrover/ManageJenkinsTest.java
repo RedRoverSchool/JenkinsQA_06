@@ -29,13 +29,11 @@ public class ManageJenkinsTest extends BaseTest {
     public void testSearchWithLetterConfigureSystem() {
         String configurePage = new ManagePage(getDriver())
                 .navigateToManagePage()
-
                 .enterSearchQuery("m")
                 .clickSearchButton()
-
                 .selectOnTheFirstLineInDropdown()
-
                 .getConfigureSystemPage();
+
         Assert.assertEquals(configurePage,"Configure System");
     }
 
@@ -44,12 +42,11 @@ public class ManageJenkinsTest extends BaseTest {
         boolean newUser = new ManagePage(getDriver())
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
-
                 .clickCreateUser()
                 .fillUserDetails()
                 .submit()
-
                 .findUserCreated();
+
         Assert.assertTrue(newUser);
     }
 
@@ -59,11 +56,10 @@ public class ManageJenkinsTest extends BaseTest {
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
                 .clickCreateUser()
-
                 .fillUserDetailsWithInvalidEmail()
                 .submit()
-
                 .assertInvalidEmailError();
+
         Assert.assertEquals(errorEmail, "Invalid e-mail address");
     }
 
@@ -72,11 +68,10 @@ public class ManageJenkinsTest extends BaseTest {
         boolean userNotFound = new ManagePage(getDriver())
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
-
                 .clickDeleteUser()
                 .submit()
-
                 .getUserDeleted();
+
         Assert.assertFalse(userNotFound);
     }
 
@@ -85,11 +80,9 @@ public class ManageJenkinsTest extends BaseTest {
         String descriptionText = new ManagePage(getDriver())
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
-
                 .clickUserEditButton()
                 .enterDescriptionText()
                 .submit()
-
                 .getDescriptionText();
 
         Assert.assertEquals("Description text",descriptionText);
@@ -100,13 +93,10 @@ public class ManageJenkinsTest extends BaseTest {
         String number = "3";
 
         String numberInLine = new ManagePage(getDriver())
-
                 .navigateToManagePage()
                 .navigateManageNodesAndClouds()
-
                 .clickConfigureMasterNode()
                 .changeNumberOfExecutorsAndSave(number)
-
                 .navigateToMasterNodeConfiguration()
                 .numberOfExecutors();
 
