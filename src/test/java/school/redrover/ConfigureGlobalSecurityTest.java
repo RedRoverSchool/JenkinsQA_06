@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -73,18 +72,11 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
                 "Manually provided keys",
                 "No verification");
 
-        navigateToConfigureGlobalSecurityPage();
-
-        Actions action = new Actions(getDriver());
-        WebElement hostKeyVerificationDropdown = getDriver().findElement(By.xpath("//div[@class='jenkins-form-item ']//div[@class='jenkins-select']"));
-        action.moveToElement(hostKeyVerificationDropdown).click().perform();
-
-        List<WebElement> menus = getDriver().findElements(
-                By.xpath("//div[@class='jenkins-form-item ']//div[@class='jenkins-select']//option"));
-        List<String> actualMenuNames = new ArrayList<>();
-        for (WebElement element : menus) {
-            actualMenuNames.add(element.getText());
-        }
+        List<String> actualMenuNames = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .navigateToHostKeyVerificationStrategyDropdownAndClick()
+                .getDropDownMenuTexts();
 
         Assert.assertEquals(actualMenuNames, expectedMenuNames);
     }

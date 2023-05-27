@@ -72,7 +72,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMultiConfigurationProject()  {
+    public void testCreateMultiConfigurationProject() {
 
         WebElement projectName = new MainPage(getDriver())
                 .clickNewItem()
@@ -94,7 +94,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getAddDescription(DESCRIPTION)
                 .getSaveButton();
 
-        Assert.assertEquals(multiConfigProjectWithDescription.getInputAdd().getText(),DESCRIPTION);
+        Assert.assertEquals(multiConfigProjectWithDescription.getInputAdd().getText(), DESCRIPTION);
     }
 
     @DataProvider(name = "unsafeCharacter")
@@ -137,11 +137,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getDisableClick()
                 .getEnableSwitch();
 
-        Assert.assertEquals(enable.getText(),"Enable");
+        Assert.assertEquals(enable.getText(), "Enable");
     }
 
     @Ignore
-    @Test (dependsOnMethods = "testCreateMultiConfiguration")
+    @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testMultiConfigurationProjectConfigureDisabled() {
         MainPage mainPageName = new MainPage(getDriver());
         mainPageName.getMultiConfigPage();
@@ -151,7 +151,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .switchCheckboxDisable()
                 .getTextDisable();
 
-        Assert.assertEquals(configPage.getText(),"Disabled");
+        Assert.assertEquals(configPage.getText(), "Disabled");
         getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
     }
 
@@ -178,18 +178,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test (dependsOnMethods = "testDisableMultiConfigurationProject")
+    @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testMultiConfigurationProjectDisabled() {
         MainPage mainPageName = new MainPage(getDriver());
         mainPageName.getMultiConfigPage();
 
-        WebElement enable = new MultiConfigurationProjectPage (getDriver())
+        WebElement enable = new MultiConfigurationProjectPage(getDriver())
                 .getEnableClick().getDisableElem();
 
-        Assert.assertEquals(enable.getText(),"Disable Project");
+        Assert.assertEquals(enable.getText(), "Disable Project");
     }
 
-   @Test (dependsOnMethods = "testDisableMultiConfigurationProject")
+    @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testMultiConfigurationProjectConfigureEnable() {
         MainPage mainPageName = new MainPage(getDriver());
         mainPageName.getMultiConfigPage();
@@ -199,7 +199,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .switchCheckboxEnabled()
                 .getTextEnabled();
 
-        Assert.assertEquals(configPage.getText(),"Enabled");
+        Assert.assertEquals(configPage.getText(), "Enabled");
     }
 
     @Ignore
@@ -257,6 +257,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertTrue(checkboxesVisibleClickable);
     }
+
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testMultiConfigurationProjectAddDescription1() {
         final String text = "text";
@@ -270,7 +271,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(addDescriptionText.getText(), text);
     }
 
-//    Test does not pass at my computer because a Wait is needed (Actual result was "In progress")
+    //    Test does not pass at my computer because a Wait is needed (Actual result was "In progress")
     @Ignore
     @Test
     public void testBuildNowDropDownMenuMultiConfigurationProject() {
@@ -297,13 +298,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dataProvider = "wrong character")
     public void testCreateProjectWithWrongName(String wrongCharacter) {
-        NewJobPage newJobPage = new MainPage(getDriver())
-                .clickNewItem()
-                .selectMultiConfigurationProject()
-                .enterItemName(wrongCharacter);
 
+        MainPage createPage = new MainPage(getDriver());
+        createPage.clickNewItem();
+        NewJobPage newJobPage = new NewJobPage(getDriver());
+        newJobPage.enterItemName(wrongCharacter)
+                .selectMultiConfigurationProject();
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
         Assert.assertFalse(newJobPage.isOkButtonEnabled());
+        createPage.returnToMainPage();
+
     }
 
     @Test
@@ -316,7 +320,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         WebElement nameDescription = getDriver().findElement(By.xpath("//div[@id ='description']//div"));
 
-        Assert.assertEquals(nameDescription.getText(),DESCRIPTION);
+        Assert.assertEquals(nameDescription.getText(), DESCRIPTION);
     }
 
     @Test
@@ -330,18 +334,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
 
-        WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
+        WebElement errorMessage = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
 
         Assert.assertEquals(errorMessage.getText(), expectedResult);
     }
 
-    @DataProvider(name="unsafe-character")
-    public Object [][]putUnsafeCharacterInputField() {
-        return new Object[][] {{"!"},{"@"},{"#"},{"$"},{"%"},{"^"},{"&"},{"*"},{"?"}};
+    @DataProvider(name = "unsafe-character")
+    public Object[][] putUnsafeCharacterInputField() {
+        return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}};
     }
 
     @Test(dataProvider = "unsafe-character")
-    public void testCreateMultiConfigurationProjectWithSpecialSymbols(String unsafeCharacter)  {
+    public void testCreateMultiConfigurationProjectWithSpecialSymbols(String unsafeCharacter) {
         final String expectedResult = "is an unsafe character";
 
         getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
@@ -366,9 +370,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
         getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
 
-        WebElement errorMessage  = getDriver().findElement(By.xpath("//*[@id='main-panel']/p"));
+        WebElement errorMessage = getDriver().findElement(By.xpath("//*[@id='main-panel']/p"));
 
-        Assert.assertEquals(errorMessage.getText(),ERROR_MESSAGE_EQUAL_NAME);
+        Assert.assertEquals(errorMessage.getText(), ERROR_MESSAGE_EQUAL_NAME);
     }
 
     @Test
@@ -408,17 +412,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testDisableEnableProject(){
+    public void testDisableEnableProject() {
         TestUtils.createMultiConfigurationProject(this, "DisableTestName", false);
-        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
-        String expectedString = getDriver().findElement(By.id("enable-project")).getText();
-        Assert.assertTrue(expectedString.contains("This project is currently disabled"));
 
-        WebElement enableButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        enableButton.click();
+        String checkStatusIsDisabled = new MultiConfigurationProjectPage(getDriver())
+                .getDisableClick()
+                .getDisableText();
+        Assert.assertTrue(checkStatusIsDisabled.contains("This project is currently disabled"));
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//form[@id='disable-project']/button"))
-                .isDisplayed());
+        boolean checkStatusIsEnabled = new MultiConfigurationProjectPage(getDriver())
+                .getEnableClick()
+                .isDisableButtonDisplayed();
+        Assert.assertTrue(checkStatusIsEnabled);
     }
 
     @Test
@@ -445,7 +450,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         WebElement disableMessage = getDriver().findElement(By.xpath("//*[@id='enable-project']"));
 
-        Assert.assertEquals(disableMessage.getText().substring(0,34),expectedResult);
+        Assert.assertEquals(disableMessage.getText().substring(0, 34), expectedResult);
     }
 
     @Test
@@ -505,8 +510,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test (dependsOnMethods = "testCreateMultiConfigurationProject")
-    public void testAddDescriptionInMultiConfigurationProject(){
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testAddDescriptionInMultiConfigurationProject() {
         final String textDescription = "Text Description Test";
 
         getDriver().findElement(By.id("description-link")).click();
@@ -515,11 +520,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='description']//button[@name=\"Submit\"]")).click();
 
         WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
-        Assert.assertEquals(actualDescription.getText(),textDescription);
+        Assert.assertEquals(actualDescription.getText(), textDescription);
     }
 
     @Test
-    public void addDescriptionInMultiConfigurationProjectTest(){
+    public void addDescriptionInMultiConfigurationProjectTest() {
         final String textDescription = "Text Description Test";
 
         getDriver().findElement(By.xpath("(//section[@class='empty-state-section'] )[1]//li")).click();
@@ -533,8 +538,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='description']//button[@name=\"Submit\"]")).click();
 
         WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
-        Assert.assertEquals(actualDescription.getText(),textDescription);
+        Assert.assertEquals(actualDescription.getText(), textDescription);
     }
+
     @Test
     public void testAddDescriptionToMultiConfigurationProject() {
         final String expectedDescription = "Web-application project";

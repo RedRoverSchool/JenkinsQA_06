@@ -87,6 +87,7 @@ public class NewJobPage extends BasePage {
         getOkButton().click();
         return new CreateItemErrorPage(getDriver());
     }
+
     public String getItemNameRequiredMessage() {
         return getDriver().findElement(By.id("itemname-required")).getText();
     }
@@ -100,7 +101,7 @@ public class NewJobPage extends BasePage {
     }
 
     private WebElement getItemInvalidNameMessage() {
-       return getDriver().findElement(By.id("itemname-invalid"));
+        return getDriver().findElement(By.id("itemname-invalid"));
     }
 
     public NewJobPage selectPipelineProject() {
@@ -111,4 +112,5 @@ public class NewJobPage extends BasePage {
     public String getItemNameRequiredErrorText() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
     }
+
 }

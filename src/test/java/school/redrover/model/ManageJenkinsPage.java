@@ -60,6 +60,13 @@ public class ManageJenkinsPage extends MainPage {
         return new NewJobPage(getDriver());
     }
 
+    public ConfigureGlobalSecurityPage clickConfigureGlobalSecurity() {
+        getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
+
+        return new ConfigureGlobalSecurityPage(getDriver());
+    }
+
     public ManageNodesPage clickManageNodes() {
         getWait2().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='/computer/']"))).click();
