@@ -4,8 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BasePage;
+import school.redrover.model.base.Header;
 
-public class FreestyleProjectConfigPage extends BasePage {
+public class FreestyleProjectConfigPage extends Header {
 
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);

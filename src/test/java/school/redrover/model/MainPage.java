@@ -393,5 +393,21 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    public WebElement getMainPanel() {
+        return getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("main-panel")));
+    }
 
+    public WebElement getProjectStatusTable() {
+        return getMainPanel().findElement(By.id("projectstatus"));
+    }
+
+    public List<WebElement> getProjectsList() {
+        return getProjectStatusTable().findElements(By.xpath("./tbody/tr"));
+    }
+
+    public String getOnlyProjectName() {
+        return getProjectsList().get(0)
+                .findElements(By.xpath("./td")).get(2)
+                .getText();
+    }
 }

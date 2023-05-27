@@ -11,7 +11,10 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertEquals;
@@ -46,38 +49,18 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testNewFreestyleProjectCreated() {
-        final String PROJECT_NAME = "Project1";
+    public void testCreateFSProjectWithDefaultConfigurations() {
+        final String PROJECT_NAME = UUID.randomUUID().toString();
 
-        WebElement createAJobArrow = getDriver().findElement(
-                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']"));
-        createAJobArrow.click();
+        MainPage mainPage = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .enterItemName(PROJECT_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickLogo();
 
-        WebElement inputItemName = getDriver().findElement(By.id("name"));
-        getWait2().until(ExpectedConditions.elementToBeClickable(inputItemName))
-                .sendKeys(PROJECT_NAME);
-
-        WebElement freestyleProjectTab = getDriver().findElement(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"));
-        freestyleProjectTab.click();
-
-        WebElement okButton = getDriver().findElement(By.className("btn-decorator"));
-        okButton.click();
-
-        WebElement dashboardLink = getDriver().findElement(
-                By.xpath("//ol[@id='breadcrumbs']/li/a[text() = 'Dashboard']"));
-        dashboardLink.click();
-
-        Assert.assertTrue(getDriver().findElement(By.id("projectstatus")).isDisplayed());
-
-        List<WebElement> newProjectsList = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr"));
-
-        Assert.assertEquals(newProjectsList.size(), 1);
-
-        List<WebElement> projectDetailsList = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']/tbody/tr/td"));
-
-        Assert.assertEquals(projectDetailsList.get(2).getText(), PROJECT_NAME);
+        Assert.assertTrue(mainPage.getProjectStatusTable().isDisplayed());
+        Assert.assertEquals(mainPage.getProjectsList().size(), 1);
+        Assert.assertEquals(mainPage.getOnlyProjectName(), PROJECT_NAME);
     }
 
     @Test
