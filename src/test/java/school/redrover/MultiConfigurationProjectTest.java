@@ -414,15 +414,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test
     public void testDisableEnableProject() {
         TestUtils.createMultiConfigurationProject(this, "DisableTestName", false);
-        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
-        String expectedString = getDriver().findElement(By.id("enable-project")).getText();
-        Assert.assertTrue(expectedString.contains("This project is currently disabled"));
 
-        WebElement enableButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        enableButton.click();
+        String checkStatusIsDisabled = new MultiConfigurationProjectPage(getDriver())
+                .getDisableClick()
+                .getDisableText();
+        Assert.assertTrue(checkStatusIsDisabled.contains("This project is currently disabled"));
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//form[@id='disable-project']/button"))
-                .isDisplayed());
+        boolean checkStatusIsEnabled = new MultiConfigurationProjectPage(getDriver())
+                .getEnableClick()
+                .isDisableButtonDisplayed();
+        Assert.assertTrue(checkStatusIsEnabled);
     }
 
     @Test
