@@ -14,6 +14,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.FolderPage;
+import school.redrover.model.MainPage;
 import school.redrover.model.NewJobPage;
 import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
@@ -759,7 +760,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreatedPipelineIsDisplayedOnDashboard")
-    public void testCreatePipelineWithTheSameName() throws InterruptedException {
+    public void testCreatePipelineWithTheSameName() {
         final String expectedErrorMessage = "A job already exists with the name ‘" + PIPELINE_NAME + "’";
 
         String actualErrorMessage = new PipelinePage(getDriver()).clickDashboard()

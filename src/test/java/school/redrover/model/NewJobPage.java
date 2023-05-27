@@ -86,7 +86,7 @@ public class NewJobPage extends BasePage {
         return getDriver().findElement(By.id("itemname-required")).getText();
     }
 
-    private WebElement getOkButton() {
+    public WebElement getOkButton() {
         return getDriver().findElement(By.xpath("//button[@id='ok-button']"));
     }
 
@@ -101,5 +101,9 @@ public class NewJobPage extends BasePage {
     public NewJobPage selectPipelineProject() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Pipeline']"))).click();
         return new NewJobPage(getDriver());
+    }
+
+    public String getItemNameRequiredErrorText() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
     }
 }

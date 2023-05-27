@@ -121,25 +121,23 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testErrorWhenCreatingFreeStyleProjectWithEmptyName() {
-        final String EXPECTED_ERROR = "» This field cannot be empty, please enter a valid name";
+    public void testEmptyNameError() {
+        final String expectedError = "» This field cannot be empty, please enter a valid name";
 
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
+        String actualError = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .selectFreestyleProject()
+                .getItemNameRequiredErrorText();
 
-        String actualError = getDriver().findElement(By.id("itemname-required")).getText();
-
-        Assert.assertEquals(actualError, EXPECTED_ERROR);
+        Assert.assertEquals(actualError, expectedError);
     }
 
     @Test
-    public void testOKButtonIsDisabledWhenCreatingFreestyleProjectWithEmptyName() {
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//ul[@class = 'j-item-options']/li[@tabindex='0']"))).click();
-
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
+    public void testOKButtonIsDisabledWhenEmptyName() {
+       WebElement okButton = new MainPage(getDriver())
+               .clickCreateAJobArrow()
+               .selectFreestyleProject()
+               .getOkButton();
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }

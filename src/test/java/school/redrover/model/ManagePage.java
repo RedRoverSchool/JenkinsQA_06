@@ -84,7 +84,7 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public boolean assertUserCreated() {
+    public boolean findUserCreated() {
         List<WebElement> userList = getDriver().findElements(By.id("people"));
 
         for (WebElement user : userList) {
@@ -114,7 +114,7 @@ public class ManagePage extends BasePage {
         return this;
     }
 
-    public boolean assertUserDeleted() {
+    public boolean getUserDeleted() {
         List<WebElement> userList = getDriver().findElements(By.id("people"));
 
         for (WebElement user : userList) {
