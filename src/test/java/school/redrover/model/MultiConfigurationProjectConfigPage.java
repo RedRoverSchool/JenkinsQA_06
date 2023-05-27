@@ -26,4 +26,10 @@ public class MultiConfigurationProjectConfigPage extends BasePage {
                 .findElement(By.cssSelector("[name='Submit']")))).click();
         return new ProjectPage(getDriver());
     }
+
+    public MultiConfigurationProjectPage saveConfigurePageAndGoToConfigPage(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.cssSelector("[name='Submit']")))).click();
+        return new MultiConfigurationProjectPage(getDriver());
+    }
 }
