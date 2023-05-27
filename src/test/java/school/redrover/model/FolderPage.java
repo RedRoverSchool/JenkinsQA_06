@@ -120,4 +120,8 @@ public class FolderPage extends BasePage {
         createAJob.click();
         return new NewJobPage(getDriver());
     }
+
+    public boolean nestedFolderIsVisibleAndClickable(String nestedFolder) {
+        return getNestedFolder(nestedFolder).isDisplayed() && getNestedFolder(nestedFolder).isEnabled();
+    }
 }

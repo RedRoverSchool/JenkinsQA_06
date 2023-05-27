@@ -64,9 +64,11 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
+
         final String folderName = "TestFolder";
         final String organizationFolderName = "TestOrgFolder";
-        WebElement movedOrgFolder = new MainPage(getDriver())
+
+        boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderName)
                 .selectFolderAndOk()
@@ -80,9 +82,8 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickMoveButtonOnOrgPage()
                 .clickDashboard()
                 .clickFolderName(folderName)
-                .getNestedFolder(organizationFolderName);
+                .nestedFolderIsVisibleAndClickable(organizationFolderName);
 
-        Assert.assertTrue(movedOrgFolder.isDisplayed());
-        Assert.assertTrue(movedOrgFolder.isEnabled());
+        Assert.assertTrue(movedOrgFolderVisibleAndClickable);
     }
 }
