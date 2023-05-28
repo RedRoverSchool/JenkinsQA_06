@@ -16,4 +16,8 @@ public class ErrorNodePage extends MainPage {
         String textError = getDriver().findElement(By.xpath("//p")).getText();
         return textError;
     }
+
+    public String getErrorEqualName(){
+        return getDriver().findElement(By.xpath("//*[@id='main-panel']/p")).getText();
+    }
 }
