@@ -290,6 +290,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .selectMultiConfigurationProject()
                 .enterItemName(wrongCharacter);
+
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
         Assert.assertFalse(newJobPage.isOkButtonEnabled());
     }
