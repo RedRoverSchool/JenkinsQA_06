@@ -107,4 +107,8 @@ public class PipelinePage extends BaseModel {
         getDriver().findElement(By.name("Submit")).click();
         return this;
     }
+
+    public String getDescriptionText(){
+        return getDescription().getText();
+    }
 }
