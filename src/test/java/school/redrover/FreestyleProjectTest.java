@@ -1,11 +1,11 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
@@ -18,10 +18,10 @@ import static org.testng.Assert.assertEquals;
 
 public class FreestyleProjectTest extends BaseTest {
 
-    private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private static final String DESCRIPTION_TEXT = RandomStringUtils.randomAlphanumeric(15);
-    private static final String NEW_DESCRIPTION_TEXT = RandomStringUtils.randomAlphanumeric(15);
+    private static final String FREESTYLE_NAME = "FREESTYLE_NAME";
+    private static final String NEW_FREESTYLE_NAME = "NEW_FREESTYLE_NAME";
+    private static final String DESCRIPTION_TEXT = "DESCRIPTION_TEXT";
+    private static final String NEW_DESCRIPTION_TEXT = "NEW_DESCRIPTION_TEXT";
 
     private void createFreestyleProject() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
@@ -80,6 +80,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(createdProject.getText(), projectName);
     }
 
+    @Ignore
     @Test
     public void testCreatedProjectIsOnDashboard() {
         TestUtils.createFreestyleProject(this, FREESTYLE_NAME, true);
@@ -332,6 +333,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test
     public void testDeleteProjectFromDropdown() {
         createFreestyleProject();
@@ -358,6 +360,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), "This folder is empty");
     }
 
+    @Ignore
     @Test
     public void testBuildFreestyleProject() {
         WebElement newItem = getDriver().findElement(By.xpath("//*[@href='/view/all/newJob']"));

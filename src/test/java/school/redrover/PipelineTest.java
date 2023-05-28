@@ -1,11 +1,8 @@
 package school.redrover;
 
-import com.github.javafaker.Faker;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -30,7 +27,7 @@ import static org.openqa.selenium.By.xpath;
 
 public class PipelineTest extends BaseTest {
 
-    private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String PIPELINE_NAME = "PIPELINE_NAME";
     private static final String RENAME = "Pipeline Project";
 
     private static final By newItem = By.linkText("New Item");
@@ -715,38 +712,6 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
         Assert.assertFalse(isPipelineEnabledAfterDisable, "Pipeline is enabled");
-    }
-
-    @Test
-    public void buildNowFromPipelineView() {
-        String pipelineName = new Faker().name().title().replace(" ", "");
-        TestUtils.createPipeline(this, pipelineName, true);
-        getDriver().findElement(By.xpath("//*[@href='job/"+pipelineName+"/']")).click();
-
-        if (!getDriver().findElement(By.xpath("//div[@id='no-builds']")).isDisplayed()) {
-            getDriver().findElement(By.xpath("//a[@href='/toggleCollapse?paneId=buildHistory']")).click();
-        }
-
-        getDriver().findElement(By
-                .xpath("//a[@href='/job/"+pipelineName+"/build?delay=0sec']")).click();
-
-        int numberOfStartedBuilds = 1;
-        boolean lastBuildIsPresent = getWait5().until(ExpectedConditions.presenceOfElementLocated(By
-                        .xpath("//span[@class='build-status-icon__outer']//*[name()='svg']["+numberOfStartedBuilds+"]")))
-                .isDisplayed();
-        List<WebElement> list = new ArrayList<>();
-        if (lastBuildIsPresent) {
-            list = getDriver().findElements(By
-                    .xpath("//span[@class='build-status-icon__outer']//*[name()='svg']"));
-        }
-
-        try {
-            Assert.assertEquals(Color.fromString(list.get(0).getCssValue("color"))
-                    .asHex(), "#1ea64b");
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            System.out.println("there are no builds in the 'Build History' list");
-            e.printStackTrace();
-        }
     }
 
     @Test

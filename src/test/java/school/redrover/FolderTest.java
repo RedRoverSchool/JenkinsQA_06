@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -249,7 +248,7 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testMoveFolderToFolder(){
-        final String folderOne = RandomStringUtils.randomAlphanumeric(9);
+        final String folderOne = "folderOne";
         final String folderTwo = folderOne + "Two";
 
         TestUtils.createFolder(this, folderOne, true);
@@ -300,8 +299,8 @@ public class FolderTest extends BaseTest {
     }
     @Test
     public void testCreatePipelineProjectWithoutDescriptionInFolder() {
-        final String folderName = RandomStringUtils.randomAlphanumeric(8);
-        final String pipelineName = RandomStringUtils.randomAlphanumeric(8);
+        final String folderName = "folderName";
+        final String pipelineName = "pipelineName";
         boolean isPipelinePresent = false;
 
         TestUtils.createFolder(this, folderName, false);

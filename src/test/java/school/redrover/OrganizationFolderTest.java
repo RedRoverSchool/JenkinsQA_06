@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -41,7 +40,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizationFolderInFolder() {
-        final String nameFolder = RandomStringUtils.randomAlphanumeric(8);
+        final String nameFolder = "nameFolder";
         final String nameOrganizationFolder = nameFolder + "Organization";
 
         WebElement createdOrganizationFolder = new MainPage(getDriver())

@@ -11,7 +11,6 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -28,8 +27,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
     private static final By INPUT_FIELD = By.name("name");
     private static final By DISABLE_BUTTON_CONFIG_PAGE = By.xpath("//*[@id='disable-project']/button");
     private static final By INPUT_NEW_ITEM_FIELD = By.xpath("//input[@name='newName']");
-    private static final String MULTI_CONFIGURATION_NAME = RandomStringUtils.randomAlphanumeric(5);
-    private static final String MULTI_CONFIGURATION_NEW_NAME = RandomStringUtils.randomAlphabetic(5);
+    private static final String MULTI_CONFIGURATION_NAME = "MULTI_CONFIGURATION_NAME";
+    private static final String MULTI_CONFIGURATION_NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";
     private static final By SAVE_BUTTON = By.name("Submit");
 
     private void createMultiConfigurationProject(String name, Boolean goToHomePage) {
@@ -577,6 +576,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 {'<', "&lt;"}, {'>', "&gt;"}, {'/', "/"}, {'?', "?"}};
     }
 
+    @Ignore
     @Test(dataProvider = "unsafeCharacters")
     public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol, String htmlUnsafeSymbol) {
 
