@@ -87,4 +87,24 @@ public class PipelinePage extends BaseModel {
     public WebElement getDescription() {
        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#description > div")));
     }
+
+    public PipelinePage clickEditDescription() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='description-link']"))).click();
+        return this;
+    }
+
+    public PipelinePage clearDescriptionField() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).clear();
+        return this;
+    }
+
+    public PipelinePage enterNewDescription(String newName) {
+        getDriver().findElement(By.name("description")).sendKeys(newName);
+        return this;
+    }
+
+    public PipelinePage clickSaveButton() {
+        getDriver().findElement(By.name("Submit")).click();
+        return this;
+    }
 }

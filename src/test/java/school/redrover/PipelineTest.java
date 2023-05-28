@@ -38,7 +38,6 @@ public class PipelineTest extends BaseTest {
     private static final By pipelineItem = By.xpath("//span[text() = 'Pipeline']");
     private static final By okButton = By.id("ok-button");
     private static final By saveButton = By.xpath("//button[contains(@class,'jenkins-button jenkins-button--primary')]");
-    private static final By textAreaDescription = By.xpath("//textarea[@name='description']");
     private static final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
     private static final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
@@ -92,7 +91,7 @@ public class PipelineTest extends BaseTest {
     public void testCreatePipelineWithDescription() {
         final String textDescription = "description text";
 
-        String jobtextDescription = new MainPage(getDriver())
+        String jobDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
@@ -101,29 +100,30 @@ public class PipelineTest extends BaseTest {
                 .getDescription()
                 .getText();
 
-        Assert.assertEquals(jobtextDescription, textDescription);
+        Assert.assertEquals(jobDescription, textDescription);
     }
 
     @Test
     public void testEditPipelineDescription() {
-        String pipelineDescriptionText = "description text";
-        String pipelineDescriptionTextEdited = "Edited description text";
-        getDriver().findElement(newItem).click();
-        getWait(1).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
-        getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionText);
-        getDriver().findElement(saveButton).click();
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-        getDriver().findElement(By.xpath("//span[text() = '" + PIPELINE_NAME + "']")).click();
-        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
-        getDriver().findElement(textAreaDescription).clear();
-        getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionTextEdited);
-        getDriver().findElement(saveButton).click();
+        final String description = "description text";
+        final String newDescription = "Edited description text";
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]")).getText(), pipelineDescriptionTextEdited);
+        String jobDescription = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .enterDescription(description)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickEditDescription()
+                .clearDescriptionField()
+                .enterNewDescription(newDescription)
+                .clickSaveButton()
+                .getDescription()
+                .getText();
+
+        Assert.assertEquals(jobDescription, newDescription);
     }
 
     @Test
