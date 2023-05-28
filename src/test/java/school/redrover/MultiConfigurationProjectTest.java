@@ -285,16 +285,13 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dataProvider = "wrong character")
     public void testCreateProjectWithWrongName(String wrongCharacter) {
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .selectMultiConfigurationProject()
+                .enterItemName(wrongCharacter);
 
-        MainPage createPage = new MainPage(getDriver());
-        createPage.clickNewItem();
-        NewJobPage newJobPage = new NewJobPage(getDriver());
-        newJobPage.enterItemName(wrongCharacter)
-                .selectMultiConfigurationProject();
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
         Assert.assertFalse(newJobPage.isOkButtonEnabled());
-        createPage.returnToMainPage();
-
     }
 
     @Test
