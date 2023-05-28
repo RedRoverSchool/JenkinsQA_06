@@ -31,16 +31,14 @@ import static org.openqa.selenium.By.xpath;
 public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private static final String rename = "Pipeline Project";
+    private static final String RENAME = "Pipeline Project";
 
     private static final By newItem = By.linkText("New Item");
     private static final By name = By.id("name");
     private static final By pipelineItem = By.xpath("//span[text() = 'Pipeline']");
     private static final By okButton = By.id("ok-button");
     private static final By saveButton = By.xpath("//button[contains(@class,'jenkins-button jenkins-button--primary')]");
-    private static final By jenkinsIconHeader = By.id("jenkins-name-icon");
     private static final By textAreaDescription = By.xpath("//textarea[@name='description']");
-    private static final By pipelineDescription = By.xpath("//div[@id = 'description']/div[1]");
     private static final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
     private static final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
@@ -77,31 +75,33 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreatedPipelineIsDisplayedOnDashboard() {
-        getDriver().findElement(newItem).click();
-        getWait(1).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(saveButton)).click();
-        getDriver().findElement(jenkinsIconHeader).click();
+    public void testCreatePipeline() {
+        String projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .getProjectName()
+                .getText();
 
-        String actualResult = getDriver().findElement(By.xpath("//tr[@id = 'job_" + PIPELINE_NAME + "']//a[@href='job/" + PIPELINE_NAME + "/']")).getText();
-
-        Assert.assertEquals(actualResult, PIPELINE_NAME);
+        Assert.assertEquals(projectName, PIPELINE_NAME);
     }
 
     @Test
     public void testCreatePipelineWithDescription() {
-        String pipelineDescriptionText = "description text";
-        getDriver().findElement(newItem).click();
-        getWait(1).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
-        getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionText);
-        getDriver().findElement(saveButton).click();
+        final String textDescription = "description text";
 
-        Assert.assertEquals(getDriver().findElement(pipelineDescription).getText(), pipelineDescriptionText);
+        String jobtextDescription = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .enterDescription(textDescription)
+                .clickSaveButton()
+                .getDescription()
+                .getText();
+
+        Assert.assertEquals(jobtextDescription, textDescription);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class PipelineTest extends BaseTest {
         getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
         getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionText);
         getDriver().findElement(saveButton).click();
-        getDriver().findElement(jenkinsIconHeader).click();
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
         getDriver().findElement(By.xpath("//span[text() = '" + PIPELINE_NAME + "']")).click();
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
         getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
@@ -123,7 +123,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionTextEdited);
         getDriver().findElement(saveButton).click();
 
-        Assert.assertEquals(getDriver().findElement(pipelineDescription).getText(), pipelineDescriptionTextEdited);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]")).getText(), pipelineDescriptionTextEdited);
     }
 
     @Test
@@ -157,19 +157,6 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector(".console-output")).getText().contains("Finished: SUCCESS"));
     }
-
-    @Test
-    public void testCreatePipeline() {
-        WebElement projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
-                .clickSaveButton()
-                .clickDashboard().getProjectName();
-
-        Assert.assertEquals(projectName.getText(), PIPELINE_NAME);
-    }
-
 
     @Test
     public void testAddingDescriptionToPipeline() {
@@ -517,12 +504,12 @@ public class PipelineTest extends BaseTest {
         FolderPage folderPage = new MainPage(getDriver())
                 .clickJobDropDownMenu(PIPELINE_NAME.replaceAll(" ", "%20"))
                 .clickRenameInDropDownMenu()
-                .setNewName(rename)
+                .setNewName(RENAME)
                 .clickRenameButton();
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(), "Pipeline " + rename);
+        Assert.assertEquals(folderPage.getFolderDisplayName(), "Pipeline " + RENAME);
         Assert.assertEquals(folderPage.clickDashboard()
-                .getJobWebElement(rename).getText(), rename);
+                .getJobWebElement(RENAME).getText(), RENAME);
     }
 
     @Test
@@ -762,18 +749,21 @@ public class PipelineTest extends BaseTest {
         }
     }
 
-    @Test(dependsOnMethods = "testCreatedPipelineIsDisplayedOnDashboard")
+    @Test
     public void testCreatePipelineWithTheSameName() {
-        final String expectedErrorMessage = "A job already exists with the name ‘" + PIPELINE_NAME + "’";
-
-        String actualErrorMessage = new PipelinePage(getDriver()).clickDashboard()
+        String actualErrorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineProject()
                 .clickOkToCreateWithExistingName()
                 .getErrorMessage();
 
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertEquals(actualErrorMessage, "A job already exists with the name ‘" + PIPELINE_NAME + "’");
     }
 
     @Test
@@ -799,11 +789,11 @@ public class PipelineTest extends BaseTest {
         PipelinePage pipelinePage = new PipelinePage(getDriver())
                 .clickConfigureButton()
                 .scrollAndClickAdvancedButton()
-                .setDisplayName(rename)
+                .setDisplayName(RENAME)
                 .clickSaveButton();
 
-        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + rename);
+        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + RENAME);
         Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), PIPELINE_NAME);
-        Assert.assertEquals(pipelinePage.clickDashboard().getProjectName().getText(), rename);
+        Assert.assertEquals(pipelinePage.clickDashboard().getProjectName().getText(), RENAME);
     }
 }

@@ -31,4 +31,9 @@ public class PipelineConfigPage extends BaseModel {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='_.displayNameOrNull']"))).sendKeys(displayName);
         return this;
     }
+
+    public PipelineConfigPage enterDescription(String description) {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).sendKeys(description);
+        return this;
+    }
 }

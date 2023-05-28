@@ -83,4 +83,8 @@ public class PipelinePage extends BaseModel {
         String subStr = projectName.substring(projectName.indexOf(':') + 2);
         return subStr.substring(0, subStr.indexOf("Add")).trim();
     }
+
+    public WebElement getDescription() {
+       return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#description > div")));
+    }
 }
