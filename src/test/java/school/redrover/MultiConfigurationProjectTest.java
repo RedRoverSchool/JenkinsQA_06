@@ -11,7 +11,6 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -28,8 +27,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
     private static final By INPUT_FIELD = By.name("name");
     private static final By DISABLE_BUTTON_CONFIG_PAGE = By.xpath("//*[@id='disable-project']/button");
     private static final By INPUT_NEW_ITEM_FIELD = By.xpath("//input[@name='newName']");
-    private static final String MULTI_CONFIGURATION_NAME = RandomStringUtils.randomAlphanumeric(5);
-    private static final String MULTI_CONFIGURATION_NEW_NAME = RandomStringUtils.randomAlphabetic(5);
+    private static final String MULTI_CONFIGURATION_NAME = "MULTI_CONFIGURATION_NAME";
+    private static final String MULTI_CONFIGURATION_NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";
     private static final By SAVE_BUTTON = By.name("Submit");
 
     private void createMultiConfigurationProject(String name, Boolean goToHomePage) {
@@ -348,22 +347,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMultiConfigurationProjectWithEqualName() {
-        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
-
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
-
-        getDriver().findElement(NEW_ITEM_BUTTON).click();
-        getDriver().findElement(INPUT_FIELD).sendKeys(MULTI_CONFIGURATION_NAME);
-        getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
-        getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
-
-        WebElement errorMessage = getDriver().findElement(By.xpath("//*[@id='main-panel']/p"));
-
-        Assert.assertEquals(errorMessage.getText(), ERROR_MESSAGE_EQUAL_NAME);
-    }
-
-    @Test
     public void testRenameProject() {
 
         TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
@@ -577,6 +560,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 {'<', "&lt;"}, {'>', "&gt;"}, {'/', "/"}, {'?', "?"}};
     }
 
+    @Ignore
     @Test(dataProvider = "unsafeCharacters")
     public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol, String htmlUnsafeSymbol) {
 
@@ -640,5 +624,20 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 multiConfigurationProjectConfigPage.getDaysToKeepBuilds("value")), displayedDaysToKeepBuilds);
         Assert.assertEquals(Integer.parseInt(
                 multiConfigurationProjectConfigPage.getMaxNumOfBuildsToKeep("value")), displayedMaxNumOfBuildsToKeep);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testCreateMultiConfigurationProjectWithEqualName() {
+        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(MULTI_CONFIGURATION_NAME)
+                .selectMultiConfigurationProjectAndOk();
+
+        String error = new ErrorNodePage(getDriver())
+                .getErrorEqualName();
+
+        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
 }

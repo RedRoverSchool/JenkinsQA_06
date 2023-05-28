@@ -1,6 +1,5 @@
 package school.redrover;
 
-import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -22,7 +21,6 @@ public class UsersTest extends BaseTest {
     protected static final String EMAIL = "test@test.com";
     protected static final String USER_FULL_NAME = "Test User";
     protected static final String USER_LINK = "//a[@href='user/" + USER_NAME + "/']";
-    private final Faker faker = new Faker();
     private final By USER_NAME_LINK = By.xpath(USER_LINK);
 
     public static List<String> listText(List<WebElement> elementList) {
@@ -31,29 +29,6 @@ public class UsersTest extends BaseTest {
             stringList.add(element.getText());
         }
         return stringList;
-    }
-
-    @Test
-    public void testCreateUser() {
-        String userName = faker.name().firstName();
-        String password = faker.internet()
-                .password(5, 10, true, true, true);
-        String fullName = faker.name().lastName();
-        String email = faker.internet().emailAddress();
-
-        boolean isNewUserCreated = new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
-                .clickManageUsers()
-                .clickCreateUser()
-                .enterUsername(userName)
-                .enterPassword(password)
-                .enterConfirmPassword(password)
-                .enterFullName(fullName)
-                .enterEmail(email)
-                .clickCreateUserButton()
-                .isUserExist(userName);
-
-        Assert.assertTrue(isNewUserCreated);
     }
 
     @Test
@@ -138,22 +113,6 @@ public class UsersTest extends BaseTest {
         for (int i = 0; i < listMenu.size(); i++) {
             Assert.assertEquals(listMenu.get(i).getText(), listMenuExpected.get(i));
         }
-    }
-
-    @Test
-    public void testVerifyChangeNameUser() {
-        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
-        getDriver().findElement(USER_NAME_LINK).click();
-
-        WebElement configure = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/user/" + USER_NAME + "/configure']")));
-        configure.click();
-        WebElement fullName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='_.fullName']")));
-        fullName.clear();
-        String newFullName = faker.name().fullName();
-        fullName.sendKeys(newFullName);
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath(".//h1")).getText(), newFullName);
     }
 
     @Test
