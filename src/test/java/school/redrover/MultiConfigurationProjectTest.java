@@ -612,4 +612,33 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(descriptionOnProjectPage, description);
     }
+
+    @Test
+    public void testConfigureOldBuildForMultiConfigurationProject() {
+        final String multiConfProjectName = "New project";
+        final int displayedDaysToKeepBuilds = 5;
+        final int displayedMaxNumOfBuildsToKeep = 7;
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(multiConfProjectName)
+                .selectMultiConfigurationProjectAndOk()
+                .saveConfigurePageAndGoToConfigPage()
+                .clickConfigureSideMenu();
+
+        MultiConfigurationProjectConfigPage multiConfigurationProjectConfigPage =
+                new MultiConfigurationProjectConfigPage(getDriver());
+
+        multiConfigurationProjectConfigPage
+                .clickOldBuildCheckBox()
+                .enterDaysToKeepBuilds(displayedDaysToKeepBuilds)
+                .enterMaxNumOfBuildsToKeep(displayedMaxNumOfBuildsToKeep)
+                .saveConfigurePageAndGoToConfigPage()
+                .clickConfigureSideMenu();
+
+        Assert.assertEquals(Integer.parseInt(
+                multiConfigurationProjectConfigPage.getDaysToKeepBuilds("value")), displayedDaysToKeepBuilds);
+        Assert.assertEquals(Integer.parseInt(
+                multiConfigurationProjectConfigPage.getMaxNumOfBuildsToKeep("value")), displayedMaxNumOfBuildsToKeep);
+    }
 }
