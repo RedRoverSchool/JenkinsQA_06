@@ -20,7 +20,7 @@ public abstract class BaseModel {
         this.driver = driver;
     }
 
-    protected WebDriver getDriver() {
+    public WebDriver getDriver() {
         return driver;
     }
 

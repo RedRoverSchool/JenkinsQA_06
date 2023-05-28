@@ -5,6 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
@@ -190,11 +191,6 @@ public class MainPage extends BaseModel {
         return new NewJobPage(getDriver());
     }
 
-    public MovePage selectMoveFromDropDownMenu() {
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
-        return new MovePage(getDriver());
-    }
-
     public MainPage getMultiConfigPage() {
         getWait10().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".jenkins-table__link")))).click();
@@ -225,10 +221,10 @@ public class MainPage extends BaseModel {
         return new RenameProjectPage(getDriver());
     }
 
-    public MovePage selectMoveJobDropDownMenu(String jobName) {
+    public <JobTypePage extends BasePage<?>> MovePage<JobTypePage> selectMoveJobDropDownMenu(String jobName, JobTypePage jobTypePage) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
-        return new MovePage(getDriver());
+        return new MovePage<>(jobTypePage);
     }
 
     public MyViewsPage clickMyViewsSideMenuLink() {
