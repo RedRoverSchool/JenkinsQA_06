@@ -4,13 +4,13 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
 import java.util.List;
 
-public class MainPage extends BaseModel {
+public class MainPage extends BaseMainHeaderPage {
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -433,5 +433,14 @@ public class MainPage extends BaseModel {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
         getDriver().findElement(sectionNameLocator).click();
         return new ManageJenkinsPage(getDriver());
+    }
+
+    public boolean isPopUpNotificationScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list"))).isDisplayed();
+    }
+
+    public boolean isPopUpAdminScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed();
     }
 }

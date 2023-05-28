@@ -17,4 +17,15 @@ public class MainHeaderComponent extends BaseHeaderComponent {
 
         return new MainPage(getDriver());
     }
+
+    public MainPage clickNotificationIcon() {
+        getDriver().findElement(By.id("visible-am-button")).click();
+        return new MainPage(getDriver());
+    }
+
+    public MainPage clickAdminIcon() {
+        getDriver().findElement(By.xpath("//a[@href='/user/admin']")).click();
+        return new MainPage(getDriver());
+    }
+
 }
