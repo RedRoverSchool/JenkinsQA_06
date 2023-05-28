@@ -1,6 +1,7 @@
 package school.redrover.runner;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -66,5 +67,51 @@ public class TestUtils {
             texts.add(element.getText());
         }
         return texts;
+    }
+
+    public static void click(BaseTest baseTest, WebElement element) {
+        waitElementToBeVisible(baseTest, element);
+        waitElementToBeClickable(baseTest, element).click();
+    }
+
+    protected static void clear(BaseTest baseTest, WebElement element) {
+        waitElementToBeClickable(baseTest, element).clear();
+    }
+
+    protected static void input(BaseTest baseTest, String text, WebElement element) {
+        click(baseTest, element);
+        element.sendKeys(text);
+    }
+
+    public static void sendTextToInput(BaseTest baseTest, WebElement element, String text) {
+        click(baseTest, element);
+        clear(baseTest, element);
+        input(baseTest, text, element);
+    }
+
+    protected static WebElement waitElementToBeClickable(BaseTest baseTest, WebElement element) {
+
+        return baseTest.getWait5().until(ExpectedConditions.elementToBeClickable(element));
+    }
+
+    protected static void waitElementToBeVisible(BaseTest baseTest, WebElement element) {
+        baseTest.getWait5().until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public static String getText(BaseTest baseTest, WebElement element) {
+        if (!element.getText().isEmpty()) {
+            waitElementToBeVisible(baseTest, element);
+        }
+        return element.getText();
+    }
+
+    public static void scrollToElementByJavaScript(BaseTest baseTest, WebElement element) {
+        JavascriptExecutor jsc = (JavascriptExecutor) baseTest.getDriver();
+        jsc.executeScript("arguments[0].scrollIntoView();", waitElementToBeClickable(baseTest, element));
+    }
+
+    public static void clickByJavaScript(BaseTest baseTest, WebElement element) {
+        JavascriptExecutor executor = (JavascriptExecutor) baseTest.getDriver();
+        executor.executeScript("arguments[0].click();", element);
     }
 }

@@ -630,9 +630,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 new MultiConfigurationProjectConfigPage(getDriver());
 
         multiConfigurationProjectConfigPage
-                .clickOldBuildCheckBox()
-                .enterDaysToKeepBuilds(displayedDaysToKeepBuilds)
-                .enterMaxNumOfBuildsToKeep(displayedMaxNumOfBuildsToKeep)
+                .clickOldBuildCheckBox(this)
+                .enterDaysToKeepBuilds(this, displayedDaysToKeepBuilds)
+                .enterMaxNumOfBuildsToKeep(this, displayedMaxNumOfBuildsToKeep)
                 .saveConfigurePageAndGoToConfigPage()
                 .clickConfigureSideMenu();
 

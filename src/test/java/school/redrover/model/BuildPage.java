@@ -4,6 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BasePage;
+import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class BuildPage extends BaseModel {
 
@@ -23,13 +26,13 @@ public class BuildPage extends BaseModel {
         return getDriver().findElement(By.xpath("//h1"));
     }
 
-    public String getStatusMessageText() {
+    public String getStatusMessageText(BaseTest baseTest) {
 
-        return getText(getStatusOfBuild());
+        return TestUtils.getText(baseTest, getStatusOfBuild());
     }
 
-    public BuildPage scrollToIconElement() {
-        scrollToElementByJavaScript(getBuildHistoryTitle());
+    public BuildPage scrollToIconElement(BaseTest baseTest) {
+        TestUtils.scrollToElementByJavaScript(baseTest, getBuildHistoryTitle());
         return new BuildPage(getDriver());
     }
 }

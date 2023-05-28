@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseModel;
+import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class FolderPage extends BaseModel {
 
@@ -89,17 +91,17 @@ public class FolderPage extends BaseModel {
                 (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
     }
 
-    public String getFolderDisplayName() {
-        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+    public String getFolderDisplayName(BaseTest baseTest) {
+        return TestUtils.getText(baseTest, getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='main-panel']/h1"))));
     }
 
-    public String getFolderName() {
-        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+    public String getFolderName(BaseTest baseTest) {
+        return TestUtils.getText(baseTest, getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))));
     }
-    public String getFolderDescription() {
-        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
+    public String getFolderDescription(BaseTest baseTest) {
+        return TestUtils.getText(baseTest, getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
     }
 
     public FolderConfigPage clickConfigureSideMenu() {

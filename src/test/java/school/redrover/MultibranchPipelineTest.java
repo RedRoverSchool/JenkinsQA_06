@@ -74,12 +74,12 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testCreateMultiPipeline() {
         final String nameMultiPipeline = "Multi";
         new MainPage(getDriver())
-                .clickNewItemButton()
-                .inputAnItemName(nameMultiPipeline)
-                .clickMultiBranchPipeline()
-                .clickSaveButton()
-                .clickSaveButton()
-                .clickDashBoardButton();
+                .clickNewItemButton(this)
+                .inputAnItemName(this, nameMultiPipeline)
+                .clickMultiBranchPipeline(this)
+                .clickSaveButton(this)
+                .clickSaveButton(this)
+                .clickDashBoardButton(this);
 
         String actualMultiBranchName = getDriver().findElement(By.xpath("//a[@href = 'job/Multi/']")).getText();
 

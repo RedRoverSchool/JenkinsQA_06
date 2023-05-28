@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseModel;
+import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +22,19 @@ public class ViewPage extends BaseModel {
         return getDriver().findElements(By.xpath("//tbody/tr/td/a/span"));
     }
 
-    public ViewPage inputAnItemName(String text) {
+    public ViewPage inputAnItemName(BaseTest baseTest, String text) {
 
-        sendTextToInput(getDriver().findElement(By.xpath("//input[@id = 'name']")), text);
+        TestUtils.sendTextToInput(baseTest, getDriver().findElement(By.xpath("//input[@id = 'name']")), text);
         return new ViewPage(getDriver());
     }
 
-    public ViewPage clickPipelineProject() {
-        click(getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
+    public ViewPage clickPipelineProject(BaseTest baseTest) {
+        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
         return new ViewPage(getDriver());
     }
 
-    public ConfigurePage clickSaveButton() {
-        click(getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
+    public ConfigurePage clickSaveButton(BaseTest baseTest) {
+        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
         return new ConfigurePage(getDriver());
     }
 
@@ -63,9 +65,9 @@ public class ViewPage extends BaseModel {
         return getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", name))).getText();
     }
 
-    public String getViewName() {
+    public String getViewName(BaseTest baseTest) {
 
-        return getText(getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
+        return TestUtils.getText(baseTest, getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
     }
 
     public void clickBreadcrumbPathItem(int n, String name) {
@@ -105,13 +107,13 @@ public class ViewPage extends BaseModel {
         return null;
     }
 
-    public ViewPage clickFreestyleProject() {
-        click(getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
+    public ViewPage clickFreestyleProject(BaseTest baseTest) {
+        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
         return this;
     }
 
-    public ViewPage clickMultiBranchPipeline() {
-        click(getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
+    public ViewPage clickMultiBranchPipeline(BaseTest baseTest) {
+        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
         return this;
     }
 }

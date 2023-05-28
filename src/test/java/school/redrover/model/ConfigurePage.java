@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import school.redrover.model.base.BaseModel;
+import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class ConfigurePage extends BaseModel {
 
@@ -23,34 +25,34 @@ public class ConfigurePage extends BaseModel {
         return getDriver().findElement(By.xpath("//div[@id='pipeline']"));
     }
 
-    public ConfigurePage sendAreDescriptionInputString(String text) {
-        sendTextToInput(getDriver().findElement(By.xpath("//textarea[@name='description']")), text);
+    public ConfigurePage sendAreDescriptionInputString(BaseTest baseTest, String text) {
+        TestUtils.sendTextToInput(baseTest, getDriver().findElement(By.xpath("//textarea[@name='description']")), text);
         return this;
     }
 
-    public ConfigurePage clickBuildTriggerCheckBox() {
-        click(getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")));
+    public ConfigurePage clickBuildTriggerCheckBox(BaseTest baseTest) {
+        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")));
         return this;
     }
 
-    public ConfigurePage sendAreContentInputString(String text) {
-        clickByJavaScript(getAreContentInputString());
+    public ConfigurePage sendAreContentInputString(BaseTest baseTest, String text) {
+        TestUtils.clickByJavaScript(baseTest, getAreContentInputString());
         getAreContentInputString().sendKeys(text);
         return this;
     }
 
-    public ConfigurePage scrollToBuildtriggersByJavaScript() {
-        scrollToElementByJavaScript(getBuildTriggersSection());
+    public ConfigurePage scrollToBuildtriggersByJavaScript(BaseTest baseTest) {
+        TestUtils.scrollToElementByJavaScript(baseTest, getBuildTriggersSection());
         return new ConfigurePage(getDriver());
     }
 
-    public ConfigurePage scrollToPipelineSection() {
-        scrollToElementByJavaScript(getPipelineSection());
+    public ConfigurePage scrollToPipelineSection(BaseTest baseTest) {
+        TestUtils.scrollToElementByJavaScript(baseTest, getPipelineSection());
         return new ConfigurePage(getDriver());
     }
 
-    public JobPage clickSaveButton() {
-        click(getDriver().findElement(By.xpath("//button[@name='Submit']")));
+    public JobPage clickSaveButton(BaseTest baseTest) {
+        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//button[@name='Submit']")));
         return new JobPage(getDriver());
     }
 }
