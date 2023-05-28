@@ -1,19 +1,10 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
-import java.time.Duration;
-import school.redrover.model.ProjectPage;
-import school.redrover.runner.TestUtils;
-
 
 
 public class MultibranchPipelineTest extends BaseTest {
@@ -78,7 +69,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .inputAnItemName(nameMultiPipeline)
                 .clickMultiBranchPipeline()
                 .clickSaveButton()
-                .clickSaveButton()
+                .selectSaveButton()
                 .clickDashBoardButton();
 
         String actualMultiBranchName = getDriver().findElement(By.xpath("//a[@href = 'job/Multi/']")).getText();
