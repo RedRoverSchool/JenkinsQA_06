@@ -20,15 +20,15 @@ public class PipelineConfigPage extends BaseModel {
     }
 
     public PipelineConfigPage scrollAndClickAdvancedButton() {
-        WebElement pipelineSection = getDriver().findElement(By.xpath("//div[@id='pipeline']"));
+        WebElement scriptSection = getDriver().findElement(By.xpath("//div[@class='ace_content']"));
         WebElement advancedButton = getDriver().findElement(By.xpath("//div[@class='jenkins-section']//button[@type='button'][normalize-space()='Advanced']"));
 
-        new Actions(getDriver()).scrollToElement(pipelineSection).moveToElement(advancedButton).click().perform();
+        new Actions(getDriver()).scrollToElement(scriptSection).moveToElement(advancedButton).click().perform();
         return this;
     }
 
     public PipelineConfigPage setDisplayName(String displayName) {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='_.displayNameOrNull']"))).sendKeys(displayName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='_.displayNameOrNull']"))).sendKeys(displayName);
         return this;
     }
 

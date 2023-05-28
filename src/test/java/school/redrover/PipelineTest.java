@@ -781,7 +781,6 @@ public class PipelineTest extends BaseTest {
     }
 
 
-    @Ignore
     @Test
     public void testSetPipelineDisplayName() {
         TestUtils.createPipeline(this, PIPELINE_NAME, false);
