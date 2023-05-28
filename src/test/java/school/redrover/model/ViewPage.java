@@ -5,12 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPage extends BasePage {
+public class ViewPage extends BaseModel {
 
     public ViewPage(WebDriver driver) {
         super(driver);
@@ -107,6 +107,11 @@ public class ViewPage extends BasePage {
 
     public ViewPage clickFreestyleProject() {
         click(getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
+        return this;
+    }
+
+    public ViewPage clickMultiBranchPipeline() {
+        click(getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
         return this;
     }
 }

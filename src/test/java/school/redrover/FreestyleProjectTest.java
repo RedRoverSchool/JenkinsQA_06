@@ -54,6 +54,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickCreateAJobArrow()
                 .enterItemName(PROJECT_NAME)
                 .selectFreestyleProjectAndOk()
+                .getHeader()
                 .clickLogo();
 
         Assert.assertTrue(mainPage.getProjectStatusTable().isDisplayed());

@@ -7,11 +7,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
 import java.util.List;
 
-public class ManagePage extends BasePage {
+public class ManagePage extends BaseModel {
     public ManagePage(WebDriver driver) {
         super(driver);
     }

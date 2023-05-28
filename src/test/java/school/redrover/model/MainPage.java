@@ -4,13 +4,13 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
 import java.util.List;
 
-public class MainPage extends BasePage {
+public class MainPage extends BaseModel {
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -426,5 +426,12 @@ public class MainPage extends BasePage {
     public MainPage returnToMainPage() {
         getDriver().findElement(By.xpath("//a[@id='jenkins-home-link']")).click();
         return this;
+    }
+
+    public ManageJenkinsPage clickManageJenkinsOnDropDown() {
+        By sectionNameLocator = By.xpath("//*[@id='yui-gen4']/a/span");
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
+        getDriver().findElement(sectionNameLocator).click();
+        return new ManageJenkinsPage(getDriver());
     }
 }

@@ -85,18 +85,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getText(), MULTI_CONFIGURATION_NAME);
     }
 
-    @Ignore
-    @Test
-    public void testCreateMultiConfigurationProjectWithDescriptionTest1() {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
-
-        MultiConfigurationProjectPage multiConfigProjectWithDescription = new MultiConfigurationProjectPage(getDriver())
-                .getAddDescription(DESCRIPTION)
-                .getSaveButton();
-
-        Assert.assertEquals(multiConfigProjectWithDescription.getInputAdd().getText(), DESCRIPTION);
-    }
-
     @DataProvider(name = "unsafeCharacter")
     public static Object[][] provideUnsafeCharacters() {
         return new Object[][]{{'!'}, {'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'&'},
@@ -606,5 +594,22 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), String.format("‘%s’ is an unsafe character", htmlUnsafeSymbol));
+    }
+
+    @Test
+    public void testCreateMultiConfigurationProjectWithDescription() {
+        final String multiConfigurationProjectName= "New project";
+        final String description ="Description text";
+
+        String descriptionOnProjectPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(multiConfigurationProjectName)
+                .selectMultiConfigurationProjectAndOk()
+                .saveConfigurePageAndGoToConfigPage()
+                .getAddDescription(description)
+                .getSaveButton()
+                .getInputAdd().getText();
+
+        Assert.assertEquals(descriptionOnProjectPage, description);
     }
 }

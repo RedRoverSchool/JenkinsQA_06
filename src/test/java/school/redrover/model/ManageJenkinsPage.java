@@ -46,8 +46,8 @@ public class ManageJenkinsPage extends MainPage {
     }
 
     public String getActualHeader() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-                "//h1[text()='Manage Jenkins']"))).getText();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName(
+                "h1"))).getText();
     }
 
     public String getDropdownResultsInSearchField() {
@@ -65,5 +65,11 @@ public class ManageJenkinsPage extends MainPage {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
 
         return new ConfigureGlobalSecurityPage(getDriver());
+    }
+
+    public ManageNodesPage clickManageNodes() {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='/computer/']"))).click();
+        return new ManageNodesPage(getDriver());
     }
 }

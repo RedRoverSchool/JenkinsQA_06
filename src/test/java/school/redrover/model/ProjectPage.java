@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
 import java.time.Duration;
 
-public class ProjectPage extends BasePage {
+public class ProjectPage extends BaseModel {
 
     public ProjectPage(WebDriver driver) {
         super(driver);

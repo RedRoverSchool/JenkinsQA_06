@@ -2,15 +2,14 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
 import java.util.Arrays;
 
 import static org.openqa.selenium.By.cssSelector;
 
-public class FreestyleProjectPage extends BasePage {
+public class FreestyleProjectPage extends BaseModel {
 
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
