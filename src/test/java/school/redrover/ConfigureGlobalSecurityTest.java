@@ -105,4 +105,14 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
 
         Assert.assertTrue(configure.titlesAreAsExpected(expectedSections,new ArrayList<>()));
     }
+
+    @Test
+    public void testCheckboxesAreClickable() throws InterruptedException {
+        boolean allChecksAreOk = new MainPage(getDriver())
+             .navigateToManageJenkinsPage()
+             .accessConfigureGlobalSecurity()
+             .checkAllCheckBoxes();
+
+        Assert.assertTrue(allChecksAreOk);
+    }
 }
