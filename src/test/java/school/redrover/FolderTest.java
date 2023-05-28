@@ -406,4 +406,21 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(movedProject.getText(), projectName);
     }
+
+    @Test
+    public void testRenameFolder(){
+        final String myFolderName = "Folder2";
+        final String expectedResult = "Folder";
+
+        TestUtils.createFolder(this,myFolderName,true);
+
+        String folderNew = new MainPage(getDriver())
+                .clickFolderName(myFolderName)
+                .rename()
+                .setNewName("Folder")
+                .clickRenameButton()
+                .getTextFolderName();
+
+        Assert.assertEquals(folderNew,expectedResult);
+    }
 }

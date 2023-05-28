@@ -126,4 +126,9 @@ public class FolderPage extends BaseMainHeaderPage {
     public boolean nestedFolderIsVisibleAndClickable(String nestedFolder) {
         return getNestedFolder(nestedFolder).isDisplayed() && getNestedFolder(nestedFolder).isEnabled();
     }
+
+    public String getTextFolderName() {
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id='main-panel']/h1"))));
+    }
 }
