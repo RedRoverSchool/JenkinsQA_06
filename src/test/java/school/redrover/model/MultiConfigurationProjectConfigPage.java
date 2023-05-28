@@ -41,19 +41,17 @@ public class MultiConfigurationProjectConfigPage extends MainPage {
     }
 
     public MultiConfigurationProjectConfigPage enterDaysToKeepBuilds(int number){
-        WebElement daysToKeepBuilds = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//input[@name='_.daysToKeepStr']"))));
-        daysToKeepBuilds.click();
-        daysToKeepBuilds.sendKeys(String.valueOf(number));
+        WebElement daysToKeepBuilds = getDriver()
+                .findElement(By.xpath("//input[@name='_.daysToKeepStr']"));
+        sendTextToInput(daysToKeepBuilds, String.valueOf(number));
 
         return this;
     }
 
     public MultiConfigurationProjectConfigPage enterMaxNumOfBuildsToKeep(int number){
-        WebElement maxNumOfBuildsToKeepNumber = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//input[@name='_.numToKeepStr']"))));
-        maxNumOfBuildsToKeepNumber.click();
-        maxNumOfBuildsToKeepNumber.sendKeys(String.valueOf(number));
+        WebElement maxNumOfBuildsToKeepNumber = getDriver()
+                .findElement(By.xpath("//input[@name='_.numToKeepStr']"));
+        sendTextToInput(maxNumOfBuildsToKeepNumber, String.valueOf(number));
 
         return this;
     }
@@ -71,5 +69,4 @@ public class MultiConfigurationProjectConfigPage extends MainPage {
 
         return maxNumOfBuildsToKeepNumber.getAttribute(attribute);
     }
-
 }
