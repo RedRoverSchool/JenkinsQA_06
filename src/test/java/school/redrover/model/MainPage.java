@@ -10,7 +10,7 @@ import school.redrover.runner.TestUtils;
 import java.time.Duration;
 import java.util.List;
 
-public class MainPage extends BaseMainHeaderPage {
+public class MainPage extends BaseMainHeaderPage<MainPage> {
 
     public MainPage(WebDriver driver) {
         super(driver);

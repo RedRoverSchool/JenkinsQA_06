@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
-public class FreestyleProjectConfigPage extends BaseMainHeaderPage {
+public class FreestyleProjectConfigPage extends BaseMainHeaderPage<FreestyleProjectConfigPage> {
 
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
