@@ -427,4 +427,11 @@ public class MainPage extends BaseModel {
         getDriver().findElement(By.xpath("//a[@id='jenkins-home-link']")).click();
         return this;
     }
+
+    public ManageJenkinsPage clickManageJenkinsOnDropDown() {
+        By sectionNameLocator = By.xpath("//*[@id='yui-gen4']/a/span");
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
+        getDriver().findElement(sectionNameLocator).click();
+        return new ManageJenkinsPage(getDriver());
+    }
 }
