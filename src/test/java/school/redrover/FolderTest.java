@@ -140,9 +140,9 @@ public class FolderTest extends BaseTest {
                 .enterDescription(description)
                 .clickSaveButton();
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(this), displayName);
-        Assert.assertTrue(folderPage.getFolderName(this).contains("Folder name: " + NAME));
-        Assert.assertEquals(folderPage.getFolderDescription(this), description);
+        Assert.assertEquals(folderPage.getFolderDisplayName(), displayName);
+        Assert.assertTrue(folderPage.getFolderName().contains("Folder name: " + NAME));
+        Assert.assertEquals(folderPage.getFolderDescription(), description);
     }
 
     @Ignore

@@ -5,8 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import school.redrover.model.base.BaseModel;
-import school.redrover.model.base.BasePage;
-import school.redrover.runner.BaseTest;
+import school.redrover.model.base.PageUtils;
 import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
@@ -143,18 +142,18 @@ public class MainPage extends BaseModel {
                 .getAttribute("tooltip");
     }
 
-    public MainPage clickPlayBuildForATestButton(BaseTest baseTest) {
-        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']")));
+    public MainPage clickPlayBuildForATestButton() {
+        PageUtils.click(this, getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']")));
         return new MainPage(getDriver());
     }
 
-    public BuildPage clickBuildsHistoryButton(BaseTest baseTest) {
-        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
+    public BuildPage clickBuildsHistoryButton() {
+        PageUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
         return new BuildPage(getDriver());
     }
 
-    public ViewPage clickNewItemButton(BaseTest baseTest) {
-        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
+    public ViewPage clickNewItemButton() {
+        PageUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
         return new ViewPage(getDriver());
     }
 
@@ -244,8 +243,8 @@ public class MainPage extends BaseModel {
         return new RestApiPage(getDriver());
     }
 
-    public MainPage scrollToRestApiInFooter(BaseTest baseTest) {
-        TestUtils.scrollToElementByJavaScript(baseTest, getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
+    public MainPage scrollToRestApiInFooter() {
+        PageUtils.scrollToElementByJavaScript(this, getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
         return this;
     }
 

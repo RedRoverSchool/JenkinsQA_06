@@ -452,13 +452,13 @@ public class FreestyleProjectTest extends BaseTest {
         String description = "First project";
 
         new MainPage(getDriver())
-                .clickNewItemButton(this)
-                .inputAnItemName(this, nameFreestyle)
-                .clickFreestyleProject(this)
-                .clickSaveButton(this)
-                .sendAreDescriptionInputString(this, description)
-                .clickSaveButton(this)
-                .clickDashBoardButton(this);
+                .clickNewItemButton()
+                .inputAnItemName(nameFreestyle)
+                .clickFreestyleProject()
+                .clickSaveButton()
+                .sendAreDescriptionInputString(description)
+                .clickSaveButton()
+                .clickDashBoardButton();
 
         String actualFreestyleName = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText();
 

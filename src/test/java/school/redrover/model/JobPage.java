@@ -3,8 +3,7 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import school.redrover.model.base.BaseModel;
-import school.redrover.runner.BaseTest;
-import school.redrover.runner.TestUtils;
+import school.redrover.model.base.PageUtils;
 
 public class JobPage extends BaseModel {
 
@@ -12,8 +11,8 @@ public class JobPage extends BaseModel {
         super(driver);
     }
 
-    public MainPage clickDashBoardButton(BaseTest baseTest) {
-        TestUtils.click(baseTest, getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[text()='Dashboard']")));
+    public MainPage clickDashBoardButton() {
+        PageUtils.click(this, getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[text()='Dashboard']")));
         return new  MainPage(getDriver());
     }
 }

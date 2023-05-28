@@ -59,7 +59,7 @@ public class NewViewTest extends BaseTest {
                 .selectListView()
                 .clickCreateButton()
                 .clickViewConfigOkButton()
-                .getViewName(this);
+                .getViewName();
 
         assertEquals(actualName, expectedName);
     }
@@ -131,7 +131,7 @@ public class NewViewTest extends BaseTest {
                 .selectJobsInJobFilters(folderName1)
                 .clickViewConfigOkButton();
 
-        Assert.assertEquals(viewPage.getViewName(this), viewName);
+        Assert.assertEquals(viewPage.getViewName(), viewName);
         Assert.assertEquals(viewPage.getJobName(folderName1), folderName1);
    }
 
@@ -164,7 +164,7 @@ public class NewViewTest extends BaseTest {
 
         List<String> actualViewJobsTexts = viewPage.getJobNamesList();
 
-        Assert.assertEquals(viewPage.getViewName(this), viewName2);
+        Assert.assertEquals(viewPage.getViewName(), viewName2);
         Assert.assertEquals(actualViewJobsTexts.size(), 3);
         Assert.assertEquals(actualViewJobsTexts, expectedViewJobs);
     }

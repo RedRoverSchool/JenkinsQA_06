@@ -505,7 +505,7 @@ public class PipelineTest extends BaseTest {
                 .setNewName(RENAME)
                 .clickRenameButton();
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(this), "Pipeline " + RENAME);
+        Assert.assertEquals(folderPage.getFolderDisplayName(), "Pipeline " + RENAME);
         Assert.assertEquals(folderPage.clickDashboard()
                 .getJobWebElement(RENAME).getText(), RENAME);
     }
