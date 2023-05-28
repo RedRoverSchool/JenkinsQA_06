@@ -806,19 +806,20 @@ public class PipelineTest extends BaseTest {
         String description = "description";
         String newDescription = "new description";
 
-        MainPage mainPage = new MainPage(getDriver());
-        mainPage.clickNewItem()
+        String textPreview = new MainPage(getDriver())
+                .clickNewItem()
                 .enterItemName("Engineer")
                 .selectPipelineAndOk()
                 .sendAreDescriptionInputString(description)
-                .clickPreview();
-        Assert.assertEquals(new ConfigurePage(getDriver()).getPreview().getText(), description);
+                .clickPreview()
+                .getPreview();
+        Assert.assertEquals(textPreview, description);
 
         new ConfigurePage(getDriver())
                 .clearDescriptionArea()
                 .sendAreDescriptionInputString(newDescription)
                 .selectSaveButton();
-        String actualResult = new ProjectPage(getDriver()).getProjectDescription().getText();
-        Assert.assertTrue(actualResult.contains(newDescription), "description not displayed");
+        String actualDescription = new ProjectPage(getDriver()).getProjectDescription().getText();
+        Assert.assertTrue(actualDescription.contains(newDescription), "description not displayed");
     }
 }

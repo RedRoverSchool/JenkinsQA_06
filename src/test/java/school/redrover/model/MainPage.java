@@ -364,9 +364,14 @@ public class MainPage extends BaseModel {
         return buildStatus.getAttribute("tooltip");
     }
 
-    public FreestyleProjectPage getProjectNameClick() {
+    public FreestyleProjectPage clickProjectName() {
         getProjectName().click();
         return new FreestyleProjectPage(getDriver());
+    }
+
+    public ConfigurePage clickProjectNameTransitionConfigurePage() {
+        getProjectName().click();
+        return new ConfigurePage(getDriver());
     }
 
     public MainPage clickConfigureSideMenu() {

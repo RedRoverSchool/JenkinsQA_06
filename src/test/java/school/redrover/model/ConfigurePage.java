@@ -60,8 +60,8 @@ public class ConfigurePage extends BaseModel {
         return this;
     }
 
-    public WebElement getPreview() {
-        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
+    public String getPreview() {
+        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText();
     }
 
     public ConfigurePage clearDescriptionArea() {
