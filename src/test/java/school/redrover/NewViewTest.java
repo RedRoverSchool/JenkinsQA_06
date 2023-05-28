@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -20,9 +19,9 @@ import static org.testng.Assert.assertEquals;
 
 
 public class NewViewTest extends BaseTest {
-    private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
+    private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
-    private static final String RANDOM_LIST_VIEW_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String RANDOM_LIST_VIEW_NAME = "RANDOM_LIST_VIEW_NAME";
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     private void createNewProjectFromMyViewsPage() {
@@ -187,7 +186,7 @@ public class NewViewTest extends BaseTest {
     @Test
     public void testHelpForFeatureDescription() {
 
-        String randomName = RandomStringUtils.randomAlphanumeric(9);
+        String randomName = "randomName";
         String expectedResult =
                 "This message will be displayed on the view page . Useful " +
                         "for describing what this view does or linking to " +

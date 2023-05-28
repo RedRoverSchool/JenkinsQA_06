@@ -4,9 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
 
-public class MultiConfigurationProjectPage extends BaseModel {
+public class MultiConfigurationProjectPage extends MainPage {
 
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);

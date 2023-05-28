@@ -1,6 +1,5 @@
 package school.redrover.model;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +15,7 @@ public class ManagePage extends BaseModel {
         super(driver);
     }
 
-    private static final String NEW_USER_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String NEW_USER_NAME = "NEW_USER_NAME";
     private static final By SEARCH_SETTINGS = By.id("settings-search-bar");
 
     public ManagePage navigateToManagePage() {
