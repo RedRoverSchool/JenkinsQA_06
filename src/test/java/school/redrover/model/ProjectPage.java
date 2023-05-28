@@ -57,4 +57,8 @@ public class ProjectPage extends BaseModel {
     public WebElement projectsHeadline() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//h1[contains(text(),'Project')]"))));
     }
+
+    public String getProjectDescription() {
+        return getDriver().findElement(By.xpath("//div[@id='description']")).getText();
+    }
 }

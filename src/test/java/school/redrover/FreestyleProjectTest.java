@@ -363,48 +363,18 @@ public class FreestyleProjectTest extends BaseTest {
     @Ignore
     @Test
     public void testBuildFreestyleProject() {
-        WebElement newItem = getDriver().findElement(By.xpath("//*[@href='/view/all/newJob']"));
-        newItem.click();
+        String consoleOutput = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("MyFreestyleProject")
+                .selectFreestyleProjectAndOk()
+                .addExecuteShellBuildStep("echo Hello")
+                .clickSave()
+                .selectBuildNow()
+                .openConsoleOutputForBuild()
+                .getConsoleOutputText();
 
-        WebElement projectName = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id = 'name']")));
-        projectName.sendKeys("MyFreestyleProject");
-
-        WebElement typeFreeStyle = getDriver().findElement(By.xpath("//li[contains(@class, 'FreeStyleProject')]"));
-        typeFreeStyle.click();
-
-        WebElement createItem = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
-        createItem.click();
-
-        WebElement buildStep = getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//button[contains(text(), 'Add build step')]")));
-        Actions actions = new Actions(getDriver());
-        actions.scrollToElement(getDriver().findElement(By.xpath("//button[contains(text(), 'Add post-build action')]"))).click().perform();
-        getWait2().until(ExpectedConditions.elementToBeClickable(buildStep)).click();
-
-        WebElement executeShell = getDriver().findElement(By.xpath("//a[contains(text(), 'Execute shell')]"));
-        executeShell.click();
-
-        WebElement codeMirror = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("CodeMirror")));
-        actions.scrollToElement(getDriver().findElement(By.xpath("//button[contains(text(), 'Add post-build action')]"))).click().perform();
-        WebElement codeLine = codeMirror.findElements(By.className("CodeMirror-lines")).get(0);
-        codeLine.click();
-        WebElement command = codeMirror.findElement(By.cssSelector("textarea"));
-        command.sendKeys("echo Hello");
-
-        WebElement saveConfiguration = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        saveConfiguration.click();
-
-        WebElement toBuild = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href, 'build?delay')]")));
-        toBuild.click();
-
-        WebElement firstBuild = getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@class='build-status-link']")));
-        firstBuild.click();
-
-        WebElement consoleOutput = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//pre[@class='console-output']")));
-
-        Assert.assertTrue(consoleOutput.getText().contains("echo Hello"));
-        Assert.assertTrue(consoleOutput.getText().contains("Finished: SUCCESS"));
+        Assert.assertTrue(consoleOutput.contains("echo Hello"), "Command wasn't run");
+        Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build wasn't finished successfully");
     }
 
     @Test
@@ -457,7 +427,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProject()
                 .clickSaveButton()
                 .sendAreDescriptionInputString(description)
-                .clickSaveButton()
+                .selectSaveButton()
                 .clickDashBoardButton();
 
         String actualFreestyleName = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText();

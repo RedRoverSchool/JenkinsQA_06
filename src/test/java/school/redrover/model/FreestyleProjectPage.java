@@ -87,4 +87,10 @@ public class FreestyleProjectPage extends BaseModel {
                 By.xpath("//a[@href = '/job/" + projectName + "/confirm-rename']"))).click();
         return new RenameFreestyleProjectPage(getDriver());
     }
+
+    public ConsoleOutputPage openConsoleOutputForBuild(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@class='build-status-link']"))).click();
+        return new ConsoleOutputPage(getDriver());
+    }
 }
