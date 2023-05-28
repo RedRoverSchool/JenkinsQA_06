@@ -107,4 +107,13 @@ public class PipelinePage extends BaseModel {
         getDriver().findElement(By.name("Submit")).click();
         return this;
     }
+
+    public PipelinePage clickBuildNow() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id = 'tasks']/div[3]//a"))).click();
+        return this;
+    }
+
+    public WebElement getStage() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".stage-header-name-0")));
+    }
 }

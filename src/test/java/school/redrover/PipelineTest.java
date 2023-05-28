@@ -128,17 +128,18 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineBuildNow() {
-        getDriver().findElement(newItem).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(pipelineTrySampleDropDownMenu)).click();
-        getDriver().findElement(By.cssSelector("option[value='hello']")).click();
-        getDriver().findElement(saveButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(buildNowButton)).click();
-        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".table-viewPort")));
+        String stageName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickScriptDropDownMenu()
+                .selectHelloWord()
+                .clickSaveButton()
+                .clickBuildNow()
+                .getStage()
+                .getText();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector(".stage-header-name-0")).getText(), "Hello");
+        Assert.assertEquals(stageName, "Hello");
     }
 
     @Test

@@ -36,4 +36,14 @@ public class PipelineConfigPage extends BaseModel {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).sendKeys(description);
         return this;
     }
+
+    public PipelineConfigPage clickScriptDropDownMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//option[text() = 'try sample Pipeline...']"))).click();
+        return this;
+    }
+
+    public PipelinePage selectHelloWord() {
+        getDriver().findElement(By.cssSelector("option[value='hello']")).click();
+        return new PipelinePage(getDriver());
+    }
 }
