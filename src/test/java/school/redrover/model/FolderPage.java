@@ -4,10 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
-public class FolderPage extends BaseMainHeaderPage {
+public class FolderPage extends BaseMainConfigPage<FolderPage> {
 
     public FolderPage(WebDriver driver) {
         super(driver);

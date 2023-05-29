@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
@@ -48,7 +49,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .enterItemName(nameFolder)
                 .selectFolderAndOk()
                 .getConfig()
-                .clickSaveButton()
+                .clickSaveButton(new FolderPage(getDriver()))
                 .clickDashboard()
                 .clickFolderName(nameFolder)
                 .clickNewItem()
@@ -73,7 +74,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .enterItemName(folderName)
                 .selectFolderAndOk()
                 .getConfig()
-                .clickSaveButton()
+                .clickSaveButton(new FolderPage(getDriver()))
                 .clickNewItem()
                 .enterItemName(organizationFolderName)
                 .selectOrganizationFolderAndOk()

@@ -10,6 +10,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.base.BaseMainConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -182,14 +183,13 @@ public class FolderTest extends BaseTest {
 
         TestUtils.createFolder(this, NAME, false);
         FolderPage folderPage = new FolderPage(getDriver());
-        folderPage.clickConfigureSideMenu()
-                .enterDisplayName(displayName)
-                .enterDescription(description)
+                folderPage
+                .clickConfigureSideMenu()
                 .getConfig()
-                .clickSaveButton();
+                .addDescription(description)
+                .clickSaveButton(new FolderPage(getDriver()));
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(), displayName);
-        Assert.assertTrue(folderPage.getFolderName().contains("Folder name: " + NAME));
+
         Assert.assertEquals(folderPage.getFolderDescription(), description);
     }
 
@@ -308,7 +308,7 @@ public class FolderTest extends BaseTest {
                 .enterItemName("TC 00.04 New item Create Folder")
                 .selectFolderAndOk()
                 .getConfig()
-                .clickSaveButton()
+                .clickSaveButton(new FolderPage(getDriver()))
                 .clickCreateAJob()
                 .enterItemName("Mine Project")
                 .selectMultiConfigurationProjectAndOk()

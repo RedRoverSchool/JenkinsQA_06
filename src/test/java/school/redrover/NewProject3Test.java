@@ -61,7 +61,7 @@ public class NewProject3Test extends BaseTest {
                 .enterItemName(nameProject)
                 .selectFolderAndOk()
                 .getConfig()
-                .clickSaveButton();
+                .clickSaveButton(new FolderPage(getDriver()));
         mainPage.selectDashboard();
 
         Assert.assertTrue(mainPage.getFolderName().isDisplayed());

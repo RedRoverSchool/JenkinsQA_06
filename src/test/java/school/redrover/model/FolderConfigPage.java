@@ -9,7 +9,7 @@ import school.redrover.model.base.BaseMainConfigPage;
 import school.redrover.model.base.BaseModel;
 import school.redrover.model.component.MainConfigComponent;
 
-public class FolderConfigPage extends BaseMainConfigPage<FolderConfigPage> {
+public class FolderConfigPage  extends BaseMainConfigPage<FolderConfigPage> {
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);

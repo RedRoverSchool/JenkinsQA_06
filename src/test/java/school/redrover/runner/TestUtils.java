@@ -1,8 +1,10 @@
 package school.redrover.runner;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.FolderPage;
 import school.redrover.model.JobPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.NewJobPage;
@@ -62,7 +64,8 @@ public class TestUtils {
         new NewJobPage(baseTest.getDriver())
                 .selectFolderAndOk()
                 .getConfig()
-                .clickSaveButton();
+                .clickSaveButton(new FolderPage(baseTest.getDriver()));
+
 
         goToHomePage(baseTest, goToHomePage);
     }
