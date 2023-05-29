@@ -4,9 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
-import school.redrover.model.base.PageUtils;
-import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 public class MultiConfigurationProjectConfigPage extends MainPage {
@@ -37,7 +34,7 @@ public class MultiConfigurationProjectConfigPage extends MainPage {
     }
 
     public MultiConfigurationProjectConfigPage clickOldBuildCheckBox(){
-        PageUtils.clickByJavaScript(this, getDriver()
+        TestUtils.clickByJavaScript(this, getDriver()
                 .findElement(By.xpath("//span[@class='jenkins-checkbox']//input[@id='cb4']")));
 
         return this;
@@ -46,7 +43,7 @@ public class MultiConfigurationProjectConfigPage extends MainPage {
     public MultiConfigurationProjectConfigPage enterDaysToKeepBuilds(int number){
         WebElement daysToKeepBuilds = getDriver()
                 .findElement(By.xpath("//input[@name='_.daysToKeepStr']"));
-        PageUtils.sendTextToInput(this, daysToKeepBuilds, String.valueOf(number));
+        TestUtils.sendTextToInput(this, daysToKeepBuilds, String.valueOf(number));
 
         return this;
     }
@@ -54,7 +51,7 @@ public class MultiConfigurationProjectConfigPage extends MainPage {
     public MultiConfigurationProjectConfigPage enterMaxNumOfBuildsToKeep(int number){
         WebElement maxNumOfBuildsToKeepNumber = getDriver()
                 .findElement(By.xpath("//input[@name='_.numToKeepStr']"));
-        PageUtils.sendTextToInput(this, maxNumOfBuildsToKeepNumber, String.valueOf(number));
+        TestUtils.sendTextToInput(this, maxNumOfBuildsToKeepNumber, String.valueOf(number));
 
         return this;
     }

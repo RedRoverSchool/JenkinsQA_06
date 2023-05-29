@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseModel;
-import school.redrover.model.base.PageUtils;
+import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +23,17 @@ public class ViewPage extends BaseModel {
 
     public ViewPage inputAnItemName(String text) {
 
-        PageUtils.sendTextToInput(this, getDriver().findElement(By.xpath("//input[@id = 'name']")), text);
+        TestUtils.sendTextToInput(this, getDriver().findElement(By.xpath("//input[@id = 'name']")), text);
         return new ViewPage(getDriver());
     }
 
     public ViewPage clickPipelineProject() {
-        PageUtils.click(this, getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
         return new ViewPage(getDriver());
     }
 
     public ConfigurePage clickSaveButton() {
-        PageUtils.click(this, getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
         return new ConfigurePage(getDriver());
     }
 
@@ -66,7 +66,7 @@ public class ViewPage extends BaseModel {
 
     public String getViewName() {
 
-        return PageUtils.getText(this, getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
+        return TestUtils.getText(this, getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
     }
 
     public void clickBreadcrumbPathItem(int n, String name) {
@@ -107,12 +107,12 @@ public class ViewPage extends BaseModel {
     }
 
     public ViewPage clickFreestyleProject() {
-        PageUtils.click(this, getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
         return this;
     }
 
     public ViewPage clickMultiBranchPipeline() {
-        PageUtils.click(this, getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
         return this;
     }
 }
