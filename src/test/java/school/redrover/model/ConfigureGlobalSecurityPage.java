@@ -4,16 +4,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseModel;
-import school.redrover.model.base.BasePage;
-import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigureGlobalSecurityPage extends BasePage {
+public class ConfigureGlobalSecurityPage extends BaseModel {
 
     public ConfigureGlobalSecurityPage(WebDriver driver) {
         super(driver);
@@ -45,27 +42,12 @@ public class ConfigureGlobalSecurityPage extends BasePage {
         return TestUtils.getTexts(menus);
     }
 
-    public List<WebElement> getTitles() {
-        return getDriver().findElements(By.xpath("(//div[@class='jenkins-section__title'])"));
-    }
-
     private List<WebElement> getAPICheckBoxes() {
         return getDriver().findElements(By.xpath("(//div[@class='jenkins-section'])[8]//input[@type='checkbox']/following-sibling::label"));
     }
 
-    private List<WebElement> getAdvancedSettingsButtons() {
-        return getDriver().findElements(By.xpath("//button[@class='jenkins-button advanced-button advancedButton']"));
-    }
-
     public List<WebElement> getRadioButtons() {
         return getDriver().findElements(By.xpath("//div[@class='jenkins-radio']"));
-    }
-
-    public boolean titlesAreAsExpected(List<String> expected, List<String> actual){
-        for (WebElement title: getTitles()){
-            actual.add(title.getText());
-        }
-        return expected.equals(actual);
     }
 
     public boolean checkAPICheckBoxes() {

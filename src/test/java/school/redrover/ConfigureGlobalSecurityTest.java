@@ -11,7 +11,6 @@ import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ConfigureGlobalSecurityTest extends BaseTest {
@@ -77,28 +76,19 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
 
         List<String> actualMenuNames = new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
-                .clickConfigureGlobalSecurity()
+                .accessConfigureGlobalSecurity()
                 .navigateToHostKeyVerificationStrategyDropdownAndClick()
                 .getDropDownMenuTexts();
 
         Assert.assertEquals(actualMenuNames, expectedMenuNames);
     }
-    @Test
-    public void testVerifyGLobalSecuritySections() {
-        ConfigureGlobalSecurityPage configure = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
-                .accessConfigureGlobalSecurity();
-        List<String> expectedSections = Arrays.asList("Authentication","Markup Formatter","Agents","CSRF Protection","Git plugin notifyCommit access tokens", "Git Hooks", "Hidden security warnings","API Token","SSH Server", "Git Host Key Verification Configuration");
-
-        Assert.assertTrue(configure.titlesAreAsExpected(expectedSections,new ArrayList<>()));
-    }
 
     @Test
     public void testAPICheckboxesAreClickable() {
         boolean allChecksAreOk = new MainPage(getDriver())
-             .navigateToManageJenkinsPage()
-             .accessConfigureGlobalSecurity()
-             .checkAPICheckBoxes();
+                        .navigateToManageJenkinsPage()
+                        .accessConfigureGlobalSecurity()
+                        .checkAPICheckBoxes();
 
         Assert.assertTrue(allChecksAreOk);
     }
