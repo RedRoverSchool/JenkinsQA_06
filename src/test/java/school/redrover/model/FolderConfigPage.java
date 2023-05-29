@@ -40,4 +40,18 @@ public class FolderConfigPage extends BaseModel {
                 .findElement(By.cssSelector("[name='Submit']")))).click();
         return new FolderPage(getDriver());
     }
+
+    public FolderConfigPage clickHealthMetrics(){
+        getDriver().findElement(By.xpath("//button [@class='jenkins-button advanced-button advancedButton']")).click();
+        return this;
+    }
+
+    public FolderConfigPage clickAddMetric(){
+        getDriver().findElement(By.xpath("//button [@id='yui-gen1-button']")).click();
+        return this;
+    }
+
+    public void clickChildWithWorstHealth(){
+        getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel']")).click();
+    }
 }

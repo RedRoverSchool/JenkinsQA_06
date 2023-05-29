@@ -192,16 +192,14 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getFolderDescription(), description);
     }
 
-    @Ignore
     @Test
     public void testAddHealthMetric() {
         TestUtils.createFolder(this, NAME, false);
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + NAME + "/configure']"))).click();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button [@class='jenkins-button advanced-button advancedButton']"))).click();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button [@id='yui-gen1-button']"))).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='yuimenuitemlabel']"))).click();
+        FolderPage folderPage = new FolderPage(getDriver());
+        folderPage.clickConfigureSideMenu()
+                .clickHealthMetrics()
+                .clickAddMetric()
+                .clickChildWithWorstHealth();
 
         assertTrue(getDriver().findElement(By.xpath("//div[@name='healthMetrics']")).isDisplayed());
 
