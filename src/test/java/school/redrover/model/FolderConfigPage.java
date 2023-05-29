@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import school.redrover.model.base.BaseModel;
 
 public class FolderConfigPage extends BaseModel {
@@ -35,9 +36,28 @@ public class FolderConfigPage extends BaseModel {
         getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
         return new MainPage(getDriver());
     }
+
     public FolderPage saveProjectAndGoToFolderPage(){
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector("[name='Submit']")))).click();
         return new FolderPage(getDriver());
+    }
+
+    public FolderConfigPage clickOnHealthMetricsType(){
+        getDriver().findElement(By.xpath("//*[@class='jenkins-button advanced-button advancedButton']")).click();
+        return this;
+    }
+
+    public FolderConfigPage setHealthMetricsType(){
+        getDriver().findElement(By.xpath("//*[@class='jenkins-button advanced-button advancedButton']")).click();
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='yui-gen1-button']"))).click();
+        getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel']")).click();
+        return this;
+    }
+
+    public boolean isRecursive(){
+        return getWait10()
+                .until(ExpectedConditions
+                        .presenceOfElementLocated(By.xpath("//input[@name='_.recursive']"))).isDisplayed();
     }
 }
