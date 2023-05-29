@@ -5,19 +5,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseConfigPage;
+import school.redrover.model.base.BaseMainConfigPage;
 import school.redrover.model.base.BaseModel;
 import school.redrover.model.component.MainConfigComponent;
 
-public class FolderConfigPage extends BaseConfigPage<MainConfigComponent> {
+public class FolderConfigPage extends BaseMainConfigPage {
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);
     }
 
-    @Override
-    public MainConfigComponent getConfig() {
-        return new MainConfigComponent(getDriver());
-    }
 
     public FolderConfigPage enterDisplayName(String displayName) {
         WebElement inputDisplayName = getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']"));
