@@ -406,4 +406,27 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(movedProject.getText(), projectName);
     }
+
+    @Test
+    public void testCreateOrganizationFolderInFolder() {
+        final String nameFolder = "nameFolder";
+        final String nameOrganizationFolder = nameFolder + "Organization";
+
+        WebElement createdOrganizationFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameFolder)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .clickNewItem()
+                .enterItemName(nameOrganizationFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedFolder(nameOrganizationFolder);
+
+        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
+    }
 }
