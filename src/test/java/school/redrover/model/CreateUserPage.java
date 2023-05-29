@@ -4,37 +4,37 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 
-public class CreateUserPage extends MainPage {
+public class CreateUserPage extends ManageUsersPage {
 
     public CreateUserPage(WebDriver driver) {
         super(driver);
     }
 
-    public CreateUserPage setUsername(String name) {
+    public CreateUserPage enterUsername(String name) {
         getDriver().findElement(By.id("username")).sendKeys(name);
 
         return this;
     }
 
-    public CreateUserPage setPassword(String name) {
+    public CreateUserPage enterPassword(String name) {
         getDriver().findElement(By.name("password1")).sendKeys(name);
 
         return this;
     }
 
-    public CreateUserPage confirmPassword(String name) {
+    public CreateUserPage enterConfirmPassword(String name) {
         getDriver().findElement(By.name("password2")).sendKeys(name);
 
         return this;
     }
 
-    public CreateUserPage setFullName(String name) {
+    public CreateUserPage enterFullName(String name) {
         getDriver().findElement(By.name("fullname")).sendKeys(name);
 
         return this;
     }
 
-    public CreateUserPage setEmail(String name) {
+    public CreateUserPage enterEmail(String name) {
         getDriver().findElement(By.name("email")).sendKeys(name);
 
         return this;
@@ -51,11 +51,11 @@ public class CreateUserPage extends MainPage {
                 .navigateToManageJenkinsPage()
                 .clickManageUsers()
                 .clickCreateUser()
-                .setUsername(username)
-                .setPassword(password)
-                .confirmPassword(password)
-                .setFullName(fullName)
-                .setEmail(email)
+                .enterUsername(username)
+                .enterPassword(password)
+                .enterConfirmPassword(password)
+                .enterFullName(fullName)
+                .enterEmail(email)
                 .clickCreateUserButton();
     }
 }

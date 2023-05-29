@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
-public class RenameFolderPage extends BasePage {
+public class RenameFolderPage extends BaseModel {
 
     public RenameFolderPage(WebDriver driver) {
         super(driver);

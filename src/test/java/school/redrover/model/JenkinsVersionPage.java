@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
 
-public class JenkinsVersionPage extends BasePage {
+public class JenkinsVersionPage extends BaseModel {
     public JenkinsVersionPage(WebDriver driver) {
         super(driver);
     }

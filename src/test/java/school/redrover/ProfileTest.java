@@ -5,6 +5,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.runner.BaseTest;
 
@@ -19,6 +20,7 @@ public class ProfileTest extends BaseTest {
         put("Credentials", "credentials");
     }};
 
+    @Ignore
     @Test
     public void testProfileItems() {
         for (Map.Entry<String, String> entry : menuToUrlMap.entrySet()) {

@@ -1,11 +1,8 @@
 package school.redrover;
 
-import com.github.javafaker.Faker;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -27,18 +24,9 @@ import static org.openqa.selenium.By.xpath;
 
 public class PipelineTest extends BaseTest {
 
-    private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private static final String rename = "Pipeline Project";
+    private static final String PIPELINE_NAME = "PIPELINE_NAME";
+    private static final String RENAME = "Pipeline Project";
 
-    private static final By newItem = By.linkText("New Item");
-    private static final By name = By.id("name");
-    private static final By pipelineItem = By.xpath("//span[text() = 'Pipeline']");
-    private static final By okButton = By.id("ok-button");
-    private static final By saveButton = By.xpath("//button[contains(@class,'jenkins-button jenkins-button--primary')]");
-    private static final By jenkinsIconHeader = By.id("jenkins-name-icon");
-    private static final By textAreaDescription = By.xpath("//textarea[@name='description']");
-    private static final By pipelineDescription = By.xpath("//div[@id = 'description']/div[1]");
-    private static final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
     private static final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
     private static final By homePage = By.xpath("//h1[@class= 'job-index-headline page-headline']");
@@ -74,100 +62,91 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreatedPipelineIsDisplayedOnDashboard() {
-        getDriver().findElement(newItem).click();
-        getWait(1).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(saveButton)).click();
-        getDriver().findElement(jenkinsIconHeader).click();
+    public void testCreatePipeline() {
+        String projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .getProjectName()
+                .getText();
 
-        String actualResult = getDriver().findElement(By.xpath("//tr[@id = 'job_" + PIPELINE_NAME + "']//a[@href='job/" + PIPELINE_NAME + "/']")).getText();
-
-        Assert.assertEquals(actualResult, PIPELINE_NAME);
+        Assert.assertEquals(projectName, PIPELINE_NAME);
     }
 
     @Test
     public void testCreatePipelineWithDescription() {
-        String pipelineDescriptionText = "description text";
-        getDriver().findElement(newItem).click();
-        getWait(1).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
-        getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionText);
-        getDriver().findElement(saveButton).click();
+        final String textDescription = "description text";
 
-        Assert.assertEquals(getDriver().findElement(pipelineDescription).getText(), pipelineDescriptionText);
+        String jobDescription = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .enterDescription(textDescription)
+                .clickSaveButton()
+                .getDescription()
+                .getText();
+
+        Assert.assertEquals(jobDescription, textDescription);
     }
 
     @Test
     public void testEditPipelineDescription() {
-        String pipelineDescriptionText = "description text";
-        String pipelineDescriptionTextEdited = "Edited description text";
-        getDriver().findElement(newItem).click();
-        getWait(1).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
-        getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionText);
-        getDriver().findElement(saveButton).click();
-        getDriver().findElement(jenkinsIconHeader).click();
-        getDriver().findElement(By.xpath("//span[text() = '" + PIPELINE_NAME + "']")).click();
-        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaDescription)).click();
-        getDriver().findElement(textAreaDescription).clear();
-        getDriver().findElement(textAreaDescription).sendKeys(pipelineDescriptionTextEdited);
-        getDriver().findElement(saveButton).click();
+        final String description = "description text";
+        final String newDescription = "Edited description text";
 
-        Assert.assertEquals(getDriver().findElement(pipelineDescription).getText(), pipelineDescriptionTextEdited);
+        String jobDescription = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .enterDescription(description)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickEditDescription()
+                .clearDescriptionField()
+                .enterNewDescription(newDescription)
+                .clickSaveButton()
+                .getDescription()
+                .getText();
+
+        Assert.assertEquals(jobDescription, newDescription);
     }
 
     @Ignore
     @Test
     public void testPipelineBuildNow() {
-        getDriver().findElement(newItem).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(pipelineTrySampleDropDownMenu)).click();
-        getDriver().findElement(By.cssSelector("option[value='hello']")).click();
-        getDriver().findElement(saveButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(buildNowButton)).click();
-        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".table-viewPort")));
+        String stageName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickScriptDropDownMenu()
+                .selectHelloWord()
+                .clickSaveButton()
+                .clickBuildNow()
+                .getStage()
+                .getText();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector(".stage-header-name-0")).getText(), "Hello");
+        Assert.assertEquals(stageName, "Hello");
     }
 
     @Test
     public void testPipelineConsoleOutputSuccess() {
-        getDriver().findElement(newItem).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(pipelineTrySampleDropDownMenu)).click();
-        getDriver().findElement(By.cssSelector("option[value='hello']")).click();
-        getDriver().findElement(saveButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(buildNowButton)).click();
-        getWait(10).until(ExpectedConditions
-                .visibilityOfElementLocated(By.cssSelector(".build-icon"))).click();
-        getWait(2).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel")));
-
-        Assert.assertTrue(getDriver().findElement(By.cssSelector(".console-output")).getText().contains("Finished: SUCCESS"));
-    }
-
-    @Test
-    public void testCreatePipeline() {
-        WebElement projectName = new MainPage(getDriver())
+        String text = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndClickOK()
+                .selectPipelineAndOk()
+                .clickScriptDropDownMenu()
+                .selectHelloWord()
                 .clickSaveButton()
-                .clickDashboard().getProjectName();
+                .clickBuildNow()
+                .clickBuildIcon()
+                .getConsoleOutputField()
+                .getText();
 
-        Assert.assertEquals(projectName.getText(), PIPELINE_NAME);
+        Assert.assertTrue(text.contains("Finished: SUCCESS"), "Job does not finished success");
     }
-
 
     @Test (dependsOnMethods = "testCreatePipeline")
     public void testAddingDescriptionToPipeline() {
@@ -183,6 +162,19 @@ public class PipelineTest extends BaseTest {
                 .verifyPipelineDescriptionIsPresent();
 
         Assert.assertTrue(ifPipelineDescriptionPresent);
+        final String pipelineName = "test_pipeline";
+        final String descriptionText = "description text";
+        String resultDescriptionText = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(pipelineName)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickEditDescription()
+                .enterNewDescription(descriptionText)
+                .clickSaveButton()
+                .getDescriptionText();
+
+        Assert.assertEquals(resultDescriptionText,descriptionText);
     }
 
     @Test(dependsOnMethods = "testCreatePipeline")
@@ -205,7 +197,7 @@ public class PipelineTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndClickOK()
+                .selectPipelineAndOk()
                 .clickSaveButton()
                 .clickDashboard()
                 .clickPipelineProject(PIPELINE_NAME)
@@ -217,20 +209,15 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatingBasicPipelineProjectThroughJenkinsUI() {
+        String resultOptionDefinitionFieldText = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .scrollToPipelineSection()
+                .getDefinitionFieldText();
 
-        getDriver().findElement(By.xpath("//a[normalize-space()='New Item']")).click();
-
-        getDriver().findElement(By.id("name")).sendKeys("Pipeline01");
-        getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getDriver().findElement(By.xpath("//button[@data-section-id='pipeline']")).click();
-        WebElement optionInDefinitionField = getDriver()
-                .findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]"));
-
-        Assert.assertEquals(optionInDefinitionField.getText(), "Pipeline script");
+        Assert.assertEquals(resultOptionDefinitionFieldText,"Pipeline script");
     }
-
     @Test
     public void testDeletePipelineDropDownMenu() {
         final String name = PIPELINE_NAME + "1";
@@ -238,7 +225,7 @@ public class PipelineTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
-                .selectPipelineAndClickOK()
+                .selectPipelineAndOk()
                 .clickSaveButton()
                 .clickDashboard()
                 .clickJobDropDownMenu(name)
@@ -248,51 +235,28 @@ public class PipelineTest extends BaseTest {
         Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
-    public void testPipelineBuildingAfterChangesInCode(){
+    public void testPipelineBuildingAfterChangesInCode() {
+        BuildPage buildPage = new MainPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickConfigureButton()
+                .clickPipelineLeftMenu()
+                .clickScriptDropDownMenu()
+                .selectHelloWord()
+                .clickSaveButton()
+                .clickBuildNow()
+                .clickBuildIcon()
+                .click1BuildHistory();
 
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//a[@href='job/Pipeline01/']"))).click();
-
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//a[@href='/job/Pipeline01/configure']"))).click();
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//button[@data-section-id='pipeline']"))).click();
-
-        WebElement trySamplePipelineField = getWait2().until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//div[@class='samples']//select")));
-
-        Select samplePipelineCode = new Select(trySamplePipelineField);
-        samplePipelineCode.selectByIndex(0);
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(buildNowButton)).click();
-        WebElement buildNumber=getWait10().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("(//a[@update-parent-class='.build-row'])[1]")));
-
-        new Actions(getDriver())
-                .moveToElement(buildNumber)
-                .pause(Duration.ofSeconds(1))
-                .click()
-                .perform();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']")));
-
-        WebElement buildStatusIcon =
-                getDriver().findElement(By.xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']"));
-        WebElement buildStatusText=
-                getDriver().findElement(By.xpath("//h1[@class='build-caption page-headline']"));
-
-        Assert.assertTrue(buildStatusText.getText().contains("Build #1"));
-        Assert.assertTrue(buildStatusIcon.isDisplayed());
+        Assert.assertTrue(buildPage.isDisplayedBuildTitle(), "Build #1 failed");
+        Assert.assertTrue(buildPage.isDisplayedGreenIconV(), "Build #1 failed");
     }
 
     @Test
     public void testSetDescriptionPipeline() {
-        TestUtils.createPipeline(this, PIPELINE_NAME,false);
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
 
         getDriver().findElement(By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/configure']")).click();
 
@@ -306,7 +270,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuildsPipeline() {
-        TestUtils.createPipeline(this, PIPELINE_NAME,false);
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
 
         getDriver().findElement(By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/configure']")).click();
         getDriver().findElement(By.xpath("//label[normalize-space()='Discard old builds']")).click();
@@ -370,7 +334,7 @@ public class PipelineTest extends BaseTest {
     public void testMakeSeveralBuilds() {
         TestUtils.createPipeline(this, "Engineer", true);
         List<String> buildNumberExpected = Arrays.asList("#1", "#2", "#3");
-        List<String>buildNumber = new ArrayList<>();
+        List<String> buildNumber = new ArrayList<>();
 
         getDriver().findElement(By.xpath("//a[@href='job/Engineer/']")).click();
         WebElement newBuild = getDriver().findElement(By.xpath("//a[contains(@href, 'build?')]"));
@@ -388,7 +352,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewPipelineWithScript(){
+    public void testCreateNewPipelineWithScript() {
 
         getDriver().findElement(xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
@@ -433,15 +397,18 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreateDuplicatePipelineProject() {
 
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+        String jobExists = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineProject()
+                .getItemInvalidMessage();
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(name));
-        getDriver().findElement(name).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Pipeline')]")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='input-validation-message']"))
-                .getText(), "» A job already exists with the name " + "‘" + PIPELINE_NAME + "’");
+        Assert.assertEquals(jobExists, "» A job already exists with the name " + "‘" + PIPELINE_NAME + "’");
     }
 
     @Test
@@ -497,12 +464,12 @@ public class PipelineTest extends BaseTest {
         FolderPage folderPage = new MainPage(getDriver())
                 .clickJobDropDownMenu(PIPELINE_NAME.replaceAll(" ", "%20"))
                 .clickRenameInDropDownMenu()
-                .setNewName(rename)
+                .setNewName(RENAME)
                 .clickRenameButton();
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(), "Pipeline " + rename);
+        Assert.assertEquals(folderPage.getFolderDisplayName(), "Pipeline " + RENAME);
         Assert.assertEquals(folderPage.clickDashboard()
-                .getJobWebElement(rename).getText(), rename);
+                .getJobWebElement(RENAME).getText(), RENAME);
     }
 
     @Test
@@ -528,7 +495,7 @@ public class PipelineTest extends BaseTest {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(wrongCharacters);
-        Assert.assertEquals(newJobPage.getItemInvalidMessage(),"» ‘" + wrongCharacters + "’ is an unsafe character");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacters + "’ is an unsafe character");
         Assert.assertFalse(newJobPage.isOkButtonEnabled());
     }
 
@@ -542,7 +509,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreatePipelineDashboardSliderNewItem(){
+    public void testCreatePipelineDashboardSliderNewItem() {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickOnSliderDashboardInDropDownMenu()
                 .clickNewItemInDashboardDropDownMenu();
@@ -711,49 +678,20 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void buildNowFromPipelineView() {
-        String pipelineName = new Faker().name().title().replace(" ", "");
-        TestUtils.createPipeline(this, pipelineName, true);
-        getDriver().findElement(By.xpath("//*[@href='job/"+pipelineName+"/']")).click();
-
-        if (!getDriver().findElement(By.xpath("//div[@id='no-builds']")).isDisplayed()) {
-            getDriver().findElement(By.xpath("//a[@href='/toggleCollapse?paneId=buildHistory']")).click();
-        }
-
-        getDriver().findElement(By
-                .xpath("//a[@href='/job/"+pipelineName+"/build?delay=0sec']")).click();
-
-        int numberOfStartedBuilds = 1;
-        boolean lastBuildIsPresent = getWait5().until(ExpectedConditions.presenceOfElementLocated(By
-                        .xpath("//span[@class='build-status-icon__outer']//*[name()='svg']["+numberOfStartedBuilds+"]")))
-                .isDisplayed();
-        List<WebElement> list = new ArrayList<>();
-        if (lastBuildIsPresent) {
-            list = getDriver().findElements(By
-                    .xpath("//span[@class='build-status-icon__outer']//*[name()='svg']"));
-        }
-
-        try {
-            Assert.assertEquals(Color.fromString(list.get(0).getCssValue("color"))
-                    .asHex(), "#1ea64b");
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            System.out.println("there are no builds in the 'Build History' list");
-            e.printStackTrace();
-        }
-    }
-
-    @Test(dependsOnMethods = "testCreatedPipelineIsDisplayedOnDashboard")
     public void testCreatePipelineWithTheSameName() {
-        final String expectedErrorMessage = "A job already exists with the name ‘" + PIPELINE_NAME + "’";
-
-        String actualErrorMessage = new PipelinePage(getDriver()).clickDashboard()
+        String actualErrorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineProject()
                 .clickOkToCreateWithExistingName()
                 .getErrorMessage();
 
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertEquals(actualErrorMessage, "A job already exists with the name ‘" + PIPELINE_NAME + "’");
     }
 
     @Test
@@ -768,5 +706,43 @@ public class PipelineTest extends BaseTest {
                 .getJobList();
 
         Assert.assertTrue(jobList.contains(PIPELINE_NAME));
+    }
+
+
+    @Test
+    public void testSetPipelineDisplayName() {
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+
+        PipelinePage pipelinePage = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .scrollAndClickAdvancedButton()
+                .setDisplayName(RENAME)
+                .clickSaveButton();
+
+        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + RENAME);
+        Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), PIPELINE_NAME);
+        Assert.assertEquals(pipelinePage.clickDashboard().getProjectName().getText(), RENAME);
+    }
+
+    @Test
+    public void testAddDescriptionAfterRewrite() {
+        String description = "description";
+        String newDescription = "new description";
+
+        String textPreview = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("Engineer")
+                .selectPipelineAndOk()
+                .sendAreDescriptionInputString(description)
+                .clickPreview()
+                .getPreviewText();
+        Assert.assertEquals(textPreview, description);
+
+        new ConfigurePage(getDriver())
+                .clearDescriptionArea()
+                .sendAreDescriptionInputString(newDescription)
+                .selectSaveButton();
+        String actualDescription = new ProjectPage(getDriver()).getProjectDescription();
+        Assert.assertTrue(actualDescription.contains(newDescription), "description not displayed");
     }
 }

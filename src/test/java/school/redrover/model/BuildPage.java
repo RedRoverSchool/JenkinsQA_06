@@ -3,9 +3,11 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import school.redrover.model.base.BasePage;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseModel;
+import school.redrover.runner.TestUtils;
 
-public class BuildPage extends BasePage {
+public class BuildPage extends BaseModel {
 
     public BuildPage(WebDriver driver) {
         super(driver);
@@ -25,11 +27,22 @@ public class BuildPage extends BasePage {
 
     public String getStatusMessageText() {
 
-        return getText(getStatusOfBuild());
+        return TestUtils.getText(this, getStatusOfBuild());
     }
 
     public BuildPage scrollToIconElement() {
-        scrollToElementByJavaScript(getBuildHistoryTitle());
+        TestUtils.scrollToElementByJavaScript(this, getBuildHistoryTitle());
         return new BuildPage(getDriver());
+    }
+
+    public boolean isDisplayedGreenIconV() {
+
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']"))).isDisplayed();
+    }
+
+    public boolean isDisplayedBuildTitle() {
+
+        return getBuildHeader().getText().contains("Build #1");
     }
 }

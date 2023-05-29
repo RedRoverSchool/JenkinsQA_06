@@ -4,9 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.runner.TestUtils;
 
-public class FolderPage extends BasePage {
+public class FolderPage extends BaseMainHeaderPage<FolderPage> {
 
     public FolderPage(WebDriver driver) {
         super(driver);
@@ -90,16 +91,16 @@ public class FolderPage extends BasePage {
     }
 
     public String getFolderDisplayName() {
-        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+        return TestUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='main-panel']/h1"))));
     }
 
     public String getFolderName() {
-        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+        return TestUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))));
     }
     public String getFolderDescription() {
-        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
+        return TestUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
     }
 
     public FolderConfigPage clickConfigureSideMenu() {
@@ -119,5 +120,14 @@ public class FolderPage extends BasePage {
         getWait2().until(ExpectedConditions.elementToBeClickable(createAJob));
         createAJob.click();
         return new NewJobPage(getDriver());
+    }
+
+    public boolean nestedFolderIsVisibleAndClickable(String nestedFolder) {
+        return getNestedFolder(nestedFolder).isDisplayed() && getNestedFolder(nestedFolder).isEnabled();
+    }
+
+    public MovePage<FolderPage> clickMoveOnSideMenu(String folderName) {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//span/a[@href='/job/%s/move']", folderName)))).click();
+        return new MovePage<>(this);
     }
 }
