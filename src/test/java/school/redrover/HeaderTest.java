@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -11,6 +10,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -19,26 +20,15 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.time.Duration;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
 
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
     private static final By MANAGE_JENKINS_LINK = By.xpath("//a[text()='Manage Jenkins']");
-    private static final By HEADER_MANAGE_PAGE = By.xpath("//h1[text()='Manage Jenkins']");
-    private static final String NOTIFICATION_ICON_COLOR_CSS_VALUE = "background-color";
-    private static final String MANAGE_JENKINS_PAGE_HEADER = "Manage Jenkins";
     private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
     private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
     private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
-
-    private void openAdminDropdownMenu() {
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
-    }
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -202,30 +192,25 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualHeader.getText(), expectedHeader);
     }
 
-    @Ignore
     @Test
     public void testNotificationAndSecurityIcon() {
 
-        WebElement notificationIcon = getDriver().findElement(NOTIFICATION_ICON);
-        String backgroundColorBefore = notificationIcon.getCssValue(NOTIFICATION_ICON_COLOR_CSS_VALUE);
+        String expectedManageJenkinsPageHeader = "Manage Jenkins";
 
-        new Actions(getDriver())
-                .pause(Duration.ofMillis(300))
-                .moveToElement(getDriver().findElement(NOTIFICATION_ICON))
-                .perform();
+        String backgroundColorBefore = new MainPage(getDriver())
+                .getBackgroundColorNotificationIcon();
 
-        String backgroundColorAfter = notificationIcon.getCssValue(NOTIFICATION_ICON_COLOR_CSS_VALUE);
-        Assert.assertNotEquals(backgroundColorBefore, backgroundColorAfter, "The color of icon is not changed");
-        getWait2().until(ExpectedConditions.elementToBeClickable(NOTIFICATION_ICON)).click();
+        String backgroundColorAfter = new MainPage(getDriver())
+                .getHeader()
+                .clickNotificationIcon()
+                .getBackgroundColorNotificationIcon();
 
-        new Actions(getDriver())
-                .pause(Duration.ofMillis(300))
-                .click(getWait2().until(ExpectedConditions.elementToBeClickable(MANAGE_JENKINS_LINK)))
-                .perform();
+        String actualManageJenkinsPageHeader = new ManageJenkinsPage(getDriver())
+                .clickManageJenkinsLink()
+                .getActualHeader();
 
-        String actualHeader = getWait2().until(ExpectedConditions.visibilityOfElementLocated(HEADER_MANAGE_PAGE)).getText();
-
-        Assert.assertEquals(actualHeader,MANAGE_JENKINS_PAGE_HEADER);
+        Assert.assertNotEquals(backgroundColorBefore, backgroundColorAfter, " The color of icon is not changed");
+        Assert.assertEquals(actualManageJenkinsPageHeader,expectedManageJenkinsPageHeader, " The page is not correct");
     }
 
     @Test
@@ -263,11 +248,9 @@ public class HeaderTest extends BaseTest {
 
     @Test(dataProvider = "dropDownMenuAndPageLocators")
     public void testOpenTabFromDropdownMenu(By buttonLocator, By pageLocator) {
-        openAdminDropdownMenu();
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
-
-        WebElement page = getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
+        WebElement page = new MainPage(getDriver())
+                .openAdminDropdownMenu()
+                .openTabFromAdminDropdownMenu(buttonLocator, pageLocator);
 
         Assert.assertTrue(page.isDisplayed());
     }
@@ -320,14 +303,25 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testAppearanceOfPopUpMenusWhenClickingOnIcons() {
-        getDriver().findElement(NOTIFICATION_ICON).click();
-        Assert.assertTrue(getWait2().until
-                (ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN)).isDisplayed());
+    public void testAppearanceOfPopUpMenuWhenClickingOnNotificationIcon() {
+        boolean isPopUpScreenDisplayed = new MainPage(getDriver())
+                .getHeader()
+                .clickNotificationIcon()
+                .getHeader()
+                .isPopUpNotificationScreenDisplayed();
 
-        getDriver().findElement(ADMIN_BTN).click();
-        Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
+        Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Notification icon screen is not displayed");
+    }
+
+    @Test
+    public void testAppearanceOfPopUpMenusWhenClickingOnAdminIcon() {
+        boolean isPopUpScreenDisplayed = new MainPage(getDriver())
+                .getHeader()
+                .clickAdminIcon()
+                .getHeader()
+                .isPopUpAdminScreenDisplayed();
+
+        Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Admin icon screen is not displayed");
     }
 
     @Ignore
@@ -342,16 +336,11 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testAdminButtonIsUnderlinedWhenMouseover() {
+    public void testAdminButtonIsUnderlinedWhenMouseOver() {
 
-        Actions act = new Actions(getDriver());
-
-        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[@class='model-link'][1]")));
-
-        act.moveToElement(adminLink).perform();
-
-        String textUnderlineAfter = adminLink.getCssValue("text-decoration");
+        String textUnderlineAfter = new MainPage(getDriver())
+                .hoverOverAdminLink()
+                .getTextDecorationValue();
 
         Assert.assertTrue(textUnderlineAfter.contains("underline"));
     }

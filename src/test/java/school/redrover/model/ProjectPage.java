@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
 import java.time.Duration;
 
-public class ProjectPage extends BasePage {
+public class ProjectPage extends BaseModel {
 
     public ProjectPage(WebDriver driver) {
         super(driver);
@@ -53,5 +53,12 @@ public class ProjectPage extends BasePage {
         getDriver().switchTo().alert().accept();
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
         return new MainPage(getDriver());
+    }
+    public WebElement projectsHeadline() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//h1[contains(text(),'Project')]"))));
+    }
+
+    public String getProjectDescription() {
+        return getDriver().findElement(By.xpath("//div[@id='description']")).getText();
     }
 }
