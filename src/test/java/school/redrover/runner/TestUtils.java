@@ -61,6 +61,7 @@ public class TestUtils {
 
         new NewJobPage(baseTest.getDriver())
                 .selectFolderAndOk()
+                .getConfig()
                 .clickSaveButton();
 
         goToHomePage(baseTest, goToHomePage);

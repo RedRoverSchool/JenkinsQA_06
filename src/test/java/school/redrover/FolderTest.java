@@ -185,6 +185,7 @@ public class FolderTest extends BaseTest {
         folderPage.clickConfigureSideMenu()
                 .enterDisplayName(displayName)
                 .enterDescription(description)
+                .getConfig()
                 .clickSaveButton();
 
         Assert.assertEquals(folderPage.getFolderDisplayName(), displayName);
@@ -306,6 +307,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("TC 00.04 New item Create Folder")
                 .selectFolderAndOk()
+                .getConfig()
                 .clickSaveButton()
                 .clickCreateAJob()
                 .enterItemName("Mine Project")

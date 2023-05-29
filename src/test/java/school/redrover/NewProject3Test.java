@@ -60,6 +60,7 @@ public class NewProject3Test extends BaseTest {
         mainPage.clickNewItem()
                 .enterItemName(nameProject)
                 .selectFolderAndOk()
+                .getConfig()
                 .clickSaveButton();
         mainPage.selectDashboard();
 

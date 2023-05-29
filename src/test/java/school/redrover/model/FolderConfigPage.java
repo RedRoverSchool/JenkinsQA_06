@@ -4,12 +4,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseModel;
+import school.redrover.model.component.MainConfigComponent;
 
-public class FolderConfigPage extends BaseModel {
+public class FolderConfigPage extends BaseConfigPage<MainConfigComponent> {
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public MainConfigComponent getConfig() {
+        return new MainConfigComponent(getDriver());
     }
 
     public FolderConfigPage enterDisplayName(String displayName) {
@@ -26,10 +33,10 @@ public class FolderConfigPage extends BaseModel {
         return this;
     }
 
-    public FolderPage clickSaveButton() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
-        return new FolderPage(getDriver());
-    }
+//    public FolderPage clickSaveButton() {
+//        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
+//        return new FolderPage(getDriver());
+//    }
 
     public MainPage clickDashboard() {
         getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
