@@ -10,6 +10,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -304,13 +305,18 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testAppearanceOfPopUpMenusWhenClickingOnIcons() {
-        getDriver().findElement(NOTIFICATION_ICON).click();
-        Assert.assertTrue(getWait2().until
-                (ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN)).isDisplayed());
+        MainPage mainPage = new MainPage(getDriver())
+                .getHeader()
+                .clickNotificationIcon();
 
-        getDriver().findElement(ADMIN_BTN).click();
-        Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
+        Assert.assertTrue(mainPage.isPopUpNotificationScreenDisplayed(),
+                "The pop-up Notification icon screen is not displayed");
+
+        mainPage.getHeader()
+                .clickAdminIcon();
+
+        Assert.assertTrue(mainPage.isPopUpAdminScreenDisplayed(),
+                "The pop-up Admin icon screen is not displayed");
     }
 
     @Ignore

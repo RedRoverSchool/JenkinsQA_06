@@ -1,9 +1,9 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
@@ -40,7 +40,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizationFolderInFolder() {
-        final String nameFolder = RandomStringUtils.randomAlphanumeric(8);
+        final String nameFolder = "nameFolder";
         final String nameOrganizationFolder = nameFolder + "Organization";
 
         WebElement createdOrganizationFolder = new MainPage(getDriver())
@@ -63,9 +63,11 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
+
         final String folderName = "TestFolder";
         final String organizationFolderName = "TestOrgFolder";
-        WebElement movedOrgFolder = new MainPage(getDriver())
+
+        boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderName)
                 .selectFolderAndOk()
@@ -76,12 +78,11 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickSaveButton()
                 .clickMoveOnLeftMenu()
                 .selectDestinationFolder()
-                .clickMoveButtonOnOrgPage()
+                .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderName)
-                .getNestedFolder(organizationFolderName);
+                .nestedFolderIsVisibleAndClickable(organizationFolderName);
 
-        Assert.assertTrue(movedOrgFolder.isDisplayed());
-        Assert.assertTrue(movedOrgFolder.isEnabled());
+        Assert.assertTrue(movedOrgFolderVisibleAndClickable);
     }
 }

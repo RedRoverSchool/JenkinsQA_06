@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -8,7 +7,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.model.MyViewsPage;
+import school.redrover.model.ViewPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -16,13 +17,13 @@ import java.util.List;
 
 public class MyViewsTest extends BaseTest {
 
-    private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
+    private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
 
-    private static final String NEW_VIEW_DESCRIPTION_RANDOM = RandomStringUtils.randomAlphanumeric(7);
+    private static final String NEW_VIEW_DESCRIPTION_RANDOM = "NEW_VIEW_DESCRIPTION_RANDOM";
 
     private static final String NAME_FOLDER = "TestPipeline";
 
-    private static final String NEW_VIEW_NEW_DESCRIPTION_RANDOM = RandomStringUtils.randomAlphanumeric(7);
+    private static final String NEW_VIEW_NEW_DESCRIPTION_RANDOM = "NEW_VIEW_NEW_DESCRIPTION_RANDOM";
 
 
 

@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.JenkinsVersionPage;
+import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
@@ -47,11 +48,12 @@ public class FooterJenkinsVersionTest extends BaseTest {
 
     @Test
     public void testVerifyJenkinsVersionOnManageJenkinsPage() {
-        ManageJenkinsPage manageJenkinsPage = new ManageJenkinsPage(getDriver())
+        boolean isVersionJenkinsCorrect = new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
-                .scrollToFooterPageByJenkinsVersionBTN();
+                .scrollToFooterPageByJenkinsVersionBTN()
+                .isVersionJenkinsFromFooterCorrect();
 
-        Assert.assertTrue(manageJenkinsPage.getVersionJenkinsFromFooter(), "Wrong version Jenkins");
+        Assert.assertTrue(isVersionJenkinsCorrect, "Wrong version Jenkins");
     }
 
 
