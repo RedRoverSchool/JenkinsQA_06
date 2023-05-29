@@ -130,4 +130,8 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//span/a[@href='/job/%s/move']", folderName)))).click();
         return new MovePage<>(this);
     }
+    public WebElement getNestedOrganizationFolder(String nameFolder) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+    }
 }

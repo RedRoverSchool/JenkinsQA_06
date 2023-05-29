@@ -488,4 +488,20 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);
         Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
     }
+    @Test
+    public void testCreateOrganizationFolder() {
+
+        final String nameFolder = "OrganizationFolder";
+
+        WebElement createdOrganizationFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedOrganizationFolder(nameFolder);
+
+        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
+    }
 }
