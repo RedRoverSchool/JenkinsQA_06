@@ -440,7 +440,7 @@ public class FolderTest extends BaseTest {
 
         WebElement nestedFolder = new MainPage(getDriver())
                 .clickToOpenFolder(folder2)
-                .clickMoveOnSideMenu()
+                .clickMoveOnSideMenu(folder2)
                 .selectDestinationFolder()
                 .clickMoveButton()
                 .clickDashboard()
