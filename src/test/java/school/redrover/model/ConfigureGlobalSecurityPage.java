@@ -5,13 +5,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BasePage;
+import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigureGlobalSecurityPage extends BaseModel {
+public class ConfigureGlobalSecurityPage extends BasePage {
 
     public ConfigureGlobalSecurityPage(WebDriver driver) {
         super(driver);
@@ -54,10 +56,6 @@ public class ConfigureGlobalSecurityPage extends BaseModel {
     private List<WebElement> getAdvancedSettingsButtons() {
         return getDriver().findElements(By.xpath("//button[@class='jenkins-button advanced-button advancedButton']"));
     }
-//
-//    private List<WebElement> getDropDownMenus() {
-//        return getDriver().findElements(By.xpath("(//select[@class='jenkins-select__input dropdownList'])"));
-//    }
 
     public List<WebElement> getRadioButtons() {
         return getDriver().findElements(By.xpath("//div[@class='jenkins-radio']"));
