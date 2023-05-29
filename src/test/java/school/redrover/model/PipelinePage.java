@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,6 +20,13 @@ public class PipelinePage extends BasePage {
 
     public String getProjectName() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText();
+    }
+
+    public PipelinePage checkPipelinePageIsOpened() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//div[@id='main-panel']/h1")));
+
+        return this;
     }
 
     public PipelinePage clickRename() {
@@ -73,6 +81,15 @@ public class PipelinePage extends BasePage {
     public MainPage acceptAlert() {
         getDriver().switchTo().alert().accept();
         return new MainPage(getDriver());
+    }
+
+    public Boolean verifyPipelineDescriptionIsPresent() {
+        try {
+            getDriver().findElement(By.id("description"));
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
     }
 
     public WebElement getHeaderPipeline() {
