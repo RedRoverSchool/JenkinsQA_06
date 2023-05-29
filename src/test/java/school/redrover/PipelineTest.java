@@ -153,15 +153,17 @@ public class PipelineTest extends BaseTest {
 
         final boolean ifPipelineDescriptionPresent =
                 new MainPage(getDriver())
-                .clickOnSliderDashboardInDropDownMenu()
-                .clickPipelineProject(PIPELINE_NAME)
-                .clickConfigureButton()
-                .addProjectDescription()
-                .clickSaveButton()
-                .checkPipelinePageIsOpened()
-                .verifyPipelineDescriptionIsPresent();
+                        .clickOnSliderDashboardInDropDownMenu()
+                        .clickPipelineProject(PIPELINE_NAME)
+                        .clickConfigureButton()
+                        .addProjectDescription()
+                        .clickSaveButton()
+                        .checkPipelinePageIsOpened()
+                        .verifyPipelineDescriptionIsPresent();
 
         Assert.assertTrue(ifPipelineDescriptionPresent);
+    }
+
         final String pipelineName = "test_pipeline";
         final String descriptionText = "description text";
         String resultDescriptionText = new MainPage(getDriver())

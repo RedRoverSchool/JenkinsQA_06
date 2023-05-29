@@ -65,12 +65,6 @@ public class PipelinePage extends BaseModel {
         return this;
     }
 
-    public PipelineConfigPage clickConfigureButton() {
-        getWait2().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("(//span[@class='task-link-wrapper '])[4]"))).click();
-        return new PipelineConfigPage(getDriver());
-    }
-
     public boolean getDisableButton() {
         return getDriver().findElement(By.xpath("//button[normalize-space()='Disable Project']")).isDisplayed();
     }
