@@ -439,4 +439,8 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed();
     }
+    public MultibranchPipelinePage clickMultibranchPipeline(String multibranchPipeline) {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body[1]/div[3]/div[2]/div[2]/table[1]/tbody[1]/tr[1]/td[3]/a[1]/span[1]"))).click();
+        return new MultibranchPipelinePage(getDriver());
+    }
 }
