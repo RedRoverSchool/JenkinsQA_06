@@ -3,6 +3,7 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import school.redrover.model.base.BaseModel;
+import school.redrover.runner.TestUtils;
 
 public class JobPage extends BaseModel {
 
@@ -11,7 +12,7 @@ public class JobPage extends BaseModel {
     }
 
     public MainPage clickDashBoardButton() {
-        click(getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[text()='Dashboard']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']//a[text()='Dashboard']")));
         return new  MainPage(getDriver());
     }
 }

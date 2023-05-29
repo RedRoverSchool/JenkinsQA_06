@@ -3,7 +3,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.runner.TestUtils;
 
 public class ConfigurePage extends BaseMainHeaderPage<ConfigurePage> {
 
@@ -24,33 +26,34 @@ public class ConfigurePage extends BaseMainHeaderPage<ConfigurePage> {
     }
 
     public ConfigurePage sendAreDescriptionInputString(String text) {
-        sendTextToInput(getDriver().findElement(By.xpath("//textarea[@name='description']")), text);
+        TestUtils.sendTextToInput(this, getDriver().findElement(By.xpath("//textarea[@name='description']")), text);
         return this;
     }
 
     public ConfigurePage clickBuildTriggerCheckBox() {
-        click(getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")));
         return this;
     }
 
     public ConfigurePage sendAreContentInputString(String text) {
-        clickByJavaScript(getAreContentInputString());
+        TestUtils.clickByJavaScript(this, getAreContentInputString());
         getAreContentInputString().sendKeys(text);
         return this;
     }
 
     public ConfigurePage scrollToBuildtriggersByJavaScript() {
-        scrollToElementByJavaScript(getBuildTriggersSection());
+        TestUtils.scrollToElementByJavaScript(this, getBuildTriggersSection());
         return new ConfigurePage(getDriver());
     }
 
     public ConfigurePage scrollToPipelineSection() {
-        scrollToElementByJavaScript(getPipelineSection());
+        TestUtils.scrollToElementByJavaScript(this, getPipelineSection());
         return new ConfigurePage(getDriver());
     }
 
     public JobPage selectSaveButton() {
-        click(getDriver().findElement(By.xpath("//button[@name='Submit']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//button[@name='Submit']")));
+
         return new JobPage(getDriver());
     }
 

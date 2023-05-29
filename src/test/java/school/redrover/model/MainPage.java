@@ -3,9 +3,9 @@ package school.redrover.model;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
+
 import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
@@ -143,17 +143,17 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     }
 
     public MainPage clickPlayBuildForATestButton() {
-        click(getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']")));
         return new MainPage(getDriver());
     }
 
     public BuildPage clickBuildsHistoryButton() {
-        click(getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
         return new BuildPage(getDriver());
     }
 
     public ViewPage clickNewItemButton() {
-        click(getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
         return new ViewPage(getDriver());
     }
 
@@ -239,7 +239,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     }
 
     public MainPage scrollToRestApiInFooter() {
-        scrollToElementByJavaScript(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
+        TestUtils.scrollToElementByJavaScript(this, getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
         return this;
     }
 
