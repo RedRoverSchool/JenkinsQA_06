@@ -22,7 +22,7 @@ public class MultibranchPipelineConfigPage extends BaseModel {
     }
     public MultibranchPipelineConfigPage enterDescription(String description) {
         getDriver().findElement(By.xpath("//textarea[@name='_.description']"))
-                .sendKeys("Random Description");
+                .sendKeys(description);
         return this;
     }
     public WebElement titleMultibranchPipeline() {
