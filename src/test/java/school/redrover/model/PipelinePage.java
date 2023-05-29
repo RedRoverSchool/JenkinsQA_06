@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -122,11 +123,16 @@ public class PipelinePage extends BaseModel {
     }
 
     public PipelinePage clickBuildIcon() {
-        getWait10().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".build-icon"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".build-icon"))).click();
         return this;
     }
 
     public WebElement getConsoleOutputField() {
-        return getWait10().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".console-output")));
+        return getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".console-output")));
+    }
+
+    public BuildPage click1BuildHistory() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text() ,'#1')]"))).sendKeys(Keys.ENTER);
+        return new BuildPage(getDriver());
     }
 }

@@ -222,46 +222,23 @@ public class PipelineTest extends BaseTest {
         Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
     public void testPipelineBuildingAfterChangesInCode() {
+        BuildPage buildPage = new MainPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickConfigureButton()
+                .clickPipelineLeftMenu()
+                .clickScriptDropDownMenu()
+                .selectHelloWord()
+                .clickSaveButton()
+                .clickBuildNow()
+                .clickBuildIcon()
+                .click1BuildHistory();
 
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//a[@href='job/Pipeline01/']"))).click();
-
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//a[@href='/job/Pipeline01/configure']"))).click();
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//button[@data-section-id='pipeline']"))).click();
-
-        WebElement trySamplePipelineField = getWait2().until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//div[@class='samples']//select")));
-
-        Select samplePipelineCode = new Select(trySamplePipelineField);
-        samplePipelineCode.selectByIndex(0);
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(buildNowButton)).click();
-        WebElement buildNumber = getWait10().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("(//a[@update-parent-class='.build-row'])[1]")));
-
-        new Actions(getDriver())
-                .moveToElement(buildNumber)
-                .pause(Duration.ofSeconds(1))
-                .click()
-                .perform();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']")));
-
-        WebElement buildStatusIcon =
-                getDriver().findElement(By.xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']"));
-        WebElement buildStatusText =
-                getDriver().findElement(By.xpath("//h1[@class='build-caption page-headline']"));
-
-        Assert.assertTrue(buildStatusText.getText().contains("Build #1"));
-        Assert.assertTrue(buildStatusIcon.isDisplayed());
+        Assert.assertTrue(buildPage.isDisplayedBuildTitle(), "Build #1 failed");
+        Assert.assertTrue(buildPage.isDisplayedGreenIconV(), "Build #1 failed");
     }
 
     @Test
