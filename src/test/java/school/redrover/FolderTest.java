@@ -406,4 +406,62 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(movedProject.getText(), projectName);
     }
+
+    @Test
+    public void testCreateOrganizationFolderInFolder() {
+        final String nameFolder = "nameFolder";
+        final String nameOrganizationFolder = nameFolder + "Organization";
+
+        WebElement createdOrganizationFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameFolder)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .clickNewItem()
+                .enterItemName(nameOrganizationFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedFolder(nameOrganizationFolder);
+
+        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
+    }
+
+    @Test
+    public void testMoveFolderToFolderFromSideMenu() {
+        String folder1 = "Folder1";
+        String folder2 = "Folder2";
+
+        TestUtils.createFolder(this, folder1, true);
+        TestUtils.createFolder(this, folder2, true);
+
+        WebElement nestedFolder = new MainPage(getDriver())
+                .clickToOpenFolder(folder2)
+                .clickMoveOnSideMenu(folder2)
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(folder1)
+                .getNestedFolder(folder2);
+
+        Assert.assertEquals(nestedFolder.getText(), folder2);
+    }
+    @Test
+    public void testCreateOrganizationFolder() {
+        final String nameFolder = "OrganizationFolder";
+
+        WebElement createdOrganizationFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedOrganizationFolder(nameFolder);
+
+        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
+    }
 }
