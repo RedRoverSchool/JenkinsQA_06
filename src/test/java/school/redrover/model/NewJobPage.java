@@ -3,12 +3,10 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
-public class NewJobPage extends BasePage {
+public class NewJobPage extends BaseModel {
 
     public NewJobPage(WebDriver driver) {
         super(driver);
@@ -37,6 +35,11 @@ public class NewJobPage extends BasePage {
         return new MultiConfigurationProjectConfigPage(getDriver());
     }
 
+    public NewJobPage selectMultiConfigurationProject() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@class='hudson_matrix_MatrixProject']"))).click();
+        return this;
+    }
+
     public FolderConfigPage selectFolderAndOk() {
         getDriver().findElement(By.xpath("//li[contains(@class, 'folder_Folder')]")).click();
         getOkButton().click();
@@ -61,12 +64,6 @@ public class NewJobPage extends BasePage {
         return this;
     }
 
-    public PipelineConfigPage selectPipelineAndClickOK() {
-        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
-        getOkButton().click();
-        return new PipelineConfigPage(getDriver());
-    }
-
     public String getItemInvalidMessage() {
         return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
     }
@@ -84,11 +81,12 @@ public class NewJobPage extends BasePage {
         getOkButton().click();
         return new CreateItemErrorPage(getDriver());
     }
+
     public String getItemNameRequiredMessage() {
         return getDriver().findElement(By.id("itemname-required")).getText();
     }
 
-    private WebElement getOkButton() {
+    public WebElement getOkButton() {
         return getDriver().findElement(By.xpath("//button[@id='ok-button']"));
     }
 
@@ -97,11 +95,16 @@ public class NewJobPage extends BasePage {
     }
 
     private WebElement getItemInvalidNameMessage() {
-       return getDriver().findElement(By.id("itemname-invalid"));
+        return getDriver().findElement(By.id("itemname-invalid"));
     }
 
     public NewJobPage selectPipelineProject() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Pipeline']"))).click();
-        return new NewJobPage(getDriver());
+        return this;
     }
+
+    public String getItemNameRequiredErrorText() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
+    }
+
 }

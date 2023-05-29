@@ -3,11 +3,10 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
-public class ViewFolderPage extends BasePage {
+public class ViewFolderPage extends BaseModel {
 
     public ViewFolderPage(WebDriver driver) {
         super(driver);
@@ -21,4 +20,6 @@ public class ViewFolderPage extends BasePage {
     public WebElement getMyView() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tab active']")));
     }
+
+
 }

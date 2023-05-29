@@ -48,11 +48,12 @@ public class FooterJenkinsVersionTest extends BaseTest {
 
     @Test
     public void testVerifyJenkinsVersionOnManageJenkinsPage() {
-        ManageJenkinsPage manageJenkinsPage = new ManageJenkinsPage(getDriver())
+        boolean isVersionJenkinsCorrect = new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
-                .scrollToFooterPageByJenkinsVersionBTN();
+                .scrollToFooterPageByJenkinsVersionBTN()
+                .isVersionJenkinsFromFooterCorrect();
 
-        Assert.assertTrue(manageJenkinsPage.getVersionJenkinsFromFooter(), "Wrong version Jenkins");
+        Assert.assertTrue(isVersionJenkinsCorrect, "Wrong version Jenkins");
     }
 
 

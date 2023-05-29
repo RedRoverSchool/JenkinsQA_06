@@ -2,9 +2,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
-public class MyViewsPage extends BasePage {
+public class MyViewsPage extends BaseModel {
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
@@ -77,6 +77,11 @@ public class MyViewsPage extends BasePage {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//textarea[@name='description']"))).sendKeys(name);
         return new MyViewsPage(getDriver());
+    }
+
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
+        return new NewJobPage(getDriver());
     }
 }
 
