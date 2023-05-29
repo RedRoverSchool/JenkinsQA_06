@@ -19,20 +19,20 @@ public class ConfigureGlobalSecurityPage extends BasePage {
         return getDriver().findElements(By.xpath("(//div[@class='jenkins-section__title'])"));
     }
 
-    private List<WebElement> getCheckBoxes() {
+    private List<WebElement> getAPICheckBoxes() {
         return getDriver().findElements(By.xpath("(//div[@class='jenkins-section'])[8]//input[@type='checkbox']/following-sibling::label"));
     }
 
     private List<WebElement> getAdvancedSettingsButtons() {
         return getDriver().findElements(By.xpath("//button[@class='jenkins-button advanced-button advancedButton']"));
     }
-
-    private List<WebElement> getDropDownMenus() {
-        return getDriver().findElements(By.xpath("(//select[@class='jenkins-select__input dropdownList'])"));
-    }
+//
+//    private List<WebElement> getDropDownMenus() {
+//        return getDriver().findElements(By.xpath("(//select[@class='jenkins-select__input dropdownList'])"));
+//    }
 
     public List<WebElement> getRadioButtons() {
-        return getDriver().findElements(By.xpath("//label[@class='jenkins-radio__label']"));
+        return getDriver().findElements(By.xpath("//div[@class='jenkins-radio']"));
     }
 
     public boolean titlesAreAsExpected(List<String> expected, List<String> actual){
@@ -42,23 +42,29 @@ public class ConfigureGlobalSecurityPage extends BasePage {
         return expected.equals(actual);
     }
 
-    public void checkAllCheckBoxes() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        for (int i = 0; i<=2; i++) {
-            WebElement checkBox = getCheckBoxes().get(i);
-            js.executeScript("arguments[0].scrollIntoView();", checkBox);
-               new Actions(getDriver()).click(checkBox).perform();
-               Thread.sleep(2000);
-//            if (!checkBox.isSelected()) {
-//                return false; b
-//            }
+    public boolean checkAPICheckBoxes() {
+        for ( int i = 0; i <= 2; i++ ) {
+            WebElement checkBox = getWait2().until(ExpectedConditions.elementToBeClickable(getAPICheckBoxes().get(i)));
+            if (!checkBox.isSelected()) {
+            new Actions(getDriver()).click(checkBox).perform();
+            }
+            if (!checkBox.isEnabled()) {
+                return false;
+            }
         }
-//
-//        return true;
-    }
-    public boolean checkBoxIsSelected(WebElement checkBox) {
-        getWait2().until(ExpectedConditions.elementToBeClickable(checkBox));
-        new Actions(getDriver()).moveToElement(checkBox).click().perform();
-       return checkBox.isSelected();
+        return true;
+        }
+
+    public boolean checkRadioButtons() {
+        for ( int i = 0; i <= 5; i++ ){
+            WebElement radioButton = getWait5().until(ExpectedConditions.elementToBeClickable(getRadioButtons().get(i)));
+            if (!radioButton.isSelected()){
+                new Actions(getDriver()).click(radioButton).perform();
+            }
+            if(!radioButton.isEnabled()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

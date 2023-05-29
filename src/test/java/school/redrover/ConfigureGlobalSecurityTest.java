@@ -107,13 +107,22 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
     }
 
     @Test
-    public void testCheckboxesAreClickable() throws InterruptedException {
-//        boolean allChecksAreOk =
-                new MainPage(getDriver())
+    public void testAPICheckboxesAreClickable() {
+        boolean allChecksAreOk = new MainPage(getDriver())
              .navigateToManageJenkinsPage()
              .accessConfigureGlobalSecurity()
-             .checkAllCheckBoxes();
+             .checkAPICheckBoxes();
 
-//        Assert.assertTrue(allChecksAreOk);
+        Assert.assertTrue(allChecksAreOk);
+    }
+
+    @Test
+    public void testRadioButtonsAreClickable() {
+        boolean allChecksAreOk = new MainPage(getDriver())
+                        .navigateToManageJenkinsPage()
+                        .accessConfigureGlobalSecurity()
+                        .checkRadioButtons();
+
+        Assert.assertTrue(allChecksAreOk);
     }
 }
