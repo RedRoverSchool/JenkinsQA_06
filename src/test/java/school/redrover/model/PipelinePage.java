@@ -120,4 +120,13 @@ public class PipelinePage extends BaseModel {
     public String getDescriptionText(){
         return getDescription().getText();
     }
+
+    public PipelinePage clickBuildIcon() {
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".build-icon"))).click();
+        return this;
+    }
+
+    public WebElement getConsoleOutputField() {
+        return getWait10().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".console-output")));
+    }
 }

@@ -27,12 +27,6 @@ public class PipelineTest extends BaseTest {
     private static final String PIPELINE_NAME = "PIPELINE_NAME";
     private static final String RENAME = "Pipeline Project";
 
-    private static final By newItem = By.linkText("New Item");
-    private static final By name = By.id("name");
-    private static final By pipelineItem = By.xpath("//span[text() = 'Pipeline']");
-    private static final By okButton = By.id("ok-button");
-    private static final By saveButton = By.xpath("//button[contains(@class,'jenkins-button jenkins-button--primary')]");
-    private static final By pipelineTrySampleDropDownMenu = By.xpath("//option[text() = 'try sample Pipeline...']");
     private static final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
     private static final By homePage = By.xpath("//h1[@class= 'job-index-headline page-headline']");
@@ -138,19 +132,19 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineConsoleOutputSuccess() {
-        getDriver().findElement(newItem).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(name)).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(pipelineItem).click();
-        getDriver().findElement(okButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(pipelineTrySampleDropDownMenu)).click();
-        getDriver().findElement(By.cssSelector("option[value='hello']")).click();
-        getDriver().findElement(saveButton).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(buildNowButton)).click();
-        getWait(10).until(ExpectedConditions
-                .visibilityOfElementLocated(By.cssSelector(".build-icon"))).click();
-        getWait(2).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel")));
+        String text = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .clickScriptDropDownMenu()
+                .selectHelloWord()
+                .clickSaveButton()
+                .clickBuildNow()
+                .clickBuildIcon()
+                .getConsoleOutputField()
+                .getText();
 
-        Assert.assertTrue(getDriver().findElement(By.cssSelector(".console-output")).getText().contains("Finished: SUCCESS"));
+        Assert.assertTrue(text.contains("Finished: SUCCESS"), "Job does not finished success");
     }
 
     @Test
