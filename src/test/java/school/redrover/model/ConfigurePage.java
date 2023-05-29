@@ -3,9 +3,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseMainHeaderPage;
 
-public class ConfigurePage extends BasePage {
+public class ConfigurePage extends BaseMainHeaderPage<ConfigurePage> {
 
     public ConfigurePage(WebDriver driver) {
         super(driver);
@@ -49,8 +49,22 @@ public class ConfigurePage extends BasePage {
         return new ConfigurePage(getDriver());
     }
 
-    public JobPage clickSaveButton() {
+    public JobPage selectSaveButton() {
         click(getDriver().findElement(By.xpath("//button[@name='Submit']")));
         return new JobPage(getDriver());
+    }
+
+    public ConfigurePage clickPreview() {
+        getDriver().findElement(By.cssSelector("[previewendpoint$='previewDescription']")).click();
+        return this;
+    }
+
+    public String getPreviewText() {
+        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText();
+    }
+
+    public ConfigurePage clearDescriptionArea() {
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
+        return this;
     }
 }

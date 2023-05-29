@@ -3,9 +3,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
-public class RenameMultibranchPipelinePage extends BasePage {
+public class RenameMultibranchPipelinePage extends BaseModel {
     public RenameMultibranchPipelinePage(WebDriver driver) {
         super(driver);
     }

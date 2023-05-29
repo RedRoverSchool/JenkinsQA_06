@@ -3,12 +3,15 @@ package school.redrover.model;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
+import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
 import java.util.List;
 
-public class MainPage extends BasePage {
+public class MainPage extends BaseMainHeaderPage<MainPage> {
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -44,7 +47,7 @@ public class MainPage extends BasePage {
 
     public NewJobPage clickCreateAJobArrow() {
         getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")))
+                        By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")))
                 .click();
 
         return new NewJobPage(getDriver());
@@ -188,11 +191,6 @@ public class MainPage extends BasePage {
         return new NewJobPage(getDriver());
     }
 
-    public MovePage selectMoveFromDropDownMenu() {
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
-        return new MovePage(getDriver());
-    }
-
     public MainPage getMultiConfigPage() {
         getWait10().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".jenkins-table__link")))).click();
@@ -223,10 +221,10 @@ public class MainPage extends BasePage {
         return new RenameProjectPage(getDriver());
     }
 
-    public MovePage selectMoveJobDropDownMenu(String jobName) {
+    public <JobTypePage extends BasePage<?>> MovePage<JobTypePage> selectMoveJobDropDownMenu(String jobName, JobTypePage jobTypePage) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
-        return new MovePage(getDriver());
+        return new MovePage<>(jobTypePage);
     }
 
     public MyViewsPage clickMyViewsSideMenuLink() {
@@ -393,5 +391,52 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    public WebElement getMainPanel() {
 
+        return getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("main-panel")));
+    }
+
+    public WebElement getProjectStatusTable() {
+
+        return getMainPanel().findElement(By.id("projectstatus"));
+    }
+
+    public List<WebElement> getProjectsList() {
+
+        return getProjectStatusTable().findElements(By.xpath("./tbody/tr"));
+    }
+
+    public String getOnlyProjectName() {
+        return getProjectsList().get(0)
+                .findElements(By.xpath("./td")).get(2)
+                .getText();
+    }
+
+    public List<String> getListOfProjectMenuItems() {
+        List<WebElement> menus = getDriver().findElements(
+                By.xpath("//div[@id = 'breadcrumb-menu' and @class = 'yui-module yui-overlay yuimenu visible']//li/a/span"));
+
+        return TestUtils.getTexts(menus);
+    }
+
+    public MainPage returnToMainPage() {
+        getDriver().findElement(By.xpath("//a[@id='jenkins-home-link']")).click();
+        return this;
+    }
+
+    public ManageJenkinsPage clickManageJenkinsOnDropDown() {
+        By sectionNameLocator = By.xpath("//*[@id='yui-gen4']/a/span");
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
+        getDriver().findElement(sectionNameLocator).click();
+        return new ManageJenkinsPage(getDriver());
+    }
+
+    public boolean isPopUpNotificationScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list"))).isDisplayed();
+    }
+
+    public boolean isPopUpAdminScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed();
+    }
 }

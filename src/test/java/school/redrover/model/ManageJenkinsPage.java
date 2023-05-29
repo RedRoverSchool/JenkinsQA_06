@@ -34,7 +34,7 @@ public class ManageJenkinsPage extends MainPage {
         return this;
     }
 
-    public boolean getVersionJenkinsFromFooter(){
+    public boolean isVersionJenkinsFromFooterCorrect(){
         return getDriver().findElement(JENKINS_VERSION_BTN).getText().equals("Jenkins 2.387.2");
     }
 
@@ -46,8 +46,8 @@ public class ManageJenkinsPage extends MainPage {
     }
 
     public String getActualHeader() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-                "//h1[text()='Manage Jenkins']"))).getText();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName(
+                "h1"))).getText();
     }
 
     public String getDropdownResultsInSearchField() {
@@ -58,5 +58,18 @@ public class ManageJenkinsPage extends MainPage {
         getDriver().findElement(By.linkText("New Item")).click();
 
         return new NewJobPage(getDriver());
+    }
+
+    public ConfigureGlobalSecurityPage clickConfigureGlobalSecurity() {
+        getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
+
+        return new ConfigureGlobalSecurityPage(getDriver());
+    }
+
+    public ManageNodesPage clickManageNodes() {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='/computer/']"))).click();
+        return new ManageNodesPage(getDriver());
     }
 }

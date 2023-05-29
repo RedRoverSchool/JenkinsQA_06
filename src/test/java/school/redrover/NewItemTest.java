@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -20,7 +19,7 @@ public class NewItemTest extends BaseTest {
     private static final By NEW_ITEM_BUTTON = By.linkText("New Item");
     private static final By OK_BUTTON = By.cssSelector("#ok-button");
     private static final By SAVE_BUTTON = By.name("Submit");
-    private static final String RANDOM_NAME_PROJECT = RandomStringUtils.randomAlphanumeric(5);
+    private static final String RANDOM_NAME_PROJECT = "RANDOM_NAME_PROJECT";
 
     @Test
     public void testNewItemHeader() {

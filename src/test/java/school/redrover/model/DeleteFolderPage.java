@@ -2,9 +2,9 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
-public class DeleteFolderPage extends BasePage {
+public class DeleteFolderPage extends BaseModel {
 
     public DeleteFolderPage(WebDriver driver) {
         super(driver);
