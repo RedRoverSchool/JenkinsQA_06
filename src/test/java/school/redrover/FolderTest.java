@@ -201,7 +201,9 @@ public class FolderTest extends BaseTest {
                 .clickAddMetric()
                 .clickChildWithWorstHealth();
 
-        assertTrue(getDriver().findElement(By.xpath("//div[@name='healthMetrics']")).isDisplayed());
+        assertTrue(getWait5().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//div[@name='healthMetrics']"))).isDisplayed());
+
 
         getDriver().findElement(By.xpath("//button [@name='Submit']")).click();
     }
