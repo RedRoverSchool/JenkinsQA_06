@@ -25,7 +25,7 @@ public class FreestyleProjectConfigPage extends BaseMainHeaderPage<FreestyleProj
     }
 
     public FreestyleProjectConfigPage addDescription(String description) {
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
+        getDriver().findElement(By.xpath("//textarea[contains(@name, 'description')]")).sendKeys(description);
         return this;
     }
 
