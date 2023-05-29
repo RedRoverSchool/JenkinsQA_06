@@ -3,6 +3,7 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
@@ -52,6 +53,7 @@ public class ConfigurePage extends BaseMainHeaderPage<ConfigurePage> {
 
     public JobPage selectSaveButton() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//button[@name='Submit']")));
+
         return new JobPage(getDriver());
     }
 

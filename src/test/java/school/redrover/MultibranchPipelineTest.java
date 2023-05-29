@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 
-
 public class MultibranchPipelineTest extends BaseTest {
     @Test
     public void createMultibranchPipelineTest() {
