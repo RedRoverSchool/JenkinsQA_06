@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
-public class FolderPage extends BaseMainHeaderPage {
+public class FolderPage extends BaseMainHeaderPage<FolderPage> {
 
     public FolderPage(WebDriver driver) {
         super(driver);
@@ -126,8 +126,8 @@ public class FolderPage extends BaseMainHeaderPage {
         return getNestedFolder(nestedFolder).isDisplayed() && getNestedFolder(nestedFolder).isEnabled();
     }
 
-    public MovePage clickMove() {
+    public MovePage<FolderPage> clickMove() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Move']"))).click();
-        return new MovePage(getDriver());
+        return new MovePage<>(this);
     }
 }
