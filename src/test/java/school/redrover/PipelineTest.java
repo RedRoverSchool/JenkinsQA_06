@@ -196,17 +196,14 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatingBasicPipelineProjectThroughJenkinsUI() {
-        final String pipelineName = "Pipeline01";
-        final String definitionFieldText = "Pipeline script";
-
-        String resultoptionDefinitionFieldText = new MainPage(getDriver())
+        String resultOptionDefinitionFieldText = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(pipelineName)
+                .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
                 .scrollToPipelineSection()
                 .getDefinitionFieldText();
 
-        Assert.assertEquals(resultoptionDefinitionFieldText,definitionFieldText);
+        Assert.assertEquals(resultOptionDefinitionFieldText,"Pipeline script");
     }
     @Test
     public void testDeletePipelineDropDownMenu() {
