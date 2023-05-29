@@ -451,6 +451,7 @@ public class FolderTest extends BaseTest {
     }
     @Test
     public void testCreateOrganizationFolder() {
+
         final String nameFolder = "OrganizationFolder";
 
         WebElement createdOrganizationFolder = new MainPage(getDriver())
