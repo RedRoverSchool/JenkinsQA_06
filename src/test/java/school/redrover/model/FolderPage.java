@@ -126,8 +126,8 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return getNestedFolder(nestedFolder).isDisplayed() && getNestedFolder(nestedFolder).isEnabled();
     }
 
-    public MovePage<FolderPage> clickMove() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Move']"))).click();
+    public MovePage<FolderPage> clickMoveOnSideMenu() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span/a[@href='/job/Folder1/move']"))).click();
         return new MovePage<>(this);
     }
 }
