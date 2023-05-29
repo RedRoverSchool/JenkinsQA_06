@@ -302,7 +302,7 @@ public class FolderTest extends BaseTest {
     @Test
     public void testCreateMulticonfigurationProjectInFolder() {
 
-        ProjectPage mainpage = new MainPage(getDriver())
+        ProjectPage mainPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("TC 00.04 New item Create Folder")
                 .selectFolderAndOk()
@@ -405,5 +405,28 @@ public class FolderTest extends BaseTest {
         WebElement movedProject = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']", projectName))));
 
         Assert.assertEquals(movedProject.getText(), projectName);
+    }
+
+    @Test
+    public void testCreateOrganizationFolderInFolder() {
+        final String nameFolder = "nameFolder";
+        final String nameOrganizationFolder = nameFolder + "Organization";
+
+        WebElement createdOrganizationFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameFolder)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .clickNewItem()
+                .enterItemName(nameOrganizationFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedFolder(nameOrganizationFolder);
+
+        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
     }
 }

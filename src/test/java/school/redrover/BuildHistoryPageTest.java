@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -68,24 +69,19 @@ public class BuildHistoryPageTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionToBuild()  {
-        JavascriptExecutor js = (JavascriptExecutor)getDriver();
-        TestUtils.createPipeline(this, NAME_PIPELINE, true);
+    public void testAddDescriptionToBuild() {
+        String buildDecsription = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(NAME_PIPELINE)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickPipelineProject(NAME_PIPELINE)
+                .clickEditDescription()
+                .enterNewDescription(BUILD_DESCRIPTION)
+                .clickSaveButton()
+                .getDescription().getText();
 
-        getDriver().findElement(LOGO_JENKINS).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(BUILD_SCHEDULE)).click();
-        getDriver().findElement(BUILD_HISTORY).click();
-
-        new Actions(getDriver()).moveToElement(getDriver().findElement(SERIAL_NUMBER_OF_BUILD)).perform();
-
-        js.executeScript("arguments[0].click();", getDriver().findElement(By
-                .xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/']/button")));
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
-        getDriver().findElement(SAVE_BUTTON).click();
-
-        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), BUILD_DESCRIPTION);
+        Assert.assertEquals(buildDecsription, BUILD_DESCRIPTION);
     }
 }

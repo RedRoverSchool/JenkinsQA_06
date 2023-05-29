@@ -1,15 +1,18 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class MultibranchPipelineTest extends BaseTest {
     @Test
     public void createMultibranchPipelineTest() {
-        MultibranchPipelinePage mainpage = new MainPage(getDriver())
+        MultibranchPipelinePage mainPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
@@ -22,7 +25,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testRenameMultibranchPipeline() {
-        RenameMultibranchPipelinePage mainpage = new MainPage(getDriver())
+        RenameMultibranchPipelinePage mainPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
@@ -74,5 +77,22 @@ public class MultibranchPipelineTest extends BaseTest {
         String actualMultiBranchName = getDriver().findElement(By.xpath("//a[@href = 'job/Multi/']")).getText();
 
         Assert.assertEquals(actualMultiBranchName,nameMultiPipeline);
+    }
+    @Test
+    public void testMoveMultibranchPipelineToFolder(){
+
+        TestUtils.createFolder(this, "Folder", true);
+        TestUtils.createMultibranchPipeline(this, "MultibranchPipeline", true);
+
+        WebElement nameMultibranchPipeline = new MainPage(getDriver())
+                .clickJobDropDownMenu("MultibranchPipeline")
+                .selectMoveJobDropDownMenu("MultibranchPipeline",new FolderPage(getDriver()))
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickMultibranchPipeline("MultibranchPipeline")
+                .getNestedFolder("Folder");
+
+        Assert.assertTrue(nameMultibranchPipeline.isDisplayed());
     }
 }

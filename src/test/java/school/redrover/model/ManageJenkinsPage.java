@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.time.Duration;
+
 public class ManageJenkinsPage extends MainPage {
 
 
@@ -71,5 +73,13 @@ public class ManageJenkinsPage extends MainPage {
         getWait2().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='/computer/']"))).click();
         return new ManageNodesPage(getDriver());
+    }
+
+    public ManageJenkinsPage clickManageJenkinsLink() {
+        new Actions(getDriver())
+                .pause(Duration.ofMillis(300))
+                .click(getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Manage Jenkins']"))))
+                .perform();
+        return new ManageJenkinsPage(getDriver());
     }
 }
