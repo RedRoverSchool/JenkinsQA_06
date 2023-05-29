@@ -285,16 +285,13 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dataProvider = "wrong character")
     public void testCreateProjectWithWrongName(String wrongCharacter) {
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .selectMultiConfigurationProject()
+                .enterItemName(wrongCharacter);
 
-        MainPage createPage = new MainPage(getDriver());
-        createPage.clickNewItem();
-        NewJobPage newJobPage = new NewJobPage(getDriver());
-        newJobPage.enterItemName(wrongCharacter)
-                .selectMultiConfigurationProject();
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
         Assert.assertFalse(newJobPage.isOkButtonEnabled());
-        createPage.returnToMainPage();
-
     }
 
     @Test
@@ -344,22 +341,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals((errorMessage.getText()).substring(6, 28), expectedResult);
 
         getDriver().findElement(By.name("name")).clear();
-    }
-
-    @Test
-    public void testCreateMultiConfigurationProjectWithEqualName() {
-        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
-
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
-
-        getDriver().findElement(NEW_ITEM_BUTTON).click();
-        getDriver().findElement(INPUT_FIELD).sendKeys(MULTI_CONFIGURATION_NAME);
-        getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
-        getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
-
-        WebElement errorMessage = getDriver().findElement(By.xpath("//*[@id='main-panel']/p"));
-
-        Assert.assertEquals(errorMessage.getText(), ERROR_MESSAGE_EQUAL_NAME);
     }
 
     @Test
@@ -640,5 +621,20 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 multiConfigurationProjectConfigPage.getDaysToKeepBuilds("value")), displayedDaysToKeepBuilds);
         Assert.assertEquals(Integer.parseInt(
                 multiConfigurationProjectConfigPage.getMaxNumOfBuildsToKeep("value")), displayedMaxNumOfBuildsToKeep);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testCreateMultiConfigurationProjectWithEqualName() {
+        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(MULTI_CONFIGURATION_NAME)
+                .selectMultiConfigurationProjectAndOk();
+
+        String error = new ErrorNodePage(getDriver())
+                .getErrorEqualName();
+
+        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
 }

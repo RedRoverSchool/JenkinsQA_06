@@ -4,14 +4,14 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import school.redrover.model.base.BaseModel;
-import school.redrover.model.base.PageUtils;
+import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
 import java.util.List;
 
-public class MainPage extends BaseModel {
+public class MainPage extends BaseMainHeaderPage<MainPage> {
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -143,17 +143,17 @@ public class MainPage extends BaseModel {
     }
 
     public MainPage clickPlayBuildForATestButton() {
-        PageUtils.click(this, getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']")));
+        click(getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']")));
         return new MainPage(getDriver());
     }
 
     public BuildPage clickBuildsHistoryButton() {
-        PageUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
+        click(getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
         return new BuildPage(getDriver());
     }
 
     public ViewPage clickNewItemButton() {
-        PageUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
+        click(getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
         return new ViewPage(getDriver());
     }
 
@@ -191,11 +191,6 @@ public class MainPage extends BaseModel {
         return new NewJobPage(getDriver());
     }
 
-    public MovePage selectMoveFromDropDownMenu() {
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
-        return new MovePage(getDriver());
-    }
-
     public MainPage getMultiConfigPage() {
         getWait10().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".jenkins-table__link")))).click();
@@ -226,10 +221,10 @@ public class MainPage extends BaseModel {
         return new RenameProjectPage(getDriver());
     }
 
-    public MovePage selectMoveJobDropDownMenu(String jobName) {
+    public <JobTypePage extends BasePage<?>> MovePage<JobTypePage> selectMoveJobDropDownMenu(String jobName, JobTypePage jobTypePage) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
-        return new MovePage(getDriver());
+        return new MovePage<>(jobTypePage);
     }
 
     public MyViewsPage clickMyViewsSideMenuLink() {
@@ -244,7 +239,7 @@ public class MainPage extends BaseModel {
     }
 
     public MainPage scrollToRestApiInFooter() {
-        PageUtils.scrollToElementByJavaScript(this, getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
+        scrollToElementByJavaScript(getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
         return this;
     }
 
@@ -434,5 +429,14 @@ public class MainPage extends BaseModel {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
         getDriver().findElement(sectionNameLocator).click();
         return new ManageJenkinsPage(getDriver());
+    }
+
+    public boolean isPopUpNotificationScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list"))).isDisplayed();
+    }
+
+    public boolean isPopUpAdminScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed();
     }
 }

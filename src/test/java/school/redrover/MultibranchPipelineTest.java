@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 
+
 public class MultibranchPipelineTest extends BaseTest {
     @Test
     public void createMultibranchPipelineTest() {
@@ -68,7 +69,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .inputAnItemName(nameMultiPipeline)
                 .clickMultiBranchPipeline()
                 .clickSaveButton()
-                .clickSaveButton()
+                .selectSaveButton()
                 .clickDashBoardButton();
 
         String actualMultiBranchName = getDriver().findElement(By.xpath("//a[@href = 'job/Multi/']")).getText();

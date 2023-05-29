@@ -4,10 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BaseModel;
-import school.redrover.model.base.PageUtils;
+import school.redrover.model.base.BasePage;
 
-public class FolderPage extends BaseModel {
+public class FolderPage extends BaseMainHeaderPage {
 
     public FolderPage(WebDriver driver) {
         super(driver);
@@ -91,16 +92,16 @@ public class FolderPage extends BaseModel {
     }
 
     public String getFolderDisplayName() {
-        return PageUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='main-panel']/h1"))));
     }
 
     public String getFolderName() {
-        return PageUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))));
     }
     public String getFolderDescription() {
-        return PageUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
+        return getText(getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
     }
 
     public FolderConfigPage clickConfigureSideMenu() {

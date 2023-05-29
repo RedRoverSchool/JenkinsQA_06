@@ -7,7 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseModel;
 
-public class PipelineConfigPage extends BaseModel {
+public class PipelineConfigPage extends ConfigurePage {
 
     public PipelineConfigPage(WebDriver driver){
         super(driver);

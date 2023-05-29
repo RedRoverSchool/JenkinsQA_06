@@ -78,7 +78,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickSaveButton()
                 .clickMoveOnLeftMenu()
                 .selectDestinationFolder()
-                .clickMoveButtonOnOrgPage()
+                .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderName)
                 .nestedFolderIsVisibleAndClickable(organizationFolderName);

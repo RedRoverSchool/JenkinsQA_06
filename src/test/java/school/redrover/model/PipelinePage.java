@@ -116,4 +116,8 @@ public class PipelinePage extends BaseModel {
     public WebElement getStage() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".stage-header-name-0")));
     }
+
+    public String getDescriptionText(){
+        return getDescription().getText();
+    }
 }

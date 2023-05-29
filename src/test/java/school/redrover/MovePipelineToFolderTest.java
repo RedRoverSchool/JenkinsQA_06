@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -19,7 +20,7 @@ public class MovePipelineToFolderTest extends BaseTest {
 
         new MainPage(getDriver())
         .clickJobDropDownMenu("testPipeline")
-        .selectMoveJobDropDownMenu("testPipeline")
+        .selectMoveJobDropDownMenu("testPipeline", new FolderPage(getDriver()))
         .selectDestinationFolder()
         .clickMoveButton()
         .navigateToMainPageByBreadcrumbs()
