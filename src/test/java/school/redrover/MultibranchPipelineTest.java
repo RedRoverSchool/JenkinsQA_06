@@ -9,7 +9,6 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-
 public class MultibranchPipelineTest extends BaseTest {
     @Test
     public void createMultibranchPipelineTest() {

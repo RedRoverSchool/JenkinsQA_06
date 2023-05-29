@@ -39,29 +39,6 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrganizationFolderInFolder() {
-        final String nameFolder = "nameFolder";
-        final String nameOrganizationFolder = nameFolder + "Organization";
-
-        WebElement createdOrganizationFolder = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(nameFolder)
-                .selectFolderAndOk()
-                .clickSaveButton()
-                .clickDashboard()
-                .clickFolderName(nameFolder)
-                .clickNewItem()
-                .enterItemName(nameOrganizationFolder)
-                .selectOrganizationFolderAndOk()
-                .clickSaveButton()
-                .clickDashboard()
-                .clickFolderName(nameFolder)
-                .getNestedFolder(nameOrganizationFolder);
-
-        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
-    }
-
-    @Test
     public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
 
         final String folderName = "TestFolder";

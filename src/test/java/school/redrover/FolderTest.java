@@ -431,6 +431,26 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
+    public void testMoveMultibranchPipelineToFolderByDrop(){
+        final String nameMultibranchPipeline = "MultibranchPipeline1";
+        final String nameFolder = "Folder1";
+
+        TestUtils.createFolder(this, nameFolder, true);
+        TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
+
+        WebElement projectNameDisplays = new MainPage(getDriver())
+                .clickJobDropDownMenu(nameMultibranchPipeline)
+                .selectMoveJobDropDownMenu(nameMultibranchPipeline,new FolderPage(getDriver()))
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedFolder(nameMultibranchPipeline);
+
+        Assert.assertEquals(projectNameDisplays.getText(),nameMultibranchPipeline);
+    }
+  
+    @Test
     public void testMoveFolderToFolderFromSideMenu() {
         String folder1 = "Folder1";
         String folder2 = "Folder2";
@@ -449,6 +469,7 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(nestedFolder.getText(), folder2);
     }
+  
     @Test
     public void testCreateOrganizationFolder() {
 
