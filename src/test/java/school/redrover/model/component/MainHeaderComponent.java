@@ -16,7 +16,7 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     }
 
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
-    private static final By ADMIN_DROPDOWN_CHEVRON = By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']");
+    private static final By ADMIN_ICON = By.xpath("//a[@href='/user/admin']");
     private static final By LOGOUT_ICON = By.xpath("//a[@href='/logout']");
 
     private void hoverOver(By locator) {
@@ -41,8 +41,10 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     }
 
     public MainHeaderComponent<Page> clickAdminDropDownChevron() {
-        hoverOver(ADMIN_DROPDOWN_CHEVRON);
-        getDriver().findElement(ADMIN_DROPDOWN_CHEVRON).click();
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//a[@href='/user/admin']/button")))
+                .click()
+                .perform();
         return this;
     }
 
@@ -60,7 +62,7 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     }
 
     public MainHeaderComponent<Page> hoverOverAdminIcon() {
-        hoverOver(By.xpath("//a[@href='/user/admin']"));
+        hoverOver(ADMIN_ICON);
         return this;
     }
 
@@ -74,7 +76,7 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     }
 
     public String getAdminIconBackgroundColor() {
-        return getIconBackgroundColor(By.xpath("//a[@href='/user/admin']"));
+        return getIconBackgroundColor(ADMIN_ICON);
     }
 
     public String getLogOutIconBackgroundColor() {
