@@ -62,4 +62,22 @@ public class FolderConfigPage extends BaseModel {
         return getWait5().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//div[@name='healthMetrics']"))).isDisplayed();
     }
+
+    public FolderConfigPage clickOnHealthMetricsType(){
+        getDriver().findElement(By.xpath("//*[@class='jenkins-button advanced-button advancedButton']")).click();
+        return this;
+    }
+
+    public FolderConfigPage setHealthMetricsType(){
+        getDriver().findElement(By.xpath("//*[@class='jenkins-button advanced-button advancedButton']")).click();
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='yui-gen1-button']"))).click();
+        getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel']")).click();
+        return this;
+    }
+
+    public boolean isRecursive(){
+        return getWait10()
+                .until(ExpectedConditions
+                        .presenceOfElementLocated(By.xpath("//input[@name='_.recursive']"))).isDisplayed();
+    }
 }
