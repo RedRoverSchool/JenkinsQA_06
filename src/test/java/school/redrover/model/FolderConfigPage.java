@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import school.redrover.model.base.BaseModel;
 
 public class FolderConfigPage extends BaseModel {
@@ -35,6 +36,7 @@ public class FolderConfigPage extends BaseModel {
         getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
         return new MainPage(getDriver());
     }
+
     public FolderPage saveProjectAndGoToFolderPage(){
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector("[name='Submit']")))).click();

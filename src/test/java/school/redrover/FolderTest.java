@@ -299,7 +299,7 @@ public class FolderTest extends BaseTest {
     @Test
     public void testCreateMulticonfigurationProjectInFolder() {
 
-        ProjectPage mainPage = new MainPage(getDriver())
+        new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("TC 00.04 New item Create Folder")
                 .selectFolderAndOk()
@@ -402,5 +402,103 @@ public class FolderTest extends BaseTest {
         WebElement movedProject = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']", projectName))));
 
         Assert.assertEquals(movedProject.getText(), projectName);
+    }
+
+    @Test
+    public void testCreateOrganizationFolderInFolder() {
+        final String nameFolder = "nameFolder";
+        final String nameOrganizationFolder = nameFolder + "Organization";
+
+        WebElement createdOrganizationFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameFolder)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .clickNewItem()
+                .enterItemName(nameOrganizationFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedFolder(nameOrganizationFolder);
+
+        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
+    }
+
+    @Test
+    public void testMoveMultibranchPipelineToFolderByDrop(){
+        final String nameMultibranchPipeline = "MultibranchPipeline1";
+        final String nameFolder = "Folder1";
+
+        TestUtils.createFolder(this, nameFolder, true);
+        TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
+
+        WebElement projectNameDisplays = new MainPage(getDriver())
+                .clickJobDropDownMenu(nameMultibranchPipeline)
+                .selectMoveJobDropDownMenu(nameMultibranchPipeline,new FolderPage(getDriver()))
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedFolder(nameMultibranchPipeline);
+
+        Assert.assertEquals(projectNameDisplays.getText(),nameMultibranchPipeline);
+    }
+  
+    @Test
+    public void testMoveFolderToFolderFromSideMenu() {
+        String folder1 = "Folder1";
+        String folder2 = "Folder2";
+
+        TestUtils.createFolder(this, folder1, true);
+        TestUtils.createFolder(this, folder2, true);
+
+        WebElement nestedFolder = new MainPage(getDriver())
+                .clickToOpenFolder(folder2)
+                .clickMoveOnSideMenu(folder2)
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(folder1)
+                .getNestedFolder(folder2);
+
+        Assert.assertEquals(nestedFolder.getText(), folder2);
+    }
+
+    @Test
+    public void testConfigureFolderNameDescriptionHealthMetrics(){
+        final String NEW_FOLDER_NAME = "TestFolder0404";
+        final String DESCRIPTION_VALUE = "Test Description of the folder";
+
+        TestUtils.createFolder(this, NAME, false);
+
+        FolderPage folderPage =
+                new FolderPage(getDriver())
+                        .clickConfigureSideMenu()
+                        .enterDisplayName(NEW_FOLDER_NAME)
+                        .enterDescription(DESCRIPTION_VALUE)
+                        .setHealthMetricsType()
+                        .clickSaveButton();
+        Assert.assertEquals(folderPage.getFolderDisplayName(), NEW_FOLDER_NAME);
+        Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);
+        Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
+    }
+    @Test
+    public void testCreateOrganizationFolder() {
+
+        final String nameFolder = "OrganizationFolder";
+
+        WebElement createdOrganizationFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameFolder)
+                .selectOrganizationFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getNestedOrganizationFolder(nameFolder);
+
+        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
     }
 }

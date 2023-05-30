@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
@@ -20,6 +21,16 @@ public class NewItemTest extends BaseTest {
     private static final By OK_BUTTON = By.cssSelector("#ok-button");
     private static final By SAVE_BUTTON = By.name("Submit");
     private static final String RANDOM_NAME_PROJECT = "RANDOM_NAME_PROJECT";
+
+    @Test
+    public void testCreateNewItemWithNullName() {
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .clickButtonOk();
+
+        Assert.assertTrue(new MainPage(getDriver()).expectedErrorMessage().getText().contains("» This field cannot be empty, please enter a valid name"));
+    }
 
     @Test
     public void testNewItemHeader() {
