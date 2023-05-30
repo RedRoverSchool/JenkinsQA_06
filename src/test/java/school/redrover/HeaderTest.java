@@ -10,6 +10,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import school.redrover.model.ConfigurePage;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
@@ -215,19 +217,25 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
-        final String itemName = "Test Item";
-        TestUtils.createFreestyleProject(this, itemName, false);
+        final List<String> listItemName = new ArrayList<>(List.of("Test Item", "Second"));
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("jenkins-name-icon"))).click();
-        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]", "Wrong title or wrong page");
+        TestUtils.createFreestyleProject(this, listItemName.get(0), true);
+        TestUtils.createFreestyleProject(this, listItemName.get(1), false);
 
-        List<WebElement> listProjectName = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']"));
+        boolean isPageOpen = new ConfigurePage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .isMainPageOpen();
+
+        Assert.assertTrue(isPageOpen, "Wrong title or wrong page");
+
+        List<String> listJob = new MainPage(getDriver())
+                .getJobList();
 
         SoftAssert softAssert = new SoftAssert();
-        for (WebElement webElement : listProjectName) {
-            softAssert.assertTrue(webElement.getText().contains(itemName),
-                    "The result list doesn't contain the item " + itemName);
+        for (int i = 0; i < listJob.size(); i++) {
+            softAssert.assertTrue(listJob.contains(listItemName.get(i)),
+                    "The result list doesn't contain the item " + listItemName.get(i));
         }
         softAssert.assertAll();
     }

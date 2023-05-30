@@ -422,4 +422,8 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     public WebElement expectedErrorMessage() {
         return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//div[@id='itemname-required']"))));
     }
+
+    public boolean isMainPageOpen() {
+        return getWait5().until(ExpectedConditions.titleContains("Dashboard [Jenkins]"));
+    }
 }
