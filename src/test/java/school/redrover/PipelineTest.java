@@ -26,6 +26,7 @@ public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = "PIPELINE_NAME";
     private static final String RENAME = "Pipeline Project";
+    private static final String TEXT_DESCRIPTION = "This is a test description";
 
     private static final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
@@ -177,7 +178,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getDescriptionText();
 
-        Assert.assertEquals(resultDescriptionText,descriptionText);
+        Assert.assertEquals(resultDescriptionText, descriptionText);
     }
 
     @Test(dependsOnMethods = "testCreatePipeline")
@@ -219,8 +220,9 @@ public class PipelineTest extends BaseTest {
                 .scrollToPipelineSection()
                 .getDefinitionFieldText();
 
-        Assert.assertEquals(resultOptionDefinitionFieldText,"Pipeline script");
+        Assert.assertEquals(resultOptionDefinitionFieldText, "Pipeline script");
     }
+
     @Test
     public void testDeletePipelineDropDownMenu() {
         final String name = PIPELINE_NAME + "1";
@@ -231,8 +233,7 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .clickJobDropDownMenu(name)
-                .selectDeleteFromDropDownMenu()
+                .dropDownMenuClickDelete(name)
                 .acceptAlert();
 
         Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
@@ -464,14 +465,13 @@ public class PipelineTest extends BaseTest {
     public void testRenamePipelineDropDownMenu() {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
-        FolderPage folderPage = new MainPage(getDriver())
-                .clickJobDropDownMenu(PIPELINE_NAME.replaceAll(" ", "%20"))
-                .clickRenameInDropDownMenu()
-                .setNewName(RENAME)
-                .clickRenameButton();
+        PipelinePage pipelinePage = new MainPage(getDriver())
+                .dropDownMenuClickRename(PIPELINE_NAME.replaceAll(" ", "%20"), new PipelinePage(getDriver()))
+                .enterNewName(RENAME)
+                .submitNewName();
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(), "Pipeline " + RENAME);
-        Assert.assertEquals(folderPage.clickDashboard()
+        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + RENAME);
+        Assert.assertEquals(pipelinePage.clickDashboard()
                 .getJobWebElement(RENAME).getText(), RENAME);
     }
 
@@ -548,17 +548,16 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testSetDescription() {
-        String descriptionText = "This is a test description";
+        TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
-        createWithoutDescription("test-pipeline");
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
+        String addDescription = new MainPage(getDriver())
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickEditDescription()
+                .enterNewDescription(TEXT_DESCRIPTION)
+                .clickSaveButton()
+                .getDescriptionText();
 
-        getDriver().findElement(By.name("description")).sendKeys(descriptionText);
-        getDriver().findElement(By.name("Submit")).click();
-
-        WebElement actualDescription = getDriver().findElement(By.xpath("//*[@id='description']/div"));
-
-        Assert.assertEquals(actualDescription.getText(), descriptionText);
+        Assert.assertEquals(addDescription, TEXT_DESCRIPTION);
     }
 
     @Test
@@ -748,5 +747,47 @@ public class PipelineTest extends BaseTest {
                 .selectSaveButton();
         String actualDescription = new ProjectPage(getDriver()).getProjectDescription();
         Assert.assertTrue(actualDescription.contains(newDescription), "description not displayed");
+    }
+
+    @Test
+    public void testAddBooleanParameterWithDescription() {
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+
+        final String name = "Pipeline Boolean Parameter";
+        final String description = "Some boolean parameters here";
+        final String parameterName = "Boolean Parameter";
+
+        BuildPage buildPage = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickAndAddParameter(parameterName)
+                .setBooleanParameterName(name)
+                .setDefaultBooleanParameter()
+                .setBooleanParameterDescription(description)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickBuildButton();
+
+        Assert.assertEquals(buildPage.getBooleanParameterName(), name);
+        Assert.assertEquals(buildPage.getBooleanParameterCheckbox(), "true");
+        Assert.assertEquals(buildPage.getBooleanParameterDescription(), description);
+    }
+
+    @Test
+    public void testAddBooleanParameter() {
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+
+        final String name = "Pipeline Boolean Parameter";
+        final String parameterName = "Boolean Parameter";
+
+        BuildPage buildPage = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickAndAddParameter(parameterName)
+                .setBooleanParameterName(name)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickBuildButton();
+
+        Assert.assertEquals(buildPage.getBooleanParameterName(), name);
+        Assert.assertNull(buildPage.getBooleanParameterCheckbox());
     }
 }

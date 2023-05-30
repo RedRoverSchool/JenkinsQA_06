@@ -225,24 +225,21 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testVisibleProjectNameAndDescriptionFromViewPage() {
-        final String description = "This is a description for My Freestyle Project";
-
         TestUtils.createFreestyleProject(this, FREESTYLE_NAME, false);
 
-        getDriver().findElement(By.linkText("Add description")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name = 'description']")))
-                .sendKeys(description);
-        getDriver().findElement(By.name("Submit")).click();
+        FreestyleProjectPage projectPage = new FreestyleProjectPage(getDriver())
+                .clickAddDescription()
+                .addDescription(DESCRIPTION_TEXT)
+                .clickSave()
+                .clickDashboard()
+                .clickFreestyleProjectName(FREESTYLE_NAME);
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
-        getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
+        String projectNameFromViewPage = projectPage.getProjectName();
+        String projectDescriptionFromViewPage = projectPage.getDescription();
 
-        assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
-                "Project " + FREESTYLE_NAME);
-        assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[contains(text(),'" + description + "')]")).getText(),
-                description);
+        Assert.assertEquals(projectNameFromViewPage, "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(projectDescriptionFromViewPage, DESCRIPTION_TEXT);
     }
-
 
     @Test
     public void testDisableProject() {
@@ -433,6 +430,24 @@ public class FreestyleProjectTest extends BaseTest {
         String actualFreestyleName = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText();
 
         Assert.assertEquals(actualFreestyleName,nameFreestyle);
+    }
+
+    @Test
+    public void testFreestyleProjectJob() {
+        String nameProject = "Hello world";
+        String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
+
+        String consoleOutput = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameProject)
+                .selectFreestyleProjectAndOk()
+                .addBuildStepsExecuteShell(steps)
+                .clickSave()
+                .selectBuildNow()
+                .openConsoleOutputForBuild()
+                .getConsoleOutputText();
+
+        Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
     }
 }
 

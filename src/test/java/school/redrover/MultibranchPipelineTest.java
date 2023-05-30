@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
@@ -25,14 +24,14 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testRenameMultibranchPipeline() {
-        RenameMultibranchPipelinePage mainPage = new MainPage(getDriver())
+        new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
                 .saveButton()
                 .renameMultibranchPipelinePage()
                 .enterNewName("MultibranchPipeline")
-                .renameButton();
+                .submitNewName();
 
         Assert.assertTrue(new MultibranchPipelinePage(getDriver()).multibranchPipeline().getText().contains("MultibranchPipeline"));
     }
@@ -55,8 +54,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .selectMultibranchPipelineAndOk()
                 .saveButton()
                 .navigateToMainPageByBreadcrumbs()
-                .clickJobDropDownMenu("MultibranchPipeline")
-                .selectDeleteFromDropDownMenu()
+                .dropDownMenuClickDelete("MultibranchPipeline")
                 .clickYesDeletePage()
                 .getWelcomeWebElement()
                 .getText();
@@ -86,7 +84,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
         WebElement nameMultibranchPipeline = new MainPage(getDriver())
                 .clickJobDropDownMenu("MultibranchPipeline")
-                .selectMoveJobDropDownMenu("MultibranchPipeline",new FolderPage(getDriver()))
+                .dropDownMenuClickMove("MultibranchPipeline",new FolderPage(getDriver()))
                 .selectDestinationFolder()
                 .clickMoveButton()
                 .clickDashboard()

@@ -15,4 +15,14 @@ public class ConsoleOutputPage extends BaseMainHeaderPage {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//pre[@class='console-output']")))
                 .getText();
     }
+
+    public String getParameterFromConsoleOutput(String consoleText, String containParameterText) {
+        String[] split = consoleText.split("\n");
+        for (String str : split) {
+            if (str.contains(containParameterText)) {
+                return str;
+            }
+        }
+        return null;
+    }
 }
