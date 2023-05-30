@@ -1,6 +1,7 @@
 package school.redrover.model.component;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
@@ -41,10 +42,8 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     }
 
     public MainHeaderComponent<Page> clickAdminDropDownChevron() {
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(By.xpath("//a[@href='/user/admin']/button")))
-                .click()
-                .perform();
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
+        js.executeScript("arguments[0].click();", getDriver().findElement(By.xpath("//a[@href='/user/admin']/button")));
         return this;
     }
 
