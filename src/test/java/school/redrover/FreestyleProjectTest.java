@@ -441,7 +441,7 @@ public class FreestyleProjectTest extends BaseTest {
         String urlGithub = "https://github.com/kriru/firstJava.git";
         String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
 
-        new MainPage(getDriver())
+        String consoleOutput = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
@@ -451,9 +451,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectBuildNow()
                 .openConsoleOutputForBuild();
 
-        Assert.assertTrue(getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//*[@class='console-output']")
-        )).getText().contains("Finished: SUCCESS"));
+        Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
     }
 }
 
