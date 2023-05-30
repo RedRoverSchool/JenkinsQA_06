@@ -51,7 +51,13 @@ public class FolderConfigPage extends BaseModel {
         return this;
     }
 
-    public void clickChildWithWorstHealth(){
+    public FolderConfigPage clickChildWithWorstHealth(){
         getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel']")).click();
+        return this;
+    }
+
+    public Boolean healthMetricIsVisible(){
+        return getWait5().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//div[@name='healthMetrics']"))).isDisplayed();
     }
 }

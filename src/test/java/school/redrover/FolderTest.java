@@ -195,17 +195,14 @@ public class FolderTest extends BaseTest {
     @Test
     public void testAddHealthMetric() {
         TestUtils.createFolder(this, NAME, false);
-        FolderPage folderPage = new FolderPage(getDriver());
-        folderPage.clickConfigureSideMenu()
+        boolean healthMetric = new FolderPage(getDriver())
+                .clickConfigureSideMenu()
                 .clickHealthMetrics()
                 .clickAddMetric()
-                .clickChildWithWorstHealth();
+                .clickChildWithWorstHealth()
+                .healthMetricIsVisible();
 
-        assertTrue(getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[@name='healthMetrics']"))).isDisplayed());
-
-
-        getDriver().findElement(By.xpath("//button [@name='Submit']")).click();
+        assertTrue(healthMetric);
     }
 
     @Test
