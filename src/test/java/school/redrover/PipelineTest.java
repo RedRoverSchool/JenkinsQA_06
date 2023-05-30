@@ -14,6 +14,7 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.nio.channels.Pipe;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +27,7 @@ public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = "PIPELINE_NAME";
     private static final String RENAME = "Pipeline Project";
+    private static final String TEXT_DESCRIPTION = "This is a test description";
 
     private static final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
@@ -161,7 +163,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getDescriptionText();
 
-        Assert.assertEquals(resultDescriptionText,descriptionText);
+        Assert.assertEquals(resultDescriptionText, descriptionText);
     }
 
     @Test(dependsOnMethods = "testCreatePipeline")
@@ -203,8 +205,9 @@ public class PipelineTest extends BaseTest {
                 .scrollToPipelineSection()
                 .getDefinitionFieldText();
 
-        Assert.assertEquals(resultOptionDefinitionFieldText,"Pipeline script");
+        Assert.assertEquals(resultOptionDefinitionFieldText, "Pipeline script");
     }
+
     @Test
     public void testDeletePipelineDropDownMenu() {
         final String name = PIPELINE_NAME + "1";
@@ -532,17 +535,16 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testSetDescription() {
-        String descriptionText = "This is a test description";
+        TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
-        createWithoutDescription("test-pipeline");
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
+        String addDescription = new MainPage(getDriver())
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickEditDescription()
+                .enterNewDescription(TEXT_DESCRIPTION)
+                .clickSaveButton()
+                .getDescriptionText();
 
-        getDriver().findElement(By.name("description")).sendKeys(descriptionText);
-        getDriver().findElement(By.name("Submit")).click();
-
-        WebElement actualDescription = getDriver().findElement(By.xpath("//*[@id='description']/div"));
-
-        Assert.assertEquals(actualDescription.getText(), descriptionText);
+        Assert.assertEquals(addDescription, TEXT_DESCRIPTION);
     }
 
     @Test
