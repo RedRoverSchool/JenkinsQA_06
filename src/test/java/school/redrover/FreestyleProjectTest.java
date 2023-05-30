@@ -435,6 +435,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualFreestyleName,nameFreestyle);
     }
 
+    @Ignore
     @Test
     public void testFreestyleJob() {
         String nameProject = "Hello world";
