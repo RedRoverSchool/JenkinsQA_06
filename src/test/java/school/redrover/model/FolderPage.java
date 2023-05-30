@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
-public class FolderPage extends BaseMainHeaderPage {
+public class FolderPage extends BaseMainHeaderPage<FolderPage> {
 
     public FolderPage(WebDriver driver) {
         super(driver);
@@ -23,9 +23,9 @@ public class FolderPage extends BaseMainHeaderPage {
         return new NewJobPage(getDriver());
     }
 
-    public DeleteFolderPage delete(){
+    public DeleteFoldersPage delete(){
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
-        return new DeleteFolderPage(getDriver());
+        return new DeleteFoldersPage(getDriver());
     }
 
     public FolderPage people(){
@@ -38,9 +38,9 @@ public class FolderPage extends BaseMainHeaderPage {
         return this;
     }
 
-    public RenameFolderPage rename(){
+    public RenamePage<FolderPage> rename(){
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(7)")).click();
-        return new RenameFolderPage(getDriver());
+        return new RenamePage<>(this);
     }
 
     public FolderPage credentials(){
@@ -106,7 +106,7 @@ public class FolderPage extends BaseMainHeaderPage {
     public FolderConfigPage clickConfigureSideMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
-        return new FolderConfigPage(getDriver());
+        return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
     public NewJobPage clickNewItem() {
@@ -124,5 +124,14 @@ public class FolderPage extends BaseMainHeaderPage {
 
     public boolean nestedFolderIsVisibleAndClickable(String nestedFolder) {
         return getNestedFolder(nestedFolder).isDisplayed() && getNestedFolder(nestedFolder).isEnabled();
+    }
+
+    public MovePage<FolderPage> clickMoveOnSideMenu(String folderName) {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//span/a[@href='/job/%s/move']", folderName)))).click();
+        return new MovePage<>(this);
+    }
+    public WebElement getNestedOrganizationFolder(String nameFolder) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
     }
 }

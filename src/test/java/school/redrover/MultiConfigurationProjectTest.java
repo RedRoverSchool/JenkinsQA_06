@@ -207,8 +207,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testJobDropdownDelete() {
         MainPage deletedProjPage = new MainPage((getDriver()))
-                .clickJobDropdownMenu(MULTI_CONFIGURATION_NEW_NAME)
-                .selectJobDropdownMenuDelete();
+                .dropDownMenuClickDelete(MULTI_CONFIGURATION_NEW_NAME);
 
         Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
 
@@ -305,22 +304,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         WebElement nameDescription = getDriver().findElement(By.xpath("//div[@id ='description']//div"));
 
         Assert.assertEquals(nameDescription.getText(), DESCRIPTION);
-    }
-
-    @Test
-    public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
-        final String expectedResult = "Error";
-
-        getDriver().findElement(NEW_ITEM_BUTTON).click();
-
-        getDriver().findElement(INPUT_FIELD).sendKeys(" ");
-        getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
-
-        getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
-
-        WebElement errorMessage = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
-
-        Assert.assertEquals(errorMessage.getText(), expectedResult);
     }
 
     @DataProvider(name = "unsafe-character")
@@ -477,7 +460,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projects.size(), 0);
     }
 
-    @Ignore
+
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testAddDescriptionInMultiConfigurationProject() {
         final String textDescription = "Text Description Test";
@@ -495,18 +478,13 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void addDescriptionInMultiConfigurationProjectTest() {
         final String textDescription = "Text Description Test";
 
-        getDriver().findElement(By.xpath("(//section[@class='empty-state-section'] )[1]//li")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys("Test1");
-        getDriver().findElement(By.className("hudson_matrix_MatrixProject")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(@name,'Submit')]"))).click();
+        TestUtils.createMultiConfigurationProject(this, "Test1", false);
+        String actualDescription = new MultiConfigurationProjectPage(getDriver())
+                .getAddDescription(textDescription)
+                .getSaveButton()
+                .getInputAdd().getText();
 
-        getDriver().findElement(By.id("description-link")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[name='description']"))).sendKeys(textDescription);
-        getDriver().findElement(By.xpath("//div[@id='description']//button[@name=\"Submit\"]")).click();
-
-        WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
-        Assert.assertEquals(actualDescription.getText(), textDescription);
+        Assert.assertEquals(actualDescription, textDescription);
     }
 
     @Test
@@ -564,13 +542,13 @@ public class MultiConfigurationProjectTest extends BaseTest {
         createMultiConfigurationProject(MULTI_CONFIGURATION_NAME, true);
 
         String errorNotification = new MainPage(getDriver())
-                .selectRenameJobDropDownMenu(MULTI_CONFIGURATION_NAME)
+                .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(MULTI_CONFIGURATION_NAME + unsafeSymbol)
                 .getErrorMessage();
 
         Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
 
-        CreateItemErrorPage createItemErrorPage = new RenameProjectPage(getDriver())
+        CreateItemErrorPage createItemErrorPage = new RenamePage<>(new ProjectPage(getDriver()))
                 .clickRenameButton();
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
@@ -636,5 +614,19 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getErrorEqualName();
 
         Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
+    }
+
+    @Test
+    public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
+        final String expectedResult = "Error";
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(" ")
+                .selectMultiConfigurationProjectAndOk();
+
+        String errorMessage = new ErrorNodePage(getDriver()).getErrorMessage();
+
+        Assert.assertEquals(errorMessage, expectedResult);
     }
 }

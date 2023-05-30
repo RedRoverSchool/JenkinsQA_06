@@ -20,7 +20,7 @@ public class MovePipelineToFolderTest extends BaseTest {
 
         new MainPage(getDriver())
         .clickJobDropDownMenu("testPipeline")
-        .selectMoveJobDropDownMenu("testPipeline", new FolderPage(getDriver()))
+        .dropDownMenuClickMove("testPipeline", new FolderPage(getDriver()))
         .selectDestinationFolder()
         .clickMoveButton()
         .navigateToMainPageByBreadcrumbs()
