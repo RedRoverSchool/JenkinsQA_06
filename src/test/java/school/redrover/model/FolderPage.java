@@ -85,9 +85,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MainPage(getDriver());
     }
 
-    public WebElement getNestedFolder(String nameFolder) {
+    public String getNestedFolder(String nameFolder) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]"))).getText();
     }
 
     public String getFolderDisplayName() {
@@ -106,7 +106,7 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
     public FolderConfigPage clickConfigureSideMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
-        return new FolderConfigPage(getDriver());
+        return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
     public NewJobPage clickNewItem() {
@@ -123,7 +123,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
     }
 
     public boolean nestedFolderIsVisibleAndClickable(String nestedFolder) {
-        return getNestedFolder(nestedFolder).isDisplayed() && getNestedFolder(nestedFolder).isEnabled();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + nestedFolder + "/')]"))).isDisplayed()
+                && getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href,'job/" + nestedFolder + "/')]"))).isEnabled();
     }
 
     public MovePage<FolderPage> clickMoveOnSideMenu(String folderName) {

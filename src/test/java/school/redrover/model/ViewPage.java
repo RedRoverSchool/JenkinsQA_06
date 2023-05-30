@@ -69,25 +69,6 @@ public class ViewPage extends BaseModel {
         return TestUtils.getText(this, getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
     }
 
-    public void clickBreadcrumbPathItem(int n, String name) {
-        List<WebElement> breadcrumbTree = getDriver().findElements(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']/a"));
-        if (breadcrumbTree.get(breadcrumbTree.size() - n).getText().contains(name)) {
-            breadcrumbTree.get(breadcrumbTree.size() - n).click();
-        }
-    }
-
-    public ViewPage createFreestyleProjectInsideFolderAndView(String jobName, String viewName, String folderName) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//tr[@id='job_%s']//a", folderName)))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/job/%s/newJob']", viewName, folderName)))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.id("name")))).sendKeys(jobName);
-        getDriver().findElement(By.xpath("//span[@class='label'][text()='Freestyle project']")).click();
-        getDriver().findElement(By.xpath("//div[@class='btn-decorator']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
-        clickBreadcrumbPathItem(3, viewName);
-
-        return new ViewPage(getDriver());
-    }
-
     public NewViewPage createNewView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
 
@@ -114,5 +95,15 @@ public class ViewPage extends BaseModel {
     public ViewPage clickMultiBranchPipeline() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
         return this;
+    }
+
+    public ViewPage clickDropDownMenuFolder(String folderName) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//tr[@id='job_%s']//a", folderName)))).click();
+        return this;
+    }
+
+    public NewJobPage selectNewItemInDropDownMenu(String viewName, String folderName) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/job/%s/newJob']", viewName, folderName)))).click();
+        return new NewJobPage(getDriver());
     }
 }

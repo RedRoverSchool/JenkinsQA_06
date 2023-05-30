@@ -335,8 +335,9 @@ public class HeaderTest extends BaseTest {
     public void testAdminButtonIsUnderlinedWhenMouseOver() {
 
         String textUnderlineAfter = new MainPage(getDriver())
-                .hoverOverAdminLink()
-                .getTextDecorationValue();
+                .getHeader()
+                .hoverOverAdminIcon()
+                .getAdminTextDecorationValue();
 
         Assert.assertTrue(textUnderlineAfter.contains("underline"));
     }
