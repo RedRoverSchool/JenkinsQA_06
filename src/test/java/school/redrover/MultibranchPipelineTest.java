@@ -24,14 +24,14 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testRenameMultibranchPipeline() {
-        RenameMultibranchPipelinePage mainPage = new MainPage(getDriver())
+        new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
                 .saveButton()
                 .renameMultibranchPipelinePage()
                 .enterNewName("MultibranchPipeline")
-                .renameButton();
+                .submitNewName();
 
         Assert.assertTrue(new MultibranchPipelinePage(getDriver()).multibranchPipeline().getText().contains("MultibranchPipeline"));
     }

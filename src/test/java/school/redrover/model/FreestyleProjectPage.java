@@ -3,13 +3,14 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BaseModel;
 
 import java.util.Arrays;
 
 import static org.openqa.selenium.By.cssSelector;
 
-public class FreestyleProjectPage extends BaseModel {
+public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPage> {
 
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
@@ -82,10 +83,10 @@ public class FreestyleProjectPage extends BaseModel {
                 By.xpath("//tr[@class = 'build-row multi-line overflow-checked']")))).size();
     }
 
-    public RenameFreestyleProjectPage clickRenameProject(String projectName) {
+    public RenamePage<FreestyleProjectPage> clickRenameProject(String projectName) {
         getWait2().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href = '/job/" + projectName + "/confirm-rename']"))).click();
-        return new RenameFreestyleProjectPage(getDriver());
+        return new RenamePage<>(this);
     }
 
     public ConsoleOutputPage openConsoleOutputForBuild(){

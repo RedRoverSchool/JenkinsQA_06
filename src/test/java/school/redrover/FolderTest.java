@@ -150,7 +150,7 @@ public class FolderTest extends BaseTest {
     @Test
     public void testRenameFolderNegative() {
         TestUtils.createFolder(this, NAME, false);
-        new FolderPage(getDriver()).rename().setNewName(NAME).clickRenameButton();
+        new FolderPage(getDriver()).rename().enterNewName(NAME).submitNewName();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Error");
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div[id='main-panel'] p")).getText(), "The new name is the same as the current name.");

@@ -569,7 +569,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
 
-        CreateItemErrorPage createItemErrorPage = new RenameProjectPage(getDriver())
+        CreateItemErrorPage createItemErrorPage = new RenamePage<>(new ProjectPage(getDriver()))
                 .clickRenameButton();
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");

@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
-public class FolderPage extends BaseMainHeaderPage {
+public class FolderPage extends BaseMainHeaderPage<FolderPage> {
 
     public FolderPage(WebDriver driver) {
         super(driver);
@@ -38,9 +38,9 @@ public class FolderPage extends BaseMainHeaderPage {
         return this;
     }
 
-    public RenameFolderPage rename(){
+    public RenamePage<FolderPage> rename(){
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(7)")).click();
-        return new RenameFolderPage(getDriver());
+        return new RenamePage<>(this);
     }
 
     public FolderPage credentials(){

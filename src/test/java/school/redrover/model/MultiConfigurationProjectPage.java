@@ -4,8 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.MultiConfigurationProjectTest;
+import school.redrover.model.base.BaseMainHeaderPage;
 
-public class MultiConfigurationProjectPage extends MainPage {
+public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfigurationProjectPage> {
 
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
@@ -100,5 +102,12 @@ public class MultiConfigurationProjectPage extends MainPage {
     public boolean isDisableButtonDisplayed() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//form[@id='disable-project']/button"))))
                 .isDisplayed();
+    }
+
+    public MultiConfigurationProjectConfigPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return new MultiConfigurationProjectConfigPage(getDriver());
     }
 }
