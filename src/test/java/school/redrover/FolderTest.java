@@ -100,19 +100,14 @@ public class FolderTest extends BaseTest {
 
     @Test(dataProvider = "invalid-data")
     public void testCreateFolderUsingInvalidData(String invalidData) {
-        String errorMessage = "» ‘" + invalidData + "’ is an unsafe character";
+        final String expectedErrorMessage = "» ‘" + invalidData + "’ is an unsafe character";
 
-        WebElement createItemButton = getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']"));
-        createItemButton.click();
+        String actualErrorMessage = new MainPage(getDriver())
+                .clickCreateAJob()
+                .enterItemName(invalidData)
+                .getItemInvalidMessage();
 
-        WebElement fieldInputName = getDriver().findElement(By.xpath("//input[@id='name']"));
-        fieldInputName.clear();
-        fieldInputName.sendKeys(invalidData);
-
-        WebElement resultMessage = getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//div[@id='itemname-invalid']"))));
-        String messageValue = resultMessage.getText();
-
-        Assert.assertEquals(messageValue, errorMessage);
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
     @Test
