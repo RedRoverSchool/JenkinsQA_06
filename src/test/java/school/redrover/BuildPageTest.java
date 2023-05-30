@@ -12,7 +12,7 @@ import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 
-public class BuildHistoryPageTest extends BaseTest {
+public class BuildPageTest extends BaseTest {
     private static final String NAME_PIPELINE = "Pipeline2023";
     private static final String BUILD_DESCRIPTION = "For QA";
     private static final By LOGO_JENKINS = By.id("jenkins-name-icon");

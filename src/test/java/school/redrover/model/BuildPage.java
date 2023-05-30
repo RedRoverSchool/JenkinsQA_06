@@ -4,10 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
-public class BuildPage extends BaseModel {
+public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public BuildPage(WebDriver driver) {
         super(driver);
@@ -45,4 +45,16 @@ public class BuildPage extends BaseModel {
 
         return getBuildHeader().getText().contains("Build #1");
     }
+
+    public EditBuildInformationPage clickEditBuildInformationButton(String projectName) {
+        getDriver().findElement(By.xpath("//*[@href = '/job/" + projectName + "/1/configure']")).click();
+        return new EditBuildInformationPage(getDriver());
+    }
+
+    public String getProjectDescription() {
+       return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='description']/div[1]")))
+               .getText();
+    }
 }
+
+

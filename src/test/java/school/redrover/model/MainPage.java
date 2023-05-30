@@ -147,9 +147,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new MainPage(getDriver());
     }
 
-    public BuildPage clickBuildsHistoryButton() {
+    public BuildHistoryPage clickBuildsHistoryButton() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
-        return new BuildPage(getDriver());
+        return new BuildHistoryPage(getDriver());
     }
 
     public ViewPage clickNewItemButton() {
@@ -422,4 +422,12 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     public WebElement expectedErrorMessage() {
         return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//div[@id='itemname-required']"))));
     }
+
+    public MainPage clickSchedulerBuildForPipeline(String pipelineName) {
+        WebElement buildRunnerButton = getDriver()
+                .findElement(By.xpath("//a[@title = 'Schedule a Build for " + pipelineName + "']"));
+        buildRunnerButton.click();
+        return this;
+    }
+
 }
