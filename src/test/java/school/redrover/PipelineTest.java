@@ -735,7 +735,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testAddBooleanParameter() {
+    public void testAddBooleanParameterWithDescription() {
         TestUtils.createPipeline(this, PIPELINE_NAME, false);
 
         final String name = "Pipeline Boolean Parameter";
@@ -755,5 +755,24 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(buildPage.getBooleanParameterName(), name);
         Assert.assertEquals(buildPage.getBooleanParameterCheckbox(), "true");
         Assert.assertEquals(buildPage.getBooleanParameterDescription(), description);
+    }
+
+    @Test
+    public void testAddBooleanParameter() {
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+
+        final String name = "Pipeline Boolean Parameter";
+        final String parameterName = "Boolean Parameter";
+
+        BuildPage buildPage = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickAndAddParameter(parameterName)
+                .setBooleanParameterName(name)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickBuildButton();
+
+        Assert.assertEquals(buildPage.getBooleanParameterName(), name);
+        Assert.assertNull(buildPage.getBooleanParameterCheckbox());
     }
 }
