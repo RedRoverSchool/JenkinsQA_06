@@ -1,6 +1,7 @@
 package school.redrover.model.component;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
@@ -56,7 +57,7 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return this;
     }
 
-    public MainHeaderComponent hoverOverAdminIcon() {
+    public MainHeaderComponent<Page> hoverOverAdminIcon() {
         hoverOverIcon(ADMIN_ICON);
         return this;
     }
@@ -80,5 +81,10 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
 
     public String getLogOutIconColor() {
         return getIconBackgroundColor(LOGOUT_ICON);
+    }
+
+    public String getAdminTextDecorationValue() {
+        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(ADMIN_ICON));
+        return adminLink.getCssValue("text-decoration");
     }
 }

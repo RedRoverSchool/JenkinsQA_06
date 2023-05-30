@@ -229,20 +229,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getDriver().findElement(By.id("visible-am-button")).getCssValue("background-color");
     }
 
-    public MainPage hoverOverAdminLink() {
-        Actions act = new Actions(getDriver());
-        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.cssSelector(".login>a.model-link")));
-        act.moveToElement(adminLink).perform();
-        return this;
-    }
-
-    public String getTextDecorationValue() {
-        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.cssSelector(".login>a.model-link")));
-        return adminLink.getCssValue("text-decoration");
-    }
-
     public MainPage openAdminDropdownMenu() {
         WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
                 ("//a[@href='/user/admin']/button")));
