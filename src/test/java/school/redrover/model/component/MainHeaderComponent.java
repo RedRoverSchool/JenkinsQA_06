@@ -69,15 +69,15 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return this;
     }
 
-    public String getNotificationIconColor() {
+    public String getNotificationIconBackgroundColor() {
         return getIconBackgroundColor(NOTIFICATION_ICON);
     }
 
-    public String getAdminIconColor() {
+    public String getAdminIconBackgroundColor() {
         return getIconBackgroundColor(By.xpath("//a[@href='/user/admin']"));
     }
 
-    public String getLogOutIconColor() {
+    public String getLogOutIconBackgroundColor() {
         return getIconBackgroundColor(LOGOUT_ICON);
     }
 }

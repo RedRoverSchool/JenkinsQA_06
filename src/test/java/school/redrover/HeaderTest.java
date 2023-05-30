@@ -203,7 +203,7 @@ public class HeaderTest extends BaseTest {
         String backgroundColorAfter = new MainPage(getDriver())
                 .getHeader()
                 .clickNotificationIcon()
-                .getNotificationIconColor();
+                .getNotificationIconBackgroundColor();
 
         String actualManageJenkinsPageHeader = new ManageJenkinsPage(getDriver())
                 .clickManageJenkinsLink()
@@ -284,16 +284,16 @@ public class HeaderTest extends BaseTest {
     public void testOfIconColorChange() {
         MainPage mainPage = new MainPage(getDriver());
 
-        final String notificationIconColorBefore = mainPage.getHeader().getNotificationIconColor();
-        final String adminIconColorBefore = mainPage.getHeader().getAdminIconColor();
-        final String logOutIconColorBefore = mainPage.getHeader().getLogOutIconColor();
+        final String notificationIconColorBefore = mainPage.getHeader().getNotificationIconBackgroundColor();
+        final String adminIconColorBefore = mainPage.getHeader().getAdminIconBackgroundColor();
+        final String logOutIconColorBefore = mainPage.getHeader().getLogOutIconBackgroundColor();
 
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverNotificationIcon().getNotificationIconColor(),
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverNotificationIcon().getNotificationIconBackgroundColor(),
                 notificationIconColorBefore, "The Notification icon background has not changed");
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverAdminIcon().getAdminIconColor(), adminIconColorBefore,
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverAdminIcon().getAdminIconBackgroundColor(), adminIconColorBefore,
                 "The Admin icon background has not changed");
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverLogOutIcon().getLogOutIconColor(), logOutIconColorBefore,
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverLogOutIcon().getLogOutIconBackgroundColor(), logOutIconColorBefore,
                 "The LogOut icon background has not changed");
         softAssert.assertAll();
     }
