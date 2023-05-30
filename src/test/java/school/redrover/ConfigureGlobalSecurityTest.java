@@ -80,4 +80,24 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
 
         Assert.assertEquals(actualMenuNames, expectedMenuNames);
     }
+
+    @Test
+    public void testAPICheckboxesAreClickable() {
+        boolean allChecksAreOk = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .checkAPICheckBoxes();
+
+        Assert.assertTrue(allChecksAreOk);
+    }
+
+    @Test
+    public void testRadioButtonsAreClickable() {
+        boolean allChecksAreOk = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .checkRadioButtons();
+
+        Assert.assertTrue(allChecksAreOk);
+    }
 }
