@@ -5,9 +5,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BaseModel;
 
-public class PipelinePage extends BaseModel {
+public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
 
     public PipelinePage(WebDriver driver) {
         super(driver);

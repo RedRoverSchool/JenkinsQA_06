@@ -217,8 +217,7 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .clickJobDropDownMenu(name)
-                .selectDeleteFromDropDownMenu()
+                .dropDownMenuClickDelete(name)
                 .acceptAlert();
 
         Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
@@ -450,14 +449,13 @@ public class PipelineTest extends BaseTest {
     public void testRenamePipelineDropDownMenu() {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
-        FolderPage folderPage = new MainPage(getDriver())
-                .clickJobDropDownMenu(PIPELINE_NAME.replaceAll(" ", "%20"))
-                .clickRenameInDropDownMenu()
-                .setNewName(RENAME)
-                .clickRenameButton();
+        PipelinePage pipelinePage = new MainPage(getDriver())
+                .dropDownMenuClickRename(PIPELINE_NAME.replaceAll(" ", "%20"), new PipelinePage(getDriver()))
+                .enterNewName(RENAME)
+                .submitNewName();
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(), "Pipeline " + RENAME);
-        Assert.assertEquals(folderPage.clickDashboard()
+        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + RENAME);
+        Assert.assertEquals(pipelinePage.clickDashboard()
                 .getJobWebElement(RENAME).getText(), RENAME);
     }
 

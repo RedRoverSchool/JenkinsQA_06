@@ -207,8 +207,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testJobDropdownDelete() {
         MainPage deletedProjPage = new MainPage((getDriver()))
-                .clickJobDropdownMenu(MULTI_CONFIGURATION_NEW_NAME)
-                .selectJobDropdownMenuDelete();
+                .dropDownMenuClickDelete(MULTI_CONFIGURATION_NEW_NAME);
 
         Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
 
@@ -564,13 +563,13 @@ public class MultiConfigurationProjectTest extends BaseTest {
         createMultiConfigurationProject(MULTI_CONFIGURATION_NAME, true);
 
         String errorNotification = new MainPage(getDriver())
-                .selectRenameJobDropDownMenu(MULTI_CONFIGURATION_NAME)
+                .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(MULTI_CONFIGURATION_NAME + unsafeSymbol)
                 .getErrorMessage();
 
         Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
 
-        CreateItemErrorPage createItemErrorPage = new RenameProjectPage(getDriver())
+        CreateItemErrorPage createItemErrorPage = new RenamePage<>(new ProjectPage(getDriver()))
                 .clickRenameButton();
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");

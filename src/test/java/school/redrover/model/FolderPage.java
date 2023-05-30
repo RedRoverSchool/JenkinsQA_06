@@ -23,9 +23,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new NewJobPage(getDriver());
     }
 
-    public DeleteFolderPage delete(){
+    public DeleteFoldersPage delete(){
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
-        return new DeleteFolderPage(getDriver());
+        return new DeleteFoldersPage(getDriver());
     }
 
     public FolderPage people(){
@@ -38,9 +38,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return this;
     }
 
-    public RenameFolderPage rename(){
+    public RenamePage<FolderPage> rename(){
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(7)")).click();
-        return new RenameFolderPage(getDriver());
+        return new RenamePage<>(this);
     }
 
     public FolderPage credentials(){
