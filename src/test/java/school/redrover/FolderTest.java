@@ -437,7 +437,7 @@ public class FolderTest extends BaseTest {
 
         WebElement projectNameDisplays = new MainPage(getDriver())
                 .clickJobDropDownMenu(nameMultibranchPipeline)
-                .selectMoveJobDropDownMenu(nameMultibranchPipeline,new FolderPage(getDriver()))
+                .dropDownMenuClickMove(nameMultibranchPipeline,new FolderPage(getDriver()))
                 .selectDestinationFolder()
                 .clickMoveButton()
                 .clickDashboard()
