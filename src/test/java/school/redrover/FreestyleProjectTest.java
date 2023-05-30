@@ -348,7 +348,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .acceptAlert()
                 .clickMyViewsSideMenuLink();
 
-        Assert.assertEquals(h2text.getH2text(), "This folder is empty");
+        Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
     }
 
     @Ignore

@@ -85,9 +85,9 @@ public class MyViewsPage extends BaseModel {
         return new NewJobPage(getDriver());
     }
 
-    public String getH2text() {
-        String h2text = getDriver().findElement(By.xpath("//h2")).getText();
-        return h2text;
+    public String getStatusMessageText() {
+        String statusMessageText = getDriver().findElement(By.xpath("//h2")).getText();
+        return statusMessageText;
     }
 }
 
