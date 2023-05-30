@@ -407,4 +407,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     public boolean isMainPageOpen() {
         return getWait5().until(ExpectedConditions.titleContains("Dashboard [Jenkins]"));
     }
+
+    public MultibranchPipelinePage clickMultibranchProjectName(String projectName) {
+        new Actions(getDriver()).moveToElement(getJobWebElement(projectName)).click(getJobWebElement(projectName)).perform();
+        return new MultibranchPipelinePage(getDriver());
+    }
 }

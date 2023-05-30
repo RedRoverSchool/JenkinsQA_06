@@ -35,4 +35,14 @@ public class MultibranchPipelinePage extends BaseMainHeaderPage<MultibranchPipel
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
     }
+
+    public MovePage<MultibranchPipelinePage> clickMoveOnSideMenu() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.cssSelector("#tasks>:nth-child(8)"))).click();
+        return new MovePage<>(this);
+    }
+
+    public MainPage clickDashboard() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
+        return new MainPage(getDriver());
+    }
 }

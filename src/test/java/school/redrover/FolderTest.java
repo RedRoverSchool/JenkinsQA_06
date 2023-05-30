@@ -377,6 +377,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("view-message")).getText().contains(DESCRIPTION));
         Assert.assertEquals(copiedFolderDescription, DESCRIPTION);
     }
+
     @Test
     public void testMoveFreestyleProjectToFolder() {
 
@@ -423,7 +424,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testMoveMultibranchPipelineToFolderByDrop(){
+    public void testMoveMultibranchPipelineToFolderByDrop() {
         final String nameMultibranchPipeline = "MultibranchPipeline1";
         final String nameFolder = "Folder1";
 
@@ -432,16 +433,16 @@ public class FolderTest extends BaseTest {
 
         WebElement projectNameDisplays = new MainPage(getDriver())
                 .clickJobDropDownMenu(nameMultibranchPipeline)
-                .dropDownMenuClickMove(nameMultibranchPipeline,new FolderPage(getDriver()))
+                .dropDownMenuClickMove(nameMultibranchPipeline, new FolderPage(getDriver()))
                 .selectDestinationFolder()
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(nameFolder)
                 .getNestedFolder(nameMultibranchPipeline);
 
-        Assert.assertEquals(projectNameDisplays.getText(),nameMultibranchPipeline);
+        Assert.assertEquals(projectNameDisplays.getText(), nameMultibranchPipeline);
     }
-  
+
     @Test
     public void testMoveFolderToFolderFromSideMenu() {
         String folder1 = "Folder1";
@@ -463,7 +464,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testConfigureFolderNameDescriptionHealthMetrics(){
+    public void testConfigureFolderNameDescriptionHealthMetrics() {
         final String NEW_FOLDER_NAME = "TestFolder0404";
         final String DESCRIPTION_VALUE = "Test Description of the folder";
 
@@ -480,6 +481,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);
         Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
     }
+
     @Test
     public void testCreateOrganizationFolder() {
 
@@ -495,5 +497,25 @@ public class FolderTest extends BaseTest {
                 .getNestedOrganizationFolder(nameFolder);
 
         Assert.assertTrue(createdOrganizationFolder.isDisplayed());
+    }
+
+    @Test
+    public void testMoveMultibranchPipelineToFolderFromSideMenu() {
+        final String nameMultibranchPipeline = "MultibranchPipeline1";
+        final String nameFolder = "Folder1";
+
+        TestUtils.createFolder(this, nameFolder, true);
+        TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
+
+        String nameMultibranchPipelineDisplays = new MainPage(getDriver())
+                .clickMultibranchProjectName(nameMultibranchPipeline)
+                .clickMoveOnSideMenu()
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getMultibranchPipelineName().getText();
+
+        Assert.assertEquals(nameMultibranchPipelineDisplays,nameMultibranchPipeline);
     }
 }
