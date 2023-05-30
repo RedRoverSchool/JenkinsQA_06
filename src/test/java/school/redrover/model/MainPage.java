@@ -423,6 +423,11 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//div[@id='itemname-required']"))));
     }
 
+    public BuildPage clickBuildButton() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//td[@class='jenkins-table__cell--tight']"))).click();
+        return new BuildPage(getDriver());
+    }
+
     public boolean isMainPageOpen() {
         return getWait5().until(ExpectedConditions.titleContains("Dashboard [Jenkins]"));
     }

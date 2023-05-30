@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
@@ -192,20 +191,17 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getFolderDescription(), description);
     }
 
-    @Ignore
     @Test
     public void testAddHealthMetric() {
         TestUtils.createFolder(this, NAME, false);
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + NAME + "/configure']"))).click();
+        boolean healthMetric = new FolderPage(getDriver())
+                .clickConfigureSideMenu()
+                .clickHealthMetrics()
+                .clickAddMetric()
+                .clickChildWithWorstHealth()
+                .healthMetricIsVisible();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button [@class='jenkins-button advanced-button advancedButton']"))).click();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button [@id='yui-gen1-button']"))).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='yuimenuitemlabel']"))).click();
-
-        assertTrue(getDriver().findElement(By.xpath("//div[@name='healthMetrics']")).isDisplayed());
-
-        getDriver().findElement(By.xpath("//button [@name='Submit']")).click();
+        assertTrue(healthMetric);
     }
 
     @Test
