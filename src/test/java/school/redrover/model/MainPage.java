@@ -407,4 +407,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     public boolean isMainPageOpen() {
         return getWait5().until(ExpectedConditions.titleContains("Dashboard [Jenkins]"));
     }
+
+    public MainPage clickDeleteDropDown () {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
+        getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
+        return this;
+    }
 }

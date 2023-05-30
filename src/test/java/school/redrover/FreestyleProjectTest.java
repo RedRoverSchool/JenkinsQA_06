@@ -333,31 +333,22 @@ public class FreestyleProjectTest extends BaseTest {
                 .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
     }
 
-    @Ignore
     @Test
     public void testDeleteProjectFromDropdown() {
-        createFreestyleProject();
+        final String projectName = "Name";
 
-        WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
-        dashboardBreadCrumb.click();
+        MyViewsPage h2text = new MyViewsPage(getDriver())
+                .clickNewItem()
+                .enterItemName(projectName)
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .clickDashboard()
+                .clickJobDropDownMenu(projectName)
+                .clickDeleteDropDown()
+                .acceptAlert()
+                .clickMyViewsSideMenuLink();
 
-        Actions act = new Actions(getDriver());
-        WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '" + FREESTYLE_NAME + "')]"));
-        act.moveToElement(projectName, 23, 7).perform();
-
-
-        Actions act2 = new Actions(getDriver());
-        WebElement dropDownButton = getDriver().findElement(By.xpath("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
-        act2.moveToElement(dropDownButton).perform();
-        dropDownButton.sendKeys(Keys.RETURN);
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
-        getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
-        getDriver().switchTo().alert().accept();
-
-        getDriver().findElement(By.xpath("//a[@href = '/me/my-views']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), "This folder is empty");
+        Assert.assertEquals(h2text.getH2text(), "This folder is empty");
     }
 
     @Ignore
