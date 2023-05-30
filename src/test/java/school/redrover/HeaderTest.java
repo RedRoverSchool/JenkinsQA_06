@@ -203,7 +203,7 @@ public class HeaderTest extends BaseTest {
         String backgroundColorAfter = new MainPage(getDriver())
                 .getHeader()
                 .clickNotificationIcon()
-                .getBackgroundColorNotificationIcon();
+                .getNotificationIconColor();
 
         String actualManageJenkinsPageHeader = new ManageJenkinsPage(getDriver())
                 .clickManageJenkinsLink()
@@ -303,7 +303,6 @@ public class HeaderTest extends BaseTest {
         boolean isPopUpScreenDisplayed = new MainPage(getDriver())
                 .getHeader()
                 .clickNotificationIcon()
-                .getHeader()
                 .isPopUpNotificationScreenDisplayed();
 
         Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Notification icon screen is not displayed");
@@ -313,9 +312,8 @@ public class HeaderTest extends BaseTest {
     public void testAppearanceOfPopUpMenusWhenClickingOnAdminIcon() {
         boolean isPopUpScreenDisplayed = new MainPage(getDriver())
                 .getHeader()
-                .clickAdminIcon()
-                .getHeader()
-                .isPopUpAdminScreenDisplayed();
+                .clickAdminDropDownChevron()
+                .isDropDownAdminScreenDisplayed();
 
         Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Admin icon screen is not displayed");
     }
