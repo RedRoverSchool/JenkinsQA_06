@@ -449,7 +449,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .addBuildStepsExecuteShell(steps)
                 .clickSave()
                 .selectBuildNow()
-                .openConsoleOutputForBuild();
+                .openConsoleOutputForBuild()
+                .getConsoleOutputText();
 
         Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
     }
