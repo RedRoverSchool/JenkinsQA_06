@@ -10,7 +10,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.base.BaseMainConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -189,7 +188,6 @@ public class FolderTest extends BaseTest {
                 .addDescription(description)
                 .clickSaveButton(new FolderPage(getDriver()));
 
-
         Assert.assertEquals(folderPage.getFolderDescription(), description);
     }
 
@@ -291,8 +289,10 @@ public class FolderTest extends BaseTest {
                 .newItem()
                 .enterItemName("My Multibranch Pipeline")
                 .selectMultibranchPipelineAndOk()
-                .saveButton()
-                .navigateToMainPageByBreadcrumbs()
+                .getConfig()
+                .clickSaveButton(new MultibranchPipelineConfigPage(getDriver()))
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(NAME);
 
         String actualResult = folderPage.getMultibranchPipelineName().getText();

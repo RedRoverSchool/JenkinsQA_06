@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainConfigPage;
 
-public class MultibranchPipelineConfigPage extends BaseModel {
+public class MultibranchPipelineConfigPage extends BaseMainConfigPage<MultibranchPipelineConfigPage> {
     public MultibranchPipelineConfigPage(WebDriver driver) {
         super(driver);
     }
