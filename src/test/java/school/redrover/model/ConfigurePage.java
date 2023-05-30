@@ -70,4 +70,8 @@ public class ConfigurePage extends BaseMainHeaderPage<ConfigurePage> {
         getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
         return this;
     }
+
+    public String getDefinitionFieldText() {
+        return getDriver().findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]")).getText();
+    }
 }

@@ -46,4 +46,9 @@ public class PipelineConfigPage extends ConfigurePage {
         getDriver().findElement(By.cssSelector("option[value='hello']")).click();
         return new PipelinePage(getDriver());
     }
+
+    public PipelineConfigPage clickPipelineLeftMenu() {
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@data-section-id='pipeline']"))).click();
+        return this;
+    }
 }

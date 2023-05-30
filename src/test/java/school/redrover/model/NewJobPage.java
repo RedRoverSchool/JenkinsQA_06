@@ -106,5 +106,8 @@ public class NewJobPage extends BaseModel {
     public String getItemNameRequiredErrorText() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
     }
-
+    public NewJobPage clickButtonOk() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//body/div[@id='page-body']/div[@id='main-panel']/div[@id='add-item-panel']/div[1]/div[1]/form[1]/div[3]/div[1]"))).click();
+        return this;
+    }
 }
