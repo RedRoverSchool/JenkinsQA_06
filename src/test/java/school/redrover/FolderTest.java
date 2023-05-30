@@ -138,9 +138,9 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, NAME, true);
 
         new MainPage(getDriver())
-                .selectRenameJobDropDownMenu(NAME)
+                .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
                 .enterNewName(newName)
-                .SubmitNewNameFolder()
+                .submitNewName()
                 .navigateToMainPageByBreadcrumbs();
 
         Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(newName).isDisplayed(),
@@ -165,7 +165,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folderTwo, true);
 
         WebElement folderName = new MainPage(getDriver())
-                .selectMoveJobDropDownMenu(folderTwo, new FolderPage(getDriver()))
+                .dropDownMenuClickMove(folderTwo, new FolderPage(getDriver()))
                 .selectDestinationFolder()
                 .clickMoveButton()
                 .clickDashboard()
@@ -212,7 +212,7 @@ public class FolderTest extends BaseTest {
     public void testDeleteFolder() {
         TestUtils.createFolder(this, NAME, true);
         new MainPage(getDriver())
-                .selectDeleteFolderDropDownMenu(NAME)
+                .dropDownMenuClickDeleteFolders(NAME)
                 .clickYes();
 
         Assert.assertTrue(new MainPage(getDriver()).getWelcomeWebElement().isDisplayed(),
@@ -225,7 +225,8 @@ public class FolderTest extends BaseTest {
         new MainPage(getDriver())
                 .clickFolderName(NAME)
                 .delete()
-                .clickDashboard();
+                .getHeader()
+                .clickLogo();
 
         Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(NAME).isDisplayed(),
                 "error was not show name folder");

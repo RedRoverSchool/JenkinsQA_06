@@ -8,7 +8,6 @@ import school.redrover.model.base.BasePage;
 
 import school.redrover.runner.TestUtils;
 
-import java.time.Duration;
 import java.util.List;
 
 public class MainPage extends BaseMainHeaderPage<MainPage> {
@@ -17,19 +16,21 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         super(driver);
     }
 
+    private void openJobDropDownMenu(String jobName) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        new Actions(getDriver()).moveToElement(getWait2()
+                        .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + jobName + "/']"))))
+                .perform();
+        WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
+        js.executeScript("arguments[0].click();", arrow);
+    }
+
     public WebElement getLogoutButton() {
         return getDriver().findElement(By.xpath("//a[@href='/logout']"));
     }
 
     public WebElement projectsTable() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//table[@id='projectstatus']"))));
-    }
-
-    private void openJobDropDownMenu(String jobName) {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        new Actions(getDriver()).moveToElement(getJobWebElement(jobName)).perform();
-        WebElement arrow = getDriver().findElement(By.cssSelector("a[href='job/" + jobName + "/']>button"));
-        js.executeScript("arguments[0].click();", arrow);
     }
 
     public NewJobPage clickNewItem() {
@@ -101,13 +102,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1"));
     }
 
-    public MainPage selectJobDropdownMenuDelete() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@data-message, 'Delete')]"))).click();
-        getDriver().switchTo().alert().accept();
-        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
-        return this;
-    }
-
     public ManageJenkinsPage navigateToManageJenkinsPage() {
         getDriver().findElement(By.cssSelector("[href='/manage']")).click();
         return new ManageJenkinsPage(getDriver());
@@ -157,11 +151,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new ViewPage(getDriver());
     }
 
-    public MainPage selectDeleteFromDropDownMenu() {
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ul[@class='first-of-type']/li[4]"))).click();
-        return this;
-    }
-
     public MainPage acceptAlert() {
         getDriver().switchTo().alert().accept();
         return this;
@@ -197,31 +186,24 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return this;
     }
 
-    public FolderConfigPage selectConfigureJobDropDownMenu(String jobName) {
+    public MainPage dropDownMenuClickDelete(String jobName) {
         openJobDropDownMenu(jobName);
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Configure')]"))).click();
-        return new FolderConfigPage(getDriver());
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Delete')]"))).click();
+        return this;
     }
 
-    public NewJobPage selectNewItemJobDropDownMenu(String jobName) {
-        openJobDropDownMenu(jobName);
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'New Item')]"))).click();
-        return new NewJobPage(getDriver());
+    public DeleteFoldersPage dropDownMenuClickDeleteFolders(String jobName) {
+        dropDownMenuClickDelete(jobName);
+        return new DeleteFoldersPage(getDriver());
     }
 
-    public DeleteFolderPage selectDeleteFolderDropDownMenu(String jobName) {
-        openJobDropDownMenu(jobName);
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Delete Folder')]"))).click();
-        return new DeleteFolderPage(getDriver());
-    }
-
-    public RenameProjectPage selectRenameJobDropDownMenu(String jobName) {
+    public <JobTypePage extends BasePage<?>> RenamePage<JobTypePage> dropDownMenuClickRename(String jobName, JobTypePage jobTypePage) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
-        return new RenameProjectPage(getDriver());
+        return new RenamePage<>(jobTypePage);
     }
 
-    public <JobTypePage extends BasePage<?>> MovePage<JobTypePage> selectMoveJobDropDownMenu(String jobName, JobTypePage jobTypePage) {
+    public <JobTypePage extends BasePage<?>> MovePage<JobTypePage> dropDownMenuClickMove(String jobName, JobTypePage jobTypePage) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
         return new MovePage<>(jobTypePage);
@@ -241,12 +223,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     public MainPage scrollToRestApiInFooter() {
         TestUtils.scrollToElementByJavaScript(this, getDriver().findElement(By.xpath("//a[contains(text(),'REST API')]")));
         return this;
-    }
-
-    public RenameFolderPage clickRenameInDropDownMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Rename"))).click();
-
-        return new RenameFolderPage(getDriver());
     }
 
     public String getBackgroundColorNotificationIcon() {
