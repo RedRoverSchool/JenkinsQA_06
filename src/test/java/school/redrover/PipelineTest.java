@@ -14,7 +14,6 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.nio.channels.Pipe;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -733,5 +732,28 @@ public class PipelineTest extends BaseTest {
                 .selectSaveButton();
         String actualDescription = new ProjectPage(getDriver()).getProjectDescription();
         Assert.assertTrue(actualDescription.contains(newDescription), "description not displayed");
+    }
+
+    @Test
+    public void testAddBooleanParameter() {
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+
+        final String name = "Pipeline Boolean Parameter";
+        final String description = "Some boolean parameters here";
+        final String parameterName = "Boolean Parameter";
+
+        BuildPage buildPage = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickAndAddParameter(parameterName)
+                .setBooleanParameterName(name)
+                .setDefaultBooleanParameter()
+                .setBooleanParameterDescription(description)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickBuildButton();
+
+        Assert.assertEquals(buildPage.getBooleanParameterName(), name);
+        Assert.assertEquals(buildPage.getBooleanParameterCheckbox(), "true");
+        Assert.assertEquals(buildPage.getBooleanParameterDescription(), description);
     }
 }
