@@ -435,18 +435,15 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualFreestyleName,nameFreestyle);
     }
 
-    @Ignore
     @Test
-    public void testFreestyleJob() {
+    public void testFreestyleProjectJob() {
         String nameProject = "Hello world";
-        String urlGithub = "https://github.com/kriru/firstJava.git";
         String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
 
         String consoleOutput = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
-                .addSourceCodeManagementGit(urlGithub)
                 .addBuildStepsExecuteShell(steps)
                 .clickSave()
                 .selectBuildNow()
