@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
 
-public class MovePage<JobTypePage extends BasePage<?>> extends BaseMainHeaderPage {
+public class MovePage<JobTypePage extends BasePage<?>> extends BaseMainHeaderPage<MovePage<JobTypePage>> {
 
     private final JobTypePage jobTypePage;
 

@@ -106,7 +106,7 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
     public FolderConfigPage clickConfigureSideMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
-        return new FolderConfigPage(getDriver());
+        return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
     public NewJobPage clickNewItem() {
