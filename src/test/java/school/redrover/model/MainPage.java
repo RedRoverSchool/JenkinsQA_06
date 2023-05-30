@@ -386,16 +386,21 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new ManageJenkinsPage(getDriver());
     }
 
-    public boolean isPopUpNotificationScreenDisplayed() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list"))).isDisplayed();
-    }
-
-    public boolean isPopUpAdminScreenDisplayed() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed();
-    }
     public MultibranchPipelinePage clickMultibranchPipeline(String multibranchPipeline) {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body[1]/div[3]/div[2]/div[2]/table[1]/tbody[1]/tr[1]/td[3]/a[1]/span[1]"))).click();
         return new MultibranchPipelinePage(getDriver());
+    }
+
+    public FolderPage clickToOpenFolder(String folderName) {
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", folderName))).click();
+        return new FolderPage(getDriver());
+    }
+    public WebElement expectedErrorMessage() {
+        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//div[@id='itemname-required']"))));
+    }
+
+    public BuildPage clickBuildButton() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//td[@class='jenkins-table__cell--tight']"))).click();
+        return new BuildPage(getDriver());
     }
 }

@@ -125,4 +125,13 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
     public boolean nestedFolderIsVisibleAndClickable(String nestedFolder) {
         return getNestedFolder(nestedFolder).isDisplayed() && getNestedFolder(nestedFolder).isEnabled();
     }
+
+    public MovePage<FolderPage> clickMoveOnSideMenu(String folderName) {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//span/a[@href='/job/%s/move']", folderName)))).click();
+        return new MovePage<>(this);
+    }
+    public WebElement getNestedOrganizationFolder(String nameFolder) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+    }
 }

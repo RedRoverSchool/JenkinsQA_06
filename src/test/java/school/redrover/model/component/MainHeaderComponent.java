@@ -26,4 +26,13 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         getDriver().findElement(By.xpath("//a[@href='/user/admin']")).click();
         return getPage();
     }
+
+    public boolean isPopUpNotificationScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list"))).isDisplayed();
+    }
+
+    public boolean isPopUpAdminScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed();
+    }
 }

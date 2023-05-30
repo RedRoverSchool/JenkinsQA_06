@@ -26,6 +26,7 @@ public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = "PIPELINE_NAME";
     private static final String RENAME = "Pipeline Project";
+    private static final String TEXT_DESCRIPTION = "This is a test description";
 
     private static final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
@@ -161,7 +162,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getDescriptionText();
 
-        Assert.assertEquals(resultDescriptionText,descriptionText);
+        Assert.assertEquals(resultDescriptionText, descriptionText);
     }
 
     @Test(dependsOnMethods = "testCreatePipeline")
@@ -203,8 +204,9 @@ public class PipelineTest extends BaseTest {
                 .scrollToPipelineSection()
                 .getDefinitionFieldText();
 
-        Assert.assertEquals(resultOptionDefinitionFieldText,"Pipeline script");
+        Assert.assertEquals(resultOptionDefinitionFieldText, "Pipeline script");
     }
+
     @Test
     public void testDeletePipelineDropDownMenu() {
         final String name = PIPELINE_NAME + "1";
@@ -221,46 +223,23 @@ public class PipelineTest extends BaseTest {
         Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
     public void testPipelineBuildingAfterChangesInCode() {
+        BuildPage buildPage = new MainPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickConfigureButton()
+                .clickPipelineLeftMenu()
+                .clickScriptDropDownMenu()
+                .selectHelloWord()
+                .clickSaveButton()
+                .clickBuildNow()
+                .clickBuildIcon()
+                .click1BuildHistory();
 
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//a[@href='job/Pipeline01/']"))).click();
-
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//a[@href='/job/Pipeline01/configure']"))).click();
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//button[@data-section-id='pipeline']"))).click();
-
-        WebElement trySamplePipelineField = getWait2().until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//div[@class='samples']//select")));
-
-        Select samplePipelineCode = new Select(trySamplePipelineField);
-        samplePipelineCode.selectByIndex(0);
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(buildNowButton)).click();
-        WebElement buildNumber = getWait10().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("(//a[@update-parent-class='.build-row'])[1]")));
-
-        new Actions(getDriver())
-                .moveToElement(buildNumber)
-                .pause(Duration.ofSeconds(1))
-                .click()
-                .perform();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']")));
-
-        WebElement buildStatusIcon =
-                getDriver().findElement(By.xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']"));
-        WebElement buildStatusText =
-                getDriver().findElement(By.xpath("//h1[@class='build-caption page-headline']"));
-
-        Assert.assertTrue(buildStatusText.getText().contains("Build #1"));
-        Assert.assertTrue(buildStatusIcon.isDisplayed());
+        Assert.assertTrue(buildPage.isDisplayedBuildTitle(), "Build #1 failed");
+        Assert.assertTrue(buildPage.isDisplayedGreenIconV(), "Build #1 failed");
     }
 
     @Test
@@ -553,17 +532,16 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testSetDescription() {
-        String descriptionText = "This is a test description";
+        TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
-        createWithoutDescription("test-pipeline");
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
+        String addDescription = new MainPage(getDriver())
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickEditDescription()
+                .enterNewDescription(TEXT_DESCRIPTION)
+                .clickSaveButton()
+                .getDescriptionText();
 
-        getDriver().findElement(By.name("description")).sendKeys(descriptionText);
-        getDriver().findElement(By.name("Submit")).click();
-
-        WebElement actualDescription = getDriver().findElement(By.xpath("//*[@id='description']/div"));
-
-        Assert.assertEquals(actualDescription.getText(), descriptionText);
+        Assert.assertEquals(addDescription, TEXT_DESCRIPTION);
     }
 
     @Test
@@ -752,5 +730,47 @@ public class PipelineTest extends BaseTest {
                 .selectSaveButton();
         String actualDescription = new ProjectPage(getDriver()).getProjectDescription();
         Assert.assertTrue(actualDescription.contains(newDescription), "description not displayed");
+    }
+
+    @Test
+    public void testAddBooleanParameterWithDescription() {
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+
+        final String name = "Pipeline Boolean Parameter";
+        final String description = "Some boolean parameters here";
+        final String parameterName = "Boolean Parameter";
+
+        BuildPage buildPage = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickAndAddParameter(parameterName)
+                .setBooleanParameterName(name)
+                .setDefaultBooleanParameter()
+                .setBooleanParameterDescription(description)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickBuildButton();
+
+        Assert.assertEquals(buildPage.getBooleanParameterName(), name);
+        Assert.assertEquals(buildPage.getBooleanParameterCheckbox(), "true");
+        Assert.assertEquals(buildPage.getBooleanParameterDescription(), description);
+    }
+
+    @Test
+    public void testAddBooleanParameter() {
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+
+        final String name = "Pipeline Boolean Parameter";
+        final String parameterName = "Boolean Parameter";
+
+        BuildPage buildPage = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickAndAddParameter(parameterName)
+                .setBooleanParameterName(name)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickBuildButton();
+
+        Assert.assertEquals(buildPage.getBooleanParameterName(), name);
+        Assert.assertNull(buildPage.getBooleanParameterCheckbox());
     }
 }

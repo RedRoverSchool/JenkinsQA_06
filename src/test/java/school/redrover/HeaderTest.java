@@ -303,19 +303,25 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testAppearanceOfPopUpMenusWhenClickingOnIcons() {
-        MainPage mainPage = new MainPage(getDriver())
+    public void testAppearanceOfPopUpMenuWhenClickingOnNotificationIcon() {
+        boolean isPopUpScreenDisplayed = new MainPage(getDriver())
                 .getHeader()
-                .clickNotificationIcon();
+                .clickNotificationIcon()
+                .getHeader()
+                .isPopUpNotificationScreenDisplayed();
 
-        Assert.assertTrue(mainPage.isPopUpNotificationScreenDisplayed(),
-                "The pop-up Notification icon screen is not displayed");
+        Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Notification icon screen is not displayed");
+    }
 
-        mainPage.getHeader()
-                .clickAdminIcon();
+    @Test
+    public void testAppearanceOfPopUpMenusWhenClickingOnAdminIcon() {
+        boolean isPopUpScreenDisplayed = new MainPage(getDriver())
+                .getHeader()
+                .clickAdminIcon()
+                .getHeader()
+                .isPopUpAdminScreenDisplayed();
 
-        Assert.assertTrue(mainPage.isPopUpAdminScreenDisplayed(),
-                "The pop-up Admin icon screen is not displayed");
+        Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Admin icon screen is not displayed");
     }
 
     @Ignore

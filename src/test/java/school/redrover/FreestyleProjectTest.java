@@ -434,5 +434,23 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualFreestyleName,nameFreestyle);
     }
+
+    @Test
+    public void testFreestyleProjectJob() {
+        String nameProject = "Hello world";
+        String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
+
+        String consoleOutput = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameProject)
+                .selectFreestyleProjectAndOk()
+                .addBuildStepsExecuteShell(steps)
+                .clickSave()
+                .selectBuildNow()
+                .openConsoleOutputForBuild()
+                .getConsoleOutputText();
+
+        Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
+    }
 }
 
