@@ -89,7 +89,7 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return adminLink.getCssValue("text-decoration");
     }
 
-    public MainHeaderComponent<Page> openAdminDropdownMenu() {
+    public MainHeaderComponent<Page> expandAdminDropdownMenu() {
         WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
                 ("//a[@href='/user/admin']/button")));
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();

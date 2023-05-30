@@ -241,10 +241,10 @@ public class HeaderTest extends BaseTest {
     public void testOpenBuildsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .openAdminDropdownMenu()
+                .expandAdminDropdownMenu()
                 .openBuildsTabFromAdminDropdownMenu();
 
-        Assert.assertTrue(page.isDisplayed());
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
     }
 
     @Test
@@ -361,29 +361,29 @@ public class HeaderTest extends BaseTest {
     public void testConfigureTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .openAdminDropdownMenu()
+                .expandAdminDropdownMenu()
                 .openConfigureTabFromAdminDropdownMenu();
 
-        Assert.assertTrue(page.isDisplayed());
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
     }
 
     @Test
     public void testMyViewsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .openAdminDropdownMenu()
+                .expandAdminDropdownMenu()
                 .openMyViewsTabFromAdminDropdownMenu();
 
-        Assert.assertTrue(page.isDisplayed());
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
     }
 
     @Test
     public void testCredentialsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .openAdminDropdownMenu()
+                .expandAdminDropdownMenu()
                 .openCredentialsTabFromAdminDropdownMenu();
 
-        Assert.assertTrue(page.isDisplayed());
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
     }
 }
