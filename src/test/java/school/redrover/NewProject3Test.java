@@ -19,7 +19,7 @@ public class NewProject3Test extends BaseTest {
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
                 .clickSave();
-        mainPage.selectDashboard();
+        mainPage.clickOnDashboardButton();
 
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
@@ -36,7 +36,7 @@ public class NewProject3Test extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(new PipelinePage(getDriver()).getHeaderPipeline().getText(), expectedPipeline);
-        mainPage.selectDashboard();
+        mainPage.clickOnDashboardButton();
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
 
@@ -47,7 +47,7 @@ public class NewProject3Test extends BaseTest {
                 .enterItemName("Engineer3")
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage();
-        mainPage.selectDashboard();
+        mainPage.clickOnDashboardButton();
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#projectstatus")).isDisplayed(), "project no display");
     }
@@ -61,7 +61,7 @@ public class NewProject3Test extends BaseTest {
                 .enterItemName(nameProject)
                 .selectFolderAndOk()
                 .clickSaveButton();
-        mainPage.selectDashboard();
+        mainPage.clickOnDashboardButton();
 
         Assert.assertTrue(mainPage.getFolderName().isDisplayed());
         mainPage.getFolderName().click();
@@ -76,7 +76,7 @@ public class NewProject3Test extends BaseTest {
                 .enterItemName(nameJob)
                 .selectMultibranchPipelineAndOk()
                 .saveButton();
-        mainPage.selectDashboard();
+        mainPage.clickOnDashboardButton();
 
         Assert.assertEquals(mainPage.getFolderName().getText(), nameJob);
     }

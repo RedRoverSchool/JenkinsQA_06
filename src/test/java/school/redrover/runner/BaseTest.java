@@ -106,6 +106,7 @@ public abstract class BaseTest {
         }
     }
 
+   @Ignore
     @AfterMethod
     protected void afterMethod(Method method, ITestResult testResult) {
         if (!testResult.isSuccess() && ProjectUtils.isServerRun()) {

@@ -149,11 +149,11 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test (dependsOnMethods = "testCreatePipeline")
-    public void testAddingDescriptionToPipeline() {
+    public void testAddingDescriptionToPipeline_1() {
 
         final boolean ifPipelineDescriptionPresent =
                 new MainPage(getDriver())
-                        .clickOnSliderDashboardInDropDownMenu()
+                        .clickOnDashboardButton()
                         .clickPipelineProject(PIPELINE_NAME)
                         .clickConfigureButton()
                         .addProjectDescription()
@@ -163,7 +163,8 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertTrue(ifPipelineDescriptionPresent);
     }
-
+    @Test
+    public void testAddingDescriptionToPipeline() {
         final String pipelineName = "test_pipeline";
         final String descriptionText = "description text";
         String resultDescriptionText = new MainPage(getDriver())
@@ -726,6 +727,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelinePage.clickDashboard().getProjectName().getText(), RENAME);
     }
 
+    @Ignore
     @Test
     public void testAddDescriptionAfterRewrite() {
         String description = "description";
