@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -238,25 +237,12 @@ public class HeaderTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @DataProvider(name = "dropDownMenuAndPageLocators")
-    public Object[][] provideDropdownMenuAndPageLocators() {
-        return new Object[][] {
-                {By.xpath("//div[@id='breadcrumb-menu']//span[.='Builds']"),
-                        By.xpath("//h1[.='Builds for admin']")},
-                {By.xpath("//span[. ='Configure']"),
-                        By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]")},
-                {By.xpath("//div[@class='bd']//span[.='My Views']"),
-                        By.xpath("//a[@href='/user/admin/my-views/']")},
-                {By.xpath("//span[.='Credentials']"),
-                        By.xpath("//h1[.='Credentials']")}
-        };
-    }
-
-    @Test(dataProvider = "dropDownMenuAndPageLocators")
-    public void testOpenTabFromDropdownMenu(By buttonLocator, By pageLocator) {
+    @Test
+    public void testOpenBuildsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
+                .getHeader()
                 .openAdminDropdownMenu()
-                .openTabFromAdminDropdownMenu(buttonLocator, pageLocator);
+                .openBuildsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed());
     }
@@ -371,4 +357,33 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualRes, "Manage Jenkins");
     }
 
+    @Test
+    public void testConfigureTabFromDropdownMenu() {
+        WebElement page = new MainPage(getDriver())
+                .getHeader()
+                .openAdminDropdownMenu()
+                .openConfigureTabFromAdminDropdownMenu();
+
+        Assert.assertTrue(page.isDisplayed());
+    }
+
+    @Test
+    public void testMyViewsTabFromDropdownMenu() {
+        WebElement page = new MainPage(getDriver())
+                .getHeader()
+                .openAdminDropdownMenu()
+                .openMyViewsTabFromAdminDropdownMenu();
+
+        Assert.assertTrue(page.isDisplayed());
+    }
+
+    @Test
+    public void testCredentialsTabFromDropdownMenu() {
+        WebElement page = new MainPage(getDriver())
+                .getHeader()
+                .openAdminDropdownMenu()
+                .openCredentialsTabFromAdminDropdownMenu();
+
+        Assert.assertTrue(page.isDisplayed());
+    }
 }

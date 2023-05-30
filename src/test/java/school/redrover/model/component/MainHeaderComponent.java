@@ -1,6 +1,7 @@
 package school.redrover.model.component;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -86,5 +87,41 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     public String getAdminTextDecorationValue() {
         WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(ADMIN_ICON));
         return adminLink.getCssValue("text-decoration");
+    }
+
+    public MainHeaderComponent<Page> openAdminDropdownMenu() {
+        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
+                ("//a[@href='/user/admin']/button")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", dropDownMenu);
+        return this;
+    }
+
+    public WebElement openBuildsTabFromAdminDropdownMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
+                ("//div[@id='breadcrumb-menu']//span[.='Builds']"))).click();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
+                ("//h1[.='Builds for admin']")));
+    }
+
+    public WebElement openConfigureTabFromAdminDropdownMenu () {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
+                ("//span[. ='Configure']"))).click();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
+                ("//li[@class='jenkins-breadcrumbs__list-item'][3]")));
+    }
+
+    public WebElement openMyViewsTabFromAdminDropdownMenu () {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
+                ("//div[@class='bd']//span[.='My Views']"))).click();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
+                ("//a[@href='/user/admin/my-views/']")));
+    }
+
+    public WebElement openCredentialsTabFromAdminDropdownMenu () {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
+                ("//span[.='Credentials']"))).click();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
+                ("//h1[.='Credentials']")));
     }
 }

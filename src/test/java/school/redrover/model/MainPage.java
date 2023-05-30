@@ -229,19 +229,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getDriver().findElement(By.id("visible-am-button")).getCssValue("background-color");
     }
 
-    public MainPage openAdminDropdownMenu() {
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
-        return this;
-    }
-
-    public WebElement openTabFromAdminDropdownMenu(By buttonLocator, By pageLocator) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
-    }
-
     public MultiConfigurationProjectPage clickJobWebElement(String jobName) {
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]")))).click();
