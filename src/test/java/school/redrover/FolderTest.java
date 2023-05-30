@@ -302,7 +302,7 @@ public class FolderTest extends BaseTest {
     @Test
     public void testCreateMulticonfigurationProjectInFolder() {
 
-        ProjectPage mainPage = new MainPage(getDriver())
+        new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("TC 00.04 New item Create Folder")
                 .selectFolderAndOk()

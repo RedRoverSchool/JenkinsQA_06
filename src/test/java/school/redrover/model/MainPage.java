@@ -419,4 +419,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getDriver().findElement(By.xpath(String.format("//span[text()='%s']", folderName))).click();
         return new FolderPage(getDriver());
     }
+    public WebElement expectedErrorMessage() {
+        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//div[@id='itemname-required']"))));
+    }
 }
