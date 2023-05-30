@@ -99,7 +99,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testCreateMultibranchPipelineWithDescription() {
-        WebElement MultibranchPipeline = new MainPage(getDriver())
+        String MultibranchPipeline = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("RandomName")
                 .selectMultibranchPipelineAndOk()
@@ -109,6 +109,6 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickMultibranchPipeline("RandomName")
                 .getDescription();
 
-        Assert.assertEquals(MultibranchPipeline.getText(), "DESCRIPTION");
+        Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
     }
 }

@@ -34,7 +34,7 @@ public class MultibranchPipelinePage extends BaseModel {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
     }
-    public WebElement getDescription() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message")));
+    public String getDescription() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))).getText();
     }
 }
