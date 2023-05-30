@@ -4,10 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.FolderPage;
-import school.redrover.model.JobPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.NewJobPage;
+import school.redrover.model.*;
 import school.redrover.model.base.BaseModel;
 
 import java.util.ArrayList;
@@ -85,7 +82,8 @@ public class TestUtils {
 
         new NewJobPage(baseTest.getDriver())
                 .selectOrganizationFolderAndOk()
-                .clickSaveButton();
+                .getConfig()
+                .clickSaveButton(new OrganizationFolderPage(baseTest.getDriver()));
 
         goToHomePage(baseTest, goToHomePage);
     }

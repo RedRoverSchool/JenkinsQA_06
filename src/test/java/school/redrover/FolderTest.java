@@ -183,8 +183,8 @@ public class FolderTest extends BaseTest {
         FolderPage folderPage = new FolderPage(getDriver());
                 folderPage
                 .clickConfigureSideMenu()
-                .getConfig()
                 .addDescription(description)
+                .getConfig()
                 .clickSaveButton(new FolderPage(getDriver()));
 
         Assert.assertEquals(folderPage.getFolderDescription(), description);
@@ -414,13 +414,15 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(nameFolder)
                 .selectFolderAndOk()
-                .clickSaveButton()
+                .getConfig()
+                .clickSaveButton(new FolderPage(getDriver()))
                 .clickDashboard()
                 .clickFolderName(nameFolder)
                 .clickNewItem()
                 .enterItemName(nameOrganizationFolder)
                 .selectOrganizationFolderAndOk()
-                .clickSaveButton()
+                .getConfig()
+                .clickSaveButton(new OrganizationFolderPage(getDriver()))
                 .clickDashboard()
                 .clickFolderName(nameFolder)
                 .getNestedFolder(nameOrganizationFolder);
@@ -479,9 +481,10 @@ public class FolderTest extends BaseTest {
                 new FolderPage(getDriver())
                         .clickConfigureSideMenu()
                         .enterDisplayName(NEW_FOLDER_NAME)
-                        .enterDescription(DESCRIPTION_VALUE)
+                        .addDescription(DESCRIPTION_VALUE)
                         .setHealthMetricsType()
-                        .clickSaveButton();
+                        .getConfig()
+                        .clickSaveButton(new FolderPage(getDriver()));
         Assert.assertEquals(folderPage.getFolderDisplayName(), NEW_FOLDER_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);
         Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
@@ -495,7 +498,8 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(nameFolder)
                 .selectOrganizationFolderAndOk()
-                .clickSaveButton()
+                .getConfig()
+                .clickSaveButton(new OrganizationFolderPage(getDriver()))
                 .clickDashboard()
                 .clickFolderName(nameFolder)
                 .getNestedOrganizationFolder(nameFolder);

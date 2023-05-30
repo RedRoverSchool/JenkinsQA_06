@@ -3,10 +3,13 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseModel;
 import school.redrover.model.base.BaseMainConfigPage;
+import school.redrover.model.component.MainConfigComponent;
 
 
 public class FolderConfigPage  extends BaseMainConfigPage<FolderConfigPage> {
@@ -28,11 +31,6 @@ public class FolderConfigPage  extends BaseMainConfigPage<FolderConfigPage> {
         return new MainPage(getDriver());
     }
 
-    public FolderPage saveProjectAndGoToFolderPage(){
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector("[name='Submit']")))).click();
-        return new FolderPage(getDriver());
-    }
 
     public FolderConfigPage clickHealthMetrics(){
         getDriver().findElement(By.xpath("//button [@class='jenkins-button advanced-button advancedButton']")).click();
@@ -70,5 +68,10 @@ public class FolderConfigPage  extends BaseMainConfigPage<FolderConfigPage> {
         return getWait10()
                 .until(ExpectedConditions
                         .presenceOfElementLocated(By.xpath("//input[@name='_.recursive']"))).isDisplayed();
+    }
+
+    public FolderConfigPage addDescription(String description) {
+        getDriver().findElement(By.xpath("//textarea[contains(@name, 'description')]")).sendKeys(description);
+        return this;
     }
 }

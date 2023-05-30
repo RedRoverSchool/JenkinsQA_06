@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
+import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
@@ -17,7 +18,8 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(expectedNewFolderName)
                 .selectOrganizationFolderAndOk()
-                .clickSaveButton()
+                .getConfig()
+                .clickSaveButton(new OrganizationFolderPage(getDriver()))
                 .clickDashboard()
                 .getProjectNameMainPage(expectedNewFolderName);
 
@@ -55,8 +57,10 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(nameOrganizationFolder)
                 .selectOrganizationFolderAndOk()
-                .clickSaveButton()
-                .clickDashboard()
+                .getConfig()
+                .clickSaveButton(new OrganizationFolderPage(getDriver()))
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(nameFolder)
                 .getNestedFolder(nameOrganizationFolder);
 
@@ -78,11 +82,13 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(organizationFolderName)
                 .selectOrganizationFolderAndOk()
-                .clickSaveButton()
+                .getConfig()
+                .clickSaveButton(new OrganizationFolderPage(getDriver()))
                 .clickMoveOnLeftMenu()
                 .selectDestinationFolder()
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(folderName)
                 .nestedFolderIsVisibleAndClickable(organizationFolderName);
 
