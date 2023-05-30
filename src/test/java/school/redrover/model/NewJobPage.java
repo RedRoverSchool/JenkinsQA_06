@@ -43,7 +43,7 @@ public class NewJobPage extends BaseModel {
     public FolderConfigPage selectFolderAndOk() {
         getDriver().findElement(By.xpath("//li[contains(@class, 'folder_Folder')]")).click();
         getOkButton().click();
-        return new FolderConfigPage(getDriver());
+        return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
     public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {

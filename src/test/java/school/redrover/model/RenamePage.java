@@ -6,7 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
 
-public class RenamePage <JobTypePage extends BasePage<?>> extends BaseMainHeaderPage {
+public class RenamePage <JobTypePage extends BasePage<?>> extends BaseMainHeaderPage<RenamePage<JobTypePage>> {
 
     private final JobTypePage jobTypePage;
 
