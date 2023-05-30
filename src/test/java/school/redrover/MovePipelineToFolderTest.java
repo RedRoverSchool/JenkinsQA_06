@@ -28,7 +28,6 @@ public class MovePipelineToFolderTest extends BaseTest {
         .navigateToMainPageByBreadcrumbs()
         .clickFolderName("testFolder")
         .getNestedFolder("testPipeline");
-       // .click();
 
         WebElement breadcrumbBar = getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']"));
         String breadcrumbText = breadcrumbBar.getText().replaceAll("\\W"," > ");
