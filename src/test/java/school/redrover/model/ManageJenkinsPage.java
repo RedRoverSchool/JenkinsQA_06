@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.time.Duration;
+
 public class ManageJenkinsPage extends MainPage {
 
 
@@ -46,8 +48,8 @@ public class ManageJenkinsPage extends MainPage {
     }
 
     public String getActualHeader() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-                "//h1[text()='Manage Jenkins']"))).getText();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName(
+                "h1"))).getText();
     }
 
     public String getDropdownResultsInSearchField() {
@@ -58,5 +60,26 @@ public class ManageJenkinsPage extends MainPage {
         getDriver().findElement(By.linkText("New Item")).click();
 
         return new NewJobPage(getDriver());
+    }
+
+    public ConfigureGlobalSecurityPage clickConfigureGlobalSecurity() {
+        getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
+
+        return new ConfigureGlobalSecurityPage(getDriver());
+    }
+
+    public ManageNodesPage clickManageNodes() {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='/computer/']"))).click();
+        return new ManageNodesPage(getDriver());
+    }
+
+    public ManageJenkinsPage clickManageJenkinsLink() {
+        new Actions(getDriver())
+                .pause(Duration.ofMillis(300))
+                .click(getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Manage Jenkins']"))))
+                .perform();
+        return new ManageJenkinsPage(getDriver());
     }
 }

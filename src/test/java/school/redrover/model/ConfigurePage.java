@@ -3,9 +3,11 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import school.redrover.model.base.BasePage;
 
-public class ConfigurePage extends BasePage {
+import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.runner.TestUtils;
+
+public class ConfigurePage extends BaseMainHeaderPage<ConfigurePage> {
 
     public ConfigurePage(WebDriver driver) {
         super(driver);
@@ -24,33 +26,52 @@ public class ConfigurePage extends BasePage {
     }
 
     public ConfigurePage sendAreDescriptionInputString(String text) {
-        sendTextToInput(getDriver().findElement(By.xpath("//textarea[@name='description']")), text);
+        TestUtils.sendTextToInput(this, getDriver().findElement(By.xpath("//textarea[@name='description']")), text);
         return this;
     }
 
     public ConfigurePage clickBuildTriggerCheckBox() {
-        click(getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")));
         return this;
     }
 
     public ConfigurePage sendAreContentInputString(String text) {
-        clickByJavaScript(getAreContentInputString());
+        TestUtils.clickByJavaScript(this, getAreContentInputString());
         getAreContentInputString().sendKeys(text);
         return this;
     }
 
     public ConfigurePage scrollToBuildtriggersByJavaScript() {
-        scrollToElementByJavaScript(getBuildTriggersSection());
+        TestUtils.scrollToElementByJavaScript(this, getBuildTriggersSection());
         return new ConfigurePage(getDriver());
     }
 
     public ConfigurePage scrollToPipelineSection() {
-        scrollToElementByJavaScript(getPipelineSection());
+        TestUtils.scrollToElementByJavaScript(this, getPipelineSection());
         return new ConfigurePage(getDriver());
     }
 
-    public JobPage clickSaveButton() {
-        click(getDriver().findElement(By.xpath("//button[@name='Submit']")));
+    public JobPage selectSaveButton() {
+        TestUtils.click(this, getDriver().findElement(By.xpath("//button[@name='Submit']")));
+
         return new JobPage(getDriver());
+    }
+
+    public ConfigurePage clickPreview() {
+        getDriver().findElement(By.cssSelector("[previewendpoint$='previewDescription']")).click();
+        return this;
+    }
+
+    public String getPreviewText() {
+        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText();
+    }
+
+    public ConfigurePage clearDescriptionArea() {
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
+        return this;
+    }
+
+    public String getDefinitionFieldText() {
+        return getDriver().findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]")).getText();
     }
 }

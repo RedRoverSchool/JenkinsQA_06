@@ -5,12 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
+import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPage extends BasePage {
+public class ViewPage extends BaseModel {
 
     public ViewPage(WebDriver driver) {
         super(driver);
@@ -22,17 +23,17 @@ public class ViewPage extends BasePage {
 
     public ViewPage inputAnItemName(String text) {
 
-        sendTextToInput(getDriver().findElement(By.xpath("//input[@id = 'name']")), text);
+        TestUtils.sendTextToInput(this, getDriver().findElement(By.xpath("//input[@id = 'name']")), text);
         return new ViewPage(getDriver());
     }
 
     public ViewPage clickPipelineProject() {
-        click(getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
         return new ViewPage(getDriver());
     }
 
     public ConfigurePage clickSaveButton() {
-        click(getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
         return new ConfigurePage(getDriver());
     }
 
@@ -65,7 +66,7 @@ public class ViewPage extends BasePage {
 
     public String getViewName() {
 
-        return getText(getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
+        return TestUtils.getText(this, getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
     }
 
     public void clickBreadcrumbPathItem(int n, String name) {
@@ -106,7 +107,12 @@ public class ViewPage extends BasePage {
     }
 
     public ViewPage clickFreestyleProject() {
-        click(getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
+        TestUtils.click(this, getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
+        return this;
+    }
+
+    public ViewPage clickMultiBranchPipeline() {
+        TestUtils.click(this, getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
         return this;
     }
 }

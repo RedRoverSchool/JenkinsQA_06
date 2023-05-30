@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseModel;
 
-public class NewJobPage extends BasePage {
+public class NewJobPage extends BaseModel {
 
     public NewJobPage(WebDriver driver) {
         super(driver);
@@ -64,12 +64,6 @@ public class NewJobPage extends BasePage {
         return this;
     }
 
-    public PipelineConfigPage selectPipelineAndClickOK() {
-        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
-        getOkButton().click();
-        return new PipelineConfigPage(getDriver());
-    }
-
     public String getItemInvalidMessage() {
         return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
     }
@@ -87,6 +81,7 @@ public class NewJobPage extends BasePage {
         getOkButton().click();
         return new CreateItemErrorPage(getDriver());
     }
+
     public String getItemNameRequiredMessage() {
         return getDriver().findElement(By.id("itemname-required")).getText();
     }
@@ -100,15 +95,19 @@ public class NewJobPage extends BasePage {
     }
 
     private WebElement getItemInvalidNameMessage() {
-       return getDriver().findElement(By.id("itemname-invalid"));
+        return getDriver().findElement(By.id("itemname-invalid"));
     }
 
     public NewJobPage selectPipelineProject() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Pipeline']"))).click();
-        return new NewJobPage(getDriver());
+        return this;
     }
 
     public String getItemNameRequiredErrorText() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
+    }
+    public NewJobPage clickButtonOk() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//body/div[@id='page-body']/div[@id='main-panel']/div[@id='add-item-panel']/div[1]/div[1]/form[1]/div[3]/div[1]"))).click();
+        return this;
     }
 }

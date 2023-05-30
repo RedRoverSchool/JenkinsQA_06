@@ -6,9 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.MainPage;
-import school.redrover.model.ManageJenkinsPage;
-import school.redrover.model.ManagePage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import java.util.List;
 import java.util.Objects;
@@ -29,13 +27,11 @@ public class ManageJenkinsTest extends BaseTest {
     public void testSearchWithLetterConfigureSystem() {
         String configurePage = new ManagePage(getDriver())
                 .navigateToManagePage()
-
                 .enterSearchQuery("m")
                 .clickSearchButton()
-
                 .selectOnTheFirstLineInDropdown()
-
                 .getConfigureSystemPage();
+
         Assert.assertEquals(configurePage,"Configure System");
     }
 
@@ -44,12 +40,11 @@ public class ManageJenkinsTest extends BaseTest {
         boolean newUser = new ManagePage(getDriver())
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
-
                 .clickCreateUser()
                 .fillUserDetails()
                 .submit()
-
                 .findUserCreated();
+
         Assert.assertTrue(newUser);
     }
 
@@ -59,11 +54,10 @@ public class ManageJenkinsTest extends BaseTest {
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
                 .clickCreateUser()
-
                 .fillUserDetailsWithInvalidEmail()
                 .submit()
-
                 .assertInvalidEmailError();
+
         Assert.assertEquals(errorEmail, "Invalid e-mail address");
     }
 
@@ -72,11 +66,10 @@ public class ManageJenkinsTest extends BaseTest {
         boolean userNotFound = new ManagePage(getDriver())
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
-
                 .clickDeleteUser()
                 .submit()
-
                 .getUserDeleted();
+
         Assert.assertFalse(userNotFound);
     }
 
@@ -85,11 +78,9 @@ public class ManageJenkinsTest extends BaseTest {
         String descriptionText = new ManagePage(getDriver())
                 .navigateToManagePage()
                 .navigateToManageUsersPage()
-
                 .clickUserEditButton()
                 .enterDescriptionText()
                 .submit()
-
                 .getDescriptionText();
 
         Assert.assertEquals("Description text",descriptionText);
@@ -100,13 +91,10 @@ public class ManageJenkinsTest extends BaseTest {
         String number = "3";
 
         String numberInLine = new ManagePage(getDriver())
-
                 .navigateToManagePage()
                 .navigateManageNodesAndClouds()
-
                 .clickConfigureMasterNode()
                 .changeNumberOfExecutorsAndSave(number)
-
                 .navigateToMasterNodeConfiguration()
                 .numberOfExecutors();
 
@@ -145,27 +133,20 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testErrorWhenCreateNewNodeWithEmptyName() {
+    public void testTextErrorWhenCreateNewNodeWithEmptyName() {
 
-        WebElement buildExecutorStatus = getDriver().findElement(By.xpath("//a[@href='/computer/']"));
-        buildExecutorStatus.click();
-        WebElement newNodeButton = getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='new']"));
-        newNodeButton.click();
-        WebElement inputNodeName = getDriver().findElement(By.xpath("//input[@id='name']"));
-        inputNodeName.sendKeys(NAME_NEW_NODE);
-        WebElement permanentAgentRadioButton = getDriver().findElement(By.xpath("//label"));
-        permanentAgentRadioButton.click();
-        WebElement createButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        createButton.click();
-        WebElement nameField = getDriver().findElement(By.xpath("//input[@name='name']"));
-        nameField.clear();
-        WebElement saveButton = getDriver().findElement(By.name("Submit"));
-        saveButton.click();
-        WebElement H1Text = getDriver().findElement(By.xpath("//h1"));
-        WebElement textError = getDriver().findElement(By.xpath("//p"));
+        String textError = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(NAME_NEW_NODE)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .clearNameField()
+                .clickSaveButtonWhenNameFieldEmpty()
+                .getTextError();
 
-        Assert.assertEquals(H1Text.getText(), "Error");
-        Assert.assertEquals(textError.getText(), "Query parameter 'name' is required");
+        Assert.assertEquals(textError, "Query parameter 'name' is required");
     }
 
     @Test
