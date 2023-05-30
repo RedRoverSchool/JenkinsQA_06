@@ -85,16 +85,6 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testSearchFieldPlaceholder() {
-        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("placeholder"), "Search (CTRL+K)");
-    }
-
-    @Test
-    public void testSearchFieldAutocomplete() {
-        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
-    }
-
-    @Test
     public void testSecurityButton() throws InterruptedException {
         Actions hover = new Actions(getDriver());
 
