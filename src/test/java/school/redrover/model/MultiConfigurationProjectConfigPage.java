@@ -71,4 +71,9 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
 
         return maxNumOfBuildsToKeepNumber.getAttribute(attribute);
     }
+
+    public MultiConfigurationProjectPage clickSaveButton() {
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        return new MultiConfigurationProjectPage(getDriver());
+    }
 }

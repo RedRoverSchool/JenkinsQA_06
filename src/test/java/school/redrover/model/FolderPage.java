@@ -136,4 +136,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
     }
+
+    public String getNestedMultiConfigurationProjectName(String name) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + name + "/')]"))).getText();
+    }
 }

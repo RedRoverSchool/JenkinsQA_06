@@ -519,4 +519,36 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(nameMultibranchPipelineDisplays,nameMultibranchPipeline);
     }
+
+    @Test
+    public void testMoveMultiConfigurationProjectToFolderFromSideMenu() {
+
+        final String folderName = "MyFolder";
+        final String multiConfigurationProjectName= "MyMultiConfigurationProject";
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(folderName)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard();
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(multiConfigurationProjectName)
+                .selectMultiConfigurationProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard();
+
+        String createdMultiConfigurationProjectName = new MainPage(getDriver())
+                .clickMultiConfigurationProject(multiConfigurationProjectName)
+                .clickMoveOnSideMenu()
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(folderName)
+                .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
+
+        Assert.assertEquals(createdMultiConfigurationProjectName,multiConfigurationProjectName);
+    }
 }
