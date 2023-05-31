@@ -71,7 +71,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(projectName)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickDashboard();
 
         Assert.assertEquals(getDriver()
