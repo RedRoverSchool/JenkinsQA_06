@@ -32,11 +32,6 @@ public class ViewPage extends BaseModel {
         return new ViewPage(getDriver());
     }
 
-    public ConfigurePage clickSaveButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
-        return new ConfigurePage(getDriver());
-    }
-
     public ViewPage clickAddDescription() {
         getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
         return this;

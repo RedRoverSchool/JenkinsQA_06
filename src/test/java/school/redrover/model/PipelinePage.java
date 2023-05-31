@@ -77,7 +77,7 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
 
     public PipelineConfigPage clickConfigureButton() {
         getDriver().findElement(By.xpath("//a[contains(@href, '/configure')]")).click();
-        return new PipelineConfigPage(getDriver());
+        return new PipelineConfigPage(new PipelinePage(getDriver()));
     }
 
     public String getProjectNameSubtitle() {

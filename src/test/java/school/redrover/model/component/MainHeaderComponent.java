@@ -1,13 +1,13 @@
 package school.redrover.model.component;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
 import school.redrover.model.base.BaseComponent;
 import school.redrover.model.base.BasePage;
+import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
 
@@ -18,83 +18,73 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     }
 
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
-    private static final By ADMIN_ICON = By.xpath("//a[@href='/user/admin']");
-    private static final By LOGOUT_ICON = By.xpath("//a[@href='/logout']");
+    private static final By ADMIN_BUTTON = By.xpath("//a[@href='/user/admin']");
+    private static final By LOGOUT_BUTTON = By.xpath("//a[@href='/logout']");
 
-
-    public MainPage clickLogo() {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("jenkins-head-icon"))).click();
-        return new MainPage(getDriver());
-    }
-
-    public Page clickNotificationIcon() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(NOTIFICATION_ICON)).click();
-        return getPage();
-    }
-
-    public Page clickAdminIcon() {
-        getDriver().findElement(ADMIN_ICON).click();
-        return getPage();
-    }
-
-    public boolean isPopUpNotificationScreenDisplayed() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list"))).isDisplayed();
-    }
-
-    public boolean isPopUpAdminScreenDisplayed() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed();
-    }
-
-    private void hoverOverIcon(By locator) {
+    private void hoverOver(By locator) {
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(locator))
                 .pause(Duration.ofMillis(300))
                 .perform();
     }
 
-    public MainHeaderComponent hoverOverNotificationIcon() {
-        hoverOverIcon(NOTIFICATION_ICON);
-        return this;
-    }
-
-    public MainHeaderComponent<Page> hoverOverAdminIcon() {
-        hoverOverIcon(ADMIN_ICON);
-        return this;
-    }
-
-    public MainHeaderComponent hoverOverLogOutIcon() {
-        hoverOverIcon(LOGOUT_ICON);
-        return this;
-    }
-
     private String getIconBackgroundColor(By locator) {
         return getDriver().findElement(locator).getCssValue("background-color");
     }
 
-    public String getNotificationIconColor() {
+    public MainPage clickLogo() {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("jenkins-head-icon"))).click();
+        return new MainPage(getDriver());
+    }
+
+    public MainHeaderComponent<Page> clickNotificationIcon() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(NOTIFICATION_ICON)).click();
+        return this;
+    }
+
+    public MainHeaderComponent<Page> clickAdminDropdownMenu() {
+        TestUtils.clickByJavaScript(this, getDriver().findElement(By.xpath("//a[@href='/user/admin']/button")));
+        return this;
+    }
+
+    public boolean isPopUpNotificationScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list"))).isDisplayed();
+    }
+
+    public boolean isAdminDropdownScreenDisplayed() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu"))).isDisplayed();
+    }
+
+    public MainHeaderComponent<Page> hoverOverNotificationIcon() {
+        hoverOver(NOTIFICATION_ICON);
+        return this;
+    }
+
+    public MainHeaderComponent<Page> hoverOverAdminButton() {
+        hoverOver(ADMIN_BUTTON);
+        return this;
+    }
+
+    public MainHeaderComponent<Page> hoverOverLogOutButton() {
+        hoverOver(LOGOUT_BUTTON);
+        return this;
+    }
+
+    public String getNotificationIconBackgroundColor() {
         return getIconBackgroundColor(NOTIFICATION_ICON);
     }
 
-    public String getAdminIconColor() {
-        return getIconBackgroundColor(ADMIN_ICON);
+    public String getAdminButtonBackgroundColor() {
+        return getIconBackgroundColor(ADMIN_BUTTON);
     }
 
-    public String getLogOutIconColor() {
-        return getIconBackgroundColor(LOGOUT_ICON);
+    public String getLogOutButtonBackgroundColor() {
+        return getIconBackgroundColor(LOGOUT_BUTTON);
     }
 
     public String getAdminTextDecorationValue() {
-        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(ADMIN_ICON));
+        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(ADMIN_BUTTON));
         return adminLink.getCssValue("text-decoration");
-    }
-
-    public MainHeaderComponent<Page> expandAdminDropdownMenu() {
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
-        return this;
     }
 
     public WebElement openBuildsTabFromAdminDropdownMenu() {

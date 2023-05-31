@@ -9,9 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import school.redrover.model.ConfigurePage;
-import school.redrover.model.MainPage;
-import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -192,7 +190,7 @@ public class HeaderTest extends BaseTest {
         String backgroundColorAfter = new MainPage(getDriver())
                 .getHeader()
                 .clickNotificationIcon()
-                .getBackgroundColorNotificationIcon();
+                .getNotificationIconBackgroundColor();
 
         String actualManageJenkinsPageHeader = new ManageJenkinsPage(getDriver())
                 .clickManageJenkinsLink()
@@ -209,7 +207,7 @@ public class HeaderTest extends BaseTest {
         TestUtils.createFreestyleProject(this, listItemName.get(0), true);
         TestUtils.createFreestyleProject(this, listItemName.get(1), false);
 
-        boolean isPageOpen = new ConfigurePage(getDriver())
+        boolean isPageOpen = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))
                 .getHeader()
                 .clickLogo()
                 .isMainPageOpen();
@@ -231,7 +229,7 @@ public class HeaderTest extends BaseTest {
     public void testOpenBuildsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .expandAdminDropdownMenu()
+                .clickAdminDropdownMenu()
                 .openBuildsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
@@ -260,16 +258,16 @@ public class HeaderTest extends BaseTest {
     public void testOfIconColorChange() {
         MainPage mainPage = new MainPage(getDriver());
 
-        final String notificationIconColorBefore = mainPage.getHeader().getNotificationIconColor();
-        final String adminIconColorBefore = mainPage.getHeader().getAdminIconColor();
-        final String logOutIconColorBefore = mainPage.getHeader().getLogOutIconColor();
+        final String notificationIconColorBefore = mainPage.getHeader().getNotificationIconBackgroundColor();
+        final String adminIconColorBefore = mainPage.getHeader().getAdminButtonBackgroundColor();
+        final String logOutIconColorBefore = mainPage.getHeader().getLogOutButtonBackgroundColor();
 
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverNotificationIcon().getNotificationIconColor(),
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverNotificationIcon().getNotificationIconBackgroundColor(),
                 notificationIconColorBefore, "The Notification icon background has not changed");
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverAdminIcon().getAdminIconColor(), adminIconColorBefore,
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverAdminButton().getAdminButtonBackgroundColor(), adminIconColorBefore,
                 "The Admin icon background has not changed");
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverLogOutIcon().getLogOutIconColor(), logOutIconColorBefore,
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverLogOutButton().getLogOutButtonBackgroundColor(), logOutIconColorBefore,
                 "The LogOut icon background has not changed");
         softAssert.assertAll();
     }
@@ -279,7 +277,6 @@ public class HeaderTest extends BaseTest {
         boolean isPopUpScreenDisplayed = new MainPage(getDriver())
                 .getHeader()
                 .clickNotificationIcon()
-                .getHeader()
                 .isPopUpNotificationScreenDisplayed();
 
         Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Notification icon screen is not displayed");
@@ -289,9 +286,8 @@ public class HeaderTest extends BaseTest {
     public void testAppearanceOfPopUpMenusWhenClickingOnAdminIcon() {
         boolean isPopUpScreenDisplayed = new MainPage(getDriver())
                 .getHeader()
-                .clickAdminIcon()
-                .getHeader()
-                .isPopUpAdminScreenDisplayed();
+                .clickAdminDropdownMenu()
+                .isAdminDropdownScreenDisplayed();
 
         Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Admin icon screen is not displayed");
     }
@@ -312,7 +308,7 @@ public class HeaderTest extends BaseTest {
 
         String textUnderlineAfter = new MainPage(getDriver())
                 .getHeader()
-                .hoverOverAdminIcon()
+                .hoverOverAdminButton()
                 .getAdminTextDecorationValue();
 
         Assert.assertTrue(textUnderlineAfter.contains("underline"));
@@ -351,7 +347,7 @@ public class HeaderTest extends BaseTest {
     public void testConfigureTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .expandAdminDropdownMenu()
+                .clickAdminDropdownMenu()
                 .openConfigureTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
@@ -361,7 +357,7 @@ public class HeaderTest extends BaseTest {
     public void testMyViewsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .expandAdminDropdownMenu()
+                .clickAdminDropdownMenu()
                 .openMyViewsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
@@ -371,7 +367,7 @@ public class HeaderTest extends BaseTest {
     public void testCredentialsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .expandAdminDropdownMenu()
+                .clickAdminDropdownMenu()
                 .openCredentialsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");

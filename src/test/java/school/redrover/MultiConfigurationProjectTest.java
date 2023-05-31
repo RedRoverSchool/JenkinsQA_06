@@ -578,17 +578,12 @@ public class MultiConfigurationProjectTest extends BaseTest {
         final int displayedDaysToKeepBuilds = 5;
         final int displayedMaxNumOfBuildsToKeep = 7;
 
-        new MainPage(getDriver())
+        MultiConfigurationProjectConfigPage multiConfigurationProjectConfigPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(multiConfProjectName)
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToConfigPage()
-                .clickConfigureSideMenu();
-
-        MultiConfigurationProjectConfigPage multiConfigurationProjectConfigPage =
-                new MultiConfigurationProjectConfigPage(getDriver());
-
-        multiConfigurationProjectConfigPage
+                .clickConfigureSideMenu()
                 .clickOldBuildCheckBox()
                 .enterDaysToKeepBuilds(displayedDaysToKeepBuilds)
                 .enterMaxNumOfBuildsToKeep(displayedMaxNumOfBuildsToKeep)

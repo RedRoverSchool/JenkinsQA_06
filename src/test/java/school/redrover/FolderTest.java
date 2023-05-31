@@ -40,7 +40,8 @@ public class FolderTest extends BaseTest {
                 .clickCreateAJob()
                 .enterItemName(NAME)
                 .selectFolderAndOk()
-                .clickDashboard();
+                .getHeader()
+                .clickLogo();
 
         String actualResult = mainPage.getFolderName().getText();
 
@@ -68,7 +69,8 @@ public class FolderTest extends BaseTest {
         new NewJobPage(getDriver())
                 .enterItemName(NAME)
                 .selectFolderAndOk()
-                .clickDashboard();
+                .getHeader()
+                .clickLogo();
 
         Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(NAME).isDisplayed(),
                 "error was not show name folder");
@@ -160,7 +162,7 @@ public class FolderTest extends BaseTest {
 
         String folderName = new MainPage(getDriver())
                 .dropDownMenuClickMove(folderTwo, new FolderPage(getDriver()))
-                .selectDestinationFolder()
+                .selectDestinationFolder(folderOne)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderOne)
@@ -179,7 +181,7 @@ public class FolderTest extends BaseTest {
         FolderPage folderPage = new FolderPage(getDriver())
                 .clickConfigureSideMenu()
                 .enterDisplayName(displayName)
-                .enterDescription(description)
+                .addDescription(description)
                 .clickSaveButton();
 
         Assert.assertEquals(folderPage.getFolderDisplayName(), displayName);
@@ -283,7 +285,7 @@ public class FolderTest extends BaseTest {
                 .newItem()
                 .enterItemName("My Multibranch Pipeline")
                 .selectMultibranchPipelineAndOk()
-                .saveButton()
+                .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
                 .clickFolderName(NAME);
 
@@ -434,7 +436,7 @@ public class FolderTest extends BaseTest {
         String projectNameDisplays = new MainPage(getDriver())
                 .clickJobDropDownMenu(nameMultibranchPipeline)
                 .dropDownMenuClickMove(nameMultibranchPipeline,new FolderPage(getDriver()))
-                .selectDestinationFolder()
+                .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(nameFolder)
@@ -454,7 +456,7 @@ public class FolderTest extends BaseTest {
         String nestedFolder = new MainPage(getDriver())
                 .clickToOpenFolder(folder2)
                 .clickMoveOnSideMenu(folder2)
-                .selectDestinationFolder()
+                .selectDestinationFolder(folder1)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folder1)
@@ -474,8 +476,8 @@ public class FolderTest extends BaseTest {
                 new FolderPage(getDriver())
                         .clickConfigureSideMenu()
                         .enterDisplayName(NEW_FOLDER_NAME)
-                        .enterDescription(DESCRIPTION_VALUE)
                         .setHealthMetricsType()
+                        .addDescription(DESCRIPTION_VALUE)
                         .clickSaveButton();
         Assert.assertEquals(folderPage.getFolderDisplayName(), NEW_FOLDER_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);
@@ -509,12 +511,44 @@ public class FolderTest extends BaseTest {
         String nameMultibranchPipelineDisplays = new MainPage(getDriver())
                 .clickMultibranchProjectName(nameMultibranchPipeline)
                 .clickMoveOnSideMenu()
-                .selectDestinationFolder()
+                .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(nameFolder)
                 .getMultibranchPipelineName().getText();
 
         Assert.assertEquals(nameMultibranchPipelineDisplays,nameMultibranchPipeline);
+    }
+
+    @Test
+    public void testMoveMultiConfigurationProjectToFolderFromSideMenu() {
+
+        final String folderName = "MyFolder";
+        final String multiConfigurationProjectName= "MyMultiConfigurationProject";
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(folderName)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard();
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(multiConfigurationProjectName)
+                .selectMultiConfigurationProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard();
+
+        String createdMultiConfigurationProjectName = new MainPage(getDriver())
+                .clickMultiConfigurationProject(multiConfigurationProjectName)
+                .clickMoveOnSideMenu()
+                .selectDestinationFolder(folderName)
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(folderName)
+                .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
+
+        Assert.assertEquals(createdMultiConfigurationProjectName,multiConfigurationProjectName);
     }
 }

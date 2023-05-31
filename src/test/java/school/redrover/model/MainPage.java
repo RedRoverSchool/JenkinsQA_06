@@ -381,6 +381,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getWait5().until(ExpectedConditions.titleContains("Dashboard [Jenkins]"));
     }
 
+    public String getCurrentUserName() {
+        return getDriver().findElement(By.xpath("//a[@class='model-link']/span[contains(@class,'hidden-xs')]")).getAttribute("innerText");
+    }
+
     public MultibranchPipelinePage clickMultibranchProjectName(String projectName) {
         new Actions(getDriver()).moveToElement(getJobWebElement(projectName)).click(getJobWebElement(projectName)).perform();
         return new MultibranchPipelinePage(getDriver());
@@ -390,6 +394,12 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
         return this;
+    }
+
+    public MultiConfigurationProjectPage clickMultiConfigurationProject(String MultiConfigurationProjectName) {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//span[contains(text(),'" + MultiConfigurationProjectName + "')]"))).click();
+        return new MultiConfigurationProjectPage(getDriver());
     }
 
     public MainPage clickPeople(){

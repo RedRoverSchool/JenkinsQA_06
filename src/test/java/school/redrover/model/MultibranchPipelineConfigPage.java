@@ -1,30 +1,22 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseConfigPage;
 
-public class MultibranchPipelineConfigPage extends BaseModel {
-    public MultibranchPipelineConfigPage(WebDriver driver) {
-        super(driver);
+public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPipelineConfigPage, MultibranchPipelinePage> {
+
+    public MultibranchPipelineConfigPage(MultibranchPipelinePage multibranchPipelinePage) {
+        super(multibranchPipelinePage);
     }
 
-    public MultibranchPipelinePage saveButton() {
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        return new MultibranchPipelinePage(getDriver());
-    }
     public MultibranchPipelineConfigPage displayName (String name) {
         getDriver().findElement(By.xpath("//body/div[@id='page-body']/div[@id='main-panel']/form[1]/div[1]/div[2]/div[1]/div[2]/input[1]"))
                 .sendKeys("Random Name");
         return this;
     }
-    public MultibranchPipelineConfigPage enterDescription(String description) {
-        getDriver().findElement(By.xpath("//textarea[@name='_.description']"))
-                .sendKeys(description);
-        return this;
-    }
+
     public WebElement titleMultibranchPipeline() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))));
 

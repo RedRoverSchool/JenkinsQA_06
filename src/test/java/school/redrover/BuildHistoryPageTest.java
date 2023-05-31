@@ -1,11 +1,11 @@
 package school.redrover;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.ConsoleOutputPage;
 import school.redrover.model.MainPage;
@@ -28,9 +28,10 @@ public class BuildHistoryPageTest extends BaseTest {
     private static final By DESCRIPTION_FIELD = By.xpath("//textarea[@name='description']");
     private static final By DESCRIPTION_TEXT = By.xpath("//div[@id='description']/div[1]");
 
+    private final String freestyleProjectName = "FreestyleName";
 
     @Test
-    public void testNavigateToBuildHistoryPage() throws InterruptedException {
+    public void testNavigateToBuildHistoryPage() {
 
         final String expectedBuildHistoryPageUrl = "http://localhost:8080/view/all/builds";
         final String expectedBuildHistoryPageTitle = "All [Jenkins]";
@@ -71,7 +72,7 @@ public class BuildHistoryPageTest extends BaseTest {
 
     @Test
     public void testAddDescriptionToBuild() {
-        String buildDecsription = new MainPage(getDriver())
+        String buildDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME_PIPELINE)
                 .selectPipelineAndOk()
@@ -83,19 +84,17 @@ public class BuildHistoryPageTest extends BaseTest {
                 .clickSaveButton()
                 .getDescription().getText();
 
-        Assert.assertEquals(buildDecsription, BUILD_DESCRIPTION);
+        Assert.assertEquals(buildDescription, BUILD_DESCRIPTION);
     }
 
     @Test
     public void testConsoleFreestyleBuildLocation() {
-        final String freestyleProjectName = "FreestyleName";
-
         String consoleOutputText = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(freestyleProjectName)
                 .selectFreestyleProject()
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .selectBuildNow()
                 .clickDashboard()
                 .clickBuildsHistoryButton()
@@ -108,4 +107,22 @@ public class BuildHistoryPageTest extends BaseTest {
         Assert.assertEquals(actualLocation, "Building in workspace /var/jenkins_home/workspace/" + freestyleProjectName);
     }
 
+    @Test
+    public void testConsoleOutputFreestyleBuildStartedByUser() {
+        final String currentUser = new MainPage(getDriver()).getCurrentUserName();
+
+        final String userConsoleOutput = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(freestyleProjectName)
+                .selectFreestyleProject()
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .selectBuildNow()
+                .clickDashboard()
+                .clickBuildsHistoryButton()
+                .clickProjectBuildConsole(freestyleProjectName)
+                .getStartedByUser();
+
+        Assert.assertEquals(currentUser, userConsoleOutput);
+    }
 }
