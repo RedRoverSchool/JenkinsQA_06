@@ -233,16 +233,17 @@ public class FolderTest extends BaseTest {
 
         TestUtils.createFolder(this, folderName, true);
 
-        FolderPage pageAfterItemCreation = new MainPage(getDriver())
+        String itemName = new MainPage(getDriver())
                 .clickFolderName(folderName)
                 .newItem()
                 .enterItemName(newProjectName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .clickFolderName(folderName);
+                .clickFolderName(folderName)
+                .getLastCreatedItemName();
 
-        Assert.assertEquals(pageAfterItemCreation.getLastCreatedItemName(), newProjectName);
+        Assert.assertEquals(itemName, newProjectName);
     }
 
     @Test
