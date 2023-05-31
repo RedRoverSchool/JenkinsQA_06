@@ -543,7 +543,7 @@ public class FolderTest extends BaseTest {
         String createdMultiConfigurationProjectName = new MainPage(getDriver())
                 .clickMultiConfigurationProject(multiConfigurationProjectName)
                 .clickMoveOnSideMenu()
-                .selectDestinationFolder()
+                .selectDestinationFolder(folderName)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderName)
