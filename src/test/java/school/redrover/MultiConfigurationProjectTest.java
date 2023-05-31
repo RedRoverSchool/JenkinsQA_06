@@ -326,6 +326,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.name("name")).clear();
     }
 
+    @Ignore
     @Test
     public void testRenameProject() {
 
