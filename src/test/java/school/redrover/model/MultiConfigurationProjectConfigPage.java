@@ -77,11 +77,6 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
         return new MultiConfigurationProjectPage(getDriver());
     }
 
-    public MultiConfigurationProjectConfigPage getConfigPage() {
-        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
-        return this;
-    }
-
     public MultiConfigurationProjectConfigPage switchCheckboxDisable() {
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).click();
         return this;

@@ -175,10 +175,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new NewJobPage(getDriver());
     }
 
-    public MainPage getMultiConfigPage() {
+    public MultiConfigurationProjectPage getMultiConfigPage() {
         getWait10().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".jenkins-table__link")))).click();
-        return this;
+        return new MultiConfigurationProjectPage(getDriver());
     }
 
     public MainPage dropDownMenuClickDelete(String jobName) {
