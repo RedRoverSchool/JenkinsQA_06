@@ -230,7 +230,7 @@ public class FreestyleProjectTest extends BaseTest {
         FreestyleProjectPage projectPage = new FreestyleProjectPage(getDriver())
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
-                .clickSave()
+                .clickSaveDescription()
                 .clickDashboard()
                 .clickFreestyleProjectName(FREESTYLE_NAME);
 
@@ -338,7 +338,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(projectName)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickDashboard()
                 .clickJobDropDownMenu(projectName)
                 .clickDeleteDropDown()

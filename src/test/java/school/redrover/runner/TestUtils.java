@@ -159,7 +159,7 @@ public class TestUtils {
                 .selectNewItemInDropDownMenu(viewName, folderName)
                 .enterItemName(jobName)
                 .selectFreestyleProjectAndOk()
-                .clickSave();
+                .clickSaveButton();
 
        clickBreadcrumbLinkItem(baseTest, viewName);
     }
