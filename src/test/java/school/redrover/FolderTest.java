@@ -228,18 +228,21 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProjectInFolder() {
-        TestUtils.createFolder(this, "folder", true);
+        final String folderName = "folder";
+        final String newProjectName = "new project";
 
-        getDriver().findElement(By.xpath("//span[normalize-space()='folder']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/folder/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("new project");
-        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
-        getDriver().findElement(By.xpath("//a[normalize-space()='folder']")).sendKeys(Keys.RETURN);
-        WebElement projectName = getDriver().findElement(By.xpath("//span[normalize-space()='new project']"));
+        TestUtils.createFolder(this, folderName, true);
 
-        Assert.assertEquals(projectName.getText(), "new project");
+        FolderPage pageAfterItemCreation = new MainPage(getDriver())
+                .clickFolderName(folderName)
+                .newItem()
+                .enterItemName(newProjectName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(folderName);
+
+        Assert.assertEquals(pageAfterItemCreation.getLastCreatedItemName(), newProjectName);
     }
 
     @Test
