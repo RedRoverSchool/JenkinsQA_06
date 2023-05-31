@@ -3,10 +3,11 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import school.redrover.model.base.BaseMainHeaderPage;
 
 import static org.openqa.selenium.Keys.ENTER;
 
-public class ConfigureUserPage extends MainPage {
+public class ConfigureUserPage extends BaseMainHeaderPage<ConfigureUserPage> {
 
     public ConfigureUserPage(WebDriver driver) {
         super(driver);

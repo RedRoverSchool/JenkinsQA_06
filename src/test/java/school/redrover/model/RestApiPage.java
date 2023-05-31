@@ -3,9 +3,10 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BaseModel;
 
-public class RestApiPage extends BaseModel {
+public class RestApiPage extends BaseMainHeaderPage<RestApiPage> {
 
     public RestApiPage(WebDriver driver) {
         super(driver);

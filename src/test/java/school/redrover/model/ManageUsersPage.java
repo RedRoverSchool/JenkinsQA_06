@@ -5,11 +5,12 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 
 
 import java.util.List;
 
-public class ManageUsersPage extends MainPage {
+public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
 
     public ManageUsersPage(WebDriver driver) {
         super(driver);
