@@ -37,6 +37,12 @@ public class ProjectPage extends BaseMainHeaderPage<ProjectPage> {
 
     public WebElement getDisableButton(){
         return getDriver().findElement(By.xpath("//form[@id='disable-project']/button"));
+
+    }
+
+    public ProjectPage getDisableClick(){
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+        return this;
     }
 
     public RenamePage<ProjectPage> clickRename() {
@@ -45,7 +51,9 @@ public class ProjectPage extends BaseMainHeaderPage<ProjectPage> {
     }
 
     public ProjectPage enableProject(){
-        getDriver().findElement(By.xpath("//form[@id='enable-project']/button")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().
+                findElement(By.xpath("//form[@id='enable-project']/button")))).click();
+
         return this;
     }
 

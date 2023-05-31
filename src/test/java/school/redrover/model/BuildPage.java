@@ -4,10 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
-public class BuildPage extends BaseModel {
+public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public BuildPage(WebDriver driver) {
         super(driver);

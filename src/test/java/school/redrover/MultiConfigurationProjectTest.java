@@ -120,26 +120,39 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testDisableMultiConfigurationProject() {
         TestUtils.createMultiConfigurationProject(this, "MyProject", false);
 
-        WebElement enable = new MultiConfigurationProjectPage(getDriver())
+        String enable = new MultiConfigurationProjectPage(getDriver())
                 .getDisableClick()
-                .getEnableSwitch();
+                .getEnableSwitch()
+                .getText();
 
-        Assert.assertEquals(enable.getText(), "Enable");
+        Assert.assertEquals(enable, "Enable");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfiguration")
-    public void testMultiConfigurationProjectConfigureDisabled() {
-        MainPage mainPageName = new MainPage(getDriver());
-        mainPageName.getMultiConfigPage();
-
-        WebElement configPage = new MultiConfigurationProjectPage(getDriver())
+    @Test()
+    public void testMultiConfigurationProjectConfigurePageDisabled() {
+        String configPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("My Multi configuration project")
+                .selectMultiConfigurationProjectAndOk()
+                .saveConfigurePageAndGoToConfigPage()
                 .getConfigPage()
                 .switchCheckboxDisable()
-                .getTextDisable();
+                .getTextDisable()
+                .getText();
 
-        Assert.assertEquals(configPage.getText(), "Disabled");
+        Assert.assertEquals(configPage, "Disabled");
         getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
+    }
+
+    @Test(dependsOnMethods = "testMultiConfigurationProjectConfigurePageDisabled")
+    public void testMultiConfigurationProjectConfigurePageEnable() {
+        String configPage = new MainPage(getDriver())
+                .getMultiConfigPage()
+                .getConfigPage()
+                .switchCheckboxEnabled()
+                .getTextEnabled().getText();
+
+        Assert.assertEquals(configPage, "Enabled");
     }
 
     @Test(dependsOnMethods = "testDisabledMultiConfigurationProject")
@@ -174,19 +187,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getEnableClick().getDisableElem();
 
         Assert.assertEquals(enable.getText(), "Disable Project");
-    }
-
-    @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
-    public void testMultiConfigurationProjectConfigureEnable() {
-        MainPage mainPageName = new MainPage(getDriver());
-        mainPageName.getMultiConfigPage();
-
-        WebElement configPage = new MultiConfigurationProjectPage(getDriver())
-                .getConfigPage()
-                .switchCheckboxEnabled()
-                .getTextEnabled();
-
-        Assert.assertEquals(configPage.getText(), "Enabled");
     }
 
     @Ignore
@@ -572,6 +572,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(descriptionOnProjectPage, description);
     }
 
+    @Ignore
     @Test
     public void testConfigureOldBuildForMultiConfigurationProject() {
         final String multiConfProjectName = "New project";

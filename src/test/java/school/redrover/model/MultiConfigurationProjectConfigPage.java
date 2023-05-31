@@ -76,4 +76,26 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return new MultiConfigurationProjectPage(getDriver());
     }
+
+    public MultiConfigurationProjectConfigPage switchCheckboxDisable() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).click();
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage switchCheckboxEnabled() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//label[@for='enable-disable-project']")))).click();
+        return this;
+    }
+
+    public WebElement getTextDisable() {
+
+        return getWait5().until(ExpectedConditions.elementToBeClickable
+                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']"))));
+    }
+
+    public WebElement getTextEnabled() {
+
+        return getWait5().until(ExpectedConditions.elementToBeClickable
+                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']"))));
+    }
 }
