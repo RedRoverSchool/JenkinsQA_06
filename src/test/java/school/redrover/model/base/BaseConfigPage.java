@@ -23,4 +23,8 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
         return getJobPage();
     }
 
+    public Self addDescription(String description) {
+        getDriver().findElement(By.xpath("//textarea[contains(@name, 'description')]")).sendKeys(description);
+        return (Self) this;
+    }
 }

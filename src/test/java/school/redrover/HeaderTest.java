@@ -10,9 +10,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import school.redrover.model.ConfigurePage;
-import school.redrover.model.MainPage;
-import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -220,7 +218,7 @@ public class HeaderTest extends BaseTest {
         TestUtils.createFreestyleProject(this, listItemName.get(0), true);
         TestUtils.createFreestyleProject(this, listItemName.get(1), false);
 
-        boolean isPageOpen = new ConfigurePage(getDriver())
+        boolean isPageOpen = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))
                 .getHeader()
                 .clickLogo()
                 .isMainPageOpen();

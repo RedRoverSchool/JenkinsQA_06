@@ -146,11 +146,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new BuildPage(getDriver());
     }
 
-    public ViewPage clickNewItemButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
-        return new ViewPage(getDriver());
-    }
-
     public MainPage acceptAlert() {
         getDriver().switchTo().alert().accept();
         return this;

@@ -31,7 +31,7 @@ public class TestUtils {
 
         new NewJobPage(baseTest.getDriver())
                 .selectFreestyleProjectAndOk()
-                .clickSave();
+                .clickSaveButton();
 
         goToHomePage(baseTest, goToHomePage);
     }
@@ -71,7 +71,7 @@ public class TestUtils {
 
         new NewJobPage(baseTest.getDriver())
                 .selectMultibranchPipelineAndOk()
-                .saveButton();
+                .clickSaveButton();
 
         goToHomePage(baseTest, goToHomePage);
     }

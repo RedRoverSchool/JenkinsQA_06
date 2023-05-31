@@ -108,6 +108,6 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
 
-        return new MultiConfigurationProjectConfigPage(getDriver());
+        return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()));
     }
 }
