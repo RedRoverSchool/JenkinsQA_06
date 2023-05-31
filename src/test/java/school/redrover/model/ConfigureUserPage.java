@@ -5,10 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseMainHeaderPage;
-
-public class ConfigureUserPage extends BaseMainHeaderPage<ConfigureUserPage> {
-import static org.openqa.selenium.Keys.ENTER;
 
 public class ConfigureUserPage extends BaseMainHeaderPage<ConfigureUserPage> {
 
