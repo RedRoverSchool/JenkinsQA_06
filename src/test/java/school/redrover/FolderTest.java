@@ -243,41 +243,6 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreatePipelineProjectWithoutDescriptionInFolder() {
-        final String folderName = "folderName";
-        final String pipelineName = "pipelineName";
-        boolean isPipelinePresent = false;
-
-        TestUtils.createFolder(this, folderName, false);
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText("New Item"))).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(pipelineName);
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
-
-        String actualPipelineName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='projectstatus']"))).findElement(By.linkText(folderName)).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='projectstatus']")));
-        List<WebElement> jobs = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr"));
-        for (WebElement job : jobs) {
-            String jobName = job.getText();
-            if (jobName.contains(pipelineName)) {
-                isPipelinePresent = true;
-                break;
-            }
-        }
-
-        Assert.assertEquals(actualPipelineName, "Pipeline " + pipelineName);
-        Assert.assertTrue(isPipelinePresent);
-    }
-
-    @Test
     public void testCreateMultibranchPipelineInFolder() {
         TestUtils.createFolder(this, NAME, true);
         FolderPage folderPage = new MainPage(getDriver())
@@ -550,5 +515,27 @@ public class FolderTest extends BaseTest {
                 .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
 
         Assert.assertEquals(createdMultiConfigurationProjectName,multiConfigurationProjectName);
+    }
+
+    @Test
+    public void testCreatePipelineProjectWithoutDescriptionInFolder() {
+        final String folderName = "folderName";
+        final String pipelineName = "pipelineName";
+
+        TestUtils.createFolder(this, folderName, false);
+
+        String projectName = new FolderPage(getDriver())
+                .clickNewItem()
+                .enterItemName(pipelineName)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .getProjectName();
+
+        FolderPage folderPage = new FolderPage(getDriver())
+                .clickDashboard()
+                .clickFolderName(folderName);
+
+        Assert.assertTrue(folderPage.getNestedPipelineProject(pipelineName).getText().contains(pipelineName));
+        Assert.assertEquals(projectName, "Pipeline " + pipelineName);
     }
 }
