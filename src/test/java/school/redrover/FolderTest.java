@@ -162,7 +162,7 @@ public class FolderTest extends BaseTest {
 
         String folderName = new MainPage(getDriver())
                 .dropDownMenuClickMove(folderTwo, new FolderPage(getDriver()))
-                .selectDestinationFolder(folderTwo)
+                .selectDestinationFolder(folderOne)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderOne)
@@ -456,7 +456,7 @@ public class FolderTest extends BaseTest {
         String nestedFolder = new MainPage(getDriver())
                 .clickToOpenFolder(folder2)
                 .clickMoveOnSideMenu(folder2)
-                .selectDestinationFolder(folder2)
+                .selectDestinationFolder(folder1)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folder1)
