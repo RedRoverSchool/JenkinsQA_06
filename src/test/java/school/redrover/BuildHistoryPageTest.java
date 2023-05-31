@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.ConsoleOutputPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -84,4 +85,27 @@ public class BuildHistoryPageTest extends BaseTest {
 
         Assert.assertEquals(buildDecsription, BUILD_DESCRIPTION);
     }
+
+    @Test
+    public void testConsoleFreestyleBuildLocation() {
+        final String freestyleProjectName = "FreestyleName";
+
+        String consoleOutputText = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(freestyleProjectName)
+                .selectFreestyleProject()
+                .selectFreestyleProjectAndOk()
+                .clickSave()
+                .selectBuildNow()
+                .clickDashboard()
+                .clickBuildsHistoryButton()
+                .clickProjectBuildConsole(freestyleProjectName)
+                .getConsoleOutputText();
+
+        String actualLocation = new ConsoleOutputPage(getDriver())
+                .getParameterFromConsoleOutput(consoleOutputText, "workspace");
+
+        Assert.assertEquals(actualLocation, "Building in workspace /var/jenkins_home/workspace/" + freestyleProjectName);
+    }
+
 }
