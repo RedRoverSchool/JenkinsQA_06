@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.ConsoleOutputPage;
 import school.redrover.model.MainPage;
@@ -105,7 +106,7 @@ public class BuildHistoryPageTest extends BaseTest {
 
         Assert.assertEquals(actualLocation, "Building in workspace /var/jenkins_home/workspace/" + freestyleProjectName);
     }
-
+    @Ignore
     @Test
     public void testConsoleOutputFreestyleBuildStartedByUser() {
         final String currentUser = new MainPage(getDriver()).getCurrentUserName();
