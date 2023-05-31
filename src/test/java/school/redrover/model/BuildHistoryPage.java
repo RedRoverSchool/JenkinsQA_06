@@ -17,4 +17,8 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
 
         return new BuildPage(getDriver());
     }
+    public ConsoleOutputPage clickProjectBuildConsole(String projectBuildName){
+        getDriver().findElement(By.xpath("//a[contains(@href, '" + projectBuildName + "')  and contains(@href, 'console') and not(contains(@href, 'default'))]")).click();
+        return new ConsoleOutputPage(getDriver());
+    }
 }
