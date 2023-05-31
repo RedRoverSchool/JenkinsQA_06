@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
-
 public class RestApiPage extends BaseMainHeaderPage<RestApiPage> {
 
     public RestApiPage(WebDriver driver) {

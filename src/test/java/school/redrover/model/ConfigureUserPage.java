@@ -3,7 +3,12 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.base.BaseMainHeaderPage;
+
+public class ConfigureUserPage extends BaseMainHeaderPage<ConfigureUserPage> {
+import static org.openqa.selenium.Keys.ENTER;
 
 public class ConfigureUserPage extends BaseMainHeaderPage<ConfigureUserPage> {
 
@@ -22,6 +27,12 @@ public class ConfigureUserPage extends BaseMainHeaderPage<ConfigureUserPage> {
         inputEmail.clear();
         inputEmail.sendKeys(email);
         return this;
+    }
+    public ConfigureUserPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return new ConfigureUserPage(getDriver());
     }
 
     public StatusUserPage clickSaveButton() {
