@@ -1,11 +1,13 @@
 package school.redrover.runner;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.JobPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.NewJobPage;
+import school.redrover.model.ViewPage;
 import school.redrover.model.base.BaseModel;
 
 import java.util.ArrayList;
@@ -139,5 +141,26 @@ public class TestUtils {
     public static void clickByJavaScript(BaseModel baseModel, WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) baseModel.getDriver();
         executor.executeScript("arguments[0].click();", element);
+    }
+
+    public static void clickBreadcrumbLinkItem(BaseTest baseTest, String breadcrumbLinkName) {
+        List<WebElement> breadcrumbTree = baseTest.getDriver().findElements(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']/a"));
+        for (WebElement el : breadcrumbTree) {
+            if (el.getText().equals(breadcrumbLinkName)) {
+                el.click();
+                break;
+            }
+        }
+    }
+
+    public static void createFreestyleProjectInsideFolderAndView(BaseTest baseTest, String jobName, String viewName, String folderName) {
+        new ViewPage((baseTest.getDriver()))
+                .clickDropDownMenuFolder(folderName)
+                .selectNewItemInDropDownMenu(viewName, folderName)
+                .enterItemName(jobName)
+                .selectFreestyleProjectAndOk()
+                .clickSave();
+
+       clickBreadcrumbLinkItem(baseTest, viewName);
     }
 }

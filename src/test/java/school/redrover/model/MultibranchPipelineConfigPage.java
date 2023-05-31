@@ -19,6 +19,11 @@ public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPip
         return this;
     }
 
+    public MultibranchPipelineConfigPage enterDescription(String description) {
+        getDriver().findElement(By.xpath("//textarea[@name='_.description']"))
+                .sendKeys(description);
+        return this;
+    }
     public WebElement titleMultibranchPipeline() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))));
 

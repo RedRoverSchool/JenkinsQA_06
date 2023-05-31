@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -78,5 +79,20 @@ public class MultibranchPipelineTest extends BaseTest {
                 .getNestedFolder("Folder");
 
         Assert.assertTrue(nameMultibranchPipeline.isDisplayed());
+    }
+
+    @Test
+    public void testCreateMultibranchPipelineWithDescription() {
+        String MultibranchPipeline = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("RandomName")
+                .selectMultibranchPipelineAndOk()
+                .enterDescription("DESCRIPTION")
+                .saveButton()
+                .navigateToMainPageByBreadcrumbs()
+                .clickMultibranchPipeline("RandomName")
+                .getDescription();
+
+        Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
     }
 }

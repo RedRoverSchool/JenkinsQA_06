@@ -160,7 +160,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folderOne, true);
         TestUtils.createFolder(this, folderTwo, true);
 
-        WebElement folderName = new MainPage(getDriver())
+        String folderName = new MainPage(getDriver())
                 .dropDownMenuClickMove(folderTwo, new FolderPage(getDriver()))
                 .selectDestinationFolder()
                 .clickMoveButton()
@@ -168,7 +168,7 @@ public class FolderTest extends BaseTest {
                 .clickFolderName(folderOne)
                 .getNestedFolder(folderTwo);
 
-        Assert.assertTrue(folderName.isDisplayed());
+        Assert.assertEquals(folderName, folderTwo);
     }
 
     @Test
@@ -407,7 +407,7 @@ public class FolderTest extends BaseTest {
         final String nameFolder = "nameFolder";
         final String nameOrganizationFolder = nameFolder + "Organization";
 
-        WebElement createdOrganizationFolder = new MainPage(getDriver())
+        String createdOrganizationFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(nameFolder)
                 .selectFolderAndOk()
@@ -422,7 +422,7 @@ public class FolderTest extends BaseTest {
                 .clickFolderName(nameFolder)
                 .getNestedFolder(nameOrganizationFolder);
 
-        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
+        Assert.assertEquals(createdOrganizationFolder, nameOrganizationFolder);
     }
 
     @Test
@@ -433,7 +433,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, nameFolder, true);
         TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
 
-        WebElement projectNameDisplays = new MainPage(getDriver())
+        String projectNameDisplays = new MainPage(getDriver())
                 .clickJobDropDownMenu(nameMultibranchPipeline)
                 .dropDownMenuClickMove(nameMultibranchPipeline,new FolderPage(getDriver()))
                 .selectDestinationFolder()
@@ -442,7 +442,7 @@ public class FolderTest extends BaseTest {
                 .clickFolderName(nameFolder)
                 .getNestedFolder(nameMultibranchPipeline);
 
-        Assert.assertEquals(projectNameDisplays.getText(),nameMultibranchPipeline);
+        Assert.assertEquals(projectNameDisplays,nameMultibranchPipeline);
     }
   
     @Test
@@ -453,7 +453,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folder1, true);
         TestUtils.createFolder(this, folder2, true);
 
-        WebElement nestedFolder = new MainPage(getDriver())
+        String nestedFolder = new MainPage(getDriver())
                 .clickToOpenFolder(folder2)
                 .clickMoveOnSideMenu(folder2)
                 .selectDestinationFolder()
@@ -462,7 +462,7 @@ public class FolderTest extends BaseTest {
                 .clickFolderName(folder1)
                 .getNestedFolder(folder2);
 
-        Assert.assertEquals(nestedFolder.getText(), folder2);
+        Assert.assertEquals(nestedFolder, folder2);
     }
 
     @Test
@@ -498,5 +498,25 @@ public class FolderTest extends BaseTest {
                 .getNestedOrganizationFolder(nameFolder);
 
         Assert.assertTrue(createdOrganizationFolder.isDisplayed());
+    }
+
+    @Test
+    public void testMoveMultibranchPipelineToFolderFromSideMenu() {
+        final String nameMultibranchPipeline = "MultibranchPipeline1";
+        final String nameFolder = "Folder1";
+
+        TestUtils.createFolder(this, nameFolder, true);
+        TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
+
+        String nameMultibranchPipelineDisplays = new MainPage(getDriver())
+                .clickMultibranchProjectName(nameMultibranchPipeline)
+                .clickMoveOnSideMenu()
+                .selectDestinationFolder()
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(nameFolder)
+                .getMultibranchPipelineName().getText();
+
+        Assert.assertEquals(nameMultibranchPipelineDisplays,nameMultibranchPipeline);
     }
 }

@@ -146,11 +146,13 @@ public class NewViewTest extends BaseTest {
         final String jobName3 = "job3";
         final List<String> expectedViewJobs = Arrays.asList(folderName1 + " » " + jobName1, folderName1 + " » " + jobName3, folderName2);
 
-        ViewPage viewPage = new MainPage(getDriver())
-                .clickOnView(viewName1)
-                .createFreestyleProjectInsideFolderAndView(jobName1, viewName1, folderName1)
-                .createFreestyleProjectInsideFolderAndView(jobName2, viewName1, folderName1)
-                .createFreestyleProjectInsideFolderAndView(jobName3, viewName1, folderName1)
+         new MainPage(getDriver()).clickOnView(viewName1);
+
+                TestUtils.createFreestyleProjectInsideFolderAndView(this, jobName1, viewName1, folderName1);
+                TestUtils.createFreestyleProjectInsideFolderAndView(this, jobName2, viewName1, folderName1);
+                TestUtils.createFreestyleProjectInsideFolderAndView(this, jobName3, viewName1, folderName1);
+
+        ViewPage viewPage = new ViewPage(getDriver())
                 .createNewView()
                 .setNewViewName(viewName2)
                 .selectListView()
