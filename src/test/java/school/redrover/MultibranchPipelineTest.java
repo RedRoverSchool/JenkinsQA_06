@@ -87,8 +87,8 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("RandomName")
                 .selectMultibranchPipelineAndOk()
-                .enterDescription("DESCRIPTION")
-                .saveButton()
+                .addDescription("DESCRIPTION")
+                .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
                 .clickMultibranchPipeline("RandomName")
                 .getDescription();

@@ -234,7 +234,7 @@ public class PipelineTest extends BaseTest {
 
         String jobDescription = new PipelinePage(getDriver())
                 .clickConfigureButton()
-                .enterDescription("Pipeline text")
+                .addDescription("Pipeline text")
                 .clickSaveButton()
                 .getDescriptionText();
 

@@ -1,11 +1,9 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseConfigPage;
-import school.redrover.model.base.BaseModel;
 
 public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPipelineConfigPage, MultibranchPipelinePage> {
 
@@ -19,11 +17,6 @@ public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPip
         return this;
     }
 
-    public MultibranchPipelineConfigPage enterDescription(String description) {
-        getDriver().findElement(By.xpath("//textarea[@name='_.description']"))
-                .sendKeys(description);
-        return this;
-    }
     public WebElement titleMultibranchPipeline() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))));
 
