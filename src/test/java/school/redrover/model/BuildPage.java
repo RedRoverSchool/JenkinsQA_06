@@ -57,4 +57,9 @@ public class BuildPage extends BaseModel {
     public String getBooleanParameterDescription() {
         return getDriver().findElement(By.xpath("//div[@class='jenkins-form-description']")).getText();
     }
+
+    public ConsoleOutputPage clickProjectBuildConsole(String projectBuildName){
+        getDriver().findElement(By.xpath("//a[contains(@href, '" + projectBuildName + "')  and contains(@href, 'console') and not(contains(@href, 'default'))]")).click();
+        return new ConsoleOutputPage(getDriver());
+    }
 }

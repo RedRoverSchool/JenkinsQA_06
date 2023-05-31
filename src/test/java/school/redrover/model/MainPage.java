@@ -229,33 +229,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getDriver().findElement(By.id("visible-am-button")).getCssValue("background-color");
     }
 
-    public MainPage hoverOverAdminLink() {
-        Actions act = new Actions(getDriver());
-        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.cssSelector(".login>a.model-link")));
-        act.moveToElement(adminLink).perform();
-        return this;
-    }
-
-    public String getTextDecorationValue() {
-        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.cssSelector(".login>a.model-link")));
-        return adminLink.getCssValue("text-decoration");
-    }
-
-    public MainPage openAdminDropdownMenu() {
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
-        return this;
-    }
-
-    public WebElement openTabFromAdminDropdownMenu(By buttonLocator, By pageLocator) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(buttonLocator)).click();
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(pageLocator));
-    }
-
     public MultiConfigurationProjectPage clickJobWebElement(String jobName) {
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]")))).click();
@@ -407,4 +380,33 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     public boolean isMainPageOpen() {
         return getWait5().until(ExpectedConditions.titleContains("Dashboard [Jenkins]"));
     }
+
+    public String getCurrentUserName() {
+        return getDriver().findElement(By.xpath("//a[@class='model-link']/span[contains(@class,'hidden-xs')]")).getAttribute("innerText");
+    }
+
+    public MultibranchPipelinePage clickMultibranchProjectName(String projectName) {
+        new Actions(getDriver()).moveToElement(getJobWebElement(projectName)).click(getJobWebElement(projectName)).perform();
+        return new MultibranchPipelinePage(getDriver());
+    }
+
+    public MainPage clickDeleteDropDown () {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
+        getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
+        return this;
+    }
+
+    public MultiConfigurationProjectPage clickMultiConfigurationProject(String MultiConfigurationProjectName) {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//span[contains(text(),'" + MultiConfigurationProjectName + "')]"))).click();
+        return new MultiConfigurationProjectPage(getDriver());
+    }
+
+    public MainPage clickPeople(){
+        getWait10().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//div[@id='tasks']/div[2]/span/a"))).click();
+        return this;
+    }
 }
+
+

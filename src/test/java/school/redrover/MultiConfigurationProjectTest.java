@@ -306,22 +306,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(nameDescription.getText(), DESCRIPTION);
     }
 
-    @Test
-    public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
-        final String expectedResult = "Error";
-
-        getDriver().findElement(NEW_ITEM_BUTTON).click();
-
-        getDriver().findElement(INPUT_FIELD).sendKeys(" ");
-        getDriver().findElement(By.xpath("//label//span[text() ='Multi-configuration project']")).click();
-
-        getDriver().findElement(By.xpath("//div[@class ='btn-decorator']")).click();
-
-        WebElement errorMessage = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1"));
-
-        Assert.assertEquals(errorMessage.getText(), expectedResult);
-    }
-
     @DataProvider(name = "unsafe-character")
     public Object[][] putUnsafeCharacterInputField() {
         return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}};
@@ -594,17 +578,12 @@ public class MultiConfigurationProjectTest extends BaseTest {
         final int displayedDaysToKeepBuilds = 5;
         final int displayedMaxNumOfBuildsToKeep = 7;
 
-        new MainPage(getDriver())
+        MultiConfigurationProjectConfigPage multiConfigurationProjectConfigPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(multiConfProjectName)
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToConfigPage()
-                .clickConfigureSideMenu();
-
-        MultiConfigurationProjectConfigPage multiConfigurationProjectConfigPage =
-                new MultiConfigurationProjectConfigPage(getDriver());
-
-        multiConfigurationProjectConfigPage
+                .clickConfigureSideMenu()
                 .clickOldBuildCheckBox()
                 .enterDaysToKeepBuilds(displayedDaysToKeepBuilds)
                 .enterMaxNumOfBuildsToKeep(displayedMaxNumOfBuildsToKeep)
@@ -630,5 +609,19 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getErrorEqualName();
 
         Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
+    }
+
+    @Test
+    public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
+        final String expectedResult = "Error";
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(" ")
+                .selectMultiConfigurationProjectAndOk();
+
+        String errorMessage = new ErrorNodePage(getDriver()).getErrorMessage();
+
+        Assert.assertEquals(errorMessage, expectedResult);
     }
 }

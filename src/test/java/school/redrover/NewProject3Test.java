@@ -18,7 +18,7 @@ public class NewProject3Test extends BaseTest {
         mainPage.clickNewItem()
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
-                .clickSave();
+                .clickSaveButton();
         mainPage.selectDashboard();
 
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
@@ -75,7 +75,7 @@ public class NewProject3Test extends BaseTest {
         mainPage.clickNewItem()
                 .enterItemName(nameJob)
                 .selectMultibranchPipelineAndOk()
-                .saveButton();
+                .clickSaveButton();
         mainPage.selectDashboard();
 
         Assert.assertEquals(mainPage.getFolderName().getText(), nameJob);

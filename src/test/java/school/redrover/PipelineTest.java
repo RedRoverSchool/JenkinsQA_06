@@ -28,28 +28,14 @@ public class PipelineTest extends BaseTest {
     private static final String RENAME = "Pipeline Project";
     private static final String TEXT_DESCRIPTION = "This is a test description";
 
-    private static final By buildNowButton = By.xpath("//div[@id = 'tasks']/div[3]//a");
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
     private static final By homePage = By.xpath("//h1[@class= 'job-index-headline page-headline']");
-
-    private WebDriverWait getWait(int seconds) {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
-    }
-
-    public WebDriverWait webDriverWait10;
 
     public void scrollByElement(By by) throws InterruptedException {
         WebElement scroll = getDriver().findElement(by);
         new Actions(getDriver())
                 .scrollToElement(scroll)
                 .perform();
-    }
-
-    public final WebDriverWait getWait10() {
-        if (webDriverWait10 == null) {
-            webDriverWait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        }
-        return webDriverWait10;
     }
 
     private void createWithoutDescription(String name) {
@@ -84,7 +70,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
-                .enterDescription(textDescription)
+                .addDescription(textDescription)
                 .clickSaveButton()
                 .getDescription()
                 .getText();
@@ -101,7 +87,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
-                .enterDescription(description)
+                .addDescription(description)
                 .clickSaveButton()
                 .clickDashboard()
                 .clickPipelineProject(PIPELINE_NAME)
@@ -246,14 +232,13 @@ public class PipelineTest extends BaseTest {
     public void testSetDescriptionPipeline() {
         TestUtils.createPipeline(this, PIPELINE_NAME, false);
 
-        getDriver().findElement(By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/configure']")).click();
+        String jobDescription = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .addDescription("Pipeline text")
+                .clickSaveButton()
+                .getDescriptionText();
 
-        getDriver().findElement(By.name("description")).sendKeys("Pipeline text");
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals("Pipeline " + PIPELINE_NAME,
-                getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
+        Assert.assertEquals(jobDescription, "Pipeline text");
     }
 
     @Test
@@ -719,15 +704,15 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("Engineer")
                 .selectPipelineAndOk()
-                .sendAreDescriptionInputString(description)
+                .addDescription(description)
                 .clickPreview()
                 .getPreviewText();
         Assert.assertEquals(textPreview, description);
 
-        new ConfigurePage(getDriver())
+        new PipelineConfigPage(new PipelinePage(getDriver()))
                 .clearDescriptionArea()
-                .sendAreDescriptionInputString(newDescription)
-                .selectSaveButton();
+                .addDescription(newDescription)
+                .clickSaveButton();
         String actualDescription = new ProjectPage(getDriver()).getProjectDescription();
         Assert.assertTrue(actualDescription.contains(newDescription), "description not displayed");
     }
