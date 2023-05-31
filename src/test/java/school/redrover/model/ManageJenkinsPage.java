@@ -5,10 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 
 import java.time.Duration;
 
-public class ManageJenkinsPage extends MainPage {
+public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
 
 
     public ManageJenkinsPage(WebDriver driver){

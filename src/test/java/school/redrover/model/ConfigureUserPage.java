@@ -3,10 +3,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import school.redrover.model.base.BaseMainHeaderPage;
 
-import static org.openqa.selenium.Keys.ENTER;
-
-public class ConfigureUserPage extends MainPage {
+public class ConfigureUserPage extends BaseMainHeaderPage<ConfigureUserPage> {
 
     public ConfigureUserPage(WebDriver driver) {
         super(driver);
@@ -22,7 +21,13 @@ public class ConfigureUserPage extends MainPage {
         WebElement inputEmail = getDriver().findElement(By.xpath("//input[@name='email.address']"));
         inputEmail.clear();
         inputEmail.sendKeys(email);
-        inputEmail.sendKeys(ENTER);
         return this;
     }
+
+    public StatusUserPage clickSaveButton() {
+        WebElement inputEmail = getDriver().findElement(By.name("Submit"));
+        inputEmail.click();
+        return new StatusUserPage(getDriver());
+    }
+
 }

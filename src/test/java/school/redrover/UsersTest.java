@@ -75,7 +75,7 @@ public class UsersTest extends BaseTest {
         Assert.assertNotEquals(actualDisplayedDescriptionText, existingDescriptionText);
     }
 
-    @Test
+        @Test
     public void testEditEmailByDropDown() {
         final String displayedEmail = "testedited@test.com";
 
@@ -89,11 +89,11 @@ public class UsersTest extends BaseTest {
 
         String oldEmail = configureUserPage.getEmailValue("value");
 
-        configureUserPage
+        String actualEmail =configureUserPage
                 .setEmail("testedited@test.com")
-                .clickConfigureSideMenu();
-
-        String actualEmail = configureUserPage.getEmailValue("value");
+                .clickSaveButton()
+                .clickConfigureSideMenu()
+                .getEmailValue("value");
 
         Assert.assertNotEquals(actualEmail, oldEmail);
         Assert.assertEquals(actualEmail, displayedEmail);
