@@ -398,6 +398,12 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new MultiConfigurationProjectPage(getDriver());
     }
 
+    public MainPage clickPeople(){
+        getWait10().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//div[@id='tasks']/div[2]/span/a"))).click();
+        return this;
+    }
+
     public FreestyleProjectPage clickConfigureDropDown() {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Configure')]")).click();
