@@ -391,4 +391,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
         return this;
     }
+
+    public MultiConfigurationProjectPage clickMultiConfigurationProject(String MultiConfigurationProjectName) {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//span[contains(text(),'" + MultiConfigurationProjectName + "')]"))).click();
+        return new MultiConfigurationProjectPage(getDriver());
+    }
 }
