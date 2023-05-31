@@ -1,14 +1,13 @@
 package school.redrover.model.component;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
 import school.redrover.model.base.BaseComponent;
 import school.redrover.model.base.BasePage;
+import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
 
@@ -43,9 +42,8 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return this;
     }
 
-    public MainHeaderComponent<Page> clickAdminDropDownChevron() {
-        JavascriptExecutor js = (JavascriptExecutor)getDriver();
-        js.executeScript("arguments[0].click();", getDriver().findElement(By.xpath("//a[@href='/user/admin']/button")));
+    public MainHeaderComponent<Page> clickAdminDropDownMenu() {
+        TestUtils.clickByJavaScript(this, getDriver().findElement(By.xpath("//a[@href='/user/admin']/button")));
         return this;
     }
 
@@ -87,14 +85,6 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     public String getAdminTextDecorationValue() {
         WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(ADMIN_ICON));
         return adminLink.getCssValue("text-decoration");
-    }
-
-    public MainHeaderComponent<Page> expandAdminDropdownMenu() {
-        WebElement dropDownMenu = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                ("//a[@href='/user/admin']/button")));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", dropDownMenu);
-        return this;
     }
 
     public WebElement openBuildsTabFromAdminDropdownMenu() {

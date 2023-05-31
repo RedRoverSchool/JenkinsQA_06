@@ -231,7 +231,7 @@ public class HeaderTest extends BaseTest {
     public void testOpenBuildsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .expandAdminDropdownMenu()
+                .clickAdminDropDownMenu()
                 .openBuildsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
@@ -288,7 +288,7 @@ public class HeaderTest extends BaseTest {
     public void testAppearanceOfPopUpMenusWhenClickingOnAdminIcon() {
         boolean isPopUpScreenDisplayed = new MainPage(getDriver())
                 .getHeader()
-                .clickAdminDropDownChevron()
+                .clickAdminDropDownMenu()
                 .isDropDownAdminScreenDisplayed();
 
         Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Admin icon screen is not displayed");
@@ -349,7 +349,7 @@ public class HeaderTest extends BaseTest {
     public void testConfigureTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .expandAdminDropdownMenu()
+                .clickAdminDropDownMenu()
                 .openConfigureTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
@@ -359,7 +359,7 @@ public class HeaderTest extends BaseTest {
     public void testMyViewsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .expandAdminDropdownMenu()
+                .clickAdminDropDownMenu()
                 .openMyViewsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
@@ -369,7 +369,7 @@ public class HeaderTest extends BaseTest {
     public void testCredentialsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .expandAdminDropdownMenu()
+                .clickAdminDropDownMenu()
                 .openCredentialsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
