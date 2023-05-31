@@ -4,12 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseConfigPage;
 import school.redrover.runner.TestUtils;
 
-public class MultiConfigurationProjectConfigPage extends MainPage {
+public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiConfigurationProjectConfigPage, MultiConfigurationProjectPage> {
 
-    public MultiConfigurationProjectConfigPage(WebDriver driver) {
-        super(driver);
+
+    public MultiConfigurationProjectConfigPage(MultiConfigurationProjectPage multiConfigurationProjectPage) {
+        super(multiConfigurationProjectPage);
     }
 
     public MultiConfigurationProjectConfigPage toggleDisable(){

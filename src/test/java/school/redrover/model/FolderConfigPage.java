@@ -8,6 +8,7 @@ import school.redrover.model.base.BaseConfigPage;
 
 public class FolderConfigPage extends BaseConfigPage<FolderConfigPage, FolderPage> {
 
+
     public FolderConfigPage(FolderPage folderPage) {
         super(folderPage);
     }
@@ -17,24 +18,6 @@ public class FolderConfigPage extends BaseConfigPage<FolderConfigPage, FolderPag
         inputDisplayName.click();
         inputDisplayName.sendKeys(displayName);
         return this;
-    }
-
-    public FolderConfigPage enterDescription(String description) {
-        WebElement inputDescription = getDriver().findElement(By.xpath("//textarea[@name='_.description']"));
-        inputDescription.click();
-        inputDescription.sendKeys(description);
-        return this;
-    }
-
-    public MainPage clickDashboard() {
-        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
-        return new MainPage(getDriver());
-    }
-
-    public FolderPage saveProjectAndGoToFolderPage(){
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector("[name='Submit']")))).click();
-        return new FolderPage(getDriver());
     }
 
     public FolderConfigPage clickHealthMetrics(){

@@ -17,10 +17,10 @@ public class MultibranchPipelineTest extends BaseTest {
                 .enterItemName("MineMultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
                 .displayName("Random name")
-                .enterDescription("Random Description")
-                .saveButton();
+                .addDescription("Random Description")
+                .clickSaveButton();
 
-        Assert.assertTrue(new MultibranchPipelineConfigPage(getDriver()).titleMultibranchPipeline().getText().contains("Random Name"));
+        Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).titleMultibranchPipeline().getText().contains("Random Name"));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
-                .saveButton()
+                .clickSaveButton()
                 .renameMultibranchPipelinePage()
                 .enterNewName("MultibranchPipeline")
                 .submitNewName();
@@ -43,9 +43,9 @@ public class MultibranchPipelineTest extends BaseTest {
                 .enterItemName("MineMultibranchPipelineWhitOutDescription")
                 .selectMultibranchPipelineAndOk()
                 .displayName("Random name")
-                .saveButton();
+                .clickSaveButton();
 
-        Assert.assertTrue(new MultibranchPipelineConfigPage(getDriver()).viewDescription().getText().isEmpty());
+        Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).viewDescription().getText().isEmpty());
     }
     @Test
     public void deleteMultibranchPipelineTest() {
@@ -53,7 +53,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("MultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
-                .saveButton()
+                .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
                 .dropDownMenuClickDelete("MultibranchPipeline")
                 .clickYesDeletePage()
@@ -62,21 +62,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
         Assert.assertEquals(WelcomeJenkinsPage, "Welcome to Jenkins!");
     }
-    @Test
-    public void testCreateMultiPipeline() {
-        final String nameMultiPipeline = "Multi";
-        new MainPage(getDriver())
-                .clickNewItemButton()
-                .inputAnItemName(nameMultiPipeline)
-                .clickMultiBranchPipeline()
-                .clickSaveButton()
-                .selectSaveButton()
-                .clickDashBoardButton();
 
-        String actualMultiBranchName = getDriver().findElement(By.xpath("//a[@href = 'job/Multi/']")).getText();
-
-        Assert.assertEquals(actualMultiBranchName,nameMultiPipeline);
-    }
     @Test
     public void testMoveMultibranchPipelineToFolder(){
 
@@ -101,8 +87,8 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("RandomName")
                 .selectMultibranchPipelineAndOk()
-                .enterDescription("DESCRIPTION")
-                .saveButton()
+                .addDescription("DESCRIPTION")
+                .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
                 .clickMultibranchPipeline("RandomName")
                 .getDescription();
