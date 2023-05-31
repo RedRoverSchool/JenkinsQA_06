@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
 import school.redrover.runner.TestUtils;
 import java.util.ArrayList;
 import java.util.List;

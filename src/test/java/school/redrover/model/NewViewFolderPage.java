@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
 
 public class NewViewFolderPage extends BaseMainHeaderPage<NewViewFolderPage> {
 

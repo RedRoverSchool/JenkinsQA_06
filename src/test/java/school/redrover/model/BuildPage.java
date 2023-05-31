@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
 import school.redrover.runner.TestUtils;
 
 public class BuildPage extends BaseMainHeaderPage<BuildPage> {
