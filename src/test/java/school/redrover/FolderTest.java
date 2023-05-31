@@ -162,7 +162,7 @@ public class FolderTest extends BaseTest {
 
         String folderName = new MainPage(getDriver())
                 .dropDownMenuClickMove(folderTwo, new FolderPage(getDriver()))
-                .selectDestinationFolder()
+                .selectDestinationFolder(folderOne)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderOne)
@@ -436,7 +436,7 @@ public class FolderTest extends BaseTest {
         String projectNameDisplays = new MainPage(getDriver())
                 .clickJobDropDownMenu(nameMultibranchPipeline)
                 .dropDownMenuClickMove(nameMultibranchPipeline,new FolderPage(getDriver()))
-                .selectDestinationFolder()
+                .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(nameFolder)
@@ -456,7 +456,7 @@ public class FolderTest extends BaseTest {
         String nestedFolder = new MainPage(getDriver())
                 .clickToOpenFolder(folder2)
                 .clickMoveOnSideMenu(folder2)
-                .selectDestinationFolder()
+                .selectDestinationFolder(folder1)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folder1)
@@ -511,12 +511,44 @@ public class FolderTest extends BaseTest {
         String nameMultibranchPipelineDisplays = new MainPage(getDriver())
                 .clickMultibranchProjectName(nameMultibranchPipeline)
                 .clickMoveOnSideMenu()
-                .selectDestinationFolder()
+                .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(nameFolder)
                 .getMultibranchPipelineName().getText();
 
         Assert.assertEquals(nameMultibranchPipelineDisplays,nameMultibranchPipeline);
+    }
+
+    @Test
+    public void testMoveMultiConfigurationProjectToFolderFromSideMenu() {
+
+        final String folderName = "MyFolder";
+        final String multiConfigurationProjectName= "MyMultiConfigurationProject";
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(folderName)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard();
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(multiConfigurationProjectName)
+                .selectMultiConfigurationProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard();
+
+        String createdMultiConfigurationProjectName = new MainPage(getDriver())
+                .clickMultiConfigurationProject(multiConfigurationProjectName)
+                .clickMoveOnSideMenu()
+                .selectDestinationFolder(folderName)
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(folderName)
+                .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
+
+        Assert.assertEquals(createdMultiConfigurationProjectName,multiConfigurationProjectName);
     }
 }

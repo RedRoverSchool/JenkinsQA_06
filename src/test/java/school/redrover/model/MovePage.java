@@ -15,8 +15,8 @@ public class MovePage<JobTypePage extends BasePage<?>> extends BaseMainHeaderPag
         this.jobTypePage = jobTypePage;
     }
 
-    public MovePage<JobTypePage> selectDestinationFolder() {
-        new Select(getWait5().until(ExpectedConditions.elementToBeClickable(By.name("destination")))).selectByIndex(1);
+    public MovePage<JobTypePage> selectDestinationFolder(String folderName) {
+        new Select(getWait5().until(ExpectedConditions.elementToBeClickable(By.name("destination")))).selectByValue("/" + folderName);
         return this;
     }
 
