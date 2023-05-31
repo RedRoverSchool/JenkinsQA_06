@@ -106,7 +106,7 @@ public class BuildHistoryPageTest extends BaseTest {
 
         Assert.assertEquals(actualLocation, "Building in workspace /var/jenkins_home/workspace/" + freestyleProjectName);
     }
-    @Ignore
+
     @Test
     public void testConsoleOutputFreestyleBuildStartedByUser() {
         final String currentUser = new MainPage(getDriver()).getCurrentUserName();
@@ -116,7 +116,7 @@ public class BuildHistoryPageTest extends BaseTest {
                 .enterItemName(freestyleProjectName)
                 .selectFreestyleProject()
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .selectBuildNow()
                 .clickDashboard()
                 .clickBuildsHistoryButton()
