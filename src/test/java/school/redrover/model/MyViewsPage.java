@@ -2,9 +2,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 
-public class MyViewsPage extends BaseModel {
+public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
@@ -82,6 +82,11 @@ public class MyViewsPage extends BaseModel {
     public NewJobPage clickNewItem() {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
+    }
+
+    public String getStatusMessageText() {
+        String statusMessageText = getDriver().findElement(By.xpath("//h2")).getText();
+        return statusMessageText;
     }
 }
 

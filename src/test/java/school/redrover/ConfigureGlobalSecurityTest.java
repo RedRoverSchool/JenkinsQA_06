@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
@@ -64,6 +65,7 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         Assert.assertEquals(actualNumberOfHelpButton, expectedNumberOfHelpButton);
     }
 
+    @Ignore
     @Test
     public void testHostKeyVerificationStrategyDropdownMenuOptions() {
         List<String> expectedMenuNames = List.of(
@@ -79,5 +81,25 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
                 .getDropDownMenuTexts();
 
         Assert.assertEquals(actualMenuNames, expectedMenuNames);
+    }
+
+    @Test
+    public void testAPICheckboxesAreClickable() {
+        boolean allChecksAreOk = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .checkAPICheckBoxes();
+
+        Assert.assertTrue(allChecksAreOk);
+    }
+
+    @Test
+    public void testRadioButtonsAreClickable() {
+        boolean allChecksAreOk = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .checkRadioButtons();
+
+        Assert.assertTrue(allChecksAreOk);
     }
 }

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.base.BaseModel;
 
 public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
 
@@ -76,7 +77,7 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
 
     public PipelineConfigPage clickConfigureButton() {
         getDriver().findElement(By.xpath("//a[contains(@href, '/configure')]")).click();
-        return new PipelineConfigPage(getDriver());
+        return new PipelineConfigPage(new PipelinePage(getDriver()));
     }
 
     public String getProjectNameSubtitle() {

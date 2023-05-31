@@ -55,6 +55,21 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='description']/div[1]")))
                .getText();
     }
+
+    public String getBooleanParameterName() {
+        return getDriver().findElement(By.xpath("//label[@class='attach-previous ']")).getText();
+    }
+
+    public String getBooleanParameterCheckbox() {
+        return getDriver().findElement(By.xpath("//input[@name='value']")).getAttribute("checked");
+    }
+
+    public String getBooleanParameterDescription() {
+        return getDriver().findElement(By.xpath("//div[@class='jenkins-form-description']")).getText();
+    }
+
+    public ConsoleOutputPage clickProjectBuildConsole(String projectBuildName){
+        getDriver().findElement(By.xpath("//a[contains(@href, '" + projectBuildName + "')  and contains(@href, 'console') and not(contains(@href, 'default'))]")).click();
+        return new ConsoleOutputPage(getDriver());
+    }
 }
-
-

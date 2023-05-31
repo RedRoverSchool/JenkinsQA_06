@@ -11,6 +11,6 @@ public abstract class BaseMainHeaderPage<Self extends BaseMainHeaderPage<?>> ext
 
     @Override
     public MainHeaderComponent<Self> getHeader() {
-        return new MainHeaderComponent<>((Self) this);
+        return new MainHeaderComponent<>( (Self)this);
     }
 }
