@@ -72,7 +72,7 @@ public class MultibranchPipelineTest extends BaseTest {
         WebElement nameMultibranchPipeline = new MainPage(getDriver())
                 .clickJobDropDownMenu("MultibranchPipeline")
                 .dropDownMenuClickMove("MultibranchPipeline",new FolderPage(getDriver()))
-                .selectDestinationFolder()
+                .selectDestinationFolder("Folder")
                 .clickMoveButton()
                 .clickDashboard()
                 .clickMultibranchPipeline("MultibranchPipeline")

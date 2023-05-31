@@ -115,7 +115,7 @@ public class BuildHistoryPageTest extends BaseTest {
                 .enterItemName(freestyleProjectName)
                 .selectFreestyleProject()
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .selectBuildNow()
                 .clickDashboard()
                 .clickBuildsHistoryButton()
