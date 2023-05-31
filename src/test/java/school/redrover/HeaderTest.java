@@ -231,7 +231,7 @@ public class HeaderTest extends BaseTest {
     public void testOpenBuildsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .clickAdminDropDownMenu()
+                .clickAdminDropdownMenu()
                 .openBuildsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
@@ -261,15 +261,15 @@ public class HeaderTest extends BaseTest {
         MainPage mainPage = new MainPage(getDriver());
 
         final String notificationIconColorBefore = mainPage.getHeader().getNotificationIconBackgroundColor();
-        final String adminIconColorBefore = mainPage.getHeader().getAdminIconBackgroundColor();
-        final String logOutIconColorBefore = mainPage.getHeader().getLogOutIconBackgroundColor();
+        final String adminIconColorBefore = mainPage.getHeader().getAdminButtonBackgroundColor();
+        final String logOutIconColorBefore = mainPage.getHeader().getLogOutButtonBackgroundColor();
 
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertNotEquals(mainPage.getHeader().hoverOverNotificationIcon().getNotificationIconBackgroundColor(),
                 notificationIconColorBefore, "The Notification icon background has not changed");
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverAdminIcon().getAdminIconBackgroundColor(), adminIconColorBefore,
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverAdminButton().getAdminButtonBackgroundColor(), adminIconColorBefore,
                 "The Admin icon background has not changed");
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverLogOutIcon().getLogOutIconBackgroundColor(), logOutIconColorBefore,
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverLogOutButton().getLogOutButtonBackgroundColor(), logOutIconColorBefore,
                 "The LogOut icon background has not changed");
         softAssert.assertAll();
     }
@@ -288,8 +288,8 @@ public class HeaderTest extends BaseTest {
     public void testAppearanceOfPopUpMenusWhenClickingOnAdminIcon() {
         boolean isPopUpScreenDisplayed = new MainPage(getDriver())
                 .getHeader()
-                .clickAdminDropDownMenu()
-                .isDropDownAdminScreenDisplayed();
+                .clickAdminDropdownMenu()
+                .isAdminDropdownScreenDisplayed();
 
         Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Admin icon screen is not displayed");
     }
@@ -310,7 +310,7 @@ public class HeaderTest extends BaseTest {
 
         String textUnderlineAfter = new MainPage(getDriver())
                 .getHeader()
-                .hoverOverAdminIcon()
+                .hoverOverAdminButton()
                 .getAdminTextDecorationValue();
 
         Assert.assertTrue(textUnderlineAfter.contains("underline"));
@@ -349,7 +349,7 @@ public class HeaderTest extends BaseTest {
     public void testConfigureTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .clickAdminDropDownMenu()
+                .clickAdminDropdownMenu()
                 .openConfigureTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
@@ -359,7 +359,7 @@ public class HeaderTest extends BaseTest {
     public void testMyViewsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .clickAdminDropDownMenu()
+                .clickAdminDropdownMenu()
                 .openMyViewsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
@@ -369,7 +369,7 @@ public class HeaderTest extends BaseTest {
     public void testCredentialsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
                 .getHeader()
-                .clickAdminDropDownMenu()
+                .clickAdminDropdownMenu()
                 .openCredentialsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");

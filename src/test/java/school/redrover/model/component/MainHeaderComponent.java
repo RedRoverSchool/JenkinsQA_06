@@ -18,8 +18,8 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     }
 
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
-    private static final By ADMIN_ICON = By.xpath("//a[@href='/user/admin']");
-    private static final By LOGOUT_ICON = By.xpath("//a[@href='/logout']");
+    private static final By ADMIN_BUTTON = By.xpath("//a[@href='/user/admin']");
+    private static final By LOGOUT_BUTTON = By.xpath("//a[@href='/logout']");
 
     private void hoverOver(By locator) {
         new Actions(getDriver())
@@ -42,7 +42,7 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return this;
     }
 
-    public MainHeaderComponent<Page> clickAdminDropDownMenu() {
+    public MainHeaderComponent<Page> clickAdminDropdownMenu() {
         TestUtils.clickByJavaScript(this, getDriver().findElement(By.xpath("//a[@href='/user/admin']/button")));
         return this;
     }
@@ -51,7 +51,7 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list"))).isDisplayed();
     }
 
-    public boolean isDropDownAdminScreenDisplayed() {
+    public boolean isAdminDropdownScreenDisplayed() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu"))).isDisplayed();
     }
 
@@ -60,13 +60,13 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return this;
     }
 
-    public MainHeaderComponent<Page> hoverOverAdminIcon() {
-        hoverOver(ADMIN_ICON);
+    public MainHeaderComponent<Page> hoverOverAdminButton() {
+        hoverOver(ADMIN_BUTTON);
         return this;
     }
 
-    public MainHeaderComponent<Page> hoverOverLogOutIcon() {
-        hoverOver(LOGOUT_ICON);
+    public MainHeaderComponent<Page> hoverOverLogOutButton() {
+        hoverOver(LOGOUT_BUTTON);
         return this;
     }
 
@@ -74,16 +74,16 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return getIconBackgroundColor(NOTIFICATION_ICON);
     }
 
-    public String getAdminIconBackgroundColor() {
-        return getIconBackgroundColor(ADMIN_ICON);
+    public String getAdminButtonBackgroundColor() {
+        return getIconBackgroundColor(ADMIN_BUTTON);
     }
 
-    public String getLogOutIconBackgroundColor() {
-        return getIconBackgroundColor(LOGOUT_ICON);
+    public String getLogOutButtonBackgroundColor() {
+        return getIconBackgroundColor(LOGOUT_BUTTON);
     }
 
     public String getAdminTextDecorationValue() {
-        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(ADMIN_ICON));
+        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(ADMIN_BUTTON));
         return adminLink.getCssValue("text-decoration");
     }
 
