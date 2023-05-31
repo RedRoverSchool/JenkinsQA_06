@@ -40,7 +40,8 @@ public class FolderTest extends BaseTest {
                 .clickCreateAJob()
                 .enterItemName(NAME)
                 .selectFolderAndOk()
-                .clickDashboard();
+                .getHeader()
+                .clickLogo();
 
         String actualResult = mainPage.getFolderName().getText();
 
@@ -68,7 +69,8 @@ public class FolderTest extends BaseTest {
         new NewJobPage(getDriver())
                 .enterItemName(NAME)
                 .selectFolderAndOk()
-                .clickDashboard();
+                .getHeader()
+                .clickLogo();
 
         Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(NAME).isDisplayed(),
                 "error was not show name folder");
@@ -179,7 +181,7 @@ public class FolderTest extends BaseTest {
         FolderPage folderPage = new FolderPage(getDriver())
                 .clickConfigureSideMenu()
                 .enterDisplayName(displayName)
-                .enterDescription(description)
+                .addDescription(description)
                 .clickSaveButton();
 
         Assert.assertEquals(folderPage.getFolderDisplayName(), displayName);
@@ -283,7 +285,7 @@ public class FolderTest extends BaseTest {
                 .newItem()
                 .enterItemName("My Multibranch Pipeline")
                 .selectMultibranchPipelineAndOk()
-                .saveButton()
+                .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
                 .clickFolderName(NAME);
 
@@ -474,8 +476,8 @@ public class FolderTest extends BaseTest {
                 new FolderPage(getDriver())
                         .clickConfigureSideMenu()
                         .enterDisplayName(NEW_FOLDER_NAME)
-                        .enterDescription(DESCRIPTION_VALUE)
                         .setHealthMetricsType()
+                        .addDescription(DESCRIPTION_VALUE)
                         .clickSaveButton();
         Assert.assertEquals(folderPage.getFolderDisplayName(), NEW_FOLDER_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);

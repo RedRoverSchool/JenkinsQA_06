@@ -146,11 +146,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new BuildPage(getDriver());
     }
 
-    public ViewPage clickNewItemButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
-        return new ViewPage(getDriver());
-    }
-
     public MainPage acceptAlert() {
         getDriver().switchTo().alert().accept();
         return this;
@@ -381,6 +376,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getWait5().until(ExpectedConditions.titleContains("Dashboard [Jenkins]"));
     }
 
+    public String getCurrentUserName() {
+        return getDriver().findElement(By.xpath("//a[@class='model-link']/span[contains(@class,'hidden-xs')]")).getAttribute("innerText");
+    }
+  
     public MultibranchPipelinePage clickMultibranchProjectName(String projectName) {
         new Actions(getDriver()).moveToElement(getJobWebElement(projectName)).click(getJobWebElement(projectName)).perform();
         return new MultibranchPipelinePage(getDriver());

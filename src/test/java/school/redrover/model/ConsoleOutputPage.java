@@ -25,4 +25,9 @@ public class ConsoleOutputPage extends BaseMainHeaderPage {
         }
         return null;
     }
+
+    public String getStartedByUser() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'model-link--float')]")))
+                .getText();
+    }
 }

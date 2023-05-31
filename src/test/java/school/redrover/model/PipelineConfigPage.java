@@ -5,17 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseConfigPage;
+import school.redrover.runner.TestUtils;
 
-public class PipelineConfigPage extends ConfigurePage {
+public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, PipelinePage> {
 
-    public PipelineConfigPage(WebDriver driver){
-        super(driver);
-    }
 
-    public PipelinePage clickSaveButton(){
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector("[name='Submit']")))).click();
-        return new PipelinePage(getDriver());
+    public PipelineConfigPage(PipelinePage pipelinePage) {
+        super(pipelinePage);
     }
 
     public PipelineConfigPage scrollAndClickAdvancedButton() {
@@ -31,8 +28,30 @@ public class PipelineConfigPage extends ConfigurePage {
         return this;
     }
 
-    public PipelineConfigPage enterDescription(String description) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).sendKeys(description);
+    private WebElement getPipelineSection() {
+        return getDriver().findElement(By.xpath("//div[@id='pipeline']"));
+    }
+
+    public PipelineConfigPage scrollToPipelineSection() {
+        TestUtils.scrollToElementByJavaScript(this, getPipelineSection());
+        return this;
+    }
+
+    public PipelineConfigPage clickPreview() {
+        getDriver().findElement(By.cssSelector("[previewendpoint$='previewDescription']")).click();
+        return this;
+    }
+
+    public String getDefinitionFieldText() {
+        return getDriver().findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]")).getText();
+    }
+
+    public String getPreviewText() {
+        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText();
+    }
+
+    public PipelineConfigPage clearDescriptionArea() {
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
         return this;
     }
 

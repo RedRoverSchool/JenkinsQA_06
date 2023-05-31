@@ -40,7 +40,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickDashboard().getProjectName();
 
         Assert.assertEquals(projectName.getText(),  FREESTYLE_NAME);
@@ -184,7 +184,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .addDescription("Description")
-                .clickSave();
+                .clickSaveButton();
 
         Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME);
         Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
@@ -196,7 +196,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
                 .clickSaveDescription()
@@ -214,7 +214,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
                 .clickPreviewButton()
@@ -230,7 +230,7 @@ public class FreestyleProjectTest extends BaseTest {
         FreestyleProjectPage projectPage = new FreestyleProjectPage(getDriver())
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
-                .clickSave()
+                .clickSaveDescription()
                 .clickDashboard()
                 .clickFreestyleProjectName(FREESTYLE_NAME);
 
@@ -247,7 +247,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickTheDisableProjectButton();
 
         Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
@@ -259,7 +259,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickTheDisableProjectButton()
                 .clickTheEnableProjectButton()
                 .clickDashboard();
@@ -273,7 +273,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickRenameProject(FREESTYLE_NAME)
                 .enterNewName(FREESTYLE_NAME + " New")
                 .submitNewName();
@@ -338,7 +338,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(projectName)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickDashboard()
                 .clickJobDropDownMenu(projectName)
                 .clickDeleteDropDown()
@@ -356,7 +356,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName("MyFreestyleProject")
                 .selectFreestyleProjectAndOk()
                 .addExecuteShellBuildStep("echo Hello")
-                .clickSave()
+                .clickSaveButton()
                 .selectBuildNow()
                 .openConsoleOutputForBuild()
                 .getConsoleOutputText();
@@ -371,7 +371,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("Engineer")
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickDashboard()
                 .getProjectNameClick()
                 .selectBuildNow()
@@ -404,26 +404,6 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-
-    public void testCreateFreestyleProject() {
-        String nameFreestyle = "FreestyleProject";
-        String description = "First project";
-
-        new MainPage(getDriver())
-                .clickNewItemButton()
-                .inputAnItemName(nameFreestyle)
-                .clickFreestyleProject()
-                .clickSaveButton()
-                .sendAreDescriptionInputString(description)
-                .selectSaveButton()
-                .clickDashBoardButton();
-
-        String actualFreestyleName = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText();
-
-        Assert.assertEquals(actualFreestyleName,nameFreestyle);
-    }
-
-    @Test
     public void testFreestyleProjectJob() {
         String nameProject = "Hello world";
         String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
@@ -433,7 +413,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
                 .addBuildStepsExecuteShell(steps)
-                .clickSave()
+                .clickSaveButton()
                 .selectBuildNow()
                 .openConsoleOutputForBuild()
                 .getConsoleOutputText();
