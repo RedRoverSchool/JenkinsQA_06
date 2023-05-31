@@ -391,4 +391,12 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
         return this;
     }
+
+    public MainPage clickPeople(){
+        getWait10().until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//div[@id='tasks']/div[2]/span/a"))).click();
+        return this;
+    }
 }
+
+
