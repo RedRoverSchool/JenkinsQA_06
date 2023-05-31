@@ -20,4 +20,8 @@ public class ErrorNodePage extends MainPage {
     public String getErrorEqualName(){
         return getDriver().findElement(By.xpath("//*[@id='main-panel']/p")).getText();
     }
+
+    public String getErrorMessage(){
+        return getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText();
+    }
 }

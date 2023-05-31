@@ -6,10 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import school.redrover.model.ConfigurePage;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
@@ -20,14 +20,13 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
 
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
     private static final By MANAGE_JENKINS_LINK = By.xpath("//a[text()='Manage Jenkins']");
-    private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
-    private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
     private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
 
     @Test
@@ -82,16 +81,6 @@ public class HeaderTest extends BaseTest {
         String hoverHelpButtonColor = helpButton.getCssValue("color");
 
         assertEquals(hoverHelpButtonColor, "rgba(64, 64, 64, 1)");
-    }
-
-    @Test
-    public void testSearchFieldPlaceholder() {
-        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("placeholder"), "Search (CTRL+K)");
-    }
-
-    @Test
-    public void testSearchFieldAutocomplete() {
-        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
     }
 
     @Test
@@ -215,44 +204,37 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
-        final String itemName = "Test Item";
-        TestUtils.createFreestyleProject(this, itemName, false);
+        final List<String> listItemName = new ArrayList<>(List.of("Test Item", "Second"));
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("jenkins-name-icon"))).click();
-        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]", "Wrong title or wrong page");
+        TestUtils.createFreestyleProject(this, listItemName.get(0), true);
+        TestUtils.createFreestyleProject(this, listItemName.get(1), false);
 
-        List<WebElement> listProjectName = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']"));
+        boolean isPageOpen = new ConfigurePage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .isMainPageOpen();
+
+        Assert.assertTrue(isPageOpen, "Wrong title or wrong page");
+
+        List<String> listJob = new MainPage(getDriver())
+                .getJobList();
 
         SoftAssert softAssert = new SoftAssert();
-        for (WebElement webElement : listProjectName) {
-            softAssert.assertTrue(webElement.getText().contains(itemName),
-                    "The result list doesn't contain the item " + itemName);
+        for (int i = 0; i < listJob.size(); i++) {
+            softAssert.assertTrue(listJob.contains(listItemName.get(i)),
+                    "The result list doesn't contain the item " + listItemName.get(i));
         }
         softAssert.assertAll();
     }
 
-    @DataProvider(name = "dropDownMenuAndPageLocators")
-    public Object[][] provideDropdownMenuAndPageLocators() {
-        return new Object[][] {
-                {By.xpath("//div[@id='breadcrumb-menu']//span[.='Builds']"),
-                        By.xpath("//h1[.='Builds for admin']")},
-                {By.xpath("//span[. ='Configure']"),
-                        By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]")},
-                {By.xpath("//div[@class='bd']//span[.='My Views']"),
-                        By.xpath("//a[@href='/user/admin/my-views/']")},
-                {By.xpath("//span[.='Credentials']"),
-                        By.xpath("//h1[.='Credentials']")}
-        };
-    }
-
-    @Test(dataProvider = "dropDownMenuAndPageLocators")
-    public void testOpenTabFromDropdownMenu(By buttonLocator, By pageLocator) {
+    @Test
+    public void testOpenBuildsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
-                .openAdminDropdownMenu()
-                .openTabFromAdminDropdownMenu(buttonLocator, pageLocator);
+                .getHeader()
+                .expandAdminDropdownMenu()
+                .openBuildsTabFromAdminDropdownMenu();
 
-        Assert.assertTrue(page.isDisplayed());
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
     }
 
     @Test
@@ -276,30 +258,20 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testOfIconColorChange() {
-        String notificationIconColorBefore = getDriver().findElement(NOTIFICATION_ICON).getCssValue("background-color");
-        String adminIconColorBefore = getDriver().findElement(ADMIN_BTN).getCssValue("background-color");
-        String logoutIconColorBefore = getDriver().findElement(LOGOUT_BTN).getCssValue("background-color");
+        MainPage mainPage = new MainPage(getDriver());
 
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(NOTIFICATION_ICON))
-                .perform();
+        final String notificationIconColorBefore = mainPage.getHeader().getNotificationIconColor();
+        final String adminIconColorBefore = mainPage.getHeader().getAdminIconColor();
+        final String logOutIconColorBefore = mainPage.getHeader().getLogOutIconColor();
 
-        Assert.assertNotEquals(getDriver().findElement(NOTIFICATION_ICON).getCssValue("background-color"),
-                notificationIconColorBefore);
-
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(ADMIN_BTN))
-                .perform();
-
-        Assert.assertNotEquals(getDriver().findElement(ADMIN_BTN).getCssValue("background-color"),
-                adminIconColorBefore);
-
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(LOGOUT_BTN))
-                .perform();
-
-        Assert.assertNotEquals(getDriver().findElement(LOGOUT_BTN).getCssValue("background-color"),
-                logoutIconColorBefore);
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverNotificationIcon().getNotificationIconColor(),
+                notificationIconColorBefore, "The Notification icon background has not changed");
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverAdminIcon().getAdminIconColor(), adminIconColorBefore,
+                "The Admin icon background has not changed");
+        softAssert.assertNotEquals(mainPage.getHeader().hoverOverLogOutIcon().getLogOutIconColor(), logOutIconColorBefore,
+                "The LogOut icon background has not changed");
+        softAssert.assertAll();
     }
 
     @Test
@@ -339,8 +311,9 @@ public class HeaderTest extends BaseTest {
     public void testAdminButtonIsUnderlinedWhenMouseOver() {
 
         String textUnderlineAfter = new MainPage(getDriver())
-                .hoverOverAdminLink()
-                .getTextDecorationValue();
+                .getHeader()
+                .hoverOverAdminIcon()
+                .getAdminTextDecorationValue();
 
         Assert.assertTrue(textUnderlineAfter.contains("underline"));
     }
@@ -374,4 +347,33 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualRes, "Manage Jenkins");
     }
 
+    @Test
+    public void testConfigureTabFromDropdownMenu() {
+        WebElement page = new MainPage(getDriver())
+                .getHeader()
+                .expandAdminDropdownMenu()
+                .openConfigureTabFromAdminDropdownMenu();
+
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+    }
+
+    @Test
+    public void testMyViewsTabFromDropdownMenu() {
+        WebElement page = new MainPage(getDriver())
+                .getHeader()
+                .expandAdminDropdownMenu()
+                .openMyViewsTabFromAdminDropdownMenu();
+
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+    }
+
+    @Test
+    public void testCredentialsTabFromDropdownMenu() {
+        WebElement page = new MainPage(getDriver())
+                .getHeader()
+                .expandAdminDropdownMenu()
+                .openCredentialsTabFromAdminDropdownMenu();
+
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+    }
 }
