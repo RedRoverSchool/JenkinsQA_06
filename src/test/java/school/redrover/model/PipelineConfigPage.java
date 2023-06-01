@@ -109,4 +109,19 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         getDriver().findElement(By.xpath("//textarea[contains(@name,'parameter.description')]")).sendKeys(description);
         return this;
     }
+
+    public PipelineConfigPage clickDiscardOldBuildsCheckbox() {
+        getDriver().findElement(By.xpath("//label[normalize-space()='Discard old builds']")).click();
+        return this;
+    }
+
+    public PipelineConfigPage enterDaysToKeepBuilds(String days) {
+        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
+        return this;
+    }
+
+    public PipelineConfigPage enterMaxOfBuildsToKeep(String builds) {
+        getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']")).sendKeys(builds);
+        return this;
+    }
 }
