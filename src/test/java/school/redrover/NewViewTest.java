@@ -43,7 +43,7 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateListView() {
-        String freestyleProjectName = "TestFreestyleProject";
+        String freestyleProjectName = "Test Freestyle Project";
         String expectedName = "TestName";
         String actualName = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
