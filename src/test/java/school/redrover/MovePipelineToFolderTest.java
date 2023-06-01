@@ -20,10 +20,7 @@ public class MovePipelineToFolderTest extends BaseTest {
         .clickJobDropDownMenu("testPipeline")
         .dropDownMenuClickMove("testPipeline", new FolderPage(getDriver()))
         .selectDestinationFolder("testFolder")
-        .clickMoveButton()
-        .navigateToMainPageByBreadcrumbs()
-        .clickFolderName("testFolder")
-        .getNestedFolder("testPipeline");
+        .clickMoveButton();
 
         String breadcrumbText = getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']"))
                                 .getText().replaceAll("\\W"," > ");
