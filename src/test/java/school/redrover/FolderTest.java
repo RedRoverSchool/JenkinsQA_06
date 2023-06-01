@@ -543,12 +543,12 @@ public class FolderTest extends BaseTest {
         TestUtils.createPipeline(this, "testPipeline",true);
 
         String actualBreadcrumbText =
-                new MainPage(getDriver())
-                .clickJobDropDownMenu("testPipeline")
-                .dropDownMenuClickMove("testPipeline", new FolderPage(getDriver()))
-                .selectDestinationFolder("testFolder")
-                .clickMoveButton().
-                getBreadcrumbText();
+            new MainPage(getDriver())
+            .clickJobDropDownMenu("testPipeline")
+            .dropDownMenuClickMove("testPipeline", new FolderPage(getDriver()))
+            .selectDestinationFolder("testFolder")
+            .clickMoveButton().
+            getBreadcrumbText();
 
         assertEquals(actualBreadcrumbText, "Dashboard > testFolder > testPipeline");
 
