@@ -247,19 +247,20 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(jobName,"Pipeline " + PIPELINE_NAME);
     }
 
-    @Test(dependsOnMethods = {"testCreatePipeline"})
+    @Test(dependsOnMethods = "testCreatePipeline")
     public void testBuildPipeline() {
-        final String namePipeline = "First Pipeline";
+        final String namePipeline = "FirstPipeline";
 
         TestUtils.createPipeline(this, namePipeline, true);
 
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//span[contains(text(),'First Pipeline')]"))).click().perform();
-        getDriver().findElement(By.cssSelector("[href*='build?']")).click();
-        getDriver().findElement(By.cssSelector("#buildHistory>div>div>span>div>:nth-child(2)")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[href$='console']"))).click();
+        ConsoleOutputPage consoleOutputPage = new MainPage(getDriver())
+                .clickPipelineProject(namePipeline)
+                .clickBuildNow()
+                .clickTrend()
+                .clickBuildIcon();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("(//*[name()='svg'][@title='Success'])[1]")).isDisplayed(), "Build failed");
-        Assert.assertTrue(getDriver().findElement(By.cssSelector(".jenkins-icon-adjacent")).isDisplayed(), "Not found build");
+        Assert.assertTrue(consoleOutputPage.isDisplayedGreenIconV(), "Build failed");
+        Assert.assertTrue(consoleOutputPage.isDisplayedBuildTitle(), "Not found build");
     }
 
     @Test

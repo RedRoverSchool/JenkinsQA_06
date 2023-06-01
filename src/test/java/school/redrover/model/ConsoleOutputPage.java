@@ -30,4 +30,15 @@ public class ConsoleOutputPage extends BaseMainHeaderPage<ConsoleOutputPage> {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'model-link--float')]")))
                 .getText();
     }
+
+    public boolean isDisplayedGreenIconV() {
+
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("(//*[name()='svg'][@title='Success'])[1]"))).isDisplayed();
+    }
+
+    public boolean isDisplayedBuildTitle() {
+
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".jenkins-icon-adjacent"))).isDisplayed();
+    }
 }

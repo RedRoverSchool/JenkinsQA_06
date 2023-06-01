@@ -136,4 +136,9 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text() ,'#1')]"))).sendKeys(Keys.ENTER);
         return new BuildPage(getDriver());
     }
+
+    public TimelinePage clickTrend() {
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#buildHistory>div>div>span>div>:nth-child(2)"))).click();
+        return new TimelinePage(getDriver());
+    }
 }
