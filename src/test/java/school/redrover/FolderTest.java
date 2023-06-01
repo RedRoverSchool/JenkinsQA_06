@@ -489,33 +489,25 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(nameMultibranchPipelineDisplays,nameMultibranchPipeline);
     }
 
-    @Test
+    @Test (dependsOnMethods = "testCreateFolderCreateAJob")
     public void testMoveMultiConfigurationProjectToFolderFromSideMenu() {
 
-        final String folderName = "MyFolder";
         final String multiConfigurationProjectName= "MyMultiConfigurationProject";
 
-        new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(folderName)
-                .selectFolderAndOk()
-                .clickSaveButton()
-                .clickDashboard();
-
-        new MainPage(getDriver())
+        String createdMultiConfigurationProjectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(multiConfigurationProjectName)
                 .selectMultiConfigurationProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard();
+                .clickDashboard()
 
-        String createdMultiConfigurationProjectName = new MainPage(getDriver())
                 .clickMultiConfigurationProject(multiConfigurationProjectName)
                 .clickMoveOnSideMenu()
-                .selectDestinationFolder(folderName)
+                .selectDestinationFolder(NAME)
                 .clickMoveButton()
                 .clickDashboard()
-                .clickFolderName(folderName)
+                .clickFolderName(NAME)
+
                 .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
 
         Assert.assertEquals(createdMultiConfigurationProjectName,multiConfigurationProjectName);

@@ -142,9 +142,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new MainPage(getDriver());
     }
 
-    public BuildPage clickBuildsHistoryButton() {
+    public BuildHistoryPage clickBuildsHistoryButton() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
-        return new BuildPage(getDriver());
+        return new BuildHistoryPage(getDriver());
     }
 
     public MainPage acceptAlert() {
@@ -373,7 +373,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     public String getCurrentUserName() {
         return getDriver().findElement(By.xpath("//a[@class='model-link']/span[contains(@class,'hidden-xs')]")).getAttribute("innerText");
     }
-  
+
     public MultibranchPipelinePage clickMultibranchProjectName(String projectName) {
         new Actions(getDriver()).moveToElement(getJobWebElement(projectName)).click(getJobWebElement(projectName)).perform();
         return new MultibranchPipelinePage(getDriver());
@@ -402,4 +402,12 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Configure')]")).click();
         return new FreestyleProjectPage(getDriver());
     }
+
+    public MainPage clickSchedulerBuildForPipeline(String pipelineName) {
+        WebElement buildRunnerButton = getDriver()
+                .findElement(By.xpath("//a[@title = 'Schedule a Build for " + pipelineName + "']"));
+        buildRunnerButton.click();
+        return this;
+    }
+
 }

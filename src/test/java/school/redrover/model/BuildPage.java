@@ -46,6 +46,16 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
         return getBuildHeader().getText().contains("Build #1");
     }
 
+    public EditBuildInformationPage clickEditBuildInformationButton(String projectName) {
+        getDriver().findElement(By.xpath("//*[@href = '/job/" + projectName + "/1/configure']")).click();
+        return new EditBuildInformationPage(getDriver());
+    }
+
+    public String getProjectDescription() {
+       return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='description']/div[1]")))
+               .getText();
+    }
+
     public String getBooleanParameterName() {
         return getDriver().findElement(By.xpath("//label[@class='attach-previous ']")).getText();
     }
