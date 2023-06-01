@@ -179,7 +179,7 @@ public class PipelineTest extends BaseTest {
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
                 .scrollToPipelineSection()
-                .getDefinitionFieldText();
+                .getOptionTextInDefinitionField();
 
         Assert.assertEquals(resultOptionDefinitionFieldText, "Pipeline script");
     }
