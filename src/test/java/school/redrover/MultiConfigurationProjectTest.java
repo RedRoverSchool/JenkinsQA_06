@@ -23,9 +23,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     private static final String DESCRIPTION = "Description";
     private static final By DASHBOARD_BUTTON = By.linkText("Dashboard");
-    private static final By NEW_ITEM_BUTTON = By.xpath("//*[@id='tasks']//span/a");
     private static final By INPUT_FIELD = By.name("name");
-    private static final By DISABLE_BUTTON_CONFIG_PAGE = By.xpath("//*[@id='disable-project']/button");
     private static final By INPUT_NEW_ITEM_FIELD = By.xpath("//input[@name='newName']");
     private static final String MULTI_CONFIGURATION_NAME = "MULTI_CONFIGURATION_NAME";
     private static final String MULTI_CONFIGURATION_NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";
@@ -327,29 +325,17 @@ public class MultiConfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.name("name")).clear();
     }
 
-    @Ignore
     @Test
-    public void testRenameProject() {
+    public void testRenameMultiConfigurationProject() {
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
 
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+        WebElement newName = new JobPage(getDriver())
+                .clickRename()
+                .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
+                .submitNewName()
+                .getNameProject();
 
-        String link = getDriver().findElement(By
-                .xpath("//*[@id='job_" + MULTI_CONFIGURATION_NAME + "']/td[3]/a")).getAttribute("href");
-        getDriver().get(link);
-
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//a[@href='/job/" + MULTI_CONFIGURATION_NAME + "/confirm-rename']"))).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(INPUT_NEW_ITEM_FIELD)).clear();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(INPUT_NEW_ITEM_FIELD))
-                .sendKeys(MULTI_CONFIGURATION_NEW_NAME);
-
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                        (By.xpath("//h1[@class='matrix-project-headline page-headline']"))).getText(),
-                "Project " + MULTI_CONFIGURATION_NEW_NAME);
+        Assert.assertEquals(newName.getText(), "Project " + MULTI_CONFIGURATION_NEW_NAME);
     }
 
     @Test
@@ -382,7 +368,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testCheckDisableIconOnDashboard() {
         TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
 
-        getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).click();
+        getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).click();
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
         WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
@@ -488,7 +474,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testAddDescriptionToMultiConfigurationProject() {
         final String expectedDescription = "Web-application project";
 
-        WebElement selectNewItem = getDriver().findElement(NEW_ITEM_BUTTON);
+        WebElement selectNewItem = getDriver().findElement(By.xpath("//*[@id='tasks']//span/a"));
         selectNewItem.click();
 
         WebElement setNewItemName = getDriver().findElement(INPUT_FIELD);
