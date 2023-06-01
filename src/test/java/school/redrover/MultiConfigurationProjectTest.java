@@ -355,15 +355,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCheckExceptionToMultiConfigurationPage() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        WebElement multiconfigButton = getWait10().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//span[text()='Multi-configuration project']")));
-        multiconfigButton.click();
-        String exceptionText = getDriver().findElement(By
-                .xpath("//div[text() ='» This field cannot be empty, please enter a valid name']")).getText();
+    public void testCheckExceptionOfNameToMultiConfiguration() {
+        String exceptionMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .selectMultiConfigurationProject()
+                .clickButtonOk()
+                .getItemNameRequiredMessage();
 
-        Assert.assertEquals(exceptionText, "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(exceptionMessage,"» This field cannot be empty, please enter a valid name");
     }
 
     @Test
