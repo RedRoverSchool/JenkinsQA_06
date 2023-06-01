@@ -45,7 +45,7 @@ public class FolderTest extends BaseTest {
 
         String actualResult = mainPage.getFolderName().getText();
 
-        WebElement webElement = mainPage.navigateToProjectPage().getNameProject();
+        WebElement webElement = mainPage.goToJobPage().getNameProject();
 
         Assert.assertEquals(actualResult, NAME);
         Assert.assertEquals(webElement.getText(), NAME);
