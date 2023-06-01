@@ -460,18 +460,19 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projects.size(), 0);
     }
 
-
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
-    public void testAddDescriptionInMultiConfigurationProject() {
+    @Test (dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testAddDescriptionInMultiConfigurationProject(){
         final String textDescription = "Text Description Test";
+        MultiConfigurationProjectPage multiConfPage =
+                new MultiConfigurationProjectPage(getDriver())
+                        .getAddDescription(textDescription)
+                        .getSaveButton();
 
-        getDriver().findElement(By.id("description-link")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[name='description']")))
-                .sendKeys(textDescription);
-        getDriver().findElement(By.xpath("//div[@id='description']//button[@name=\"Submit\"]")).click();
+        String getDescription = multiConfPage
+                .getInputAdd()
+                .getText();
+        Assert.assertEquals(getDescription,textDescription);
 
-        WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
-        Assert.assertEquals(actualDescription.getText(), textDescription);
     }
 
     @Test
