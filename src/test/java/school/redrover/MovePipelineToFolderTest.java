@@ -1,8 +1,5 @@
 package school.redrover;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.annotations.Ignore;
 import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
@@ -13,7 +10,6 @@ import static org.testng.Assert.assertEquals;
 
 public class MovePipelineToFolderTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testMovePipelineToFolder() {
 
@@ -29,8 +25,8 @@ public class MovePipelineToFolderTest extends BaseTest {
         .clickFolderName("testFolder")
         .getNestedFolder("testPipeline");
 
-        WebElement breadcrumbBar = getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']"));
-        String breadcrumbText = breadcrumbBar.getText().replaceAll("\\W"," > ");
+        String breadcrumbText = getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']"))
+                                .getText().replaceAll("\\W"," > ");
         assertEquals(breadcrumbText, "Dashboard > testFolder > testPipeline");
 
     }
