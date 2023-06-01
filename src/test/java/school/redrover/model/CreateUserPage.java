@@ -41,10 +41,10 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
         return this;
     }
 
-    public CreateUserPage clickCreateUserButton() {
+    public ManageUsersPage clickCreateUserButton() {
         getDriver().findElement(By.name("Submit")).click();
 
-        return new CreateUserPage(getDriver());
+        return new ManageUsersPage(getDriver());
     }
 
     public void createUser(String username, String password, String fullName, String email)  {
@@ -58,5 +58,24 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
                 .enterFullName(fullName)
                 .enterEmail(email)
                 .clickCreateUserButton();
+    }
+
+    public ManageUsersPage fillUserDetails(String username) {
+        getDriver().findElement(By.id("username")).sendKeys(username);
+        getDriver().findElement(By.name("password1")).sendKeys("1234");
+        getDriver().findElement(By.name("password2")).sendKeys("1234");
+        getDriver().findElement(By.name("fullname")).sendKeys("Nik Smith");
+        getDriver().findElement(By.name("email")).sendKeys("nik@gmail.com");
+        return new ManageUsersPage(getDriver());
+    }
+
+    public ManageUsersPage fillUserDetailsWithInvalidEmail(String username) {
+        getDriver().findElement(By.id("username")).sendKeys(username);
+        getDriver().findElement(By.name("password1")).sendKeys("1234");
+        getDriver().findElement(By.name("password2")).sendKeys("1234");
+        getDriver().findElement(By.name("fullname")).sendKeys("Nik Smith");
+        getDriver().findElement(By.name("email")).sendKeys("nik.com");
+
+        return new ManageUsersPage(getDriver());
     }
 }

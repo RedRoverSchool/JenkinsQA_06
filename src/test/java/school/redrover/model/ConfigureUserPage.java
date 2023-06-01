@@ -18,10 +18,11 @@ public class ConfigureUserPage extends BaseMainHeaderPage<ConfigureUserPage> {
         return inputEmail.getAttribute(attribute);
     }
 
-    public ConfigureUserPage setEmail(String email) {
+    public ConfigureUserPage enterEmail(String email) {
         WebElement inputEmail = getDriver().findElement(By.xpath("//input[@name='email.address']"));
         inputEmail.clear();
         inputEmail.sendKeys(email);
+
         return this;
     }
     public ConfigureUserPage clickConfigureSideMenu() {

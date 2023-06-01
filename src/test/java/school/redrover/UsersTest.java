@@ -32,7 +32,33 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionToUser() {
+    public void testCreateNewUser() {
+        boolean newUser = new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .fillUserDetails(USER_NAME)
+                .clickYesButton()
+                .isUserExist(USER_NAME);
+
+        Assert.assertTrue(newUser);
+    }
+
+    @Test
+    public void testErrorIfCreateNewUserWithInvalidEmail() {
+        String errorEmail = new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .fillUserDetailsWithInvalidEmail(USER_NAME)
+                .clickYesButton()
+                .getInvalidEmailError();
+
+        Assert.assertEquals(errorEmail, "Invalid e-mail address");
+    }
+
+    @Test
+    public void testAddDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "Test User Description";
 
         new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -42,15 +68,15 @@ public class UsersTest extends BaseTest {
         String actualDisplayedDescriptionText = new StatusUserPage(getDriver())
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
-                .setDescription(displayedDescriptionText)
+                .enterDescription(displayedDescriptionText)
                 .clickSaveButton()
                 .getDescription();
 
         Assert.assertEquals(actualDisplayedDescriptionText, displayedDescriptionText);
     }
 
-    @Test(dependsOnMethods = "testAddDescriptionToUser")
-    public void testEditDescriptionToUser() {
+    @Test(dependsOnMethods = "testAddDescriptionToUserOnUserStatusPage")
+    public void testEditDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "User Description Updated";
 
         new MainPage(getDriver())
@@ -67,7 +93,7 @@ public class UsersTest extends BaseTest {
 
         String actualDisplayedDescriptionText = statusUserPage
                 .clearDescriptionInputField()
-                .setDescription(displayedDescriptionText)
+                .enterDescription(displayedDescriptionText)
                 .clickSaveButton()
                 .getDescription();
 
@@ -75,8 +101,21 @@ public class UsersTest extends BaseTest {
         Assert.assertNotEquals(actualDisplayedDescriptionText, existingDescriptionText);
     }
 
+    @Test
+    public void testAddDescriptionToUserOnTheUserProfilePage() {
+        String descriptionText = new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickUserEditButton()
+                .enterDescriptionText()
+                .clickYesButton()
+                .getDescriptionText();
+
+        Assert.assertEquals("Description text",descriptionText);
+    }
+
         @Test
-    public void testEditEmailByDropDown() {
+    public void testEditEmailOnTheUserProfilePageByDropDown() {
         final String displayedEmail = "testedited@test.com";
 
         new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -89,8 +128,8 @@ public class UsersTest extends BaseTest {
 
         String oldEmail = configureUserPage.getEmailValue("value");
 
-        String actualEmail =configureUserPage
-                .setEmail("testedited@test.com")
+        String actualEmail = configureUserPage
+                .enterEmail(displayedEmail)
                 .clickSaveButton()
                 .clickConfigureSideMenu()
                 .getEmailValue("value");
@@ -201,6 +240,18 @@ public class UsersTest extends BaseTest {
                         .presenceOfAllElementsLocatedBy(By.xpath("//a[@href='/user/" + USER_NAME + "/']")))
                 .apply(getDriver());
         Assert.assertTrue(isNotPresent);
+    }
+
+    @Test(dependsOnMethods = "testCreateNewUser")
+    public void testDeleteUserByDeleteButton() {
+        boolean userNotFound = new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickDeleteUser()
+                .clickYesButton()
+                .getUserDeleted(USER_NAME);
+
+        Assert.assertFalse(userNotFound);
     }
 
     @Test

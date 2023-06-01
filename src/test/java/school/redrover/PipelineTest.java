@@ -521,17 +521,15 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuildsIsChecked() {
-        createWithoutDescription("test-pipeline");
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
+        TestUtils.createPipeline(this, PIPELINE_NAME, false);
 
-        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
-        getDriver().findElement(By.name("Submit")).click();
+        boolean discardOldBuildsCheckbox = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .selectDiscardOldBuildsandSave()
+                .clickConfigureButton()
+                .checkboxDiscardOldBuildsIsSelected();
 
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
-
-        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
-
-        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
+        Assert.assertTrue(discardOldBuildsCheckbox);
     }
 
     @Test

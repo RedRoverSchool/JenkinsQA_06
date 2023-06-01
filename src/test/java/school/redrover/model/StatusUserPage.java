@@ -25,7 +25,7 @@ public class StatusUserPage extends BaseMainHeaderPage<StatusUserPage> {
         return this;
     }
 
-    public StatusUserPage setDescription(String text) {
+    public StatusUserPage enterDescription(String text) {
         getWait10().until(ExpectedConditions.visibilityOf(getDriver()
                 .findElement(By.xpath("//textarea[@name='description']"))))
                 .sendKeys(text);
