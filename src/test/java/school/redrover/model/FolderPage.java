@@ -147,8 +147,16 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 (By.xpath("//a[contains(@href,'job/" + pipelineName + "/')]")));
     }
 
-    public String getLastCreatedItemName (){
+    public String getLastCreatedItemName() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//*[@id = 'projectstatus']//td/a"))).getText();
     }
+
+    public String getBreadcrumbText() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@id='breadcrumbBar']")))
+                .getText()
+                .replaceAll("\\n"," > ");
+    }
+
 }
