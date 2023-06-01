@@ -23,6 +23,8 @@ import static org.testng.Assert.assertTrue;
 public class FolderTest extends BaseTest {
 
     private static final String NAME = "FolderName";
+    private static final String DESCRIPTION = "Created new folder";
+    private static final String  DISPLAY_NAME = "NewFolder";
 
     @Test
     public void testCreateFolderNewItem() {
@@ -46,10 +48,12 @@ public class FolderTest extends BaseTest {
 
         String actualResult = mainPage.getFolderName().getText();
 
-        WebElement webElement = mainPage.navigateToProjectPage().getNameProject();
+        String folderName = mainPage
+                .clickFolderName(NAME)
+                .getFolderName();
 
         Assert.assertEquals(actualResult, NAME);
-        Assert.assertEquals(webElement.getText(), NAME);
+        Assert.assertEquals(folderName, NAME);
     }
 
     @Test
@@ -174,20 +178,17 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateNewFolderWithDescription() {
-        final String displayName = "NewFolder";
-        final String description = "Created new folder";
-
         TestUtils.createFolder(this, NAME, false);
 
         FolderPage folderPage = new FolderPage(getDriver())
                 .clickConfigureSideMenu()
-                .enterDisplayName(displayName)
-                .addDescription(description)
+                .enterDisplayName(DISPLAY_NAME)
+                .addDescription(DESCRIPTION)
                 .clickSaveButton();
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(), displayName);
-        Assert.assertTrue(folderPage.getFolderName().contains("Folder name: " + NAME));
-        Assert.assertEquals(folderPage.getFolderDescription(), description);
+        Assert.assertEquals(folderPage.getFolderName(), DISPLAY_NAME);
+        Assert.assertTrue(folderPage.getOriginalFolderNameIfDisplayNameSet().contains("Folder name: " + NAME));
+        Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
     }
 
     @Test
@@ -267,7 +268,7 @@ public class FolderTest extends BaseTest {
     @Test
     public void testCreateMulticonfigurationProjectInFolder() {
 
-        new MainPage(getDriver())
+       MultiConfigurationProjectPage multiPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("TC 00.04 New item Create Folder")
                 .selectFolderAndOk()
@@ -277,7 +278,7 @@ public class FolderTest extends BaseTest {
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage();
 
-        Assert.assertTrue(new ProjectPage(getDriver()).projectsHeadline().getText().contains("Mine Project"));
+        Assert.assertTrue(multiPage.getMultiProjectName().getText().contains("Mine Project"));
     }
 
     @Test
@@ -319,37 +320,26 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span")).getText(), provideNames);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateNewFolderWithDescription")
     public void testCreateFolderFromExistingFolder() {
-        final String FOLDER1_NAME = "My_folder";
-        final String COPY_FOLDER = "Copy_folder";
-        final String DESCRIPTION = "This is a test folder";
+        final String secondFolderName = "SecondFolder";
 
-        TestUtils.createFolder(this, FOLDER1_NAME, true);
+        String copiedFolderDescription = new FolderPage(getDriver())
+                .clickDashboard()
+                .clickFolderName(NAME)
+                .clickNewItem()
+                .enterItemName(secondFolderName)
+                .copyFromFolder(NAME)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(NAME)
+                .clickInnerFolder(DISPLAY_NAME)
+                .clickInnerFolder(DISPLAY_NAME)
+                .getFolderDescription();
 
-        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']"))
-                .sendKeys(Keys.RETURN);
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Configure"))).click();
-
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).sendKeys(DESCRIPTION);
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']")).click();
-
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-
-        getWait2().until(ExpectedConditions.presenceOfElementLocated((By.id("name")))).sendKeys(COPY_FOLDER);
-        getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
-        getDriver().findElement(By.id("from")).sendKeys(FOLDER1_NAME);
-        getDriver().findElement(By.id("ok-button")).click();
-
-        String copiedFolderDescription = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).getText();
-
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.id("view-message"));
-
-        Assert.assertTrue(getDriver().findElement(By.id("view-message")).getText().contains(DESCRIPTION));
         Assert.assertEquals(copiedFolderDescription, DESCRIPTION);
     }
+
     @Test
     public void testMoveFreestyleProjectToFolder() {
 
@@ -449,7 +439,7 @@ public class FolderTest extends BaseTest {
                         .setHealthMetricsType()
                         .addDescription(DESCRIPTION_VALUE)
                         .clickSaveButton();
-        Assert.assertEquals(folderPage.getFolderDisplayName(), NEW_FOLDER_NAME);
+        Assert.assertEquals(folderPage.getFolderName(), NEW_FOLDER_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);
         Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
     }

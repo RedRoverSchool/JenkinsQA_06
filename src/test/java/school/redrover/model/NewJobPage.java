@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BaseModel;
 
@@ -108,7 +109,14 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
     }
     public NewJobPage clickButtonOk() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//body/div[@id='page-body']/div[@id='main-panel']/div[@id='add-item-panel']/div[1]/div[1]/form[1]/div[3]/div[1]"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button")))
+                .click();
         return this;
+    }
+    public FolderConfigPage copyFromFolder(String typeToAutocomplete) {
+        getDriver().findElement(By.id("from"))
+                .sendKeys(typeToAutocomplete);
+        clickButtonOk();
+        return new FolderConfigPage(new FolderPage(getDriver()));
     }
 }

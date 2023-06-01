@@ -47,7 +47,7 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
         return new ManageUsersPage(getDriver());
     }
 
-    public void createUser(String username, String password, String fullName, String email)  {
+    public void createUser(String username, String password, String fullName, String email) {
         new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
                 .clickManageUsers()
@@ -58,6 +58,24 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
                 .enterFullName(fullName)
                 .enterEmail(email)
                 .clickCreateUserButton();
+
+    }
+
+    public void createUserAndReturnToMainPage(String username, String password, String fullName, String email) {
+        new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .enterUsername(username)
+                .enterPassword(password)
+                .enterConfirmPassword(password)
+                .enterFullName(fullName)
+                .enterEmail(email)
+                .clickCreateUserButton()
+                .getHeader()
+                .clickLogo();
+
+
     }
 
     public ManageUsersPage fillUserDetails(String username) {

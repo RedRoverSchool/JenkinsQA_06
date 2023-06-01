@@ -27,7 +27,7 @@ public class NewItemTest extends BaseTest {
 
         new MainPage(getDriver())
                 .clickNewItem()
-                .clickButtonOk();
+                .selectMultiConfigurationProject();
 
         Assert.assertTrue(new MainPage(getDriver()).expectedErrorMessage().getText().contains("» This field cannot be empty, please enter a valid name"));
     }

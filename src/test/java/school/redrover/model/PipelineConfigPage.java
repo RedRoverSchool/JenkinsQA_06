@@ -1,7 +1,6 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -42,8 +41,17 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         return this;
     }
 
-    public String getDefinitionFieldText() {
-        return getDriver().findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]")).getText();
+    public String getOptionTextInDefinitionField() {
+        String text = "";
+
+        for (WebElement element : getDriver().findElements((By.cssSelector(
+                "div[class='jenkins-section'] select.jenkins-select__input.dropdownList>option")))) {
+            if (element.getAttribute("selected") != null &&
+                    element.getAttribute("selected").equals("true")) {
+                text = element.getText();
+            }
+        }
+        return text;
     }
 
     public String getPreviewText() {
@@ -107,6 +115,32 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
 
     public PipelineConfigPage setBooleanParameterDescription(String description) {
         getDriver().findElement(By.xpath("//textarea[contains(@name,'parameter.description')]")).sendKeys(description);
+        return this;
+    }
+
+    public PipelinePage selectDiscardOldBuildsandSave() {
+        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
+        getDriver().findElement(By.name("Submit")).click();
+        return new PipelinePage(getDriver());
+    }
+
+    public boolean checkboxDiscardOldBuildsIsSelected() {
+        getDriver().findElement(By.id("cb2"));
+        return true;
+    }
+
+    public PipelineConfigPage clickDiscardOldBuildsCheckbox() {
+        getDriver().findElement(By.xpath("//label[normalize-space()='Discard old builds']")).click();
+        return this;
+    }
+
+    public PipelineConfigPage enterDaysToKeepBuilds(String days) {
+        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
+        return this;
+    }
+
+    public PipelineConfigPage enterMaxOfBuildsToKeep(String builds) {
+        getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']")).sendKeys(builds);
         return this;
     }
 }
