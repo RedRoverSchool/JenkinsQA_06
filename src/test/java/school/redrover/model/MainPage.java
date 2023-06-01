@@ -79,10 +79,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getDriver().getTitle();
     }
 
-    public ProjectPage navigateToProjectPage() {
+    public JobPage goToJobPage() {
         WebElement firstJobLink = getDriver().findElement(By.xpath("//td/a"));
         new Actions(getDriver()).moveToElement(firstJobLink).click(firstJobLink).perform();
-        return new ProjectPage(getDriver());
+        return new JobPage(getDriver());
     }
 
     public FolderPage clickFolderName(String FolderName) {
@@ -141,14 +141,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new MainPage(getDriver());
     }
 
-    public BuildPage clickBuildsHistoryButton() {
+    public BuildHistoryPage clickBuildsHistoryButton() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
-        return new BuildPage(getDriver());
-    }
-
-    public ViewPage clickNewItemButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")));
-        return new ViewPage(getDriver());
+        return new BuildHistoryPage(getDriver());
     }
 
     public MainPage acceptAlert() {
@@ -180,10 +175,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new NewJobPage(getDriver());
     }
 
-    public MainPage getMultiConfigPage() {
+    public MultiConfigurationProjectPage getMultiConfigPage() {
         getWait10().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".jenkins-table__link")))).click();
-        return this;
+        return new MultiConfigurationProjectPage(getDriver());
     }
 
     public MainPage dropDownMenuClickDelete(String jobName) {
@@ -293,13 +288,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new FreestyleProjectPage(getDriver());
     }
 
-    public MainPage clickConfigureSideMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
-
-        return this;
-    }
-
     public List<String> getJobList() {
         return getDriver().findElements(By.cssSelector(".jenkins-table__link"))
                 .stream()
@@ -407,6 +395,18 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
                 (By.xpath("//div[@id='tasks']/div[2]/span/a"))).click();
         return this;
     }
+
+    public FreestyleProjectPage clickConfigureDropDown() {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
+        getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Configure')]")).click();
+        return new FreestyleProjectPage(getDriver());
+    }
+
+    public MainPage clickSchedulerBuildForPipeline(String pipelineName) {
+        WebElement buildRunnerButton = getDriver()
+                .findElement(By.xpath("//a[@title = 'Schedule a Build for " + pipelineName + "']"));
+        buildRunnerButton.click();
+        return this;
+    }
+
 }
-
-

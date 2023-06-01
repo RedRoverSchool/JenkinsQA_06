@@ -123,4 +123,9 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
                 By.xpath("//a[@class='build-status-link']"))).click();
         return new ConsoleOutputPage(getDriver());
     }
+
+    public FreestyleProjectPage clickSaveButton() {
+        getDriver().findElement(By.name("Submit")).click();
+        return new FreestyleProjectPage(getDriver());
+    }
 }

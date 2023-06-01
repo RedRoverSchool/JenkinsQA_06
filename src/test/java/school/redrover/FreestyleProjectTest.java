@@ -418,5 +418,31 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
     }
+
+    @Test
+    public void testAddDescriptionFromConfigureDropDownAndPreview() {
+        final String descriptionText = "In publishing and graphic design, Lorem ipsum is a placeholder " +
+                "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
+
+        String previewText = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickJobDropDownMenu(FREESTYLE_NAME)
+                .clickConfigureDropDown()
+                .addDescription(descriptionText)
+                .clickPreviewButton()
+                .getPreviewDescription();
+
+        Assert.assertEquals(previewText, descriptionText);
+
+        String actualDescriptionText = new FreestyleProjectPage(getDriver())
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(actualDescriptionText, descriptionText);
+    }
 }
 

@@ -4,10 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.JobPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.NewJobPage;
-import school.redrover.model.ViewPage;
+import school.redrover.model.*;
 import school.redrover.model.base.BaseModel;
 
 import java.util.ArrayList;
@@ -21,10 +18,11 @@ public class TestUtils {
                 .enterItemName(name);
     }
 
-    private static void goToHomePage(BaseTest baseTest, Boolean goToHomePage) {
-        if (goToHomePage) {
+    private static void goToMainPage(BaseTest baseTest, Boolean goToMainPage) {
+        if (goToMainPage) {
             new JobPage(baseTest.getDriver())
-                    .clickDashBoardButton();
+                    .getHeader()
+                    .clickLogo();
         }
     }
 
@@ -35,7 +33,7 @@ public class TestUtils {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static void createPipeline(BaseTest baseTest, String name, Boolean goToHomePage) {
@@ -45,7 +43,7 @@ public class TestUtils {
                 .selectPipelineAndOk()
                 .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static void createMultiConfigurationProject(BaseTest baseTest, String name, Boolean goToHomePage) {
@@ -55,7 +53,7 @@ public class TestUtils {
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static void createFolder(BaseTest baseTest, String name, Boolean goToHomePage) {
@@ -65,7 +63,7 @@ public class TestUtils {
                 .selectFolderAndOk()
                 .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static void createMultibranchPipeline(BaseTest baseTest, String name, Boolean goToHomePage) {
@@ -75,7 +73,7 @@ public class TestUtils {
                 .selectMultibranchPipelineAndOk()
                 .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static void createOrganizationFolder(BaseTest baseTest, String name, Boolean goToHomePage) {
@@ -85,7 +83,7 @@ public class TestUtils {
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static List<String> getTexts(List<WebElement> elements) {
