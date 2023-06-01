@@ -6,16 +6,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 
 import java.util.List;
 
-public class ManagePage extends BaseModel {
+public class ManagePage extends BaseMainHeaderPage<ManagePage> {
     public ManagePage(WebDriver driver) {
         super(driver);
     }
 
-    private static final String NEW_USER_NAME = "NEW_USER_NAME";
     private static final By SEARCH_SETTINGS = By.id("settings-search-bar");
 
     public ManagePage navigateToManagePage() {
@@ -64,81 +63,6 @@ public class ManagePage extends BaseModel {
         return this;
     }
 
-    public ManagePage clickCreateUser() {
-        getDriver().findElement(By.xpath("//a[normalize-space()='Create User']")).click();
-        return this;
-    }
-
-    public ManagePage fillUserDetails() {
-        getDriver().findElement(By.id("username")).sendKeys(NEW_USER_NAME);
-        getDriver().findElement(By.name("password1")).sendKeys("1234");
-        getDriver().findElement(By.name("password2")).sendKeys("1234");
-        getDriver().findElement(By.name("fullname")).sendKeys("Nik Smith");
-        getDriver().findElement(By.name("email")).sendKeys("nik@gmail.com");
-        return this;
-    }
-
-    public ManagePage submit() {
-        getDriver().findElement(By.name("Submit")).click();
-        return this;
-    }
-
-    public boolean findUserCreated() {
-        List<WebElement> userList = getDriver().findElements(By.id("people"));
-
-        for (WebElement user : userList) {
-            if (user.getText().equals(NEW_USER_NAME)) {
-                break;
-            }
-        }
-        return true;
-    }
-
-    public ManagePage fillUserDetailsWithInvalidEmail() {
-        getDriver().findElement(By.id("username")).sendKeys(NEW_USER_NAME);
-        getDriver().findElement(By.name("password1")).sendKeys("1234");
-        getDriver().findElement(By.name("password2")).sendKeys("1234");
-        getDriver().findElement(By.name("fullname")).sendKeys("Nik Smith");
-        getDriver().findElement(By.name("email")).sendKeys("nik.com");
-        return this;
-    }
-
-    public String assertInvalidEmailError() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@class='error jenkins-!-margin-bottom-2']"))).getText();
-    }
-
-    public ManagePage clickDeleteUser() {
-        getDriver().findElement(By.xpath("//a[@class='jenkins-table__button jenkins-!-destructive-color']")).click();
-        return this;
-    }
-
-    public boolean getUserDeleted() {
-        List<WebElement> userList = getDriver().findElements(By.id("people"));
-
-        for (WebElement user : userList) {
-            if (user.getText().equals(NEW_USER_NAME)) {
-                break;
-            }
-        }
-        return false;
-    }
-
-    public ManagePage clickUserEditButton() {
-        getDriver().findElement(By.xpath("//a[@class='jenkins-table__button'][1]")).click();
-        return this;
-    }
-
-    public ManagePage enterDescriptionText() {
-        getDriver().findElement(By.name("_.description")).clear();
-        getDriver().findElement(By.name("_.description")).sendKeys("Description text");
-        return this;
-    }
-
-    public String getDescriptionText() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@id='description']/div[1]"))).getText();
-    }
 
     public ManagePage navigateManageNodesAndClouds() {
         getDriver().findElement(By.xpath("//a[@href='computer']")).click();
