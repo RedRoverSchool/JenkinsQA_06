@@ -393,11 +393,10 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(iconDisabled.isDisplayed());
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    @Test
     public void testDisableProjectFromConfigurationPage() {
         final String disableResult = "This project is currently disabled";
-        new MainPage(getDriver())
-                .getMultiConfigPage();
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
         String disableMessage = new MultiConfigurationProjectPage(getDriver())
                 .getDisableClick()
                 .getDisableText();
