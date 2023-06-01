@@ -240,7 +240,7 @@ public class PipelineTest extends BaseTest {
                 .clickConfigureButton()
                 .clickDiscardOldBuildsCheckbox()
                 .enterDaysToKeepBuilds("2")
-                .enterDaysToKeepBuilds("30")
+                .enterMaxOfBuildsToKeep("30")
                 .clickSaveButton()
                 .getProjectName();
 
