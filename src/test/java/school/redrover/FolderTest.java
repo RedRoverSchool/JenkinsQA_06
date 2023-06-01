@@ -542,15 +542,15 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, "testFolder",true);
         TestUtils.createPipeline(this, "testPipeline",true);
 
-        new MainPage(getDriver())
+        String actualBreadcrumbText =
+                new MainPage(getDriver())
                 .clickJobDropDownMenu("testPipeline")
                 .dropDownMenuClickMove("testPipeline", new FolderPage(getDriver()))
                 .selectDestinationFolder("testFolder")
-                .clickMoveButton();
+                .clickMoveButton().
+                getBreadcrumbText();
 
-        String breadcrumbText = getDriver().findElement(By.xpath("//div[@id='breadcrumbBar']"))
-                .getText().replaceAll("\\W"," > ");
-        assertEquals(breadcrumbText, "Dashboard > testFolder > testPipeline");
+        assertEquals(actualBreadcrumbText, "Dashboard > testFolder > testPipeline");
 
     }
 
