@@ -22,6 +22,8 @@ import static org.testng.Assert.assertTrue;
 public class FolderTest extends BaseTest {
 
     private static final String NAME = "FolderName";
+    private static final String DESCRIPTION = "Created new folder";
+    private static final String  DISPLAY_NAME = "NewFolder";
 
     @Test
     public void testCreateFolderNewItem() {
@@ -173,20 +175,17 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateNewFolderWithDescription() {
-        final String displayName = "NewFolder";
-        final String description = "Created new folder";
-
         TestUtils.createFolder(this, NAME, false);
 
         FolderPage folderPage = new FolderPage(getDriver())
                 .clickConfigureSideMenu()
-                .enterDisplayName(displayName)
-                .addDescription(description)
+                .enterDisplayName(DISPLAY_NAME)
+                .addDescription(DESCRIPTION)
                 .clickSaveButton();
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(), displayName);
+        Assert.assertEquals(folderPage.getFolderDisplayName(), DISPLAY_NAME);
         Assert.assertTrue(folderPage.getFolderName().contains("Folder name: " + NAME));
-        Assert.assertEquals(folderPage.getFolderDescription(), description);
+        Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
     }
 
     @Test
@@ -318,26 +317,24 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span")).getText(), provideNames);
     }
 
-    @Test(dependsOnMethods = "testCreateFolderNewItem")
-    public void testCreateFolderFromExistingFolder() throws InterruptedException {
+    @Test(dependsOnMethods = "testCreateNewFolderWithDescription")
+    public void testCreateFolderFromExistingFolder() {
         final String secondFolderName = "SecondFolder";
-        final String description = "This is a test folder";
 
-        String copiedFolderDescription = new MainPage(getDriver()).clickFolderName(NAME)
-                .clickConfigureSideMenu()
-                .addDescription(description)
-                .clickSaveButton()
-                .newItem()
+        String copiedFolderDescription = new FolderPage(getDriver())
+                .clickDashboard()
+                .clickFolderName(NAME)
+                .clickNewItem()
                 .enterItemName(secondFolderName)
                 .copyFromFolder(NAME)
                 .clickSaveButton()
                 .clickDashboard()
                 .clickFolderName(NAME)
-                .clickInnerFolder(secondFolderName)
-                .clickInnerFolder(secondFolderName)
+                .clickInnerFolder(DISPLAY_NAME)
+                .clickInnerFolder(DISPLAY_NAME)
                 .getFolderDescription();
 
-        Assert.assertEquals(copiedFolderDescription, description);
+        Assert.assertEquals(copiedFolderDescription, DESCRIPTION);
     }
 
     @Test

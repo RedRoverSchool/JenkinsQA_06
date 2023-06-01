@@ -72,7 +72,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
 
     public WebElement getJobWebElement(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//span[contains(text(),'" + jobName + "')]"))));
+                .findElement(By.xpath("//a[@href='job/" + jobName + "/']"))));
     }
 
     public String getTitle() {
