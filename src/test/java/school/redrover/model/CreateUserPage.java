@@ -2,9 +2,10 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import school.redrover.model.base.BaseMainHeaderPage;
 
 
-public class CreateUserPage extends ManageUsersPage {
+public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
 
     public CreateUserPage(WebDriver driver) {
         super(driver);
@@ -46,7 +47,7 @@ public class CreateUserPage extends ManageUsersPage {
         return new CreateUserPage(getDriver());
     }
 
-    public void createUser(String username, String password, String fullName, String email)  {
+    public void createUser(String username, String password, String fullName, String email) {
         new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
                 .clickManageUsers()
@@ -57,5 +58,23 @@ public class CreateUserPage extends ManageUsersPage {
                 .enterFullName(fullName)
                 .enterEmail(email)
                 .clickCreateUserButton();
+
+    }
+
+    public void createUserAndReturnToMainPage(String username, String password, String fullName, String email) {
+        new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .enterUsername(username)
+                .enterPassword(password)
+                .enterConfirmPassword(password)
+                .enterFullName(fullName)
+                .enterEmail(email)
+                .clickCreateUserButton()
+                .getHeader()
+                .clickLogo();
+
+
     }
 }
