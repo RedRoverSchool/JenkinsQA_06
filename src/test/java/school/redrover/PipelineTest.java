@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -14,7 +13,6 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,13 +28,6 @@ public class PipelineTest extends BaseTest {
 
     private static final By scriptButton = xpath("//div[@class = 'samples']/select");
     private static final By homePage = By.xpath("//h1[@class= 'job-index-headline page-headline']");
-
-    public void scrollByElement(By by) throws InterruptedException {
-        WebElement scroll = getDriver().findElement(by);
-        new Actions(getDriver())
-                .scrollToElement(scroll)
-                .perform();
-    }
 
     private void createWithoutDescription(String name) {
         getDriver().findElement(By.xpath("//a[@href = 'newJob']")).click();
@@ -245,16 +236,15 @@ public class PipelineTest extends BaseTest {
     public void testDiscardOldBuildsPipeline() {
         TestUtils.createPipeline(this, PIPELINE_NAME, false);
 
-        getDriver().findElement(By.xpath("//a[@href='/job/" + PIPELINE_NAME + "/configure']")).click();
-        getDriver().findElement(By.xpath("//label[normalize-space()='Discard old builds']")).click();
+        String jobName = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickDiscardOldBuildsCheckbox()
+                .enterDaysToKeepBuilds("2")
+                .enterMaxOfBuildsToKeep("30")
+                .clickSaveButton()
+                .getProjectName();
 
-        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys("2");
-        getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']")).sendKeys("30");
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals("Pipeline " + PIPELINE_NAME,
-                getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
+        Assert.assertEquals(jobName,"Pipeline " + PIPELINE_NAME);
     }
 
     @Test(dependsOnMethods = {"testCreatePipeline"})
