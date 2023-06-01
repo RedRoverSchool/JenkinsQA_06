@@ -3,7 +3,6 @@ package school.redrover.model;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.reporters.jq.Main;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
 
@@ -80,10 +79,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getDriver().getTitle();
     }
 
-    public ProjectPage navigateToProjectPage() {
+    public JobPage goToJobPage() {
         WebElement firstJobLink = getDriver().findElement(By.xpath("//td/a"));
         new Actions(getDriver()).moveToElement(firstJobLink).click(firstJobLink).perform();
-        return new ProjectPage(getDriver());
+        return new JobPage(getDriver());
     }
 
     public FolderPage clickFolderName(String FolderName) {

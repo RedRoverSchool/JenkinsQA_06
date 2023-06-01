@@ -1,7 +1,6 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseConfigPage;
@@ -23,10 +22,10 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
         return getDriver().findElement(By.id("cb" + id));
     }
 
-    public ProjectPage saveConfigurePageAndGoToProjectPage(){
+    public JobPage saveConfigurePageAndGoToProjectPage(){
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector("[name='Submit']")))).click();
-        return new ProjectPage(getDriver());
+        return new JobPage(getDriver());
     }
 
     public MultiConfigurationProjectPage saveConfigurePageAndGoToConfigPage(){

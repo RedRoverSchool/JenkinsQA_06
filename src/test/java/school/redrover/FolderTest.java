@@ -276,7 +276,7 @@ public class FolderTest extends BaseTest {
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage();
 
-        Assert.assertTrue(new ProjectPage(getDriver()).projectsHeadline().getText().contains("Mine Project"));
+        Assert.assertTrue(new JobPage(getDriver()).projectsHeadline().getText().contains("Mine Project"));
     }
 
     @Test
