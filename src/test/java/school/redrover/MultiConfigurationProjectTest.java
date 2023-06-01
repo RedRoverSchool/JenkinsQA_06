@@ -297,16 +297,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMultiConfigurationProjectWithDescriptionTest() {
+    public void testCreateProjectWithDescription() {
         TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
+        String nameDescription = new MultiConfigurationProjectPage(getDriver())
+                .getAddDescription(DESCRIPTION)
+                .getSaveButton()
+                .getInputAdd().getText();
 
-        getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
-        getDriver().findElement(By.xpath("//*[@id='description']//textarea")).sendKeys(DESCRIPTION);
-        getDriver().findElement(By.name("Submit")).click();
-
-        WebElement nameDescription = getDriver().findElement(By.xpath("//div[@id ='description']//div"));
-
-        Assert.assertEquals(nameDescription.getText(), DESCRIPTION);
+        Assert.assertEquals(nameDescription, DESCRIPTION);
     }
 
     @DataProvider(name = "unsafe-character")
