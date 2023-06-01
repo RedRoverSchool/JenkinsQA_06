@@ -14,34 +14,12 @@ public class JobPage extends BaseMainHeaderPage<JobPage> {
         super(driver);
     }
 
-    public MainPage navigateToHomePageUsingJenkinsIcon() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector("#jenkins-head-icon")))).click();
-        return new MainPage(getDriver());
-    }
-
-    public MainPage navigateToMainPageByBreadcrumbs() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
-                        .findElement(By.xpath("//ol[@id='breadcrumbs']//li[1]")))).click();
-        return new MainPage(getDriver());
-    }
-
     public WebElement getNameProject() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel>h1")));
     }
 
-    public WebElement getEnableForm(){
-        return getDriver().findElement(By.cssSelector("form#enable-project"));
-    }
-
     public WebElement getDisableButton(){
         return getDriver().findElement(By.xpath("//form[@id='disable-project']/button"));
-
-    }
-
-    public JobPage getDisableClick(){
-        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
-        return this;
     }
 
     public RenamePage<JobPage> clickRename() {

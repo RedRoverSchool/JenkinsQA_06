@@ -50,7 +50,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage()
-                .navigateToHomePageUsingJenkinsIcon()
+                .getHeader()
+                .clickLogo()
                 .getProjectName().getText();
 
         Assert.assertEquals(projectName, MULTI_CONFIGURATION_NAME);
@@ -64,7 +65,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage()
-                .navigateToHomePageUsingJenkinsIcon()
+                .getHeader()
+                .clickLogo()
                 .getProjectName();
 
         Assert.assertEquals(projectName.getText(), MULTI_CONFIGURATION_NAME);
@@ -78,7 +80,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage()
-                .navigateToHomePageUsingJenkinsIcon()
+                .getHeader()
+                .clickLogo()
                 .getProjectName();
 
         Assert.assertEquals(projectName.getText(), MULTI_CONFIGURATION_NAME);
