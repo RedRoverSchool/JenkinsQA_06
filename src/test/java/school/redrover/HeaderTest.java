@@ -25,7 +25,6 @@ public class HeaderTest extends BaseTest {
 
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
     private static final By MANAGE_JENKINS_LINK = By.xpath("//a[text()='Manage Jenkins']");
-    private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -255,21 +254,48 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testOfIconColorChange() {
-        MainPage mainPage = new MainPage(getDriver());
+    public void testOfNotificationIconColorChange() {
+        String notificationIconColorBefore = new MainPage(getDriver())
+                .getHeader()
+                .getNotificationIconBackgroundColor();
 
-        final String notificationIconColorBefore = mainPage.getHeader().getNotificationIconBackgroundColor();
-        final String adminIconColorBefore = mainPage.getHeader().getAdminButtonBackgroundColor();
-        final String logOutIconColorBefore = mainPage.getHeader().getLogOutButtonBackgroundColor();
+        String notificationIconColorAfter = new MainPage(getDriver())
+                .getHeader()
+                .hoverOverNotificationIcon()
+                .getNotificationIconBackgroundColor();
 
-        SoftAssert softAssert = new SoftAssert();
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverNotificationIcon().getNotificationIconBackgroundColor(),
-                notificationIconColorBefore, "The Notification icon background has not changed");
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverAdminButton().getAdminButtonBackgroundColor(), adminIconColorBefore,
-                "The Admin icon background has not changed");
-        softAssert.assertNotEquals(mainPage.getHeader().hoverOverLogOutButton().getLogOutButtonBackgroundColor(), logOutIconColorBefore,
-                "The LogOut icon background has not changed");
-        softAssert.assertAll();
+        Assert.assertNotEquals(notificationIconColorAfter, notificationIconColorBefore,
+                "The Notification icon background has not changed");
+    }
+
+    @Test
+    public void testOfAdminButtonColorChange() {
+        String adminButtonColorBefore = new MainPage(getDriver())
+                .getHeader()
+                .getAdminButtonBackgroundColor();
+
+        String adminButtonColorAfter = new MainPage(getDriver())
+                .getHeader()
+                .hoverOverAdminButton()
+                .getAdminButtonBackgroundColor();
+
+        Assert.assertNotEquals(adminButtonColorAfter, adminButtonColorBefore,
+                "The Admin button background has not changed");
+    }
+
+    @Test
+    public void testOfLogOutButtonColorChange() {
+        String logOutButtonColorBefore = new MainPage(getDriver())
+                .getHeader()
+                .getLogOutButtonBackgroundColor();
+
+        String logOutButtonColorAfter = new MainPage(getDriver())
+                .getHeader()
+                .hoverOverLogOutButton()
+                .getLogOutButtonBackgroundColor();
+
+        Assert.assertNotEquals(logOutButtonColorAfter, logOutButtonColorBefore,
+                "The LogOut button background has not changed");
     }
 
     @Test
@@ -296,7 +322,7 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
         getDriver().findElement(NOTIFICATION_ICON).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN));
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list")));
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Manage Jenkins')]"))).click();
 
         Assert.assertTrue(
