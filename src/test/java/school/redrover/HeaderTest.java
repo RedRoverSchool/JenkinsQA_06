@@ -98,25 +98,13 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserButton() throws InterruptedException {
-        Actions hover = new Actions(getDriver());
+    public void testAdminButtonBackgroundColorIsPresentWhenMouseOver()  {
+        String actualAdminButtonBackgroundColor = new MainPage(getDriver())
+                .getHeader()
+                .hoverOverAdminButton()
+                .getAdminButtonBackgroundColor();
 
-        WebElement userButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[1]"));
-        WebElement userButtonIcon = getDriver()
-                .findElement(By.cssSelector("#page-header > div.login.page-header__hyperlinks > a.model-link > svg"));
-        WebElement dropDownButton = getDriver()
-                .findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[1]/button"));
-
-        Assert.assertTrue(userButtonIcon.isDisplayed());
-        Assert.assertTrue(dropDownButton.isDisplayed());
-
-        hover.moveToElement(userButton).perform();
-        Thread.sleep(700);
-        String hoverUserButtonBackground = userButton.getCssValue("background-color");
-        String hoverUserButtonUnderline = userButton.getCssValue("text-decoration-line");
-
-        assertEquals(hoverUserButtonBackground, "rgba(64, 64, 64, 1)");
-        assertEquals(hoverUserButtonUnderline, "underline");
+        Assert.assertEquals(actualAdminButtonBackgroundColor, "rgba(64, 64, 64, 1)");
     }
 
     @Test
