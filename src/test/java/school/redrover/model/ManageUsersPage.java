@@ -16,6 +16,13 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         super(driver);
     }
 
+    public ManageJenkinsPage navigateToManageJenkinsPage() {
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+
+
     public CreateUserPage clickCreateUser() {
         getDriver().findElement(By.xpath("//a[@href='addUser']")).click();
 
@@ -52,7 +59,58 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
                 return true;
             }
         }
+
         return false;
     }
 
+
+    public ManageUsersPage clickYesButton() {
+        getDriver().findElement(By.name("Submit")).click();
+
+        return this;
+    }
+
+
+    public String getInvalidEmailError() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class='error jenkins-!-margin-bottom-2']"))).getText();
+    }
+
+    public ManageUsersPage clickDeleteUser() {
+        getDriver().findElement(
+                By.xpath("//a[@class='jenkins-table__button jenkins-!-destructive-color']")).click();
+
+        return this;
+    }
+
+    public boolean getUserDeleted(String username) {
+        List<WebElement> userList = getDriver().findElements(By.id("people"));
+
+        for (WebElement user : userList) {
+            if (user.getText().equals(username)) {
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    public ManageUsersPage clickUserEditButton() {
+        getDriver().findElement(By.xpath("//a[@class='jenkins-table__button'][1]")).click();
+
+        return this;
+    }
+
+    public ManageUsersPage enterDescriptionText() {
+        getDriver().findElement(By.name("_.description")).clear();
+        getDriver().findElement(By.name("_.description")).sendKeys("Description text");
+
+        return this;
+    }
+
+    public String getDescriptionText() {
+
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@id='description']/div[1]"))).getText();
+    }
 }

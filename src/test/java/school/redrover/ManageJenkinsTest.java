@@ -36,57 +36,6 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewUser() {
-        boolean newUser = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateToManageUsersPage()
-                .clickCreateUser()
-                .fillUserDetails()
-                .submit()
-                .findUserCreated();
-
-        Assert.assertTrue(newUser);
-    }
-
-    @Test
-    public void testCreateNewUserWithInvalidEmail() {
-        String errorEmail = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateToManageUsersPage()
-                .clickCreateUser()
-                .fillUserDetailsWithInvalidEmail()
-                .submit()
-                .assertInvalidEmailError();
-
-        Assert.assertEquals(errorEmail, "Invalid e-mail address");
-    }
-
-    @Test(dependsOnMethods = "testCreateNewUser")
-    public void testDeleteUser() {
-        boolean userNotFound = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateToManageUsersPage()
-                .clickDeleteUser()
-                .submit()
-                .getUserDeleted();
-
-        Assert.assertFalse(userNotFound);
-    }
-
-    @Test
-    public void testAddDescriptionToUserOnTheUserProfilePage() {
-        String descriptionText = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateToManageUsersPage()
-                .clickUserEditButton()
-                .enterDescriptionText()
-                .submit()
-                .getDescriptionText();
-
-        Assert.assertEquals("Description text",descriptionText);
-    }
-
-    @Test
     public void testManageConfigureNumberOfExecutorsInMasterNode() {
         String number = "3";
 
