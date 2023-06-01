@@ -79,12 +79,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getDriver().getTitle();
     }
 
-    public JobPage goToJobPage() {
-        WebElement firstJobLink = getDriver().findElement(By.xpath("//td/a"));
-        new Actions(getDriver()).moveToElement(firstJobLink).click(firstJobLink).perform();
-        return new JobPage(getDriver());
-    }
-
     public FolderPage clickFolderName(String FolderName) {
         new Actions(getDriver()).moveToElement(getJobWebElement(FolderName)).click(getJobWebElement(FolderName)).perform();
         return new FolderPage(getDriver());
@@ -356,6 +350,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getDriver().findElement(By.xpath(String.format("//span[text()='%s']", folderName))).click();
         return new FolderPage(getDriver());
     }
+
     public WebElement expectedErrorMessage() {
         return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//div[@id='itemname-required']"))));
     }
@@ -409,4 +404,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return this;
     }
 
+
+    public PeoplePage clickPeopleOnLeftSideMenu() {
+        getDriver().findElement(By.xpath("//*[@href='/asynchPeople/']")).click();
+        return new PeoplePage(getDriver());
+    }
 }

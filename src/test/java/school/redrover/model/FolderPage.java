@@ -91,12 +91,12 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]"))).getText();
     }
 
-    public String getFolderDisplayName() {
+    public String getFolderName() {
         return TestUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='main-panel']/h1"))));
     }
 
-    public String getFolderName() {
+    public String getOriginalFolderNameIfDisplayNameSet() {
         return TestUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))));
     }

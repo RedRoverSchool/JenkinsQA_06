@@ -22,13 +22,7 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
         return getDriver().findElement(By.id("cb" + id));
     }
 
-    public JobPage saveConfigurePageAndGoToProjectPage(){
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector("[name='Submit']")))).click();
-        return new JobPage(getDriver());
-    }
-
-    public MultiConfigurationProjectPage saveConfigurePageAndGoToConfigPage(){
+    public MultiConfigurationProjectPage saveConfigurePageAndGoToProjectPage(){
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector("[name='Submit']")))).click();
         return new MultiConfigurationProjectPage(getDriver());

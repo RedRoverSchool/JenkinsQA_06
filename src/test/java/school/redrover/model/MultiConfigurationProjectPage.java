@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.MultiConfigurationProjectTest;
 import school.redrover.model.base.BaseMainHeaderPage;
 
+import java.time.Duration;
+
 public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfigurationProjectPage> {
 
     public MultiConfigurationProjectPage(WebDriver driver) {
@@ -98,6 +100,18 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
     public MultiConfigurationProjectConfigPage getConfigPage() {
         getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
         return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()));
+    }
+
+    public MainPage deleteProject(){
+        getDriver().findElement(By.xpath("//a/span[text()='Delete Multi-configuration project']/..")).click();
+        getDriver().switchTo().alert().accept();
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
+        return new MainPage(getDriver());
+    }
+
+    public RenamePage<MultiConfigurationProjectPage> clickRename() {
+        getDriver().findElement(By.linkText("Rename")).click();
+        return new RenamePage<MultiConfigurationProjectPage>(this);
     }
 
 }

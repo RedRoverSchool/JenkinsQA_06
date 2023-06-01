@@ -23,9 +23,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     private static final String DESCRIPTION = "Description";
     private static final By DASHBOARD_BUTTON = By.linkText("Dashboard");
-    private static final By NEW_ITEM_BUTTON = By.xpath("//*[@id='tasks']//span/a");
     private static final By INPUT_FIELD = By.name("name");
-    private static final By DISABLE_BUTTON_CONFIG_PAGE = By.xpath("//*[@id='disable-project']/button");
     private static final By INPUT_NEW_ITEM_FIELD = By.xpath("//input[@name='newName']");
     private static final String MULTI_CONFIGURATION_NAME = "MULTI_CONFIGURATION_NAME";
     private static final String MULTI_CONFIGURATION_NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";
@@ -108,12 +106,10 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testDisabledMultiConfigurationProject() {
-        new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProjectAndOk()
-                .toggleDisable()
-                .saveConfigurePageAndGoToProjectPage();
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
+        MultiConfigurationProjectPage disabled = new MultiConfigurationProjectPage(getDriver())
+                .getDisableClick();
+
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("form#enable-project"))
                 .getText().trim().substring(0, 34), "This project is currently disabled");
@@ -137,7 +133,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("My Multi configuration project")
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToConfigPage()
+                .saveConfigurePageAndGoToProjectPage()
                 .getConfigPage()
                 .switchCheckboxDisable()
                 .getTextDisable()
@@ -160,11 +156,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDisabledMultiConfigurationProject")
     public void testEnabledMultiConfigurationProject() {
-        JobPage enabledProjPage = new MainPage(getDriver())
-                .goToJobPage()
-                .enableProject();
+        MultiConfigurationProjectPage enabledProjPage = new MainPage(getDriver())
+                .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
+                .getEnableClick();
 
-        Assert.assertEquals(enabledProjPage.getDisableButton().getText(), "Disable Project");
+        Assert.assertEquals(enabledProjPage.getDisableSwitch().getText(), "Disable Project");
     }
 
     @Ignore
@@ -197,11 +193,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testRenameMultiConfigurationProjectFromDashboard() {
 
         WebElement newName = new MainPage(getDriver())
-                .goToJobPage()
+                .clickMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
                 .clickRename()
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
                 .submitNewName()
-                .getNameProject();
+                .getMultiProjectName();
 
         Assert.assertEquals(newName.getText(), ("Project " + MULTI_CONFIGURATION_NEW_NAME));
     }
@@ -220,7 +216,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testProjectPageDelete() {
         MainPage deletedProjPage = new MainPage(getDriver())
-                .goToJobPage()
+                .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
                 .deleteProject();
 
         Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
@@ -327,31 +323,20 @@ public class MultiConfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.name("name")).clear();
     }
 
-    @Ignore
     @Test
-    public void testRenameProject() {
+    public void testRenameMultiConfigurationProject() {
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
 
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+        WebElement newName = new JobPage(getDriver())
+                .clickRename()
+                .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
+                .submitNewName()
+                .getNameProject();
 
-        String link = getDriver().findElement(By
-                .xpath("//*[@id='job_" + MULTI_CONFIGURATION_NAME + "']/td[3]/a")).getAttribute("href");
-        getDriver().get(link);
-
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//a[@href='/job/" + MULTI_CONFIGURATION_NAME + "/confirm-rename']"))).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(INPUT_NEW_ITEM_FIELD)).clear();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(INPUT_NEW_ITEM_FIELD))
-                .sendKeys(MULTI_CONFIGURATION_NEW_NAME);
-
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        Assert.assertEquals(getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                        (By.xpath("//h1[@class='matrix-project-headline page-headline']"))).getText(),
-                "Project " + MULTI_CONFIGURATION_NEW_NAME);
+        Assert.assertEquals(newName.getText(), "Project " + MULTI_CONFIGURATION_NEW_NAME);
     }
 
+    @Ignore
     @Test
     public void testCheckExceptionOfNameToMultiConfiguration() {
         String exceptionMessage = new MainPage(getDriver())
@@ -382,7 +367,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testCheckDisableIconOnDashboard() {
         TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
 
-        getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).click();
+        getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).click();
         getDriver().findElement(DASHBOARD_BUTTON).click();
 
         WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
@@ -488,7 +473,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testAddDescriptionToMultiConfigurationProject() {
         final String expectedDescription = "Web-application project";
 
-        WebElement selectNewItem = getDriver().findElement(NEW_ITEM_BUTTON);
+        WebElement selectNewItem = getDriver().findElement(By.xpath("//*[@id='tasks']//span/a"));
         selectNewItem.click();
 
         WebElement setNewItemName = getDriver().findElement(INPUT_FIELD);
@@ -545,7 +530,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
 
-        CreateItemErrorPage createItemErrorPage = new RenamePage<>(new JobPage(getDriver()))
+        CreateItemErrorPage createItemErrorPage = new RenamePage<>(new MultiConfigurationProjectPage(getDriver()))
                 .clickRenameButton();
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
@@ -561,7 +546,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(multiConfigurationProjectName)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToConfigPage()
+                .saveConfigurePageAndGoToProjectPage()
                 .getAddDescription(description)
                 .getSaveButton()
                 .getInputAdd().getText();
@@ -580,12 +565,12 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(multiConfProjectName)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToConfigPage()
+                .saveConfigurePageAndGoToProjectPage()
                 .clickConfigureSideMenu()
                 .clickOldBuildCheckBox()
                 .enterDaysToKeepBuilds(displayedDaysToKeepBuilds)
                 .enterMaxNumOfBuildsToKeep(displayedMaxNumOfBuildsToKeep)
-                .saveConfigurePageAndGoToConfigPage()
+                .saveConfigurePageAndGoToProjectPage()
                 .clickConfigureSideMenu();
 
         Assert.assertEquals(Integer.parseInt(

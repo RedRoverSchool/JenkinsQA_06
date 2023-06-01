@@ -47,10 +47,12 @@ public class FolderTest extends BaseTest {
 
         String actualResult = mainPage.getFolderName().getText();
 
-        WebElement webElement = mainPage.goToJobPage().getNameProject();
+        String folderName = mainPage
+                .clickFolderName(NAME)
+                .getFolderName();
 
         Assert.assertEquals(actualResult, NAME);
-        Assert.assertEquals(webElement.getText(), NAME);
+        Assert.assertEquals(folderName, NAME);
     }
 
     @Test
@@ -183,8 +185,8 @@ public class FolderTest extends BaseTest {
                 .addDescription(DESCRIPTION)
                 .clickSaveButton();
 
-        Assert.assertEquals(folderPage.getFolderDisplayName(), DISPLAY_NAME);
-        Assert.assertTrue(folderPage.getFolderName().contains("Folder name: " + NAME));
+        Assert.assertEquals(folderPage.getFolderName(), DISPLAY_NAME);
+        Assert.assertTrue(folderPage.getOriginalFolderNameIfDisplayNameSet().contains("Folder name: " + NAME));
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
     }
 
@@ -265,7 +267,7 @@ public class FolderTest extends BaseTest {
     @Test
     public void testCreateMulticonfigurationProjectInFolder() {
 
-        new MainPage(getDriver())
+       MultiConfigurationProjectPage multiPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("TC 00.04 New item Create Folder")
                 .selectFolderAndOk()
@@ -275,7 +277,7 @@ public class FolderTest extends BaseTest {
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage();
 
-        Assert.assertTrue(new JobPage(getDriver()).projectsHeadline().getText().contains("Mine Project"));
+        Assert.assertTrue(multiPage.getMultiProjectName().getText().contains("Mine Project"));
     }
 
     @Test
@@ -436,7 +438,7 @@ public class FolderTest extends BaseTest {
                         .setHealthMetricsType()
                         .addDescription(DESCRIPTION_VALUE)
                         .clickSaveButton();
-        Assert.assertEquals(folderPage.getFolderDisplayName(), NEW_FOLDER_NAME);
+        Assert.assertEquals(folderPage.getFolderName(), NEW_FOLDER_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);
         Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
     }
