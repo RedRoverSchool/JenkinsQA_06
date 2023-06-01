@@ -424,7 +424,7 @@ public class PipelineTest extends BaseTest {
     public void testRenamePipelineDropDownMenu() {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
-        String pipelinePage = new MainPage(getDriver())
+        String renamedPipeline = new MainPage(getDriver())
                 .dropDownMenuClickRename(PIPELINE_NAME.replaceAll(" ", "%20"), new PipelinePage(getDriver()))
                 .enterNewName(RENAME)
                 .submitNewName()
@@ -432,7 +432,7 @@ public class PipelineTest extends BaseTest {
                 .getProjectName()
                 .getText();
 
-        Assert.assertEquals(pipelinePage, RENAME);
+        Assert.assertEquals(renamedPipeline, RENAME);
     }
 
     @Test
