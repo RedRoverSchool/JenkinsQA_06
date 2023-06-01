@@ -5,13 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPage extends BaseModel {
+public class ViewPage extends BaseMainHeaderPage<ViewPage> {
 
     public ViewPage(WebDriver driver) {
         super(driver);
@@ -30,11 +29,6 @@ public class ViewPage extends BaseModel {
     public ViewPage clickPipelineProject() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
         return new ViewPage(getDriver());
-    }
-
-    public ConfigurePage clickSaveButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//button[@id = 'ok-button']")));
-        return new ConfigurePage(getDriver());
     }
 
     public ViewPage clickAddDescription() {

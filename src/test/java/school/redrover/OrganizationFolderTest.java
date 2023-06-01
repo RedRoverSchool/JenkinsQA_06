@@ -54,7 +54,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton()
                 .clickMoveOnLeftMenu()
-                .selectDestinationFolder()
+                .selectDestinationFolder(folderName)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderName)

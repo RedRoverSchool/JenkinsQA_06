@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
-public class ConsoleOutputPage extends BaseMainHeaderPage {
+public class ConsoleOutputPage extends BaseMainHeaderPage<ConsoleOutputPage> {
 
     public ConsoleOutputPage(WebDriver driver) {
         super(driver);
@@ -24,5 +24,10 @@ public class ConsoleOutputPage extends BaseMainHeaderPage {
             }
         }
         return null;
+    }
+
+    public String getStartedByUser() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'model-link--float')]")))
+                .getText();
     }
 }

@@ -9,6 +9,7 @@ import school.redrover.model.base.BaseModel;
 import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
 
 public class JenkinsVersionPage extends BaseModel {
+
     public JenkinsVersionPage(WebDriver driver) {
         super(driver);
     }

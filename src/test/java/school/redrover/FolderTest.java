@@ -40,7 +40,8 @@ public class FolderTest extends BaseTest {
                 .clickCreateAJob()
                 .enterItemName(NAME)
                 .selectFolderAndOk()
-                .clickDashboard();
+                .getHeader()
+                .clickLogo();
 
         String actualResult = mainPage.getFolderName().getText();
 
@@ -68,7 +69,8 @@ public class FolderTest extends BaseTest {
         new NewJobPage(getDriver())
                 .enterItemName(NAME)
                 .selectFolderAndOk()
-                .clickDashboard();
+                .getHeader()
+                .clickLogo();
 
         Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(NAME).isDisplayed(),
                 "error was not show name folder");
@@ -160,7 +162,7 @@ public class FolderTest extends BaseTest {
 
         String folderName = new MainPage(getDriver())
                 .dropDownMenuClickMove(folderTwo, new FolderPage(getDriver()))
-                .selectDestinationFolder()
+                .selectDestinationFolder(folderOne)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderOne)
@@ -179,7 +181,7 @@ public class FolderTest extends BaseTest {
         FolderPage folderPage = new FolderPage(getDriver())
                 .clickConfigureSideMenu()
                 .enterDisplayName(displayName)
-                .enterDescription(description)
+                .addDescription(description)
                 .clickSaveButton();
 
         Assert.assertEquals(folderPage.getFolderDisplayName(), displayName);
@@ -226,53 +228,22 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProjectInFolder() {
-        TestUtils.createFolder(this, "folder", true);
+        final String folderName = "folder";
+        final String newProjectName = "new project";
 
-        getDriver().findElement(By.xpath("//span[normalize-space()='folder']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/folder/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("new project");
-        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
-        getDriver().findElement(By.xpath("//a[normalize-space()='folder']")).sendKeys(Keys.RETURN);
-        WebElement projectName = getDriver().findElement(By.xpath("//span[normalize-space()='new project']"));
+        TestUtils.createFolder(this, folderName, true);
 
-        Assert.assertEquals(projectName.getText(), "new project");
-    }
+        String itemName = new MainPage(getDriver())
+                .clickFolderName(folderName)
+                .newItem()
+                .enterItemName(newProjectName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(folderName)
+                .getLastCreatedItemName();
 
-    @Test
-    public void testCreatePipelineProjectWithoutDescriptionInFolder() {
-        final String folderName = "folderName";
-        final String pipelineName = "pipelineName";
-        boolean isPipelinePresent = false;
-
-        TestUtils.createFolder(this, folderName, false);
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText("New Item"))).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(pipelineName);
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
-
-        String actualPipelineName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='projectstatus']"))).findElement(By.linkText(folderName)).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='projectstatus']")));
-        List<WebElement> jobs = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr"));
-        for (WebElement job : jobs) {
-            String jobName = job.getText();
-            if (jobName.contains(pipelineName)) {
-                isPipelinePresent = true;
-                break;
-            }
-        }
-
-        Assert.assertEquals(actualPipelineName, "Pipeline " + pipelineName);
-        Assert.assertTrue(isPipelinePresent);
+        Assert.assertEquals(itemName, newProjectName);
     }
 
     @Test
@@ -283,7 +254,7 @@ public class FolderTest extends BaseTest {
                 .newItem()
                 .enterItemName("My Multibranch Pipeline")
                 .selectMultibranchPipelineAndOk()
-                .saveButton()
+                .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
                 .clickFolderName(NAME);
 
@@ -434,7 +405,7 @@ public class FolderTest extends BaseTest {
         String projectNameDisplays = new MainPage(getDriver())
                 .clickJobDropDownMenu(nameMultibranchPipeline)
                 .dropDownMenuClickMove(nameMultibranchPipeline,new FolderPage(getDriver()))
-                .selectDestinationFolder()
+                .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(nameFolder)
@@ -454,7 +425,7 @@ public class FolderTest extends BaseTest {
         String nestedFolder = new MainPage(getDriver())
                 .clickToOpenFolder(folder2)
                 .clickMoveOnSideMenu(folder2)
-                .selectDestinationFolder()
+                .selectDestinationFolder(folder1)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folder1)
@@ -474,8 +445,8 @@ public class FolderTest extends BaseTest {
                 new FolderPage(getDriver())
                         .clickConfigureSideMenu()
                         .enterDisplayName(NEW_FOLDER_NAME)
-                        .enterDescription(DESCRIPTION_VALUE)
                         .setHealthMetricsType()
+                        .addDescription(DESCRIPTION_VALUE)
                         .clickSaveButton();
         Assert.assertEquals(folderPage.getFolderDisplayName(), NEW_FOLDER_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);
@@ -509,12 +480,58 @@ public class FolderTest extends BaseTest {
         String nameMultibranchPipelineDisplays = new MainPage(getDriver())
                 .clickMultibranchProjectName(nameMultibranchPipeline)
                 .clickMoveOnSideMenu()
-                .selectDestinationFolder()
+                .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(nameFolder)
                 .getMultibranchPipelineName().getText();
 
         Assert.assertEquals(nameMultibranchPipelineDisplays,nameMultibranchPipeline);
+    }
+
+    @Test (dependsOnMethods = "testCreateFolderCreateAJob")
+    public void testMoveMultiConfigurationProjectToFolderFromSideMenu() {
+
+        final String multiConfigurationProjectName= "MyMultiConfigurationProject";
+
+        String createdMultiConfigurationProjectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(multiConfigurationProjectName)
+                .selectMultiConfigurationProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+
+                .clickMultiConfigurationProject(multiConfigurationProjectName)
+                .clickMoveOnSideMenu()
+                .selectDestinationFolder(NAME)
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(NAME)
+
+                .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
+
+        Assert.assertEquals(createdMultiConfigurationProjectName,multiConfigurationProjectName);
+    }
+
+    @Test
+    public void testCreatePipelineProjectWithoutDescriptionInFolder() {
+        final String folderName = "folderName";
+        final String pipelineName = "pipelineName";
+
+        TestUtils.createFolder(this, folderName, false);
+
+        String projectName = new FolderPage(getDriver())
+                .clickNewItem()
+                .enterItemName(pipelineName)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .getProjectName();
+
+        FolderPage folderPage = new FolderPage(getDriver())
+                .clickDashboard()
+                .clickFolderName(folderName);
+
+        Assert.assertTrue(folderPage.getNestedPipelineProject(pipelineName).getText().contains(pipelineName));
+        Assert.assertEquals(projectName, "Pipeline " + pipelineName);
     }
 }

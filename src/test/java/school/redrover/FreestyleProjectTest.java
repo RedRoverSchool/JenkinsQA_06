@@ -40,7 +40,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickDashboard().getProjectName();
 
         Assert.assertEquals(projectName.getText(),  FREESTYLE_NAME);
@@ -64,20 +64,18 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProjectGoingFromPeoplePage() {
-        String projectName = "FreestyleProject";
+        final String projectName = "FreestyleProject";
 
-        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("name"))).sendKeys(projectName);
-        getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary jenkins-buttons-row--equal-width']")).click();
-        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+        MainPage mainPage = new MainPage(getDriver())
+                .clickPeople()
+                .clickNewItem()
+                .enterItemName(projectName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard();
 
-        getDriver().findElement(By.xpath("//ol/li/a[@href='/'] ")).click();
-
-        WebElement createdProject = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']"));
-
-        Assert.assertEquals(createdProject.getText(), projectName);
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText(), projectName);
     }
 
     @Ignore
@@ -184,7 +182,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .addDescription("Description")
-                .clickSave();
+                .clickSaveButton();
 
         Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME);
         Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
@@ -196,7 +194,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
                 .clickSaveDescription()
@@ -214,7 +212,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
                 .clickPreviewButton()
@@ -230,7 +228,7 @@ public class FreestyleProjectTest extends BaseTest {
         FreestyleProjectPage projectPage = new FreestyleProjectPage(getDriver())
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
-                .clickSave()
+                .clickSaveDescription()
                 .clickDashboard()
                 .clickFreestyleProjectName(FREESTYLE_NAME);
 
@@ -247,7 +245,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickTheDisableProjectButton();
 
         Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
@@ -259,7 +257,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickTheDisableProjectButton()
                 .clickTheEnableProjectButton()
                 .clickDashboard();
@@ -273,7 +271,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickRenameProject(FREESTYLE_NAME)
                 .enterNewName(FREESTYLE_NAME + " New")
                 .submitNewName();
@@ -330,31 +328,22 @@ public class FreestyleProjectTest extends BaseTest {
                 .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
     }
 
-    @Ignore
     @Test
     public void testDeleteProjectFromDropdown() {
-        createFreestyleProject();
+        final String projectName = "Name";
 
-        WebElement dashboardBreadCrumb = getDriver().findElement(By.xpath("//li/a[contains(text(),'Dashboard')]"));
-        dashboardBreadCrumb.click();
+        MyViewsPage h2text = new MyViewsPage(getDriver())
+                .clickNewItem()
+                .enterItemName(projectName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickJobDropDownMenu(projectName)
+                .clickDeleteDropDown()
+                .acceptAlert()
+                .clickMyViewsSideMenuLink();
 
-        Actions act = new Actions(getDriver());
-        WebElement projectName = getDriver().findElement(By.xpath("//span[contains(text(), '" + FREESTYLE_NAME + "')]"));
-        act.moveToElement(projectName, 23, 7).perform();
-
-
-        Actions act2 = new Actions(getDriver());
-        WebElement dropDownButton = getDriver().findElement(By.xpath("//td/a/button[@class = 'jenkins-menu-dropdown-chevron']"));
-        act2.moveToElement(dropDownButton).perform();
-        dropDownButton.sendKeys(Keys.RETURN);
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("breadcrumb-menu")));
-        getDriver().findElement(By.xpath("//div//li//span[contains(text(),'Delete Project')]")).click();
-        getDriver().switchTo().alert().accept();
-
-        getDriver().findElement(By.xpath("//a[@href = '/me/my-views']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), "This folder is empty");
+        Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
     }
 
     @Ignore
@@ -365,7 +354,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName("MyFreestyleProject")
                 .selectFreestyleProjectAndOk()
                 .addExecuteShellBuildStep("echo Hello")
-                .clickSave()
+                .clickSaveButton()
                 .selectBuildNow()
                 .openConsoleOutputForBuild()
                 .getConsoleOutputText();
@@ -380,7 +369,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("Engineer")
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickDashboard()
                 .getProjectNameClick()
                 .selectBuildNow()
@@ -413,26 +402,6 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-
-    public void testCreateFreestyleProject() {
-        String nameFreestyle = "FreestyleProject";
-        String description = "First project";
-
-        new MainPage(getDriver())
-                .clickNewItemButton()
-                .inputAnItemName(nameFreestyle)
-                .clickFreestyleProject()
-                .clickSaveButton()
-                .sendAreDescriptionInputString(description)
-                .selectSaveButton()
-                .clickDashBoardButton();
-
-        String actualFreestyleName = getDriver().findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText();
-
-        Assert.assertEquals(actualFreestyleName,nameFreestyle);
-    }
-
-    @Test
     public void testFreestyleProjectJob() {
         String nameProject = "Hello world";
         String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
@@ -442,12 +411,38 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName(nameProject)
                 .selectFreestyleProjectAndOk()
                 .addBuildStepsExecuteShell(steps)
-                .clickSave()
+                .clickSaveButton()
                 .selectBuildNow()
                 .openConsoleOutputForBuild()
                 .getConsoleOutputText();
 
         Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
+    }
+
+    @Test
+    public void testAddDescriptionFromConfigureDropDownAndPreview() {
+        final String descriptionText = "In publishing and graphic design, Lorem ipsum is a placeholder " +
+                "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
+
+        String previewText = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickJobDropDownMenu(FREESTYLE_NAME)
+                .clickConfigureDropDown()
+                .addDescription(descriptionText)
+                .clickPreviewButton()
+                .getPreviewDescription();
+
+        Assert.assertEquals(previewText, descriptionText);
+
+        String actualDescriptionText = new FreestyleProjectPage(getDriver())
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 }
 
