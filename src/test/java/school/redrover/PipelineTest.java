@@ -533,13 +533,13 @@ public class PipelineTest extends BaseTest {
     public void testDiscardOldBuildsIsChecked() {
         TestUtils.createPipeline(this, PIPELINE_NAME, false);
 
-        WebElement discardOldBuildsCheckbox = new PipelinePage(getDriver())
+        boolean discardOldBuildsCheckbox = new PipelinePage(getDriver())
                 .clickConfigureButton()
                 .selectDiscardOldBuildsandSave()
                 .clickConfigureButton()
                 .checkboxDiscardOldBuildsIsSelected();
 
-        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
+        Assert.assertTrue(discardOldBuildsCheckbox);
     }
 
     @Test

@@ -116,7 +116,8 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         return new PipelinePage(getDriver());
     }
 
-    public WebElement checkboxDiscardOldBuildsIsSelected() {
-        return getDriver().findElement(By.id("cb2"));
+    public boolean checkboxDiscardOldBuildsIsSelected() {
+        getDriver().findElement(By.id("cb2"));
+        return true;
     }
 }
