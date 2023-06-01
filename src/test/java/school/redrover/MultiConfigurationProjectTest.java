@@ -157,7 +157,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDisabledMultiConfigurationProject")
     public void testEnabledMultiConfigurationProject() {
-        ProjectPage enabledProjPage = new MainPage(getDriver())
+        JobPage enabledProjPage = new MainPage(getDriver())
                 .navigateToProjectPage()
                 .enableProject();
 
@@ -549,7 +549,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
 
-        CreateItemErrorPage createItemErrorPage = new RenamePage<>(new ProjectPage(getDriver()))
+        CreateItemErrorPage createItemErrorPage = new RenamePage<>(new JobPage(getDriver()))
                 .clickRenameButton();
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
