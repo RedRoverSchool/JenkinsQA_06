@@ -393,19 +393,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(iconDisabled.isDisplayed());
     }
 
-    @Test
-    public void testDisableMultiConfigurationProjectFromConfigurationPage() {
-        final String expectedResult = "This project is currently disabled";
+    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    public void testDisableProjectFromConfigurationPage() {
+        final String disableResult = "This project is currently disabled";
+        new MainPage(getDriver())
+                .getMultiConfigPage();
+        String disableMessage = new MultiConfigurationProjectPage(getDriver())
+                .getDisableClick()
+                .getDisableText();
 
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
-
-        getDriver().findElement(By.xpath("//*[@id='description-link']")).click();
-
-        getDriver().findElement(DISABLE_BUTTON_CONFIG_PAGE).click();
-
-        WebElement disableMessage = getDriver().findElement(By.xpath("//*[@id='enable-project']"));
-
-        Assert.assertEquals(disableMessage.getText().substring(0, 34), expectedResult);
+        Assert.assertTrue(disableMessage.contains(disableResult), "Not found such message");
     }
 
     @Test
