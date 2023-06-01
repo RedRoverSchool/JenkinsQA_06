@@ -8,21 +8,21 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
 
 public class RestAPITest extends BaseTest{
-    @Ignore
+
     @Test
     public void restApiTest() {
-        String apiLink = "REST API";
+        final String apiLink = "REST API";
 
-        WebElement restApiLink = getDriver().findElement(By.xpath("//div[@class='page-footer__flex-row']/div[2]/a"));
-        restApiLink.click();
+        String mainPage = new MainPage(getDriver())
+                .clickOnRestApiLink()
+                .getRestApiPageTitle();
 
-        WebElement restApiText = getDriver().findElement(By.xpath("//h1[1]"));
-
-        Assert.assertEquals(restApiText.getText(), apiLink);
+        Assert.assertEquals(mainPage, apiLink);
     }
 }
