@@ -318,37 +318,28 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span")).getText(), provideNames);
     }
 
-    @Test
-    public void testCreateFolderFromExistingFolder() {
-        final String FOLDER1_NAME = "My_folder";
-        final String COPY_FOLDER = "Copy_folder";
-        final String DESCRIPTION = "This is a test folder";
+    @Test(dependsOnMethods = "testCreateFolderNewItem")
+    public void testCreateFolderFromExistingFolder() throws InterruptedException {
+        final String secondFolderName = "SecondFolder";
+        final String description = "This is a test folder";
 
-        TestUtils.createFolder(this, FOLDER1_NAME, true);
+        String copiedFolderDescription = new MainPage(getDriver()).clickFolderName(NAME)
+                .clickConfigureSideMenu()
+                .addDescription(description)
+                .clickSaveButton()
+                .newItem()
+                .enterItemName(secondFolderName)
+                .copyFromFolder(NAME)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolderName(NAME)
+                .clickInnerFolder(secondFolderName)
+                .clickInnerFolder(secondFolderName)
+                .getFolderDescription();
 
-        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']/button[@class='jenkins-menu-dropdown-chevron']"))
-                .sendKeys(Keys.RETURN);
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.linkText("Configure"))).click();
-
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).sendKeys(DESCRIPTION);
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']")).click();
-
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-
-        getWait2().until(ExpectedConditions.presenceOfElementLocated((By.id("name")))).sendKeys(COPY_FOLDER);
-        getDriver().findElement(By.cssSelector(".com_cloudbees_hudson_plugins_folder_Folder")).click();
-        getDriver().findElement(By.id("from")).sendKeys(FOLDER1_NAME);
-        getDriver().findElement(By.id("ok-button")).click();
-
-        String copiedFolderDescription = getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.description"))).getText();
-
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().findElement(By.id("view-message"));
-
-        Assert.assertTrue(getDriver().findElement(By.id("view-message")).getText().contains(DESCRIPTION));
-        Assert.assertEquals(copiedFolderDescription, DESCRIPTION);
+        Assert.assertEquals(copiedFolderDescription, description);
     }
+
     @Test
     public void testMoveFreestyleProjectToFolder() {
 

@@ -3,6 +3,7 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
@@ -150,5 +151,15 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
     public String getLastCreatedItemName (){
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//*[@id = 'projectstatus']//td/a"))).getText();
+    }
+
+    public WebElement getInnerJobWebElement(String innerJobName) {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+                .findElement(By.xpath("//span[contains(text(),'" + innerJobName + "')]"))));
+    }
+
+    public FolderPage clickInnerFolder(String innerFolderName) {
+        new Actions(getDriver()).moveToElement(getInnerJobWebElement(innerFolderName)).click(getInnerJobWebElement(innerFolderName)).perform();
+        return new FolderPage(getDriver());
     }
 }
