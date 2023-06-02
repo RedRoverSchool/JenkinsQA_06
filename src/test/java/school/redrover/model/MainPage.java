@@ -183,8 +183,8 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
                 .getAttribute("tooltip");
     }
 
-    public MainPage clickPlayBuildForATestButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']")));
+    public MainPage clickPlayBuildForATestButton(String projectName) {
+        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='job/" + projectName + "/build?delay=0sec']")));
         return new MainPage(getDriver());
     }
 

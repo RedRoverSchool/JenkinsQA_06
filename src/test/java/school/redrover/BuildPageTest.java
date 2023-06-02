@@ -148,14 +148,14 @@ public class BuildPageTest extends BaseTest {
     }
 
     @Test
-    public void verifyStatusBroken() {
+    public void verifyStatusBroken(){
 
-        final String namePipeline = "New Builds";
+        final String namePipeline = "NewBuilds";
         final String textToDescriptionField = "What's up";
         final String textToPipelineScript = "Test";
         final String expectedStatusMessageText = "broken since this build";
 
-        BuildHistoryPage buildHistoryPage = new MainPage(getDriver())
+        String actualStatusMessageText = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(namePipeline)
                 .selectPipelineAndOk()
@@ -166,12 +166,25 @@ public class BuildPageTest extends BaseTest {
                 .sendAreContentInputString(textToPipelineScript)
                 .clickSaveButton()
                 .clickDashboard()
-                .clickPlayBuildForATestButton()
-                .clickBuildsHistoryButton();
-
-        String actualStatusMessageText = new BuildHistoryPage(getDriver())
+                .clickPlayBuildForATestButton("NewBuilds")
+                .clickBuildsHistoryButton()
                 .getStatusMessageText();
-
         Assert.assertEquals(actualStatusMessageText,expectedStatusMessageText);
+    }
+
+    @Test
+    public void testPresenceProjectNameOnBuildHistoryTimeline() {
+        final String itemName = "TestProject";
+        String projectNameOnBuildHistoryTimeline = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(itemName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickPlayBuildForATestButton(itemName)
+                .clickBuildsHistoryButton()
+                .clickBuildNameOnTimeline(itemName + " #1")
+                .getBubbleTitleOnTimeline();
+        Assert.assertEquals(projectNameOnBuildHistoryTimeline, itemName + " #1");
     }
 }
