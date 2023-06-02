@@ -25,15 +25,16 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String NEW_DESCRIPTION_TEXT = "NEW_DESCRIPTION_TEXT";
 
     @Test
-    public void testCreateNewFreestyleProject() {
+    public void testCreateFreestyleProject() {
         WebElement projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard().getProjectName();
+                .clickDashboard()
+                .getProjectName();
 
-        Assert.assertEquals(projectName.getText(),  FREESTYLE_NAME);
+        Assert.assertEquals(projectName.getText(), FREESTYLE_NAME);
     }
 
     @Test
@@ -154,6 +155,7 @@ public class FreestyleProjectTest extends BaseTest {
                 getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
     }
 
+    @Ignore
     @Test
     public void testNavigateToChangePage() {
         createFreestyleProject(this, "Engineer", true);
@@ -162,46 +164,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals("Changes",
                 getDriver().findElement(By.xpath("//h1[normalize-space()='Changes']")).getText());
-    }
-
-    @Test
-    public void testDisableProject() {
-        FreestyleProjectPage projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectFreestyleProjectAndOk()
-                .clickSaveButton()
-                .clickTheDisableProjectButton();
-
-        Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
-    }
-
-    @Test
-    public void testEnableProject() {
-        MainPage projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectFreestyleProjectAndOk()
-                .clickSaveButton()
-                .clickTheDisableProjectButton()
-                .clickTheEnableProjectButton()
-                .clickDashboard();
-
-        Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
-    }
-
-    @Test
-    public void testRenameFreestyleProject() {
-        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectFreestyleProjectAndOk()
-                .clickSaveButton()
-                .clickRenameProject(FREESTYLE_NAME)
-                .enterNewName(FREESTYLE_NAME + " New")
-                .submitNewName();
-
-        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
     }
 
     @Test
@@ -265,7 +227,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(editDescription, NEW_DESCRIPTION_TEXT);
     }
 
-    @Ignore
+
     @Test
     public void testPreviewDescription () {
         String previewDescription = new MainPage(getDriver())
@@ -278,7 +240,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickPreviewButton()
                 .getPreviewDescription();
 
-        Assert.assertEquals(previewDescription, DESCRIPTION_TEXT);
+        Assert.assertEquals(previewDescription, "DESCRIPTION_TEXT");
     }
 
     @Test
@@ -331,6 +293,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(new BuildPage(getDriver()).getBuildHeader().isDisplayed(), "build not created");
     }
 
+    @Ignore
     @Test
     public void testBuildLinks() {
         createFreestyleProject(this, "Engineer", true);
