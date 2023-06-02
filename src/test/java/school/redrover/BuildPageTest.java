@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.BuildHistoryPage;
 import school.redrover.model.ConsoleOutputPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
@@ -124,5 +125,33 @@ public class BuildPageTest extends BaseTest {
                 .getStartedByUser();
 
         Assert.assertEquals(currentUser, userConsoleOutput);
+    }
+
+    @Test
+    public void verifyStatusBroken() {
+
+        final String namePipeline = "New Builds";
+        final String textToDescriptionField = "What's up";
+        final String textToPipelineScript = "Test";
+        final String expectedStatusMessageText = "broken since this build";
+
+        BuildHistoryPage buildHistoryPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(namePipeline)
+                .selectPipelineAndOk()
+                .addDescription(textToDescriptionField)
+                .scrollToBuildTriggers()
+                .clickBuildTriggerCheckBox()
+                .scrollToPipelineSection()
+                .sendAreContentInputString(textToPipelineScript)
+                .clickSaveButton()
+                .clickDashboard()
+                .clickPlayBuildForATestButton()
+                .clickBuildsHistoryButton();
+
+        String actualStatusMessageText = new BuildHistoryPage(getDriver())
+                .getStatusMessageText();
+
+        Assert.assertEquals(actualStatusMessageText,expectedStatusMessageText);
     }
 }

@@ -143,4 +143,20 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']")).sendKeys(builds);
         return this;
     }
+
+    public PipelineConfigPage scrollToBuildTriggers() {
+        TestUtils.scrollToElementByJavaScript(this,getDriver().findElement(By.xpath("//label[normalize-space()='Throttle builds']")));
+        return this;
+    }
+
+    public PipelineConfigPage clickBuildTriggerCheckBox() {
+        getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")).click();
+        return this;
+    }
+
+    public PipelineConfigPage sendAreContentInputString(String text) {
+        TestUtils.clickByJavaScript(this,getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")));
+        getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")).sendKeys(text);
+        return this;
+    }
 }
