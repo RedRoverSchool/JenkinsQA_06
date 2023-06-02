@@ -16,9 +16,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         super(driver);
     }
 
+
     private void openJobDropDownMenu(String jobName) {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath(String.format("//a[contains(@href,'job/%s/')]/button", jobName))))
+                        By.xpath(String.format("//a[contains(@href,'job/%s/')]/button", jobName.replaceAll(" ", "%20")))))
                 .sendKeys(Keys.RETURN);
     }
 
@@ -96,30 +97,34 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     }
 
     public FolderPage clickFolderName(String folderName) {
-        WebElement folder = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//a[@href='job/%s/']",folderName))));
+        WebElement folder = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//a[@href='job/%s/']",folderName.replaceAll(" ","%20")))));
         new Actions(getDriver()).moveToElement(folder).click(folder).perform();
         return new FolderPage(getDriver());
     }
 
     public PipelinePage clickPipelineProject(String pipelineName) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//a[@href='job/%s/']",pipelineName)))).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//a[@href='job/%s/']",pipelineName.replaceAll(" ","%20"))))).click();
         return new PipelinePage(getDriver());
     }
 
     public FreestyleProjectPage clickFreestyleProjectName(String jobName) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//a[@href='job/%s/']",jobName)))).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//a[@href='job/%s/']",jobName.replaceAll(" ","%20"))))).click();
 
         return new FreestyleProjectPage(getDriver());
     }
 
     public MultiConfigurationProjectPage clickMultiConfigurationProjectName(String jobName) {
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath(String.format("//a[@href='job/%s/']",jobName))))).click();
+                .findElement(By.xpath(String.format("//a[@href='job/%s/']",jobName.replaceAll(" ","%20")))))).click();
         return new MultiConfigurationProjectPage(getDriver());
     }
 
     public MultibranchPipelinePage clickMultibranchPipelineName(String multibranchPipeline) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//a[@href='job/%s/']",multibranchPipeline)))).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//a[@href='job/%s/']",multibranchPipeline.replaceAll(" ","%20"))))).click();
         return new MultibranchPipelinePage(getDriver());
     }
 
@@ -165,9 +170,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     public MultiConfigurationProjectPage clickJobMultiConfigurationProject(String jobName) {
         openJobDropDownMenu(jobName);
         WebElement job = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//a[@href='job/" + jobName + "/']"))));
+                .findElement(By.xpath(String.format("//a[@href='job/%s/']",jobName.replaceAll(" ","%20"))))));
         Actions actions = new Actions(getDriver());
-        actions.moveToElement(job).click().perform();
+        actions.moveToElement(job).click(job).perform();
         return new MultiConfigurationProjectPage(getDriver());
     }
 
