@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.runner.TestUtils;
 
@@ -142,5 +143,12 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
     public PipelineConfigPage enterMaxOfBuildsToKeep(String builds) {
         getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']")).sendKeys(builds);
         return this;
+    }
+
+    public PipelinePage selectScriptedPipelineAndSubmit() {
+        Select selectPipelineScript = new Select(getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class = 'samples']/select"))));
+        selectPipelineScript.selectByVisibleText("Scripted Pipeline");
+        getDriver().findElement(By.name("Submit")).click();
+        return new PipelinePage(getDriver());
     }
 }
