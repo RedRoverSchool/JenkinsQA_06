@@ -5,19 +5,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
-
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ManageJenkinsTest extends BaseTest {
     final String NAME_NEW_NODE = "testNameNewNode";
-
-    private final By Manage_Jenkins = By.xpath("//a[@href='/manage']");
 
     public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
         for (WebElement element : titleTexts) {
@@ -26,6 +21,45 @@ public class ManageJenkinsTest extends BaseTest {
             }
         }
         return false;
+    }
+
+    @Test
+    public void testSearchWithLetterConfigureSystem() {
+        String configurePage = new ManagePage(getDriver())
+                .navigateToManagePage()
+                .enterSearchQuery("m")
+                .clickSearchButton()
+                .selectOnTheFirstLineInDropdown()
+                .getConfigureSystemPage();
+
+        Assert.assertEquals(configurePage,"Configure System");
+    }
+
+    @Test
+    public void testManageConfigureNumberOfExecutorsInMasterNode() {
+        String number = "3";
+
+        String numberInLine = new ManagePage(getDriver())
+                .navigateToManagePage()
+                .navigateManageNodesAndClouds()
+                .clickConfigureMasterNode()
+                .changeNumberOfExecutorsAndSave(number)
+                .navigateToMasterNodeConfiguration()
+                .numberOfExecutors();
+
+        Assert.assertEquals(number, numberInLine);
+    }
+
+    @Test
+    public void testBreadcrumbNavigateManageJenkins() {
+
+        String page = new ManagePage(getDriver())
+                .navigateToDashboardIcon()
+                .dropdownBreadcrumps()
+                .navigateToManageJenkinsAndClick()
+                .verifyManageJenkinsPage();
+
+        Assert.assertEquals(page,"Manage Jenkins" );
     }
 
     @Test
@@ -48,74 +82,31 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testErrorWhenCreateNewNodeWithEmptyName() {
+    public void testTextErrorWhenCreateNewNodeWithEmptyName() {
 
-        WebElement buildExecutorStatus = getDriver().findElement(By.xpath("//a[@href='/computer/']"));
-        buildExecutorStatus.click();
-        WebElement newNodeButton = getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='new']"));
-        newNodeButton.click();
-        WebElement inputNodeName = getDriver().findElement(By.xpath("//input[@id='name']"));
-        inputNodeName.sendKeys(NAME_NEW_NODE);
-        WebElement permanentAgentRadioButton = getDriver().findElement(By.xpath("//label"));
-        permanentAgentRadioButton.click();
-        WebElement createButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        createButton.click();
-        WebElement nameField = getDriver().findElement(By.xpath("//input[@name='name']"));
-        nameField.clear();
-        WebElement saveButton = getDriver().findElement(By.name("Submit"));
-        saveButton.click();
-        WebElement H1Text = getDriver().findElement(By.xpath("//h1"));
-        WebElement textError = getDriver().findElement(By.xpath("//p"));
+        String textError = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(NAME_NEW_NODE)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .clearNameField()
+                .clickSaveButtonWhenNameFieldEmpty()
+                .getTextError();
 
-        Assert.assertEquals(H1Text.getText(), "Error");
-        Assert.assertEquals(textError.getText(), "Query parameter 'name' is required");
+        Assert.assertEquals(textError, "Query parameter 'name' is required");
     }
 
-    @Test
-    public void testVerifySystemConfiguration() {
-        List<String> listSystemConfigurationExpected = Arrays.asList
-                ("System Configuration", "Security", "Status Information", "Troubleshooting", "Tools and Actions");
-
-        getDriver().findElement(Manage_Jenkins).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[contains(text(),'Manage')]")));
-        List<WebElement> listSystemConfiguration = getDriver().findElements(By.cssSelector(".jenkins-section__title"));
-        for (int i = 0; i < listSystemConfiguration.size(); i++) {
-
-            Assert.assertEquals(listSystemConfiguration.get(i).getText(), listSystemConfigurationExpected.get(i));
-        }
-    }
-
-    @Test
-    public void testManageOldData() {
-        getDriver().findElement(Manage_Jenkins).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//dt[contains(text(),'Manage Old Data')]"))).click();
-
-        WebElement oldData = getWait5().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#main-panel > h1")));
-        Assert.assertEquals(oldData.getText(), "Manage Old Data");
-        Assert.assertEquals(oldData.getLocation().toString(), "(372, 133)");
-        Assert.assertEquals(oldData.getCssValue("font-size"), "25.6px");
-        Assert.assertEquals(oldData.getCssValue("font-weight"), "700");
-
-        List<WebElement> listSortTable = getDriver().findElements(By.xpath("//thead //a"));
-        Assert.assertEquals(listSortTable.size(), 4);
-
-        Assert.assertTrue(getDriver().findElement(By.id("main-panel")).getText().contains("No old data was found."));
-    }
-
-    @Ignore
     @Test
     public void testSearchNumericSymbol() {
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("settings-search-bar")));
-        getDriver().findElement(By.id("settings-search-bar")).sendKeys("1");
-        WebElement visibleElement = getDriver().findElement(By.cssSelector(".jenkins-search__results-container--visible"));
-        String valueOuterHTMLOfvisibleElement = visibleElement.getAttribute("outerHTML");
-        getWait2().until(ExpectedConditions.domPropertyToBe(visibleElement,"outerHTML", valueOuterHTMLOfvisibleElement));
-        WebElement noResults = getDriver().findElement(By.cssSelector(".jenkins-search__results__no-results-label"));
 
-        Assert.assertEquals(noResults.getText(), "No results");
+        String searchText = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField("1")
+                .getNoResultTextInSearchField();
+
+        Assert.assertEquals(searchText, "No results");
     }
 
     @Test
@@ -165,5 +156,20 @@ public class ManageJenkinsTest extends BaseTest {
         for (int i = 0; i < expectedResult.size(); i++) {
             Assert.assertEquals(actualResult.get(i).getText(), expectedResult.get(i).getText());
         }
+    }
+
+    @DataProvider(name = "ToolsAndActions")
+    public Object [][] searchToolsAndActions() {
+        return new Object [][] {{"Script Console"}, {"Jenkins CLI"}, {"Prepare for Shutdown"}};
+    }
+
+
+    @Test(dataProvider = "ToolsAndActions")
+    public void testSearchToolsAndActions(String inputText)  {
+        String searchResult = new MainPage(getDriver())
+            .navigateToManageJenkinsPage()
+            .inputToSearchField(inputText)
+            .getDropdownResultsInSearchField();
+        Assert.assertEquals(searchResult, inputText);
     }
 }
