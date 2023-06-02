@@ -440,6 +440,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testPipelineNameAllowedChar() {
         final String allowedChar = "_-+=”{},";
+
         String projectNameDashboard = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(allowedChar)
