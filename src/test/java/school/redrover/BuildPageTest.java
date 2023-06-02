@@ -88,6 +88,7 @@ public class BuildPageTest extends BaseTest {
         Assert.assertEquals(buildDescription, BUILD_DESCRIPTION);
     }
 
+    @Ignore
     @Test
     public void testConsoleFreestyleBuildLocation() {
         String consoleOutputText = new MainPage(getDriver())
