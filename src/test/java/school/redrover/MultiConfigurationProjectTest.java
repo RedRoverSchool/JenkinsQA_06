@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectPage;
+import school.redrover.model.base.BasePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -188,18 +189,21 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(enable.getText(), "Disable Project");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfiguration")
-    public void testRenameMultiConfigurationProjectFromDashboard() {
 
-        WebElement newName = new MainPage(getDriver())
-                .clickMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
-                .clickRename()
+    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    public void testRenameFromDashboard() {
+
+        String renamedProject = new MainPage(getDriver())
+                .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
                 .submitNewName()
-                .getMultiProjectName();
+                .getHeader()
+                .clickLogo()
+                .getProjectName()
+                .getText();
 
-        Assert.assertEquals(newName.getText(), ("Project " + MULTI_CONFIGURATION_NEW_NAME));
+        Assert.assertEquals(renamedProject, MULTI_CONFIGURATION_NEW_NAME);
+
     }
 
     @Ignore
