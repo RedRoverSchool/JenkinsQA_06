@@ -2,9 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -26,7 +24,6 @@ public class PipelineTest extends BaseTest {
     private static final String RENAME = "Pipeline Project";
     private static final String TEXT_DESCRIPTION = "This is a test description";
 
-    private static final By scriptButton = xpath("//div[@class = 'samples']/select");
     private static final By homePage = By.xpath("//h1[@class= 'job-index-headline page-headline']");
 
     private void createWithoutDescription(String name) {
@@ -318,21 +315,14 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreateNewPipelineWithScript() {
+        String projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .selectScriptedPipelineAndSubmit()
+                .getProjectName();
 
-        getDriver().findElement(xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath
-                ("//li[@class = 'org_jenkinsci_plugins_workflow_job_WorkflowJob']"))).click();
-        getDriver().findElement(xpath("//button[@id='ok-button']")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(scriptButton));
-
-        Select selectPipelineScript = new Select(getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (scriptButton)));
-        selectPipelineScript.selectByVisibleText("Scripted Pipeline");
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("Submit"))).click();
-
-        Assert.assertEquals(getDriver().findElement(xpath("//h1[@class='job-index-headline page-headline']")).getText(),
-                "Pipeline " + PIPELINE_NAME);
+        Assert.assertEquals(projectName, "Pipeline " + PIPELINE_NAME);
     }
 
     @Test
@@ -439,15 +429,18 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineNameAllowedChar() {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//img[@src='/plugin/workflow-job/images/pipelinejob.svg']")).click();
-        getDriver().findElement(By.id("name")).sendKeys("_-+=”{},");
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-        WebElement projectNameDashboard = getDriver().findElement(By.xpath("//td/a/span"));
+        final String allowedChar = "_-+=”{},";
 
-        Assert.assertEquals(projectNameDashboard.getText(), "_-+=”{},");
+        String projectNameDashboard = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(allowedChar)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .getProjectNameMainPage(allowedChar);
+
+        Assert.assertEquals(projectNameDashboard, allowedChar);
     }
 
     @DataProvider(name = "wrong-characters")

@@ -47,4 +47,9 @@ public class JobPage extends BaseMainHeaderPage<JobPage> {
     public String getProjectDescription() {
         return getDriver().findElement(By.xpath("//div[@id='description']")).getText();
     }
+
+    public String getTextFromNameProject(){
+
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel>h1"))).getText();
+    }
 }
