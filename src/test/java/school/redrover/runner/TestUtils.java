@@ -20,7 +20,7 @@ public class TestUtils {
 
     private static void goToMainPage(BaseTest baseTest, Boolean goToMainPage) {
         if (goToMainPage) {
-            new JobPage(baseTest.getDriver())
+            new MainPage(baseTest.getDriver())
                     .getHeader()
                     .clickLogo();
         }
