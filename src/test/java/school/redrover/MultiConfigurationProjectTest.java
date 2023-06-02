@@ -161,7 +161,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = {"testDisableMultiConfigurationProject"})
     public void testEnableMultiConfigurationProject() {
         new MainPage(getDriver())
-                .clickMultiConfigurationProjectName("MyProject");
+                .clickMultiConfigurationProject("MyProject");
 
         WebElement disableProject = new MultiConfigurationProjectPage(getDriver())
                 .getEnableClick()
@@ -174,7 +174,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testMultiConfigurationProjectDisabled() {
         MainPage mainPageName = new MainPage(getDriver());
-        mainPageName.clickMultiConfigurationProjectName("MyProject");
+        mainPageName.clickMultiConfigurationProject("MyProject");
 
         WebElement enable = new MultiConfigurationProjectPage(getDriver())
                 .getEnableClick().getDisableElem();
@@ -262,7 +262,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(new MainPage(getDriver()).getJobBuildStatus(MULTI_CONFIGURATION_NAME), "Not built");
 
         MultiConfigurationProjectPage multiConfigurationProjectPage = new MainPage(getDriver())
-                .clickJobDropdownMenuBuildNow(MULTI_CONFIGURATION_NAME)
+                .clickJobDropdownMenuBuildNow()
                 .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME);
 
         Assert.assertEquals(multiConfigurationProjectPage.getJobBuildStatus(MULTI_CONFIGURATION_NAME), "Success");

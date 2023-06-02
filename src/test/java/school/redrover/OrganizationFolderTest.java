@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
@@ -29,7 +28,7 @@ public class OrganizationFolderTest extends BaseTest {
         final String expectedRenamedFolderName = "Project";
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .clickMultiConfigurationProjectName(originalNewFolderName)
+                .clickMultiConfigurationProject(originalNewFolderName)
                 .clickRename()
                 .enterNewName(expectedRenamedFolderName)
                 .submitNewName()

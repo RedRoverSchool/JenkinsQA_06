@@ -38,7 +38,7 @@ public class DashboardTest extends BaseTest {
         );
 
         List<String> listOfMenus = createFreestyleProjectWithDefaultConfigurations(projectName)
-               .getListOfProjectMenuItems(projectName);
+               .getListOfProjectMenuItems();
 
         Assert.assertEquals(listOfMenus, expectedMenus);
     }

@@ -430,7 +430,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .clickConfigureDropDown(FREESTYLE_NAME)
+                .clickConfigureDropDown()
                 .addDescription(descriptionText)
                 .clickPreviewButton()
                 .getPreviewDescription();

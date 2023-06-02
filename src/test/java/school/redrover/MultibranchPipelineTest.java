@@ -90,7 +90,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .addDescription("DESCRIPTION")
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
-                .clickMultibranchPipelineName("RandomName")
+                .clickMultibranchPipeline("RandomName")
                 .getDescription();
 
         Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");

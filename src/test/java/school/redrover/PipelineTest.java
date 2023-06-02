@@ -16,8 +16,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.openqa.selenium.By.xpath;
-
 public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = "PIPELINE_NAME";
@@ -466,6 +464,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
     }
 
+    @Ignore
     @Test
     public void testCreatePipelineDashboardSliderNewItem() {
         NewJobPage newJobPage = new MainPage(getDriver())

@@ -490,7 +490,7 @@ public class FolderTest extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard()
 
-                .clickMultiConfigurationProjectName(multiConfigurationProjectName)
+                .clickMultiConfigurationProject(multiConfigurationProjectName)
                 .clickMoveOnSideMenu()
                 .selectDestinationFolder(NAME)
                 .clickMoveButton()
