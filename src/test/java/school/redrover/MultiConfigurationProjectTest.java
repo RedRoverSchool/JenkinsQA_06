@@ -146,7 +146,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testMultiConfigurationProjectConfigurePageDisabled")
     public void testMultiConfigurationProjectConfigurePageEnable() {
         String configPage = new MainPage(getDriver())
-                .getMultiConfigPage()
+                .clickJobMultiConfigurationProject("My Multi configuration project")
                 .getConfigPage()
                 .switchCheckboxEnabled()
                 .getTextEnabled().getText();

@@ -135,9 +135,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new MainPage(getDriver());
     }
 
-    public BuildPage clickBuildsHistoryButton() {
+    public BuildHistoryPage clickBuildsHistoryButton() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='/view/all/builds']")));
-        return new BuildPage(getDriver());
+        return new BuildHistoryPage(getDriver());
     }
 
     public ViewPage clickNewItemButton() {
