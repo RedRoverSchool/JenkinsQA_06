@@ -26,14 +26,14 @@ public class PipelineTest extends BaseTest {
 
     private static final By homePage = By.xpath("//h1[@class= 'job-index-headline page-headline']");
 
-    private void createWithoutDescription(String name) {
-        getDriver().findElement(By.xpath("//a[@href = 'newJob']")).click();
+    private PipelineConfigPage createWithoutDescription(String name) {
+        new MainPage(getDriver())
+                .clickCreateAJob()
+                .enterItemName(name)
+                .selectPipelineAndOk()
+                .clickSaveButton();
 
-        getDriver().findElement(By.id("name")).sendKeys(name);
-        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']//li[2]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getDriver().findElement(By.name("Submit")).click();
+        return new PipelineConfigPage(new PipelinePage(getDriver()));
     }
 
     @Test
