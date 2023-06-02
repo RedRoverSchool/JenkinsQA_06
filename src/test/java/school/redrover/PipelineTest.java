@@ -439,15 +439,17 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineNameAllowedChar() {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//img[@src='/plugin/workflow-job/images/pipelinejob.svg']")).click();
-        getDriver().findElement(By.id("name")).sendKeys("_-+=”{},");
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-        WebElement projectNameDashboard = getDriver().findElement(By.xpath("//td/a/span"));
+        final String allowedChar = "_-+=”{},";
+        String projectNameDashboard = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(allowedChar)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .getProjectNameMainPage(allowedChar);
 
-        Assert.assertEquals(projectNameDashboard.getText(), "_-+=”{},");
+        Assert.assertEquals(projectNameDashboard, allowedChar);
     }
 
     @DataProvider(name = "wrong-characters")
