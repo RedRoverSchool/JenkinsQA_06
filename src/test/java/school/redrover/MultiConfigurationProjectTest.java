@@ -6,7 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectPage;
-import school.redrover.model.base.BasePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
