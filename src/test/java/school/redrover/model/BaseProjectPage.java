@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import static org.openqa.selenium.By.cssSelector;
 
-public abstract class BaseProjectPage<Self extends BaseProjectPage> extends BaseJobPage<BaseProjectPage<?>> {
+public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends BaseJobPage<BaseProjectPage<?>> {
 
     public BaseProjectPage(WebDriver driver) {
         super(driver);
@@ -24,16 +24,16 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage> extends Base
 
     }
 
-    public BaseProjectPage clickDisable(){
+    public Self clickDisable(){
         getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
-        return this;
+        return (Self)this;
     }
 
-    public BaseProjectPage clickEnable(){
+    public Self clickEnable(){
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().
                 findElement(By.xpath("//form[@id='enable-project']/button")))).click();
 
-        return this;
+        return (Self)this;
     }
 
     public Self clickBuildNow() {
@@ -48,8 +48,8 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage> extends Base
     }
 
     public int getBuildsQuantity() {
-        return Arrays.asList(getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//td[@class = 'build-row-cell']")))).size();
+        return getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                By.xpath("//td[@class = 'build-row-cell']"))).size();
     }
 
 
