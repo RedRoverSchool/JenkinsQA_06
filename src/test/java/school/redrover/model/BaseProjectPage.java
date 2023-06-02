@@ -5,8 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.Arrays;
-
 import static org.openqa.selenium.By.cssSelector;
 
 public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends BaseJobPage<BaseProjectPage<?>> {
