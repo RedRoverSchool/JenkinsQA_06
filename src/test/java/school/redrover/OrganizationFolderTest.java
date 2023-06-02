@@ -25,14 +25,15 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testRenameOrganizationFolder() {
+        final String originalNewFolderName = "Project1";
         final String expectedRenamedFolderName = "Project";
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .navigateToProjectPage()
+                .clickMultiConfigurationProjectName(originalNewFolderName)
                 .clickRename()
                 .enterNewName(expectedRenamedFolderName)
                 .submitNewName()
-                .getNameProject()
+                .getMultiProjectName()
                 .getText();
 
         Assert.assertEquals(actualRenamedFolderName, expectedRenamedFolderName);
@@ -54,7 +55,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton()
                 .clickMoveOnLeftMenu()
-                .selectDestinationFolder()
+                .selectDestinationFolder(folderName)
                 .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderName)

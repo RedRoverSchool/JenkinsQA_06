@@ -15,7 +15,6 @@ public class BreadcrumbTest extends BaseTest {
     @Test
     public void testNavigateToManageJenkinsSection() {
         ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
-                .clickOnSliderDashboardInDropDownMenu()
                 .clickManageJenkinsOnDropDown();
 
         Assert.assertEquals(manageJenkinsPage.getActualHeader(), "Manage Jenkins");
