@@ -5,8 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
-import school.redrover.model.base.BasePage;
 
 public class MultibranchPipelinePage extends BaseMainHeaderPage<MultibranchPipelinePage> {
     public MultibranchPipelinePage(WebDriver driver) {
@@ -51,5 +49,11 @@ public class MultibranchPipelinePage extends BaseMainHeaderPage<MultibranchPipel
   
     public String getDescription() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))).getText();
+    }
+
+    public String getTextFromNameMultibranchProject(){
+
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))).getText();
     }
 }

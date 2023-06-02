@@ -8,7 +8,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
-import school.redrover.model.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
 
 import java.time.Duration;
@@ -17,10 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NewItemTest extends BaseTest {
-    private static final By NEW_ITEM_BUTTON = By.linkText("New Item");
-    private static final By OK_BUTTON = By.cssSelector("#ok-button");
-    private static final By SAVE_BUTTON = By.name("Submit");
-    private static final String RANDOM_NAME_PROJECT = "RANDOM_NAME_PROJECT";
 
     @Test
     public void testCreateNewItemWithNullName() {
@@ -174,13 +169,13 @@ public class NewItemTest extends BaseTest {
 
     @Test
     public void testCreateMultibranchPipeline(){
-        getDriver().findElement(NEW_ITEM_BUTTON).click();
-        getDriver().findElement(By.id("name")).sendKeys(RANDOM_NAME_PROJECT);
-        WebElement multibranchButton = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("li.org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")));
-        multibranchButton.click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
+        String project = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("MultibranchPipeline_Project")
+                .selectMultibranchPipelineAndOk()
+                .clickSaveButton()
+                .getTextFromNameMultibranchProject();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#main-panel h1")).getText(),RANDOM_NAME_PROJECT);
+        Assert.assertEquals(project,"MultibranchPipeline_Project");
     }
 }
