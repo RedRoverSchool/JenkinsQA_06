@@ -409,4 +409,8 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getDriver().findElement(By.xpath("//*[@href='/asynchPeople/']")).click();
         return new PeoplePage(getDriver());
     }
+    public ManageNodesPage clickBuildExecutorStatus() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/computer/']"))).click();
+        return new ManageNodesPage(getDriver());
+    }
 }
