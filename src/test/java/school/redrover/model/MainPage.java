@@ -41,6 +41,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     }
 
     public ManageJenkinsPage clickManageJenkinsOnDropDown() {
+        clickOnSliderDashboardInDropDownMenu();
         By sectionNameLocator = By.xpath("//*[@id='yui-gen4']/a/span");
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
         getDriver().findElement(sectionNameLocator).click();
