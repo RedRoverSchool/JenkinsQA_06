@@ -12,7 +12,8 @@ public class ConsoleOutputPage extends BaseMainHeaderPage<ConsoleOutputPage> {
     }
 
     public String getConsoleOutputText(){
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//pre[@class='console-output']")))
+        getWait5().until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//pre[@class='console-output']"), "Finished"));
+        return getDriver().findElement(By.xpath("//pre[@class='console-output']"))
                 .getText();
     }
 

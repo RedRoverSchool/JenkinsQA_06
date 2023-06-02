@@ -20,11 +20,12 @@ public class NewItemTest extends BaseTest {
     @Test
     public void testCreateNewItemWithNullName() {
 
-        new MainPage(getDriver())
+        String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectMultiConfigurationProject();
+                .selectMultiConfigurationProject()
+                .getItemNameRequiredErrorText();
 
-        Assert.assertTrue(new MainPage(getDriver()).expectedErrorMessage().getText().contains("» This field cannot be empty, please enter a valid name"));
+        Assert.assertTrue(errorMessage.contains("» This field cannot be empty, please enter a valid name"));
     }
 
     @Test

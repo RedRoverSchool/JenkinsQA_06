@@ -36,7 +36,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(projectName.getText(), FREESTYLE_NAME);
     }
-
+             
     @Test
     public void testCreateFSProjectWithDefaultConfigurations() {
         final String PROJECT_NAME = UUID.randomUUID().toString();
@@ -58,7 +58,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String projectName = "FreestyleProject";
 
         MainPage mainPage = new MainPage(getDriver())
-                .clickPeople()
+                .clickPeopleOnLeftSideMenu()
                 .clickNewItem()
                 .enterItemName(projectName)
                 .selectFreestyleProjectAndOk()
@@ -261,6 +261,72 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectDescriptionFromViewPage, DESCRIPTION_TEXT);
     }
 
+    @Test
+    public void testRenamingProjectFromTheDashboard() {
+        String expectedResultProjectPage = "Project Engineer2";
+        String expectedResultDashboardPage = "Engineer2";
+        TestUtils.createFreestyleProject(this, "Engineer", true);
+
+        Actions actions = new Actions(getDriver());
+        WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
+        actions.moveToElement(nameProject).perform();
+
+        WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", dropdown);
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
+        WebElement inputName = getDriver().findElement(By.xpath("//input[@name='newName']"));
+        inputName.clear();
+        inputName.click();
+        inputName.sendKeys("Engineer2");
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), expectedResultProjectPage);
+
+        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]"))
+                .getText(), expectedResultDashboardPage);
+    }
+
+    @Test
+    public void testDeleteFreestyleProject() {
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(NEW_FREESTYLE_NAME);
+        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
+
+        getDriver().findElement(By.linkText("Dashboard")).click();
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Project')]")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        Assert.assertFalse(getDriver().findElements(By
+                        .xpath("//a[@class='jenkins-table__link model-link inside']"))
+                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
+    }
+
+    @Test
+    public void testDeleteProjectFromDropdown() {
+        final String projectName = "Name";
+
+        MyViewsPage h2text = new MyViewsPage(getDriver())
+                .clickNewItem()
+                .enterItemName(projectName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .dropDownMenuClickDelete(projectName)
+                .acceptAlert()
+                .clickMyViewsSideMenuLink();
+
+        Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
+    }
+
     @Ignore
     @Test
     public void testBuildFreestyleProject() {
@@ -286,7 +352,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .getProjectNameClick()
+                .clickFreestyleProjectName("Engineer")
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
@@ -346,8 +412,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .clickJobDropDownMenu(FREESTYLE_NAME)
-                .clickConfigureDropDown()
+                .clickConfigureDropDown(FREESTYLE_NAME)
                 .addDescription(descriptionText)
                 .clickPreviewButton()
                 .getPreviewDescription();

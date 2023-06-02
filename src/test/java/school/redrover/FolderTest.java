@@ -394,7 +394,6 @@ public class FolderTest extends BaseTest {
         TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
 
         String projectNameDisplays = new MainPage(getDriver())
-                .clickJobDropDownMenu(nameMultibranchPipeline)
                 .dropDownMenuClickMove(nameMultibranchPipeline,new FolderPage(getDriver()))
                 .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
@@ -414,7 +413,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folder2, true);
 
         String nestedFolder = new MainPage(getDriver())
-                .clickToOpenFolder(folder2)
+                .clickFolderName(folder2)
                 .clickMoveOnSideMenu(folder2)
                 .selectDestinationFolder(folder1)
                 .clickMoveButton()
@@ -469,8 +468,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
 
         String nameMultibranchPipelineDisplays = new MainPage(getDriver())
-                .clickMultibranchProjectName(nameMultibranchPipeline)
-                .clickMoveOnSideMenu()
+                .dropDownMenuClickMove(nameMultibranchPipeline, new MultibranchPipelinePage(getDriver()))
                 .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
                 .clickDashboard()
@@ -492,7 +490,7 @@ public class FolderTest extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard()
 
-                .clickMultiConfigurationProject(multiConfigurationProjectName)
+                .clickMultiConfigurationProjectName(multiConfigurationProjectName)
                 .clickMoveOnSideMenu()
                 .selectDestinationFolder(NAME)
                 .clickMoveButton()
@@ -534,7 +532,6 @@ public class FolderTest extends BaseTest {
 
         String actualBreadcrumbText =
             new MainPage(getDriver())
-            .clickJobDropDownMenu("testPipeline")
             .dropDownMenuClickMove("testPipeline", new FolderPage(getDriver()))
             .selectDestinationFolder("testFolder")
             .clickMoveButton().

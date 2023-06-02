@@ -110,7 +110,7 @@ public class BuildPageTest extends BaseTest {
 
     @Test
     public void testConsoleOutputFreestyleBuildStartedByUser() {
-        final String currentUser = new MainPage(getDriver()).getCurrentUserName();
+        final String currentUser = new MainPage(getDriver()).getHeader().getCurrentUserName();
 
         final String userConsoleOutput = new MainPage(getDriver())
                 .clickNewItem()
@@ -125,6 +125,26 @@ public class BuildPageTest extends BaseTest {
                 .getStartedByUser();
 
         Assert.assertEquals(currentUser, userConsoleOutput);
+    }
+
+    @Test
+    public void testConsoleOutputFreestyleBuildStatus(){
+        final String consoleOutput = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(freestyleProjectName)
+                .selectFreestyleProject()
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .selectBuildNow()
+                .clickDashboard()
+                .clickBuildsHistoryButton()
+                .clickProjectBuildConsole(freestyleProjectName)
+                .getConsoleOutputText();
+
+        String actualStatus = new ConsoleOutputPage(getDriver())
+                .getParameterFromConsoleOutput(consoleOutput, "Finished");
+
+        Assert.assertEquals(actualStatus, "Finished: SUCCESS");
     }
 
     @Test
