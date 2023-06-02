@@ -172,6 +172,7 @@ public class HeaderTest extends BaseTest {
         String expectedManageJenkinsPageHeader = "Manage Jenkins";
 
         String backgroundColorBefore = new MainPage(getDriver())
+                .getHeader()
                 .getBackgroundColorNotificationIcon();
 
         String backgroundColorAfter = new MainPage(getDriver())

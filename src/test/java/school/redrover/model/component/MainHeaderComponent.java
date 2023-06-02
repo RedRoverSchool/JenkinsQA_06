@@ -114,4 +114,16 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
                 ("//h1[.='Credentials']")));
     }
+
+    public String getCurrentUserName() {
+        return getDriver().findElement(By.xpath("//a[@class='model-link']/span[contains(@class,'hidden-xs')]")).getAttribute("innerText");
+    }
+
+    public String getBackgroundColorNotificationIcon() {
+        return getDriver().findElement(By.id("visible-am-button")).getCssValue("background-color");
+    }
+
+    public WebElement getLinkVersion() {
+        return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+    }
 }

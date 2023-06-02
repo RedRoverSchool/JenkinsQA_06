@@ -476,7 +476,6 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreatePipelineDashboardSliderNewItem() {
         NewJobPage newJobPage = new MainPage(getDriver())
-                .clickOnSliderDashboardInDropDownMenu()
                 .clickNewItemInDashboardDropDownMenu();
 
         PipelinePage PipelinePage = new NewJobPage(getDriver())
@@ -659,7 +658,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreatePipelineGoingFromManageJenkinsPage() {
         List<String> jobList = new MainPage(getDriver())
-                .clickManageJenkins()
+                .navigateToManageJenkinsPage()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()

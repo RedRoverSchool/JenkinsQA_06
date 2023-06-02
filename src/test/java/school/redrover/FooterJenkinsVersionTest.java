@@ -16,6 +16,7 @@ public class FooterJenkinsVersionTest extends BaseTest {
     @Test
     public void testFooterJenkinsVersion() {
         WebElement linkVersion = new MainPage(getDriver())
+                .getHeader()
                 .getLinkVersion();
         Assert.assertEquals(linkVersion.getText(), "Jenkins 2.387.2");
 

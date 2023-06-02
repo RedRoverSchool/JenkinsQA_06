@@ -36,14 +36,15 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProject() {
-        WebElement projectName = new MainPage(getDriver())
+        String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard().getProjectName();
+                .clickDashboard()
+                .getProjectNameMainPage(FREESTYLE_NAME);
 
-        Assert.assertEquals(projectName.getText(),  FREESTYLE_NAME);
+        Assert.assertEquals(projectName,  FREESTYLE_NAME);
     }
 
     @Test
@@ -67,7 +68,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String projectName = "FreestyleProject";
 
         MainPage mainPage = new MainPage(getDriver())
-                .clickPeople()
+                .clickPeopleOnLeftSideMenu()
                 .clickNewItem()
                 .enterItemName(projectName)
                 .selectFreestyleProjectAndOk()
@@ -338,8 +339,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .clickJobDropDownMenu(projectName)
-                .clickDeleteDropDown()
+                .dropDownMenuClickDelete(projectName)
                 .acceptAlert()
                 .clickMyViewsSideMenuLink();
 
@@ -371,7 +371,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .getProjectNameClick()
+                .clickFreestyleProjectName("Engineer")
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
@@ -430,8 +430,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .clickJobDropDownMenu(FREESTYLE_NAME)
-                .clickConfigureDropDown()
+                .clickConfigureDropDown(FREESTYLE_NAME)
                 .addDescription(descriptionText)
                 .clickPreviewButton()
                 .getPreviewDescription();

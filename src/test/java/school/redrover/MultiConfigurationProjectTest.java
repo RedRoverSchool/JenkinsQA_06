@@ -146,7 +146,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testMultiConfigurationProjectConfigurePageDisabled")
     public void testMultiConfigurationProjectConfigurePageEnable() {
         String configPage = new MainPage(getDriver())
-                .getMultiConfigPage()
+                .clickJobMultiConfigurationProject("My Multi configuration project")
                 .getConfigPage()
                 .switchCheckboxEnabled()
                 .getTextEnabled().getText();
@@ -167,7 +167,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = {"testDisableMultiConfigurationProject"})
     public void testEnableMultiConfigurationProject() {
         new MainPage(getDriver())
-                .clickJobWebElement("MyProject");
+                .clickMultiConfigurationProjectName("MyProject");
 
         WebElement disableProject = new MultiConfigurationProjectPage(getDriver())
                 .getEnableClick()
@@ -180,7 +180,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testMultiConfigurationProjectDisabled() {
         MainPage mainPageName = new MainPage(getDriver());
-        mainPageName.getMultiConfigPage();
+        mainPageName.clickMultiConfigurationProjectName("MyProject");
 
         WebElement enable = new MultiConfigurationProjectPage(getDriver())
                 .getEnableClick().getDisableElem();
@@ -193,7 +193,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testRenameMultiConfigurationProjectFromDashboard() {
 
         WebElement newName = new MainPage(getDriver())
-                .clickMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
+                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
                 .clickRename()
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
                 .submitNewName()
@@ -262,13 +262,10 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testBuildNowDropDownMenuMultiConfigurationProject() {
         TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
 
-        MainPage mainPage = new MainPage(getDriver())
-                .clickJobDropDownMenu(MULTI_CONFIGURATION_NAME);
-
-        Assert.assertEquals(mainPage.getJobBuildStatus(MULTI_CONFIGURATION_NAME), "Not built");
+        Assert.assertEquals(new MainPage(getDriver()).getJobBuildStatus(MULTI_CONFIGURATION_NAME), "Not built");
 
         MultiConfigurationProjectPage multiConfigurationProjectPage = new MainPage(getDriver())
-                .clickJobDropdownMenuBuildNow()
+                .clickJobDropdownMenuBuildNow(MULTI_CONFIGURATION_NAME)
                 .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME);
 
         Assert.assertEquals(multiConfigurationProjectPage.getJobBuildStatus(MULTI_CONFIGURATION_NAME), "Success");

@@ -29,7 +29,7 @@ public class OrganizationFolderTest extends BaseTest {
         final String expectedRenamedFolderName = "Project";
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .clickMultiConfigurationProject(originalNewFolderName)
+                .clickMultiConfigurationProjectName(originalNewFolderName)
                 .clickRename()
                 .enterNewName(expectedRenamedFolderName)
                 .submitNewName()

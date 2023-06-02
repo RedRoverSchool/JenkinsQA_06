@@ -23,4 +23,9 @@ public class PeoplePage extends BaseMainHeaderPage<PeoplePage> {
                 .apply(getDriver());
     }
 
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
+        return new NewJobPage(getDriver());
+    }
+
 }

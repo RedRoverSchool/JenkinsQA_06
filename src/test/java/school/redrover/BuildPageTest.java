@@ -110,7 +110,7 @@ public class BuildPageTest extends BaseTest {
 
     @Test
     public void testConsoleOutputFreestyleBuildStartedByUser() {
-        final String currentUser = new MainPage(getDriver()).getCurrentUserName();
+        final String currentUser = new MainPage(getDriver()).getHeader().getCurrentUserName();
 
         final String userConsoleOutput = new MainPage(getDriver())
                 .clickNewItem()
