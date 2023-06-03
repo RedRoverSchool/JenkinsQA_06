@@ -1,9 +1,12 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.OrganizationFolderConfigPage;
+import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
@@ -62,5 +65,20 @@ public class OrganizationFolderTest extends BaseTest {
                 .nestedFolderIsVisibleAndClickable(organizationFolderName);
 
         Assert.assertTrue(movedOrgFolderVisibleAndClickable);
+    }
+
+    @Test
+    public void testCreateDisableOrganizationFolder() {
+        final String RandomName = RandomStringUtils.randomAlphanumeric(5);
+
+        String disableFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(RandomName)
+                .selectOrganizationFolderAndOk()
+                .clickDisable()
+                .clickSaveButton()
+                .getTextFromDisableMessage();
+
+        Assert.assertEquals(disableFolder.trim().substring(0,46),"This Organization Folder is currently disabled");
     }
 }

@@ -21,4 +21,9 @@ public class OrganizationFolderPage extends BaseMainHeaderPage<OrganizationFolde
                 (By.xpath("//span[normalize-space(.)='Move']/a"))).click();
         return new MovePage<>(this);
     }
+
+    public String getTextFromDisableMessage(){
+
+        return getDriver().findElement(By.xpath("//form[@method='post']")).getText();
+    }
 }
