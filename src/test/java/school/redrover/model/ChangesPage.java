@@ -5,11 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.base.BasePage;
 
-public class ChangesPage<JobTypePage extends BaseMainHeaderPage> extends BaseMainHeaderPage<ChangesPage<JobTypePage>> {
-
+public class ChangesPage<JobTypePage extends BasePage<?>> extends BaseMainHeaderPage<ChangesPage<JobTypePage>> {
 
     private final JobTypePage jobTypePage;
+
     public ChangesPage(JobTypePage jobTypePage) {
         super(jobTypePage.getDriver());
         this.jobTypePage = jobTypePage;
