@@ -12,7 +12,6 @@ import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertEquals;
 
@@ -310,23 +309,15 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testDeleteFreestyleProject() {
+        FreestyleProjectPage deletedProject = new MyViewsPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDeleteProject();
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(NEW_FREESTYLE_NAME);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
+        Assert.assertFalse(deletedProject.checkProjectWasDeleted(FREESTYLE_NAME));
 
-        getDriver().findElement(By.linkText("Dashboard")).click();
-
-        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Project')]")).click();
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
-
-        Assert.assertFalse(getDriver().findElements(By
-                        .xpath("//a[@class='jenkins-table__link model-link inside']"))
-                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
     }
 
     @Test
