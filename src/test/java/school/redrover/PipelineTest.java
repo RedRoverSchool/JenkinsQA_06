@@ -366,9 +366,9 @@ public class PipelineTest extends BaseTest {
 
         List<String> namesOfJobs = Arrays.asList("UProject", "SProject", "AProject");
 
-        for(String nameJob : namesOfJobs) {
-            TestUtils.createPipeline(this, nameJob, true);
-        }
+        TestUtils.createPipeline(this, namesOfJobs.get(1), true);
+        TestUtils.createPipeline(this, namesOfJobs.get(2), true);
+        TestUtils.createPipeline(this, namesOfJobs.get(0), true);
 
         List<String> listNamesOfJobs = new MainPage(getDriver())
                 .clickSortByName()
