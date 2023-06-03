@@ -119,4 +119,10 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         clickButtonOk();
         return new FolderConfigPage(new FolderPage(getDriver()));
     }
+
+    public CreateItemErrorPage clickOkButtonAndMoveToErrorPage() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button")))
+                .click();
+        return new CreateItemErrorPage(getDriver());
+    }
 }

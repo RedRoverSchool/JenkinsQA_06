@@ -28,8 +28,7 @@ public class RenamePage <JobTypePage extends BasePage<?>> extends BaseMainHeader
     }
 
     public String getErrorMessage() {
-        getDriver().findElement(By.xpath("//li[text()='Rename']")).click();
-
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(".error")))).click();
         return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".error"))).getText();
     }
 
