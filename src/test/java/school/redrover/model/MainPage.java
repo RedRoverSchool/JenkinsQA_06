@@ -316,4 +316,19 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Name')]"))).click();
         return this;
     }
+    public boolean verifyJobIsPresent(String jobName){
+        List<WebElement> jobs = getDriver().findElements(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
+        boolean status = false;
+        for (WebElement job : jobs){
+            if (!job.getText().equals(jobName)){
+                status = false;
+            }
+            else{
+                new Actions(getDriver()).moveToElement(job).build().perform();
+                status = true;
+            }
+            break;
+        }
+        return status;
+    }
 }
