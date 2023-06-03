@@ -8,9 +8,9 @@ import java.util.List;
 
 public class ManagePluginsTest extends BaseTest {
 
-    List<String> expectedListOfTasks = List.of(new String[]{"Updates", "Available plugins", "Installed plugins", "Advanced settings"});
     @Test
     public void testFourTasksOnLeftsidePanel() {
+        final List<String> expectedListOfTasks = List.of(new String[]{"Updates", "Available plugins", "Installed plugins", "Advanced settings"});
         List<String> actualListOfTasks = new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
                 .clickManagePlugins()
