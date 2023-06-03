@@ -678,4 +678,18 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(buildPage.getBooleanParameterName(), name);
         Assert.assertNull(buildPage.getBooleanParameterCheckbox());
     }
+
+    @Test
+    public void testCreatePipeLine () {
+        String actual = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("TestPipeLineJJ")
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .getJobName("TestPipeLineJJ");
+        Assert.assertEquals(actual, "TestPipeLineJJ");
+
+    }
+
 }
