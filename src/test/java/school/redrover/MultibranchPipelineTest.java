@@ -56,8 +56,8 @@ public class MultibranchPipelineTest extends BaseTest {
                 .selectMultibranchPipelineAndOk()
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
-                .dropDownMenuClickDelete("MultibranchPipeline")
-                .clickYesDeletePage()
+                .dropDownMenuClickDeleteFolders("MultibranchPipeline")
+                .clickYes()
                 .getWelcomeWebElement()
                 .getText();
 
@@ -71,13 +71,12 @@ public class MultibranchPipelineTest extends BaseTest {
         TestUtils.createMultibranchPipeline(this, "MultibranchPipeline", true);
 
         WebElement nameMultibranchPipeline = new MainPage(getDriver())
-                .clickJobDropDownMenu("MultibranchPipeline")
                 .dropDownMenuClickMove("MultibranchPipeline",new FolderPage(getDriver()))
                 .selectDestinationFolder("Folder")
                 .clickMoveButton()
                 .clickDashboard()
-                .clickMultibranchPipeline("MultibranchPipeline")
-                .getNestedFolder("Folder");
+                .clickFolderName("Folder")
+                .getMultibranchPipelineName();
 
         Assert.assertTrue(nameMultibranchPipeline.isDisplayed());
     }
@@ -91,7 +90,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .addDescription("DESCRIPTION")
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
-                .clickMultibranchPipeline("RandomName")
+                .clickMultibranchPipelineName("RandomName")
                 .getDescription();
 
         Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");

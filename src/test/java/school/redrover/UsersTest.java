@@ -216,30 +216,21 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteUserViaPeopleMenu() {
-        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+    public void testDeleteUserViaPeopleMenu()  {
+        String newUserName = "testuser";
+        new CreateUserPage(getDriver())
+                .createUserAndReturnToMainPage(newUserName, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(2)).until(
-                ExpectedConditions.visibilityOf(getDriver().findElement(By.id("people"))));
-        getDriver().findElement(By.id("jenkins-home-link")).click();
-        getDriver().findElement(By.xpath("//*[@href='/asynchPeople/']")).click();
+        boolean isUserDeleted = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
+                .clickUserName(newUserName)
+                .clickDeleteUserBtnFromUserPage(newUserName)
+                .clickOnYesButton()
+                .clickPeopleOnLeftSideMenu()
+                .checkIfUserWasDeleted(newUserName);
 
-        WebElement userToDelete = getDriver().findElement(
-                By.xpath("//a[@href='/user/" + USER_NAME + "/']"));
-        userToDelete.click();
-        new WebDriverWait(getDriver(), Duration.ofSeconds(3)).until(
-                ExpectedConditions.visibilityOf(getDriver().findElement(By.id("main-panel"))));
+        Assert.assertTrue(isUserDeleted);
 
-        getDriver().findElement(By.xpath("//a[@href='/user/" + USER_NAME + "/delete']")).click();
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        getDriver().findElement(By.xpath("//*[@href='/asynchPeople/']")).click();
-
-        Boolean isNotPresent = ExpectedConditions.not(ExpectedConditions
-                        .presenceOfAllElementsLocatedBy(By.xpath("//a[@href='/user/" + USER_NAME + "/']")))
-                .apply(getDriver());
-        Assert.assertTrue(isNotPresent);
     }
 
     @Test(dependsOnMethods = "testCreateNewUser")

@@ -1,10 +1,10 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.runner.TestUtils;
 
@@ -42,8 +42,17 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         return this;
     }
 
-    public String getDefinitionFieldText() {
-        return getDriver().findElement(By.xpath("((//div[@class='jenkins-form-item'])[2]//select//option)[1]")).getText();
+    public String getOptionTextInDefinitionField() {
+        String text = "";
+
+        for (WebElement element : getDriver().findElements((By.cssSelector(
+                "div[class='jenkins-section'] select.jenkins-select__input.dropdownList>option")))) {
+            if (element.getAttribute("selected") != null &&
+                    element.getAttribute("selected").equals("true")) {
+                text = element.getText();
+            }
+        }
+        return text;
     }
 
     public String getPreviewText() {
@@ -135,4 +144,28 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']")).sendKeys(builds);
         return this;
     }
+
+    public PipelineConfigPage scrollToBuildTriggers() {
+        TestUtils.scrollToElementByJavaScript(this,getDriver().findElement(By.xpath("//label[normalize-space()='Throttle builds']")));
+        return this;
+    }
+
+    public PipelineConfigPage clickBuildTriggerCheckBox() {
+        getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")).click();
+        return this;
+    }
+
+    public PipelineConfigPage sendAreContentInputString(String text) {
+        TestUtils.clickByJavaScript(this,getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")));
+        getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")).sendKeys(text);
+        return this;
+    }
+
+    public PipelinePage selectScriptedPipelineAndSubmit() {
+        Select selectPipelineScript = new Select(getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class = 'samples']/select"))));
+        selectPipelineScript.selectByVisibleText("Scripted Pipeline");
+        getDriver().findElement(By.name("Submit")).click();
+        return new PipelinePage(getDriver());
+    }
+
 }

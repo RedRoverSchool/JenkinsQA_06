@@ -25,11 +25,6 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
         return getDriver().findElement(By.xpath("//h1"));
     }
 
-    public String getStatusMessageText() {
-
-        return TestUtils.getText(this, getStatusOfBuild());
-    }
-
     public BuildPage scrollToIconElement() {
         TestUtils.scrollToElementByJavaScript(this, getBuildHistoryTitle());
         return new BuildPage(getDriver());

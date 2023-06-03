@@ -14,54 +14,54 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         super(driver);
     }
 
-    public FolderPage configure(){
+    public FolderPage configure() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(2)")).click();
         return this;
     }
 
-    public NewJobPage newItem(){
+    public NewJobPage newItem() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(3)")).click();
         return new NewJobPage(getDriver());
     }
 
-    public DeleteFoldersPage delete(){
+    public DeleteFoldersPage delete() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
         return new DeleteFoldersPage(getDriver());
     }
 
-    public FolderPage people(){
+    public FolderPage people() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(5)")).click();
         return this;
     }
 
-    public FolderPage buildHistory(){
+    public FolderPage buildHistory() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(6)")).click();
         return this;
     }
 
-    public RenamePage<FolderPage> rename(){
+    public RenamePage<FolderPage> rename() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(7)")).click();
         return new RenamePage<>(this);
     }
 
-    public FolderPage credentials(){
+    public FolderPage credentials() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(8)")).click();
         return this;
     }
 
-    public NewViewFolderPage clickNewView(){
+    public NewViewFolderPage clickNewView() {
         getDriver().findElement(By.xpath("//div[@class='tab']")).click();
         return new NewViewFolderPage(getDriver());
     }
 
-    public FolderPage addDescription(String description){
+    public FolderPage addDescription(String description) {
         getDriver().findElement(By.xpath("//div[@class='tab']")).click();
         getWait2().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name='description']"))).sendKeys(description);
         getDriver().findElement(By.cssSelector("[name='Submit']")).click();
         return this;
     }
 
-    public NewJobPage newJob(){
+    public NewJobPage newJob() {
         getDriver().findElement(By.cssSelector("[href='newJob']")).click();
         return new NewJobPage(getDriver());
     }
@@ -100,6 +100,7 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return TestUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='main-panel'][contains(text(), 'Folder name:')]"))));
     }
+
     public String getFolderDescription() {
         return TestUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))));
     }
@@ -133,6 +134,7 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//span/a[@href='/job/%s/move']", folderName)))).click();
         return new MovePage<>(this);
     }
+
     public WebElement getNestedOrganizationFolder(String nameFolder) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
@@ -148,7 +150,7 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 (By.xpath("//a[contains(@href,'job/" + pipelineName + "/')]")));
     }
 
-    public String getLastCreatedItemName (){
+    public String getLastCreatedItemName() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//*[@id = 'projectstatus']//td/a"))).getText();
     }
@@ -162,4 +164,12 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         new Actions(getDriver()).moveToElement(getInnerJobWebElement(innerFolderName)).click(getInnerJobWebElement(innerFolderName)).perform();
         return new FolderPage(getDriver());
     }
+
+    public String getBreadcrumbText() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                        (By.xpath("//div[@id='breadcrumbBar']")))
+                .getText()
+                .replaceAll("\\n", " > ");
+    }
+
 }
