@@ -167,6 +167,46 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testDisableProject() {
+        FreestyleProjectPage projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickTheDisableProjectButton();
+
+        Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
+    }
+
+    @Test
+    public void testEnableProject() {
+        MainPage projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickTheDisableProjectButton()
+                .clickTheEnableProjectButton()
+                .clickDashboard();
+
+        Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
+    }
+
+    @Test
+    public void testRenameFreestyleProject() {
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickRenameProject(FREESTYLE_NAME)
+                .enterNewName(FREESTYLE_NAME + " New")
+                .submitNewName();
+
+        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
+    }
+
+    @Test
     public void testRenamingProjectFromTheDashboard() {
         String expectedResultProjectPage = "Project Engineer2";
         String expectedResultDashboardPage = "Engineer2";
