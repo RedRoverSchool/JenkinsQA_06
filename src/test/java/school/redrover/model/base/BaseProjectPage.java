@@ -2,7 +2,6 @@ package school.redrover.model.base;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.ConsoleOutputPage;
 
@@ -14,21 +13,21 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         super(driver);
     }
 
-    public WebElement getEnableForm(){
-        return getDriver().findElement(By.cssSelector("form#enable-project"));
+    public String getEnableButtonText(){
+        return getDriver().findElement(By.cssSelector("form#enable-project")).getText();
     }
 
-    public WebElement getDisableButton(){
-        return getDriver().findElement(By.xpath("//form[@id='disable-project']/button"));
+    public String getDisableButtonText() {
+        return getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).getText();
 
     }
 
-    public Self clickDisable(){
+    public Self clickDisable() {
         getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
         return (Self)this;
     }
 
-    public Self clickEnable(){
+    public Self clickEnable() {
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().
                 findElement(By.xpath("//form[@id='enable-project']/button")))).click();
 
@@ -40,7 +39,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         return (Self)this;
     }
 
-    public ConsoleOutputPage openConsoleOutputForBuild(int buildNumber){
+    public ConsoleOutputPage openConsoleOutputForBuild(int buildNumber) {
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//td[@class = 'build-row-cell']//a[contains(@href,'/" + buildNumber +  "/console')]"))).click();
         return new ConsoleOutputPage(getDriver());
@@ -50,7 +49,4 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         return getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
                 By.xpath("//td[@class = 'build-row-cell']"))).size();
     }
-
-
-
 }

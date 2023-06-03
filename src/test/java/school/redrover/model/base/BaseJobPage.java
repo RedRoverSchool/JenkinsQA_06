@@ -22,8 +22,8 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
 
     public abstract BaseConfigPage<?, Self> clickConfigure();
 
-    public WebElement getName() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel>h1")));
+    public String getName() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel>h1"))).getText();
     }
 
     public RenamePage<BaseJobPage<Self>> clickRename() {
@@ -31,9 +31,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         return new RenamePage<>(this);
     }
 
-
-
-    public MainPage clickDelete(){
+    public MainPage clickDelete() {
         getDriver().findElement(By.partialLinkText("Delete ")).click();
         getDriver().switchTo().alert().accept();
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
@@ -51,12 +49,10 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     }
 
     public Self changeDescription(String newDescription) {
-
         getDriver().findElement(By.cssSelector("#description-link")).click();
         WebElement textInput = getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector("textarea[name='description']"))));
         textInput.clear();
         textInput.sendKeys(newDescription);
         return (Self)this;
     }
-
 }

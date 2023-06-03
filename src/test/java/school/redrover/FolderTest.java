@@ -278,7 +278,7 @@ public class FolderTest extends BaseTest {
                 .selectMultiConfigurationProjectAndOk()
                 .saveConfigurePageAndGoToProjectPage();
 
-        Assert.assertTrue(multiPage.getMultiProjectName().getText().contains("Mine Project"));
+        Assert.assertTrue(multiPage.getMultiProjectName().contains("Mine Project"));
     }
 
     @Test

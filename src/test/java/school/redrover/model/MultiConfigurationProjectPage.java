@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.MultiConfigurationProjectTest;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 import java.time.Duration;
@@ -15,10 +14,10 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
         super(driver);
     }
 
-    public WebElement getMultiProjectName() {
+    public String getMultiProjectName() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//h1"))));
+                .findElement(By.xpath("//h1")))).getText();
     }
 
     public MultiConfigurationProjectPage getAddDescription(String text) {
@@ -111,7 +110,7 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
 
     public RenamePage<MultiConfigurationProjectPage> clickRename() {
         getDriver().findElement(By.linkText("Rename")).click();
-        return new RenamePage<MultiConfigurationProjectPage>(this);
+        return new RenamePage<>(this);
     }
 
 }

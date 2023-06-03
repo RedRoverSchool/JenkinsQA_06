@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
@@ -33,8 +32,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickRename()
                 .enterNewName(expectedRenamedFolderName)
                 .submitNewName()
-                .getMultiProjectName()
-                .getText();
+                .getMultiProjectName();
 
         Assert.assertEquals(actualRenamedFolderName, expectedRenamedFolderName);
     }
