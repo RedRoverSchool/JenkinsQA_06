@@ -143,6 +143,6 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
 
     public ChangesPage clickChangeOnLeftSideMenu() {
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'changes')]"))).click();
-        return new ChangesPage(getDriver());
+        return new ChangesPage(this);
     }
 }
