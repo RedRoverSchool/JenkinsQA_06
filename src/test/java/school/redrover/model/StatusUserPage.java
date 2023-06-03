@@ -3,8 +3,9 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 
-public class StatusUserPage extends MainPage {
+public class StatusUserPage extends BaseMainHeaderPage<StatusUserPage> {
 
     public StatusUserPage(WebDriver driver) {
         super(driver);
@@ -24,7 +25,7 @@ public class StatusUserPage extends MainPage {
         return this;
     }
 
-    public StatusUserPage setDescription(String text) {
+    public StatusUserPage enterDescription(String text) {
         getWait10().until(ExpectedConditions.visibilityOf(getDriver()
                 .findElement(By.xpath("//textarea[@name='description']"))))
                 .sendKeys(text);
@@ -52,5 +53,12 @@ public class StatusUserPage extends MainPage {
 
         return getDriver().findElement(
                 By.xpath("//div[@id='main-panel']/div[contains(text(), 'ID')]")).getText();
+    }
+
+    public ConfigureUserPage clickConfigureSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+
+        return new ConfigureUserPage(getDriver());
     }
 }

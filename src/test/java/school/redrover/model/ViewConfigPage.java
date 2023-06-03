@@ -5,12 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 
 import java.util.List;
 import java.util.Objects;
 
-public class ViewConfigPage extends BaseModel {
+public class ViewConfigPage extends BaseMainHeaderPage<ViewConfigPage> {
 
     public ViewConfigPage(WebDriver driver) {
         super(driver);

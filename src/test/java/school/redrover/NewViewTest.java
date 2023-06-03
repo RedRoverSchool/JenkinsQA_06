@@ -1,11 +1,8 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.ViewPage;
@@ -20,19 +17,19 @@ import static org.testng.Assert.assertEquals;
 
 
 public class NewViewTest extends BaseTest {
-    private static final String NEW_VIEW_NAME_RANDOM = RandomStringUtils.randomAlphanumeric(5);
+    private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
-    private static final String RANDOM_LIST_VIEW_NAME = RandomStringUtils.randomAlphanumeric(10);
-    private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
+    private static final String RANDOM_LIST_VIEW_NAME = "RANDOM_LIST_VIEW_NAME";
 
-    private void createNewProjectFromMyViewsPage() {
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
-        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hudson_model_FreeStyleProject"))).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+    private void createNewFreestyleProjectFromMyViewsPage(String projectName) {
+        new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewItem()
+                .enterItemName(projectName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard();
+
     }
 
     private List<String> getListFromWebElements(List<WebElement> elements) {
@@ -46,14 +43,14 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateListView() {
-        String freestyleProjectName = "TestFreestyleProject";
+        String freestyleProjectName = "Test Freestyle Project";
         String expectedName = "TestName";
         String actualName = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickNewItem()
                 .enterItemName(freestyleProjectName)
                 .selectFreestyleProjectAndOk()
-                .clickSave()
+                .clickSaveButton()
                 .clickDashboard()
                 .createNewView()
                 .setNewViewName(expectedName)
@@ -67,40 +64,36 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateNewViewSecond() {
-        createNewProjectFromMyViewsPage();
+        final String newProjectName = "Test Freestyle Name";
+        final String expectedViewName = "My New Vew";
+        createNewFreestyleProjectFromMyViewsPage(newProjectName);
+        String actualViewName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewViewButton()
+                .setNewViewName(expectedViewName)
+                .selectMyView()
+                .clickCreateMyViewButton()
+                .getActiveViewName();
 
-        getDriver().findElement(By.cssSelector("a.addTab")).click();
-        getDriver().findElement(By.cssSelector("input#name")).sendKeys(NEW_VIEW_NAME_RANDOM);
-        getDriver().findElement(By.cssSelector("input#hudson\\.model\\.MyView + label")).click();
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("div.tab.active")).getText(), NEW_VIEW_NAME_RANDOM);
+        Assert.assertEquals(actualViewName, expectedViewName);
     }
 
-    @Ignore
-    @Test
+    @Test(dependsOnMethods = "testCreateNewViewSecond")
     public void testRenameView() {
-        createNewProjectFromMyViewsPage();
-        getDriver().findElement(By.className("addTab")).click();
-        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-        getDriver().findElement(By.id("ok")).click();
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@name='Submit']")));
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-        getDriver().findElement(CREATED_LIST_VIEW).click();
-        getDriver().findElement(By.linkText("Edit View")).click();
-        getDriver()
-                .findElement(By.xpath("//div[@class='setting-main']/input[@name='name']")).clear();
-        getDriver()
-                .findElement(By.xpath("//div[@class='setting-main']/input[@name='name']")).sendKeys("RenameView");
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        final String expectedEditedMyViewText = "My View Edited";
+        String actualViewName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickInactiveLastCreatedMyView()
+                .editMyViewNameAndClickSubmitButton(expectedEditedMyViewText)
+                .getActiveView();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='/view/RenameView/']")).getText(), "RenameView");
+        assertEquals(actualViewName, expectedEditedMyViewText);
     }
 
     @Test
     public void testDeleteView() {
-        this.createNewProjectFromMyViewsPage();
+        final String newProjectName = "Test Freestyle Name";
+        this.createNewFreestyleProjectFromMyViewsPage(newProjectName);
         getDriver().findElement(By.className("addTab")).click();
         getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
         getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
@@ -147,11 +140,13 @@ public class NewViewTest extends BaseTest {
         final String jobName3 = "job3";
         final List<String> expectedViewJobs = Arrays.asList(folderName1 + " » " + jobName1, folderName1 + " » " + jobName3, folderName2);
 
-        ViewPage viewPage = new MainPage(getDriver())
-                .clickOnView(viewName1)
-                .createFreestyleProjectInsideFolderAndView(jobName1, viewName1, folderName1)
-                .createFreestyleProjectInsideFolderAndView(jobName2, viewName1, folderName1)
-                .createFreestyleProjectInsideFolderAndView(jobName3, viewName1, folderName1)
+         new MainPage(getDriver()).clickOnView(viewName1);
+
+                TestUtils.createFreestyleProjectInsideFolderAndView(this, jobName1, viewName1, folderName1);
+                TestUtils.createFreestyleProjectInsideFolderAndView(this, jobName2, viewName1, folderName1);
+                TestUtils.createFreestyleProjectInsideFolderAndView(this, jobName3, viewName1, folderName1);
+
+        ViewPage viewPage = new ViewPage(getDriver())
                 .createNewView()
                 .setNewViewName(viewName2)
                 .selectListView()
@@ -175,7 +170,9 @@ public class NewViewTest extends BaseTest {
         WebElement newView = new MainPage(getDriver())
                  .clickNewItem()
                  .enterItemName("TestFolder")
-                 .selectFolderAndOk().clickDashboard()
+                 .selectFolderAndOk()
+                 .getHeader()
+                 .clickLogo()
                  .clickFolderName("TestFolder")
                  .clickNewView()
                  .enterViewName("MyNewView")
@@ -186,15 +183,15 @@ public class NewViewTest extends BaseTest {
     }
     @Test
     public void testHelpForFeatureDescription() {
-
-        String randomName = RandomStringUtils.randomAlphanumeric(9);
+        final String newProjectName = "Test Freestyle Name";
+        String randomName = "randomName";
         String expectedResult =
                 "This message will be displayed on the view page . Useful " +
                         "for describing what this view does or linking to " +
                         "relevant resources. Can contain HTML tags or whatever" +
                         " markup language is defined for the system.";
 
-        this.createNewProjectFromMyViewsPage();
+        this.createNewFreestyleProjectFromMyViewsPage(newProjectName);
 
         getDriver().findElement(By.xpath("//div/a[@href='/newView']")).click();
         getDriver().findElement(By.xpath("//div/input[@checkurl='checkViewName']")).sendKeys(randomName);

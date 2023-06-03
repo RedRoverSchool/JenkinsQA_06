@@ -2,16 +2,19 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseModel;
 
-public class OrganizationFolderConfigPage extends BaseModel {
+public class OrganizationFolderConfigPage extends BaseConfigPage<OrganizationFolderConfigPage, OrganizationFolderPage> {
 
-    public OrganizationFolderConfigPage(WebDriver driver) {
-        super(driver);
+
+    public OrganizationFolderConfigPage(OrganizationFolderPage organizationFolderPage) {
+        super(organizationFolderPage);
     }
 
-    public OrganizationFolderPage clickSaveButton() {
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        return new OrganizationFolderPage(getDriver());
+    public OrganizationFolderConfigPage clickDisable(){
+        getDriver().findElement(By.xpath("//label[@data-title='Disabled']")).click();
+
+        return this;
     }
 }

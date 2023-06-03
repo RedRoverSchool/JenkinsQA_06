@@ -5,8 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 
-public class ManageJenkinsPage extends MainPage {
+import java.time.Duration;
+
+public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
 
 
     public ManageJenkinsPage(WebDriver driver){
@@ -46,8 +49,8 @@ public class ManageJenkinsPage extends MainPage {
     }
 
     public String getActualHeader() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-                "//h1[text()='Manage Jenkins']"))).getText();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName(
+                "h1"))).getText();
     }
 
     public String getDropdownResultsInSearchField() {
@@ -71,5 +74,19 @@ public class ManageJenkinsPage extends MainPage {
         getWait2().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='/computer/']"))).click();
         return new ManageNodesPage(getDriver());
+    }
+
+    public ManageJenkinsPage clickManageJenkinsLink() {
+        new Actions(getDriver())
+                .pause(Duration.ofMillis(300))
+                .click(getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Manage Jenkins']"))))
+                .perform();
+        return new ManageJenkinsPage(getDriver());
+    }
+
+    public ManagePluginsPage clickManagePlugins() {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='pluginManager']"))).click();
+        return new ManagePluginsPage(getDriver());
     }
 }

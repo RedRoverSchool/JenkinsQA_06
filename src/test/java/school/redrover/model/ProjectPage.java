@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 
 import java.time.Duration;
 
-public class ProjectPage extends BaseModel {
+public abstract class ProjectPage extends BaseMainHeaderPage<ProjectPage> {
 
     public ProjectPage(WebDriver driver) {
         super(driver);
@@ -36,15 +36,23 @@ public class ProjectPage extends BaseModel {
 
     public WebElement getDisableButton(){
         return getDriver().findElement(By.xpath("//form[@id='disable-project']/button"));
+
     }
 
-    public RenameProjectPage clickRename() {
+    public ProjectPage getDisableClick(){
+        getDriver().findElement(By.xpath("//form[@id='disable-project']/button")).click();
+        return this;
+    }
+
+    public RenamePage<ProjectPage> clickRename() {
         getDriver().findElement(By.linkText("Rename")).click();
-        return new RenameProjectPage(getDriver());
+        return new RenamePage<>(this);
     }
 
     public ProjectPage enableProject(){
-        getDriver().findElement(By.xpath("//form[@id='enable-project']/button")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().
+                findElement(By.xpath("//form[@id='enable-project']/button")))).click();
+
         return this;
     }
 
@@ -56,5 +64,9 @@ public class ProjectPage extends BaseModel {
     }
     public WebElement projectsHeadline() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//h1[contains(text(),'Project')]"))));
+    }
+
+    public String getProjectDescription() {
+        return getDriver().findElement(By.xpath("//div[@id='description']")).getText();
     }
 }

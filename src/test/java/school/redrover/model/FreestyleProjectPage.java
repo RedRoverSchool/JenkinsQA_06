@@ -2,14 +2,16 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BaseModel;
 
 import java.util.Arrays;
 
 import static org.openqa.selenium.By.cssSelector;
 
-public class FreestyleProjectPage extends BaseModel {
+public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPage> {
 
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
@@ -42,9 +44,29 @@ public class FreestyleProjectPage extends BaseModel {
         return getDriver().findElement(By.xpath("//*[@id='description']/div")).getText();
     }
 
-    public FreestyleProjectConfigPage clickAddDescription() {
+    public FreestyleProjectPage clickAddDescription() {
         getDriver().findElement(By.id("description-link")).click();
-        return new FreestyleProjectConfigPage(getDriver());
+        return this;
+    }
+    public FreestyleProjectPage clickEditDescription() {
+        getDriver().findElement(By.xpath("//*[@href = 'editDescription']")).click();
+        return this;
+    }
+
+    public FreestyleProjectPage clickSaveDescription() {
+        getDriver().findElement(By.xpath("//*[@id='description']/form/div[2]/button")).click();
+        return this;
+    }
+    public FreestyleProjectPage addDescription(String description) {
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
+        return this;
+    }
+
+    public FreestyleProjectPage removeOldDescriptionAndAddNew (String description) {
+        WebElement oldDescription = getDriver().findElement(By.xpath("//*[@id='description']/form/div[1]/div[1]/textarea"));
+        oldDescription.clear();
+        oldDescription.sendKeys(description);
+        return this;
     }
 
     public MainPage navigateToMainPageViaJenkinsIcon() {
@@ -67,6 +89,14 @@ public class FreestyleProjectPage extends BaseModel {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Dashboard"))).click();
         return new MainPage(getDriver());
     }
+    public FreestyleProjectPage clickPreviewButton () {
+        getDriver().findElement(By.xpath("//a[@class = 'textarea-show-preview']")).click();
+        return this;
+    }
+
+    public String getPreviewDescription () {
+        return getDriver().findElement(By.xpath("//*[@class = 'textarea-preview']")).getText();
+    }
 
     public String getProjectName() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
@@ -82,9 +112,26 @@ public class FreestyleProjectPage extends BaseModel {
                 By.xpath("//tr[@class = 'build-row multi-line overflow-checked']")))).size();
     }
 
-    public RenameFreestyleProjectPage clickRenameProject(String projectName) {
+    public RenamePage<FreestyleProjectPage> clickRenameProject(String projectName) {
         getWait2().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href = '/job/" + projectName + "/confirm-rename']"))).click();
-        return new RenameFreestyleProjectPage(getDriver());
+        return new RenamePage<>(this);
+    }
+
+    public ConsoleOutputPage openConsoleOutputForBuild(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@class='build-status-link']"))).click();
+        return new ConsoleOutputPage(getDriver());
+    }
+
+    public FreestyleProjectPage clickSaveButton() {
+        getDriver().findElement(By.name("Submit")).click();
+        return new FreestyleProjectPage(getDriver());
+    }
+
+    public MovePage<FreestyleProjectPage> clickMoveOnSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/move']")))).click();
+        return new MovePage<>(this);
     }
 }

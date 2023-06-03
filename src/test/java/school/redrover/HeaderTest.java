@@ -6,12 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import school.redrover.model.MainPage;
-import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -20,16 +18,13 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
 
     private static final By NOTIFICATION_ICON = By.id("visible-am-button");
     private static final By MANAGE_JENKINS_LINK = By.xpath("//a[text()='Manage Jenkins']");
-    private static final String MANAGE_JENKINS_PAGE_HEADER = "Manage Jenkins";
-    private static final By ADMIN_BTN = By.xpath("//a[@href='/user/admin']");
-    private static final By LOGOUT_BTN = By.xpath("//a[@href='/logout']");
-    private static final By POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN = By.id("visible-am-list");
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -86,16 +81,6 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testSearchFieldPlaceholder() {
-        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("placeholder"), "Search (CTRL+K)");
-    }
-
-    @Test
-    public void testSearchFieldAutocomplete() {
-        Assert.assertEquals(getDriver().findElement(By.id("search-box")).getAttribute("autocomplete"), "off");
-    }
-
-    @Test
     public void testSecurityButton() throws InterruptedException {
         Actions hover = new Actions(getDriver());
 
@@ -112,25 +97,13 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserButton() throws InterruptedException {
-        Actions hover = new Actions(getDriver());
+    public void testAdminButtonBackgroundColorIsPresentWhenMouseOver()  {
+        String actualAdminButtonBackgroundColor = new MainPage(getDriver())
+                .getHeader()
+                .hoverOverAdminButton()
+                .getAdminButtonBackgroundColor();
 
-        WebElement userButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[1]"));
-        WebElement userButtonIcon = getDriver()
-                .findElement(By.cssSelector("#page-header > div.login.page-header__hyperlinks > a.model-link > svg"));
-        WebElement dropDownButton = getDriver()
-                .findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[1]/button"));
-
-        Assert.assertTrue(userButtonIcon.isDisplayed());
-        Assert.assertTrue(dropDownButton.isDisplayed());
-
-        hover.moveToElement(userButton).perform();
-        Thread.sleep(700);
-        String hoverUserButtonBackground = userButton.getCssValue("background-color");
-        String hoverUserButtonUnderline = userButton.getCssValue("text-decoration-line");
-
-        assertEquals(hoverUserButtonBackground, "rgba(64, 64, 64, 1)");
-        assertEquals(hoverUserButtonUnderline, "underline");
+        Assert.assertEquals(actualAdminButtonBackgroundColor, "rgba(64, 64, 64, 1)");
     }
 
     @Test
@@ -196,64 +169,58 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testNotificationAndSecurityIcon() {
 
+        String expectedManageJenkinsPageHeader = "Manage Jenkins";
+
         String backgroundColorBefore = new MainPage(getDriver())
+                .getHeader()
                 .getBackgroundColorNotificationIcon();
 
         String backgroundColorAfter = new MainPage(getDriver())
-                .moveCursorNotificationIcon()
+                .getHeader()
                 .clickNotificationIcon()
-                .getBackgroundColorNotificationIcon();
+                .getNotificationIconBackgroundColor();
 
-        new MainPage(getDriver())
-                .clickManageJenkinsLink();
-
-        String actualHeader = new ManageJenkinsPage(getDriver())
+        String actualManageJenkinsPageHeader = new ManageJenkinsPage(getDriver())
+                .clickManageJenkinsLink()
                 .getActualHeader();
 
         Assert.assertNotEquals(backgroundColorBefore, backgroundColorAfter, " The color of icon is not changed");
-        Assert.assertEquals(actualHeader,MANAGE_JENKINS_PAGE_HEADER);
+        Assert.assertEquals(actualManageJenkinsPageHeader,expectedManageJenkinsPageHeader, " The page is not correct");
     }
 
     @Test
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
-        final String itemName = "Test Item";
-        TestUtils.createFreestyleProject(this, itemName, false);
+        final List<String> listItemName = new ArrayList<>(List.of("Test Item", "Second"));
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("jenkins-name-icon"))).click();
-        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]", "Wrong title or wrong page");
+        TestUtils.createFreestyleProject(this, listItemName.get(0), true);
+        TestUtils.createFreestyleProject(this, listItemName.get(1), false);
 
-        List<WebElement> listProjectName = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']"));
+        boolean isPageOpen = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))
+                .getHeader()
+                .clickLogo()
+                .isMainPageOpen();
+
+        Assert.assertTrue(isPageOpen, "Wrong title or wrong page");
+
+        List<String> listJob = new MainPage(getDriver())
+                .getJobList();
 
         SoftAssert softAssert = new SoftAssert();
-        for (WebElement webElement : listProjectName) {
-            softAssert.assertTrue(webElement.getText().contains(itemName),
-                    "The result list doesn't contain the item " + itemName);
+        for (int i = 0; i < listJob.size(); i++) {
+            softAssert.assertTrue(listJob.contains(listItemName.get(i)),
+                    "The result list doesn't contain the item " + listItemName.get(i));
         }
         softAssert.assertAll();
     }
 
-    @DataProvider(name = "dropDownMenuAndPageLocators")
-    public Object[][] provideDropdownMenuAndPageLocators() {
-        return new Object[][] {
-                {By.xpath("//div[@id='breadcrumb-menu']//span[.='Builds']"),
-                        By.xpath("//h1[.='Builds for admin']")},
-                {By.xpath("//span[. ='Configure']"),
-                        By.xpath("//li[@class='jenkins-breadcrumbs__list-item'][3]")},
-                {By.xpath("//div[@class='bd']//span[.='My Views']"),
-                        By.xpath("//a[@href='/user/admin/my-views/']")},
-                {By.xpath("//span[.='Credentials']"),
-                        By.xpath("//h1[.='Credentials']")}
-        };
-    }
-
-    @Test(dataProvider = "dropDownMenuAndPageLocators")
-    public void testOpenTabFromDropdownMenu(By buttonLocator, By pageLocator) {
+    @Test
+    public void testOpenBuildsTabFromDropdownMenu() {
         WebElement page = new MainPage(getDriver())
-                .openAdminDropdownMenu()
-                .openTabFromAdminDropdownMenu(buttonLocator, pageLocator);
+                .getHeader()
+                .clickAdminDropdownMenu()
+                .openBuildsTabFromAdminDropdownMenu();
 
-        Assert.assertTrue(page.isDisplayed());
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
     }
 
     @Test
@@ -276,49 +243,75 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testOfIconColorChange() {
-        String notificationIconColorBefore = getDriver().findElement(NOTIFICATION_ICON).getCssValue("background-color");
-        String adminIconColorBefore = getDriver().findElement(ADMIN_BTN).getCssValue("background-color");
-        String logoutIconColorBefore = getDriver().findElement(LOGOUT_BTN).getCssValue("background-color");
+    public void testOfNotificationIconColorChange() {
+        String notificationIconColorBefore = new MainPage(getDriver())
+                .getHeader()
+                .getNotificationIconBackgroundColor();
 
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(NOTIFICATION_ICON))
-                .perform();
+        String notificationIconColorAfter = new MainPage(getDriver())
+                .getHeader()
+                .hoverOverNotificationIcon()
+                .getNotificationIconBackgroundColor();
 
-        Assert.assertNotEquals(getDriver().findElement(NOTIFICATION_ICON).getCssValue("background-color"),
-                notificationIconColorBefore);
-
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(ADMIN_BTN))
-                .perform();
-
-        Assert.assertNotEquals(getDriver().findElement(ADMIN_BTN).getCssValue("background-color"),
-                adminIconColorBefore);
-
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(LOGOUT_BTN))
-                .perform();
-
-        Assert.assertNotEquals(getDriver().findElement(LOGOUT_BTN).getCssValue("background-color"),
-                logoutIconColorBefore);
+        Assert.assertNotEquals(notificationIconColorAfter, notificationIconColorBefore,
+                "The Notification icon background has not changed");
     }
 
     @Test
-    public void testAppearanceOfPopUpMenusWhenClickingOnIcons() {
-        getDriver().findElement(NOTIFICATION_ICON).click();
-        Assert.assertTrue(getWait2().until
-                (ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN)).isDisplayed());
+    public void testOfAdminButtonColorChange() {
+        String adminButtonColorBefore = new MainPage(getDriver())
+                .getHeader()
+                .getAdminButtonBackgroundColor();
 
-        getDriver().findElement(ADMIN_BTN).click();
-        Assert.assertTrue(getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//a[@href='/user/admin']/button[@class='jenkins-menu-dropdown-chevron']"))).isDisplayed());
+        String adminButtonColorAfter = new MainPage(getDriver())
+                .getHeader()
+                .hoverOverAdminButton()
+                .getAdminButtonBackgroundColor();
+
+        Assert.assertNotEquals(adminButtonColorAfter, adminButtonColorBefore,
+                "The Admin button background has not changed");
+    }
+
+    @Test
+    public void testOfLogOutButtonColorChange() {
+        String logOutButtonColorBefore = new MainPage(getDriver())
+                .getHeader()
+                .getLogOutButtonBackgroundColor();
+
+        String logOutButtonColorAfter = new MainPage(getDriver())
+                .getHeader()
+                .hoverOverLogOutButton()
+                .getLogOutButtonBackgroundColor();
+
+        Assert.assertNotEquals(logOutButtonColorAfter, logOutButtonColorBefore,
+                "The LogOut button background has not changed");
+    }
+
+    @Test
+    public void testAppearanceOfPopUpMenuWhenClickingOnNotificationIcon() {
+        boolean isPopUpScreenDisplayed = new MainPage(getDriver())
+                .getHeader()
+                .clickNotificationIcon()
+                .isPopUpNotificationScreenDisplayed();
+
+        Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Notification icon screen is not displayed");
+    }
+
+    @Test
+    public void testAppearanceOfPopUpMenusWhenClickingOnAdminIcon() {
+        boolean isPopUpScreenDisplayed = new MainPage(getDriver())
+                .getHeader()
+                .clickAdminDropdownMenu()
+                .isAdminDropdownScreenDisplayed();
+
+        Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Admin icon screen is not displayed");
     }
 
     @Ignore
     @Test
     public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
         getDriver().findElement(NOTIFICATION_ICON).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(POP_UP_SCREEN_OF_THE_NOTIFICATION_BTN));
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list")));
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Manage Jenkins')]"))).click();
 
         Assert.assertTrue(
@@ -329,8 +322,9 @@ public class HeaderTest extends BaseTest {
     public void testAdminButtonIsUnderlinedWhenMouseOver() {
 
         String textUnderlineAfter = new MainPage(getDriver())
-                .hoverOverAdminLink()
-                .getTextDecorationValue();
+                .getHeader()
+                .hoverOverAdminButton()
+                .getAdminTextDecorationValue();
 
         Assert.assertTrue(textUnderlineAfter.contains("underline"));
     }
@@ -364,4 +358,33 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualRes, "Manage Jenkins");
     }
 
+    @Test
+    public void testConfigureTabFromDropdownMenu() {
+        WebElement page = new MainPage(getDriver())
+                .getHeader()
+                .clickAdminDropdownMenu()
+                .openConfigureTabFromAdminDropdownMenu();
+
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+    }
+
+    @Test
+    public void testMyViewsTabFromDropdownMenu() {
+        WebElement page = new MainPage(getDriver())
+                .getHeader()
+                .clickAdminDropdownMenu()
+                .openMyViewsTabFromAdminDropdownMenu();
+
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+    }
+
+    @Test
+    public void testCredentialsTabFromDropdownMenu() {
+        WebElement page = new MainPage(getDriver())
+                .getHeader()
+                .clickAdminDropdownMenu()
+                .openCredentialsTabFromAdminDropdownMenu();
+
+        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+    }
 }

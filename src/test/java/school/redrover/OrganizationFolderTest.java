@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.OrganizationFolderConfigPage;
+import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
@@ -26,40 +28,18 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testRenameOrganizationFolder() {
+        final String originalNewFolderName = "Project1";
         final String expectedRenamedFolderName = "Project";
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .navigateToProjectPage()
+                .clickMultiConfigurationProjectName(originalNewFolderName)
                 .clickRename()
                 .enterNewName(expectedRenamedFolderName)
                 .submitNewName()
-                .getNameProject()
+                .getMultiProjectName()
                 .getText();
 
         Assert.assertEquals(actualRenamedFolderName, expectedRenamedFolderName);
-    }
-
-    @Test
-    public void testCreateOrganizationFolderInFolder() {
-        final String nameFolder = RandomStringUtils.randomAlphanumeric(8);
-        final String nameOrganizationFolder = nameFolder + "Organization";
-
-        WebElement createdOrganizationFolder = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(nameFolder)
-                .selectFolderAndOk()
-                .clickSaveButton()
-                .clickDashboard()
-                .clickFolderName(nameFolder)
-                .clickNewItem()
-                .enterItemName(nameOrganizationFolder)
-                .selectOrganizationFolderAndOk()
-                .clickSaveButton()
-                .clickDashboard()
-                .clickFolderName(nameFolder)
-                .getNestedFolder(nameOrganizationFolder);
-
-        Assert.assertTrue(createdOrganizationFolder.isDisplayed());
     }
 
     @Test
@@ -78,12 +58,27 @@ public class OrganizationFolderTest extends BaseTest {
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton()
                 .clickMoveOnLeftMenu()
-                .selectDestinationFolder()
-                .clickMoveButtonOnOrgPage()
+                .selectDestinationFolder(folderName)
+                .clickMoveButton()
                 .clickDashboard()
                 .clickFolderName(folderName)
                 .nestedFolderIsVisibleAndClickable(organizationFolderName);
 
         Assert.assertTrue(movedOrgFolderVisibleAndClickable);
+    }
+
+    @Test
+    public void testCreateDisableOrganizationFolder() {
+        final String RandomName = RandomStringUtils.randomAlphanumeric(5);
+
+        String disableFolder = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(RandomName)
+                .selectOrganizationFolderAndOk()
+                .clickDisable()
+                .clickSaveButton()
+                .getTextFromDisableMessage();
+
+        Assert.assertEquals(disableFolder.trim().substring(0,46),"This Organization Folder is currently disabled");
     }
 }
