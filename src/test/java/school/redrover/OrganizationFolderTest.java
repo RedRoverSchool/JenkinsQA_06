@@ -1,12 +1,9 @@
 package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
-import school.redrover.model.OrganizationFolderConfigPage;
-import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
@@ -80,5 +77,20 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTextFromDisableMessage();
 
         Assert.assertEquals(disableFolder.trim().substring(0,46),"This Organization Folder is currently disabled");
+    }
+
+    @Test
+    public  void testAddDescription(){
+        final String RandomName = RandomStringUtils.randomAlphanumeric(5);
+
+        String textFromDescription = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(RandomName)
+                .selectOrganizationFolderAndOk()
+                .selectDescription("Description")
+                .clickSaveButton()
+                .getTextFromDescription();
+
+        Assert.assertEquals(textFromDescription,"Description");
     }
 }

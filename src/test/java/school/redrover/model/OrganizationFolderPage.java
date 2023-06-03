@@ -26,4 +26,9 @@ public class OrganizationFolderPage extends BaseMainHeaderPage<OrganizationFolde
 
         return getDriver().findElement(By.xpath("//form[@method='post']")).getText();
     }
+
+    public String getTextFromDescription(){
+
+        return getDriver().findElement(By.xpath("//div[@id='view-message']")).getText();
+    }
 }
