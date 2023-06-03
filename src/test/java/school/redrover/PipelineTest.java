@@ -699,4 +699,17 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualJobName,"Pipeline TestPipeLineJJ");
     }
 
+    @Test
+    public void testCancelPipelineDeletion(){
+        final String jobName = "P1";
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(jobName)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .dropDownMenuClickDelete(jobName)
+                .dismissAlert();
+        Assert.assertEquals(jobName,"P1");
+    }
 }
