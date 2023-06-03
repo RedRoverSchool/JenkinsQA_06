@@ -17,18 +17,6 @@ import school.redrover.runner.TestUtils;
 public class BuildPageTest extends BaseTest {
     private static final String NAME_PIPELINE = "Pipeline2023";
     private static final String BUILD_DESCRIPTION = "For QA";
-    private static final By LOGO_JENKINS = By.id("jenkins-name-icon");
-    private static final By SAVE_BUTTON = By.name("Submit");
-    private static final By BUILD_HISTORY = By.xpath("//a[@href='/view/all/builds']");
-    private static final By BUILD_SCHEDULE = By.xpath("//a[@href='job/" + NAME_PIPELINE + "/build?delay=0sec']");
-    private static final By SERIAL_NUMBER_OF_BUILD = By.xpath(
-            "//a[@href='/job/" + NAME_PIPELINE + "/1/']");
-    private static final By DROP_DOWN_SERIAL_NUMBER = By.xpath(
-            "//a[contains(@class, 'badge model-link inside')]/button");
-    private static final By EDIT_BUILD_INFORMATION = By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/configure']");
-    private static final By DESCRIPTION_FIELD = By.xpath("//textarea[@name='description']");
-    private static final By DESCRIPTION_TEXT = By.xpath("//div[@id='description']/div[1]");
-
     private final String freestyleProjectName = "FreestyleName";
 
     @Test
@@ -52,23 +40,23 @@ public class BuildPageTest extends BaseTest {
 
         TestUtils.createPipeline(this, NAME_PIPELINE, true);
 
-        getDriver().findElement(LOGO_JENKINS).click();
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
 
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(BUILD_SCHEDULE)).click();
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + NAME_PIPELINE + "/build?delay=0sec']"))).click();
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(BUILD_HISTORY)).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view/all/builds']"))).click();
 
-        new Actions(getDriver()).moveToElement(getWait5().until(ExpectedConditions.visibilityOfElementLocated(SERIAL_NUMBER_OF_BUILD)))
+        new Actions(getDriver()).moveToElement(getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/']"))))
                 .perform();
-        getDriver().findElement(DROP_DOWN_SERIAL_NUMBER).sendKeys(Keys.RETURN);
+        getDriver().findElement(By.xpath("//a[contains(@class, 'badge model-link inside')]/button")).sendKeys(Keys.RETURN);
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(EDIT_BUILD_INFORMATION)).sendKeys(Keys.RETURN);
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/configure']"))).sendKeys(Keys.RETURN);
 
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(DESCRIPTION_FIELD)).sendKeys(BUILD_DESCRIPTION);
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).sendKeys(BUILD_DESCRIPTION);
 
-        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.name("Submit")).click();
 
-        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), BUILD_DESCRIPTION);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), BUILD_DESCRIPTION);
     }
 
     @Test
