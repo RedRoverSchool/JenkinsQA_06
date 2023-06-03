@@ -691,4 +691,12 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actual, "TestPipeLineJJ");
     }
 
+    @Test(dependsOnMethods = "testCreatePipeLine")
+    public void testOpenCreatedPipeline() {
+        String actualJobName = new MainPage(getDriver())
+                .clickPipelineProject("TestPipeLineJJ")
+                .getProjectName();
+        Assert.assertEquals(actualJobName,"Pipeline TestPipeLineJJ");
+    }
+
 }
