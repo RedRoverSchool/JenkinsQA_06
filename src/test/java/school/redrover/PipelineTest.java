@@ -689,7 +689,6 @@ public class PipelineTest extends BaseTest {
                 .clickDashboard()
                 .getJobName("TestPipeLineJJ");
         Assert.assertEquals(actual, "TestPipeLineJJ");
-
     }
 
 }
