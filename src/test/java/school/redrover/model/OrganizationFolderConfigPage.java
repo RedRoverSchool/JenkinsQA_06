@@ -11,4 +11,10 @@ public class OrganizationFolderConfigPage extends BaseConfigPage<OrganizationFol
     public OrganizationFolderConfigPage(OrganizationFolderPage organizationFolderPage) {
         super(organizationFolderPage);
     }
+
+    public OrganizationFolderConfigPage clickDisable(){
+        getDriver().findElement(By.xpath("//label[@data-title='Disabled']")).click();
+
+        return this;
+    }
 }

@@ -342,24 +342,28 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testMoveFreestyleProjectToFolder() {
+        final String projectName = "FreestyleProject";
 
-        String projectName = "Project_1";
+        String movedFreestyleProjectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(NAME)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .clickDashboard()
 
-        TestUtils.createFolder(this, NAME, true);
-        TestUtils.createFreestyleProject(this, projectName, true);
+                .clickNewItem()
+                .enterItemName(projectName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']", projectName)))).click();
-        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/move']", projectName))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@class='select setting-input']"))).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//option[@value='/%s']", NAME)))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@formnovalidate='formNoValidate']"))).click();
-        getDriver().findElement(By.xpath("//ol/li/a[@href='/']")).click();
+                .clickMoveOnSideMenu()
+                .selectDestinationFolder(NAME)
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(NAME)
+                .getNestedFreestyleProjectName(projectName);
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']", NAME)))).click();
-
-        WebElement movedProject = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']", projectName))));
-
-        Assert.assertEquals(movedProject.getText(), projectName);
+        Assert.assertEquals(movedFreestyleProjectName, projectName);
     }
 
     @Test
