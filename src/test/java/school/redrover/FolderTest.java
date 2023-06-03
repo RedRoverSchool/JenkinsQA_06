@@ -343,21 +343,19 @@ public class FolderTest extends BaseTest {
     @Test
     public void testMoveFreestyleProjectToFolder() {
 
-        String projectName = "Project_1";
+        String projectName = "FreestyleProject";
 
         TestUtils.createFolder(this, NAME, true);
         TestUtils.createFreestyleProject(this, projectName, true);
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']", projectName)))).click();
-        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/move']", projectName))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@class='select setting-input']"))).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//option[@value='/%s']", NAME)))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@formnovalidate='formNoValidate']"))).click();
-        getDriver().findElement(By.xpath("//ol/li/a[@href='/']")).click();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']", NAME)))).click();
-
-        WebElement movedProject = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='job/%s/']", projectName))));
+        WebElement movedProject = new MainPage(getDriver())
+                .clickFreestyleProjectName(projectName)
+                .clickMoveLinkInSideMenu(projectName)
+                .selectDestinationFolder(NAME)
+                .clickMoveButton()
+                .clickDashboard()
+                .clickFolderName(NAME)
+                .getInnerJobWebElement(projectName);
 
         Assert.assertEquals(movedProject.getText(), projectName);
     }

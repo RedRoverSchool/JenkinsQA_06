@@ -128,4 +128,9 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         getDriver().findElement(By.name("Submit")).click();
         return new FreestyleProjectPage(getDriver());
     }
+
+    public MovePage<FreestyleProjectPage>clickMoveLinkInSideMenu(String projectName) {
+        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/move']", projectName))).click();
+        return new MovePage<>(this);
+    }
 }
