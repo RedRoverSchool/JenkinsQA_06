@@ -21,16 +21,6 @@ public class PipelineTest extends BaseTest {
     private static final String RENAME = "Pipeline Project";
     private static final String TEXT_DESCRIPTION = "This is a test description";
 
-    private void createWithoutDescription(String name) {
-        getDriver().findElement(By.xpath("//a[@href = 'newJob']")).click();
-
-        getDriver().findElement(By.id("name")).sendKeys(name);
-        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']//li[2]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getDriver().findElement(By.name("Submit")).click();
-    }
-
     @Test
     public void testCreatePipeline() {
         String projectName = new MainPage(getDriver())
@@ -256,17 +246,18 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testChapterChangesOfPipelineSeeTheStatusOfLastBuild() {
-        String changesBuild = "No changes in any of the builds";
+    public void testChangesStatusOfLastBuild() {
+
         TestUtils.createPipeline(this, "Engineer", true);
 
-        getDriver().findElement(By.xpath("//a[@href='job/Engineer/']")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, 'build?')]")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, 'changes')]")).click();
+        String text = new MainPage(getDriver())
+                .clickPipelineProject("Engineer")
+                .clickBuildNow()
+                .clickChangeOnLeftSideMenu()
+                .getTextOfPage();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='main-panel']")).getText().contains(changesBuild),
+        Assert.assertTrue(text.contains("No changes in any of the builds"),
                 "In the Pipeline Changes chapter, not displayed status of the latest build.");
-
     }
 
     @Test
@@ -475,7 +466,8 @@ public class PipelineTest extends BaseTest {
         final String days = "7";
         final String builds = "5";
 
-        createWithoutDescription("test-pipeline");
+        TestUtils.createPipeline(this, "test-pipeline", false);
+
         getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
         getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
@@ -498,7 +490,8 @@ public class PipelineTest extends BaseTest {
         final String days = "0";
         final String errorMessage = "Not a positive integer";
 
-        createWithoutDescription("test-pipeline");
+        TestUtils.createPipeline(this, "test-pipeline", false);
+
         getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
         getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
@@ -522,7 +515,8 @@ public class PipelineTest extends BaseTest {
         final String builds = "0";
         final String errorMessage = "Not a positive integer";
 
-        createWithoutDescription("test-pipeline");
+        TestUtils.createPipeline(this, "test-pipeline", false);
+
         getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
 
         getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
