@@ -83,4 +83,10 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
                 .perform();
         return new ManageJenkinsPage(getDriver());
     }
+
+    public ManagePluginsPage clickManagePlugins() {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='pluginManager']"))).click();
+        return new ManagePluginsPage(getDriver());
+    }
 }
