@@ -161,4 +161,13 @@ public class TestUtils {
 
        clickBreadcrumbLinkItem(baseTest, viewName);
     }
+
+    public static List<String> getListNames(List<WebElement> elements) {
+        List<String> texts = new ArrayList<>();
+
+        for (WebElement element : elements) {
+            texts.add(element.getText().substring(0, element.getText().indexOf("\n")));
+        }
+        return texts;
+    }
 }

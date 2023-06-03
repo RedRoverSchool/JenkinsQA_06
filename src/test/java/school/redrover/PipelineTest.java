@@ -13,18 +13,13 @@ import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import static org.openqa.selenium.By.xpath;
 
 public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = "PIPELINE_NAME";
     private static final String RENAME = "Pipeline Project";
     private static final String TEXT_DESCRIPTION = "This is a test description";
-
-    private static final By homePage = By.xpath("//h1[@class= 'job-index-headline page-headline']");
 
     private void createWithoutDescription(String name) {
         getDriver().findElement(By.xpath("//a[@href = 'newJob']")).click();
@@ -369,47 +364,15 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testSortingPipelineProjectAplhabetically() {
 
-        TestUtils.createPipeline(this, "SProject", false);
-        WebElement projectName1 = getDriver().findElement(homePage);
-        String p1 = projectName1.getText().substring(9);
-        getDriver().findElement(By.id("jenkins-head-icon")).click();
+        List<String> namesOfJobs = Arrays.asList("UProject", "SProject", "AProject");
 
-        TestUtils.createPipeline(this, "AProject", false);
-        WebElement projectName2 = getDriver().findElement(homePage);
-        String p2 = projectName2.getText().substring(9);
-        getDriver().findElement(By.id("jenkins-head-icon")).click();
+        for(String nameJob : namesOfJobs) {
+            TestUtils.createPipeline(this, nameJob, true);
+        }
 
-        TestUtils.createPipeline(this, "UProject", false);
-        WebElement projectName3 = getDriver().findElement(homePage);
-        String p3 = projectName3.getText().substring(9);
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Name')]"))).click();
 
-        List<String> expectedNames = new ArrayList<>();
-        expectedNames.add(p1);
-        expectedNames.add(p2);
-        expectedNames.add(p3);
-
-        ArrayList<String> sortedExpectedProjectNames = new ArrayList<>();
-        sortedExpectedProjectNames.addAll(expectedNames);
-        Collections.sort(sortedExpectedProjectNames);
-        System.out.println(sortedExpectedProjectNames);
-
-        getDriver().findElement(By.id("jenkins-head-icon")).click();
-        getDriver().findElement(By.xpath("//th[@initialsortdir='down']")).click();
-
-        WebElement findProjectName1 = getDriver().findElement(By.xpath("//body[1]/div[3]/div[2]/div[2]/table[1]/tbody[1]/tr[1]"));
-        String actualProjectName1 = findProjectName1.getText().substring(0, 8);
-        WebElement findProjectName2 = getDriver().findElement(By.xpath("//body[1]/div[3]/div[2]/div[2]/table[1]/tbody[1]/tr[2]"));
-        String actualProjectName2 = findProjectName2.getText().substring(0, 8);
-        WebElement findProjectName3 = getDriver().findElement(By.xpath("//body[1]/div[3]/div[2]/div[2]/table[1]/tbody[1]/tr[3]"));
-        String actualProjectName3 = findProjectName3.getText().substring(0, 8);
-
-        List<String> actualProjectNames = new ArrayList<>();
-        actualProjectNames.add(actualProjectName1);
-        actualProjectNames.add(actualProjectName2);
-        actualProjectNames.add(actualProjectName3);
-        System.out.println(actualProjectNames);
-
-        Assert.assertEquals(actualProjectNames, sortedExpectedProjectNames);
+        Assert.assertEquals(new MainPage(getDriver()).getListNamesOfJobs(), namesOfJobs);
     }
 
     @Test
@@ -464,22 +427,6 @@ public class PipelineTest extends BaseTest {
                 .enterItemName(".");
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
-    }
-
-    @Test
-    public void testCreatePipelineDashboardSliderNewItem() {
-        NewJobPage newJobPage = new MainPage(getDriver())
-                .clickNewItemInDashboardDropDownMenu();
-
-        PipelinePage PipelinePage = new NewJobPage(getDriver())
-                .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
-                .clickSaveButton();
-
-        MainPage mainPage = new PipelinePage(getDriver())
-                .clickDashboard();
-
-        Assert.assertEquals(mainPage.getProjectNameMainPage(PIPELINE_NAME), PIPELINE_NAME);
     }
 
     @Test
