@@ -484,20 +484,14 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithSpaceInsteadOfName() {
-        WebElement newItem = getDriver().findElement(By.xpath("//div[@id='tasks']//a[@href='/view/all/newJob']"));
-        newItem.click();
+          CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("  ")
+                .selectPipelineProject()
+                .clickOkButtonAndMoveToErrorPage();
 
-        WebElement itemName = getDriver().findElement(By.id("name"));
-        itemName.sendKeys("  ");
-
-        WebElement typeProject = getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
-        typeProject.click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))).
-                getText(), "Error");
-        Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))).
-                getText(), "No name is specified");
+        Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
+        Assert.assertEquals(createItemErrorPage.getErrorMessage(), "No name is specified");
     }
 
     @Test

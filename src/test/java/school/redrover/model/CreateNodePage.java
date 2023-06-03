@@ -7,7 +7,7 @@ import school.redrover.model.base.BaseMainHeaderPage;
 
 public class CreateNodePage extends BaseMainHeaderPage<CreateNodePage> {
 
-    public CreateNodePage(WebDriver driver){
+    public CreateNodePage(WebDriver driver) {
         super(driver);
     }
 
@@ -19,5 +19,11 @@ public class CreateNodePage extends BaseMainHeaderPage<CreateNodePage> {
     public ErrorNodePage clickSaveButtonWhenNameFieldEmpty() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
         return new ErrorNodePage(getDriver());
+    }
+
+    public ManageNodesPage clickSaveButton() {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
+        return new ManageNodesPage(getDriver());
     }
 }

@@ -23,18 +23,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_NAME = "MULTI_CONFIGURATION_NAME";
     private static final String MULTI_CONFIGURATION_NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";
 
-    private void createMultiConfigurationProject(String name, Boolean goToMainPage) {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name']"))).sendKeys(name);
-        getDriver().findElement(By.xpath("//label/span[contains(text(), 'Multi-configuration proj')]")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
-
-        if (goToMainPage) {
-            getDriver().findElement(By.linkText("Dashboard")).click();
-        }
-    }
-
     @Test
     public void testCreateMultiConfiguration() {
         MainPage mainPage = new MainPage(getDriver());
@@ -510,11 +498,10 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 {'<', "&lt;"}, {'>', "&gt;"}, {'/', "/"}, {'?', "?"}};
     }
 
-    @Ignore
     @Test(dataProvider = "unsafeCharacters")
-    public void verifyProjectNameRenameWithUnsafeSymbolsTest(char unsafeSymbol, String htmlUnsafeSymbol) {
+    public void testVerifyProjectNameRenameWithUnsafeSymbols(char unsafeSymbol, String htmlUnsafeSymbol) {
 
-        createMultiConfigurationProject(MULTI_CONFIGURATION_NAME, true);
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
 
         String errorNotification = new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
