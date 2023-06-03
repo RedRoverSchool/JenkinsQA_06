@@ -370,9 +370,11 @@ public class PipelineTest extends BaseTest {
             TestUtils.createPipeline(this, nameJob, true);
         }
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Name')]"))).click();
+        List<String> listNamesOfJobs = new MainPage(getDriver())
+                .clickSortByName()
+                .getListNamesOfJobs();
 
-        Assert.assertEquals(new MainPage(getDriver()).getListNamesOfJobs(), namesOfJobs);
+        Assert.assertEquals(listNamesOfJobs, namesOfJobs);
     }
 
     @Test

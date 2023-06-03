@@ -311,4 +311,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
 
         return TestUtils.getListNames(listOfJobs);
     }
+
+    public MainPage clickSortByName() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Name')]"))).click();
+        return this;
+    }
 }
