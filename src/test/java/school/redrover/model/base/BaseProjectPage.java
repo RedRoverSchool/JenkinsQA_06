@@ -1,9 +1,10 @@
-package school.redrover.model;
+package school.redrover.model.base;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.ConsoleOutputPage;
 
 import static org.openqa.selenium.By.cssSelector;
 
