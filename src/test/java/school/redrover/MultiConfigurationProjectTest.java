@@ -556,8 +556,10 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(errorMessage, expectedResult);
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    @Test
     public void testRenameFromDropDownMenu() {
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+
         String NewNameProject= new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
