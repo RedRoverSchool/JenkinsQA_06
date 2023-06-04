@@ -9,7 +9,7 @@ import school.redrover.runner.BaseTest;
 public class OrganizationFolderTest extends BaseTest {
 
     private static final String organizationFolderName = "OrgFolder";
-    private static final String organizationFolderRenamed = "ProjectRenamed";
+    private static final String organizationFolderRenamed = "OrgFolderRenamed";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -64,7 +64,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateDisableOrganizationFolder() {
-
 
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
