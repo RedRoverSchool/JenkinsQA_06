@@ -146,7 +146,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
     }
 
     public PipelineConfigPage scrollToBuildTriggers() {
-        TestUtils.scrollToElementByJavaScript(this,getDriver().findElement(By.xpath("//label[normalize-space()='Throttle builds']")));
+        TestUtils.scrollToElementByJavaScript(this, getDriver().findElement(By.xpath("//label[normalize-space()='Throttle builds']")));
         return this;
     }
 
@@ -156,7 +156,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
     }
 
     public PipelineConfigPage sendAreContentInputString(String text) {
-        TestUtils.clickByJavaScript(this,getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")));
+        TestUtils.clickByJavaScript(this, getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")));
         getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")).sendKeys(text);
         return this;
     }
@@ -166,6 +166,20 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         selectPipelineScript.selectByVisibleText("Scripted Pipeline");
         getDriver().findElement(By.name("Submit")).click();
         return new PipelinePage(getDriver());
+    }
+
+    public boolean isDiscardOldBuildsCheckboxSelected() {
+        return getDriver().findElement(By.id("cb2")).isSelected();
+    }
+
+    public String getNumberOfDaysToKeepBuilds() {
+        return getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.daysToKeepStr")))
+                .getAttribute("value");
+    }
+
+    public String getMaxNumberOfBuildsToKeep() {
+        return getWait2().until(ExpectedConditions.presenceOfElementLocated(By.name("_.numToKeepStr")))
+                .getAttribute("value");
     }
 
 }

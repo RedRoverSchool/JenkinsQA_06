@@ -461,27 +461,25 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(discardOldBuildsCheckbox);
     }
 
-    @Test
+    @Test (dependsOnMethods = "testCreatePipeline")
     public void testDiscardOldBuildsIsCheckedWithValidParams() {
         final String days = "7";
         final String builds = "5";
 
-        TestUtils.createPipeline(this, "test-pipeline", false);
+        new MainPage(getDriver())
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickConfigureButton()
+                .clickDiscardOldBuildsCheckbox()
+                .enterDaysToKeepBuilds(days)
+                .enterMaxOfBuildsToKeep(builds)
+                .clickSaveButton()
+                .clickConfigureButton();
 
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
+        PipelineConfigPage pipelineConfigPage = new PipelineConfigPage(new PipelinePage(getDriver()));
 
-        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
-        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
-        getDriver().findElement(By.name("_.numToKeepStr")).sendKeys(builds);
-        getDriver().findElement(By.name("Submit")).click();
-
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
-
-        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
-
-        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
-        Assert.assertEquals(getDriver().findElement(By.name("_.daysToKeepStr")).getAttribute("value"), days);
-        Assert.assertEquals(getDriver().findElement(By.name("_.numToKeepStr")).getAttribute("value"), builds);
+        Assert.assertTrue(pipelineConfigPage.isDiscardOldBuildsCheckboxSelected());
+        Assert.assertEquals(pipelineConfigPage.getNumberOfDaysToKeepBuilds(), days);
+        Assert.assertEquals(pipelineConfigPage.getMaxNumberOfBuildsToKeep(), builds);
     }
 
     @Ignore

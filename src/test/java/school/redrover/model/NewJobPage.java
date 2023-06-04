@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseConfigPage;
-import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BaseModel;
 
 public class NewJobPage extends BaseModel {
@@ -22,19 +20,19 @@ public class NewJobPage extends BaseModel {
     public FreestyleProjectConfigPage selectFreestyleProjectAndOk() {
         getFreestyleProject().click();
         getOkButton().click();
-        return new FreestyleProjectConfigPage(getDriver());
+        return new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
     }
 
     public PipelineConfigPage selectPipelineAndOk() {
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
         getOkButton().click();
-        return new PipelineConfigPage(getDriver());
+        return new PipelineConfigPage(new PipelinePage(getDriver()));
     }
 
     public MultiConfigurationProjectConfigPage selectMultiConfigurationProjectAndOk() {
         getDriver().findElement(By.xpath("//span[.='Multi-configuration project']")).click();
         getOkButton().click();
-        return new MultiConfigurationProjectConfigPage(getDriver());
+        return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()));
     }
 
     public NewJobPage selectMultiConfigurationProject() {
@@ -51,13 +49,13 @@ public class NewJobPage extends BaseModel {
     public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {
         getDriver().findElement(By.xpath("//li[contains(@class, 'WorkflowMultiBranchProject')]")).click();
         getOkButton().click();
-        return new MultibranchPipelineConfigPage(getDriver());
+        return new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver()));
     }
 
     public OrganizationFolderConfigPage selectOrganizationFolderAndOk() {
         getDriver().findElement(By.xpath("//li[contains(@class, 'OrganizationFolder')]")).click();
         getOkButton().click();
-        return new OrganizationFolderConfigPage(getDriver());
+        return new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver()));
     }
 
     public NewJobPage copyFrom(String typeToAutocomplete) {
