@@ -21,4 +21,7 @@ public class ManageNodesPage extends BaseMainHeaderPage<ManageNodesPage> {
                 .visibilityOfElementLocated(By.xpath("//tr[@id='node_" + nodeName + "']/td/a")))
                 .getText();
     }
+    public String getTitle(){
+        return getDriver().findElement(By.tagName("h1")).getText();
+    }
 }

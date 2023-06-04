@@ -335,4 +335,180 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getDriver().switchTo().alert().dismiss();
         return this;
     }
+    public MainPage hoverToManageJenkinsItemInDashboardBreadcrumbs(){
+        clickOnSliderDashboardInDropDownMenu();
+        By sectionNameLocator = By.xpath("//*[@id='yui-gen4']/a/span");
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
+        new Actions(getDriver()).moveToElement(getDriver().findElement(sectionNameLocator)).perform();
+        return this;
+    }
+    public ConfigureSystemPage clickOnConfigureSystemSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath("//div[@id='submenu0']/div/ul/li/a[@href='/manage/configure']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new ConfigureSystemPage(getDriver());
+    }
+    public GlobalToolConfigurationPage clickOnGlobalToolConfigurationSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/configureTools']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new GlobalToolConfigurationPage(getDriver());
+    }
+    public ManagePluginsPage clickOnManagePluginsSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/pluginManager']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new ManagePluginsPage(getDriver());
+    }
+    public ManageNodesPage clickOnManageNodesSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/computer']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new ManageNodesPage(getDriver());
+    }
+    public CredentialsPage clickOnCredentialsSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/credentials']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new CredentialsPage(getDriver());
+    }
+    public CredentialProvidersPage clickOnCredentialProvidersSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/configureCredentials']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new CredentialProvidersPage(getDriver());
+    }
+    public ManageUsersPage clickOnManageUsersSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/securityRealm/']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new ManageUsersPage(getDriver());
+    }
+    public SystemInformationPage clickOnSystemInformationSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/systemInfo']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new SystemInformationPage(getDriver());
+    }
+    public LogRecordersPage clickOnSystemLogSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/log']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new LogRecordersPage(getDriver());
+    }
+    public LoadStatisticsPage clickOnLoadStatisticsSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/load-statistics']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new LoadStatisticsPage(getDriver());
+    }
+    public AboutJenkinsPage clickOnAboutJenkinsSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/about']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new AboutJenkinsPage(getDriver());
+    }
+    public ManageOldDataPage clickOnManageOldDataSubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/administrativeMonitor/OldData/']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new ManageOldDataPage(getDriver());
+    }
+    public ConfigureGlobalSecurityPage clickOnConfigureGlobalSecuritySubsectionInBreadcrumbs(){
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/configureSecurity']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new ConfigureGlobalSecurityPage(getDriver());
+    }
+    public JenkinsCLIPage clickOnJenkinsCLISubsectionInBreadcrumbs(){
+        new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
+        for (int i = 0; i < 16; i++) {
+            new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
+        }
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/cli']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new JenkinsCLIPage(getDriver());
+    }
+    public ScriptConsolePage clickOnScriptConsoleSubsectionInBreadcrumbs(){
+        new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
+        for (int i = 0; i < 16; i++) {
+            new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
+        }
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/script']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new ScriptConsolePage(getDriver());
+    }
+    public PrepareForShutdownPage clickOnPrepareForShutdownSubsectionInBreadcrumbs(){
+        new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
+        for (int i = 0; i < 17; i++) {
+            new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
+        }
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='/manage/prepareShutdown']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+
+        return new PrepareForShutdownPage(getDriver());
+    }
+    public String getBreadcrumbsSubsectionAlertMessage(){
+        new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
+        for (int i = 0; i < 16; i++) {
+            new Actions(getDriver()).sendKeys(Keys.ARROW_DOWN).perform();
+        }
+        By subsectionNameLocator = By.xpath(
+                "//div[@id='submenu0']/div/ul/li/a[@href='#' and @class='yuimenuitemlabel']/span");
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(subsectionNameLocator));
+        WebElement subSection = getDriver().findElement(subsectionNameLocator);
+        subSection.click();
+        Alert alert = getWait5().until(ExpectedConditions.alertIsPresent());
+
+        return alert.getText();
+    }
 }

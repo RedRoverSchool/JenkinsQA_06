@@ -75,4 +75,7 @@ public class ConfigureGlobalSecurityPage extends BaseMainHeaderPage<ConfigureGlo
         }
         return true;
     }
+    public String getTitle(){
+        return getDriver().findElement(By.tagName("h1")).getText();
+    }
 }

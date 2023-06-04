@@ -20,4 +20,7 @@ public class ManagePluginsPage extends BaseMainHeaderPage<ManagePluginsPage> {
 
         return TestUtils.getTexts(listOfTasks);
     }
+    public String getTitle(){
+        return getDriver().findElement(By.tagName("h1")).getText();
+    }
 }

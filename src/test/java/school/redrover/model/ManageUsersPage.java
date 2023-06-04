@@ -113,4 +113,7 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@id='description']/div[1]"))).getText();
     }
+    public String getTitle(){
+        return getDriver().findElement(By.tagName("h1")).getText();
+    }
 }
