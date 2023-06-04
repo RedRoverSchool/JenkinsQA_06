@@ -78,7 +78,8 @@ public class MultibranchPipelineTest extends BaseTest {
                 .dropDownMenuClickMove("MultibranchPipeline",new FolderPage(getDriver()))
                 .selectDestinationFolder("Folder")
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName("Folder")
                 .getMultibranchPipelineName();
 

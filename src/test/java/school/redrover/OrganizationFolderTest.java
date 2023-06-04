@@ -17,7 +17,8 @@ public class OrganizationFolderTest extends BaseTest {
                 .enterItemName(expectedNewFolderName)
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .getProjectNameMainPage(expectedNewFolderName);
 
         Assert.assertEquals(actualNewFolderName, expectedNewFolderName);
@@ -57,7 +58,8 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickMoveOnLeftMenu()
                 .selectDestinationFolder(folderName)
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(folderName)
                 .nestedFolderIsVisibleAndClickable(organizationFolderName);
 

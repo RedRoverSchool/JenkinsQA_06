@@ -86,10 +86,6 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         return getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).isDisplayed();
     }
 
-    public MainPage clickDashboard() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Dashboard"))).click();
-        return new MainPage(getDriver());
-    }
     public FreestyleProjectPage clickPreviewButton () {
         getDriver().findElement(By.xpath("//a[@class = 'textarea-show-preview']")).click();
         return this;

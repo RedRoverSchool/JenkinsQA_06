@@ -86,11 +86,6 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
         return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()));
     }
 
-    public MainPage clickDashboard() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        return new MainPage(getDriver());
-    }
-
     public MovePage<MultiConfigurationProjectPage> clickMoveOnSideMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/move']")))).click();
