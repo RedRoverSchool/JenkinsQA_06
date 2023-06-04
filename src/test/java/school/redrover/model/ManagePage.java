@@ -39,24 +39,24 @@ public class ManagePage extends BaseMainHeaderPage<ManagePage> {
                 (By.xpath(" //div[@class='jenkins-search__results']"))).getText();
     }
 
-    public ManagePage selectOnTheFirstLineInDropdown() {
+//    public ManagePage selectOnTheFirstLineInDropdown() {
+//
+//        getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".jenkins-search__results-item--selected")));
+//
+//        List<WebElement> options = getDriver().findElements(By.cssSelector(".jenkins-search__results-item--selected"));
+//        for (WebElement option : options) {
+//            if (option.getText().equals("Configure System")) {
+//                option.click();
+//                break;
+//            }
+//        }
+//        return this;
+//    }
 
-        getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".jenkins-search__results-item--selected")));
-
-        List<WebElement> options = getDriver().findElements(By.cssSelector(".jenkins-search__results-item--selected"));
-        for (WebElement option : options) {
-            if (option.getText().equals("Configure System")) {
-                option.click();
-                break;
-            }
-        }
-        return this;
-    }
-
-    public String getConfigureSystemPage() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//h1[normalize-space()='Configure System']"))).getText();
-    }
+//    public String getConfigureSystemPage() {
+//        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+//                (By.xpath("//h1[normalize-space()='Configure System']"))).getText();
+//    }
 
     public ManagePage navigateToManageUsersPage() {
         getDriver().findElement(By.xpath("//a[@href='securityRealm/']")).click();
