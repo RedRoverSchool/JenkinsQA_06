@@ -28,8 +28,8 @@ public class NewViewTest extends BaseTest {
                 .enterItemName(projectName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard();
-
+                .getHeader()
+                .clickLogo();
     }
 
     private List<String> getListFromWebElements(List<WebElement> elements) {
@@ -51,7 +51,8 @@ public class NewViewTest extends BaseTest {
                 .enterItemName(freestyleProjectName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .createNewView()
                 .setNewViewName(expectedName)
                 .selectListView()

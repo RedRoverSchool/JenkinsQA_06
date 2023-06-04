@@ -1,13 +1,14 @@
 package school.redrover.model;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.openqa.selenium.By.cssSelector;
 
@@ -85,10 +86,6 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         return getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).isDisplayed();
     }
 
-    public MainPage clickDashboard() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Dashboard"))).click();
-        return new MainPage(getDriver());
-    }
     public FreestyleProjectPage clickPreviewButton () {
         getDriver().findElement(By.xpath("//a[@class = 'textarea-show-preview']")).click();
         return this;
@@ -116,6 +113,21 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         getWait2().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href = '/job/" + projectName + "/confirm-rename']"))).click();
         return new RenamePage<>(this);
+    }
+
+    public FreestyleProjectPage clickDeleteProject() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@href = '#']//span[text() = 'Delete Project' ]"))).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+        return this;
+    }
+
+    public boolean checkProjectWasDeleted(String projectName) {
+       boolean result = getDriver().findElements(By
+                        .xpath("//a[@class='jenkins-table__link model-link inside']"))
+                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(projectName);
+        return result;
     }
 
     public ConsoleOutputPage openConsoleOutputForBuild(){

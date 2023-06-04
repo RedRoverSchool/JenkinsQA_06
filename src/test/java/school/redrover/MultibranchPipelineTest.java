@@ -1,6 +1,8 @@
 package school.redrover;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.FolderPage;
@@ -9,6 +11,8 @@ import school.redrover.model.MultibranchPipelineConfigPage;
 import school.redrover.model.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
+import java.util.List;
 
 public class MultibranchPipelineTest extends BaseTest {
     @Test
@@ -74,7 +78,8 @@ public class MultibranchPipelineTest extends BaseTest {
                 .dropDownMenuClickMove("MultibranchPipeline",new FolderPage(getDriver()))
                 .selectDestinationFolder("Folder")
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName("Folder")
                 .getMultibranchPipelineName();
 
@@ -94,5 +99,22 @@ public class MultibranchPipelineTest extends BaseTest {
                 .getDescription();
 
         Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
+    }
+
+    @Test
+    public void createMultiPipeline(){
+        for (int i = 0 ;i < 4; i++){
+            String jobName = "M0"+i;
+            TestUtils.createMultibranchPipeline(this,jobName,true);
+        }
+        MainPage mainPage = new MainPage(getDriver());
+        List<String> jobs = mainPage.getJobList();
+        Assert.assertTrue(jobs.size()==4);
+    }
+    @Test(dependsOnMethods = "createMultiPipeline")
+    public void testFindCreatedMultibranchPipelineOnDashboard(){
+        MainPage mainPage = new MainPage(getDriver());
+        boolean status = mainPage.verifyJobIsPresent("M00");
+        Assert.assertTrue(status);
     }
 }

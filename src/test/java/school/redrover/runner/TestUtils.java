@@ -76,16 +76,6 @@ public class TestUtils {
         goToMainPage(baseTest, goToHomePage);
     }
 
-    public static void createOrganizationFolder(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectOrganizationFolderAndOk()
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
-    }
-
     public static List<String> getTexts(List<WebElement> elements) {
         List<String> texts = new ArrayList<>();
 

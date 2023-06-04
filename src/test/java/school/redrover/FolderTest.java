@@ -169,7 +169,8 @@ public class FolderTest extends BaseTest {
                 .dropDownMenuClickMove(folderTwo, new FolderPage(getDriver()))
                 .selectDestinationFolder(folderOne)
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(folderOne)
                 .getNestedFolder(folderTwo);
 
@@ -241,7 +242,8 @@ public class FolderTest extends BaseTest {
                 .enterItemName(newProjectName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(folderName)
                 .getLastCreatedItemName();
 
@@ -325,13 +327,15 @@ public class FolderTest extends BaseTest {
         final String secondFolderName = "SecondFolder";
 
         String copiedFolderDescription = new FolderPage(getDriver())
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(NAME)
                 .clickNewItem()
                 .enterItemName(secondFolderName)
                 .copyFromFolder(NAME)
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(NAME)
                 .clickInnerFolder(DISPLAY_NAME)
                 .clickInnerFolder(DISPLAY_NAME)
@@ -349,7 +353,8 @@ public class FolderTest extends BaseTest {
                 .enterItemName(NAME)
                 .selectFolderAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
 
                 .clickNewItem()
                 .enterItemName(projectName)
@@ -359,7 +364,8 @@ public class FolderTest extends BaseTest {
                 .clickMoveOnSideMenu()
                 .selectDestinationFolder(NAME)
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(NAME)
                 .getNestedFreestyleProjectName(projectName);
 
@@ -376,13 +382,15 @@ public class FolderTest extends BaseTest {
                 .enterItemName(nameFolder)
                 .selectFolderAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(nameFolder)
                 .clickNewItem()
                 .enterItemName(nameOrganizationFolder)
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(nameFolder)
                 .getNestedFolder(nameOrganizationFolder);
 
@@ -401,7 +409,8 @@ public class FolderTest extends BaseTest {
                 .dropDownMenuClickMove(nameMultibranchPipeline,new FolderPage(getDriver()))
                 .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(nameFolder)
                 .getNestedFolder(nameMultibranchPipeline);
 
@@ -421,7 +430,8 @@ public class FolderTest extends BaseTest {
                 .clickMoveOnSideMenu(folder2)
                 .selectDestinationFolder(folder1)
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(folder1)
                 .getNestedFolder(folder2);
 
@@ -456,7 +466,8 @@ public class FolderTest extends BaseTest {
                 .enterItemName(nameFolder)
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(nameFolder)
                 .getNestedOrganizationFolder(nameFolder);
 
@@ -475,7 +486,8 @@ public class FolderTest extends BaseTest {
                 .dropDownMenuClickMove(nameMultibranchPipeline, new MultibranchPipelinePage(getDriver()))
                 .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(nameFolder)
                 .getMultibranchPipelineName().getText();
 
@@ -492,13 +504,15 @@ public class FolderTest extends BaseTest {
                 .enterItemName(multiConfigurationProjectName)
                 .selectMultiConfigurationProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
 
                 .clickMultiConfigurationProjectName(multiConfigurationProjectName)
                 .clickMoveOnSideMenu()
                 .selectDestinationFolder(NAME)
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(NAME)
 
                 .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
@@ -521,7 +535,8 @@ public class FolderTest extends BaseTest {
                 .getProjectName();
 
         FolderPage folderPage = new FolderPage(getDriver())
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(folderName);
 
         Assert.assertTrue(folderPage.getNestedPipelineProject(pipelineName).getText().contains(pipelineName));

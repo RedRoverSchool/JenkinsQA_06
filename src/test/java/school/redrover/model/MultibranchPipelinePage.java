@@ -41,11 +41,6 @@ public class MultibranchPipelinePage extends BaseMainHeaderPage<MultibranchPipel
         getWait2().until(ExpectedConditions.elementToBeClickable(By.cssSelector("#tasks>:nth-child(8)"))).click();
         return new MovePage<>(this);
     }
-
-    public MainPage clickDashboard() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        return new MainPage(getDriver());
-    }
   
     public String getDescription() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("view-message"))).getText();

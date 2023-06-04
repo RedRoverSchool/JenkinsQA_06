@@ -18,7 +18,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
 
 
     private void openJobDropDownMenu(String jobName) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath(String.format("//a[contains(@href,'job/%s/')]/button", jobName.replaceAll(" ", "%20")))))
                 .sendKeys(Keys.RETURN);
     }
@@ -314,6 +314,25 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
 
     public MainPage clickSortByName() {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Name')]"))).click();
+        return this;
+    }
+    public boolean verifyJobIsPresent(String jobName){
+        List<WebElement> jobs = getDriver().findElements(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
+        boolean status = false;
+        for (WebElement job : jobs){
+            if (!job.getText().equals(jobName)){
+                status = false;
+            }
+            else{
+                new Actions(getDriver()).moveToElement(job).build().perform();
+                status = true;
+            }
+            break;
+        }
+        return status;
+    }
+    public MainPage dismissAlert() {
+        getDriver().switchTo().alert().dismiss();
         return this;
     }
 }

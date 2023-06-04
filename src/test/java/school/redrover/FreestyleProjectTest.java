@@ -31,12 +31,13 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .getProjectName();
 
         Assert.assertEquals(projectName.getText(),FREESTYLE_NAME);
     }
-             
+
     @Test
     public void testCreateFSProjectWithDefaultConfigurations() {
         final String PROJECT_NAME = UUID.randomUUID().toString();
@@ -63,7 +64,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName(projectName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard();
+                .getHeader()
+                .clickLogo();
 
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText(), projectName);
@@ -187,7 +189,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickTheDisableProjectButton()
                 .clickTheEnableProjectButton()
-                .clickDashboard();
+                .getHeader()
+                .clickLogo();
 
         Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
@@ -250,6 +253,17 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testDeleteFreestyleProjectDouble() {
+        FreestyleProjectPage deletedProject = new MyViewsPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDeleteProject();
+
+        Assert.assertFalse(deletedProject.checkProjectWasDeleted(FREESTYLE_NAME));
+    }
+
     public void testEditDescription () {
         String editDescription = new MainPage(getDriver())
                 .clickNewItem()
@@ -291,7 +305,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
                 .clickSaveDescription()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFreestyleProjectName(FREESTYLE_NAME);
 
         String projectNameFromViewPage = projectPage.getProjectName();
@@ -325,7 +340,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName("Engineer")
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFreestyleProjectName("Engineer")
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
@@ -385,7 +401,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickConfigureDropDown(FREESTYLE_NAME)
                 .addDescription(descriptionText)
                 .clickPreviewButton()
@@ -430,7 +447,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName(projectName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .dropDownMenuClickDelete(projectName)
                 .acceptAlert()
                 .clickMyViewsSideMenuLink();
