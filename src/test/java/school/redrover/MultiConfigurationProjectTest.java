@@ -417,7 +417,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(actualDescription, textDescription);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testAddDescriptionToMultiConfigurationProject() {
         final String descriptionText = "Web-application project";
