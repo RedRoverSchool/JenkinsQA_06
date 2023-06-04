@@ -306,18 +306,17 @@ public class FolderTest extends BaseTest {
     @DataProvider(name = "create-folder")
     public Object[][] provideFoldersNames() {
         return new Object[][]
-                {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
+                {{"MyFolder"}, {"MyFolder2"}, {"FOLDER"}};
     }
 
     @Test(dataProvider = "create-folder")
     public void testFoldersCreationWithProvider(String provideNames) {
         TestUtils.createFolder(this, provideNames, true);
 
-        getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']")).click();
+        String folderName = new MainPage(getDriver())
+                .getJobName(provideNames);
 
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/view/all/newJob']")));
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span")).getText(), provideNames);
+        Assert.assertEquals(folderName, provideNames);
     }
 
     @Test(dependsOnMethods = "testCreateNewFolderWithDescription")
