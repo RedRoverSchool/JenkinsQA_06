@@ -8,7 +8,9 @@ import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
 import java.util.List;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -401,7 +403,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getInputAdd()
                 .getText();
         Assert.assertEquals(getDescription, textDescription);
-
     }
 
     @Test
