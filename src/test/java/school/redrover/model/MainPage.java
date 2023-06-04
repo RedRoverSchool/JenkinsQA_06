@@ -331,4 +331,8 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         }
         return status;
     }
+    public MainPage dismissAlert() {
+        getDriver().switchTo().alert().dismiss();
+        return this;
+    }
 }
