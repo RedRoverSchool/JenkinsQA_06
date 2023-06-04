@@ -418,44 +418,17 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(actualDescription, textDescription);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testAddDescriptionToMultiConfigurationProject() {
-        final String expectedDescription = "Web-application project";
+        final String descriptionText = "Web-application project";
+        String description = new MainPage(getDriver())
+                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
+                .getAddDescription(descriptionText)
+                .getSaveButton()
+                .getInputAdd()
+                .getText();
 
-        WebElement selectNewItem = getDriver().findElement(By.xpath("//*[@id='tasks']//span/a"));
-        selectNewItem.click();
-
-        WebElement setNewItemName = getDriver().findElement(By.name("name"));
-        setNewItemName.sendKeys("Project_MultiConfigJob");
-
-        WebElement selectMultiConfigProject = getWait5().
-                until(ExpectedConditions.elementToBeClickable(By
-                        .xpath("//span[text()='Multi-configuration project']")));
-        selectMultiConfigProject.click();
-
-        WebElement okButton = getWait5().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//*[@id='ok-button']")));
-        okButton.click();
-
-        WebElement scrollBySubmitButton = getDriver().findElement(By.name("Submit"));
-        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
-        jse.executeScript("arguments[0].scrollIntoView(true)", scrollBySubmitButton);
-        scrollBySubmitButton.click();
-
-        WebElement addDescription = getDriver().findElement(By.xpath("//a[@href='editDescription']"));
-        addDescription.click();
-
-        WebElement textAreaDescription = getWait2().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//textarea[@name='description']")));
-        textAreaDescription.clear();
-        textAreaDescription.sendKeys("Web-application project");
-
-        WebElement saveButton = getDriver().findElement(By.name("Submit"));
-        saveButton.click();
-
-        WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
-
-        Assert.assertEquals(actualDescription.getText(), expectedDescription);
+        Assert.assertEquals(description, descriptionText);
     }
 
     @DataProvider(name = "unsafeCharacters")
