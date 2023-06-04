@@ -562,7 +562,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
                 .submitNewName()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .getProjectName().getText();
 
      Assert.assertEquals(NewNameProject, MULTI_CONFIGURATION_NEW_NAME);
