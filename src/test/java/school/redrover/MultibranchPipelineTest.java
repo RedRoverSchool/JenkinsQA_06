@@ -25,7 +25,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .addDescription("Random Description")
                 .clickSaveButton();
 
-        Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).titleMultibranchPipeline().getText().contains("Random Name"));
+        Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).titleMultibranchPipeline().getText().contains("Random name"));
     }
 
     @Test
