@@ -325,7 +325,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .selectMultiConfigurationProject()
                 .getItemNameRequiredMessage();
 
-        Assert.assertEquals(exceptionMessage, "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(exceptionMessage,"» This field cannot be empty, please enter a valid name");
     }
 
     @Test
@@ -395,8 +395,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(deleteProject.size(), 0);
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
-    public void testAddDescriptionInMultiConfigurationProject() {
+    @Test (dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testAddDescriptionInMultiConfigurationProject(){
         final String textDescription = "Text Description Test";
         MultiConfigurationProjectPage multiConfPage =
                 new MultiConfigurationProjectPage(getDriver())
@@ -406,7 +406,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String getDescription = multiConfPage
                 .getInputAdd()
                 .getText();
-        Assert.assertEquals(getDescription, textDescription);
+        Assert.assertEquals(getDescription,textDescription);
 
     }
 
@@ -492,8 +492,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithDescription() {
-        final String multiConfigurationProjectName = "New project";
-        final String description = "Description text";
+        final String multiConfigurationProjectName= "New project";
+        final String description ="Description text";
 
         String descriptionOnProjectPage = new MainPage(getDriver())
                 .clickNewItem()
