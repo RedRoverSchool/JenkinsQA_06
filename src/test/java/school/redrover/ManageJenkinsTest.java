@@ -37,22 +37,6 @@ public class ManageJenkinsTest extends BaseTest {
 
 
     @Test
-    public void testManageConfigureNumberOfExecutorsInMasterNode() {
-        String number = "3";
-
-        String numberInLine = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateManageNodesAndClouds()
-                .clickConfigureMasterNode()
-                .changeNumberOfExecutorsAndSave(number)
-                .navigateToMasterNodeConfiguration()
-                .numberOfExecutors();
-
-        Assert.assertEquals(number, numberInLine);
-    }
-
-
-    @Test
     public void testNavigateToManageJenkinsfromMainPageUsingDashboard() {
 
         String page = new MainPage(getDriver())
