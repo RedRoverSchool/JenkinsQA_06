@@ -78,6 +78,9 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//form[@id='disable-project']/button"))))
                 .isDisplayed();
     }
+    public boolean isEnabledButtonDisplayed(){
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.='Enable']"))).isDisplayed();
+    }
 
     public MultiConfigurationProjectConfigPage clickConfigureSideMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(

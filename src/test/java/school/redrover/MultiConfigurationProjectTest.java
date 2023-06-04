@@ -528,4 +528,23 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, expectedResult);
     }
+    @Test
+    public void testCreateEnabledMultiConfigProject(){
+        boolean isProjectEnabled = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(MULTI_CONFIGURATION_NAME)
+                .selectMultiConfigurationProjectAndOk()
+                .saveConfigurePageAndGoToProjectPage()
+                .isDisableButtonDisplayed();
+        Assert.assertTrue(isProjectEnabled);
+    }
+
+    @Test(dependsOnMethods = "testCreateEnabledMultiConfigProject")
+    public void testDisableCreatedMultiConfigProject(){
+        boolean projectIsDisabled = new MainPage(getDriver())
+                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
+                .getDisableClick()
+                .isEnabledButtonDisplayed();
+        Assert.assertTrue(projectIsDisabled);
+    }
 }
