@@ -21,7 +21,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
-                .displayName("Random name")
+                .enterDisplayName("Random name")
                 .addDescription("Random Description")
                 .clickSaveButton();
 
@@ -47,7 +47,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipelineWhitOutDescription")
                 .selectMultibranchPipelineAndOk()
-                .displayName("Random name")
+                .enterDisplayName("Random name")
                 .clickSaveButton();
 
         Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).viewDescription().getText().isEmpty());

@@ -51,7 +51,7 @@ public class TestUtils {
 
         new NewJobPage(baseTest.getDriver())
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage();
+                .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
     }

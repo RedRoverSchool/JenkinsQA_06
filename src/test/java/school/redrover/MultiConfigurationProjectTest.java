@@ -29,7 +29,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         final String projectName = mainPage.clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectName().getText();
@@ -44,7 +44,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectName();
@@ -59,7 +59,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectName();
@@ -130,7 +130,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("My Multi configuration project")
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getConfigPage()
                 .switchCheckboxDisable()
                 .getTextDisable()
@@ -494,7 +494,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(multiConfigurationProjectName)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getAddDescription(description)
                 .getSaveButton()
                 .getInputAdd().getText();
@@ -502,7 +502,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(descriptionOnProjectPage, description);
     }
 
-    @Ignore
+
     @Test
     public void testConfigureOldBuildForMultiConfigurationProject() {
         final String multiConfProjectName = "New project";
@@ -513,12 +513,12 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(multiConfProjectName)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .clickConfigureSideMenu()
                 .clickOldBuildCheckBox()
                 .enterDaysToKeepBuilds(displayedDaysToKeepBuilds)
                 .enterMaxNumOfBuildsToKeep(displayedMaxNumOfBuildsToKeep)
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .clickConfigureSideMenu();
 
         Assert.assertEquals(Integer.parseInt(
