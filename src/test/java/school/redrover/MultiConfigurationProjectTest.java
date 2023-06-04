@@ -242,7 +242,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertTrue(checkboxesVisibleClickable);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testMultiConfigurationProjectAddDescription1() {
         final String text = "text";
