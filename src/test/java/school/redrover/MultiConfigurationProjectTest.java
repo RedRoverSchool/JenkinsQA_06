@@ -65,6 +65,21 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getText(), MULTI_CONFIGURATION_NAME);
     }
 
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testRenameFromDropDownMenu() {
+        // TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+
+        String NewNameProject= new MainPage(getDriver())
+                .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
+                .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
+                .submitNewName()
+                .getHeader()
+                .clickLogo()
+                .getProjectName().getText();
+
+        Assert.assertEquals(NewNameProject, MULTI_CONFIGURATION_NEW_NAME);
+    }
+
     @DataProvider(name = "unsafeCharacter")
     public static Object[][] provideUnsafeCharacters() {
         return new Object[][]{{'!'}, {'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'&'},
@@ -554,20 +569,5 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String errorMessage = new ErrorNodePage(getDriver()).getErrorMessage();
 
         Assert.assertEquals(errorMessage, expectedResult);
-    }
-
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
-    public void testRenameFromDropDownMenu() {
-       // TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
-
-        String NewNameProject= new MainPage(getDriver())
-                .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
-                .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
-                .submitNewName()
-                .getHeader()
-                .clickLogo()
-                .getProjectName().getText();
-
-     Assert.assertEquals(NewNameProject, MULTI_CONFIGURATION_NEW_NAME);
     }
 }
