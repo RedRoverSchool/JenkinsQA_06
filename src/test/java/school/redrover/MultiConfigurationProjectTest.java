@@ -29,7 +29,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         final String projectName = mainPage.clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectName().getText();
@@ -44,7 +44,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectName();
@@ -59,7 +59,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectName();
@@ -130,7 +130,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("My Multi configuration project")
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getConfigPage()
                 .switchCheckboxDisable()
                 .getTextDisable()
@@ -324,11 +324,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testRenameMultiConfigurationProject() {
         TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
 
-        String newName = new JobPage(getDriver())
+        String newName = new MultiConfigurationProjectPage(getDriver())
                 .clickRename()
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
                 .submitNewName()
-                .getTextFromNameProject();
+                .getMultiProjectName();
 
         Assert.assertEquals(newName, "Project " + MULTI_CONFIGURATION_NEW_NAME);
     }
@@ -418,44 +418,17 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(actualDescription, textDescription);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testAddDescriptionToMultiConfigurationProject() {
-        final String expectedDescription = "Web-application project";
+        final String descriptionText = "Web-application project";
+        String description = new MainPage(getDriver())
+                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
+                .getAddDescription(descriptionText)
+                .getSaveButton()
+                .getInputAdd()
+                .getText();
 
-        WebElement selectNewItem = getDriver().findElement(By.xpath("//*[@id='tasks']//span/a"));
-        selectNewItem.click();
-
-        WebElement setNewItemName = getDriver().findElement(By.name("name"));
-        setNewItemName.sendKeys("Project_MultiConfigJob");
-
-        WebElement selectMultiConfigProject = getWait5().
-                until(ExpectedConditions.elementToBeClickable(By
-                        .xpath("//span[text()='Multi-configuration project']")));
-        selectMultiConfigProject.click();
-
-        WebElement okButton = getWait5().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//*[@id='ok-button']")));
-        okButton.click();
-
-        WebElement scrollBySubmitButton = getDriver().findElement(By.name("Submit"));
-        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
-        jse.executeScript("arguments[0].scrollIntoView(true)", scrollBySubmitButton);
-        scrollBySubmitButton.click();
-
-        WebElement addDescription = getDriver().findElement(By.xpath("//a[@href='editDescription']"));
-        addDescription.click();
-
-        WebElement textAreaDescription = getWait2().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//textarea[@name='description']")));
-        textAreaDescription.clear();
-        textAreaDescription.sendKeys("Web-application project");
-
-        WebElement saveButton = getDriver().findElement(By.name("Submit"));
-        saveButton.click();
-
-        WebElement actualDescription = getDriver().findElement(By.xpath("//div[@id = 'description']/div[1]"));
-
-        Assert.assertEquals(actualDescription.getText(), expectedDescription);
+        Assert.assertEquals(description, descriptionText);
     }
 
     @DataProvider(name = "unsafeCharacters")
@@ -494,7 +467,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(multiConfigurationProjectName)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .getAddDescription(description)
                 .getSaveButton()
                 .getInputAdd().getText();
@@ -502,7 +475,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(descriptionOnProjectPage, description);
     }
 
-    @Ignore
+
     @Test
     public void testConfigureOldBuildForMultiConfigurationProject() {
         final String multiConfProjectName = "New project";
@@ -513,12 +486,12 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName(multiConfProjectName)
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .clickConfigureSideMenu()
                 .clickOldBuildCheckBox()
                 .enterDaysToKeepBuilds(displayedDaysToKeepBuilds)
                 .enterMaxNumOfBuildsToKeep(displayedMaxNumOfBuildsToKeep)
-                .saveConfigurePageAndGoToProjectPage()
+                .clickSaveButton()
                 .clickConfigureSideMenu();
 
         Assert.assertEquals(Integer.parseInt(

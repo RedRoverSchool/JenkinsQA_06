@@ -18,7 +18,8 @@ public class DashboardTest extends BaseTest {
                 .clickCreateAJobArrow()
                 .enterItemName(name)
                 .selectFreestyleProjectAndOk()
-                .clickJenkinsLogo();
+                .getHeader()
+                .clickLogo();
     }
 
     @Test()
