@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
@@ -35,9 +34,8 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(configurePage, "Configure System");
     }
 
-
     @Test
-    public void testNavigateToManageJenkinsfromMainPageUsingDashboard() {
+    public void testNavigateToManageJenkinsFromMainPageUsingDashboard() {
 
         String page = new MainPage(getDriver())
                 .clickManageJenkinsOnDropDown()
