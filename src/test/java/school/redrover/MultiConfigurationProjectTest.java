@@ -8,9 +8,7 @@ import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
 import java.util.List;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -65,6 +63,21 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getProjectName();
 
         Assert.assertEquals(projectName.getText(), MULTI_CONFIGURATION_NAME);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testRenameFromDropDownMenu() {
+        // TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+
+        String NewNameProject= new MainPage(getDriver())
+                .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
+                .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
+                .submitNewName()
+                .getHeader()
+                .clickLogo()
+                .getProjectName().getText();
+
+        Assert.assertEquals(NewNameProject, MULTI_CONFIGURATION_NEW_NAME);
     }
 
     @DataProvider(name = "unsafeCharacter")
@@ -364,36 +377,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getDisableText();
 
         Assert.assertTrue(disableMessage.contains(disableResult), "Not found such message");
-    }
-
-    @Test
-    public void testRenameFromDropDownMenu() {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
-
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(By
-                        .xpath("//td//a[@class='jenkins-table__link model-link inside']")))
-                .pause(1000)
-                .perform();
-
-        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td//a//button")));
-        chevron.sendKeys(Keys.RETURN);
-
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(By.xpath("//*[text()='Rename']")))
-                .click()
-                .perform();
-
-        getDriver().findElement(By.xpath("//div//input[@checkdependson='newName']"))
-                .sendKeys(MULTI_CONFIGURATION_NEW_NAME);
-        getDriver().findElement(By.xpath("//*[@id='bottom-sticker']//button")).click();
-
-        getDriver().findElement(By.linkText("Dashboard")).click();
-
-        WebElement newNameMultiCofigurationProject = getDriver().findElement(By.xpath("//td//a//span[1]"));
-
-        Assert.assertEquals(newNameMultiCofigurationProject.getText(),
-                MULTI_CONFIGURATION_NAME + MULTI_CONFIGURATION_NEW_NAME);
     }
 
     @Test(dependsOnMethods = "testRenameFromDropDownMenu")
