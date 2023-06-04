@@ -8,9 +8,7 @@ import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
 import java.util.List;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -65,6 +63,21 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getProjectName();
 
         Assert.assertEquals(projectName.getText(), MULTI_CONFIGURATION_NAME);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testRenameFromDropDownMenu() {
+        // TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+
+        String NewNameProject= new MainPage(getDriver())
+                .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
+                .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
+                .submitNewName()
+                .getHeader()
+                .clickLogo()
+                .getProjectName().getText();
+
+        Assert.assertEquals(NewNameProject, MULTI_CONFIGURATION_NEW_NAME);
     }
 
     @DataProvider(name = "unsafeCharacter")
