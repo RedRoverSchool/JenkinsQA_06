@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.runner.TestUtils;
 
 public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
     public BuildHistoryPage(WebDriver driver) {
@@ -24,6 +23,20 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
     }
 
     public String getStatusMessageText() {
-        return TestUtils.getText(this, getDriver().findElement(By.xpath("//td[normalize-space()='broken since this build']")));
+        getDriver().navigate().refresh();
+        return getDriver().findElement(By.xpath("//table[@id='projectStatus']/tbody/tr/td[4]")).getText();
     }
+
+    public BuildHistoryPage clickBuildNameOnTimeline(String projectBuildName) {
+        getDriver().findElement(By.xpath("//div[contains(text(), '" + projectBuildName + "')]")).click();
+        return this;
+    }
+
+    public String getBubbleTitleOnTimeline() {
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//div[@class='simileAjax-bubble-contentContainer simileAjax-bubble-contentContainer-pngTranslucent']")));
+        return getDriver().findElement(By.xpath("//div[@class='timeline-event-bubble-title']/a")).getText();
+    }
+
+
 }

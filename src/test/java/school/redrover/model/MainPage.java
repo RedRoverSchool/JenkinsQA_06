@@ -18,7 +18,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
 
 
     private void openJobDropDownMenu(String jobName) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath(String.format("//a[contains(@href,'job/%s/')]/button", jobName.replaceAll(" ", "%20")))))
                 .sendKeys(Keys.RETURN);
     }
@@ -183,8 +183,8 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
                 .getAttribute("tooltip");
     }
 
-    public MainPage clickPlayBuildForATestButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='job/New%20Builds/build?delay=0sec']")));
+    public MainPage clickPlayBuildForATestButton(String projectName) {
+        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href='job/" + projectName + "/build?delay=0sec']")));
         return new MainPage(getDriver());
     }
 
@@ -297,8 +297,42 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return getDriver().getTitle();
     }
 
-
     public WebElement getWelcomeWebElement() {
         return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
+    }
+
+    public ManageNodesPage clickBuildExecutorStatus() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/computer/']"))).click();
+        return new ManageNodesPage(getDriver());
+    }
+
+    public List<String> getListNamesOfJobs() {
+        List<WebElement> listOfJobs = getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]"));
+
+        return TestUtils.getListNames(listOfJobs);
+    }
+
+    public MainPage clickSortByName() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Name')]"))).click();
+        return this;
+    }
+    public boolean verifyJobIsPresent(String jobName){
+        List<WebElement> jobs = getDriver().findElements(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
+        boolean status = false;
+        for (WebElement job : jobs){
+            if (!job.getText().equals(jobName)){
+                status = false;
+            }
+            else{
+                new Actions(getDriver()).moveToElement(job).build().perform();
+                status = true;
+            }
+            break;
+        }
+        return status;
+    }
+    public MainPage dismissAlert() {
+        getDriver().switchTo().alert().dismiss();
+        return this;
     }
 }

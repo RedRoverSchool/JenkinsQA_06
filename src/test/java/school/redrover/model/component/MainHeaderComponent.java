@@ -1,10 +1,12 @@
 package school.redrover.model.component;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
+import school.redrover.model.PluginsPage;
 import school.redrover.model.base.BaseComponent;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
@@ -25,6 +27,15 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(locator))
                 .pause(Duration.ofMillis(300))
+                .perform();
+    }
+
+    private void openDropdownSubmenuFromDashboard(By locator) {
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel yuimenuitemlabel-hassubmenu']")))
+                .pause(Duration.ofSeconds(1))
+                .moveToElement(getDriver().findElement(locator))
+                .click()
                 .perform();
     }
 
@@ -125,5 +136,14 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
 
     public WebElement getLinkVersion() {
         return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+    }
+
+    public PluginsPage openPluginsPageFromDashboardDropdownMenu () {
+        hoverOver(By.xpath("//a[text()='Dashboard']"));
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
+
+        openDropdownSubmenuFromDashboard(By.xpath("//*[@id='yui-gen8']/a/span"));
+
+        return new PluginsPage(getDriver());
     }
 }

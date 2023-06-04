@@ -15,4 +15,10 @@ public class ManageNodesPage extends BaseMainHeaderPage<ManageNodesPage> {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='new']"))).click();
         return new NewNodePage(getDriver());
     }
+
+    public String getNodeName(String nodeName){
+        return getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//tr[@id='node_" + nodeName + "']/td/a")))
+                .getText();
+    }
 }
