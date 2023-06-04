@@ -1,76 +1,73 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
 
+    private static final String organizationFolderName = "OrgFolder";
+    private static final String organizationFolderRenamed = "OrgFolderRenamed";
+
     @Test
     public void testCreateOrganizationFolder() {
-        final String expectedNewFolderName = "Project1";
 
         String actualNewFolderName = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(expectedNewFolderName)
+                .enterItemName(organizationFolderName)
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .getProjectNameMainPage(expectedNewFolderName);
+                .getProjectNameMainPage(organizationFolderName);
 
-        Assert.assertEquals(actualNewFolderName, expectedNewFolderName);
+        Assert.assertEquals(actualNewFolderName, organizationFolderName);
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testRenameOrganizationFolder() {
-        final String originalNewFolderName = "Project1";
-        final String expectedRenamedFolderName = "Project";
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .clickMultiConfigurationProjectName(originalNewFolderName)
+                .clickMultiConfigurationProjectName(organizationFolderName)
                 .clickRename()
-                .enterNewName(expectedRenamedFolderName)
+                .enterNewName(organizationFolderRenamed)
                 .submitNewName()
                 .getMultiProjectName()
                 .getText();
 
-        Assert.assertEquals(actualRenamedFolderName, expectedRenamedFolderName);
+        Assert.assertEquals(actualRenamedFolderName, organizationFolderRenamed);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testRenameOrganizationFolder")
     public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
 
         final String folderName = "TestFolder";
-        final String organizationFolderName = "TestOrgFolder";
 
         boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderName)
                 .selectFolderAndOk()
                 .clickSaveButton()
-                .clickNewItem()
-                .enterItemName(organizationFolderName)
-                .selectOrganizationFolderAndOk()
-                .clickSaveButton()
-                .clickMoveOnLeftMenu()
+                .getHeader()
+                .clickLogo()
+                .dropDownMenuClickMove(organizationFolderRenamed, new OrganizationFolderPage(getDriver()))
                 .selectDestinationFolder(folderName)
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName(folderName)
-                .nestedFolderIsVisibleAndClickable(organizationFolderName);
+                .nestedFolderIsVisibleAndClickable(organizationFolderRenamed);
 
         Assert.assertTrue(movedOrgFolderVisibleAndClickable);
     }
 
     @Test
     public void testCreateDisableOrganizationFolder() {
-        final String RandomName = RandomStringUtils.randomAlphanumeric(5);
 
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(RandomName)
+                .enterItemName(organizationFolderName)
                 .selectOrganizationFolderAndOk()
                 .clickDisable()
                 .clickSaveButton()
@@ -80,12 +77,11 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public  void testAddDescription(){
-        final String RandomName = RandomStringUtils.randomAlphanumeric(5);
+    public  void testCreateOrganizationFolderWithDescription(){
 
         String textFromDescription = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(RandomName)
+                .enterItemName(organizationFolderName)
                 .selectOrganizationFolderAndOk()
                 .selectDescription("Description")
                 .clickSaveButton()
