@@ -528,6 +528,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, expectedResult);
     }
+
     @Test
     public void testCreateEnabledMultiConfigProject(){
         boolean isProjectEnabled = new MainPage(getDriver())
@@ -546,5 +547,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getDisableClick()
                 .isEnabledButtonDisplayed();
         Assert.assertTrue(projectIsDisabled);
+    }
+
+    @Test(dependsOnMethods = "testCreateEnabledMultiConfigProject")
+    public void testDeleteMultiConfigProject(){
+        boolean verifyJobIsPresent = new MainPage(getDriver())
+                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
+                .deleteProject()
+                .verifyJobIsPresent(MULTI_CONFIGURATION_NAME);
+        Assert.assertFalse(verifyJobIsPresent);
     }
 }
