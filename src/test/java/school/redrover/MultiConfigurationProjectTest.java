@@ -8,7 +8,9 @@ import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
 import java.util.List;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -69,7 +71,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testRenameFromDropDownMenu() {
         // TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
 
-        String NewNameProject= new MainPage(getDriver())
+        String NewNameProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
                 .submitNewName()
@@ -338,7 +340,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .selectMultiConfigurationProject()
                 .getItemNameRequiredMessage();
 
-        Assert.assertEquals(exceptionMessage,"» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(exceptionMessage, "» This field cannot be empty, please enter a valid name");
     }
 
     @Test
@@ -381,32 +383,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameFromDropDownMenu")
     public void testDeleteProjectFromDropDownMenu() {
-        new Actions(getDriver())
-                .moveToElement(getDriver().findElement(By
-                        .xpath("//td//a[@class='jenkins-table__link model-link inside']")))
-                .pause(1000)
-                .perform();
+        List<String> deleteProject = new MainPage(getDriver())
+                .dropDownMenuClickDelete(MULTI_CONFIGURATION_NEW_NAME)
+                .acceptAlert()
+                .getJobList();
 
-        WebElement chevron = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//td//a//button")));
-        chevron.sendKeys(Keys.RETURN);
-
-        new Actions(getDriver())
-                .moveToElement(getDriver()
-                        .findElement(By.xpath("//*[text()='Delete Multi-configuration project']")))
-                .click()
-                .perform();
-
-        getDriver().switchTo().alert().accept();
-
-        List<WebElement> projects = getDriver().findElements(By
-                .xpath("//a[@href='job/" + MULTI_CONFIGURATION_NAME + MULTI_CONFIGURATION_NEW_NAME + "/']"));
-
-        Assert.assertEquals(projects.size(), 0);
+        Assert.assertEquals(deleteProject.size(), 0);
     }
 
-    @Test (dependsOnMethods = "testCreateMultiConfigurationProject")
-    public void testAddDescriptionInMultiConfigurationProject(){
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testAddDescriptionInMultiConfigurationProject() {
         final String textDescription = "Text Description Test";
         MultiConfigurationProjectPage multiConfPage =
                 new MultiConfigurationProjectPage(getDriver())
@@ -416,8 +402,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String getDescription = multiConfPage
                 .getInputAdd()
                 .getText();
-        Assert.assertEquals(getDescription,textDescription);
-
+        Assert.assertEquals(getDescription, textDescription);
     }
 
     @Test
@@ -502,8 +487,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithDescription() {
-        final String multiConfigurationProjectName= "New project";
-        final String description ="Description text";
+        final String multiConfigurationProjectName = "New project";
+        final String description = "Description text";
 
         String descriptionOnProjectPage = new MainPage(getDriver())
                 .clickNewItem()
