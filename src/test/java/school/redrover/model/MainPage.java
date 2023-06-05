@@ -170,7 +170,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     }
     public MultiConfigurationProjectPage clickJobMultiConfigurationProject(String jobName) {
         openJobDropDownMenu(jobName);
-        WebElement job = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
+        WebElement job = getWait10().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath(String.format("//a[@href='job/%s/']",jobName.replaceAll(" ","%20"))))));
         Actions actions = new Actions(getDriver());
         actions.moveToElement(job).click(job).perform();
