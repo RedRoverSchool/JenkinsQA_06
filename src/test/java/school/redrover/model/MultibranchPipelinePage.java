@@ -59,4 +59,8 @@ public class MultibranchPipelinePage extends BaseMainHeaderPage<MultibranchPipel
     public String getTextFromDisableMessage() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@method='post']"))).getText();
     }
+
+    public String getDisplayedName() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText().trim();
+    }
 }

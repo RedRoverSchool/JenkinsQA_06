@@ -17,16 +17,18 @@ public class MultibranchPipelineTest extends BaseTest {
     private static final String multibranchPipelineName = "MultibranchPipeline";
     private static final String multibranchPipelineRenamed = "MultibranchPipelineRenamed";
     @Test
-    public void createMultibranchPipelineTestWithDisplayName() {
-        MultibranchPipelinePage mainPage = new MainPage(getDriver())
+    public void testCreateMultibranchPipelineWithDisplayName() {
+        final String multibranchPipelineDisplayName = "MultibranchDisplayName";
+
+        String actualDisplayedName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(multibranchPipelineName)
                 .selectMultibranchPipelineAndOk()
-                .enterDisplayName("Random name")
-                .addDescription("Random Description")
-                .clickSaveButton();
+                .enterDisplayName(multibranchPipelineDisplayName)
+                .clickSaveButton()
+                .getDisplayedName();
 
-        Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).titleMultibranchPipeline().getText().contains("Random name"));
+        Assert.assertEquals(actualDisplayedName, multibranchPipelineDisplayName);
     }
 
     @Test
@@ -57,13 +59,14 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultibranchPipelineWithoutDescription")
     public void testRenameMultibranchPipeline() {
-        new MainPage(getDriver())
+        String actualDisplayedName = new MainPage(getDriver())
                 .clickMultibranchPipelineName(multibranchPipelineName)
                 .renameMultibranchPipelinePage()
                 .enterNewName(multibranchPipelineRenamed)
-                .submitNewName();
+                .submitNewName()
+                .getDisplayedName();
 
-        Assert.assertTrue(new MultibranchPipelinePage(getDriver()).multibranchPipeline().getText().contains(multibranchPipelineRenamed));
+        Assert.assertEquals(actualDisplayedName, multibranchPipelineRenamed);
     }
 
     @Test(dependsOnMethods = "testRenameMultibranchPipeline")
