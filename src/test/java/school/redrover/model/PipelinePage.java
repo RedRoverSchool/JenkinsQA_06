@@ -13,11 +13,6 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
         super(driver);
     }
 
-    public MainPage clickDashboard() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        return new MainPage(getDriver());
-    }
-
     public String getProjectName() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText();
     }
@@ -55,10 +50,6 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
     public PipelinePage clickEnableProject() {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[normalize-space()='Enable']"))).click();
         return this;
-    }
-
-    public boolean getDisableButton() {
-        return getDriver().findElement(By.xpath("//button[normalize-space()='Disable Project']")).isDisplayed();
     }
 
     public boolean getEnableButton() {

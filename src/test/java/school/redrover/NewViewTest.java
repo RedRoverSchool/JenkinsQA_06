@@ -28,8 +28,8 @@ public class NewViewTest extends BaseTest {
                 .enterItemName(projectName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard();
-
+                .getHeader()
+                .clickLogo();
     }
 
     private List<String> getListFromWebElements(List<WebElement> elements) {
@@ -51,12 +51,13 @@ public class NewViewTest extends BaseTest {
                 .enterItemName(freestyleProjectName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .createNewView()
                 .setNewViewName(expectedName)
                 .selectListView()
                 .clickCreateButton()
-                .clickViewConfigOkButton()
+                .clickSaveButton()
                 .getViewName();
 
         assertEquals(actualName, expectedName);
@@ -123,7 +124,7 @@ public class NewViewTest extends BaseTest {
                 .selectListView()
                 .clickCreateButton()
                 .selectJobsInJobFilters(folderName1)
-                .clickViewConfigOkButton();
+                .clickSaveButton();
 
         Assert.assertEquals(viewPage.getViewName(), viewName);
         Assert.assertEquals(viewPage.getJobName(folderName1), folderName1);
@@ -156,7 +157,7 @@ public class NewViewTest extends BaseTest {
                 .chooseJobsInJobFilters(folderName1 + " » " + jobName1)
                 .chooseJobsInJobFilters(folderName1 + " » " + jobName3)
                 .chooseJobsInJobFilters(folderName2)
-                .clickViewConfigOkButton();
+                .clickSaveButton();
 
         List<String> actualViewJobsTexts = viewPage.getJobNamesList();
 

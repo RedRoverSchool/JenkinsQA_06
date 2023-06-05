@@ -28,7 +28,8 @@ public class PipelineTest extends BaseTest {
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .getProjectName()
                 .getText();
 
@@ -62,7 +63,8 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndOk()
                 .addDescription(description)
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickPipelineProject(PIPELINE_NAME)
                 .clickEditDescription()
                 .clearDescriptionField()
@@ -128,15 +130,18 @@ public class PipelineTest extends BaseTest {
     public void testRenamePipeline() {
         final String newPipelineName = PIPELINE_NAME + "new";
 
-        WebElement projectName = new MainPage(getDriver())
+        String projectName = new MainPage(getDriver())
                 .clickPipelineProject(PIPELINE_NAME)
                 .clickRename()
                 .clearNameField()
                 .enterNewName(newPipelineName)
                 .clickRenameButton()
-                .clickDashboard().getProjectName();
+                .getHeader()
+                .clickLogo()
+                .getProjectName()
+                .getText();
 
-        Assert.assertEquals(projectName.getText(), newPipelineName);
+        Assert.assertEquals(projectName, newPipelineName);
     }
 
     @Test()
@@ -146,7 +151,8 @@ public class PipelineTest extends BaseTest {
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickPipelineProject(PIPELINE_NAME)
                 .clickDeletePipeline()
                 .acceptAlert();
@@ -175,7 +181,8 @@ public class PipelineTest extends BaseTest {
                 .enterItemName(name)
                 .selectPipelineAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .dropDownMenuClickDelete(name)
                 .acceptAlert();
 
@@ -314,25 +321,30 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testDisablePipeline() {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
-        PipelinePage pipelinePage = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME.replaceAll(" ", "%20"))
-                .clickDisableProject();
 
-        Assert.assertTrue(pipelinePage.getEnableButton());
-        Assert.assertEquals(pipelinePage.clickDashboard().getJobBuildStatusIcon(PIPELINE_NAME), "Disabled");
+        String jobStatus = new MainPage(getDriver())
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickDisableProject()
+                .getHeader()
+                .clickLogo()
+                .getJobBuildStatusIcon(PIPELINE_NAME);
+
+        Assert.assertEquals(jobStatus, "Disabled");
     }
 
     @Test
     public void testEnablePipeline() {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
-        PipelinePage pipelinePage = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME.replaceAll(" ", "%20"))
-                .clickDisableProject()
-                .clickEnableProject();
 
-        Assert.assertTrue(pipelinePage.getDisableButton());
-        Assert.assertEquals(pipelinePage.clickDashboard()
-                .getJobBuildStatusIcon(PIPELINE_NAME), "Not built");
+        String jobStatus = new MainPage(getDriver())
+                .clickPipelineProject(PIPELINE_NAME)
+                .clickDisableProject()
+                .clickEnableProject()
+                .getHeader()
+                .clickLogo()
+                .getJobBuildStatusIcon(PIPELINE_NAME);
+
+        Assert.assertEquals(jobStatus, "Not built");
     }
 
     @Test
@@ -343,7 +355,8 @@ public class PipelineTest extends BaseTest {
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineProject()
@@ -376,7 +389,8 @@ public class PipelineTest extends BaseTest {
                 .dropDownMenuClickRename(PIPELINE_NAME.replaceAll(" ", "%20"), new PipelinePage(getDriver()))
                 .enterNewName(RENAME)
                 .submitNewName()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .getProjectName()
                 .getText();
 
@@ -575,7 +589,8 @@ public class PipelineTest extends BaseTest {
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineProject()
@@ -593,7 +608,8 @@ public class PipelineTest extends BaseTest {
                 .enterItemName(PIPELINE_NAME)
                 .selectPipelineAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .getJobList();
 
         Assert.assertTrue(jobList.contains(PIPELINE_NAME));
@@ -612,7 +628,7 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + RENAME);
         Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), PIPELINE_NAME);
-        Assert.assertEquals(pipelinePage.clickDashboard().getProjectName().getText(), RENAME);
+        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getProjectName().getText(), RENAME);
     }
 
     @Test
@@ -652,7 +668,8 @@ public class PipelineTest extends BaseTest {
                 .setDefaultBooleanParameter()
                 .setBooleanParameterDescription(description)
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickBuildButton();
 
         Assert.assertEquals(buildPage.getBooleanParameterName(), name);
@@ -672,7 +689,8 @@ public class PipelineTest extends BaseTest {
                 .clickAndAddParameter(parameterName)
                 .setBooleanParameterName(name)
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickBuildButton();
 
         Assert.assertEquals(buildPage.getBooleanParameterName(), name);
@@ -686,7 +704,8 @@ public class PipelineTest extends BaseTest {
                 .enterItemName("TestPipeLineJJ")
                 .selectPipelineAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .getJobName("TestPipeLineJJ");
         Assert.assertEquals(actual, "TestPipeLineJJ");
     }
@@ -707,7 +726,8 @@ public class PipelineTest extends BaseTest {
                 .enterItemName(jobName)
                 .selectPipelineAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .dropDownMenuClickDelete(jobName)
                 .dismissAlert();
         Assert.assertEquals(jobName,"P1");

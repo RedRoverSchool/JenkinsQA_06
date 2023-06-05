@@ -21,11 +21,11 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipeline")
                 .selectMultibranchPipelineAndOk()
-                .displayName("Random name")
+                .enterDisplayName("Random name")
                 .addDescription("Random Description")
                 .clickSaveButton();
 
-        Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).titleMultibranchPipeline().getText().contains("Random Name"));
+        Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).titleMultibranchPipeline().getText().contains("Random name"));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("MineMultibranchPipelineWhitOutDescription")
                 .selectMultibranchPipelineAndOk()
-                .displayName("Random name")
+                .enterDisplayName("Random name")
                 .clickSaveButton();
 
         Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).viewDescription().getText().isEmpty());
@@ -78,7 +78,8 @@ public class MultibranchPipelineTest extends BaseTest {
                 .dropDownMenuClickMove("MultibranchPipeline",new FolderPage(getDriver()))
                 .selectDestinationFolder("Folder")
                 .clickMoveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickFolderName("Folder")
                 .getMultibranchPipelineName();
 

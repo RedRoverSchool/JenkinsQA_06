@@ -40,7 +40,7 @@ public class NewViewPage extends BaseMainHeaderPage<NewViewPage> {
     public ViewConfigPage clickCreateButton () {
         getDriver().findElement(By.name("Submit")).click();
 
-        return new ViewConfigPage(getDriver());
+        return new ViewConfigPage(new ViewPage(getDriver()));
     }
 
     public ActiveViewPage clickCreateMyViewButton() {

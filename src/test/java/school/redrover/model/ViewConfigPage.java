@@ -1,19 +1,19 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.base.BaseConfigPage;
 
 import java.util.List;
 import java.util.Objects;
 
-public class ViewConfigPage extends BaseMainHeaderPage<ViewConfigPage> {
+public class ViewConfigPage extends BaseConfigPage<ViewConfigPage, ViewPage> {
 
-    public ViewConfigPage(WebDriver driver) {
-        super(driver);
+
+    public ViewConfigPage(ViewPage viewPage) {
+        super(viewPage);
     }
 
     public ViewConfigPage selectJobsInJobFilters (String name) {
@@ -24,13 +24,7 @@ public class ViewConfigPage extends BaseMainHeaderPage<ViewConfigPage> {
                 el.click();
             }
         }
-        return new ViewConfigPage(getDriver());
-    }
-
-    public ViewPage clickViewConfigOkButton() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
-
-        return new ViewPage(getDriver());
+        return this;
     }
 
     public ViewConfigPage selectRecurseCheckbox() {
