@@ -311,10 +311,12 @@ public class FolderTest extends BaseTest {
 
     @Test(dataProvider = "create-folder")
     public void testFoldersCreationWithProvider(String provideNames) {
-        TestUtils.createFolder(this, provideNames, true);
-
         String folderName = new MainPage(getDriver())
-                .getJobName(provideNames);
+                .clickNewItem()
+                .enterItemName(provideNames)
+                .selectFolderAndOk()
+                .clickSaveButton()
+                .getFolderName();
 
         Assert.assertEquals(folderName, provideNames);
     }
