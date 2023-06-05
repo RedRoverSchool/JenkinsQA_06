@@ -282,7 +282,7 @@ public class PipelineTest extends BaseTest {
                 .clickBuildNow()
                 .clickBuildNow()
                 .clickTrend()
-                .getListOfNumbersOfBuilds(3);
+                .getBuildNumbers(3);
 
         Assert.assertEquals(buildNumber, buildNumberExpected);
     }
