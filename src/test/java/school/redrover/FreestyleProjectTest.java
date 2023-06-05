@@ -9,10 +9,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
-
 import java.util.UUID;
-import java.util.stream.Collectors;
-
 import static org.testng.Assert.assertEquals;
 import static school.redrover.runner.TestUtils.createFreestyleProject;
 
@@ -251,18 +248,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
     }
 
-    @Test
-    public void testDeleteFreestyleProjectDouble() {
-        MainPage mainAfterDeletedProject = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectFreestyleProjectAndOk()
-                .clickSaveButton()
-                .clickDeleteProject();
-
-        Assert.assertFalse(mainAfterDeletedProject.verifyJobIsPresent(FREESTYLE_NAME));
-    }
-
     public void testEditDescription () {
         String editDescription = new MainPage(getDriver())
                 .clickNewItem()
@@ -410,25 +395,16 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testDeleteFreestyleProject() {
+        final String projName = FREESTYLE_NAME + " New";
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(NEW_FREESTYLE_NAME);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@formnovalidate = 'formNoValidate']")).click();
+        boolean isProjectPresent = new MainPage(getDriver())
+                .clickFreestyleProjectName(projName)
+                .clickDeleteProject()
+                .verifyJobIsPresent(projName);
 
-        getDriver().findElement(By.linkText("Dashboard")).click();
-
-        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Project')]")).click();
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
-
-        Assert.assertFalse(getDriver().findElements(By
-                        .xpath("//a[@class='jenkins-table__link model-link inside']"))
-                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(NEW_FREESTYLE_NAME));
+        Assert.assertFalse(isProjectPresent);
     }
 
     @Test
