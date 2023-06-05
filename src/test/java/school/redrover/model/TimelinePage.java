@@ -19,9 +19,9 @@ public class TimelinePage extends BaseMainHeaderPage<TimelinePage> {
         return new ConsoleOutputPage(getDriver());
     }
 
-    public List getNumbersOfBuilds(int numberOfBuild) {
+    public List getListOfNumbersOfBuilds(int numbersOfBuild) {
         List<String> buildNumber = new ArrayList<>();
-        for(int i = 1; i <= numberOfBuild; i++) {
+        for(int i = 1; i <= numbersOfBuild; i++) {
             buildNumber.add(getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[href='" + i + "/']"))).getText());
         }
         return buildNumber;

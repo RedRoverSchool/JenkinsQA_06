@@ -11,7 +11,6 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -283,7 +282,7 @@ public class PipelineTest extends BaseTest {
                 .clickBuildNow()
                 .clickBuildNow()
                 .clickTrend()
-                .getNumbersOfBuilds(3);
+                .getListOfNumbersOfBuilds(3);
 
         Assert.assertEquals(buildNumber, buildNumberExpected);
     }
