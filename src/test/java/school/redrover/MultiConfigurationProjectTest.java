@@ -405,20 +405,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDescription, textDescription);
     }
 
-    @Test
-    public void addDescriptionInMultiConfigurationProjectTest() {
-        final String textDescription = "Text Description Test";
-
-        TestUtils.createMultiConfigurationProject(this, "Test1", false);
-        String actualDescription = new MultiConfigurationProjectPage(getDriver())
-                .getAddDescription(textDescription)
-                .getSaveButton()
-                .getInputAdd().getText();
-
-        Assert.assertEquals(actualDescription, textDescription);
-    }
-
-    @Ignore
+        @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testAddDescriptionToMultiConfigurationProject() {
         final String descriptionText = "Web-application project";
