@@ -333,11 +333,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.name("name")).clear();
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
     public void testRenameMultiConfigurationProject() {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
 
-        String newName = new MultiConfigurationProjectPage(getDriver())
+        String newName = new MainPage(getDriver())
+                .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
                 .clickRename()
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
                 .submitNewName()
