@@ -67,6 +67,19 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getText(), MULTI_CONFIGURATION_NAME);
     }
 
+    @Test
+    public void testCreateMultiConfigurationProjectOnProjectPage(){
+
+        String projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(MULTI_CONFIGURATION_NAME)
+                .selectMultiConfigurationProjectAndOk()
+                .clickSaveButton()
+                .getMultiProjectName();
+
+        Assert.assertEquals(projectName.substring(8,32), MULTI_CONFIGURATION_NAME);
+    }
+
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testRenameFromDropDownMenu() {
         // TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
