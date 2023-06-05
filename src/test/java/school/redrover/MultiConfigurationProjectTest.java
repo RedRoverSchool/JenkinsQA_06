@@ -68,7 +68,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMultiConfigurationProjectOnProjectPage(){
+    public void testCreateMultiConfigurationProjectOnProjectPage() {
 
         String projectName = new MainPage(getDriver())
                 .clickNewItem()
@@ -77,7 +77,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickSaveButton()
                 .getMultiProjectName();
 
-        Assert.assertEquals(projectName.substring(8,32), MULTI_CONFIGURATION_NAME);
+        Assert.assertEquals(projectName.substring(8, 32), MULTI_CONFIGURATION_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
@@ -224,6 +224,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(), "Welcome to Jenkins!");
     }
+
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testProjectPageDelete() {
@@ -418,12 +419,10 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDescription, textDescription);
     }
 
-        @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testAddDescriptionToMultiConfigurationProject() {
         final String descriptionText = "Web-application project";
-        String description = new MainPage(getDriver())
-                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
+        String description = new MultiConfigurationProjectPage(getDriver())
                 .getAddDescription(descriptionText)
                 .getSaveButton()
                 .getInputAdd()
