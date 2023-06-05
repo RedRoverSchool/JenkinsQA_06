@@ -11,10 +11,6 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import school.redrover.model.*;
@@ -68,7 +64,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMultiConfigurationProjectOnProjectPage(){
+    public void testCreateMultiConfigurationProjectOnProjectPage() {
 
         String projectName = new MainPage(getDriver())
                 .clickNewItem()
@@ -77,7 +73,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickSaveButton()
                 .getMultiProjectName();
 
-        Assert.assertEquals(projectName.substring(8,32), MULTI_CONFIGURATION_NAME);
+        Assert.assertEquals(projectName.substring(8, 32), MULTI_CONFIGURATION_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
@@ -118,7 +114,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testDisabledMultiConfigurationProject() {
         TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
         MultiConfigurationProjectPage disabled = new MultiConfigurationProjectPage(getDriver())
-                .getDisableClick();
+                .clickDisableButton();
 
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("form#enable-project"))
@@ -130,7 +126,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         TestUtils.createMultiConfigurationProject(this, "MyProject", false);
 
         String enable = new MultiConfigurationProjectPage(getDriver())
-                .getDisableClick()
+                .clickDisableButton()
                 .getEnableSwitch()
                 .getText();
 
@@ -224,6 +220,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(), "Welcome to Jenkins!");
     }
+
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testProjectPageDelete() {
@@ -361,7 +358,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         TestUtils.createMultiConfigurationProject(this, "DisableTestName", false);
 
         String checkStatusIsDisabled = new MultiConfigurationProjectPage(getDriver())
-                .getDisableClick()
+                .clickDisableButton()
                 .getDisableText();
         Assert.assertTrue(checkStatusIsDisabled.contains("This project is currently disabled"));
 
@@ -371,16 +368,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(checkStatusIsEnabled);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
     public void testCheckDisableIconOnDashboard() {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
 
-        getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
+        boolean iconDisplayedProject = new MainPage(getDriver())
+                .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
+                .clickDisableButton()
+                .goToDashboard()
+                .getStatusIconIsDisable();
 
-        WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
-
-        Assert.assertTrue(iconDisabled.isDisplayed());
+        Assert.assertTrue(iconDisplayedProject);
     }
 
     @Test
@@ -388,7 +385,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         final String disableResult = "This project is currently disabled";
         TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
         String disableMessage = new MultiConfigurationProjectPage(getDriver())
-                .getDisableClick()
+                .clickDisableButton()
                 .getDisableText();
 
         Assert.assertTrue(disableMessage.contains(disableResult), "Not found such message");
@@ -418,7 +415,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDescription, textDescription);
     }
 
-        @Ignore
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testAddDescriptionToMultiConfigurationProject() {
         final String descriptionText = "Web-application project";

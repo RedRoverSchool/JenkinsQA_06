@@ -335,4 +335,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getDriver().switchTo().alert().dismiss();
         return this;
     }
+
+    public boolean getStatusIconIsDisable(){
+        getDriver().findElement(By.xpath("//*[@tooltip='Disabled']")).isDisplayed();
+
+        return true;
+    }
 }

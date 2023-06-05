@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.component.MainHeaderComponent;
 
 import java.time.Duration;
 
@@ -41,8 +42,8 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
         return getDriver().findElement(By.xpath("//div[@id='description']/div[1]"));
     }
 
-    public MultiConfigurationProjectPage getDisableClick() {
-        getDriver().findElement(By.xpath("//button[text () = 'Disable Project']")).click();
+    public MultiConfigurationProjectPage clickDisableButton() {
+        getDriver().findElement(By.xpath("//button[@class = 'jenkins-button  ']")).click();
         return this;
     }
 
@@ -108,5 +109,10 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
         return new RenamePage<>(this);
     }
 
+    public MainPage goToDashboard(){
+         getDriver().findElement(By.linkText("Dashboard")).click();
+
+         return new MainPage(getDriver());
+    }
 }
 
