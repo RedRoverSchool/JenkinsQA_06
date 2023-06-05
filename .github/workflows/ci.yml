@@ -58,15 +58,14 @@ jobs:
           APP_OPTIONS: host=localhost;port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
           CI_RUN: true
 
-      - name: Attach screenshots
+      - name: Attach artifacts
         uses: actions/upload-artifact@v3
         if: failure()
         with:
           path: screenshots
 
-      - run: ls -l
-        name: Attach reports
-      - uses: actions/upload-artifact@v3
+      - name: Attach reports
+        uses: actions/upload-artifact@v3
         with:
           name: report
           path: target/surefire-reports/emailable-report.html
