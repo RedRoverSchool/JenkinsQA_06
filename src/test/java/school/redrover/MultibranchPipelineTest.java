@@ -29,6 +29,21 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
+    public void testCreateMultibranchPipelineWithDescription() {
+        String MultibranchPipeline = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("RandomName")
+                .selectMultibranchPipelineAndOk()
+                .addDescription("DESCRIPTION")
+                .clickSaveButton()
+                .navigateToMainPageByBreadcrumbs()
+                .clickMultibranchPipelineName("RandomName")
+                .getDescription();
+
+        Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
+    }
+
+    @Test
     public void testRenameMultibranchPipeline() {
         new MainPage(getDriver())
                 .clickNewItem()
@@ -87,21 +102,6 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMultibranchPipelineWithDescription() {
-        String MultibranchPipeline = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName("RandomName")
-                .selectMultibranchPipelineAndOk()
-                .addDescription("DESCRIPTION")
-                .clickSaveButton()
-                .navigateToMainPageByBreadcrumbs()
-                .clickMultibranchPipelineName("RandomName")
-                .getDescription();
-
-        Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
-    }
-
-    @Test
     public void createMultiPipeline(){
         for (int i = 0 ;i < 4; i++){
             String jobName = "M0"+i;
@@ -116,5 +116,16 @@ public class MultibranchPipelineTest extends BaseTest {
         MainPage mainPage = new MainPage(getDriver());
         boolean status = mainPage.verifyJobIsPresent("M00");
         Assert.assertTrue(status);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultibranchPipelineWithDescription")
+    public void testDisableMultibranchPipeline() {
+        String actualDisableMessage = new MainPage(getDriver())
+                .clickMultibranchPipelineName("RandomName")
+                .clickConfigureSideMenu()
+                .clickDisable()
+                .clickSaveButton()
+                .getTextFromDisableMessage();
+        Assert.assertTrue(actualDisableMessage.contains("This Multibranch Pipeline is currently disabled"));
     }
 }

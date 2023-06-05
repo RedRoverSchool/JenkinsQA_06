@@ -16,4 +16,9 @@ public class MultibranchPipelineConfigPage extends BaseFoldersConfigPage<Multibr
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))));
 
     }
+
+    public MultibranchPipelineConfigPage clickDisable() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@data-title='Disabled']"))).click();
+        return this;
+    }
 }
