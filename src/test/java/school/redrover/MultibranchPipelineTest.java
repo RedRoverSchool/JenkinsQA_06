@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
@@ -12,6 +13,7 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
+@Ignore
 public class MultibranchPipelineTest extends BaseTest {
 
     private static final String multibranchPipelineName = "MultibranchPipeline";

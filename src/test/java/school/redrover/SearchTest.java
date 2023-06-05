@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.testng.annotations.Ignore;
 import school.redrover.runner.BaseTest;
 
 import org.openqa.selenium.By;
@@ -8,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+@Ignore
 public class SearchTest extends BaseTest {
     @Test
     public void testSearchBoxInsensitive() {

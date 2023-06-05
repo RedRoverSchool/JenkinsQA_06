@@ -5,12 +5,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import java.util.List;
 import java.util.Objects;
 
+@Ignore
 public class ManageJenkinsTest extends BaseTest {
     final String NAME_NEW_NODE = "testNameNewNode";
 

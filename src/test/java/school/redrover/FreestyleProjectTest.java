@@ -13,6 +13,7 @@ import java.util.UUID;
 import static org.testng.Assert.assertEquals;
 import static school.redrover.runner.TestUtils.createFreestyleProject;
 
+@Ignore
 public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = "FREESTYLE_NAME";

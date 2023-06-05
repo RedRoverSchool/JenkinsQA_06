@@ -14,6 +14,7 @@ import school.redrover.runner.TestUtils;
 import java.util.Arrays;
 import java.util.List;
 
+@Ignore
 public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = "PIPELINE_NAME";

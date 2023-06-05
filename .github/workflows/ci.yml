@@ -63,3 +63,10 @@ jobs:
         if: failure()
         with:
           path: screenshots
+
+      - run: ls -l
+        name: Attach reports
+      - uses: actions/upload-artifact@v3
+        with:
+          name: report
+          path: target/surefire-reports/emailable-report.html

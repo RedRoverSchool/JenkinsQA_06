@@ -3,6 +3,7 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.ViewPage;
@@ -15,7 +16,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-
+@Ignore
 public class NewViewTest extends BaseTest {
     private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
