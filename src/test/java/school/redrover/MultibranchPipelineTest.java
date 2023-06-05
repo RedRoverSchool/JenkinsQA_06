@@ -16,6 +16,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
     private static final String multibranchPipelineName = "MultibranchPipeline";
     private static final String multibranchPipelineRenamed = "MultibranchPipelineRenamed";
+
     @Test
     public void testCreateMultibranchPipelineWithDisplayName() {
         final String multibranchPipelineDisplayName = "MultibranchDisplayName";
