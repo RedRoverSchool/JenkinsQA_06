@@ -187,7 +187,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testRenameFromDashboard() {
-
         String renamedProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
@@ -404,15 +403,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDescription, textDescription);
     }
 
-    @Test
-    public void addDescriptionInMultiConfigurationProjectTest() {
+    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    public void testAddDescriptionOnProjectPage() {
+        new MainPage(getDriver())
+                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME);
+
         final String textDescription = "Text Description Test";
 
-        TestUtils.createMultiConfigurationProject(this, "Test1", false);
         String actualDescription = new MultiConfigurationProjectPage(getDriver())
                 .getAddDescription(textDescription)
                 .getSaveButton()
-                .getInputAdd().getText();
+                .getInputAdd()
+                .getText();
 
         Assert.assertEquals(actualDescription, textDescription);
     }
