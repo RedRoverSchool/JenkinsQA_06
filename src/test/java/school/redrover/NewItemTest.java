@@ -39,12 +39,12 @@ public class NewItemTest extends BaseTest {
     public void testVerifyNewItemsList() {
         List<String> listOfNewItemsExpect = Arrays.asList("Freestyle project", "Pipeline", "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder");
 
-        List<WebElement> listOfNewItems = new MainPage(getDriver())
+        List<String> listOfNewItems = new MainPage(getDriver())
                 .clickNewItem()
-                .selectListOfNewItems();
+                .getListOfNewItems();
 
         for (int i = 0; i < listOfNewItemsExpect.size(); i++) {
-            Assert.assertEquals(listOfNewItems.get(i).getText(), listOfNewItemsExpect.get(i));
+            Assert.assertEquals(listOfNewItems.get(i), listOfNewItemsExpect.get(i));
         }
     }
 

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
@@ -132,7 +133,13 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
                 .xpath("//label[@class = 'h3']"))).getText();
     }
 
-    public List<WebElement> selectListOfNewItems() {
-        return getDriver().findElements(By.cssSelector("label > span"));
+    public List<String> getListOfNewItems() {
+        List<WebElement> listOfNewItems = getDriver().findElements(By.cssSelector("label > span"));
+        List<String> newList = new java.util.ArrayList<>(List.of());
+        for(int i = 0; i< listOfNewItems.size(); i++) {
+            newList.add(listOfNewItems.get(i).getText());
+        }
+        return newList;
     }
 }
+
