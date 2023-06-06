@@ -61,7 +61,6 @@ jobs:
       - name: Attach screenshots and reports
         uses: actions/upload-artifact@v3
         if: failure()
-        run: cp target/surefire-reports/emailable-report.html screenshots/
         with:
           name: screenshots-and-report
           path: |
