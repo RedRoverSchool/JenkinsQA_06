@@ -1,5 +1,6 @@
 package school.redrover;
 
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
@@ -98,7 +99,22 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickAppearance()
                 .selectDefaultIcon()
                 .clickSaveButton();
+
         Assert.assertTrue(multibranchPipelinePage.defaultIconIsDisplayed(), "error was not shown default icon");
+    }
+
+    @Test (dependsOnMethods = "testCreateMultibranchPipelineWithDisplayName")
+    public void testAddHealthMetrics() {
+        boolean healthMetricIsVisible = new MainPage(getDriver())
+                .clickMultibranchPipelineName(NAME)
+                .clickConfigureSideMenu()
+                .addHealthMetrics()
+                .clickSaveButton()
+                .clickConfigureSideMenu()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(healthMetricIsVisible, "error was not shown Health Metrics");
     }
 
     @Test
