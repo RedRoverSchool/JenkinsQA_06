@@ -343,4 +343,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return buildStatusIcon.getAttribute("title");
 
     }
+
+   public OrganizationFolderPage clickJodOrganizationFolder(){
+        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).click();
+
+        return new OrganizationFolderPage(getDriver());
+   }
 }

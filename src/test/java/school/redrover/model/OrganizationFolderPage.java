@@ -26,4 +26,10 @@ public class OrganizationFolderPage extends BaseMainHeaderPage<OrganizationFolde
 
         return getDriver().findElement(By.xpath("//div[@id='view-message']")).getText();
     }
+
+    public OrganizationFolderPage clickDisableButton(){
+        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+
+        return this;
+    }
 }
