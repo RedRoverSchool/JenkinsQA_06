@@ -290,7 +290,7 @@ public class UsersTest extends BaseTest {
 
     @Test
     public void inputtingAnIncorrectUsername() {
-        String expectedTextAlertIncorrectUsernameOrPassword = "Invalid username or password";
+        String expectedTextAlertIncorrectUsername = "Invalid username or password";
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
         String actualTextAlertIncorrectUsername = new MainPage(getDriver())
@@ -300,12 +300,12 @@ public class UsersTest extends BaseTest {
                 .enterPassword(PASSWORD)
                 .enterSignIn(new LoginPage(getDriver()))
                 .getTextAlertIncorrectUsernameOrPassword();
-        Assert.assertEquals(actualTextAlertIncorrectUsername, expectedTextAlertIncorrectUsernameOrPassword);
+        Assert.assertEquals(actualTextAlertIncorrectUsername, expectedTextAlertIncorrectUsername);
     }
 
     @Test
     public void inputtingAnIncorrectPassword() {
-        String expectedTextAlertIncorrectUsernameOrPassword = "Invalid username or password";
+        String expectedTextAlertIncorrectPassword = "Invalid username or password";
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
         String actualTextAlertIncorrectPassword = new MainPage(getDriver())
@@ -315,6 +315,21 @@ public class UsersTest extends BaseTest {
                 .enterPassword("12345hi")
                 .enterSignIn(new LoginPage(getDriver()))
                 .getTextAlertIncorrectUsernameOrPassword();
-        Assert.assertEquals(actualTextAlertIncorrectPassword, expectedTextAlertIncorrectUsernameOrPassword);
+        Assert.assertEquals(actualTextAlertIncorrectPassword, expectedTextAlertIncorrectPassword);
+    }
+
+    @Test
+    public void  inputtingAnIncorrectUsernameAndPassword() {
+        String expectedTextAlertIncorrectUsernameAndPassword = "Invalid username or password";
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        String actualTextAlertIncorrectUsernameAndPassword = new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton()
+                .enterUsername("incorrect user name")
+                .enterPassword("12345hi")
+                .enterSignIn(new LoginPage(getDriver()))
+                .getTextAlertIncorrectUsernameOrPassword();
+        Assert.assertEquals(actualTextAlertIncorrectUsernameAndPassword, expectedTextAlertIncorrectUsernameAndPassword);
     }
 }
