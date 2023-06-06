@@ -4,19 +4,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.component.MainHeaderComponent;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.*;
 
 public class UsersTest extends BaseTest {
@@ -128,7 +122,7 @@ public class UsersTest extends BaseTest {
                 .clickUserIDDropDownMenu(USER_NAME)
                 .selectConfigureUserIDDropDownMenu();
 
-        ConfigureUserPage configureUserPage = new ConfigureUserPage(getDriver());
+        UserConfigPage configureUserPage = new UserConfigPage(new StatusUserPage(getDriver()));
 
         String oldEmail = configureUserPage.getEmailValue("value");
 
