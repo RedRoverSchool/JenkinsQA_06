@@ -340,22 +340,20 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewPipelineWithScript() {
+    public void testCreateNewPipelineWithScript()  {
+        final String newPipelineName="New Pipeline";
 
-        getDriver().findElement(xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath
-                ("//li[@class = 'org_jenkinsci_plugins_workflow_job_WorkflowJob']"))).click();
-        getDriver().findElement(xpath("//button[@id='ok-button']")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(scriptButton));
+        String projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(newPipelineName)
+                .selectPipelineAndOk()
+                .scrollAndClickAdvancedButton()
+                .clickScriptDropDownMenu()
+                .selectScriptedPipeline()
+                .clickSaveButton()
+                .getProjectName();
 
-        Select selectPipelineScript = new Select(getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (scriptButton)));
-        selectPipelineScript.selectByVisibleText("Scripted Pipeline");
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("Submit"))).click();
-
-        Assert.assertEquals(getDriver().findElement(xpath("//h1[@class='job-index-headline page-headline']")).getText(),
-                "Pipeline " + PIPELINE_NAME);
+        Assert.assertEquals(projectName, "Pipeline " + newPipelineName);
     }
 
     @Test

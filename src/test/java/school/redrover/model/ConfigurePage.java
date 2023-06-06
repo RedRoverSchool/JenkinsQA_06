@@ -4,8 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
+
+import static org.openqa.selenium.By.xpath;
 
 public class ConfigurePage extends BaseMainHeaderPage<ConfigurePage> {
 
@@ -50,6 +54,12 @@ public class ConfigurePage extends BaseMainHeaderPage<ConfigurePage> {
         TestUtils.scrollToElementByJavaScript(this, getPipelineSection());
         return new ConfigurePage(getDriver());
     }
+
+    public ConfigurePage chooseScriptForPipeline() {
+             TestUtils.clickByJavaScript(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (xpath("//div[@class = 'samples']/select"))));
+           return this;
+           }
 
     public JobPage selectSaveButton() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//button[@name='Submit']")));

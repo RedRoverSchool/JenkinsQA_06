@@ -37,13 +37,18 @@ public class PipelineConfigPage extends ConfigurePage {
     }
 
     public PipelineConfigPage clickScriptDropDownMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//option[text() = 'try sample Pipeline...']"))).click();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class = 'samples']/select"))).click();
         return this;
     }
 
     public PipelinePage selectHelloWord() {
         getDriver().findElement(By.cssSelector("option[value='hello']")).click();
         return new PipelinePage(getDriver());
+    }
+
+    public PipelineConfigPage selectScriptedPipeline() {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//option[@value='scripted']"))).click();
+        return this;
     }
 
     public PipelineConfigPage clickPipelineLeftMenu() {

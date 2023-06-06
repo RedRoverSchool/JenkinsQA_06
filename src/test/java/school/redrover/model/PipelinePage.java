@@ -5,8 +5,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
+
+import static org.openqa.selenium.By.xpath;
 
 public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
 
