@@ -1,5 +1,6 @@
 package school.redrover.runner;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -159,5 +160,10 @@ public class TestUtils {
             texts.add(element.getText().substring(0, element.getText().indexOf("\n")));
         }
         return texts;
+    }
+
+    public static String getRandomStr(int length) {
+        return RandomStringUtils.random(length,
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
     }
 }
