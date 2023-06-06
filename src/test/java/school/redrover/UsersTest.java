@@ -10,6 +10,7 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.io.IOException;
 import java.util.*;
 
 public class UsersTest extends BaseTest {
@@ -121,7 +122,7 @@ public class UsersTest extends BaseTest {
                 .clickUserIDDropDownMenu(USER_NAME)
                 .selectConfigureUserIDDropDownMenu();
 
-        ConfigureUserPage configureUserPage = new ConfigureUserPage(getDriver());
+        UserConfigPage configureUserPage = new UserConfigPage(new StatusUserPage(getDriver()));
 
         String oldEmail = configureUserPage.getEmailValue("value");
 

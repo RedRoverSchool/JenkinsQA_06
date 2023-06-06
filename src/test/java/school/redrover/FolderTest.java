@@ -197,9 +197,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, NAME, false);
         boolean healthMetric = new FolderPage(getDriver())
                 .clickConfigureSideMenu()
-                .clickHealthMetrics()
-                .clickAddMetric()
-                .clickChildWithWorstHealth()
+                .addHealthMetrics()
                 .healthMetricIsVisible();
 
         assertTrue(healthMetric);

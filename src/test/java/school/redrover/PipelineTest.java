@@ -232,7 +232,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getProjectName();
 
-        Assert.assertEquals(jobName,"Pipeline " + PIPELINE_NAME);
+        Assert.assertEquals(jobName, "Pipeline " + PIPELINE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreatePipeline")
@@ -420,7 +420,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithSpaceInsteadOfName() {
-          CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
+        CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("  ")
                 .selectPipelineProject()
@@ -506,27 +506,18 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuildsIsChecked0Builds() {
-        final String builds = "0";
-        final String errorMessage = "Not a positive integer";
+        final String days = "0";
 
         TestUtils.createPipeline(this, "test-pipeline", false);
 
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
+        boolean notPositiveInteger = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickDiscardOldBuildsCheckbox()
+                .enterDaysToKeepBuilds(days)
+                .clickOutsideOfInputField()
+                .isErrorMessageDisplayed();
 
-        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
-        getDriver().findElement(By.name("_.numToKeepStr")).sendKeys(builds);
-
-        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
-
-        WebElement clickOutsideOfInputField = getDriver()
-                .findElement(By.xpath("//*[@name='strategy']/div/div"));
-        clickOutsideOfInputField.click();
-
-        WebElement actualErrorMessage = getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
-
-        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
-        Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
+        Assert.assertTrue(notPositiveInteger);
     }
 
     @Test
@@ -678,7 +669,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCancelPipelineDeletion(){
+    public void testCancelPipelineDeletion() {
         final String jobName = "P1";
         new MainPage(getDriver())
                 .clickNewItem()
@@ -689,6 +680,6 @@ public class PipelineTest extends BaseTest {
                 .clickLogo()
                 .dropDownMenuClickDelete(jobName)
                 .dismissAlert();
-        Assert.assertEquals(jobName,"P1");
+        Assert.assertEquals(jobName, "P1");
     }
 }

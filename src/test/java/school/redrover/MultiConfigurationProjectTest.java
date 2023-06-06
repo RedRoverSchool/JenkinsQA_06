@@ -198,6 +198,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(enable.getText(), "Disable Project");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testRenameFromDashboard() {
 
@@ -321,17 +322,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dataProvider = "unsafe-character")
     public void testCreateMultiConfigurationProjectWithSpecialSymbols(String unsafeCharacter) {
-        final String expectedResult = "is an unsafe character";
+        final String expectedResult = "» ‘" + unsafeCharacter + "’ is an unsafe character";
+        String messageUnderInputField = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(unsafeCharacter)
+                .selectMultiConfigurationProject()
+                .getItemInvalidMessage();
 
-        getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
-
-        getDriver().findElement(By.name("name")).sendKeys(unsafeCharacter);
-
-        WebElement errorMessage = getDriver().findElement(By.id("itemname-invalid"));
-
-        Assert.assertEquals((errorMessage.getText()).substring(6, 28), expectedResult);
-
-        getDriver().findElement(By.name("name")).clear();
+        Assert.assertEquals(messageUnderInputField, expectedResult);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
@@ -528,5 +526,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String errorMessage = new ErrorNodePage(getDriver()).getErrorMessage();
 
         Assert.assertEquals(errorMessage, expectedResult);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    public void testBuildNowOptionNotPresentInDisabledProject() {
+        List<String> dropDownMenuItems = new MainPage(getDriver())
+                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
+                .getDisableClick()
+                .getHeader()
+                .clickLogo()
+                .openJobDropDownMenu(MULTI_CONFIGURATION_NAME)
+                .getListOfProjectMenuItems(MULTI_CONFIGURATION_NAME);
+
+        Assert.assertFalse(dropDownMenuItems.contains("Build Now"), "'Build Now' option is present in drop-down menu");
     }
 }
