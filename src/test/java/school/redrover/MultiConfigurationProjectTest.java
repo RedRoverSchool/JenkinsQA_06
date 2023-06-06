@@ -322,17 +322,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dataProvider = "unsafe-character")
     public void testCreateMultiConfigurationProjectWithSpecialSymbols(String unsafeCharacter) {
-        final String expectedResult = "is an unsafe character";
+        final String expectedResult = "» ‘" + unsafeCharacter + "’ is an unsafe character";
+        String messageUnderInputField = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(unsafeCharacter)
+                .selectMultiConfigurationProject()
+                .getItemInvalidMessage();
 
-        getDriver().findElement(By.xpath("//*[@id='tasks']//span/a")).click();
-
-        getDriver().findElement(By.name("name")).sendKeys(unsafeCharacter);
-
-        WebElement errorMessage = getDriver().findElement(By.id("itemname-invalid"));
-
-        Assert.assertEquals((errorMessage.getText()).substring(6, 28), expectedResult);
-
-        getDriver().findElement(By.name("name")).clear();
+        Assert.assertEquals(messageUnderInputField, expectedResult);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
