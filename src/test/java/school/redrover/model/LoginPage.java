@@ -28,4 +28,8 @@ public class LoginPage extends BaseModel {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return new MainPage(getDriver());
     }
+
+    public String getTextAlertIncorrectUsernameOrPassword() {
+        return getDriver().findElement(By.xpath("//div[text()='Invalid username or password']")).getText();
+    }
 }

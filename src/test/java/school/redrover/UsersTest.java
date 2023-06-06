@@ -279,7 +279,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void testUserCanLoginToJenkinsWithCreatedAccount() throws IOException {
+    public void testUserCanLoginToJenkinsWithCreatedAccount()  {
         String nameProject = "Engineer";
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -290,6 +290,23 @@ public class UsersTest extends BaseTest {
                 .enterPassword(PASSWORD)
                 .enterSignIn();
         TestUtils.createFreestyleProject(this, nameProject, true);
-        Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
+        String actualResult = new MainPage(getDriver()).getProjectName().getText();
+        Assert.assertEquals(actualResult, nameProject);
+    }
+
+    @Test
+    public void inputtingAnIncorrectUsername() {
+        String expectedTextAlertIncorrectUsernameOrPassword = "Invalid username or password";
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton()
+                .enterUsername(USER_NAME + "aaa")
+                .enterPassword(PASSWORD)
+                .enterSignIn();
+
+        String actualTextAlertIncorrectUsernameOrPassword = new LoginPage(getDriver()).getTextAlertIncorrectUsernameOrPassword();
+        Assert.assertEquals(actualTextAlertIncorrectUsernameOrPassword,expectedTextAlertIncorrectUsernameOrPassword);
     }
 }
