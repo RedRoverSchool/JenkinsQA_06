@@ -63,4 +63,15 @@ public class MultibranchPipelinePage extends BaseMainHeaderPage<MultibranchPipel
     public String getDisplayedName() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']/h1"))).getText().trim();
     }
+
+    public boolean defaultIconIsDisplayed() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("(//*[name()='svg'][@title='Folder'])[1]"))).isDisplayed();
+    }
+
+    public boolean metadataFolderIconIsDisplayed() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//h1/img"))).isDisplayed();
+    }
+
 }

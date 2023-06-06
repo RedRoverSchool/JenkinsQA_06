@@ -2,12 +2,9 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseConfigPage;
-import school.redrover.model.base.BaseProjectsConfigPage;
-import school.redrover.runner.TestUtils;
+import school.redrover.model.base.BaseConfigProjectsPage;
 
-public class MultiConfigurationProjectConfigPage extends BaseProjectsConfigPage<MultiConfigurationProjectConfigPage, MultiConfigurationProjectPage> {
+public class MultiConfigurationProjectConfigPage extends BaseConfigProjectsPage<MultiConfigurationProjectConfigPage, MultiConfigurationProjectPage> {
 
     public MultiConfigurationProjectConfigPage(MultiConfigurationProjectPage multiConfigurationProjectPage) {
         super(multiConfigurationProjectPage);

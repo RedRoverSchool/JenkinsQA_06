@@ -1,13 +1,11 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseConfigPage;
-import school.redrover.model.base.BaseProjectsConfigPage;
+import school.redrover.model.base.BaseConfigProjectsPage;
 
-public class FreestyleProjectConfigPage extends BaseProjectsConfigPage<FreestyleProjectConfigPage, FreestyleProjectPage> {
+public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<FreestyleProjectConfigPage, FreestyleProjectPage> {
 
 
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {

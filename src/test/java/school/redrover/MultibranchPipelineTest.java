@@ -1,9 +1,7 @@
 package school.redrover;
 
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.MultibranchPipelineConfigPage;
 import school.redrover.model.MultibranchPipelinePage;
@@ -14,34 +12,34 @@ import java.util.List;
 
 public class MultibranchPipelineTest extends BaseTest {
 
-    private static final String multibranchPipelineName = "MultibranchPipeline";
-    private static final String multibranchPipelineRenamed = "MultibranchPipelineRenamed";
+    private static final String NAME = "MultibranchPipeline";
+    private static final String RENAMED = "MultibranchPipelineRenamed";
 
     @Test
     public void testCreateMultibranchPipelineWithDisplayName() {
         final String multibranchPipelineDisplayName = "MultibranchDisplayName";
 
-        String actualDisplayedName = new MainPage(getDriver())
+        MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(multibranchPipelineName)
+                .enterItemName(NAME)
                 .selectMultibranchPipelineAndOk()
                 .enterDisplayName(multibranchPipelineDisplayName)
-                .clickSaveButton()
-                .getDisplayedName();
+                .clickSaveButton();
 
-        Assert.assertEquals(actualDisplayedName, multibranchPipelineDisplayName);
+        Assert.assertEquals(multibranchPipelinePage.getDisplayedName(), multibranchPipelineDisplayName);
+        Assert.assertTrue(multibranchPipelinePage.metadataFolderIconIsDisplayed(), "error was not shown Metadata Folder icon");
     }
 
     @Test
     public void testCreateMultibranchPipelineWithDescription() {
         String MultibranchPipeline = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(multibranchPipelineName)
+                .enterItemName(NAME)
                 .selectMultibranchPipelineAndOk()
                 .addDescription("DESCRIPTION")
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
-                .clickMultibranchPipelineName(multibranchPipelineName)
+                .clickMultibranchPipelineName(NAME)
                 .getDescription();
 
         Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
@@ -51,7 +49,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testCreateMultibranchPipelineWithoutDescription() {
         MultibranchPipelinePage pageWithOutDescription = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(multibranchPipelineName)
+                .enterItemName(NAME)
                 .selectMultibranchPipelineAndOk()
                 .clickSaveButton();
 
@@ -61,19 +59,19 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultibranchPipelineWithoutDescription")
     public void testRenameMultibranchPipeline() {
         String actualDisplayedName = new MainPage(getDriver())
-                .clickMultibranchPipelineName(multibranchPipelineName)
+                .clickMultibranchPipelineName(NAME)
                 .renameMultibranchPipelinePage()
-                .enterNewName(multibranchPipelineRenamed)
+                .enterNewName(RENAMED)
                 .submitNewName()
                 .getDisplayedName();
 
-        Assert.assertEquals(actualDisplayedName, multibranchPipelineRenamed);
+        Assert.assertEquals(actualDisplayedName, RENAMED);
     }
 
     @Test(dependsOnMethods = "testRenameMultibranchPipeline")
     public void testDisableMultibranchPipeline() {
         String actualDisableMessage = new MainPage(getDriver())
-                .clickMultibranchPipelineName(multibranchPipelineRenamed)
+                .clickMultibranchPipelineName(RENAMED)
                 .clickConfigureSideMenu()
                 .clickDisable()
                 .clickSaveButton()
@@ -84,7 +82,7 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testDisableMultibranchPipeline")
     public void testDeleteMultibranchPipeline() {
         String WelcomeJenkinsPage = new MainPage(getDriver())
-                .dropDownMenuClickDeleteFolders(multibranchPipelineRenamed)
+                .dropDownMenuClickDeleteFolders(RENAMED)
                 .clickYes()
                 .getWelcomeWebElement()
                 .getText();
@@ -92,22 +90,15 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(WelcomeJenkinsPage, "Welcome to Jenkins!");
     }
 
-    @Test
-    public void testMoveMultibranchPipelineToFolder(){
-
-        TestUtils.createFolder(this, "Folder", true);
-        TestUtils.createMultibranchPipeline(this, "MultibranchPipeline", true);
-
-        WebElement nameMultibranchPipeline = new MainPage(getDriver())
-                .dropDownMenuClickMove("MultibranchPipeline",new FolderPage(getDriver()))
-                .selectDestinationFolder("Folder")
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
-                .clickFolderName("Folder")
-                .getMultibranchPipelineName();
-
-        Assert.assertTrue(nameMultibranchPipeline.isDisplayed());
+    @Test (dependsOnMethods = "testCreateMultibranchPipelineWithDisplayName")
+    public void testChooseDefaultIcon() {
+        MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
+                .clickMultibranchPipelineName(NAME)
+                .clickConfigureSideMenu()
+                .clickAppearance()
+                .selectDefaultIcon()
+                .clickSaveButton();
+        Assert.assertTrue(multibranchPipelinePage.defaultIconIsDisplayed(), "error was not shown default icon");
     }
 
     @Test
