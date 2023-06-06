@@ -299,7 +299,6 @@ public class UsersTest extends BaseTest {
                 .enterPassword(PASSWORD)
                 .enterSignIn(new LoginPage(getDriver()))
                 .getTextAlertIncorrectUsernameOrPassword();
-
         Assert.assertEquals(actualTextAlertIncorrectUsernameOrPassword, expectedTextAlertIncorrectUsernameOrPassword);
     }
 }
