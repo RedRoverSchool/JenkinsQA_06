@@ -302,7 +302,7 @@ public class UsersTest extends BaseTest {
         new MainPage(getDriver())
                 .getHeader()
                 .clickLogoutButton()
-                .enterUsername(USER_NAME + "aaa")
+                .enterUsername("incorrect user name")
                 .enterPassword(PASSWORD)
                 .enterSignIn();
 
