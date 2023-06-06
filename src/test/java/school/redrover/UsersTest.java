@@ -293,13 +293,28 @@ public class UsersTest extends BaseTest {
         String expectedTextAlertIncorrectUsernameOrPassword = "Invalid username or password";
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
-        String actualTextAlertIncorrectUsernameOrPassword = new MainPage(getDriver())
+        String actualTextAlertIncorrectUsername = new MainPage(getDriver())
                 .getHeader()
                 .clickLogoutButton()
                 .enterUsername("incorrect user name")
                 .enterPassword(PASSWORD)
                 .enterSignIn(new LoginPage(getDriver()))
                 .getTextAlertIncorrectUsernameOrPassword();
-        Assert.assertEquals(actualTextAlertIncorrectUsernameOrPassword, expectedTextAlertIncorrectUsernameOrPassword);
+        Assert.assertEquals(actualTextAlertIncorrectUsername, expectedTextAlertIncorrectUsernameOrPassword);
+    }
+
+    @Test
+    public void inputtingAnIncorrectPassword() {
+        String expectedTextAlertIncorrectUsernameOrPassword = "Invalid username or password";
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        String actualTextAlertIncorrectPassword = new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton()
+                .enterUsername(USER_NAME)
+                .enterPassword("12345hi")
+                .enterSignIn(new LoginPage(getDriver()))
+                .getTextAlertIncorrectUsernameOrPassword();
+        Assert.assertEquals(actualTextAlertIncorrectPassword, expectedTextAlertIncorrectUsernameOrPassword);
     }
 }
