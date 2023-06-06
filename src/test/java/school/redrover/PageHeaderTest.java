@@ -17,7 +17,6 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-@Ignore
 public class PageHeaderTest extends BaseTest {
 
     @Test

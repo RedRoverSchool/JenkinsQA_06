@@ -12,7 +12,6 @@ import school.redrover.runner.BaseTest;
 import java.util.ArrayList;
 import java.util.List;
 
-@Ignore
 public class ConfigureGlobalSecurityTest extends BaseTest {
     public void navigateToConfigureGlobalSecurityPage() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();

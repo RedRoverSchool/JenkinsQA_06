@@ -7,7 +7,6 @@ import school.redrover.model.MainPage;
 import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
 
-@Ignore
 public class OrganizationFolderTest extends BaseTest {
 
     private static final String organizationFolderName = "OrgFolder";

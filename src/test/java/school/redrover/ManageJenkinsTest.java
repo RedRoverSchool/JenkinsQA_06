@@ -12,7 +12,6 @@ import school.redrover.runner.BaseTest;
 import java.util.List;
 import java.util.Objects;
 
-@Ignore
 public class ManageJenkinsTest extends BaseTest {
     final String NAME_NEW_NODE = "testNameNewNode";
 

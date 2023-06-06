@@ -12,7 +12,6 @@ import school.redrover.runner.BaseTest;
 import java.util.HashMap;
 import java.util.Map;
 
-@Ignore
 public class ProfileTest extends BaseTest {
     final Map<String, String> menuToUrlMap = new HashMap<>() {{
         put("Builds", "builds");

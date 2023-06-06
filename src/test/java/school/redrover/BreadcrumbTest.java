@@ -17,7 +17,7 @@ public class BreadcrumbTest extends BaseTest {
         ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
                 .clickManageJenkinsOnDropDown();
 
-        Assert.assertEquals(manageJenkinsPage.getActualHeader(), "Manage Jenkins" + "-ERRORS");
+        Assert.assertEquals(manageJenkinsPage.getActualHeader(), "Manage Jenkins");
     }
 
     @DataProvider(name = "subsections")

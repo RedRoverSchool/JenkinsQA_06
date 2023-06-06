@@ -19,7 +19,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import school.redrover.model.*;
 
-@Ignore
 public class MultiConfigurationProjectTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_NAME = "MULTI_CONFIGURATION_NAME";
     private static final String MULTI_CONFIGURATION_NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";

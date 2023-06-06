@@ -7,7 +7,6 @@ import school.redrover.runner.BaseTest;
 
 import java.util.List;
 
-@Ignore
 public class ManagePluginsTest extends BaseTest {
 
     @Test

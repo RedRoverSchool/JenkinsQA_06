@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-@Ignore
 public class DashboardTest extends BaseTest {
 
     private MainPage createFreestyleProjectWithDefaultConfigurations(String name) {

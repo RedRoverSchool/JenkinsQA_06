@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Ignore
 public class UsersTest extends BaseTest {
     protected static final String USER_NAME = "testuser";
     protected static final String PASSWORD = "p@ssword123";

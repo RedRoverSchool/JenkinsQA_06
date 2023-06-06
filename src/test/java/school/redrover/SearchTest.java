@@ -9,7 +9,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-@Ignore
 public class SearchTest extends BaseTest {
     @Test
     public void testSearchBoxInsensitive() {

@@ -16,7 +16,6 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-@Ignore
 public class NewViewTest extends BaseTest {
     private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");

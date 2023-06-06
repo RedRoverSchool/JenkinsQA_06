@@ -13,7 +13,6 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-@Ignore
 public class MultibranchPipelineTest extends BaseTest {
 
     private static final String multibranchPipelineName = "MultibranchPipeline";

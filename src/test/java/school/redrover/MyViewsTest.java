@@ -17,7 +17,6 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-@Ignore
 public class MyViewsTest extends BaseTest {
     private static final String NAME_FOLDER = "TestPipeline";
 
