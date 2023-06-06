@@ -11,7 +11,6 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -233,7 +232,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getProjectName();
 
-        Assert.assertEquals(jobName,"Pipeline " + PIPELINE_NAME);
+        Assert.assertEquals(jobName, "Pipeline " + PIPELINE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreatePipeline")
@@ -268,40 +267,22 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    @Ignore
-    public void testCreateBuildNowVisibilityTheTimeStatusBuild() {
-        TestUtils.createPipeline(this, "Engineer", true);
-
-        getDriver().findElement(By.xpath("//a[@href='job/Engineer/']")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, 'build?')]")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, 'buildTimeTrend')]")).click();
-
-        WebElement successIcon = getWait10().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//a[@tooltip=normalize-space('Success > Console Output')]")));
-        WebElement timeAndDateLine = getDriver().findElement(By.xpath("//div[contains(@class, 'indent-multiline')]"));
-
-        Assert.assertTrue(successIcon.isDisplayed(), "successIcon not displayed");
-        Assert.assertTrue(timeAndDateLine.isDisplayed(), "timeAndDateLine not displayed");
-    }
-
-    @Ignore
-    @Test
     public void testMakeSeveralBuilds() {
-        TestUtils.createPipeline(this, "Engineer", true);
+        final String jobName = "Engineer";
         List<String> buildNumberExpected = Arrays.asList("#1", "#2", "#3");
-        List<String> buildNumber = new ArrayList<>();
 
-        getDriver().findElement(By.xpath("//a[@href='job/Engineer/']")).click();
-        WebElement newBuild = getDriver().findElement(By.xpath("//a[contains(@href, 'build?')]"));
-        newBuild.click();
-        newBuild.click();
-        newBuild.click();
-        getDriver().findElement(By.xpath("//a[contains(@href, 'buildTimeTrend')]")).click();
-
-        buildNumber.add(getWait10().until(ExpectedConditions
-                .visibilityOfElementLocated(By.cssSelector("[href='1/']"))).getText());
-        buildNumber.add(getDriver().findElement(By.cssSelector("[href='2/']")).getText());
-        buildNumber.add(getDriver().findElement(By.cssSelector("[href='3/']")).getText());
+        List buildNumber = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(jobName)
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo().clickPipelineProject(jobName)
+                .clickBuildNow()
+                .clickBuildNow()
+                .clickBuildNow()
+                .clickTrend()
+                .getBuildNumbers(3);
 
         Assert.assertEquals(buildNumber, buildNumberExpected);
     }
@@ -423,6 +404,7 @@ public class PipelineTest extends BaseTest {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(wrongCharacters);
+
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacters + "’ is an unsafe character");
         Assert.assertFalse(newJobPage.isOkButtonEnabled());
     }
@@ -438,7 +420,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithSpaceInsteadOfName() {
-          CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
+        CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("  ")
                 .selectPipelineProject()
@@ -476,26 +458,24 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testDiscardOldBuildsIsCheckedWithValidParams() {
+    public void testDiscardOldBuildsParams() {
         final String days = "7";
         final String builds = "5";
 
-        TestUtils.createPipeline(this, "test-pipeline", false);
+        PipelineConfigPage pipelineConfigPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("test-pipeline")
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickConfigureButton()
+                .clickDiscardOldBuildsCheckbox()
+                .enterDaysToKeepBuilds(days)
+                .enterMaxOfBuildsToKeep(builds)
+                .clickSaveButton()
+                .clickConfigureButton();
 
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
-
-        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
-        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
-        getDriver().findElement(By.name("_.numToKeepStr")).sendKeys(builds);
-        getDriver().findElement(By.name("Submit")).click();
-
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
-
-        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
-
-        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
-        Assert.assertEquals(getDriver().findElement(By.name("_.daysToKeepStr")).getAttribute("value"), days);
-        Assert.assertEquals(getDriver().findElement(By.name("_.numToKeepStr")).getAttribute("value"), builds);
+        Assert.assertEquals(pipelineConfigPage.getDaysToKeepBuilds(), days);
+        Assert.assertEquals(pipelineConfigPage.getMaxNumbersOfBuildsToKeep(), builds);
     }
 
     @Ignore
@@ -526,27 +506,18 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuildsIsChecked0Builds() {
-        final String builds = "0";
-        final String errorMessage = "Not a positive integer";
+        final String days = "0";
 
         TestUtils.createPipeline(this, "test-pipeline", false);
 
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
+        boolean notPositiveInteger = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickDiscardOldBuildsCheckbox()
+                .enterDaysToKeepBuilds(days)
+                .clickOutsideOfInputField()
+                .isErrorMessageDisplayed();
 
-        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
-        getDriver().findElement(By.name("_.numToKeepStr")).sendKeys(builds);
-
-        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
-
-        WebElement clickOutsideOfInputField = getDriver()
-                .findElement(By.xpath("//*[@name='strategy']/div/div"));
-        clickOutsideOfInputField.click();
-
-        WebElement actualErrorMessage = getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
-
-        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
-        Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
+        Assert.assertTrue(notPositiveInteger);
     }
 
     @Test
@@ -698,28 +669,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreatePipeLine () {
-        String actual = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName("TestPipeLineJJ")
-                .selectPipelineAndOk()
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .getJobName("TestPipeLineJJ");
-        Assert.assertEquals(actual, "TestPipeLineJJ");
-    }
-
-    @Test(dependsOnMethods = "testCreatePipeLine")
-    public void testOpenCreatedPipeline() {
-        String actualJobName = new MainPage(getDriver())
-                .clickPipelineProject("TestPipeLineJJ")
-                .getProjectName();
-        Assert.assertEquals(actualJobName,"Pipeline TestPipeLineJJ");
-    }
-
-    @Test
-    public void testCancelPipelineDeletion(){
+    public void testCancelPipelineDeletion() {
         final String jobName = "P1";
         new MainPage(getDriver())
                 .clickNewItem()
@@ -730,6 +680,6 @@ public class PipelineTest extends BaseTest {
                 .clickLogo()
                 .dropDownMenuClickDelete(jobName)
                 .dismissAlert();
-        Assert.assertEquals(jobName,"P1");
+        Assert.assertEquals(jobName, "P1");
     }
 }

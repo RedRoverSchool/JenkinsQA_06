@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.openqa.selenium.By.cssSelector;
@@ -20,6 +21,8 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
 
     public FreestyleProjectPage selectBuildNow() {
         getDriver().findElement(cssSelector("[href*='build?']")).click();
+        getWait5().until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//td[@class='build-row-cell']")));
         return this;
     }
 
@@ -115,20 +118,15 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         return new RenamePage<>(this);
     }
 
-    public FreestyleProjectPage clickDeleteProject() {
+    public MainPage clickDeleteProject() {
         getWait2().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href = '#']//span[text() = 'Delete Project' ]"))).click();
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
-        return this;
+        return new MainPage(getDriver());
     }
 
-    public boolean checkProjectWasDeleted(String projectName) {
-       boolean result = getDriver().findElements(By
-                        .xpath("//a[@class='jenkins-table__link model-link inside']"))
-                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(projectName);
-        return result;
-    }
+
 
     public ConsoleOutputPage openConsoleOutputForBuild(){
         getWait5().until(ExpectedConditions.elementToBeClickable(
@@ -145,5 +143,14 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/move']")))).click();
         return new MovePage<>(this);
+    }
+
+    public int getSizeOfPermalinksList() {
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h2")));
+
+        List<WebElement> permalinks = getDriver()
+                .findElements(By.xpath("//ul[@class='permalinks-list']//li"));
+
+        return permalinks.size();
     }
 }

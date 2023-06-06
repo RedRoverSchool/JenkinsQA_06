@@ -5,10 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
-public abstract class BaseFoldersConfigPage<Self extends BaseConfigPage<?, ?>, FolderPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, FolderPage>{
+public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, FolderPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, FolderPage>{
 
 
-    public BaseFoldersConfigPage(FolderPage foldersPage) {
+    public BaseConfigFoldersPage(FolderPage foldersPage) {
         super(foldersPage);
     }
 

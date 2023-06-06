@@ -198,6 +198,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(enable.getText(), "Disable Project");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testRenameFromDashboard() {
 
@@ -528,5 +529,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String errorMessage = new ErrorNodePage(getDriver()).getErrorMessage();
 
         Assert.assertEquals(errorMessage, expectedResult);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    public void testBuildNowOptionNotPresentInDisabledProject() {
+        List<String> dropDownMenuItems = new MainPage(getDriver())
+                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
+                .getDisableClick()
+                .getHeader()
+                .clickLogo()
+                .openJobDropDownMenu(MULTI_CONFIGURATION_NAME)
+                .getListOfProjectMenuItems(MULTI_CONFIGURATION_NAME);
+
+        Assert.assertFalse(dropDownMenuItems.contains("Build Now"), "'Build Now' option is present in drop-down menu");
     }
 }

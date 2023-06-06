@@ -4,9 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
@@ -89,7 +90,8 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public WebElement getOkButton() {
-        return getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//button[@id='ok-button']")));
     }
 
     private WebElement getFreestyleProject() {
@@ -125,4 +127,19 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
                 .click();
         return new CreateItemErrorPage(getDriver());
     }
+
+    public String getTitle() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//label[@class = 'h3']"))).getText();
+    }
+
+    public List<String> getListOfNewItems() {
+        List<WebElement> listOfNewItems = getDriver().findElements(By.cssSelector("label > span"));
+        List<String> newList = new java.util.ArrayList<>(List.of());
+        for(int i = 0; i< listOfNewItems.size(); i++) {
+            newList.add(listOfNewItems.get(i).getText());
+        }
+        return newList;
+    }
 }
+
