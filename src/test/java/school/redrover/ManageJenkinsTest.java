@@ -10,6 +10,7 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import java.util.List;
 import java.util.Objects;
+
 import static school.redrover.runner.TestUtils.getRandomStr;
 
 public class ManageJenkinsTest extends BaseTest {
@@ -155,19 +156,16 @@ public class ManageJenkinsTest extends BaseTest {
     public void testCreateNewAgentNode() {
         final String nodeName = getRandomStr(10);
 
-        ManageNodesPage manageNodesPage = new MainPage(getDriver())
+        String manageNodesPage = new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
                 .inputNodeNameField(nodeName)
                 .clickPermanentAgentRadioButton()
                 .clickCreateButton()
-                .clickSaveButton();
+                .clickSaveButton()
+                .getNodeName(nodeName);
 
-        String actualResult = getDriver().findElement(By.xpath
-                ("//a[@href='/manage/computer/" + nodeName + "/']")).getText();
-
-        Assert.assertEquals(actualResult,nodeName);
+        Assert.assertEquals(manageNodesPage,nodeName);
     }
-
 }

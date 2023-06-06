@@ -161,7 +161,6 @@ public class TestUtils {
         }
         return texts;
     }
-
     public static String getRandomStr(int length) {
         return RandomStringUtils.random(length,
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
