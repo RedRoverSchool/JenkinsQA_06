@@ -10,7 +10,7 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.io.IOException;
+
 import java.util.*;
 
 public class UsersTest extends BaseTest {
