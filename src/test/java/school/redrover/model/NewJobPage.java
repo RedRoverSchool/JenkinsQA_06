@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
@@ -142,4 +141,3 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return newList;
     }
 }
-

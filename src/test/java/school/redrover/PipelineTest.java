@@ -524,33 +524,17 @@ public class PipelineTest extends BaseTest {
     public void testDisableDuringCreation() {
         final String PIPELINE_NAME = "My_pipeline";
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        boolean projectDisable = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .toggleDisableProject()
+                .clickSaveButton()
+                .checkWarningMessage()
+                .clickConfigureButton()
+                .isProjectDisable();
 
-        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("name")))).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(By.cssSelector(".org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.id("toggle-switch-enable-disable-project")));
-
-        WebElement enableToggles = getDriver().findElement(By.id("toggle-switch-enable-disable-project"));
-        boolean isPipelineEnabled = Boolean.parseBoolean(getDriver().findElement(By.xpath("//input[@name='enable']")).getAttribute("value"));
-        if (isPipelineEnabled) {
-            enableToggles.click();
-        }
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")), "Pipeline"));
-        String disabledWarning = getDriver().findElement(By.id("enable-project")).getText();
-
-        getDriver().findElement(By.xpath("//a[contains(@href,'configure')]")).click();
-
-        getWait5().until(ExpectedConditions.textToBe(By.tagName("h2"), "General"));
-        boolean isPipelineEnabledAfterDisable = Boolean.parseBoolean(getDriver().findElement(
-                By.xpath("//input[@name='enable']")).getAttribute("value"));
-
-        Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
-        Assert.assertFalse(isPipelineEnabledAfterDisable, "Pipeline is enabled");
+        Assert.assertFalse(projectDisable, "Pipeline is enabled");
     }
 
     @Test

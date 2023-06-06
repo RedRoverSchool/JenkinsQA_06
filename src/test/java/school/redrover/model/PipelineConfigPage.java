@@ -10,7 +10,6 @@ import school.redrover.runner.TestUtils;
 
 public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, PipelinePage> {
 
-
     public PipelineConfigPage(PipelinePage pipelinePage) {
         super(pipelinePage);
     }
@@ -183,5 +182,20 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
     public PipelineConfigPage clickOutsideOfInputField() {
        getDriver().findElement(By.xpath("//*[@name='strategy']/div/div")).click();
         return this;
+    }
+
+    public PipelineConfigPage toggleDisableProject() {
+        boolean isPipelineEnabled = Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated
+                (By.xpath("//input[@name='enable']"))).getAttribute("value"));
+        if (isPipelineEnabled) {
+            getDriver().findElement(By.id("toggle-switch-enable-disable-project")).click();
+        }
+        return this;
+    }
+
+    public boolean isProjectDisable() {
+
+        return Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='enable']")))
+                .getAttribute("value"));
     }
 }

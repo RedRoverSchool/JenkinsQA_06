@@ -132,8 +132,13 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
         return new TimelinePage(getDriver());
     }
 
-    public ChangesPage clickChangeOnLeftSideMenu() {
+    public ChangesPage<PipelinePage> clickChangeOnLeftSideMenu() {
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'changes')]"))).click();
-        return new ChangesPage(this);
+        return new ChangesPage<>(this);
+    }
+
+    public PipelinePage checkWarningMessage() {
+        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.id("enable-project")), "This project is currently disabled"));
+        return this;
     }
 }
