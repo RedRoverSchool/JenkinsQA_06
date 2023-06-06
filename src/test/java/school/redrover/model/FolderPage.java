@@ -81,11 +81,6 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 .findElement(By.cssSelector(".jenkins-table__link"))));
     }
 
-    public MainPage clickDashboard() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        return new MainPage(getDriver());
-    }
-
     public String getNestedFolder(String nameFolder) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]"))).getText();
@@ -172,4 +167,8 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 .replaceAll("\\n", " > ");
     }
 
+    public String getNestedFreestyleProjectName(String name) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//a[contains(@href,'job/" + name + "/')]"))).getText();
+    }
 }

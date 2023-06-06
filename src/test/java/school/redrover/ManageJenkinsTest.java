@@ -25,10 +25,9 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testSearchWithLetterConfigureSystem() {
-        String configurePage = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .enterSearchQuery("m")
-                .clickSearchButton()
+        String configurePage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField("m")
                 .selectOnTheFirstLineInDropdown()
                 .getConfigureSystemPage();
 
@@ -36,27 +35,10 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testManageConfigureNumberOfExecutorsInMasterNode() {
-        String number = "3";
+    public void testNavigateToManageJenkinsFromMainPageUsingDashboard() {
 
-        String numberInLine = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateManageNodesAndClouds()
-                .clickConfigureMasterNode()
-                .changeNumberOfExecutorsAndSave(number)
-                .navigateToMasterNodeConfiguration()
-                .numberOfExecutors();
-
-        Assert.assertEquals(number, numberInLine);
-    }
-
-    @Test
-    public void testBreadcrumbNavigateManageJenkins() {
-
-        String page = new ManagePage(getDriver())
-                .navigateToDashboardIcon()
-                .dropdownBreadcrumps()
-                .navigateToManageJenkinsAndClick()
+        String page = new MainPage(getDriver())
+                .clickManageJenkinsOnDropDown()
                 .verifyManageJenkinsPage();
 
         Assert.assertEquals(page, "Manage Jenkins");

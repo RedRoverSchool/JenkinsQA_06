@@ -11,14 +11,25 @@ public class OrganizationFolderPage extends BaseMainHeaderPage<OrganizationFolde
         super(driver);
     }
 
-    public MainPage clickDashboard() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        return new MainPage(getDriver());
-    }
-
     public MovePage<OrganizationFolderPage> clickMoveOnLeftMenu() {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//span[normalize-space(.)='Move']/a"))).click();
         return new MovePage<>(this);
+    }
+
+    public String getTextFromDisableMessage(){
+
+        return getDriver().findElement(By.xpath("//form[@method='post']")).getText();
+    }
+
+    public String getTextFromDescription(){
+
+        return getDriver().findElement(By.xpath("//div[@id='view-message']")).getText();
+    }
+
+    public OrganizationFolderPage clickDisableButton(){
+        getDriver().findElement(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']")).click();
+
+        return this;
     }
 }

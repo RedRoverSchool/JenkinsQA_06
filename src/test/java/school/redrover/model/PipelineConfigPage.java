@@ -168,4 +168,11 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         return new PipelinePage(getDriver());
     }
 
+    public String getDaysToKeepBuilds() {
+        return getDriver().findElement(By.name("_.daysToKeepStr")).getAttribute("value");
+    }
+
+    public String getMaxNumbersOfBuildsToKeep() {
+        return getDriver().findElement(By.name("_.numToKeepStr")).getAttribute("value");
+    }
 }

@@ -1,7 +1,7 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
-import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +22,8 @@ public class DashboardTest extends BaseTest {
                 .clickCreateAJobArrow()
                 .enterItemName(name)
                 .selectFreestyleProjectAndOk()
-                .clickJenkinsLogo();
+                .getHeader()
+                .clickLogo();
     }
 
     @Test()
@@ -57,27 +58,54 @@ public class DashboardTest extends BaseTest {
     }
 
     @Test
-    public void testDropDownMenuFromPeoplePage() {
-        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
+    public void testMoveFromPeoplePageToPluginsPageByDropDownMenu() {
+        String actualTitle = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
+                .getHeader()
+                .openPluginsPageFromDashboardDropdownMenu()
+                .getPageTitle();
 
-        WebElement dashboardButton = getDriver()
-                .findElement(By.xpath("//a[text()='Dashboard']"));
+        Assert.assertEquals(actualTitle, "Plugins");
+    }
+
+    @Test
+    public void testDashboardDropdownMenu() {
         new Actions(getDriver())
-                .moveToElement(dashboardButton)
-                .perform();
-
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
-
-        WebElement manageJenkinsButton = getDriver()
-                .findElement(By.xpath("//a[@class='yuimenuitemlabel yuimenuitemlabel-hassubmenu']"));
-        WebElement managePluginsButton = getDriver().findElement(By.xpath("//*[@id='yui-gen8']/a/span"));
-        new Actions(getDriver())
-                .moveToElement(manageJenkinsButton)
-                .pause(Duration.ofSeconds(1))
-                .moveToElement(managePluginsButton)
+                .moveToElement(getDriver()
+                        .findElement(By.xpath("//a[@href='/']/button")))
                 .click()
+                .build()
+                .perform();
+        List<WebElement> menuList = getDriver().findElements(By.cssSelector("#breadcrumb-menu>div:first-child>ul>li"));
+        List<String> expectedList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+        for (WebElement el : menuList) {
+            Assert.assertTrue(expectedList.contains(el.getAttribute("innerText")));
+        }
+    }
+
+    @Test
+    public void testVerifyDashboardDropdownMenuOptionsName() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
+        WebElement dashboardLink = getDriver()
+                .findElement(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']"));
+
+        new Actions(getDriver())
+                .moveToElement(dashboardLink)
                 .perform();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Plugins");
+        WebElement dashboardDropdownMenuButton = getDriver()
+                .findElement(By.xpath("//div[@id='breadcrumbBar']//button[@class='jenkins-menu-dropdown-chevron']"));
+        js.executeScript("arguments[0].click();", dashboardDropdownMenuButton);
+
+        String[] expectedText = {"New Item", "People", "Build History", "Manage Jenkins", "My Views"};
+
+        List<WebElement> menuOptions = getDriver()
+                .findElements(By.xpath("//div[@id='breadcrumb-menu-target']//li[@class='yuimenuitem first-of-type']/parent::ul/li"));
+
+        for (int i = 0;  i < menuOptions.size(); i++) {
+
+            Assert.assertEquals(menuOptions.get(i).getText(), expectedText[i]);
+        }
     }
 }
