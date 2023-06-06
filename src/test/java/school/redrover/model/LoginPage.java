@@ -28,24 +28,4 @@ public class LoginPage extends BaseModel {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         return new MainPage(getDriver());
     }
-
-    public  String getLoginFromProperties() throws IOException {
-        FileInputStream fis;
-        Properties properties = new Properties();
-
-        fis = new FileInputStream("src/test/resources/local.properties");
-        properties.load(fis);
-        return properties.getProperty("local.admin.username");
-    }
-
-    public String getPasswordFromProperties() throws IOException {
-        FileInputStream fis;
-        Properties properties = new Properties();
-
-        fis = new FileInputStream("src/test/resources/local.properties");
-        properties.load(fis);
-        return properties.getProperty("local.admin.password");
-    }
-
-
 }

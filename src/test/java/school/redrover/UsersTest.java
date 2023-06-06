@@ -281,12 +281,13 @@ public class UsersTest extends BaseTest {
     @Test
     public void testUserCanLoginToJenkinsWithCreatedAccount() throws IOException {
         String nameProject = "Engineer";
-        LoginPage loginPage = new LoginPage(getDriver());
+        new CreateUserPage(getDriver())
+                .createUser("Engineer", "12345", "ArtyomDulya", "333@Gmail.com");
         new MainPage(getDriver())
                 .getHeader()
                 .clickLogoutButton()
-                .enterUsername(loginPage.getLoginFromProperties())
-                .enterPassword(loginPage.getPasswordFromProperties())
+                .enterUsername("Engineer")
+                .enterPassword("12345")
                 .enterSignIn();
         TestUtils.createFreestyleProject(this, nameProject, true);
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
