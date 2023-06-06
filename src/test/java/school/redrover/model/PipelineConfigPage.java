@@ -177,9 +177,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
     }
 
     public boolean isErrorMessageDisplayed() {
-        WebElement actualErrorMessage = getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
-        return true;
+        return  getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']"))).isDisplayed();
     }
 
     public PipelineConfigPage clickOutsideOfInputField() {
