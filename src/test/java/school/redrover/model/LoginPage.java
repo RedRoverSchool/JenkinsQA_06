@@ -4,12 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import school.redrover.model.base.BaseModel;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
-
 
 public class LoginPage extends BaseModel {
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -24,12 +21,12 @@ public class LoginPage extends BaseModel {
         return this;
     }
 
-    public MainPage enterSignIn() {
+    public <Page extends BaseModel> Page enterSignIn(Page page) {
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        return new MainPage(getDriver());
+        return page;
     }
 
     public String getTextAlertIncorrectUsernameOrPassword() {
-        return getDriver().findElement(By.xpath("//div[text()='Invalid username or password']")).getText();
+       return getDriver().findElement(By.xpath("//div[text()='Invalid username or password']")).getText();
     }
 }

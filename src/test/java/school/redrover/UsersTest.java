@@ -4,19 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.component.MainHeaderComponent;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.time.Duration;
 import java.util.*;
 
 public class UsersTest extends BaseTest {
@@ -279,7 +272,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void testUserCanLoginToJenkinsWithCreatedAccount()  {
+    public void testUserCanLoginToJenkinsWithCreatedAccount() {
         String nameProject = "Engineer";
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -288,7 +281,7 @@ public class UsersTest extends BaseTest {
                 .clickLogoutButton()
                 .enterUsername(USER_NAME)
                 .enterPassword(PASSWORD)
-                .enterSignIn();
+                .enterSignIn(new MainPage(getDriver()));
         TestUtils.createFreestyleProject(this, nameProject, true);
         String actualResult = new MainPage(getDriver()).getProjectName().getText();
         Assert.assertEquals(actualResult, nameProject);
@@ -299,14 +292,14 @@ public class UsersTest extends BaseTest {
         String expectedTextAlertIncorrectUsernameOrPassword = "Invalid username or password";
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
-        new MainPage(getDriver())
+        String actualTextAlertIncorrectUsernameOrPassword = new MainPage(getDriver())
                 .getHeader()
                 .clickLogoutButton()
                 .enterUsername("incorrect user name")
                 .enterPassword(PASSWORD)
-                .enterSignIn();
+                .enterSignIn(new LoginPage(getDriver()))
+                .getTextAlertIncorrectUsernameOrPassword();
 
-        String actualTextAlertIncorrectUsernameOrPassword = new LoginPage(getDriver()).getTextAlertIncorrectUsernameOrPassword();
-        Assert.assertEquals(actualTextAlertIncorrectUsernameOrPassword,expectedTextAlertIncorrectUsernameOrPassword);
+        Assert.assertEquals(actualTextAlertIncorrectUsernameOrPassword, expectedTextAlertIncorrectUsernameOrPassword);
     }
 }
