@@ -1,11 +1,10 @@
 package school.redrover.runner;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.JobPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.NewJobPage;
+import school.redrover.model.*;
 import school.redrover.model.base.BaseModel;
 
 import java.util.ArrayList;
@@ -19,10 +18,11 @@ public class TestUtils {
                 .enterItemName(name);
     }
 
-    private static void goToHomePage(BaseTest baseTest, Boolean goToHomePage) {
-        if (goToHomePage) {
-            new JobPage(baseTest.getDriver())
-                    .clickDashBoardButton();
+    private static void goToMainPage(BaseTest baseTest, Boolean goToMainPage) {
+        if (goToMainPage) {
+            new MainPage(baseTest.getDriver())
+                    .getHeader()
+                    .clickLogo();
         }
     }
 
@@ -31,9 +31,9 @@ public class TestUtils {
 
         new NewJobPage(baseTest.getDriver())
                 .selectFreestyleProjectAndOk()
-                .clickSave();
+                .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static void createPipeline(BaseTest baseTest, String name, Boolean goToHomePage) {
@@ -43,7 +43,7 @@ public class TestUtils {
                 .selectPipelineAndOk()
                 .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static void createMultiConfigurationProject(BaseTest baseTest, String name, Boolean goToHomePage) {
@@ -51,9 +51,9 @@ public class TestUtils {
 
         new NewJobPage(baseTest.getDriver())
                 .selectMultiConfigurationProjectAndOk()
-                .saveConfigurePageAndGoToProjectPage();
+                .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static void createFolder(BaseTest baseTest, String name, Boolean goToHomePage) {
@@ -63,7 +63,7 @@ public class TestUtils {
                 .selectFolderAndOk()
                 .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static void createMultibranchPipeline(BaseTest baseTest, String name, Boolean goToHomePage) {
@@ -71,19 +71,9 @@ public class TestUtils {
 
         new NewJobPage(baseTest.getDriver())
                 .selectMultibranchPipelineAndOk()
-                .saveButton();
-
-        goToHomePage(baseTest, goToHomePage);
-    }
-
-    public static void createOrganizationFolder(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectOrganizationFolderAndOk()
                 .clickSaveButton();
 
-        goToHomePage(baseTest, goToHomePage);
+        goToMainPage(baseTest, goToHomePage);
     }
 
     public static List<String> getTexts(List<WebElement> elements) {
@@ -139,5 +129,35 @@ public class TestUtils {
     public static void clickByJavaScript(BaseModel baseModel, WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) baseModel.getDriver();
         executor.executeScript("arguments[0].click();", element);
+    }
+
+    public static void clickBreadcrumbLinkItem(BaseTest baseTest, String breadcrumbLinkName) {
+        List<WebElement> breadcrumbTree = baseTest.getDriver().findElements(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']/a"));
+        for (WebElement el : breadcrumbTree) {
+            if (el.getText().equals(breadcrumbLinkName)) {
+                el.click();
+                break;
+            }
+        }
+    }
+
+    public static void createFreestyleProjectInsideFolderAndView(BaseTest baseTest, String jobName, String viewName, String folderName) {
+        new ViewPage((baseTest.getDriver()))
+                .clickDropDownMenuFolder(folderName)
+                .selectNewItemInDropDownMenu(viewName, folderName)
+                .enterItemName(jobName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton();
+
+       clickBreadcrumbLinkItem(baseTest, viewName);
+    }
+
+    public static List<String> getListNames(List<WebElement> elements) {
+        List<String> texts = new ArrayList<>();
+
+        for (WebElement element : elements) {
+            texts.add(element.getText().substring(0, element.getText().indexOf("\n")));
+        }
+        return texts;
     }
 }

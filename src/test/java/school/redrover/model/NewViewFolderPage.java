@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 
-public class NewViewFolderPage extends BaseModel {
+public class NewViewFolderPage extends BaseMainHeaderPage<NewViewFolderPage> {
 
     public NewViewFolderPage(WebDriver driver) {
         super(driver);

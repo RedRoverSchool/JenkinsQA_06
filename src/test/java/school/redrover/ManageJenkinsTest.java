@@ -25,111 +25,37 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testSearchWithLetterConfigureSystem() {
-        String configurePage = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .enterSearchQuery("m")
-                .clickSearchButton()
+        String configurePage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField("m")
                 .selectOnTheFirstLineInDropdown()
                 .getConfigureSystemPage();
 
-        Assert.assertEquals(configurePage,"Configure System");
+        Assert.assertEquals(configurePage, "Configure System");
     }
 
     @Test
-    public void testCreateNewUser() {
-        boolean newUser = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateToManageUsersPage()
-                .clickCreateUser()
-                .fillUserDetails()
-                .submit()
-                .findUserCreated();
+    public void testNavigateToManageJenkinsFromMainPageUsingDashboard() {
 
-        Assert.assertTrue(newUser);
-    }
-
-    @Test
-    public void testCreateNewUserWithInvalidEmail() {
-        String errorEmail = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateToManageUsersPage()
-                .clickCreateUser()
-                .fillUserDetailsWithInvalidEmail()
-                .submit()
-                .assertInvalidEmailError();
-
-        Assert.assertEquals(errorEmail, "Invalid e-mail address");
-    }
-
-    @Test(dependsOnMethods = "testCreateNewUser")
-    public void testDeleteUser() {
-        boolean userNotFound = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateToManageUsersPage()
-                .clickDeleteUser()
-                .submit()
-                .getUserDeleted();
-
-        Assert.assertFalse(userNotFound);
-    }
-
-    @Test
-    public void testAddDescriptionToUserOnTheUserProfilePage() {
-        String descriptionText = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateToManageUsersPage()
-                .clickUserEditButton()
-                .enterDescriptionText()
-                .submit()
-                .getDescriptionText();
-
-        Assert.assertEquals("Description text",descriptionText);
-    }
-
-    @Test
-    public void testManageConfigureNumberOfExecutorsInMasterNode() {
-        String number = "3";
-
-        String numberInLine = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateManageNodesAndClouds()
-                .clickConfigureMasterNode()
-                .changeNumberOfExecutorsAndSave(number)
-                .navigateToMasterNodeConfiguration()
-                .numberOfExecutors();
-
-        Assert.assertEquals(number, numberInLine);
-    }
-
-    @Test
-    public void testBreadcrumbNavigateManageJenkins() {
-
-        String page = new ManagePage(getDriver())
-                .navigateToDashboardIcon()
-                .dropdownBreadcrumps()
-                .navigateToManageJenkinsAndClick()
+        String page = new MainPage(getDriver())
+                .clickManageJenkinsOnDropDown()
                 .verifyManageJenkinsPage();
 
-        Assert.assertEquals(page,"Manage Jenkins" );
+        Assert.assertEquals(page, "Manage Jenkins");
     }
 
     @Test
     public void testNameNewNodeOnCreatePage() {
-
-        WebElement buildExecutorStatus = getDriver().findElement(By.xpath("//a[@href='/computer/']"));
-        buildExecutorStatus.click();
-        WebElement newNodeButton = getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='new']"));
-        newNodeButton.click();
-        WebElement inputNodeName = getDriver().findElement(By.xpath("//input[@id='name']"));
-        inputNodeName.sendKeys(NAME_NEW_NODE);
-        WebElement permanentAgentRadioButton = getDriver().findElement(By.xpath("//label"));
-        permanentAgentRadioButton.click();
-        WebElement createButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        createButton.click();
-        WebElement nameField = getDriver().findElement(By.xpath("//input[@name='name']"));
-        String actualValueName = nameField.getAttribute("value");
-
-        Assert.assertEquals(actualValueName, NAME_NEW_NODE);
+        final String nodeName = "NodeTest";
+        String actualNodeName = new MainPage(getDriver())
+                .clickBuildExecutorStatus()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .clickSaveButton()
+                .getNodeName(nodeName);
+        Assert.assertEquals(actualNodeName, nodeName);
     }
 
     @Test

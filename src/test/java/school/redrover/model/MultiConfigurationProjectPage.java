@@ -4,8 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.MultiConfigurationProjectTest;
 import school.redrover.model.base.BaseMainHeaderPage;
+
+import java.time.Duration;
 
 public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfigurationProjectPage> {
 
@@ -13,10 +14,10 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
         super(driver);
     }
 
-    public WebElement getMultiProjectName() {
+    public String getMultiProjectName() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//h1"))));
+                .findElement(By.xpath("//h1")))).getText();
     }
 
     public MultiConfigurationProjectPage getAddDescription(String text) {
@@ -58,33 +59,6 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
         return this;
     }
 
-    public MultiConfigurationProjectPage getConfigPage() {
-        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
-        return this;
-    }
-
-    public MultiConfigurationProjectPage switchCheckboxDisable() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).click();
-        return this;
-    }
-
-    public MultiConfigurationProjectPage switchCheckboxEnabled() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//label[@for='enable-disable-project']")))).click();
-        return this;
-    }
-
-    public WebElement getTextDisable() {
-
-        return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']"))));
-    }
-
-    public WebElement getTextEnabled() {
-
-        return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']"))));
-    }
-
     public WebElement getDisableSwitch() {
         return getDriver().findElement(By.xpath("//button[text () = 'Disable Project']"));
     }
@@ -108,6 +82,31 @@ public class MultiConfigurationProjectPage extends BaseMainHeaderPage<MultiConfi
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
 
-        return new MultiConfigurationProjectConfigPage(getDriver());
+        return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()));
     }
+
+    public MovePage<MultiConfigurationProjectPage> clickMoveOnSideMenu() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(By.cssSelector("[href$='/move']")))).click();
+        return new MovePage<>(this);
+    }
+
+    public MultiConfigurationProjectConfigPage getConfigPage() {
+        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
+        return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()));
+    }
+
+    public MainPage deleteProject(){
+        getDriver().findElement(By.xpath("//a/span[text()='Delete Multi-configuration project']/..")).click();
+        getDriver().switchTo().alert().accept();
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
+        return new MainPage(getDriver());
+    }
+
+    public RenamePage<MultiConfigurationProjectPage> clickRename() {
+        getDriver().findElement(By.linkText("Rename")).click();
+        return new RenamePage<>(this);
+    }
+
 }
+

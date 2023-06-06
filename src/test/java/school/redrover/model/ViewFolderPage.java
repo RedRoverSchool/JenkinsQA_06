@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.BaseMainHeaderPage;
 
-public class ViewFolderPage extends BaseModel {
+public class ViewFolderPage extends BaseMainHeaderPage<ViewFolderPage> {
 
     public ViewFolderPage(WebDriver driver) {
         super(driver);

@@ -5,10 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseMainHeaderPage;
 
 import java.time.Duration;
+import java.util.List;
 
-public class ManageJenkinsPage extends MainPage {
+public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
 
 
     public ManageJenkinsPage(WebDriver driver){
@@ -81,5 +83,34 @@ public class ManageJenkinsPage extends MainPage {
                 .click(getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Manage Jenkins']"))))
                 .perform();
         return new ManageJenkinsPage(getDriver());
+    }
+
+    public ManagePluginsPage clickManagePlugins() {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='pluginManager']"))).click();
+        return new ManagePluginsPage(getDriver());
+    }
+
+    public ManageJenkinsPage selectOnTheFirstLineInDropdown() {
+
+        getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".jenkins-search__results-item--selected")));
+
+        List<WebElement> options = getDriver().findElements(By.cssSelector(".jenkins-search__results-item--selected"));
+        for (WebElement option : options) {
+            if (option.getText().equals("Configure System")) {
+                option.click();
+                break;
+            }
+        }
+        return this;
+    }
+
+    public String getConfigureSystemPage() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//h1[normalize-space()='Configure System']"))).getText();
+    }
+
+    public String verifyManageJenkinsPage() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[normalize-space(.)= 'Manage Jenkins']"))).getText();
     }
 }

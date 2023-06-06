@@ -1,35 +1,36 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseModel;
+import org.openqa.selenium.support.ui.Select;
+import school.redrover.model.base.BaseConfigFoldersPage;
 
-public class MultibranchPipelineConfigPage extends BaseModel {
-    public MultibranchPipelineConfigPage(WebDriver driver) {
-        super(driver);
+public class MultibranchPipelineConfigPage extends BaseConfigFoldersPage<MultibranchPipelineConfigPage, MultibranchPipelinePage> {
+
+    public MultibranchPipelineConfigPage(MultibranchPipelinePage multibranchPipelinePage) {
+        super(multibranchPipelinePage);
     }
 
-    public MultibranchPipelinePage saveButton() {
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        return new MultibranchPipelinePage(getDriver());
-    }
-    public MultibranchPipelineConfigPage displayName (String name) {
-        getDriver().findElement(By.xpath("//body/div[@id='page-body']/div[@id='main-panel']/form[1]/div[1]/div[2]/div[1]/div[2]/input[1]"))
-                .sendKeys("Random Name");
-        return this;
-    }
-    public MultibranchPipelineConfigPage enterDescription(String description) {
-        getDriver().findElement(By.xpath("//textarea[@name='_.description']"))
-                .sendKeys("Random Description");
-        return this;
-    }
     public WebElement titleMultibranchPipeline() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))));
 
     }
-    public  WebElement viewDescription(){
-        return getDriver().findElement(By.xpath("//*[@id=\"description\"]/div[1]"));
+
+    public MultibranchPipelineConfigPage clickDisable() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@data-title='Disabled']"))).click();
+        return this;
+    }
+
+    public MultibranchPipelineConfigPage clickAppearance() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-section-id='appearance']"))).click();
+        return this;
+    }
+
+    public MultibranchPipelineConfigPage selectDefaultIcon() {
+        new Select(getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='jenkins-form-item has-help']/div/select"))))
+                .selectByVisibleText("Default Icon");
+        return this;
     }
 }
+

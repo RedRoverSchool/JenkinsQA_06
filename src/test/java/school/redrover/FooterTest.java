@@ -7,15 +7,15 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.JenkinsVersionPage;
 import school.redrover.model.MainPage;
-import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
 
-public class FooterJenkinsVersionTest extends BaseTest {
+public class FooterTest extends BaseTest {
 
     @Test
     public void testFooterJenkinsVersion() {
         WebElement linkVersion = new MainPage(getDriver())
+                .getHeader()
                 .getLinkVersion();
         Assert.assertEquals(linkVersion.getText(), "Jenkins 2.387.2");
 
@@ -56,12 +56,27 @@ public class FooterJenkinsVersionTest extends BaseTest {
         Assert.assertTrue(isVersionJenkinsCorrect, "Wrong version Jenkins");
     }
 
+    @Test
+    public void testFindRestApiInstruction() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'REST API')]"))).click();
 
-    private static final String version = "Jenkins 2.387.2";
-    private static final By VERSION_NUMBER = By.xpath("//a[@href = 'https://www.jenkins.io/']");
+        WebElement restApiInstructionTitle = getDriver().findElement(By.xpath("//*[@id='main-panel']/h1[contains(text(),'REST API')]"));
+        Assert.assertTrue(restApiInstructionTitle.isDisplayed(), "Element not found");
+    }
+
+    @Test
+    public void restApiTest() {
+        final String apiLink = "REST API";
+
+        String mainPage = new MainPage(getDriver())
+                .clickOnRestApiLink()
+                .getRestApiPageTitle();
+
+        Assert.assertEquals(mainPage, apiLink);
+    }
 
     public void assertVersion () {
-        Assert.assertEquals(getDriver().findElement(VERSION_NUMBER).getText(), version);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href = 'https://www.jenkins.io/']")).getText(),"Jenkins 2.387.2" );
     }
 
     @Test
@@ -77,9 +92,4 @@ public class FooterJenkinsVersionTest extends BaseTest {
 
         assertVersion();
     }
-
-
-
-
-
 }

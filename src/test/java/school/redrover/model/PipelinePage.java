@@ -5,20 +5,12 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BaseMainHeaderPage;
-
-import static org.openqa.selenium.By.xpath;
 
 public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
 
     public PipelinePage(WebDriver driver) {
         super(driver);
-    }
-
-    public MainPage clickDashboard() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        return new MainPage(getDriver());
     }
 
     public String getProjectName() {
@@ -60,10 +52,6 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
         return this;
     }
 
-    public boolean getDisableButton() {
-        return getDriver().findElement(By.xpath("//button[normalize-space()='Disable Project']")).isDisplayed();
-    }
-
     public boolean getEnableButton() {
         return getDriver().findElement(By.xpath("//button[normalize-space()='Enable']")).isDisplayed();
     }
@@ -79,7 +67,7 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
 
     public PipelineConfigPage clickConfigureButton() {
         getDriver().findElement(By.xpath("//a[contains(@href, '/configure')]")).click();
-        return new PipelineConfigPage(getDriver());
+        return new PipelineConfigPage(new PipelinePage(getDriver()));
     }
 
     public String getProjectNameSubtitle() {
@@ -137,5 +125,15 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
     public BuildPage click1BuildHistory() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text() ,'#1')]"))).sendKeys(Keys.ENTER);
         return new BuildPage(getDriver());
+    }
+
+    public TimelinePage clickTrend() {
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#buildHistory>div>div>span>div>:nth-child(2)"))).click();
+        return new TimelinePage(getDriver());
+    }
+
+    public ChangesPage clickChangeOnLeftSideMenu() {
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'changes')]"))).click();
+        return new ChangesPage(this);
     }
 }
