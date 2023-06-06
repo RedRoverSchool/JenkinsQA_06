@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
+
+import java.util.List;
 
 public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
@@ -89,7 +89,8 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public WebElement getOkButton() {
-        return getDriver().findElement(By.xpath("//button[@id='ok-button']"));
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//button[@id='ok-button']")));
     }
 
     private WebElement getFreestyleProject() {
@@ -124,5 +125,14 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button")))
                 .click();
         return new CreateItemErrorPage(getDriver());
+    }
+
+    public String getTitle() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//label[@class = 'h3']"))).getText();
+    }
+
+    public List<WebElement> selectListOfNewItems() {
+        return getDriver().findElements(By.cssSelector("label > span"));
     }
 }
