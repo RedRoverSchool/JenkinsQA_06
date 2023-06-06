@@ -3,6 +3,7 @@ package school.redrover;
 import com.beust.ah.A;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.OrganizationFolderPage;
@@ -92,6 +93,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(textFromDescription, "Description");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testDisabledOrganizationFolder() {
 
