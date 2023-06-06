@@ -8,12 +8,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.component.MainHeaderComponent;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class UsersTest extends BaseTest {
     protected static final String USER_NAME = "testuser";
@@ -111,10 +115,10 @@ public class UsersTest extends BaseTest {
                 .clickYesButton()
                 .getDescriptionText();
 
-        Assert.assertEquals("Description text",descriptionText);
+        Assert.assertEquals("Description text", descriptionText);
     }
 
-        @Test
+    @Test
     public void testEditEmailOnTheUserProfilePageByDropDown() {
         final String displayedEmail = "testedited@test.com";
 
@@ -216,7 +220,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteUserViaPeopleMenu()  {
+    public void testDeleteUserViaPeopleMenu() {
         String newUserName = "testuser";
         new CreateUserPage(getDriver())
                 .createUserAndReturnToMainPage(newUserName, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -272,5 +276,19 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By
                         .xpath("//div[contains(@class, 'alert-danger')]")).getText(),
                 "Invalid username or password");
+    }
+
+    @Test
+    public void testUserCanLoginToJenkinsWithCreatedAccount() throws IOException {
+        String nameProject = "Engineer";
+        LoginPage loginPage = new LoginPage(getDriver());
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton()
+                .enterUsername(loginPage.getLoginFromProperties())
+                .enterPassword(loginPage.getPasswordFromProperties())
+                .enterSignIn();
+        TestUtils.createFreestyleProject(this, nameProject, true);
+        Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
 }
