@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.testng.annotations.Ignore;
 import school.redrover.runner.BaseTest;
 
 import org.openqa.selenium.By;
