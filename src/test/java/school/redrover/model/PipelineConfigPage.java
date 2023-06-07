@@ -185,4 +185,14 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         return Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='enable']")))
                 .getAttribute("value"));
     }
+
+    public PipelineConfigPage clickGitHubProjectCheckbox() {
+        getDriver().findElement(By.xpath("//label[text()='GitHub project']")).click();
+        return this;
+    }
+
+    public PipelineConfigPage inputTextTheInputAreaProjectUrlInGitHubProject(String text) {
+        getDriver().findElement(By.cssSelector("[name='_.projectUrlStr']")).sendKeys(text);
+        return this;
+    }
 }

@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -10,8 +9,6 @@ import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class MultiConfigurationProjectTest extends BaseTest {
@@ -72,6 +69,21 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getName();
 
         Assert.assertEquals(projectName.substring(8, 32), MULTI_CONFIGURATION_NAME);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testCreateMultiConfigurationProjectWithEqualName() {
+        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(MULTI_CONFIGURATION_NAME)
+                .selectMultiConfigurationProjectAndOk();
+
+        String error = new ErrorNodePage(getDriver())
+                .getErrorEqualName();
+
+        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
@@ -228,7 +240,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 break;
             }
         }
-
         Assert.assertTrue(checkboxesVisibleClickable);
     }
 
@@ -469,22 +480,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 multiConfigurationProjectConfigPage.getMaxNumOfBuildsToKeep("value")), displayedMaxNumOfBuildsToKeep);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
-    public void testCreateMultiConfigurationProjectWithEqualName() {
-        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
-
-        new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProjectAndOk();
-
-        String error = new ErrorNodePage(getDriver())
-                .getErrorEqualName();
-
-        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
-    }
-
     @Test
     public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
         final String expectedResult = "Error";
@@ -513,7 +508,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void addingAProjectOnGithubToTheMultiConfigurationProject() {
+    public void testAddingAProjectOnGithubToTheMultiConfigurationProject() {
         String nameProject = "Engineer";
         String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         String nameRepo = "Sign in";
