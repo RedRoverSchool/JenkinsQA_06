@@ -110,6 +110,7 @@ public abstract class BaseTest {
     protected void afterMethod(Method method, ITestResult testResult) {
         if (!testResult.isSuccess() && ProjectUtils.isServerRun()) {
             ProjectUtils.takeScreenshot(driver, method.getName(), this.getClass().getName());
+            ProjectUtils.captureDOM(driver, method.getName(), this.getClass().getName());
         }
 
         if (!testResult.isSuccess() || methodsOrder.isGroupFinished(method)) {

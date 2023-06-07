@@ -2,15 +2,21 @@ package school.redrover.runner;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Properties;
 
 
@@ -104,6 +110,24 @@ public final class ProjectUtils {
             FileUtils.copyFile(file, new File(String.format("screenshots/%s.%s.png", className, methodName)));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    static void captureDOM(WebDriver driver, String methodName, String className) {
+
+        String domFileName = String.format("screenshots/%s.%s.html", methodName, className);
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String script = "return document.body.innerHTML;";
+        String dom = js.executeScript(script).toString();
+
+        try (FileWriter writer = new FileWriter(domFileName)) {
+            writer.append(dom);
+            writer.flush();
+            writer.close();
+            log("DOM file is generated: " + domFileName);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
     }
 
