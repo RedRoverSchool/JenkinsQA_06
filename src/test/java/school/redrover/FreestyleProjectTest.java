@@ -1,8 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -199,7 +197,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickRenameProject(FREESTYLE_NAME)
                 .enterNewName(FREESTYLE_NAME + " New")
-                .submitNewName();
+                .clickRenameButton();
 
         Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
     }
@@ -209,7 +207,7 @@ public class FreestyleProjectTest extends BaseTest {
         String actualFreestyleProjectName = new MainPage(getDriver())
                 .dropDownMenuClickRename(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .enterNewName(NEW_FREESTYLE_NAME)
-                .submitNewName()
+                .clickRenameButton()
                 .getProjectName();
 
         Assert.assertEquals(actualFreestyleProjectName, "Project " + NEW_FREESTYLE_NAME);

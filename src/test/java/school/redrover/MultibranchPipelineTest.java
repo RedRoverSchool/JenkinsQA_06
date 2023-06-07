@@ -62,7 +62,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickMultibranchPipelineName(NAME)
                 .renameMultibranchPipelinePage()
                 .enterNewName(RENAMED)
-                .submitNewName()
+                .clickRenameButton()
                 .getDisplayedName();
 
         Assert.assertEquals(actualDisplayedName, RENAMED);

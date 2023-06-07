@@ -25,4 +25,8 @@ public class OrganizationFolderPage extends BaseMainHeaderPage<OrganizationFolde
 
         return this;
     }
+
+    public String getName(){
+        return getDriver().findElement(By.xpath("//h1")).getText();
+    }
 }
