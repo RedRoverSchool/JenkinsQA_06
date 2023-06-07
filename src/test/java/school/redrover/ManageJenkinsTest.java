@@ -169,4 +169,25 @@ public class ManageJenkinsTest extends BaseTest {
 
         Assert.assertEquals(manageNodesPage,nodeName);
     }
+
+    @Test
+    public void testCreateNewAgentNodeWithDescription() {
+        final String nodeName = getRandomStr(10);
+        final String description = getRandomStr(50);
+
+        String nodeDescription = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .addDescription(description)
+                .clickSaveButton()
+                .clickOnNode(nodeName)
+                .getNodeDescription();
+
+        Assert.assertEquals(nodeDescription, description);
+
+    }
 }
