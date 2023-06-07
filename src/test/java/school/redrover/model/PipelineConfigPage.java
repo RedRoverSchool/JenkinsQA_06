@@ -36,10 +36,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         return this;
     }
 
-    public PipelineConfigPage clickPreview() {
-        getDriver().findElement(By.cssSelector("[previewendpoint$='previewDescription']")).click();
-        return this;
-    }
 
     public String getOptionTextInDefinitionField() {
         String text = "";
@@ -52,15 +48,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
             }
         }
         return text;
-    }
-
-    public String getPreviewText() {
-        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText();
-    }
-
-    public PipelineConfigPage clearDescriptionArea() {
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
-        return this;
     }
 
     public PipelineConfigPage clickScriptDropDownMenu() {
