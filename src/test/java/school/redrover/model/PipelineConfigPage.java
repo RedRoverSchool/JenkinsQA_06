@@ -10,7 +10,6 @@ import school.redrover.runner.TestUtils;
 
 public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, PipelinePage> {
 
-
     public PipelineConfigPage(PipelinePage pipelinePage) {
         super(pipelinePage);
     }
@@ -146,7 +145,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
     }
 
     public PipelineConfigPage scrollToBuildTriggers() {
-        TestUtils.scrollToElementByJavaScript(this,getDriver().findElement(By.xpath("//label[normalize-space()='Throttle builds']")));
+        TestUtils.scrollToElementByJavaScript(this, getDriver().findElement(By.xpath("//label[normalize-space()='Throttle builds']")));
         return this;
     }
 
@@ -156,7 +155,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
     }
 
     public PipelineConfigPage sendAreContentInputString(String text) {
-        TestUtils.clickByJavaScript(this,getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")));
+        TestUtils.clickByJavaScript(this, getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")));
         getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")).sendKeys(text);
         return this;
     }
@@ -174,5 +173,29 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
 
     public String getMaxNumbersOfBuildsToKeep() {
         return getDriver().findElement(By.name("_.numToKeepStr")).getAttribute("value");
+    }
+
+    public boolean isErrorMessageDisplayed() {
+        return  getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']"))).isDisplayed();
+    }
+
+    public PipelineConfigPage clickOutsideOfInputField() {
+       getDriver().findElement(By.xpath("//*[@name='strategy']/div/div")).click();
+        return this;
+    }
+
+    public PipelineConfigPage toggleDisableProject() {
+        boolean isPipelineEnabled = Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated
+                (By.xpath("//input[@name='enable']"))).getAttribute("value"));
+        if (isPipelineEnabled) {
+            getDriver().findElement(By.id("toggle-switch-enable-disable-project")).click();
+        }
+        return this;
+    }
+
+    public boolean isProjectDisable() {
+
+        return Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='enable']")))
+                .getAttribute("value"));
     }
 }

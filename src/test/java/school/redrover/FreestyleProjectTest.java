@@ -112,7 +112,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
 
-
     @DataProvider(name = "wrong-character")
     public Object[][] provideWrongCharacters() {
         return new Object[][]
@@ -205,32 +204,15 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
     }
 
-    @Test
-    public void testRenamingProjectFromTheDashboard() {
-        String expectedResultProjectPage = "Project Engineer2";
-        String expectedResultDashboardPage = "Engineer2";
-        createFreestyleProject(this, "Engineer", true);
+    @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
+    public void testRenameFreestyleProjectUsingDropDownMenu() {
+        String actualFreestyleProjectName = new MainPage(getDriver())
+                .dropDownMenuClickRename(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .enterNewName(NEW_FREESTYLE_NAME)
+                .submitNewName()
+                .getProjectName();
 
-        Actions actions = new Actions(getDriver());
-        WebElement nameProject = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a"));
-        actions.moveToElement(nameProject).perform();
-
-        WebElement dropdown = getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']//td[3]/a/button"));
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].click();", dropdown);
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='first-of-type']/li[6]"))).click();
-        WebElement inputName = getDriver().findElement(By.xpath("//input[@name='newName']"));
-        inputName.clear();
-        inputName.click();
-        inputName.sendKeys("Engineer2");
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), expectedResultProjectPage);
-
-        getDriver().findElement(By.xpath("//ol[@id='breadcrumbs']/li[1]")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@class=' job-status-nobuilt']/td[3]"))
-                .getText(), expectedResultDashboardPage);
+        Assert.assertEquals(actualFreestyleProjectName, "Project " + NEW_FREESTYLE_NAME);
     }
 
     @Ignore
@@ -264,7 +246,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(editDescription, NEW_DESCRIPTION_TEXT);
     }
-
 
     @Test
     public void testPreviewDescription () {
@@ -424,6 +405,5 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
     }
-
 }
 

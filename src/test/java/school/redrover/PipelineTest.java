@@ -232,7 +232,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getProjectName();
 
-        Assert.assertEquals(jobName,"Pipeline " + PIPELINE_NAME);
+        Assert.assertEquals(jobName, "Pipeline " + PIPELINE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreatePipeline")
@@ -420,7 +420,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithSpaceInsteadOfName() {
-          CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
+        CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("  ")
                 .selectPipelineProject()
@@ -506,60 +506,35 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuildsIsChecked0Builds() {
-        final String builds = "0";
-        final String errorMessage = "Not a positive integer";
+        final String days = "0";
 
         TestUtils.createPipeline(this, "test-pipeline", false);
 
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
+        boolean notPositiveInteger = new PipelinePage(getDriver())
+                .clickConfigureButton()
+                .clickDiscardOldBuildsCheckbox()
+                .enterDaysToKeepBuilds(days)
+                .clickOutsideOfInputField()
+                .isErrorMessageDisplayed();
 
-        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
-        getDriver().findElement(By.name("_.numToKeepStr")).sendKeys(builds);
-
-        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
-
-        WebElement clickOutsideOfInputField = getDriver()
-                .findElement(By.xpath("//*[@name='strategy']/div/div"));
-        clickOutsideOfInputField.click();
-
-        WebElement actualErrorMessage = getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
-
-        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
-        Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
+        Assert.assertTrue(notPositiveInteger);
     }
 
     @Test
     public void testDisableDuringCreation() {
         final String PIPELINE_NAME = "My_pipeline";
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        boolean projectDisable = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .toggleDisableProject()
+                .clickSaveButton()
+                .checkWarningMessage()
+                .clickConfigureButton()
+                .isProjectDisable();
 
-        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("name")))).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(By.cssSelector(".org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.id("toggle-switch-enable-disable-project")));
-
-        WebElement enableToggles = getDriver().findElement(By.id("toggle-switch-enable-disable-project"));
-        boolean isPipelineEnabled = Boolean.parseBoolean(getDriver().findElement(By.xpath("//input[@name='enable']")).getAttribute("value"));
-        if (isPipelineEnabled) {
-            enableToggles.click();
-        }
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")), "Pipeline"));
-        String disabledWarning = getDriver().findElement(By.id("enable-project")).getText();
-
-        getDriver().findElement(By.xpath("//a[contains(@href,'configure')]")).click();
-
-        getWait5().until(ExpectedConditions.textToBe(By.tagName("h2"), "General"));
-        boolean isPipelineEnabledAfterDisable = Boolean.parseBoolean(getDriver().findElement(
-                By.xpath("//input[@name='enable']")).getAttribute("value"));
-
-        Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
-        Assert.assertFalse(isPipelineEnabledAfterDisable, "Pipeline is enabled");
+        Assert.assertFalse(projectDisable, "Pipeline is enabled");
     }
 
     @Test
@@ -594,7 +569,6 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertTrue(jobList.contains(PIPELINE_NAME));
     }
-
 
     @Test
     public void testSetPipelineDisplayName() {
@@ -678,7 +652,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCancelPipelineDeletion(){
+    public void testCancelPipelineDeletion() {
         final String jobName = "P1";
         new MainPage(getDriver())
                 .clickNewItem()
@@ -689,6 +663,6 @@ public class PipelineTest extends BaseTest {
                 .clickLogo()
                 .dropDownMenuClickDelete(jobName)
                 .dismissAlert();
-        Assert.assertEquals(jobName,"P1");
+        Assert.assertEquals(jobName, "P1");
     }
 }

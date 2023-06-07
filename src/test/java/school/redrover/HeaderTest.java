@@ -232,6 +232,7 @@ public class HeaderTest extends BaseTest {
         WebElement adminPageSign = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > div:nth-child(4)")));
         assertEquals(adminPageSign.getText(),"Jenkins User ID: admin");
     }
+
     @Test
     public void testButtonNotificationsWorks() {
 
@@ -340,6 +341,7 @@ public class HeaderTest extends BaseTest {
 
         assertEquals(actualColor, expectedColor);
     }
+
     public void iconChangeColor(By el){
         String colorBefore = getDriver().findElement(el).getCssValue("background-color");
         String colorAfter = "";

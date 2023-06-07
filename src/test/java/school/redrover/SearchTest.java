@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SearchTest extends BaseTest {
+
     @Test
     public void testSearchBoxInsensitive() {
         getDriver().findElement(By.xpath("//div[@class=\'login page-header__hyperlinks\']//a[@class=\'model-link\']")).click();
