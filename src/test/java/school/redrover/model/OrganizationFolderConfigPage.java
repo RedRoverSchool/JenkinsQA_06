@@ -5,7 +5,6 @@ import school.redrover.model.base.BaseConfigFoldersPage;
 
 public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<OrganizationFolderConfigPage, OrganizationFolderPage> {
 
-
     public OrganizationFolderConfigPage(OrganizationFolderPage organizationFolderPage) {
         super(organizationFolderPage);
     }

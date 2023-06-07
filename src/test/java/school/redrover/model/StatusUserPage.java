@@ -49,12 +49,6 @@ public class StatusUserPage extends BaseMainHeaderPage<StatusUserPage> {
         return getDriver().findElement(By.xpath("//textarea[@name='description']")).getText();
     }
 
-    public String getUserIDText() {
-
-        return getDriver().findElement(
-                By.xpath("//div[@id='main-panel']/div[contains(text(), 'ID')]")).getText();
-    }
-
     public UserConfigPage clickConfigureSideMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();

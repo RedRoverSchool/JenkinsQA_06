@@ -26,7 +26,6 @@ public class ConfigureGlobalSecurityPage extends BaseMainHeaderPage<ConfigureGlo
         return listHelpButton.size();
     }
 
-
     public ConfigureGlobalSecurityPage navigateToHostKeyVerificationStrategyDropdownAndClick() {
         Actions action = new Actions(getDriver());
         WebElement hostKeyVerificationDropdown = getDriver().findElement(By.xpath("//div[@class='jenkins-form-item ']//div[@class='jenkins-select']"));

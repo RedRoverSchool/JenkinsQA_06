@@ -1,6 +1,5 @@
 package school.redrover;
 
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
@@ -127,6 +126,7 @@ public class MultibranchPipelineTest extends BaseTest {
         List<String> jobs = mainPage.getJobList();
         Assert.assertTrue(jobs.size()==4);
     }
+
     @Test(dependsOnMethods = "createMultiPipeline")
     public void testFindCreatedMultibranchPipelineOnDashboard(){
         MainPage mainPage = new MainPage(getDriver());

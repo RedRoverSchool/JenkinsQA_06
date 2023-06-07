@@ -22,7 +22,6 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         return new ManageJenkinsPage(getDriver());
     }
 
-
     public CreateUserPage clickCreateUser() {
         getDriver().findElement(By.xpath("//a[@href='addUser']")).click();
 
@@ -63,13 +62,11 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         return false;
     }
 
-
     public ManageUsersPage clickYesButton() {
         getDriver().findElement(By.name("Submit")).click();
 
         return this;
     }
-
 
     public String getInvalidEmailError() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated

@@ -52,17 +52,9 @@ public class PipelinePage extends BaseMainHeaderPage<PipelinePage> {
         return this;
     }
 
-    public boolean getEnableButton() {
-        return getDriver().findElement(By.xpath("//button[normalize-space()='Enable']")).isDisplayed();
-    }
-
     public MainPage acceptAlert() {
         getDriver().switchTo().alert().accept();
         return new MainPage(getDriver());
-    }
-
-    public WebElement getHeaderPipeline() {
-        return getDriver().findElement(By.cssSelector("[class$='headline']"));
     }
 
     public PipelineConfigPage clickConfigureButton() {

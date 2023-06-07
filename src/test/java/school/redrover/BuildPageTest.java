@@ -1,4 +1,5 @@
 package school.redrover;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -7,14 +8,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.BuildHistoryPage;
 import school.redrover.model.ConsoleOutputPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-
 public class BuildPageTest extends BaseTest {
+
     private static final String NAME_PIPELINE = "Pipeline2023";
     private static final String BUILD_DESCRIPTION = "For QA";
     private final String freestyleProjectName = "FreestyleName";

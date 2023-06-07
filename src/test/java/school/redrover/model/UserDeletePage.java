@@ -6,6 +6,7 @@ import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
 public class UserDeletePage extends BaseMainHeaderPage<UserDeletePage> {
+
     public UserDeletePage(WebDriver driver) {
         super(driver);
     }

@@ -6,14 +6,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.*;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+
 import java.util.List;
 import java.util.Objects;
 
 import static school.redrover.runner.TestUtils.getRandomStr;
 
 public class ManageJenkinsTest extends BaseTest {
+
     final String NAME_NEW_NODE = "testNameNewNode";
 
     public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
@@ -141,7 +143,6 @@ public class ManageJenkinsTest extends BaseTest {
     public Object [][] searchToolsAndActions() {
         return new Object [][] {{"Script Console"}, {"Jenkins CLI"}, {"Prepare for Shutdown"}};
     }
-
 
     @Test(dataProvider = "ToolsAndActions")
     public void testSearchToolsAndActions(String inputText)  {

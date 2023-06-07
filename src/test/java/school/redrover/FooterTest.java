@@ -9,7 +9,6 @@ import school.redrover.model.JenkinsVersionPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
-
 public class FooterTest extends BaseTest {
 
     @Test

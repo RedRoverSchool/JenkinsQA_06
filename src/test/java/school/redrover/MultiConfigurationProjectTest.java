@@ -3,19 +3,17 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.MainPage;
-import school.redrover.model.MultiConfigurationProjectPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
-import school.redrover.model.*;
-
 public class MultiConfigurationProjectTest extends BaseTest {
+
     private static final String MULTI_CONFIGURATION_NAME = "MULTI_CONFIGURATION_NAME";
     private static final String MULTI_CONFIGURATION_NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";
 
@@ -444,7 +442,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(descriptionOnProjectPage, description);
     }
-
 
     @Test
     public void testConfigureOldBuildForMultiConfigurationProject() {
