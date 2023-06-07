@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
 import java.util.List;
 
 public class MultiConfigurationProjectTest extends BaseTest {
@@ -71,6 +70,23 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(projectName.substring(8, 32), MULTI_CONFIGURATION_NAME);
     }
+
+    @Ignore
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    public void testCreateMultiConfigurationProjectWithEqualName() {
+        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(MULTI_CONFIGURATION_NAME)
+                .selectMultiConfigurationProjectAndOk();
+
+        String error = new ErrorNodePage(getDriver())
+                .getErrorEqualName();
+
+        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
+    }
+
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testRenameFromDropDownMenu() {
@@ -465,22 +481,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 multiConfigurationProjectConfigPage.getDaysToKeepBuilds("value")), displayedDaysToKeepBuilds);
         Assert.assertEquals(Integer.parseInt(
                 multiConfigurationProjectConfigPage.getMaxNumOfBuildsToKeep("value")), displayedMaxNumOfBuildsToKeep);
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
-    public void testCreateMultiConfigurationProjectWithEqualName() {
-        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
-
-        new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProjectAndOk();
-
-        String error = new ErrorNodePage(getDriver())
-                .getErrorEqualName();
-
-        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
 
     @Test
