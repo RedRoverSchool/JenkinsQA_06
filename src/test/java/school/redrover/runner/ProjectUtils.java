@@ -8,15 +8,11 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Properties;
 
 
@@ -115,7 +111,7 @@ public final class ProjectUtils {
 
     static void captureDOM(WebDriver driver, String methodName, String className) {
 
-        String domFileName = String.format("screenshots/%s.%s.html", methodName, className);
+        String domFileName = String.format("screenshots/%s.%s.html", className, methodName);
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         String script = "return document.body.innerHTML;";
