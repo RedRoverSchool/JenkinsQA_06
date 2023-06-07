@@ -240,7 +240,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 break;
             }
         }
-
         Assert.assertTrue(checkboxesVisibleClickable);
     }
 
