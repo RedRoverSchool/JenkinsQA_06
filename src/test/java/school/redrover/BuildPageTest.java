@@ -36,30 +36,6 @@ public class BuildPageTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionForBuild1(){
-
-        TestUtils.createPipeline(this, NAME_PIPELINE, true);
-
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + NAME_PIPELINE + "/build?delay=0sec']"))).click();
-
-        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view/all/builds']"))).click();
-
-        new Actions(getDriver()).moveToElement(getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/']"))))
-                .perform();
-        getDriver().findElement(By.xpath("//a[contains(@class, 'badge model-link inside')]/button")).sendKeys(Keys.RETURN);
-
-        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/configure']"))).sendKeys(Keys.RETURN);
-
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).sendKeys(BUILD_DESCRIPTION);
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), BUILD_DESCRIPTION);
-    }
-
-    @Test
     public void testAddDescriptionToBuild() {
         String buildDescription = new MainPage(getDriver())
                 .clickNewItem()
