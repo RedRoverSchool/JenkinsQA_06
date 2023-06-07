@@ -671,7 +671,7 @@ public class PipelineTest extends BaseTest {
     public void testAddingAProjectOnGithubToThePipelineProject() {
         String nameProject = "Engineer";
         String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
-        String nameRepo = "Sign in";
+        String expectedNameRepo = "Sign in";
 
         TestUtils.createPipeline(this, nameProject, true);
         new MainPage(getDriver())
@@ -685,7 +685,7 @@ public class PipelineTest extends BaseTest {
                 .openJobDropDownMenu(nameProject)
                 .selectFromJobDropdownMenuTheGitHub();
 
-        GitHubPage gitHubPage = new GitHubPage(getDriver());
-        Assert.assertEquals(gitHubPage.githubSignInText(), nameRepo);
+        String actualNameRepo = new GitHubPage(getDriver()).githubSignInText();
+        Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 }
