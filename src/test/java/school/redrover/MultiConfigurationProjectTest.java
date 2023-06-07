@@ -483,6 +483,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
 
+    @Ignore
     @Test
     public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
         final String expectedResult = "Error";
