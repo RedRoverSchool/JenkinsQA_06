@@ -109,4 +109,9 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
         getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
         return this;
     }
+
+    public ViewDeletePage clickDeleteView() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='delete']"))).click();
+        return new ViewDeletePage(getDriver());
+    }
 }

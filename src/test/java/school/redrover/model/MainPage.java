@@ -350,4 +350,18 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getDriver().findElement(By.xpath("//a[contains(@href, 'github.com')]")).click();
         return this;
     }
+
+    public boolean verifyViewIsPresent(String viewName) {
+        boolean status = false;
+
+        List<WebElement> views = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tabBar']")))
+                .findElements(By.xpath("//div[@class='tabBar']/div"));
+        for (WebElement view : views) {
+            if (view.getText().equals(viewName)) {
+                status = true;
+                break;
+            }
+        }
+        return status;
+    }
 }
