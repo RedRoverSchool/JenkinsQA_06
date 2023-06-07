@@ -80,4 +80,33 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@href='/view/%s/job/%s/newJob']", viewName, folderName)))).click();
         return new NewJobPage(getDriver());
     }
+
+    public ViewPage clickEditView(String nameProject) {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//*[@href='/view/%s/configure']", nameProject)))).click();
+        return this;
+    }
+    public ViewPage enterDescription(String text) {
+        new Actions(getDriver())
+                .click(getDriver().findElement(By.xpath("//*[@name='description']")))
+                .sendKeys(text)
+                .perform();
+        return this;
+    }
+
+    public ViewPage clickPreview() {
+        getDriver().findElement(
+                By.xpath("//*[@previewendpoint='/markupFormatter/previewDescription']")).click();
+        return this;
+    }
+
+    public String getPreviewText() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[@class='textarea-preview']"))).getText();
+    }
+
+    public ViewPage clickViewConfigOkButton() {
+        getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
+        return this;
+    }
 }

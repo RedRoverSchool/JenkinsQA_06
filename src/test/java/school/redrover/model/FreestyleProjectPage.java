@@ -130,4 +130,10 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
 
         return permalinks.size();
     }
+
+    public MainPage clickDashboard() {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.linkText("Dashboard"))).click();
+        return new MainPage(getDriver());
+    }
 }

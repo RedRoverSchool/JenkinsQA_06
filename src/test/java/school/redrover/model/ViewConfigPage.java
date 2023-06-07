@@ -49,4 +49,20 @@ public class ViewConfigPage extends BaseConfigPage<ViewConfigPage, ViewPage> {
         }
         return this;
     }
+
+    public ViewConfigPage clickViewConfigOkButton() {
+        getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
+        return this;
+    }
+    public ViewConfigPage clickDashboard() {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.linkText("Dashboard"))).click();
+        return this;
+    }
+
+    public ViewPage clickViewJob(String name) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath(String.format("//*[@href='/view/%s/']", name)))).click();
+        return new ViewPage(getDriver());
+    }
 }
