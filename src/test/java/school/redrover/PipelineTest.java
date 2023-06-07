@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.base.BaseConfigProjectsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -664,5 +665,27 @@ public class PipelineTest extends BaseTest {
                 .dropDownMenuClickDelete(jobName)
                 .dismissAlert();
         Assert.assertEquals(jobName, "P1");
+    }
+
+    @Test
+    public void testAddingAProjectOnGithubToThePipelineProject() {
+        String nameProject = "Engineer";
+        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        String nameRepo = "Sign in";
+
+        TestUtils.createPipeline(this, nameProject, true);
+        new MainPage(getDriver())
+                .clickPipelineProject(nameProject)
+                .clickConfigureButton()
+                .clickGitHubProjectCheckbox()
+                .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .openJobDropDownMenu(nameProject)
+                .selectFromJobDropdownMenuTheGitHub();
+
+        GitHubPage gitHubPage = new GitHubPage(getDriver());
+        Assert.assertEquals(gitHubPage.githubSignInText(), nameRepo);
     }
 }

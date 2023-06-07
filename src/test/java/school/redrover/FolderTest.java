@@ -24,7 +24,7 @@ public class FolderTest extends BaseTest {
 
     private static final String NAME = "FolderName";
     private static final String DESCRIPTION = "Created new folder";
-    private static final String  DISPLAY_NAME = "NewFolder";
+    private static final String DISPLAY_NAME = "NewFolder";
 
     @Test
     public void testCreateFolderNewItem() {
@@ -268,7 +268,7 @@ public class FolderTest extends BaseTest {
     @Test
     public void testCreateMulticonfigurationProjectInFolder() {
 
-       MultiConfigurationProjectPage multiPage = new MainPage(getDriver())
+        MultiConfigurationProjectPage multiPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("TC 00.04 New item Create Folder")
                 .selectFolderAndOk()
@@ -396,7 +396,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testMoveMultibranchPipelineToFolderByDrop(){
+    public void testMoveMultibranchPipelineToFolderByDrop() {
         final String nameMultibranchPipeline = "MultibranchPipeline1";
         final String nameFolder = "Folder1";
 
@@ -404,7 +404,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
 
         String projectNameDisplays = new MainPage(getDriver())
-                .dropDownMenuClickMove(nameMultibranchPipeline,new FolderPage(getDriver()))
+                .dropDownMenuClickMove(nameMultibranchPipeline, new FolderPage(getDriver()))
                 .selectDestinationFolder(nameFolder)
                 .clickMoveButton()
                 .getHeader()
@@ -412,9 +412,9 @@ public class FolderTest extends BaseTest {
                 .clickFolderName(nameFolder)
                 .getNestedFolder(nameMultibranchPipeline);
 
-        Assert.assertEquals(projectNameDisplays,nameMultibranchPipeline);
+        Assert.assertEquals(projectNameDisplays, nameMultibranchPipeline);
     }
-  
+
     @Test
     public void testMoveFolderToFolderFromSideMenu() {
         String folder1 = "Folder1";
@@ -437,7 +437,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testConfigureFolderNameDescriptionHealthMetrics(){
+    public void testConfigureFolderNameDescriptionHealthMetrics() {
         final String NEW_FOLDER_NAME = "TestFolder0404";
         final String DESCRIPTION_VALUE = "Test Description of the folder";
 
@@ -490,13 +490,13 @@ public class FolderTest extends BaseTest {
                 .clickFolderName(nameFolder)
                 .getMultibranchPipelineName().getText();
 
-        Assert.assertEquals(nameMultibranchPipelineDisplays,nameMultibranchPipeline);
+        Assert.assertEquals(nameMultibranchPipelineDisplays, nameMultibranchPipeline);
     }
 
-    @Test (dependsOnMethods = "testCreateFolderCreateAJob")
+    @Test(dependsOnMethods = "testCreateFolderCreateAJob")
     public void testMoveMultiConfigurationProjectToFolderFromSideMenu() {
 
-        final String multiConfigurationProjectName= "MyMultiConfigurationProject";
+        final String multiConfigurationProjectName = "MyMultiConfigurationProject";
 
         String createdMultiConfigurationProjectName = new MainPage(getDriver())
                 .clickNewItem()
@@ -516,7 +516,7 @@ public class FolderTest extends BaseTest {
 
                 .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
 
-        Assert.assertEquals(createdMultiConfigurationProjectName,multiConfigurationProjectName);
+        Assert.assertEquals(createdMultiConfigurationProjectName, multiConfigurationProjectName);
     }
 
     @Test
@@ -545,19 +545,17 @@ public class FolderTest extends BaseTest {
     @Test
     public void testMovePipelineToFolder() {
 
-        TestUtils.createFolder(this, "testFolder",true);
-        TestUtils.createPipeline(this, "testPipeline",true);
+        TestUtils.createFolder(this, "testFolder", true);
+        TestUtils.createPipeline(this, "testPipeline", true);
 
         String actualBreadcrumbText =
-            new MainPage(getDriver())
-            .dropDownMenuClickMove("testPipeline", new FolderPage(getDriver()))
-            .selectDestinationFolder("testFolder")
-            .clickMoveButton().
-            getBreadcrumbText();
+                new MainPage(getDriver())
+                        .dropDownMenuClickMove("testPipeline", new FolderPage(getDriver()))
+                        .selectDestinationFolder("testFolder")
+                        .clickMoveButton().
+                        getBreadcrumbText();
 
         assertEquals(actualBreadcrumbText, "Dashboard > testFolder > testPipeline");
 
     }
-
-
 }

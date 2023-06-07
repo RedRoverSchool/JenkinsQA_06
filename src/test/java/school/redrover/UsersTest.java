@@ -292,7 +292,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void inputtingAnIncorrectUsername() {
+    public void testInputtingAnIncorrectUsername() {
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
         String actualTextAlertIncorrectUsername = new MainPage(getDriver())
@@ -307,7 +307,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void inputtingAnIncorrectPassword() {
+    public void testInputtingAnIncorrectPassword() {
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
         String actualTextAlertIncorrectPassword = new MainPage(getDriver())
@@ -322,7 +322,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void  inputtingAnIncorrectUsernameAndPassword() {
+    public void  testInputtingAnIncorrectUsernameAndPassword() {
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
         String actualTextAlertIncorrectUsernameAndPassword = new MainPage(getDriver())
