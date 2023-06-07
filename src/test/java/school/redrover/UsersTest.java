@@ -56,6 +56,26 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
+    public void testErrorWhenCreateDuplicatedUser() {
+
+        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+
+        String errorDuplicatedUser = new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .enterUsername(USER_NAME)
+                .enterPassword(PASSWORD)
+                .enterConfirmPassword(PASSWORD)
+                .enterFullName(USER_FULL_NAME)
+                .enterEmail(EMAIL)
+                .clickCreateUserButtonAndStay()
+                .getUserNameExistsError();
+
+        Assert.assertEquals(errorDuplicatedUser, "User name is already taken");
+    }
+
+    @Test
     public void testAddDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "Test User Description";
 

@@ -2,6 +2,7 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 
@@ -84,6 +85,7 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
         getDriver().findElement(By.name("password2")).sendKeys("1234");
         getDriver().findElement(By.name("fullname")).sendKeys("Nik Smith");
         getDriver().findElement(By.name("email")).sendKeys("nik@gmail.com");
+
         return new ManageUsersPage(getDriver());
     }
 
@@ -95,5 +97,16 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
         getDriver().findElement(By.name("email")).sendKeys("nik.com");
 
         return new ManageUsersPage(getDriver());
+    }
+
+    public CreateUserPage clickCreateUserButtonAndStay() {
+        getDriver().findElement(By.name("Submit")).click();
+
+        return this;
+    }
+
+    public String getUserNameExistsError() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class='error jenkins-!-margin-bottom-2']"))).getText();
     }
 }
