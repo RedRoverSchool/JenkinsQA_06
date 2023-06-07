@@ -109,7 +109,7 @@ public class NewViewTest extends BaseTest {
         final String freestyleProjectName = "Test Freestyle Project";
         final String viewName = "NewView";
 
-        new MainPage(getDriver())
+        boolean isDeletedViewPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(freestyleProjectName)
                 .selectFreestyleProjectAndOk()
@@ -119,9 +119,8 @@ public class NewViewTest extends BaseTest {
                 .setNewViewName(viewName)
                 .selectListView()
                 .clickCreateButton()
-                .clickSaveButton();
-
-        boolean isDeletedViewPresent = new MainPage(getDriver())
+                .clickSaveButton()
+                .clickDashboard()
                 .clickOnView(viewName)
                 .clickDeleteView()
                 .clickYes()
