@@ -89,4 +89,9 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
                 .elementToBeClickable(By.xpath("//a[@href='pluginManager']"))).click();
         return new ManagePluginsPage(getDriver());
     }
+
+    public ManageNodesPage clickOnNodesAndClouds(){
+        getDriver().findElement(By.xpath("//dt[.='Manage Nodes and Clouds']")).click();
+        return new ManageNodesPage(getDriver());
+    }
 }

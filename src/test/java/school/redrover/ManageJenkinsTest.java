@@ -167,4 +167,20 @@ public class ManageJenkinsTest extends BaseTest {
             .getDropdownResultsInSearchField();
         Assert.assertEquals(searchResult, inputText);
     }
+
+    @Test
+    public void testCreateNewNode(){
+        final String nodeName = "MyNode114";
+        boolean res = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickOnNodesAndClouds()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .clickSaveButton()
+                .isNodePresent(nodeName);
+
+        Assert.assertTrue(res);
+    }
 }

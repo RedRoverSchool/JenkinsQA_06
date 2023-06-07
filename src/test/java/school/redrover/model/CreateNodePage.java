@@ -2,8 +2,12 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
+
+import java.util.List;
 
 public class CreateNodePage extends BaseMainHeaderPage<CreateNodePage> {
 
@@ -26,4 +30,5 @@ public class CreateNodePage extends BaseMainHeaderPage<CreateNodePage> {
                 .elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
         return new ManageNodesPage(getDriver());
     }
+
 }
