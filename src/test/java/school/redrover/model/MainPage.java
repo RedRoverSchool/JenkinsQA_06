@@ -345,4 +345,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
 
         return new OrganizationFolderPage(getDriver());
    }
+
+    public MainPage selectFromJobDropdownMenuTheGitHub() {
+        getDriver().findElement(By.xpath("//a[contains(@href, 'github.com')]")).click();
+        return this;
+    }
 }

@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -10,6 +11,7 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultiConfigurationProjectTest extends BaseTest {
@@ -509,4 +511,25 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertFalse(dropDownMenuItems.contains("Build Now"), "'Build Now' option is present in drop-down menu");
     }
+
+    @Test
+    public void addingAProjectOnGithubToTheMultiConfigurationProject() {
+        String nameRepo = "Sign in";
+        TestUtils.createMultiConfigurationProject(this, "Engineer", true);
+
+        new MainPage(getDriver())
+                .clickMultiConfigurationProjectName("Engineer")
+                .clickConfigure()
+                .clickGitHubProjectCheckbox()
+                .inputTextTheInputAreaProjectUrlInGitHubProject("https://github.com/ArtyomDulya/TestRepo")
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .openJobDropDownMenu("Engineer")
+                .selectFromJobDropdownMenuTheGitHub();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[normalize-space(text())= 'Sign in']")).getText(), nameRepo);
+    }
+
+
 }
