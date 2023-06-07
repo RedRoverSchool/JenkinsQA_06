@@ -19,7 +19,7 @@ public class ErrorNodePage extends BaseMainHeaderPage<ErrorNodePage> {
     }
 
     public String getErrorEqualName(){
-        return getDriver().findElement(By.xpath("//*[@id='main-panel']/p")).getText();
+        return getDriver().findElement(By.xpath("//div//p")).getText();
     }
 
     public String getErrorMessage(){

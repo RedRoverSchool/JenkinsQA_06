@@ -1,27 +1,30 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseConfigPage;
+import org.openqa.selenium.support.ui.Select;
+import school.redrover.model.base.BaseConfigFoldersPage;
 
-public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPipelineConfigPage, MultibranchPipelinePage> {
+public class MultibranchPipelineConfigPage extends BaseConfigFoldersPage<MultibranchPipelineConfigPage, MultibranchPipelinePage> {
 
     public MultibranchPipelineConfigPage(MultibranchPipelinePage multibranchPipelinePage) {
         super(multibranchPipelinePage);
     }
 
-    public MultibranchPipelineConfigPage displayName (String name) {
-        getDriver().findElement(By.xpath("//body/div[@id='page-body']/div[@id='main-panel']/form[1]/div[1]/div[2]/div[1]/div[2]/input[1]"))
-                .sendKeys("Random Name");
+    public MultibranchPipelineConfigPage clickDisable() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@data-title='Disabled']"))).click();
         return this;
     }
 
-    public WebElement titleMultibranchPipeline() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))));
-
+    public MultibranchPipelineConfigPage clickAppearance() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-section-id='appearance']"))).click();
+        return this;
     }
-    public  WebElement viewDescription(){
-        return getDriver().findElement(By.xpath("//*[@id=\"description\"]/div[1]"));
+
+    public MultibranchPipelineConfigPage selectDefaultIcon() {
+        new Select(getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='jenkins-form-item has-help']/div/select"))))
+                .selectByVisibleText("Default Icon");
+        return this;
     }
 }
+

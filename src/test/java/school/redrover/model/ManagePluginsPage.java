@@ -20,4 +20,10 @@ public class ManagePluginsPage extends BaseMainHeaderPage<ManagePluginsPage> {
 
         return TestUtils.getTexts(listOfTasks);
     }
+
+    public AdvancedSettingsPage clickAdvancedSettings(){
+        getDriver().findElement(By.xpath("//*[@id='tasks']/div[4]/span"))
+                .click();
+        return new AdvancedSettingsPage(getDriver());
+    }
 }

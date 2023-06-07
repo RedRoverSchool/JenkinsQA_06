@@ -5,6 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.LoginPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.PluginsPage;
 import school.redrover.model.base.BaseComponent;
@@ -145,5 +146,17 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         openDropdownSubmenuFromDashboard(By.xpath("//*[@id='yui-gen8']/a/span"));
 
         return new PluginsPage(getDriver());
+    }
+
+    public MainPage clickDashboardButton() {
+        getWait2().until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//a[contains(text(), 'Dashboard')]"))).click();
+
+        return new MainPage(getDriver());
+    }
+
+    public LoginPage clickLogoutButton() {
+        getDriver().findElement(LOGOUT_BUTTON).click();
+        return new LoginPage(getDriver());
     }
 }

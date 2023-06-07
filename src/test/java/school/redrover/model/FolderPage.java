@@ -14,11 +14,6 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         super(driver);
     }
 
-    public FolderPage configure() {
-        getDriver().findElement(By.cssSelector("#tasks>:nth-child(2)")).click();
-        return this;
-    }
-
     public NewJobPage newItem() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(3)")).click();
         return new NewJobPage(getDriver());
@@ -29,41 +24,14 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new DeleteFoldersPage(getDriver());
     }
 
-    public FolderPage people() {
-        getDriver().findElement(By.cssSelector("#tasks>:nth-child(5)")).click();
-        return this;
-    }
-
-    public FolderPage buildHistory() {
-        getDriver().findElement(By.cssSelector("#tasks>:nth-child(6)")).click();
-        return this;
-    }
-
     public RenamePage<FolderPage> rename() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(7)")).click();
         return new RenamePage<>(this);
     }
 
-    public FolderPage credentials() {
-        getDriver().findElement(By.cssSelector("#tasks>:nth-child(8)")).click();
-        return this;
-    }
-
     public NewViewFolderPage clickNewView() {
         getDriver().findElement(By.xpath("//div[@class='tab']")).click();
         return new NewViewFolderPage(getDriver());
-    }
-
-    public FolderPage addDescription(String description) {
-        getDriver().findElement(By.xpath("//div[@class='tab']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name='description']"))).sendKeys(description);
-        getDriver().findElement(By.cssSelector("[name='Submit']")).click();
-        return this;
-    }
-
-    public NewJobPage newJob() {
-        getDriver().findElement(By.cssSelector("[href='newJob']")).click();
-        return new NewJobPage(getDriver());
     }
 
     public MainPage navigateToMainPageByBreadcrumbs() {
@@ -72,18 +40,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MainPage(getDriver());
     }
 
-    public WebElement getHeading1() {
-        return getDriver().findElement(By.xpath("//h1"));
-    }
-
     public WebElement getMultibranchPipelineName() {
         return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.cssSelector(".jenkins-table__link"))));
-    }
-
-    public MainPage clickDashboard() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Dashboard']"))).click();
-        return new MainPage(getDriver());
     }
 
     public String getNestedFolder(String nameFolder) {

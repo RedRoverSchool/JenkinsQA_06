@@ -20,6 +20,4 @@ public class ViewFolderPage extends BaseMainHeaderPage<ViewFolderPage> {
     public WebElement getMyView() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tab active']")));
     }
-
-
 }

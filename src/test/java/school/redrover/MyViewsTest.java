@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -17,22 +18,14 @@ import java.util.List;
 
 public class MyViewsTest extends BaseTest {
 
-    private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
-
-    private static final String NEW_VIEW_DESCRIPTION_RANDOM = "NEW_VIEW_DESCRIPTION_RANDOM";
-
-    private static final String NAME_FOLDER = "TestPipeline";
-
-    private static final String NEW_VIEW_NEW_DESCRIPTION_RANDOM = "NEW_VIEW_NEW_DESCRIPTION_RANDOM";
-
-
-
     @Test
     public void testCreateAJobInThePageMyViews() {
+        final String newViewNameRandom = RandomStringUtils.randomAlphanumeric(5);
+
         new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickCreateAJob()
-                .enterAnItemName(NEW_VIEW_NAME_RANDOM)
+                .enterAnItemName(newViewNameRandom)
                 .clickFreestyleProject()
                 .clickOkButton()
                 .clickSaveButton()
@@ -42,38 +35,40 @@ public class MyViewsTest extends BaseTest {
         List<WebElement> table = getDriver().findElements(By.xpath("//tr[@class =' job-status-nobuilt']/td"));
         for (WebElement td : table) {
 
-            Assert.assertTrue(td.getText().contains(NEW_VIEW_NAME_RANDOM));
+            Assert.assertTrue(td.getText().contains(newViewNameRandom));
         }
     }
 
     @Test
     public void testAddDescriptionFromMyViewsPage() {
+        final String newViewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
 
         MyViewsPage myViewsPage = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickOnDescription()
-                .enterDescription(NEW_VIEW_DESCRIPTION_RANDOM)
+                .enterDescription(newViewDescriptionRandom)
                 .clickSaveButtonDescription();
 
-        Assert.assertEquals(myViewsPage.getTextFromDescription(),NEW_VIEW_DESCRIPTION_RANDOM);
-
+        Assert.assertEquals(myViewsPage.getTextFromDescription(),newViewDescriptionRandom);
     }
-
-
 
     @Test
     public void testEditDescription() {
+        final String newViewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
+
+        final String newViewNewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
+
         MyViewsPage myViewsPage = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickOnDescription()
-                .enterDescription(NEW_VIEW_DESCRIPTION_RANDOM)
+                .enterDescription(newViewDescriptionRandom)
                 .clickSaveButtonDescription()
                 .clickOnDescription()
                 .clearTextFromDescription()
-                .enterNewDescription(NEW_VIEW_NEW_DESCRIPTION_RANDOM)
+                .enterNewDescription(newViewNewDescriptionRandom)
                 .clickSaveButtonDescription();
 
-        Assert.assertEquals(myViewsPage.getTextFromDescription(), NEW_VIEW_NEW_DESCRIPTION_RANDOM);
+        Assert.assertEquals(myViewsPage.getTextFromDescription(), newViewNewDescriptionRandom);
     }
 
     @Test
@@ -102,12 +97,10 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(myViewName.getText(), "Java");
     }
 
-
-
     @Test
     public void testCreateViewItem() {
 
-        TestUtils.createPipeline(this, NAME_FOLDER, true);
+        TestUtils.createPipeline(this, "NAME_FOLDER", true);
         WebElement myViews = getDriver().findElement(By.xpath("//a[@href='/me/my-views']"));
         myViews.click();
         WebElement plusButton = getDriver().findElement(By.xpath("//a[@title='New View']"));
@@ -132,6 +125,7 @@ public class MyViewsTest extends BaseTest {
         return new Object[][]
                 {{"Description first"},{"Description second"}};
     }
+
     @Test(dataProvider = "description")
     public void testAddDescription(String desc) {
         ViewPage viewPage = new ViewPage(getDriver());
@@ -141,5 +135,4 @@ public class MyViewsTest extends BaseTest {
 
         Assert.assertEquals(viewPage.getDescriptionText(), desc);
     }
-
 }

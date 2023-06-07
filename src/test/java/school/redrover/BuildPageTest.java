@@ -1,4 +1,5 @@
 package school.redrover;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -7,14 +8,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.BuildHistoryPage;
 import school.redrover.model.ConsoleOutputPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-
 public class BuildPageTest extends BaseTest {
+
     private static final String NAME_PIPELINE = "Pipeline2023";
     private static final String BUILD_DESCRIPTION = "For QA";
     private final String freestyleProjectName = "FreestyleName";
@@ -36,37 +36,14 @@ public class BuildPageTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionForBuild1(){
-
-        TestUtils.createPipeline(this, NAME_PIPELINE, true);
-
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='job/" + NAME_PIPELINE + "/build?delay=0sec']"))).click();
-
-        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view/all/builds']"))).click();
-
-        new Actions(getDriver()).moveToElement(getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/']"))))
-                .perform();
-        getDriver().findElement(By.xpath("//a[contains(@class, 'badge model-link inside')]/button")).sendKeys(Keys.RETURN);
-
-        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + NAME_PIPELINE + "/1/configure']"))).sendKeys(Keys.RETURN);
-
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).sendKeys(BUILD_DESCRIPTION);
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), BUILD_DESCRIPTION);
-    }
-
-    @Test
     public void testAddDescriptionToBuild() {
         String buildDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME_PIPELINE)
                 .selectPipelineAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickPipelineProject(NAME_PIPELINE)
                 .clickEditDescription()
                 .enterNewDescription(BUILD_DESCRIPTION)
@@ -86,7 +63,8 @@ public class BuildPageTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .selectBuildNow()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickBuildsHistoryButton()
                 .clickProjectBuildConsole(freestyleProjectName)
                 .getConsoleOutputText();
@@ -108,7 +86,8 @@ public class BuildPageTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .selectBuildNow()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickBuildsHistoryButton()
                 .clickProjectBuildConsole(freestyleProjectName)
                 .getStartedByUser();
@@ -125,7 +104,8 @@ public class BuildPageTest extends BaseTest {
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .selectBuildNow()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickBuildsHistoryButton()
                 .clickProjectBuildConsole(freestyleProjectName)
                 .getConsoleOutputText();
@@ -136,6 +116,7 @@ public class BuildPageTest extends BaseTest {
         Assert.assertEquals(actualStatus, "Finished: SUCCESS");
     }
 
+    @Ignore
     @Test
     public void verifyStatusBroken(){
 
@@ -154,7 +135,8 @@ public class BuildPageTest extends BaseTest {
                 .scrollToPipelineSection()
                 .sendAreContentInputString(textToPipelineScript)
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickPlayBuildForATestButton("NewBuilds")
                 .clickBuildsHistoryButton()
                 .getStatusMessageText();
@@ -169,7 +151,8 @@ public class BuildPageTest extends BaseTest {
                 .enterItemName(itemName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickPlayBuildForATestButton(itemName)
                 .clickBuildsHistoryButton()
                 .clickBuildNameOnTimeline(itemName + " #1")

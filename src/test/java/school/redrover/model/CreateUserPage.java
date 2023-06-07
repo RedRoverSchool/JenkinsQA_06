@@ -2,8 +2,8 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-
 
 public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
 
@@ -58,7 +58,6 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
                 .enterFullName(fullName)
                 .enterEmail(email)
                 .clickCreateUserButton();
-
     }
 
     public void createUserAndReturnToMainPage(String username, String password, String fullName, String email) {
@@ -74,8 +73,6 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
                 .clickCreateUserButton()
                 .getHeader()
                 .clickLogo();
-
-
     }
 
     public ManageUsersPage fillUserDetails(String username) {
@@ -84,6 +81,7 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
         getDriver().findElement(By.name("password2")).sendKeys("1234");
         getDriver().findElement(By.name("fullname")).sendKeys("Nik Smith");
         getDriver().findElement(By.name("email")).sendKeys("nik@gmail.com");
+
         return new ManageUsersPage(getDriver());
     }
 
@@ -95,5 +93,11 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
         getDriver().findElement(By.name("email")).sendKeys("nik.com");
 
         return new ManageUsersPage(getDriver());
+    }
+
+    public String getUserNameExistsError() {
+        clickCreateUserButton();
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class='error jenkins-!-margin-bottom-2']"))).getText();
     }
 }
