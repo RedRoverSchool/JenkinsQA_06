@@ -33,5 +33,6 @@ public class BuildDescriptionTest extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(projectBuildPage.getProjectDescription(), descriptionText);
+        Assert.assertTrue(false);
     }
 }
