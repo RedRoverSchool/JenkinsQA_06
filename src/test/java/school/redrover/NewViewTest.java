@@ -57,7 +57,6 @@ public class NewViewTest extends BaseTest {
                 .clickDashboard()
                 .clickViewJob(name)
                 .clickEditView(name);
-
     }
 
     @Test
@@ -234,7 +233,7 @@ public class NewViewTest extends BaseTest {
     }
 
     @Test
-    public void testAddViewDescriptionPreview() throws InterruptedException {
+    public void testAddViewDescriptionPreview(){
         final String projectName = "R_R";
         String randomText = "java test program";
 
