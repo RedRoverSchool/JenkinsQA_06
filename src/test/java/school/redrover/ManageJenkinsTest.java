@@ -11,6 +11,8 @@ import school.redrover.runner.BaseTest;
 import java.util.List;
 import java.util.Objects;
 
+import static school.redrover.runner.TestUtils.getRandomStr;
+
 public class ManageJenkinsTest extends BaseTest {
     final String NAME_NEW_NODE = "testNameNewNode";
 
@@ -148,5 +150,22 @@ public class ManageJenkinsTest extends BaseTest {
             .inputToSearchField(inputText)
             .getDropdownResultsInSearchField();
         Assert.assertEquals(searchResult, inputText);
+    }
+
+    @Test
+    public void testCreateNewAgentNode() {
+        final String nodeName = getRandomStr(10);
+
+        String manageNodesPage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .clickSaveButton()
+                .getNodeName(nodeName);
+
+        Assert.assertEquals(manageNodesPage,nodeName);
     }
 }

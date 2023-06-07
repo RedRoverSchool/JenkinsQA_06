@@ -1,9 +1,9 @@
 package school.redrover.model;
 
-import school.redrover.model.base.BaseFoldersConfigPage;
+import school.redrover.model.base.BaseConfigFoldersPage;
 
 
-public class FolderConfigPage extends BaseFoldersConfigPage<FolderConfigPage, FolderPage> {
+public class FolderConfigPage extends BaseConfigFoldersPage<FolderConfigPage, FolderPage> {
 
     public FolderConfigPage(FolderPage folderPage) {
         super(folderPage);

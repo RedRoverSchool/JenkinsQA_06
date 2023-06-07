@@ -197,9 +197,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, NAME, false);
         boolean healthMetric = new FolderPage(getDriver())
                 .clickConfigureSideMenu()
-                .clickHealthMetrics()
-                .clickAddMetric()
-                .clickChildWithWorstHealth()
+                .addHealthMetrics()
                 .healthMetricIsVisible();
 
         assertTrue(healthMetric);
@@ -280,7 +278,7 @@ public class FolderTest extends BaseTest {
                 .selectMultiConfigurationProjectAndOk()
                 .clickSaveButton();
 
-        Assert.assertTrue(multiPage.getMultiProjectName().contains("Mine Project"));
+        Assert.assertTrue(multiPage.getName().contains("Mine Project"));
     }
 
     @Test
