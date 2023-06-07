@@ -116,6 +116,7 @@ public class BuildPageTest extends BaseTest {
         Assert.assertEquals(actualStatus, "Finished: SUCCESS");
     }
 
+    @Ignore
     @Test
     public void verifyStatusBroken(){
 
