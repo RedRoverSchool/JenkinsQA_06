@@ -60,6 +60,24 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
+    public void testErrorWhenCreateDuplicatedUser() {
+
+        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+
+        String errorDuplicatedUser = new ManageUsersPage(getDriver())
+                .clickCreateUser()
+                .enterUsername(USER_NAME)
+                .enterPassword(PASSWORD)
+                .enterConfirmPassword(PASSWORD)
+                .enterFullName(USER_FULL_NAME)
+                .enterEmail(EMAIL)
+                .getUserNameExistsError();
+
+        Assert.assertEquals(errorDuplicatedUser, "User name is already taken",
+                "Unexpected error message");
+    }
+
+    @Test
     public void testAddDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "Test User Description";
 
@@ -293,7 +311,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void inputtingAnIncorrectUsername() {
+    public void testInputtingAnIncorrectUsername() {
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
         String actualTextAlertIncorrectUsername = new MainPage(getDriver())
@@ -308,7 +326,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void inputtingAnIncorrectPassword() {
+    public void testInputtingAnIncorrectPassword() {
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
         String actualTextAlertIncorrectPassword = new MainPage(getDriver())
@@ -323,7 +341,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void  inputtingAnIncorrectUsernameAndPassword() {
+    public void  testInputtingAnIncorrectUsernameAndPassword() {
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
         String actualTextAlertIncorrectUsernameAndPassword = new MainPage(getDriver())

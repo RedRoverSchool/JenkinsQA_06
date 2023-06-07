@@ -19,10 +19,6 @@ import static org.testng.Assert.assertEquals;
 
 public class NewViewTest extends BaseTest {
 
-    private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
-    private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
-    private static final String RANDOM_LIST_VIEW_NAME = "RANDOM_LIST_VIEW_NAME";
-
     private void createNewFreestyleProjectFromMyViewsPage(String projectName) {
         new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
@@ -115,17 +111,17 @@ public class NewViewTest extends BaseTest {
         final String newProjectName = "Test Freestyle Name";
         this.createNewFreestyleProjectFromMyViewsPage(newProjectName);
         getDriver().findElement(By.className("addTab")).click();
-        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
+        getDriver().findElement(By.id("name")).sendKeys("NEW_VIEW_NAME_RANDOM");
         getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
         getDriver().findElement(By.id("ok")).click();
         getDriver().findElement(By.linkText("Dashboard")).click();
-        getDriver().findElement(CREATED_LIST_VIEW).click();
+        getDriver().findElement(By.xpath("//a[@href='/view/" + "NEW_VIEW_NAME_RANDOM" + "/']")).click();
         getDriver().findElement(By.linkText("Delete View")).click();
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         List<String> listViews = getListFromWebElements(getDriver().findElements(
                 By.xpath("//div[@class='tabBar']/div")));
 
-        Assert.assertFalse(listViews.contains(RANDOM_LIST_VIEW_NAME));
+        Assert.assertFalse(listViews.contains("RANDOM_LIST_VIEW_NAME"));
     }
 
     @Test

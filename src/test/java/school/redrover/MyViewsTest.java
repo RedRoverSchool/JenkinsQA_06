@@ -19,8 +19,6 @@ import java.util.List;
 
 public class MyViewsTest extends BaseTest {
 
-    private static final String NAME_FOLDER = "TestPipeline";
-
     @Test
     public void testCreateAJobInThePageMyViews() {
         final String newViewNameRandom = RandomStringUtils.randomAlphanumeric(5);
@@ -103,7 +101,7 @@ public class MyViewsTest extends BaseTest {
     @Test
     public void testCreateViewItem() {
 
-        TestUtils.createPipeline(this, NAME_FOLDER, true);
+        TestUtils.createPipeline(this, "NAME_FOLDER", true);
         WebElement myViews = getDriver().findElement(By.xpath("//a[@href='/me/my-views']"));
         myViews.click();
         WebElement plusButton = getDriver().findElement(By.xpath("//a[@title='New View']"));
