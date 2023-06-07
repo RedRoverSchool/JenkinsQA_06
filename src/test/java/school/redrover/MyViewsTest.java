@@ -17,6 +17,7 @@ import school.redrover.runner.TestUtils;
 import java.util.List;
 
 public class MyViewsTest extends BaseTest {
+
     private static final String NAME_FOLDER = "TestPipeline";
 
     @Test
@@ -98,8 +99,6 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(myViewName.getText(), "Java");
     }
 
-
-
     @Test
     public void testCreateViewItem() {
 
@@ -128,6 +127,7 @@ public class MyViewsTest extends BaseTest {
         return new Object[][]
                 {{"Description first"},{"Description second"}};
     }
+
     @Test(dataProvider = "description")
     public void testAddDescription(String desc) {
         ViewPage viewPage = new ViewPage(getDriver());
@@ -137,5 +137,4 @@ public class MyViewsTest extends BaseTest {
 
         Assert.assertEquals(viewPage.getDescriptionText(), desc);
     }
-
 }

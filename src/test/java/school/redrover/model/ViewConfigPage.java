@@ -11,7 +11,6 @@ import java.util.Objects;
 
 public class ViewConfigPage extends BaseConfigPage<ViewConfigPage, ViewPage> {
 
-
     public ViewConfigPage(ViewPage viewPage) {
         super(viewPage);
     }
@@ -48,7 +47,6 @@ public class ViewConfigPage extends BaseConfigPage<ViewConfigPage, ViewPage> {
                 el.click();
             }
         }
-
         return this;
     }
 }

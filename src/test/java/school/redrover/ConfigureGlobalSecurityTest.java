@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigureGlobalSecurityTest extends BaseTest {
+
     public void navigateToConfigureGlobalSecurityPage() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();

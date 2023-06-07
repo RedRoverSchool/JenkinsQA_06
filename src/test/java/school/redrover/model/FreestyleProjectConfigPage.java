@@ -7,25 +7,8 @@ import school.redrover.model.base.BaseConfigProjectsPage;
 
 public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<FreestyleProjectConfigPage, FreestyleProjectPage> {
 
-
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
-    }
-
-
-
-    public FreestyleProjectConfigPage addSourceCodeManagementGit(String urlGithub) {
-        new Actions(getDriver())
-                .scrollByAmount(0,600)
-                .click(getWait2().until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//*[@for='radio-block-1']"))))
-                .perform();
-        new Actions(getDriver())
-                .click(getDriver().findElement(
-                        By.xpath("//*[@checkdependson='credentialsId']")))
-                .sendKeys(urlGithub)
-                .perform();
-        return this;
     }
 
     public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {

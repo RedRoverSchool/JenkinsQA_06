@@ -112,7 +112,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
 
-
     @DataProvider(name = "wrong-character")
     public Object[][] provideWrongCharacters() {
         return new Object[][]
@@ -247,7 +246,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(editDescription, NEW_DESCRIPTION_TEXT);
     }
-
 
     @Test
     public void testPreviewDescription () {
@@ -407,6 +405,5 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
     }
-
 }
 

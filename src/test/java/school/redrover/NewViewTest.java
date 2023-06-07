@@ -15,8 +15,8 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-
 public class NewViewTest extends BaseTest {
+
     private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
     private static final String RANDOM_LIST_VIEW_NAME = "RANDOM_LIST_VIEW_NAME";
@@ -182,6 +182,7 @@ public class NewViewTest extends BaseTest {
 
         assertEquals(newView.getText(), "MyNewView");
     }
+
     @Test
     public void testHelpForFeatureDescription() {
         final String newProjectName = "Test Freestyle Name";

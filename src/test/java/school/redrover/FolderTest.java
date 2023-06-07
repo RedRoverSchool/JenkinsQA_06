@@ -278,7 +278,7 @@ public class FolderTest extends BaseTest {
                 .selectMultiConfigurationProjectAndOk()
                 .clickSaveButton();
 
-        Assert.assertTrue(multiPage.getMultiProjectName().contains("Mine Project"));
+        Assert.assertTrue(multiPage.getName().contains("Mine Project"));
     }
 
     @Test
@@ -454,6 +454,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION_VALUE);
         Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
     }
+
     @Test
     public void testCreateOrganizationFolder() {
 
@@ -557,5 +558,4 @@ public class FolderTest extends BaseTest {
         assertEquals(actualBreadcrumbText, "Dashboard > testFolder > testPipeline");
 
     }
-
 }
