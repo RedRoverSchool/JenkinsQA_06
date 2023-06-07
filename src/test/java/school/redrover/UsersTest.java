@@ -9,18 +9,21 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class UsersTest extends BaseTest {
+
     protected static final String USER_NAME = "testuser";
     protected static final String PASSWORD = "p@ssword123";
     protected static final String EMAIL = "test@test.com";
     protected static final String USER_FULL_NAME = "Test User";
     protected static final String USER_LINK = "//a[@href='user/" + USER_NAME + "/']";
     private final By USER_NAME_LINK = By.xpath(USER_LINK);
+    private static final String EXPECTED_TEXT_ALERT_INCORRECT_LOGIN_AND_PASSWORD = "Invalid username or password";
 
     public static List<String> listText(List<WebElement> elementList) {
         List<String> stringList = new ArrayList<>();
@@ -110,10 +113,10 @@ public class UsersTest extends BaseTest {
                 .clickYesButton()
                 .getDescriptionText();
 
-        Assert.assertEquals("Description text",descriptionText);
+        Assert.assertEquals("Description text", descriptionText);
     }
 
-        @Test
+    @Test
     public void testEditEmailOnTheUserProfilePageByDropDown() {
         final String displayedEmail = "testedited@test.com";
 
@@ -123,7 +126,7 @@ public class UsersTest extends BaseTest {
                 .clickUserIDDropDownMenu(USER_NAME)
                 .selectConfigureUserIDDropDownMenu();
 
-        ConfigureUserPage configureUserPage = new ConfigureUserPage(getDriver());
+        UserConfigPage configureUserPage = new UserConfigPage(new StatusUserPage(getDriver()));
 
         String oldEmail = configureUserPage.getEmailValue("value");
 
@@ -215,7 +218,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteUserViaPeopleMenu()  {
+    public void testDeleteUserViaPeopleMenu() {
         String newUserName = "testuser";
         new CreateUserPage(getDriver())
                 .createUserAndReturnToMainPage(newUserName, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -229,7 +232,6 @@ public class UsersTest extends BaseTest {
                 .checkIfUserWasDeleted(newUserName);
 
         Assert.assertTrue(isUserDeleted);
-
     }
 
     @Test(dependsOnMethods = "testCreateNewUser")
@@ -271,5 +273,67 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By
                         .xpath("//div[contains(@class, 'alert-danger')]")).getText(),
                 "Invalid username or password");
+    }
+
+    @Test
+    public void testUserCanLoginToJenkinsWithCreatedAccount() {
+        String nameProject = "Engineer";
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton()
+                .enterUsername(USER_NAME)
+                .enterPassword(PASSWORD)
+                .enterSignIn(new MainPage(getDriver()));
+        TestUtils.createFreestyleProject(this, nameProject, true);
+        String actualResult = new MainPage(getDriver()).getProjectName().getText();
+
+        Assert.assertEquals(actualResult, nameProject);
+    }
+
+    @Test
+    public void inputtingAnIncorrectUsername() {
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        String actualTextAlertIncorrectUsername = new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton()
+                .enterUsername("incorrect user name")
+                .enterPassword(PASSWORD)
+                .enterSignIn(new LoginPage(getDriver()))
+                .getTextAlertIncorrectUsernameOrPassword();
+
+        Assert.assertEquals(actualTextAlertIncorrectUsername, EXPECTED_TEXT_ALERT_INCORRECT_LOGIN_AND_PASSWORD);
+    }
+
+    @Test
+    public void inputtingAnIncorrectPassword() {
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        String actualTextAlertIncorrectPassword = new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton()
+                .enterUsername(USER_NAME)
+                .enterPassword("12345hi")
+                .enterSignIn(new LoginPage(getDriver()))
+                .getTextAlertIncorrectUsernameOrPassword();
+
+        Assert.assertEquals(actualTextAlertIncorrectPassword, EXPECTED_TEXT_ALERT_INCORRECT_LOGIN_AND_PASSWORD);
+    }
+
+    @Test
+    public void  inputtingAnIncorrectUsernameAndPassword() {
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        String actualTextAlertIncorrectUsernameAndPassword = new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton()
+                .enterUsername("incorrect user name")
+                .enterPassword("12345hi")
+                .enterSignIn(new LoginPage(getDriver()))
+                .getTextAlertIncorrectUsernameOrPassword();
+
+        Assert.assertEquals(actualTextAlertIncorrectUsernameAndPassword, EXPECTED_TEXT_ALERT_INCORRECT_LOGIN_AND_PASSWORD);
     }
 }

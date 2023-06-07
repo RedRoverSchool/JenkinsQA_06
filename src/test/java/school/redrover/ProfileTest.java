@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfileTest extends BaseTest {
+
     final Map<String, String> menuToUrlMap = new HashMap<>() {{
         put("Builds", "builds");
         put("Configure", "configure");

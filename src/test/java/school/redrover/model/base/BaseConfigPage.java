@@ -1,10 +1,8 @@
 package school.redrover.model.base;
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 
 public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage extends BaseMainHeaderPage<?>> extends BaseMainHeaderPage<Self> {
 
@@ -32,9 +30,4 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
     public WebElement viewDescription(){
         return getDriver().findElement(By.xpath("//*[@id=\"description\"]/div[1]"));
     }
-
-    public String getDescription() {
-        return getDriver().findElement(By.xpath("//*[@id='description']/div")).getText();
-    }
-
 }

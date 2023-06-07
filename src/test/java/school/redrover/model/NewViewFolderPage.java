@@ -21,20 +21,6 @@ public class NewViewFolderPage extends BaseMainHeaderPage<NewViewFolderPage> {
         return this;
     }
 
-    public NewViewFolderPage selectIncludeAGlobalViewAndClickCreate(){
-        WebElement myView = getDriver().findElement(By.xpath("//fieldset/div[1]/input"));
-        new Actions(getDriver()).moveToElement(myView).click(myView).perform();
-        getOkButton().click();
-        return this;
-    }
-
-    public NewViewFolderPage selectListViewAndClickCreate(){
-        WebElement myView = getDriver().findElement(By.xpath("//fieldset/div[2]/input"));
-        new Actions(getDriver()).moveToElement(myView).click(myView).perform();
-        getOkButton().click();
-        return this;
-    }
-
     public ViewFolderPage selectMyViewAndClickCreate(){
         WebElement myView = getDriver().findElement(By.xpath("//fieldset/div[3]/input"));
         new Actions(getDriver()).moveToElement(myView).click(myView).perform();

@@ -16,10 +16,11 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
     }
 
 
-    private void openJobDropDownMenu(String jobName) {
+    public MainPage openJobDropDownMenu(String jobName) {
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath(String.format("//a[contains(@href,'job/%s/')]/button", jobName.replaceAll(" ", "%20")))))
                 .sendKeys(Keys.RETURN);
+        return this;
     }
 
     private void  clickOnSliderDashboardInDropDownMenu() {
@@ -29,14 +30,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         WebElement slider = getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id = 'breadcrumbBar']//button")));
         new Actions(getDriver()).moveToElement(slider).perform();
         slider.sendKeys(Keys.RETURN);
-    }
-
-    public NewJobPage clickNewItemInDashboardDropDownMenu() {
-        clickOnSliderDashboardInDropDownMenu();
-        getWait2().until(ExpectedConditions
-                        .visibilityOfElementLocated(By.xpath("//div[@id = 'breadcrumb-menu-target']//span[text()='New Item']")))
-                .click();
-        return new NewJobPage(getDriver());
     }
 
     public ManageJenkinsPage clickManageJenkinsOnDropDown() {
@@ -167,6 +160,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div//li//span[contains(text(),'Configure')]"))).click();
         return new FreestyleProjectPage(getDriver());
     }
+
     public MultiConfigurationProjectPage clickJobMultiConfigurationProject(String jobName) {
         openJobDropDownMenu(jobName);
         WebElement job = getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
@@ -198,6 +192,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         buildRunnerButton.click();
         return this;
     }
+
     public String getJobBuildStatus(String jobName) {
         openJobDropDownMenu(jobName);
         WebElement buildStatus = getDriver().findElement(By.id(String.format("job_%s", jobName)))
@@ -315,6 +310,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Name')]"))).click();
         return this;
     }
+
     public boolean verifyJobIsPresent(String jobName){
         List<WebElement> jobs = getDriver().findElements(By.xpath("//*[@class='jenkins-table__link model-link inside']"));
         boolean status = false;
@@ -343,4 +339,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return buildStatusIcon.getAttribute("title");
 
     }
+
+   public OrganizationFolderPage clickJodOrganizationFolder(){
+        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).click();
+
+        return new OrganizationFolderPage(getDriver());
+   }
 }

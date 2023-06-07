@@ -19,9 +19,4 @@ public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage>
 
         return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']//h1"))).getText();
     }
-
-    public String getMessageAboutError() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@id='itemname-invalid']"))).getText();
-    }
 }

@@ -4,24 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.FreestyleProjectConfigPage;
-import school.redrover.model.MultiConfigurationProjectConfigPage;
 import school.redrover.runner.TestUtils;
 
-public abstract class BaseProjectsConfigPage<Self extends BaseConfigPage<?, ?>,ProjectPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, ProjectPage> {
+public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,ProjectPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, ProjectPage> {
 
-    public BaseProjectsConfigPage(ProjectPage projectPage) {
+    public BaseConfigProjectsPage(ProjectPage projectPage) {
         super(projectPage);
-    }
-
-
-    public Self clickPreviewSeeOrHide(Boolean seeAndHidePreview) {
-        if (seeAndHidePreview) {
-            getDriver().findElement(By.xpath("//a[contains(@previewendpoint, 'previewDescription')]")).click();
-        } else {
-            getDriver().findElement(By.xpath("//a[normalize-space(text())='Hide preview']")).click();
-        }
-        return (Self)this;
     }
 
     public Self addExecuteShellBuildStep(String command) {
