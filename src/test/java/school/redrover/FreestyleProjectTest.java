@@ -456,5 +456,28 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
     }
 
+    @Test
+    public void testCreateFreestyleProjectWithDesc(){
+        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .addDescription(DESCRIPTION_TEXT)
+                .clickSaveButton();
+
+        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(freestyleProjectPage.getDescription(), DESCRIPTION_TEXT);
+    }
+
+    @Test(dependsOnMethods = "testCreateFreestyleProjectWithDesc")
+    public void testDeleteFreestyleProjectWithDesc(){
+        new MainPage(getDriver())
+                .clickFreestyleProjectName(FREESTYLE_NAME)
+                .clickDeleteProject();
+        boolean status = new MainPage(getDriver())
+                .verifyJobIsPresent(FREESTYLE_NAME);
+
+        Assert.assertFalse(status);
+    }
 }
 
