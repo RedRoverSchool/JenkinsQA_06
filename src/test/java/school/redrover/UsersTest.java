@@ -63,18 +63,16 @@ public class UsersTest extends BaseTest {
         new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         String errorDuplicatedUser = new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
-                .clickManageUsers()
                 .clickCreateUser()
                 .enterUsername(USER_NAME)
                 .enterPassword(PASSWORD)
                 .enterConfirmPassword(PASSWORD)
                 .enterFullName(USER_FULL_NAME)
                 .enterEmail(EMAIL)
-                .clickCreateUserButtonAndStay()
                 .getUserNameExistsError();
 
-        Assert.assertEquals(errorDuplicatedUser, "User name is already taken");
+        Assert.assertEquals(errorDuplicatedUser, "User name is already taken",
+                "Unexpected error message");
     }
 
     @Test

@@ -95,13 +95,8 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
         return new ManageUsersPage(getDriver());
     }
 
-    public CreateUserPage clickCreateUserButtonAndStay() {
-        getDriver().findElement(By.name("Submit")).click();
-
-        return this;
-    }
-
     public String getUserNameExistsError() {
+        clickCreateUserButton();
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@class='error jenkins-!-margin-bottom-2']"))).getText();
     }
