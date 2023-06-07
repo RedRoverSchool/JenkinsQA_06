@@ -1,4 +1,5 @@
 package school.redrover;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
@@ -17,5 +18,17 @@ public class ManagePluginsTest extends BaseTest {
                 .checkFourTasksOnTheLeftsidePanel();
 
         Assert.assertEquals(actualListOfTasks, expectedListOfTasks);
+    }
+
+    @Test
+    public void testServerInfoBoxAdvancedSettingsPluginPage(){
+        final String expectedInfoServerText = "If your Jenkins server sits behind a firewall ";
+        String ServerInfoBox = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManagePlugins()
+                .clickAdvancedSettings()
+                .clickExtraInfoServerIcon()
+                .getExtraInfoServerTextBox();
+        Assert.assertTrue(ServerInfoBox.contains(expectedInfoServerText));
     }
 }

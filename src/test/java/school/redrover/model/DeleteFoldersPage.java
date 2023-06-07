@@ -3,7 +3,6 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
 
 public class DeleteFoldersPage extends BaseMainHeaderPage<DeleteFoldersPage> {
 

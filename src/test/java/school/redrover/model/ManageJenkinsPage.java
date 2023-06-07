@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 import java.time.Duration;
+import java.util.List;
 
 public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
 
@@ -90,8 +91,32 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
         return new ManagePluginsPage(getDriver());
     }
 
+
     public ManageNodesPage clickOnNodesAndClouds(){
         getDriver().findElement(By.xpath("//dt[.='Manage Nodes and Clouds']")).click();
         return new ManageNodesPage(getDriver());
+
+    public ManageJenkinsPage selectOnTheFirstLineInDropdown() {
+
+        getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".jenkins-search__results-item--selected")));
+
+        List<WebElement> options = getDriver().findElements(By.cssSelector(".jenkins-search__results-item--selected"));
+        for (WebElement option : options) {
+            if (option.getText().equals("Configure System")) {
+                option.click();
+                break;
+            }
+        }
+        return this;
+    }
+
+    public String getConfigureSystemPage() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//h1[normalize-space()='Configure System']"))).getText();
+    }
+
+    public String verifyManageJenkinsPage() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[normalize-space(.)= 'Manage Jenkins']"))).getText();
+
     }
 }

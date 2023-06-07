@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,17 +19,6 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
 
     private List<WebElement> getJobList() {
         return getDriver().findElements(By.xpath("//tbody/tr/td/a/span"));
-    }
-
-    public ViewPage inputAnItemName(String text) {
-
-        TestUtils.sendTextToInput(this, getDriver().findElement(By.xpath("//input[@id = 'name']")), text);
-        return new ViewPage(getDriver());
-    }
-
-    public ViewPage clickPipelineProject() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//span[normalize-space()='Pipeline']")));
-        return new ViewPage(getDriver());
     }
 
     public ViewPage clickAddDescription() {
@@ -79,16 +69,6 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
             return textList;
         }
         return null;
-    }
-
-    public ViewPage clickFreestyleProject() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//span[text()='Freestyle project']")));
-        return this;
-    }
-
-    public ViewPage clickMultiBranchPipeline() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//span[text() ='Multibranch Pipeline']")));
-        return this;
     }
 
     public ViewPage clickDropDownMenuFolder(String folderName) {

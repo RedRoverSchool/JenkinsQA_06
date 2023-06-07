@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BaseModel;
 import school.redrover.runner.TestUtils;
 
 public class NewViewPage extends BaseMainHeaderPage<NewViewPage> {
@@ -31,16 +30,10 @@ public class NewViewPage extends BaseMainHeaderPage<NewViewPage> {
         return this;
     }
 
-    public NewViewPage selectIncludeAGlobalView() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//label[@for = 'hudson.model.ProxyView']")));
-
-        return this;
-    }
-
     public ViewConfigPage clickCreateButton () {
         getDriver().findElement(By.name("Submit")).click();
 
-        return new ViewConfigPage(getDriver());
+        return new ViewConfigPage(new ViewPage(getDriver()));
     }
 
     public ActiveViewPage clickCreateMyViewButton() {

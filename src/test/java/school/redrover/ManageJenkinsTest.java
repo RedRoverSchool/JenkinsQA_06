@@ -6,12 +6,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.*;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+
 import java.util.List;
 import java.util.Objects;
 
+import static school.redrover.runner.TestUtils.getRandomStr;
+
 public class ManageJenkinsTest extends BaseTest {
+
     final String NAME_NEW_NODE = "testNameNewNode";
 
     public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
@@ -25,10 +29,9 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testSearchWithLetterConfigureSystem() {
-        String configurePage = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .enterSearchQuery("m")
-                .clickSearchButton()
+        String configurePage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField("m")
                 .selectOnTheFirstLineInDropdown()
                 .getConfigureSystemPage();
 
@@ -36,27 +39,10 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testManageConfigureNumberOfExecutorsInMasterNode() {
-        String number = "3";
+    public void testNavigateToManageJenkinsFromMainPageUsingDashboard() {
 
-        String numberInLine = new ManagePage(getDriver())
-                .navigateToManagePage()
-                .navigateManageNodesAndClouds()
-                .clickConfigureMasterNode()
-                .changeNumberOfExecutorsAndSave(number)
-                .navigateToMasterNodeConfiguration()
-                .numberOfExecutors();
-
-        Assert.assertEquals(number, numberInLine);
-    }
-
-    @Test
-    public void testBreadcrumbNavigateManageJenkins() {
-
-        String page = new ManagePage(getDriver())
-                .navigateToDashboardIcon()
-                .dropdownBreadcrumps()
-                .navigateToManageJenkinsAndClick()
+        String page = new MainPage(getDriver())
+                .clickManageJenkinsOnDropDown()
                 .verifyManageJenkinsPage();
 
         Assert.assertEquals(page, "Manage Jenkins");
@@ -158,7 +144,6 @@ public class ManageJenkinsTest extends BaseTest {
         return new Object [][] {{"Script Console"}, {"Jenkins CLI"}, {"Prepare for Shutdown"}};
     }
 
-
     @Test(dataProvider = "ToolsAndActions")
     public void testSearchToolsAndActions(String inputText)  {
         String searchResult = new MainPage(getDriver())
@@ -169,18 +154,33 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
+
     public void testCreateNewNode(){
         final String nodeName = "MyNode114";
         boolean res = new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
                 .clickOnNodesAndClouds()
+
+    public void testCreateNewAgentNode() {
+        final String nodeName = getRandomStr(10);
+
+        String manageNodesPage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+
                 .clickNewNodeButton()
                 .inputNodeNameField(nodeName)
                 .clickPermanentAgentRadioButton()
                 .clickCreateButton()
                 .clickSaveButton()
+
                 .isNodePresent(nodeName);
 
         Assert.assertTrue(res);
+
+                .getNodeName(nodeName);
+
+        Assert.assertEquals(manageNodesPage,nodeName);
+
     }
 }

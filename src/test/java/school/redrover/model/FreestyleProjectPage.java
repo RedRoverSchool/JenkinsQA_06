@@ -7,8 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import static org.openqa.selenium.By.cssSelector;
 
@@ -20,6 +19,8 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
 
     public FreestyleProjectPage selectBuildNow() {
         getDriver().findElement(cssSelector("[href*='build?']")).click();
+        getWait5().until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//td[@class='build-row-cell']")));
         return this;
     }
 
@@ -49,6 +50,7 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         getDriver().findElement(By.id("description-link")).click();
         return this;
     }
+
     public FreestyleProjectPage clickEditDescription() {
         getDriver().findElement(By.xpath("//*[@href = 'editDescription']")).click();
         return this;
@@ -58,6 +60,7 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         getDriver().findElement(By.xpath("//*[@id='description']/form/div[2]/button")).click();
         return this;
     }
+
     public FreestyleProjectPage addDescription(String description) {
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
         return this;
@@ -70,20 +73,9 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         return this;
     }
 
-    public MainPage navigateToMainPageViaJenkinsIcon() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//*[@id='jenkins-head-icon']"))).click();
-        return new MainPage(getDriver());
-    }
-
     public String  getWarningMessage() {
 
         return getDriver().findElement(By.id("enable-project")).getText().substring(0,34);
-    }
-
-    public boolean isProjectDisabledButtonDisplayed() {
-
-        return getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).isDisplayed();
     }
 
     public FreestyleProjectPage clickPreviewButton () {
@@ -99,35 +91,18 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
     }
 
-    public boolean isProjectEnableButtonDisplayed() {
-        return getWait2().until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//button[text() = 'Enable']"))).isDisplayed();
-    }
-
-    public int getBuildsQuantity() {
-        return Arrays.asList(getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//tr[@class = 'build-row multi-line overflow-checked']")))).size();
-    }
-
     public RenamePage<FreestyleProjectPage> clickRenameProject(String projectName) {
         getWait2().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href = '/job/" + projectName + "/confirm-rename']"))).click();
         return new RenamePage<>(this);
     }
 
-    public FreestyleProjectPage clickDeleteProject() {
+    public MainPage clickDeleteProject() {
         getWait2().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href = '#']//span[text() = 'Delete Project' ]"))).click();
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
-        return this;
-    }
-
-    public boolean checkProjectWasDeleted(String projectName) {
-       boolean result = getDriver().findElements(By
-                        .xpath("//a[@class='jenkins-table__link model-link inside']"))
-                .stream().map(WebElement::getText).collect(Collectors.toList()).contains(projectName);
-        return result;
+        return new MainPage(getDriver());
     }
 
     public ConsoleOutputPage openConsoleOutputForBuild(){
@@ -145,5 +120,14 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         getWait5().until(ExpectedConditions.elementToBeClickable(
                 getDriver().findElement(By.cssSelector("[href$='/move']")))).click();
         return new MovePage<>(this);
+    }
+
+    public int getSizeOfPermalinksList() {
+        getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h2")));
+
+        List<WebElement> permalinks = getDriver()
+                .findElements(By.xpath("//ul[@class='permalinks-list']//li"));
+
+        return permalinks.size();
     }
 }

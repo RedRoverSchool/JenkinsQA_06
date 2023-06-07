@@ -13,6 +13,4 @@ public class PluginsPage extends BaseMainHeaderPage<PluginsPage> {
     public String getPageTitle() {
         return getDriver().findElement(By.xpath("//h1")).getText();
     }
-
-
 }

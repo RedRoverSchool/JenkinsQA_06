@@ -15,8 +15,8 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-
 public class NewViewTest extends BaseTest {
+
     private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
     private static final String RANDOM_LIST_VIEW_NAME = "RANDOM_LIST_VIEW_NAME";
@@ -57,7 +57,7 @@ public class NewViewTest extends BaseTest {
                 .setNewViewName(expectedName)
                 .selectListView()
                 .clickCreateButton()
-                .clickViewConfigOkButton()
+                .clickSaveButton()
                 .getViewName();
 
         assertEquals(actualName, expectedName);
@@ -124,7 +124,7 @@ public class NewViewTest extends BaseTest {
                 .selectListView()
                 .clickCreateButton()
                 .selectJobsInJobFilters(folderName1)
-                .clickViewConfigOkButton();
+                .clickSaveButton();
 
         Assert.assertEquals(viewPage.getViewName(), viewName);
         Assert.assertEquals(viewPage.getJobName(folderName1), folderName1);
@@ -157,7 +157,7 @@ public class NewViewTest extends BaseTest {
                 .chooseJobsInJobFilters(folderName1 + " » " + jobName1)
                 .chooseJobsInJobFilters(folderName1 + " » " + jobName3)
                 .chooseJobsInJobFilters(folderName2)
-                .clickViewConfigOkButton();
+                .clickSaveButton();
 
         List<String> actualViewJobsTexts = viewPage.getJobNamesList();
 
@@ -182,6 +182,7 @@ public class NewViewTest extends BaseTest {
 
         assertEquals(newView.getText(), "MyNewView");
     }
+
     @Test
     public void testHelpForFeatureDescription() {
         final String newProjectName = "Test Freestyle Name";

@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.OrganizationFolderPage;
@@ -8,36 +9,35 @@ import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
 
-    private static final String organizationFolderName = "OrgFolder";
-    private static final String organizationFolderRenamed = "OrgFolderRenamed";
+    private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
+    private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderRenamed";
 
     @Test
     public void testCreateOrganizationFolder() {
 
         String actualNewFolderName = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(organizationFolderName)
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectNameMainPage(organizationFolderName);
+                .getProjectNameMainPage(ORGANIZATION_FOLDER_NAME);
 
-        Assert.assertEquals(actualNewFolderName, organizationFolderName);
+        Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testRenameOrganizationFolder() {
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .clickMultiConfigurationProjectName(organizationFolderName)
+                .clickMultiConfigurationProjectName(ORGANIZATION_FOLDER_NAME)
                 .clickRename()
-                .enterNewName(organizationFolderRenamed)
+                .enterNewName(ORGANIZATION_FOLDER_RENAMED)
                 .submitNewName()
-                .getMultiProjectName()
-                .getText();
+                .getName();
 
-        Assert.assertEquals(actualRenamedFolderName, organizationFolderRenamed);
+        Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
     @Test(dependsOnMethods = "testRenameOrganizationFolder")
@@ -52,13 +52,13 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .dropDownMenuClickMove(organizationFolderRenamed, new OrganizationFolderPage(getDriver()))
+                .dropDownMenuClickMove(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .selectDestinationFolder(folderName)
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
                 .clickFolderName(folderName)
-                .nestedFolderIsVisibleAndClickable(organizationFolderRenamed);
+                .nestedFolderIsVisibleAndClickable(ORGANIZATION_FOLDER_RENAMED);
 
         Assert.assertTrue(movedOrgFolderVisibleAndClickable);
     }
@@ -68,26 +68,38 @@ public class OrganizationFolderTest extends BaseTest {
 
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(organizationFolderName)
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
                 .selectOrganizationFolderAndOk()
                 .clickDisable()
                 .clickSaveButton()
                 .getTextFromDisableMessage();
 
-        Assert.assertEquals(disableFolder.trim().substring(0,46),"This Organization Folder is currently disabled");
+        Assert.assertEquals(disableFolder.trim().substring(0, 46), "This Organization Folder is currently disabled");
     }
 
     @Test
-    public  void testCreateOrganizationFolderWithDescription(){
+    public void testCreateOrganizationFolderWithDescription() {
 
         String textFromDescription = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(organizationFolderName)
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
                 .selectOrganizationFolderAndOk()
-                .selectDescription("Description")
+                .addDescription("Description")
                 .clickSaveButton()
                 .getTextFromDescription();
 
-        Assert.assertEquals(textFromDescription,"Description");
+        Assert.assertEquals(textFromDescription, "Description");
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    public void testDisabledOrganizationFolder() {
+
+        String disabledText = new MainPage(getDriver())
+                .clickJodOrganizationFolder()
+                .clickDisableButton()
+                .getTextFromDisableMessage();
+
+        Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
     }
 }

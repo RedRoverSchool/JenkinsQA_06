@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
+
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
     }
@@ -17,6 +18,7 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
 
         return new BuildPage(getDriver());
     }
+
     public ConsoleOutputPage clickProjectBuildConsole(String projectBuildName){
         getDriver().findElement(By.xpath("//a[contains(@href, '" + projectBuildName + "')  and contains(@href, 'console') and not(contains(@href, 'default'))]")).click();
         return new ConsoleOutputPage(getDriver());
@@ -37,6 +39,4 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
                 By.xpath("//div[@class='simileAjax-bubble-contentContainer simileAjax-bubble-contentContainer-pngTranslucent']")));
         return getDriver().findElement(By.xpath("//div[@class='timeline-event-bubble-title']/a")).getText();
     }
-
-
 }
