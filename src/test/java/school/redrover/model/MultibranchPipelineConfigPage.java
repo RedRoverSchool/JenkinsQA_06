@@ -1,7 +1,6 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BaseConfigFoldersPage;
@@ -10,11 +9,6 @@ public class MultibranchPipelineConfigPage extends BaseConfigFoldersPage<Multibr
 
     public MultibranchPipelineConfigPage(MultibranchPipelinePage multibranchPipelinePage) {
         super(multibranchPipelinePage);
-    }
-
-    public WebElement titleMultibranchPipeline() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(("//body/div[@id='page-body']/div[@id='main-panel']/h1[1]"))));
-
     }
 
     public MultibranchPipelineConfigPage clickDisable() {

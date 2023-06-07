@@ -10,6 +10,7 @@ public class PeoplePage extends BaseMainHeaderPage<PeoplePage> {
     public PeoplePage(WebDriver driver) {
         super(driver);
     }
+
     public UserPage clickUserName (String newUserName) {
         getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//a[@href='/user/" + newUserName + "/']")))).click();
@@ -27,5 +28,4 @@ public class PeoplePage extends BaseMainHeaderPage<PeoplePage> {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
     }
-
 }

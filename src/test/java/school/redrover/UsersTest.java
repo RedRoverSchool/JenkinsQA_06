@@ -10,10 +10,12 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class UsersTest extends BaseTest {
+
     protected static final String USER_NAME = "testuser";
     protected static final String PASSWORD = "p@ssword123";
     protected static final String EMAIL = "test@test.com";
@@ -228,7 +230,6 @@ public class UsersTest extends BaseTest {
                 .checkIfUserWasDeleted(newUserName);
 
         Assert.assertTrue(isUserDeleted);
-
     }
 
     @Test(dependsOnMethods = "testCreateNewUser")
@@ -285,6 +286,7 @@ public class UsersTest extends BaseTest {
                 .enterSignIn(new MainPage(getDriver()));
         TestUtils.createFreestyleProject(this, nameProject, true);
         String actualResult = new MainPage(getDriver()).getProjectName().getText();
+
         Assert.assertEquals(actualResult, nameProject);
     }
 
@@ -301,6 +303,8 @@ public class UsersTest extends BaseTest {
                 .enterSignIn(new LoginPage(getDriver()))
                 .getTextAlertIncorrectUsernameOrPassword();
         Assert.assertEquals(actualTextAlertIncorrectUsername, expectedTextAlertIncorrectUsername);
+
+        Assert.assertEquals(actualTextAlertIncorrectUsername, expectedTextAlertIncorrectUsernameOrPassword);
     }
 
     @Test
@@ -315,6 +319,8 @@ public class UsersTest extends BaseTest {
                 .enterPassword("12345hi")
                 .enterSignIn(new LoginPage(getDriver()))
                 .getTextAlertIncorrectUsernameOrPassword();
+
+        Assert.assertEquals(actualTextAlertIncorrectPassword, expectedTextAlertIncorrectUsernameOrPassword);
         Assert.assertEquals(actualTextAlertIncorrectPassword, expectedTextAlertIncorrectPassword);
     }
 

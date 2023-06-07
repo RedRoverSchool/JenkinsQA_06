@@ -60,12 +60,6 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver()));
     }
 
-    public NewJobPage copyFrom(String typeToAutocomplete) {
-        getDriver().findElement(By.xpath("//input[contains(@autocompleteurl, 'autoCompleteCopyNewItemFrom')]"))
-                .sendKeys(typeToAutocomplete);
-        return this;
-    }
-
     public String getItemInvalidMessage() {
         return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
     }
@@ -109,11 +103,13 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     public String getItemNameRequiredErrorText() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
     }
+
     public NewJobPage clickButtonOk() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button")))
                 .click();
         return this;
     }
+
     public FolderConfigPage copyFromFolder(String typeToAutocomplete) {
         getDriver().findElement(By.id("from"))
                 .sendKeys(typeToAutocomplete);

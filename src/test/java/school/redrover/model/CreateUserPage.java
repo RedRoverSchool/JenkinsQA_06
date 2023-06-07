@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import school.redrover.model.base.BaseMainHeaderPage;
 
-
 public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
 
     public CreateUserPage(WebDriver driver) {
@@ -58,7 +57,6 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
                 .enterFullName(fullName)
                 .enterEmail(email)
                 .clickCreateUserButton();
-
     }
 
     public void createUserAndReturnToMainPage(String username, String password, String fullName, String email) {
@@ -74,8 +72,6 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
                 .clickCreateUserButton()
                 .getHeader()
                 .clickLogo();
-
-
     }
 
     public ManageUsersPage fillUserDetails(String username) {

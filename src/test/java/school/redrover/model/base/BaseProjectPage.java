@@ -7,14 +7,15 @@ import school.redrover.model.ConsoleOutputPage;
 
 import static org.openqa.selenium.By.cssSelector;
 
-public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends BaseJobPage<BaseProjectPage<?>> {
+public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends BaseJobPage<Self> {
 
     public BaseProjectPage(WebDriver driver) {
         super(driver);
     }
 
     public String getEnableButtonText(){
-        return getDriver().findElement(By.cssSelector("form#enable-project")).getText();
+        return getDriver().findElement(By.xpath("//form[@id='enable-project']/button")).getText();
+
     }
 
     public String getDisableButtonText() {
@@ -34,6 +35,10 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         return (Self)this;
     }
 
+    public String getDisabledMessageText(){
+        return getDriver().findElement(By.cssSelector("form#enable-project")).getText();
+    }
+
     public Self clickBuildNow() {
         getDriver().findElement(cssSelector("[href*='build?']")).click();
         return (Self)this;
@@ -48,5 +53,10 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     public int getBuildsQuantity() {
         return getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
                 By.xpath("//td[@class = 'build-row-cell']"))).size();
+    }
+
+    public boolean isDisableButtonDisplayed() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//form[@id='disable-project']/button"))))
+                .isDisplayed();
     }
 }
