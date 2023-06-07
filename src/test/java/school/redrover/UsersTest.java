@@ -268,20 +268,19 @@ public class UsersTest extends BaseTest {
 
         new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        WebElement basketButtonSelectedUser = getDriver().findElement(
-                By.xpath("//a[@href='user/" + USER_NAME + "/delete']"));
-        basketButtonSelectedUser.click();
+        boolean userIsNotFind = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickDeleteUser()
+                .clickYesButton()
+                .isUserExist(USER_NAME);
 
-        getDriver().findElement(By.name("Submit")).click();
-
-        Boolean userIsNotFind = ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(
-                By.xpath("//a[@href='user/" + USER_NAME + "/']"))).apply(getDriver());
-
-        Assert.assertTrue(userIsNotFind);
+        Assert.assertFalse(userIsNotFind);
     }
 
     @Test(dependsOnMethods = "testDeleteUserViaManageUsers")
     public void testLogInWithDeletedUserCredentials() {
+
         getDriver().findElement(By.xpath("//a[@href= '/logout']")).click();
         getDriver().findElement(By.id("j_username")).sendKeys(USER_NAME);
         getDriver().findElement(By.xpath("//input[@name='j_password']")).sendKeys(PASSWORD);

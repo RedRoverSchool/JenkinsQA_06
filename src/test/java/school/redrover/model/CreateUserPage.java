@@ -57,7 +57,9 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
                 .enterConfirmPassword(password)
                 .enterFullName(fullName)
                 .enterEmail(email)
-                .clickCreateUserButton();
+                .clickCreateUserButton()
+                .getHeader()
+                .clickLogo();
     }
 
     public void createUserAndReturnToMainPage(String username, String password, String fullName, String email) {
