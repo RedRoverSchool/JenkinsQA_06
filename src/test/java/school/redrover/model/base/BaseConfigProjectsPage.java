@@ -92,4 +92,14 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,P
 
         return maxNumOfBuildsToKeepNumber.getAttribute(attribute);
     }
+
+    public Self clickGitHubProjectCheckbox() {
+        getDriver().findElement(By.xpath("//label[text()='GitHub project']")).click();
+        return (Self) this;
+    }
+
+    public Self inputTextTheInputAreaProjectUrlInGitHubProject(String text) {
+        getDriver().findElement(By.cssSelector("[name='_.projectUrlStr']")).sendKeys(text);
+        return (Self) this;
+    }
 }
