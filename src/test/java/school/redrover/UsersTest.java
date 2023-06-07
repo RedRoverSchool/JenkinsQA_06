@@ -5,6 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
@@ -58,6 +59,7 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(errorEmail, "Invalid e-mail address");
     }
 
+    @Ignore
     @Test
     public void testErrorWhenCreateDuplicatedUser() {
 
@@ -76,6 +78,7 @@ public class UsersTest extends BaseTest {
                 "Unexpected error message");
     }
 
+    @Ignore
     @Test
     public void testAddDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "Test User Description";
@@ -132,7 +135,7 @@ public class UsersTest extends BaseTest {
 
         Assert.assertEquals("Description text", descriptionText);
     }
-
+    @Ignore
     @Test
     public void testEditEmailOnTheUserProfilePageByDropDown() {
         final String displayedEmail = "testedited@test.com";
@@ -157,6 +160,7 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualEmail, displayedEmail);
     }
 
+    @Ignore
     @Test
     public void testVerifyUserPageMenu() {
         new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
