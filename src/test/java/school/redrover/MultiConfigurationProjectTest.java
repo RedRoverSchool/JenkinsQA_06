@@ -179,7 +179,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testMultiConfigurationProjectDisabled() {
         String enable = new MainPage(getDriver())
-                .clickMultiConfigurationProjectName("MyProject")
+                .clickJobName("MyProject", new MultiConfigurationProjectPage(getDriver()))
                 .clickEnable()
                 .getDisableButtonText();
 
@@ -249,7 +249,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         final String text = "text";
 
         String addDescriptionText = new MainPage(getDriver())
-                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
+                .clickJobName(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .changeDescriptionWithoutSaving(text)
                 .clickSaveButton()
                 .getDescription();
@@ -497,7 +497,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testBuildNowOptionNotPresentInDisabledProject() {
         List<String> dropDownMenuItems = new MainPage(getDriver())
-                .clickMultiConfigurationProjectName(MULTI_CONFIGURATION_NAME)
+                .clickJobName(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .clickDisable()
                 .getHeader()
                 .clickLogo()
@@ -515,7 +515,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         TestUtils.createMultiConfigurationProject(this, nameProject, true);
         new MainPage(getDriver())
-                .clickMultiConfigurationProjectName(nameProject)
+                .clickJobName(nameProject, new MultiConfigurationProjectPage(getDriver()))
                 .clickConfigure()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)

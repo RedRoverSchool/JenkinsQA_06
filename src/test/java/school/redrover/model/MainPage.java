@@ -96,31 +96,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return jobPage;
     }
 
-    public PipelinePage clickPipelineProject(String pipelineName) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath(String.format("//a[@href='job/%s/']",pipelineName.replaceAll(" ","%20"))))).click();
-        return new PipelinePage(getDriver());
-    }
-
-    public FreestyleProjectPage clickFreestyleProjectName(String jobName) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath(String.format("//a[@href='job/%s/']",jobName.replaceAll(" ","%20"))))).click();
-
-        return new FreestyleProjectPage(getDriver());
-    }
-
-    public MultiConfigurationProjectPage clickMultiConfigurationProjectName(String jobName) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath(String.format("//a[@href='job/%s/']",jobName.replaceAll(" ","%20")))))).click();
-        return new MultiConfigurationProjectPage(getDriver());
-    }
-
-    public MultibranchPipelinePage clickMultibranchPipelineName(String multibranchPipeline) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath(String.format("//a[@href='job/%s/']",multibranchPipeline.replaceAll(" ","%20"))))).click();
-        return new MultibranchPipelinePage(getDriver());
-    }
-
     public MainPage dropDownMenuClickDelete(String jobName) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Delete')]"))).click();

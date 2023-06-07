@@ -505,8 +505,7 @@ public class FolderTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-
-                .clickMultiConfigurationProjectName(multiConfigurationProjectName)
+                .clickJobName(multiConfigurationProjectName, new MultiConfigurationProjectPage(getDriver()))
                 .clickMoveOnSideMenu()
                 .selectDestinationFolder(NAME)
                 .clickMoveButton()

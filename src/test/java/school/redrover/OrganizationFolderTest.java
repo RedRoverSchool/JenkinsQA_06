@@ -5,6 +5,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
+import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
 
@@ -32,7 +33,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testRenameOrganizationFolder() {
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .clickMultiConfigurationProjectName(ORGANIZATION_FOLDER_NAME)
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .clickRename()
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
                 .submitNewName()

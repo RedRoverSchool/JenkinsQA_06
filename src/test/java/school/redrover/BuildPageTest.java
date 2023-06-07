@@ -10,6 +10,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.ConsoleOutputPage;
 import school.redrover.model.MainPage;
+import school.redrover.model.PipelinePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -44,7 +45,7 @@ public class BuildPageTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickPipelineProject(NAME_PIPELINE)
+                .clickJobName(NAME_PIPELINE, new PipelinePage(getDriver()))
                 .clickEditDescription()
                 .enterNewDescription(BUILD_DESCRIPTION)
                 .clickSaveButton()
