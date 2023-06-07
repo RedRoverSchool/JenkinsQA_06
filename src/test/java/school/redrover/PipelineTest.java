@@ -674,7 +674,7 @@ public class PipelineTest extends BaseTest {
         String expectedNameRepo = "Sign in";
 
         TestUtils.createPipeline(this, nameProject, true);
-        new MainPage(getDriver())
+        String actualNameRepo = new MainPage(getDriver())
                 .clickPipelineProject(nameProject)
                 .clickConfigureButton()
                 .clickGitHubProjectCheckbox()
@@ -683,9 +683,9 @@ public class PipelineTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .openJobDropDownMenu(nameProject)
-                .selectFromJobDropdownMenuTheGitHub();
+                .selectFromJobDropdownMenuTheGitHub()
+                .githubSignInText();
 
-        String actualNameRepo = new GitHubPage(getDriver()).githubSignInText();
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 }

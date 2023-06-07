@@ -9,7 +9,7 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-public class MainPage extends BaseMainHeaderPage<MainPage> {
+public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -89,11 +89,11 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new ConfigureGlobalSecurityPage(getDriver());
     }
 
-    public FolderPage clickFolderName(String folderName) {
+    public <JobPage extends BasePage<?>>JobPage clickJobName(String folderName, JobPage jobPage) {
         WebElement folder = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(String.format("//a[@href='job/%s/']",folderName.replaceAll(" ","%20")))));
         new Actions(getDriver()).moveToElement(folder).click(folder).perform();
-        return new FolderPage(getDriver());
+        return jobPage;
     }
 
     public PipelinePage clickPipelineProject(String pipelineName) {
@@ -346,8 +346,8 @@ public class MainPage extends BaseMainHeaderPage<MainPage> {
         return new OrganizationFolderPage(getDriver());
    }
 
-    public MainPage selectFromJobDropdownMenuTheGitHub() {
+    public GitHubPage selectFromJobDropdownMenuTheGitHub() {
         getDriver().findElement(By.xpath("//a[contains(@href, 'github.com')]")).click();
-        return this;
+        return new GitHubPage(getDriver());
     }
 }

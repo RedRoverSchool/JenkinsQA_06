@@ -3,6 +3,7 @@ package school.redrover;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
@@ -57,7 +58,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(folderName)
+                .clickJobName(folderName, new FolderPage(getDriver()))
                 .nestedFolderIsVisibleAndClickable(ORGANIZATION_FOLDER_RENAMED);
 
         Assert.assertTrue(movedOrgFolderVisibleAndClickable);

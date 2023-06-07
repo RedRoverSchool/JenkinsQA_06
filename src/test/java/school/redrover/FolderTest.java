@@ -49,7 +49,7 @@ public class FolderTest extends BaseTest {
         String actualResult = mainPage.getFolderName().getText();
 
         String folderName = mainPage
-                .clickFolderName(NAME)
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .getFolderName();
 
         Assert.assertEquals(actualResult, NAME);
@@ -123,7 +123,7 @@ public class FolderTest extends BaseTest {
 
         TestUtils.createFolder(this, NAME, true);
         new MainPage(getDriver())
-                .clickFolderName(NAME)
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickNewView()
                 .enterViewName(viewName)
                 .selectMyViewAndClickCreate()
@@ -171,7 +171,7 @@ public class FolderTest extends BaseTest {
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(folderOne)
+                .clickJobName(folderOne, new FolderPage(getDriver()))
                 .getNestedFolder(folderTwo);
 
         Assert.assertEquals(folderName, folderTwo);
@@ -218,7 +218,7 @@ public class FolderTest extends BaseTest {
     public void testCancelDeleting() {
         TestUtils.createFolder(this, NAME, true);
         new MainPage(getDriver())
-                .clickFolderName(NAME)
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .delete()
                 .getHeader()
                 .clickLogo();
@@ -235,14 +235,14 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folderName, true);
 
         String itemName = new MainPage(getDriver())
-                .clickFolderName(folderName)
+                .clickJobName(folderName, new FolderPage(getDriver()))
                 .newItem()
                 .enterItemName(newProjectName)
                 .selectFreestyleProjectAndOk()
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(folderName)
+                .clickJobName(folderName, new FolderPage(getDriver()))
                 .getLastCreatedItemName();
 
         Assert.assertEquals(itemName, newProjectName);
@@ -252,13 +252,13 @@ public class FolderTest extends BaseTest {
     public void testCreateMultibranchPipelineInFolder() {
         TestUtils.createFolder(this, NAME, true);
         FolderPage folderPage = new MainPage(getDriver())
-                .clickFolderName(NAME)
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .newItem()
                 .enterItemName("My Multibranch Pipeline")
                 .selectMultibranchPipelineAndOk()
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
-                .clickFolderName(NAME);
+                .clickJobName(NAME, new FolderPage(getDriver()));
 
         String actualResult = folderPage.getMultibranchPipelineName().getText();
 
@@ -327,14 +327,14 @@ public class FolderTest extends BaseTest {
         String copiedFolderDescription = new FolderPage(getDriver())
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(NAME)
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickNewItem()
                 .enterItemName(secondFolderName)
                 .copyFromFolder(NAME)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(NAME)
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickInnerFolder(DISPLAY_NAME)
                 .clickInnerFolder(DISPLAY_NAME)
                 .getFolderDescription();
@@ -364,7 +364,7 @@ public class FolderTest extends BaseTest {
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(NAME)
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .getNestedFreestyleProjectName(projectName);
 
         Assert.assertEquals(movedFreestyleProjectName, projectName);
@@ -382,14 +382,14 @@ public class FolderTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(nameFolder)
+                .clickJobName(nameFolder, new FolderPage(getDriver()))
                 .clickNewItem()
                 .enterItemName(nameOrganizationFolder)
                 .selectOrganizationFolderAndOk()
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(nameFolder)
+                .clickJobName(nameFolder, new FolderPage(getDriver()))
                 .getNestedFolder(nameOrganizationFolder);
 
         Assert.assertEquals(createdOrganizationFolder, nameOrganizationFolder);
@@ -409,7 +409,7 @@ public class FolderTest extends BaseTest {
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(nameFolder)
+                .clickJobName(nameFolder, new FolderPage(getDriver()))
                 .getNestedFolder(nameMultibranchPipeline);
 
         Assert.assertEquals(projectNameDisplays, nameMultibranchPipeline);
@@ -424,13 +424,13 @@ public class FolderTest extends BaseTest {
         TestUtils.createFolder(this, folder2, true);
 
         String nestedFolder = new MainPage(getDriver())
-                .clickFolderName(folder2)
+                .clickJobName(folder2, new FolderPage(getDriver()))
                 .clickMoveOnSideMenu(folder2)
                 .selectDestinationFolder(folder1)
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(folder1)
+                .clickJobName(folder1, new FolderPage(getDriver()))
                 .getNestedFolder(folder2);
 
         Assert.assertEquals(nestedFolder, folder2);
@@ -467,7 +467,7 @@ public class FolderTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(nameFolder)
+                .clickJobName(nameFolder, new FolderPage(getDriver()))
                 .getNestedOrganizationFolder(nameFolder);
 
         Assert.assertTrue(createdOrganizationFolder.isDisplayed());
@@ -487,7 +487,7 @@ public class FolderTest extends BaseTest {
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(nameFolder)
+                .clickJobName(nameFolder, new FolderPage(getDriver()))
                 .getMultibranchPipelineName().getText();
 
         Assert.assertEquals(nameMultibranchPipelineDisplays, nameMultibranchPipeline);
@@ -512,7 +512,7 @@ public class FolderTest extends BaseTest {
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(NAME)
+                .clickJobName(NAME, new FolderPage(getDriver()))
 
                 .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
 
@@ -536,7 +536,7 @@ public class FolderTest extends BaseTest {
         FolderPage folderPage = new FolderPage(getDriver())
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(folderName);
+                .clickJobName(folderName, new FolderPage(getDriver()));
 
         Assert.assertTrue(folderPage.getNestedPipelineProject(pipelineName).getText().contains(pipelineName));
         Assert.assertEquals(projectName, "Pipeline " + pipelineName);
