@@ -93,7 +93,7 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithDisplayName")
     public void testChooseDefaultIcon() {
         MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
-                .clickMultibranchPipelineName(NAME)
+                .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
                 .clickConfigureSideMenu()
                 .clickAppearance()
                 .selectDefaultIcon()
