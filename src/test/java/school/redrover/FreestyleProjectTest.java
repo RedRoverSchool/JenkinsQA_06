@@ -333,7 +333,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(sizeOfPermalinksList == 4);
     }
 
-    @Ignore
     @Test
     public void testFreestyleProjectJob() {
         String nameProject = "Hello world";

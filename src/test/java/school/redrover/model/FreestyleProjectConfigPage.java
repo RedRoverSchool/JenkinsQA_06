@@ -14,7 +14,7 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
         new Actions(getDriver())
                 .scrollByAmount(0, 2000)
-                .click(getWait2().until(ExpectedConditions.elementToBeClickable(
+                .click(getWait5().until(ExpectedConditions.visibilityOfElementLocated(
                         By.xpath("//*[@id='yui-gen9-button']"))))
                 .perform();
 
