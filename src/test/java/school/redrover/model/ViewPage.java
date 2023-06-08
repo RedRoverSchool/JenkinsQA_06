@@ -120,4 +120,15 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
         return getWait5().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//div[@class='help-area tr']/div/div"))).getText();
     }
+
+    public ViewDeletePage clickDeleteView() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='delete']"))).click();
+        return new ViewDeletePage(getDriver());
+    }
+
+    public MainPage clickDashboard() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
+        return new MainPage(getDriver());
+
+    }
 }

@@ -107,20 +107,27 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testDeleteView() {
-        final String newProjectName = "Test Freestyle Name";
-        this.createNewFreestyleProjectFromMyViewsPage(newProjectName);
-        getDriver().findElement(By.className("addTab")).click();
-        getDriver().findElement(By.id("name")).sendKeys("NEW_VIEW_NAME_RANDOM");
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-        getDriver().findElement(By.id("ok")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-        getDriver().findElement(By.xpath("//a[@href='/view/" + "NEW_VIEW_NAME_RANDOM" + "/']")).click();
-        getDriver().findElement(By.linkText("Delete View")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        List<String> listViews = getListFromWebElements(getDriver().findElements(
-                By.xpath("//div[@class='tabBar']/div")));
+        final String freestyleProjectName = "Test Freestyle Project";
+        final String viewName = "NewView";
 
-        Assert.assertFalse(listViews.contains("RANDOM_LIST_VIEW_NAME"));
+        boolean isDeletedViewPresent = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(freestyleProjectName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .createNewView()
+                .setNewViewName(viewName)
+                .selectListView()
+                .clickCreateButton()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickOnView(viewName)
+                .clickDeleteView()
+                .clickYes()
+                .verifyViewIsPresent(viewName);
+
+        Assert.assertFalse(isDeletedViewPresent);
     }
 
     @Test
