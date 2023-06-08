@@ -141,4 +141,9 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         getDriver().findElement(By.xpath("//a[contains(@href, '/configure')]")).click();
         return new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
     }
+
+    public ChangesPage<FreestyleProjectPage> clickChangeOnLeftSideMenu() {
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'changes')]"))).click();
+        return new ChangesPage<>(this);
+    }
 }

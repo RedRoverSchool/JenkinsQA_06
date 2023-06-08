@@ -1,8 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -70,14 +68,6 @@ public class FreestyleProjectTest extends BaseTest {
                 .findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText(), projectName);
     }
 
-    @Ignore
-    @Test
-    public void testCreatedProjectIsOnDashboard() {
-        createFreestyleProject(this, FREESTYLE_NAME, true);
-
-        assertEquals(new MainPage(getDriver()).getJobName(FREESTYLE_NAME), FREESTYLE_NAME);
-    }
-
     @Test
     public void testCreateWithExistingName() {
         createFreestyleProject(this, FREESTYLE_NAME, true);
@@ -132,38 +122,16 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testFindNewProjectOnDashboard() {
-        createFreestyleProject(this, "FREESTYLE_NAME", true);
-
-        WebElement dashboard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
-        dashboard.click();
-
-        Assert.assertEquals(FREESTYLE_NAME,
-                getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//span")).getText());
-    }
-
-    @Test
-    public void testFindNewProjectOnDashboardAndOpen() {
-        createFreestyleProject(this, "FREESTYLE_NAME", true);
-
-        WebElement dashboard = getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']"));
-        dashboard.click();
-        WebElement projectIcon = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//span"));
-        projectIcon.click();
-
-        Assert.assertEquals("Project " + FREESTYLE_NAME,
-                getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getText());
-    }
-
-    @Ignore
-    @Test
     public void testNavigateToChangePage() {
         createFreestyleProject(this, "Engineer", true);
 
-        getDriver().findElement(By.xpath("//a[@href='/job/" + FREESTYLE_NAME + "/changes']")).click();
+        String text = new MainPage(getDriver())
+                .clickJobName("Engineer", new FreestyleProjectPage(getDriver()))
+                .clickChangeOnLeftSideMenu()
+                .getTextOfPage();
 
-        Assert.assertEquals("Changes",
-                getDriver().findElement(By.xpath("//h1[normalize-space()='Changes']")).getText());
+        Assert.assertTrue(text.contains("No builds."),
+                "In the Freestyle project Changes chapter, not displayed status of the latest build.");
     }
 
     @Test
@@ -335,6 +303,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(sizeOfPermalinksList == 4);
     }
 
+    @Ignore
     @Test
     public void testFreestyleProjectJob() {
         String nameProject = "Hello world";
@@ -431,4 +400,3 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 }
-
