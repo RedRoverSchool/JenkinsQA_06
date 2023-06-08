@@ -195,4 +195,8 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         getDriver().findElement(By.cssSelector("[name='_.projectUrlStr']")).sendKeys(text);
         return this;
     }
+
+    public String getErrorMessageStrategyDays() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']"))).getText();
+    }
 }
