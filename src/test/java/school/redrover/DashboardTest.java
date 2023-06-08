@@ -70,17 +70,14 @@ public class DashboardTest extends BaseTest {
 
     @Test
     public void testDashboardDropdownMenu() {
-        new Actions(getDriver())
-                .moveToElement(getDriver()
-                        .findElement(By.xpath("//a[@href='/']/button")))
-                .click()
-                .build()
-                .perform();
-        List<WebElement> menuList = getDriver().findElements(By.cssSelector("#breadcrumb-menu>div:first-child>ul>li"));
-        List<String> expectedList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
-        for (WebElement el : menuList) {
-            Assert.assertTrue(expectedList.contains(el.getAttribute("innerText")));
-        }
+        final List<String> expectedMenuList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+
+        List<String> actualMenuList = new MainPage(getDriver())
+                .getHeader()
+                .openDashboardDropdownMenu()
+                .getMenuList();
+
+        Assert.assertEquals(actualMenuList, expectedMenuList);
     }
 
     @Test
