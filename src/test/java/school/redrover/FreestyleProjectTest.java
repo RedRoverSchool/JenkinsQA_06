@@ -9,6 +9,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
+
 import java.util.UUID;
 import static org.testng.Assert.assertEquals;
 import static school.redrover.runner.TestUtils.createFreestyleProject;
@@ -404,6 +406,28 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickMyViewsSideMenuLink();
 
         Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
+    }
+
+    @Test
+    public void testAddingAProjectOnGitHubToTheFreestyleProject() throws InterruptedException {
+        String nameProject = "Engineer";
+        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        String expectedNameRepo = "Sign in";
+
+        TestUtils.createFreestyleProject(this, nameProject, true);
+        String actualNameRepo = new MainPage(getDriver())
+                .clickJobName(nameProject, new FreestyleProjectPage(getDriver()))
+                .clickConfigureButton()
+                .clickGitHubProjectCheckbox()
+                .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .openJobDropDownMenu(nameProject)
+                .selectFromJobDropdownMenuTheGitHub()
+                .githubSignInText();
+
+        Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 }
 
