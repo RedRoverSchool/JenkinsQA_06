@@ -46,8 +46,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     }
 
     public NewJobPage clickCreateAJob() {
-        WebElement createAJob = getDriver()
-                .findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']"));
+        WebElement createAJob = getDriver().findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']"));
         getWait2().until(ExpectedConditions.elementToBeClickable(createAJob));
         createAJob.click();
         return new NewJobPage(getDriver());
@@ -55,8 +54,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
     public NewJobPage clickCreateAJobArrow() {
         getWait2().until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")))
-                .click();
+                        By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']"))).click();
 
         return new NewJobPage(getDriver());
     }
@@ -84,8 +82,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     public ConfigureGlobalSecurityPage navigateToConfigureGlobalSecurityPage() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
-        getWait5()
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
         return new ConfigureGlobalSecurityPage(getDriver());
     }
 

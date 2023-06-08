@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.LoginPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.PluginsPage;
+import school.redrover.model.UserPage;
 import school.redrover.model.base.BaseComponent;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
@@ -172,5 +173,10 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
             menuList.add(el.getAttribute("innerText"));
         }
         return menuList;
+    }
+
+    public UserPage clickUserName() {
+        getDriver().findElement(By.xpath("//div[3]/a[1]/span")).click();
+        return new UserPage(getDriver());
     }
 }
