@@ -292,4 +292,13 @@ public class UsersTest extends BaseTest {
         TestUtils.createFreestyleProject(this, nameProject, true);
         Assert.assertEquals(new MainPage(getDriver()).getProjectName().getText(), nameProject);
     }
+    @Test
+    public void testVerifyCreateUserButton() {
+        String buttonName = new ManageUsersPage(getDriver())
+        .navigateToManageJenkinsPage()
+        .clickManageUsers()
+        .getButtonText();
+
+        Assert.assertEquals(buttonName, "Create User");
+    }
 }
