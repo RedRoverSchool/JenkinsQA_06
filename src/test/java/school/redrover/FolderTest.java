@@ -141,7 +141,7 @@ public class FolderTest extends BaseTest {
         new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
                 .enterNewName(newName)
-                .submitNewName()
+                .clickRenameButton()
                 .navigateToMainPageByBreadcrumbs();
 
         Assert.assertTrue(new MainPage(getDriver()).getJobWebElement(newName).isDisplayed(),
@@ -151,7 +151,7 @@ public class FolderTest extends BaseTest {
     @Test
     public void testRenameFolderNegative() {
         TestUtils.createFolder(this, NAME, false);
-        new FolderPage(getDriver()).rename().enterNewName(NAME).submitNewName();
+        new FolderPage(getDriver()).rename().enterNewName(NAME).clickRenameButton();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Error");
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div[id='main-panel'] p")).getText(), "The new name is the same as the current name.");

@@ -91,7 +91,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String NewNameProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
-                .submitNewName()
+                .clickRenameButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectName().getText();
@@ -192,7 +192,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String renamedProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
-                .submitNewName()
+                .clickRenameButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectName()
@@ -324,7 +324,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
                 .clickRename()
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
-                .submitNewName()
+                .clickRenameButton()
                 .getName();
 
         Assert.assertEquals(newName, "Project " + MULTI_CONFIGURATION_NEW_NAME);
@@ -433,7 +433,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
 
         CreateItemErrorPage createItemErrorPage = new RenamePage<>(new MultiConfigurationProjectPage(getDriver()))
-                .clickRenameButton();
+                .clickRenameButtonAndGoError();
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), String.format("‘%s’ is an unsafe character", htmlUnsafeSymbol));

@@ -366,7 +366,7 @@ public class PipelineTest extends BaseTest {
         String renamedPipeline = new MainPage(getDriver())
                 .dropDownMenuClickRename(PIPELINE_NAME.replaceAll(" ", "%20"), new PipelinePage(getDriver()))
                 .enterNewName(RENAME)
-                .submitNewName()
+                .clickRenameButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectName()

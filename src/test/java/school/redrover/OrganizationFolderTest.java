@@ -5,7 +5,6 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
-import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
 
@@ -33,16 +32,16 @@ public class OrganizationFolderTest extends BaseTest {
     public void testRenameOrganizationFolder() {
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new MultiConfigurationProjectPage(getDriver()))
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickRename()
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
-                .submitNewName()
+                .clickRenameButton()
                 .getName();
 
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = "testRenameOrganizationFolder")
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolder"})
     public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
 
         final String folderName = "TestFolder";
@@ -104,4 +103,16 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
     }
+
+    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    public void testRenameFromDropDownMenu() {
+        String actualRenamedName = new MainPage(getDriver())
+                .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .enterNewName(ORGANIZATION_FOLDER_RENAMED)
+                .clickRenameButton()
+                .getName();
+
+        Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
+    }
+
 }
