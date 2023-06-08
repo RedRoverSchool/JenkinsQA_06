@@ -28,15 +28,9 @@ public class MyViewsTest extends BaseTest {
                 .enterAnItemName(newViewNameRandom)
                 .clickFreestyleProject()
                 .clickOkButton()
-                .clickSaveButton()
-                .clickOnDashboardPage()
-                .clickOnNewJob();
+                .clickSaveButton();
 
-        List<WebElement> table = getDriver().findElements(By.xpath("//tr[@class =' job-status-nobuilt']/td"));
-        for (WebElement td : table) {
-
-            Assert.assertTrue(td.getText().contains(newViewNameRandom));
-        }
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project " + newViewNameRandom);
     }
 
     @Test
@@ -49,7 +43,7 @@ public class MyViewsTest extends BaseTest {
                 .enterDescription(newViewDescriptionRandom)
                 .clickSaveButtonDescription();
 
-        Assert.assertEquals(myViewsPage.getTextFromDescription(),newViewDescriptionRandom);
+        Assert.assertEquals(myViewsPage.getTextFromDescription(), newViewDescriptionRandom);
     }
 
     @Test
@@ -121,9 +115,9 @@ public class MyViewsTest extends BaseTest {
     }
 
     @DataProvider(name = "description")
-    public static Object [][] provideDescription() {
+    public static Object[][] provideDescription() {
         return new Object[][]
-                {{"Description first"},{"Description second"}};
+                {{"Description first"}, {"Description second"}};
     }
 
     @Test(dataProvider = "description")
