@@ -135,8 +135,8 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return getDriver().findElement(By.id("visible-am-button")).getCssValue("background-color");
     }
 
-    public WebElement getLinkVersion() {
-        return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+    public String getLinkVersion() {
+        return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']")).getText();
     }
 
     public PluginsPage openPluginsPageFromDashboardDropdownMenu () {
