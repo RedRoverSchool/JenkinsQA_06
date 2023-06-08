@@ -104,7 +104,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
     public void testRenameFromDropDownMenu() {
         String actualRenamedName = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
