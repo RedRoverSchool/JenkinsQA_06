@@ -1,14 +1,10 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.base.BaseConfigProjectsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -65,7 +61,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickEditDescription()
                 .clearDescriptionField()
                 .enterNewDescription(newDescription)
@@ -131,7 +127,7 @@ public class PipelineTest extends BaseTest {
         final String newPipelineName = PIPELINE_NAME + "new";
 
         String projectName = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickRename()
                 .clearNameField()
                 .enterNewName(newPipelineName)
@@ -153,7 +149,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickDeletePipeline()
                 .acceptAlert();
 
@@ -194,7 +190,7 @@ public class PipelineTest extends BaseTest {
         BuildPage buildPage = new MainPage(getDriver())
                 .getHeader()
                 .clickLogo()
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickConfigureButton()
                 .clickPipelineLeftMenu()
                 .clickScriptDropDownMenu()
@@ -243,7 +239,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, namePipeline, true);
 
         ConsoleOutputPage consoleOutputPage = new MainPage(getDriver())
-                .clickPipelineProject(namePipeline)
+                .clickJobName(namePipeline, new PipelinePage(getDriver()))
                 .clickBuildNow()
                 .clickTrend()
                 .clickBuildIcon();
@@ -258,7 +254,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, "Engineer", true);
 
         String text = new MainPage(getDriver())
-                .clickPipelineProject("Engineer")
+                .clickJobName("Engineer", new PipelinePage(getDriver()))
                 .clickBuildNow()
                 .clickChangeOnLeftSideMenu()
                 .getTextOfPage();
@@ -278,7 +274,7 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndOk()
                 .clickSaveButton()
                 .getHeader()
-                .clickLogo().clickPipelineProject(jobName)
+                .clickLogo().clickJobName(jobName, new PipelinePage(getDriver()))
                 .clickBuildNow()
                 .clickBuildNow()
                 .clickBuildNow()
@@ -305,7 +301,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
         String jobStatus = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickDisableProject()
                 .getHeader()
                 .clickLogo()
@@ -319,7 +315,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
         String jobStatus = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickDisableProject()
                 .clickEnableProject()
                 .getHeader()
@@ -436,7 +432,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
         String addDescription = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickEditDescription()
                 .enterNewDescription(TEXT_DESCRIPTION)
                 .clickSaveButton()
@@ -479,42 +475,30 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineConfigPage.getMaxNumbersOfBuildsToKeep(), builds);
     }
 
-    @Ignore
     @Test
-    public void testDiscardOldBuildsIsChecked0Days() {
-        final String days = "0";
-        final String errorMessage = "Not a positive integer";
+    public void testDiscardOldBuilds0Days() {
+        String  actualErrorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("test-pipeline")
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickConfigureButton()
+                .clickDiscardOldBuildsCheckbox()
+                .enterDaysToKeepBuilds("0")
+                .enterMaxOfBuildsToKeep("")
+                .getErrorMessageStrategyDays();
 
-        TestUtils.createPipeline(this, "test-pipeline", false);
-
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
-
-        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
-        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
-
-        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
-
-        WebElement daysToKeepLabel = getDriver()
-                .findElement(By.xpath("//*[@name='strategy']/div/div"));
-        daysToKeepLabel.click();
-
-        WebElement actualErrorMessage = getWait10().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
-
-        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
-        Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
+        Assert.assertEquals(actualErrorMessage, "Not a positive integer");
     }
 
     @Test
     public void testDiscardOldBuildsIsChecked0Builds() {
-        final String days = "0";
-
         TestUtils.createPipeline(this, "test-pipeline", false);
 
         boolean notPositiveInteger = new PipelinePage(getDriver())
                 .clickConfigureButton()
                 .clickDiscardOldBuildsCheckbox()
-                .enterDaysToKeepBuilds(days)
+                .enterDaysToKeepBuilds("0")
                 .clickOutsideOfInputField()
                 .isErrorMessageDisplayed();
 
@@ -674,8 +658,8 @@ public class PipelineTest extends BaseTest {
         String expectedNameRepo = "Sign in";
 
         TestUtils.createPipeline(this, nameProject, true);
-        new MainPage(getDriver())
-                .clickPipelineProject(nameProject)
+        String actualNameRepo = new MainPage(getDriver())
+                .clickJobName(nameProject, new PipelinePage(getDriver()))
                 .clickConfigureButton()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
@@ -683,9 +667,9 @@ public class PipelineTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .openJobDropDownMenu(nameProject)
-                .selectFromJobDropdownMenuTheGitHub();
+                .selectFromJobDropdownMenuTheGitHub()
+                .githubSignInText();
 
-        String actualNameRepo = new GitHubPage(getDriver()).githubSignInText();
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 }

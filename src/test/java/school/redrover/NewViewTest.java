@@ -4,8 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
-import school.redrover.model.ViewConfigPage;
 import school.redrover.model.ViewPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -188,7 +188,7 @@ public class NewViewTest extends BaseTest {
                  .selectFolderAndOk()
                  .getHeader()
                  .clickLogo()
-                 .clickFolderName("TestFolder")
+                 .clickJobName("TestFolder", new FolderPage(getDriver()))
                  .clickNewView()
                  .enterViewName("MyNewView")
                  .selectMyViewAndClickCreate()

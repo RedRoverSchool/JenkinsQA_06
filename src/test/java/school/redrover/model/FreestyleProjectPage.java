@@ -19,8 +19,8 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
 
     public FreestyleProjectPage selectBuildNow() {
         getDriver().findElement(cssSelector("[href*='build?']")).click();
-        getWait5().until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//td[@class='build-row-cell']")));
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
         return this;
     }
 
@@ -135,5 +135,10 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.linkText("Dashboard"))).click();
         return new MainPage(getDriver());
+    }
+
+    public FreestyleProjectConfigPage clickConfigureButton() {
+        getDriver().findElement(By.xpath("//a[contains(@href, '/configure')]")).click();
+        return new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
     }
 }

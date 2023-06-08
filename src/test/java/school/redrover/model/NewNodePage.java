@@ -27,4 +27,5 @@ public class NewNodePage extends BaseMainHeaderPage<NewNodePage> {
                 .elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
         return new CreateNodePage(getDriver());
     }
+
 }
