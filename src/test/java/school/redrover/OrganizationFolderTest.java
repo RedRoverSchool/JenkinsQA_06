@@ -37,7 +37,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickRename()
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
                 .submitNewName()
-                .getName();
+                .getProjectName();
 
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }

@@ -66,7 +66,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
                 .clickSaveButton()
-                .getName();
+                .getProjectName();
 
         Assert.assertEquals(projectName.substring(8, 32), MULTI_CONFIGURATION_NAME);
     }
@@ -325,7 +325,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickRename()
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
                 .submitNewName()
-                .getName();
+                .getProjectName();
 
         Assert.assertEquals(newName, "Project " + MULTI_CONFIGURATION_NEW_NAME);
     }

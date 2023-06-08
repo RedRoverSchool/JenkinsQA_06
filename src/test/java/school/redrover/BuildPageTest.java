@@ -43,9 +43,9 @@ public class BuildPageTest extends BaseTest {
                 .clickLogo()
                 .clickJobName(NAME_PIPELINE, new PipelinePage(getDriver()))
                 .clickEditDescription()
-                .enterNewDescription(BUILD_DESCRIPTION)
+                .enterDescription(BUILD_DESCRIPTION)
                 .clickSaveButton()
-                .getDescription().getText();
+                .getDescription();
 
         Assert.assertEquals(buildDescription, BUILD_DESCRIPTION);
     }
