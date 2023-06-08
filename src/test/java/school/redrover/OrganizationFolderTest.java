@@ -1,5 +1,6 @@
 package school.redrover;
 
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -8,6 +9,8 @@ import school.redrover.model.MainPage;
 import school.redrover.model.MultiConfigurationProjectPage;
 import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
+
+import java.util.Map;
 
 public class OrganizationFolderTest extends BaseTest {
 
@@ -103,5 +106,17 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTextFromDisableMessage();
 
         Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
+    }
+
+    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    public void testDeleteOrganizationFolder() {
+
+        String projectDeleted = new MainPage(getDriver())
+                .dropDownMenuClickDeleteFolders(ORGANIZATION_FOLDER_NAME)
+                .clickYes()
+                .getWelcomeWebElement()
+                .getText();
+
+        Assert.assertEquals(projectDeleted,"Welcome to Jenkins!");
     }
 }
