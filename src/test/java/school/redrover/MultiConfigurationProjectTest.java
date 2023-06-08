@@ -66,7 +66,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .enterItemName(MULTI_CONFIGURATION_NAME)
                 .selectMultiConfigurationProjectAndOk()
                 .clickSaveButton()
-                .getName();
+                .getProjectName();
 
         Assert.assertEquals(projectName.substring(8, 32), MULTI_CONFIGURATION_NAME);
     }
@@ -324,7 +324,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
                 .clickRename()
                 .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
-                .clickRenameButton()
+                .submitNewName()
                 .getName();
 
         Assert.assertEquals(newName, "Project " + MULTI_CONFIGURATION_NEW_NAME);
@@ -433,7 +433,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
 
         CreateItemErrorPage createItemErrorPage = new RenamePage<>(new MultiConfigurationProjectPage(getDriver()))
-                .clickRenameButtonAndGoError();
+                .clickRenameButton();
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), String.format("‘%s’ is an unsafe character", htmlUnsafeSymbol));

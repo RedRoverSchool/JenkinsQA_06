@@ -278,7 +278,7 @@ public class FolderTest extends BaseTest {
                 .selectMultiConfigurationProjectAndOk()
                 .clickSaveButton();
 
-        Assert.assertTrue(multiPage.getName().contains("Mine Project"));
+        Assert.assertTrue(multiPage.getProjectName().contains("Mine Project"));
     }
 
     @Test
@@ -523,21 +523,24 @@ public class FolderTest extends BaseTest {
         final String folderName = "folderName";
         final String pipelineName = "pipelineName";
 
-        TestUtils.createFolder(this, folderName, false);
+        String projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(folderName)
+                .selectFolderAndOk()
+                .clickSaveButton()
 
-        String projectName = new FolderPage(getDriver())
                 .clickNewItem()
                 .enterItemName(pipelineName)
                 .selectPipelineAndOk()
                 .clickSaveButton()
                 .getProjectName();
 
-        FolderPage folderPage = new FolderPage(getDriver())
+        FolderPage folderPage = new PipelinePage(getDriver())
                 .getHeader()
                 .clickLogo()
                 .clickJobName(folderName, new FolderPage(getDriver()));
 
-        Assert.assertTrue(folderPage.getNestedPipelineProject(pipelineName).getText().contains(pipelineName));
+        Assert.assertTrue(folderPage.getNestedPipelineProjectName(pipelineName).contains(pipelineName));
         Assert.assertEquals(projectName, "Pipeline " + pipelineName);
     }
 

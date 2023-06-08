@@ -32,7 +32,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testRenameOrganizationFolder() {
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .clickRename()
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
                 .clickRenameButton()

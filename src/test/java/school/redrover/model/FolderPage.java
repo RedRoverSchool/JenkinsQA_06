@@ -104,9 +104,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 (By.xpath("//a[contains(@href,'job/" + name + "/')]"))).getText();
     }
 
-    public WebElement getNestedPipelineProject(String pipelineName) {
+    public String getNestedPipelineProjectName(String pipelineName) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + pipelineName + "/')]")));
+                (By.xpath("//a[contains(@href,'job/" + pipelineName + "/')]"))).getText();
     }
 
     public String getLastCreatedItemName() {
