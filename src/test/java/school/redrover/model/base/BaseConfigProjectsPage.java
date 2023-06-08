@@ -12,16 +12,6 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,P
         super(projectPage);
     }
 
-
-    public Self clickPreviewSeeOrHide(Boolean seeAndHidePreview) {
-        if (seeAndHidePreview) {
-            getDriver().findElement(By.xpath("//a[contains(@previewendpoint, 'previewDescription')]")).click();
-        } else {
-            getDriver().findElement(By.xpath("//a[normalize-space(text())='Hide preview']")).click();
-        }
-        return (Self)this;
-    }
-
     public Self addExecuteShellBuildStep(String command) {
         WebElement buildStep = getWait5().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//button[contains(text(), 'Add build step')]")));
@@ -101,5 +91,15 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,P
                 .findElement(By.xpath("//input[@name='_.numToKeepStr']"));
 
         return maxNumOfBuildsToKeepNumber.getAttribute(attribute);
+    }
+
+    public Self clickGitHubProjectCheckbox() {
+        getDriver().findElement(By.xpath("//label[text()='GitHub project']")).click();
+        return (Self) this;
+    }
+
+    public Self inputTextTheInputAreaProjectUrlInGitHubProject(String text) {
+        getDriver().findElement(By.cssSelector("[name='_.projectUrlStr']")).sendKeys(text);
+        return (Self) this;
     }
 }

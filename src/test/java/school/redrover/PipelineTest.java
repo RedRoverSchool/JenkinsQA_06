@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.base.BaseConfigProjectsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -64,7 +65,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickEditDescription()
                 .clearDescriptionField()
                 .enterNewDescription(newDescription)
@@ -130,7 +131,7 @@ public class PipelineTest extends BaseTest {
         final String newPipelineName = PIPELINE_NAME + "new";
 
         String projectName = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickRename()
                 .clearNameField()
                 .enterNewName(newPipelineName)
@@ -152,7 +153,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickDeletePipeline()
                 .acceptAlert();
 
@@ -193,7 +194,7 @@ public class PipelineTest extends BaseTest {
         BuildPage buildPage = new MainPage(getDriver())
                 .getHeader()
                 .clickLogo()
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickConfigureButton()
                 .clickPipelineLeftMenu()
                 .clickScriptDropDownMenu()
@@ -242,7 +243,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, namePipeline, true);
 
         ConsoleOutputPage consoleOutputPage = new MainPage(getDriver())
-                .clickPipelineProject(namePipeline)
+                .clickJobName(namePipeline, new PipelinePage(getDriver()))
                 .clickBuildNow()
                 .clickTrend()
                 .clickBuildIcon();
@@ -257,7 +258,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, "Engineer", true);
 
         String text = new MainPage(getDriver())
-                .clickPipelineProject("Engineer")
+                .clickJobName("Engineer", new PipelinePage(getDriver()))
                 .clickBuildNow()
                 .clickChangeOnLeftSideMenu()
                 .getTextOfPage();
@@ -277,7 +278,7 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndOk()
                 .clickSaveButton()
                 .getHeader()
-                .clickLogo().clickPipelineProject(jobName)
+                .clickLogo().clickJobName(jobName, new PipelinePage(getDriver()))
                 .clickBuildNow()
                 .clickBuildNow()
                 .clickBuildNow()
@@ -304,7 +305,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
         String jobStatus = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickDisableProject()
                 .getHeader()
                 .clickLogo()
@@ -318,7 +319,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
         String jobStatus = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickDisableProject()
                 .clickEnableProject()
                 .getHeader()
@@ -435,7 +436,7 @@ public class PipelineTest extends BaseTest {
         TestUtils.createPipeline(this, PIPELINE_NAME, true);
 
         String addDescription = new MainPage(getDriver())
-                .clickPipelineProject(PIPELINE_NAME)
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickEditDescription()
                 .enterNewDescription(TEXT_DESCRIPTION)
                 .clickSaveButton()
@@ -524,33 +525,17 @@ public class PipelineTest extends BaseTest {
     public void testDisableDuringCreation() {
         final String PIPELINE_NAME = "My_pipeline";
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        boolean projectDisable = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(PIPELINE_NAME)
+                .selectPipelineAndOk()
+                .toggleDisableProject()
+                .clickSaveButton()
+                .checkWarningMessage()
+                .clickConfigureButton()
+                .isProjectDisable();
 
-        getWait2().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("name")))).sendKeys(PIPELINE_NAME);
-        getDriver().findElement(By.cssSelector(".org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.id("toggle-switch-enable-disable-project")));
-
-        WebElement enableToggles = getDriver().findElement(By.id("toggle-switch-enable-disable-project"));
-        boolean isPipelineEnabled = Boolean.parseBoolean(getDriver().findElement(By.xpath("//input[@name='enable']")).getAttribute("value"));
-        if (isPipelineEnabled) {
-            enableToggles.click();
-        }
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.tagName("h1")), "Pipeline"));
-        String disabledWarning = getDriver().findElement(By.id("enable-project")).getText();
-
-        getDriver().findElement(By.xpath("//a[contains(@href,'configure')]")).click();
-
-        getWait5().until(ExpectedConditions.textToBe(By.tagName("h2"), "General"));
-        boolean isPipelineEnabledAfterDisable = Boolean.parseBoolean(getDriver().findElement(
-                By.xpath("//input[@name='enable']")).getAttribute("value"));
-
-        Assert.assertTrue(disabledWarning.contains("This project is currently disabled"));
-        Assert.assertFalse(isPipelineEnabledAfterDisable, "Pipeline is enabled");
+        Assert.assertFalse(projectDisable, "Pipeline is enabled");
     }
 
     @Test
@@ -585,7 +570,6 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertTrue(jobList.contains(PIPELINE_NAME));
     }
-
 
     @Test
     public void testSetPipelineDisplayName() {
@@ -681,5 +665,27 @@ public class PipelineTest extends BaseTest {
                 .dropDownMenuClickDelete(jobName)
                 .dismissAlert();
         Assert.assertEquals(jobName, "P1");
+    }
+
+    @Test
+    public void testAddingAProjectOnGithubToThePipelineProject() {
+        String nameProject = "Engineer";
+        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        String expectedNameRepo = "Sign in";
+
+        TestUtils.createPipeline(this, nameProject, true);
+        String actualNameRepo = new MainPage(getDriver())
+                .clickJobName(nameProject, new PipelinePage(getDriver()))
+                .clickConfigureButton()
+                .clickGitHubProjectCheckbox()
+                .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .openJobDropDownMenu(nameProject)
+                .selectFromJobDropdownMenuTheGitHub()
+                .githubSignInText();
+
+        Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 }

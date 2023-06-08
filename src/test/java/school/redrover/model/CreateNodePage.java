@@ -26,4 +26,9 @@ public class CreateNodePage extends BaseMainHeaderPage<CreateNodePage> {
                 .elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
         return new ManageNodesPage(getDriver());
     }
+    public CreateNodePage addDescription(String description) {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//textarea[@name='nodeDescription']"))).sendKeys(description);
+        return this;
+    }
 }

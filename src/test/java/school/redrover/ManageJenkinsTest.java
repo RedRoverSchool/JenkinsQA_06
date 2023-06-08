@@ -6,12 +6,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.*;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+
 import java.util.List;
 import java.util.Objects;
 
+import static school.redrover.runner.TestUtils.getRandomStr;
+
 public class ManageJenkinsTest extends BaseTest {
+
     final String NAME_NEW_NODE = "testNameNewNode";
 
     public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
@@ -140,7 +144,6 @@ public class ManageJenkinsTest extends BaseTest {
         return new Object [][] {{"Script Console"}, {"Jenkins CLI"}, {"Prepare for Shutdown"}};
     }
 
-
     @Test(dataProvider = "ToolsAndActions")
     public void testSearchToolsAndActions(String inputText)  {
         String searchResult = new MainPage(getDriver())
@@ -148,5 +151,43 @@ public class ManageJenkinsTest extends BaseTest {
             .inputToSearchField(inputText)
             .getDropdownResultsInSearchField();
         Assert.assertEquals(searchResult, inputText);
+    }
+
+    @Test
+    public void testCreateNewAgentNode() {
+        final String nodeName = getRandomStr(10);
+
+        String manageNodesPage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .clickSaveButton()
+                .getNodeName(nodeName);
+
+        Assert.assertEquals(manageNodesPage,nodeName);
+    }
+
+    @Test
+    public void testCreateNewAgentNodeWithDescription() {
+        final String nodeName = getRandomStr(10);
+        final String description = getRandomStr(50);
+
+        String nodeDescription = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .addDescription(description)
+                .clickSaveButton()
+                .clickOnNode(nodeName)
+                .getNodeDescription();
+
+        Assert.assertEquals(nodeDescription, description);
+
     }
 }

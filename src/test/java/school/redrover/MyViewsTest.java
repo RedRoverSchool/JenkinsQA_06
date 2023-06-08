@@ -17,7 +17,6 @@ import school.redrover.runner.TestUtils;
 import java.util.List;
 
 public class MyViewsTest extends BaseTest {
-    private static final String NAME_FOLDER = "TestPipeline";
 
     @Test
     public void testCreateAJobInThePageMyViews() {
@@ -98,12 +97,10 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(myViewName.getText(), "Java");
     }
 
-
-
     @Test
     public void testCreateViewItem() {
 
-        TestUtils.createPipeline(this, NAME_FOLDER, true);
+        TestUtils.createPipeline(this, "NAME_FOLDER", true);
         WebElement myViews = getDriver().findElement(By.xpath("//a[@href='/me/my-views']"));
         myViews.click();
         WebElement plusButton = getDriver().findElement(By.xpath("//a[@title='New View']"));
@@ -128,6 +125,7 @@ public class MyViewsTest extends BaseTest {
         return new Object[][]
                 {{"Description first"},{"Description second"}};
     }
+
     @Test(dataProvider = "description")
     public void testAddDescription(String desc) {
         ViewPage viewPage = new ViewPage(getDriver());
@@ -137,5 +135,4 @@ public class MyViewsTest extends BaseTest {
 
         Assert.assertEquals(viewPage.getDescriptionText(), desc);
     }
-
 }

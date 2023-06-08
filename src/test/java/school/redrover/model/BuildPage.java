@@ -5,16 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.runner.TestUtils;
 
 public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public BuildPage(WebDriver driver) {
         super(driver);
-    }
-
-    private WebElement getStatusOfBuild() {
-        return getDriver().findElement(By.xpath("//td[normalize-space()='broken since this build']"));
     }
 
     private WebElement getBuildHistoryTitle() {
@@ -23,11 +18,6 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public WebElement getBuildHeader() {
         return getDriver().findElement(By.xpath("//h1"));
-    }
-
-    public BuildPage scrollToIconElement() {
-        TestUtils.scrollToElementByJavaScript(this, getBuildHistoryTitle());
-        return new BuildPage(getDriver());
     }
 
     public boolean isDisplayedGreenIconV() {
@@ -61,10 +51,5 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public String getBooleanParameterDescription() {
         return getDriver().findElement(By.xpath("//div[@class='jenkins-form-description']")).getText();
-    }
-
-    public ConsoleOutputPage clickProjectBuildConsole(String projectBuildName){
-        getDriver().findElement(By.xpath("//a[contains(@href, '" + projectBuildName + "')  and contains(@href, 'console') and not(contains(@href, 'default'))]")).click();
-        return new ConsoleOutputPage(getDriver());
     }
 }
