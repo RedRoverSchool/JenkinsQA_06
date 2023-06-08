@@ -186,4 +186,8 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
         return Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='enable']")))
                 .getAttribute("value"));
     }
+
+    public String getErrorMessageStrategyDays() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']"))).getText();
+    }
 }

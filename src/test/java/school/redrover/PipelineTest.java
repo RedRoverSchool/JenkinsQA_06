@@ -1,14 +1,10 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.base.BaseConfigProjectsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -479,42 +475,30 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineConfigPage.getMaxNumbersOfBuildsToKeep(), builds);
     }
 
-    @Ignore
     @Test
-    public void testDiscardOldBuildsIsChecked0Days() {
-        final String days = "0";
-        final String errorMessage = "Not a positive integer";
+    public void testDiscardOldBuilds0Days() {
+        String  actualErrorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("test-pipeline")
+                .selectPipelineAndOk()
+                .clickSaveButton()
+                .clickConfigureButton()
+                .clickDiscardOldBuildsCheckbox()
+                .enterDaysToKeepBuilds("0")
+                .enterMaxOfBuildsToKeep("")
+                .getErrorMessageStrategyDays();
 
-        TestUtils.createPipeline(this, "test-pipeline", false);
-
-        getDriver().findElement(By.xpath("//*[@href='/job/test-pipeline/configure']")).click();
-
-        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
-        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
-
-        WebElement discardOldBuildsCheckbox = getDriver().findElement(By.id("cb2"));
-
-        WebElement daysToKeepLabel = getDriver()
-                .findElement(By.xpath("//*[@name='strategy']/div/div"));
-        daysToKeepLabel.click();
-
-        WebElement actualErrorMessage = getWait10().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']")));
-
-        Assert.assertTrue(discardOldBuildsCheckbox.isSelected());
-        Assert.assertEquals(actualErrorMessage.getText(), errorMessage);
+        Assert.assertEquals(actualErrorMessage, "Not a positive integer");
     }
 
     @Test
     public void testDiscardOldBuildsIsChecked0Builds() {
-        final String days = "0";
-
         TestUtils.createPipeline(this, "test-pipeline", false);
 
         boolean notPositiveInteger = new PipelinePage(getDriver())
                 .clickConfigureButton()
                 .clickDiscardOldBuildsCheckbox()
-                .enterDaysToKeepBuilds(days)
+                .enterDaysToKeepBuilds("0")
                 .clickOutsideOfInputField()
                 .isErrorMessageDisplayed();
 
