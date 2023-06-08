@@ -379,6 +379,22 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testDeleteProjectWithoutConfirmation() {
+        final String name = "projectToDeleteWithoutConfirmation";
+        String projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(name)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDeleteProjectOnDropDown()
+                .dismissAlert()
+                .clickDashboard()
+                .getProjectNameMainPage(name);
+
+        Assert.assertEquals(projectName, name);
+    }
+
+    @Test
     public void testAddingAProjectOnGitHubToTheFreestyleProject() {
         String nameProject = "Engineer";
         String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
