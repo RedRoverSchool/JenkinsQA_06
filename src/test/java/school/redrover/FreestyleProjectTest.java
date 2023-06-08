@@ -12,6 +12,7 @@ import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 import java.util.UUID;
+
 import static org.testng.Assert.assertEquals;
 import static school.redrover.runner.TestUtils.createFreestyleProject;
 
@@ -33,7 +34,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickLogo()
                 .getProjectName();
 
-        Assert.assertEquals(projectName.getText(),FREESTYLE_NAME);
+        Assert.assertEquals(projectName.getText(), FREESTYLE_NAME);
     }
 
     @Test
@@ -106,10 +107,10 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testOKButtonIsDisabledWhenEmptyName() {
-       WebElement okButton = new MainPage(getDriver())
-               .clickCreateAJobArrow()
-               .selectFreestyleProject()
-               .getOkButton();
+        WebElement okButton = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .selectFreestyleProject()
+                .getOkButton();
 
         Assert.assertFalse(okButton.getAttribute("disabled").isEmpty());
     }
@@ -121,7 +122,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dataProvider = "wrong-character")
-    public void testCreateFreestyleProjectWithInvalidName(String wrongCharacter){
+    public void testCreateFreestyleProjectWithInvalidName(String wrongCharacter) {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(wrongCharacter);
@@ -232,7 +233,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
     }
 
-    public void testEditDescription () {
+    public void testEditDescription() {
         String editDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
@@ -250,7 +251,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testPreviewDescription () {
+    public void testPreviewDescription() {
         String previewDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
@@ -316,7 +317,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(new BuildPage(getDriver()).getBuildHeader().isDisplayed(), "build not created");
     }
 
-    @Test (dependsOnMethods = "testCreateFreestyleProject")
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
 
         MainPage mainPage = new MainPage(getDriver())
@@ -355,7 +356,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testAddDescriptionFromConfigureDropDownAndPreview() {
         final String descriptionText = "In publishing and graphic design, Lorem ipsum is a placeholder " +
-                "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
+                                       "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
 
         String previewText = new MainPage(getDriver())
                 .clickNewItem()
@@ -409,7 +410,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testAddingAProjectOnGitHubToTheFreestyleProject() throws InterruptedException {
+    public void testAddingAProjectOnGitHubToTheFreestyleProject() {
         String nameProject = "Engineer";
         String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         String expectedNameRepo = "Sign in";
