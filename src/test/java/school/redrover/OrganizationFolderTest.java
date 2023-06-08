@@ -1,10 +1,9 @@
 package school.redrover;
 
-import com.beust.ah.A;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.OrganizationFolderPage;
 import school.redrover.runner.BaseTest;
@@ -33,16 +32,16 @@ public class OrganizationFolderTest extends BaseTest {
     public void testRenameOrganizationFolder() {
 
         String actualRenamedFolderName = new MainPage(getDriver())
-                .clickMultiConfigurationProjectName(ORGANIZATION_FOLDER_NAME)
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickRename()
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
-                .submitNewName()
-                .getMultiProjectName();
+                .clickRenameButton()
+                .getProjectName();
 
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = "testRenameOrganizationFolder")
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolder"})
     public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
 
         final String folderName = "TestFolder";
@@ -59,7 +58,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickFolderName(folderName)
+                .clickJobName(folderName, new FolderPage(getDriver()))
                 .nestedFolderIsVisibleAndClickable(ORGANIZATION_FOLDER_RENAMED);
 
         Assert.assertTrue(movedOrgFolderVisibleAndClickable);
@@ -104,4 +103,16 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
     }
+
+    @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
+    public void testRenameFromDropDownMenu() {
+        String actualRenamedName = new MainPage(getDriver())
+                .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .enterNewName(ORGANIZATION_FOLDER_RENAMED)
+                .clickRenameButton()
+                .getProjectName();
+
+        Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
+    }
+
 }

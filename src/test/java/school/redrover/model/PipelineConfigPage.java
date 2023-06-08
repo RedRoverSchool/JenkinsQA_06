@@ -6,10 +6,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BaseConfigPage;
+import school.redrover.model.base.BaseConfigProjectsPage;
 import school.redrover.runner.TestUtils;
 
-public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, PipelinePage> {
-
+public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPage, PipelinePage> {
 
     public PipelineConfigPage(PipelinePage pipelinePage) {
         super(pipelinePage);
@@ -37,10 +37,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
         return this;
     }
 
-    public PipelineConfigPage clickPreview() {
-        getDriver().findElement(By.cssSelector("[previewendpoint$='previewDescription']")).click();
-        return this;
-    }
 
     public String getOptionTextInDefinitionField() {
         String text = "";
@@ -53,15 +49,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
             }
         }
         return text;
-    }
-
-    public String getPreviewText() {
-        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText();
-    }
-
-    public PipelineConfigPage clearDescriptionArea() {
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
-        return this;
     }
 
     public PipelineConfigPage clickScriptDropDownMenu() {
@@ -183,5 +170,24 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
     public PipelineConfigPage clickOutsideOfInputField() {
        getDriver().findElement(By.xpath("//*[@name='strategy']/div/div")).click();
         return this;
+    }
+
+    public PipelineConfigPage toggleDisableProject() {
+        boolean isPipelineEnabled = Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated
+                (By.xpath("//input[@name='enable']"))).getAttribute("value"));
+        if (isPipelineEnabled) {
+            getDriver().findElement(By.id("toggle-switch-enable-disable-project")).click();
+        }
+        return this;
+    }
+
+    public boolean isProjectDisable() {
+
+        return Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='enable']")))
+                .getAttribute("value"));
+    }
+
+    public String getErrorMessageStrategyDays() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']"))).getText();
     }
 }

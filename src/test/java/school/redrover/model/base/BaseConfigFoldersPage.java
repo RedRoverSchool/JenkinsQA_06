@@ -3,7 +3,9 @@ package school.redrover.model.base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
+import school.redrover.model.MultibranchPipelineConfigPage;
+import school.redrover.model.MultibranchPipelinePage;
+import school.redrover.runner.TestUtils;
 
 public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, FolderPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, FolderPage>{
 
@@ -20,16 +22,20 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
     }
 
     public Self clickHealthMetrics(){
-        getDriver().findElement(By.xpath("//button [@class='jenkins-button advanced-button advancedButton']")).click();
+        WebElement healthMetric = getDriver().findElement(By.xpath("//button [@class='jenkins-button advanced-button advancedButton']"));
+        TestUtils.scrollToElementByJavaScript(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())), healthMetric);
+        healthMetric.click();
+
         return (Self)this;
     }
 
-    public Self clickAddMetric(){
-        getDriver().findElement(By.xpath("//button [@id='yui-gen1-button']")).click();
-        return (Self)this;
-    }
-    public Self clickChildWithWorstHealth(){
-        getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel']")).click();
+    public Self addHealthMetrics(){
+       clickHealthMetrics();
+        WebElement addMetric = getDriver().findElement(By.xpath("//button [text()='Add metric']"));
+        TestUtils.scrollToElementByJavaScript(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())), addMetric);
+        addMetric.click();
+        getDriver().findElement(By.xpath("//a[text()='Child item with worst health']")).click();
+
         return (Self)this;
     }
 
@@ -44,6 +50,7 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
     }
 
     public Self setHealthMetricsType(){
+
         getDriver().findElement(By.xpath("//*[@class='jenkins-button advanced-button advancedButton']")).click();
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='yui-gen1-button']"))).click();
         getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel']")).click();

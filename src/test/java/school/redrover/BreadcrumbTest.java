@@ -10,7 +10,6 @@ import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
-
 public class BreadcrumbTest extends BaseTest {
     @Test
     public void testNavigateToManageJenkinsSection() {
@@ -43,6 +42,7 @@ public class BreadcrumbTest extends BaseTest {
                 {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/script']/span", "Script Console"},
                 {"//div[@id='submenu0']/div/ul/li/a[@href='/manage/prepareShutdown']/span", "Prepare for Shutdown"}};
     }
+
     @Test(dataProvider = "subsections")
     public void testNavigateToManageJenkinsSubsection(String locator, String subsectionName) {
         new Actions(getDriver()).moveToElement(getDriver().findElement(

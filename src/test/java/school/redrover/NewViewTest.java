@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.FolderPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.ViewPage;
 import school.redrover.runner.BaseTest;
@@ -15,11 +16,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-
 public class NewViewTest extends BaseTest {
-    private static final String NEW_VIEW_NAME_RANDOM = "NEW_VIEW_NAME_RANDOM";
-    private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + NEW_VIEW_NAME_RANDOM + "/']");
-    private static final String RANDOM_LIST_VIEW_NAME = "RANDOM_LIST_VIEW_NAME";
 
     private void createNewFreestyleProjectFromMyViewsPage(String projectName) {
         new MainPage(getDriver())
@@ -39,6 +36,23 @@ public class NewViewTest extends BaseTest {
         }
 
         return list;
+    }
+
+    private void createNewFreestyleProjectAndNewView(String name) {
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(name)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .createNewView()
+                .setNewViewName(name)
+                .selectListView()
+                .clickCreateButton()
+                .clickViewConfigOkButton()
+                .clickDashboard()
+                .clickViewJob(name)
+                .clickEditView(name);
     }
 
     @Test
@@ -93,20 +107,27 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testDeleteView() {
-        final String newProjectName = "Test Freestyle Name";
-        this.createNewFreestyleProjectFromMyViewsPage(newProjectName);
-        getDriver().findElement(By.className("addTab")).click();
-        getDriver().findElement(By.id("name")).sendKeys(NEW_VIEW_NAME_RANDOM);
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-        getDriver().findElement(By.id("ok")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-        getDriver().findElement(CREATED_LIST_VIEW).click();
-        getDriver().findElement(By.linkText("Delete View")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        List<String> listViews = getListFromWebElements(getDriver().findElements(
-                By.xpath("//div[@class='tabBar']/div")));
+        final String freestyleProjectName = "Test Freestyle Project";
+        final String viewName = "NewView";
 
-        Assert.assertFalse(listViews.contains(RANDOM_LIST_VIEW_NAME));
+        boolean isDeletedViewPresent = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(freestyleProjectName)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .createNewView()
+                .setNewViewName(viewName)
+                .selectListView()
+                .clickCreateButton()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickOnView(viewName)
+                .clickDeleteView()
+                .clickYes()
+                .verifyViewIsPresent(viewName);
+
+        Assert.assertFalse(isDeletedViewPresent);
     }
 
     @Test
@@ -174,7 +195,7 @@ public class NewViewTest extends BaseTest {
                  .selectFolderAndOk()
                  .getHeader()
                  .clickLogo()
-                 .clickFolderName("TestFolder")
+                 .clickJobName("TestFolder", new FolderPage(getDriver()))
                  .clickNewView()
                  .enterViewName("MyNewView")
                  .selectMyViewAndClickCreate()
@@ -182,34 +203,43 @@ public class NewViewTest extends BaseTest {
 
         assertEquals(newView.getText(), "MyNewView");
     }
+
     @Test
     public void testHelpForFeatureDescription() {
-        final String newProjectName = "Test Freestyle Name";
-        String randomName = "randomName";
-        String expectedResult =
+        this.createNewFreestyleProjectAndNewView("TestFreestyleName");
+
+        String helpFeature = new ViewPage(getDriver())
+                .clickHelpFeatureDescription()
+                .getTextHelpFeatureDescription();
+
+        Assert.assertEquals(
+                helpFeature,
                 "This message will be displayed on the view page . Useful " +
                         "for describing what this view does or linking to " +
                         "relevant resources. Can contain HTML tags or whatever" +
-                        " markup language is defined for the system.";
+                        " markup language is defined for the system."
+                );
+    }
 
-        this.createNewFreestyleProjectFromMyViewsPage(newProjectName);
+    @Test
+    public void testAddViewDescriptionPreview(){
+        final String projectName = "R_R";
+        String randomText = "java test program";
 
-        getDriver().findElement(By.xpath("//div/a[@href='/newView']")).click();
-        getDriver().findElement(By.xpath("//div/input[@checkurl='checkViewName']")).sendKeys(randomName);
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        this.createNewFreestyleProjectAndNewView(projectName);
 
-        getDriver().findElement(By.xpath("//div/ol/li/a[@href='/']")).click();
+        String previewText =
+                new ViewPage( getDriver())
+                        .enterDescription(randomText)
+                        .clickPreview()
+                        .getPreviewText();
 
-        getDriver().findElement(By.xpath("//div/a[@href='/view/" + randomName + "/']")).click();
-        getDriver().findElement(By.xpath("//div/span/a[@href='/view/" + randomName + "/configure']")).click();
+        String textDescription =
+                new ViewPage(getDriver())
+                        .clickViewConfigOkButton()
+                        .getDescriptionText();
 
-        getDriver().findElement(By.xpath("//div/a[@helpurl='/help/view-config/description.html']")).click();
-
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@class='help-area tr']/div/div")).getText(),
-                expectedResult
-        );
+        Assert.assertEquals(previewText,randomText);
+        Assert.assertEquals(textDescription,randomText);
     }
 }

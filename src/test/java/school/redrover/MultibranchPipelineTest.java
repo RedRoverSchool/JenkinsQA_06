@@ -39,7 +39,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .addDescription("DESCRIPTION")
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
-                .clickMultibranchPipelineName(NAME)
+                .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
                 .getDescription();
 
         Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
@@ -59,10 +59,10 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultibranchPipelineWithoutDescription")
     public void testRenameMultibranchPipeline() {
         String actualDisplayedName = new MainPage(getDriver())
-                .clickMultibranchPipelineName(NAME)
+                .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
                 .renameMultibranchPipelinePage()
                 .enterNewName(RENAMED)
-                .submitNewName()
+                .clickRenameButton()
                 .getDisplayedName();
 
         Assert.assertEquals(actualDisplayedName, RENAMED);
@@ -71,7 +71,7 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testRenameMultibranchPipeline")
     public void testDisableMultibranchPipeline() {
         String actualDisableMessage = new MainPage(getDriver())
-                .clickMultibranchPipelineName(RENAMED)
+                .clickJobName(RENAMED, new MultibranchPipelinePage(getDriver()))
                 .clickConfigureSideMenu()
                 .clickDisable()
                 .clickSaveButton()
@@ -93,12 +93,27 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithDisplayName")
     public void testChooseDefaultIcon() {
         MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
-                .clickMultibranchPipelineName(NAME)
+                .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
                 .clickConfigureSideMenu()
                 .clickAppearance()
                 .selectDefaultIcon()
                 .clickSaveButton();
+
         Assert.assertTrue(multibranchPipelinePage.defaultIconIsDisplayed(), "error was not shown default icon");
+    }
+
+    @Test (dependsOnMethods = "testCreateMultibranchPipelineWithDisplayName")
+    public void testAddHealthMetrics() {
+        boolean healthMetricIsVisible = new MainPage(getDriver())
+                .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
+                .clickConfigureSideMenu()
+                .addHealthMetrics()
+                .clickSaveButton()
+                .clickConfigureSideMenu()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(healthMetricIsVisible, "error was not shown Health Metrics");
     }
 
     @Test
@@ -111,6 +126,7 @@ public class MultibranchPipelineTest extends BaseTest {
         List<String> jobs = mainPage.getJobList();
         Assert.assertTrue(jobs.size()==4);
     }
+
     @Test(dependsOnMethods = "createMultiPipeline")
     public void testFindCreatedMultibranchPipelineOnDashboard(){
         MainPage mainPage = new MainPage(getDriver());

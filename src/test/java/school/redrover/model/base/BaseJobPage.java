@@ -10,7 +10,7 @@ import school.redrover.model.RenamePage;
 
 import java.time.Duration;
 
-public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainHeaderPage<BaseJobPage<?>> {
+public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainHeaderPage<Self> {
 
     public BaseJobPage(WebDriver driver) {
         super(driver);
@@ -20,15 +20,15 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
     }
 
-    public abstract BaseConfigPage<?, Self> clickConfigure();
+    public abstract BaseConfigPage clickConfigure();
 
-    public String getName() {
+    public String getProjectName() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel>h1"))).getText();
     }
 
-    public RenamePage<BaseJobPage<Self>> clickRename() {
+    public RenamePage<Self> clickRename() {
         getDriver().findElement(By.linkText("Rename")).click();
-        return new RenamePage<>(this);
+        return new RenamePage<>((Self)this);
     }
 
     public MainPage clickDelete() {
@@ -38,8 +38,23 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         return new MainPage(getDriver());
     }
 
+    public Self clickEditDescription() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='description-link']"))).click();
+        return (Self) this;
+    }
+
+    public Self enterDescription(String description) {
+        getDriver().findElement(By.name("description")).sendKeys(description);
+        return (Self) this;
+    }
+
+    public Self clearDescriptionField() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).clear();
+        return (Self) this;
+    }
+
     public String getDescription() {
-        return getDriver().findElement(By.xpath("//div[@id='description']")).getText();
+        return getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText();
     }
 
     public MovePage<Self> clickMoveOnSideMenu() {
@@ -48,11 +63,16 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         return new MovePage<>((Self)this);
     }
 
-    public Self changeDescription(String newDescription) {
+    public Self changeDescriptionWithoutSaving(String newDescription) {
         getDriver().findElement(By.cssSelector("#description-link")).click();
         WebElement textInput = getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector("textarea[name='description']"))));
         textInput.clear();
         textInput.sendKeys(newDescription);
+        return (Self)this;
+    }
+
+    public Self clickSaveButton() {
+        getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
         return (Self)this;
     }
 }
