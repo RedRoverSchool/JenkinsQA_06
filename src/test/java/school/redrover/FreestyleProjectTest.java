@@ -392,22 +392,21 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testAddingAProjectOnGitHubToTheFreestyleProject() {
-        String nameProject = "Engineer";
-        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
-        String expectedNameRepo = "Sign in";
+        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        final String expectedNameRepo = "Sign in";
 
-        TestUtils.createFreestyleProject(this, nameProject, true);
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, true);
+
         String actualNameRepo = new MainPage(getDriver())
-                .clickJobName(nameProject, new FreestyleProjectPage(getDriver()))
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigureButton()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(nameProject)
-                .selectFromJobDropdownMenuTheGitHub()
-                .githubSignInText();
+                .openJobDropDownMenu(FREESTYLE_NAME)
+                .selectFromJobDropdownMenuTheGitHub();
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }

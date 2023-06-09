@@ -318,9 +318,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return new OrganizationFolderPage(getDriver());
    }
 
-    public GitHubPage selectFromJobDropdownMenuTheGitHub() {
+    public String selectFromJobDropdownMenuTheGitHub() {
         getDriver().findElement(By.xpath("//a[contains(@href, 'github.com')]")).click();
-        return new GitHubPage(getDriver());
+        return getDriver().findElement(By.xpath("//a[normalize-space(text())= 'Sign in']")).getText();
     }
 
     public boolean verifyViewIsPresent(String viewName) {

@@ -509,24 +509,23 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testAddingAProjectOnGithubToTheMultiConfigurationProject() {
-        String nameProject = "Engineer";
-        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
-        String nameRepo = "Sign in";
+        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        final String expectedNameRepo = "Sign in";
 
-        TestUtils.createMultiConfigurationProject(this, nameProject, true);
-        new MainPage(getDriver())
-                .clickJobName(nameProject, new MultiConfigurationProjectPage(getDriver()))
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+
+        String actualNameRepo = new MainPage(getDriver())
+                .clickJobName(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .clickConfigure()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(nameProject)
+                .openJobDropDownMenu(MULTI_CONFIGURATION_NAME)
                 .selectFromJobDropdownMenuTheGitHub();
 
-        GitHubPage gitHubPage = new GitHubPage(getDriver());
-        Assert.assertEquals(gitHubPage.githubSignInText(), nameRepo);
+        Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 
 
