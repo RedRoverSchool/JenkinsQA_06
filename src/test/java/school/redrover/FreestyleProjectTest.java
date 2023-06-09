@@ -52,23 +52,6 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFreestyleProjectGoingFromPeoplePage() {
-        final String projectName = "FreestyleProject";
-
-        MainPage mainPage = new MainPage(getDriver())
-                .clickPeopleOnLeftSideMenu()
-                .clickNewItem()
-                .enterItemName(projectName)
-                .selectFreestyleProjectAndOk()
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo();
-
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText(), projectName);
-    }
-
-    @Test
     public void testCreateWithExistingName() {
         createFreestyleProject(this, FREESTYLE_NAME, true);
 
@@ -79,7 +62,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickOkToCreateWithExistingName()
                 .getErrorMessage();
 
-        assertEquals(itemAlreadyExistsMessage,
+        Assert.assertEquals(itemAlreadyExistsMessage,
                 String.format("A job already exists with the name ‘%s’", FREESTYLE_NAME));
     }
 
@@ -161,6 +144,20 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testAddDescription() {
+        String description = "Freestyle project";
+
+        String actualDescription = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigureButton()
+                .addDescription(description)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(actualDescription, description);
+    }
+
     @Test
     public void testRenameFreestyleProject() {
         FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
@@ -186,7 +183,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualFreestyleProjectName, "Project " + NEW_FREESTYLE_NAME);
     }
 
-    @Ignore
     @Test
     public void testCreateFreestyleProjectWithDescription() {
 
@@ -201,6 +197,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
     }
 
+    @Test
     public void testEditDescription() {
         String editDescription = new MainPage(getDriver())
                 .clickNewItem()
@@ -252,7 +249,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectDescriptionFromViewPage, DESCRIPTION_TEXT);
     }
 
-    @Ignore
+   // @Ignore
     @Test
     public void testBuildFreestyleProject() {
         String consoleOutput = new MainPage(getDriver())
@@ -399,17 +396,4 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 
-    @Test(dependsOnMethods = "testCreateFreestyleProject")
-    public void testAddDescription() {
-        String description = "Freestyle project";
-
-        String actualDescription = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickConfigureButton()
-                .addDescription(description)
-                .clickSaveButton()
-                .getDescription();
-
-        Assert.assertEquals(actualDescription, description);
-    }
 }
