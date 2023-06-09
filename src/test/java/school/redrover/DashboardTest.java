@@ -71,7 +71,7 @@ public class DashboardTest extends BaseTest {
 
         List<String> actualMenuList = new MainPage(getDriver())
                 .getHeader()
-                .openDashboardDropdownMenu()
+                .clickDashboardDropdownMenu()
                 .getMenuList();
 
         Assert.assertEquals(actualMenuList, expectedMenuList);

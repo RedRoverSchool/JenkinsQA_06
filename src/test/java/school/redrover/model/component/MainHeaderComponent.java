@@ -31,11 +31,18 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
                 .perform();
     }
 
-    private void openDashboardDropdownSubmenu(By locator) {
+    public MainHeaderComponent<Page> clickDashboardDropdownMenu() {
+        hoverOver(By.xpath("//a[text()='Dashboard']"));
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
+        return this;
+    }
+
+    private void clickDashboardDropdownMenu(By subMenu) {
+        clickDashboardDropdownMenu();
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel yuimenuitemlabel-hassubmenu']")))
                 .pause(Duration.ofSeconds(1))
-                .moveToElement(getDriver().findElement(locator))
+                .moveToElement(getDriver().findElement(subMenu))
                 .click()
                 .perform();
     }
@@ -139,21 +146,14 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']")).getText();
     }
 
-    public MainHeaderComponent<Page> openDashboardDropdownMenu() {
-        hoverOver(By.xpath("//a[text()='Dashboard']"));
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
-        return this;
-    }
-
     public NewJobPage clickNewItemDashboardDropdownMenu(){
-        openDashboardDropdownMenu();
+        clickDashboardDropdownMenu();
         getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']/div/ul/li/a")).click();
         return new NewJobPage(getDriver());
     }
 
     public PluginsPage openPluginsPageFromDashboardDropdownMenu () {
-        openDashboardDropdownMenu();
-        openDashboardDropdownSubmenu(By.xpath("//*[@id='yui-gen8']/a/span"));
+        clickDashboardDropdownMenu(By.xpath("//span[contains(text(), 'Manage Plugins')]"));
         return new PluginsPage(getDriver());
     }
 
