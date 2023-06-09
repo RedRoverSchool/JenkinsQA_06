@@ -22,7 +22,7 @@ public class MultibranchPipelineTest extends BaseTest {
         MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectMultibranchPipelineAndOk()
+                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .enterDisplayName(multibranchPipelineDisplayName)
                 .clickSaveButton();
 
@@ -35,7 +35,7 @@ public class MultibranchPipelineTest extends BaseTest {
         String MultibranchPipeline = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectMultibranchPipelineAndOk()
+                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .addDescription("DESCRIPTION")
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
@@ -50,7 +50,7 @@ public class MultibranchPipelineTest extends BaseTest {
         MultibranchPipelinePage pageWithOutDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectMultibranchPipelineAndOk()
+                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .clickSaveButton();
 
         Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).viewDescription().getText().isEmpty());

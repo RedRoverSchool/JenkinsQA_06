@@ -22,7 +22,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         final String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProjectAndOk()
+                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -37,7 +37,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProjectAndOk()
+                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
                 .clickSaveButton()
                 .getProjectName();
 
@@ -52,7 +52,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProjectAndOk();
+                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())));
 
         String error = new ErrorNodePage(getDriver())
                 .getErrorEqualName();
@@ -118,7 +118,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String configPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("My Multi configuration project")
-                .selectMultiConfigurationProjectAndOk()
+                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
                 .clickSaveButton()
                 .clickConfigure()
                 .switchCheckboxDisable()
@@ -205,7 +205,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         MultiConfigurationProjectConfigPage config = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProjectAndOk();
+                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())));
 
         boolean checkboxesVisibleClickable = true;
         for (int i = 4; i <= 8; i++) {
@@ -257,7 +257,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testCreateProjectWithWrongName(String wrongCharacter) {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectMultiConfigurationProject()
+                .selectTypeJob(3)
                 .enterItemName(wrongCharacter);
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
@@ -286,7 +286,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String messageUnderInputField = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(unsafeCharacter)
-                .selectMultiConfigurationProject()
+                .selectTypeJob(3)
                 .getItemInvalidMessage();
 
         Assert.assertEquals(messageUnderInputField, expectedResult);
@@ -308,7 +308,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testCheckExceptionOfNameToMultiConfiguration() {
         String exceptionMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectMultiConfigurationProject()
+                .selectTypeJob(3)
                 .getItemNameRequiredMessage();
 
         Assert.assertEquals(exceptionMessage, "» This field cannot be empty, please enter a valid name");
@@ -421,7 +421,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String descriptionOnProjectPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(multiConfigurationProjectName)
-                .selectMultiConfigurationProjectAndOk()
+                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
                 .clickSaveButton()
                 .changeDescriptionWithoutSaving(description)
                 .clickSaveButton()
@@ -439,7 +439,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         MultiConfigurationProjectConfigPage multiConfigurationProjectConfigPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(multiConfProjectName)
-                .selectMultiConfigurationProjectAndOk()
+                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
                 .clickSaveButton()
                 .clickConfigure()
                 .clickOldBuildCheckBox()
@@ -461,7 +461,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(" ")
-                .selectMultiConfigurationProjectAndOk();
+                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())));
 
         String errorMessage = new ErrorNodePage(getDriver()).getErrorMessage();
 

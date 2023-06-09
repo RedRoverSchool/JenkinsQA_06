@@ -7,9 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.MainPage;
-import school.redrover.model.MyViewsPage;
-import school.redrover.model.ViewPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -68,7 +66,7 @@ public class MyViewsTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickCreateAJobArrow()
                 .enterItemName("My project")
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickUserName()

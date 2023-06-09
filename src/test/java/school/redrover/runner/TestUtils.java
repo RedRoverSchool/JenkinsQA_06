@@ -31,7 +31,7 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -41,7 +41,7 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -51,7 +51,7 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectMultiConfigurationProjectAndOk()
+                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -61,7 +61,7 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectFolderAndOk()
+                .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -71,7 +71,7 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectMultibranchPipelineAndOk()
+                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -147,7 +147,7 @@ public class TestUtils {
                 .clickDropDownMenuFolder(folderName)
                 .selectNewItemInDropDownMenu(viewName, folderName)
                 .enterItemName(jobName)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
        clickBreadcrumbLinkItem(baseTest, viewName);

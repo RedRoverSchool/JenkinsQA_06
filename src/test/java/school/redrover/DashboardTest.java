@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.FreestyleProjectConfigPage;
+import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
@@ -18,7 +20,7 @@ public class DashboardTest extends BaseTest {
         return new MainPage(getDriver())
                 .clickCreateAJobArrow()
                 .enterItemName(name)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .getHeader()
                 .clickLogo();
     }
