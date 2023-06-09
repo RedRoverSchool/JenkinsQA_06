@@ -398,4 +398,18 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
+
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testAddDescription() {
+        String description = "Freestyle project";
+
+        String actualDescription = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigureButton()
+                .addDescription(description)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(actualDescription, description);
+    }
 }
