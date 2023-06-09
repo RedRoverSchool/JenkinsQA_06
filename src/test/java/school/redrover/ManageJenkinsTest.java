@@ -190,4 +190,31 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(nodeDescription, description);
 
     }
+
+    @Test
+    public void testCreateNewAgentNodeByCopyingExistingNode(){
+        final String nodeName = getRandomStr(10);
+        final String newNodeName = getRandomStr(10);
+        final String description = getRandomStr(50);
+
+        String newNodeDescription = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .addDescription(description)
+                .clickSaveButton()
+                .clickNewNodeButton()
+                .inputNodeNameField(newNodeName)
+                .clickCopyExistingNode()
+                .inputExistingNode(nodeName)
+                .clickCreateButton()
+                .clickSaveButton()
+                .clickOnNode(newNodeName)
+                .getNodeDescription();
+
+        Assert.assertEquals(newNodeDescription, description);
+    }
 }

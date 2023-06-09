@@ -126,9 +126,8 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
         return new ViewDeletePage(getDriver());
     }
 
-    public MainPage clickDashboard() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
-        return new MainPage(getDriver());
-
+    public NewViewPage clickPlusSign() {
+        getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]/a")).click();
+        return new NewViewPage(getDriver());
     }
 }

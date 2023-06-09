@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -121,7 +120,8 @@ public class NewViewTest extends BaseTest {
                 .selectListView()
                 .clickCreateButton()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickOnView(viewName)
                 .clickDeleteView()
                 .clickYes()

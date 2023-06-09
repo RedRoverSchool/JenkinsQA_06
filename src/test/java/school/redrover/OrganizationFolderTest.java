@@ -11,7 +11,7 @@ import school.redrover.runner.BaseTest;
 public class OrganizationFolderTest extends BaseTest {
 
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
-    private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderRenamed";
+    private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -24,6 +24,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .getProjectNameMainPage(ORGANIZATION_FOLDER_NAME);
+
 
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
@@ -115,4 +116,14 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }
 
+    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
+    public void testRenameNegative() {
+        String errorMessage = new MainPage(getDriver())
+                .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
+                .enterNewName(ORGANIZATION_FOLDER_RENAMED)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
+    }
 }

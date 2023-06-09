@@ -10,8 +10,6 @@ import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 import java.util.UUID;
-
-import static org.testng.Assert.assertEquals;
 import static school.redrover.runner.TestUtils.createFreestyleProject;
 
 public class FreestyleProjectTest extends BaseTest {
@@ -52,23 +50,6 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFreestyleProjectGoingFromPeoplePage() {
-        final String projectName = "FreestyleProject";
-
-        MainPage mainPage = new MainPage(getDriver())
-                .clickPeopleOnLeftSideMenu()
-                .clickNewItem()
-                .enterItemName(projectName)
-                .selectFreestyleProjectAndOk()
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo();
-
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//a[@href='job/FreestyleProject/']")).getText(), projectName);
-    }
-
-    @Test
     public void testCreateWithExistingName() {
         createFreestyleProject(this, FREESTYLE_NAME, true);
 
@@ -79,7 +60,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickOkToCreateWithExistingName()
                 .getErrorMessage();
 
-        assertEquals(itemAlreadyExistsMessage,
+        Assert.assertEquals(itemAlreadyExistsMessage,
                 String.format("A job already exists with the name ‘%s’", FREESTYLE_NAME));
     }
 
@@ -161,6 +142,21 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
+    @Ignore
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testAddDescription() {
+        String description = "Freestyle project";
+
+        String actualDescription = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigureButton()
+                .addDescription(description)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(actualDescription, description);
+    }
+
     @Test
     public void testRenameFreestyleProject() {
         FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
@@ -186,7 +182,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualFreestyleProjectName, "Project " + NEW_FREESTYLE_NAME);
     }
 
-    @Ignore
     @Test
     public void testCreateFreestyleProjectWithDescription() {
 
@@ -201,6 +196,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
     }
 
+    @Test
     public void testEditDescription() {
         String editDescription = new MainPage(getDriver())
                 .clickNewItem()
@@ -234,10 +230,12 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testVisibleProjectNameAndDescriptionFromViewPage() {
-        createFreestyleProject(this, FREESTYLE_NAME, false);
-
-        FreestyleProjectPage projectPage = new FreestyleProjectPage(getDriver())
+    public void testVisibleProjectNameAndDescriptionOnViewPage() {
+        FreestyleProjectPage projectPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
                 .clickSaveDescription()
@@ -252,7 +250,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectDescriptionFromViewPage, DESCRIPTION_TEXT);
     }
 
-    @Ignore
     @Test
     public void testBuildFreestyleProject() {
         String consoleOutput = new MainPage(getDriver())
@@ -303,7 +300,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(sizeOfPermalinksList == 4);
     }
 
-    @Ignore
     @Test
     public void testFreestyleProjectJob() {
         String nameProject = "Hello world";
@@ -379,24 +375,40 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testAddingAProjectOnGitHubToTheFreestyleProject() {
-        String nameProject = "Engineer";
-        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
-        String expectedNameRepo = "Sign in";
+    public void testDeleteProjectWithoutConfirmation() {
+        final String name = "projectToDeleteWithoutConfirmation";
+        String projectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(name)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
+                .clickDeleteProjectOnDropDown()
+                .dismissAlert()
+                .clickDashboard()
+                .getProjectNameMainPage(name);
 
-        TestUtils.createFreestyleProject(this, nameProject, true);
+        Assert.assertEquals(projectName, name);
+    }
+
+    @Test
+    public void testAddingAProjectOnGitHubToTheFreestyleProject() {
+        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        final String expectedNameRepo = "Sign in";
+
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, true);
+
         String actualNameRepo = new MainPage(getDriver())
-                .clickJobName(nameProject, new FreestyleProjectPage(getDriver()))
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigureButton()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(nameProject)
-                .selectFromJobDropdownMenuTheGitHub()
-                .githubSignInText();
+                .openJobDropDownMenu(FREESTYLE_NAME)
+                .selectFromJobDropdownMenuTheGitHub();
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
+
 }

@@ -46,8 +46,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     }
 
     public NewJobPage clickCreateAJob() {
-        WebElement createAJob = getDriver()
-                .findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']"));
+        WebElement createAJob = getDriver().findElement(By.xpath("//div[@id='main-panel']//span[text() = 'Create a job']"));
         getWait2().until(ExpectedConditions.elementToBeClickable(createAJob));
         createAJob.click();
         return new NewJobPage(getDriver());
@@ -55,8 +54,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
     public NewJobPage clickCreateAJobArrow() {
         getWait2().until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']")))
-                .click();
+                        By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']"))).click();
 
         return new NewJobPage(getDriver());
     }
@@ -84,8 +82,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     public ConfigureGlobalSecurityPage navigateToConfigureGlobalSecurityPage() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
-        getWait5()
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
         return new ConfigureGlobalSecurityPage(getDriver());
     }
 
@@ -244,18 +241,13 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
                 .getText();
     }
 
-    public WebElement getJobWebElement(String jobName) {
+    public boolean jobIsDisplayed(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//a[@href='job/" + jobName + "/']"))));
+                .findElement(By.xpath("//a[@href='job/" + jobName + "/']")))).isDisplayed();
     }
 
-    public String getJobName(String jobName) {
-        return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
-    }
-
-    public WebElement getFolderName() {
-        return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector(".jenkins-table__link"))));
+    public boolean iconFolderIsDisplayed(){
+        return getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed();
     }
 
     public WebElement getNoJobsMainPageHeader() {
@@ -266,8 +258,12 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return getDriver().getTitle();
     }
 
-    public WebElement getWelcomeWebElement() {
-        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
+    public boolean WelcomeIsDisplayed() {
+        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']")).isDisplayed();
+    }
+
+    public String  getWelcomeText() {
+        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']")).getText();
     }
 
     public ManageNodesPage clickBuildExecutorStatus() {
@@ -321,9 +317,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return new OrganizationFolderPage(getDriver());
    }
 
-    public GitHubPage selectFromJobDropdownMenuTheGitHub() {
+    public String selectFromJobDropdownMenuTheGitHub() {
         getDriver().findElement(By.xpath("//a[contains(@href, 'github.com')]")).click();
-        return new GitHubPage(getDriver());
+        return getDriver().findElement(By.xpath("//a[normalize-space(text())= 'Sign in']")).getText();
     }
 
     public boolean verifyViewIsPresent(String viewName) {

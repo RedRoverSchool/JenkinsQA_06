@@ -271,7 +271,8 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndOk()
                 .clickSaveButton()
                 .getHeader()
-                .clickLogo().clickJobName(jobName, new PipelinePage(getDriver()))
+                .clickLogo()
+                .clickJobName(jobName, new PipelinePage(getDriver()))
                 .clickBuildNow()
                 .clickBuildNow()
                 .clickBuildNow()
@@ -650,22 +651,21 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testAddingAProjectOnGithubToThePipelineProject() {
-        String nameProject = "Engineer";
-        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
-        String expectedNameRepo = "Sign in";
+        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        final String expectedNameRepo = "Sign in";
 
-        TestUtils.createPipeline(this, nameProject, true);
+        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+
         String actualNameRepo = new MainPage(getDriver())
-                .clickJobName(nameProject, new PipelinePage(getDriver()))
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickConfigure()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(nameProject)
-                .selectFromJobDropdownMenuTheGitHub()
-                .githubSignInText();
+                .openJobDropDownMenu(PIPELINE_NAME)
+                .selectFromJobDropdownMenuTheGitHub();
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
