@@ -373,4 +373,20 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]");
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[1]/span")).getText(), USER_FULL_NAME);
     }
+
+    @Test
+    public void testCreateUserCheckInPeople() {
+
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickPeopleOnLeftSideMenu();
+
+        Assert.assertEquals(getDriver().getTitle(), "People - [Jenkins]");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id = 'people']/tbody")).getText().contains(USER_NAME), "true");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id = 'people']/tbody")).getText().contains(USER_FULL_NAME), "true");
+    }
 }
