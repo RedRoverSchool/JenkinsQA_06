@@ -356,7 +356,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void createUserFromManageUsers() {
+    public void testCreateUserFromManageUsers() {
 
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
