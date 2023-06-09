@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.component.MainHeaderComponent;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -352,5 +353,24 @@ public class UsersTest extends BaseTest {
                 .getTextAlertIncorrectUsernameOrPassword();
 
         Assert.assertEquals(actualTextAlertIncorrectUsernameAndPassword, EXPECTED_TEXT_ALERT_INCORRECT_LOGIN_AND_PASSWORD);
+    }
+
+    @Test
+    public void createUserFromManageUsers() {
+
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton();
+
+        new LoginPage(getDriver())
+                .enterUsername(USER_NAME)
+                .enterPassword(PASSWORD)
+                .enterSignIn(new LoginPage(getDriver()));
+
+        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[1]/span")).getText(), USER_FULL_NAME);
     }
 }
