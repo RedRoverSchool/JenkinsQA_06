@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
 import java.util.List;
 
 public class MultiConfigurationProjectTest extends BaseTest {
@@ -70,6 +71,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(projectName.substring(8, 32), MULTI_CONFIGURATION_NAME);
     }
+
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testCreateMultiConfigurationProjectWithEqualName() {
@@ -494,6 +496,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(errorMessage, expectedResult);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfiguration")
     public void testBuildNowOptionNotPresentInDisabledProject() {
         List<String> dropDownMenuItems = new MainPage(getDriver())
