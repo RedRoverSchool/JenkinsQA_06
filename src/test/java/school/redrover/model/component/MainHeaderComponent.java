@@ -5,10 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.LoginPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.PluginsPage;
-import school.redrover.model.UserPage;
+import school.redrover.model.*;
 import school.redrover.model.base.BaseComponent;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
@@ -146,6 +143,12 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         hoverOver(By.xpath("//a[text()='Dashboard']"));
         getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
         return this;
+    }
+
+    public NewJobPage clickNewItemDashboardDropdownMenu(){
+        openDashboardDropdownMenu();
+        getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']/div/ul/li/a")).click();
+        return new NewJobPage(getDriver());
     }
 
     public PluginsPage openPluginsPageFromDashboardDropdownMenu () {

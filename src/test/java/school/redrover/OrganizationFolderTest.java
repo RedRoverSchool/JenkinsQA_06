@@ -25,6 +25,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickLogo()
                 .getProjectNameMainPage(ORGANIZATION_FOLDER_NAME);
 
+
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
@@ -115,7 +116,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = {"testCreateOrganizationFolderWithDescription", "testRenameFromDropDownMenu"} )
+    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
     public void testRenameNegative() {
         String errorMessage = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))

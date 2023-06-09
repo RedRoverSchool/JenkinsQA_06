@@ -84,8 +84,7 @@ public class MultibranchPipelineTest extends BaseTest {
         String WelcomeJenkinsPage = new MainPage(getDriver())
                 .dropDownMenuClickDeleteFolders(RENAMED)
                 .clickYes()
-                .getWelcomeWebElement()
-                .getText();
+                .getWelcomeText();
 
         Assert.assertEquals(WelcomeJenkinsPage, "Welcome to Jenkins!");
     }

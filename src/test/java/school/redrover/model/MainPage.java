@@ -241,18 +241,13 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
                 .getText();
     }
 
-    public WebElement getJobWebElement(String jobName) {
+    public boolean jobIsDisplayed(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//a[@href='job/" + jobName + "/']"))));
+                .findElement(By.xpath("//a[@href='job/" + jobName + "/']")))).isDisplayed();
     }
 
-    public String getJobName(String jobName) {
-        return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", jobName))).getText();
-    }
-
-    public WebElement getFolderName() {
-        return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector(".jenkins-table__link"))));
+    public boolean iconFolderIsDisplayed(){
+        return getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed();
     }
 
     public WebElement getNoJobsMainPageHeader() {
@@ -263,8 +258,12 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return getDriver().getTitle();
     }
 
-    public WebElement getWelcomeWebElement() {
-        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']"));
+    public boolean WelcomeIsDisplayed() {
+        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']")).isDisplayed();
+    }
+
+    public String  getWelcomeText() {
+        return getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']")).getText();
     }
 
     public ManageNodesPage clickBuildExecutorStatus() {

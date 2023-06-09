@@ -48,6 +48,11 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
+    public CreateItemErrorPage selectFolderAndOkAndGoError() {
+        selectFolderAndOk();
+        return new CreateItemErrorPage(getDriver());
+    }
+
     public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {
         getDriver().findElement(By.xpath("//li[contains(@class, 'WorkflowMultiBranchProject')]")).click();
         getOkButton().click();
