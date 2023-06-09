@@ -89,7 +89,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return new ConfigureGlobalSecurityPage(getDriver());
     }
 
-    public <JobPage extends BasePage<?>>JobPage clickJobName(String folderName, JobPage jobPage) {
+    public <JobPage extends BasePage<?, ?>>JobPage clickJobName(String folderName, JobPage jobPage) {
         WebElement job = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(String.format("//a[@href='job/%s/']",folderName.replaceAll(" ","%20")))));
         new Actions(getDriver()).moveToElement(job).click(job).perform();
@@ -112,13 +112,13 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return this;
     }
 
-    public <JobTypePage extends BasePage<?>> RenamePage<JobTypePage> dropDownMenuClickRename(String jobName, JobTypePage jobTypePage) {
+    public <JobTypePage extends BasePage<?, ?>> RenamePage<JobTypePage> dropDownMenuClickRename(String jobName, JobTypePage jobTypePage) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Rename')]"))).click();
         return new RenamePage<>(jobTypePage);
     }
 
-    public <JobTypePage extends BasePage<?>> MovePage<JobTypePage> dropDownMenuClickMove(String jobName, JobTypePage jobTypePage) {
+    public <JobTypePage extends BasePage<?, ?>> MovePage<JobTypePage> dropDownMenuClickMove(String jobName, JobTypePage jobTypePage) {
         openJobDropDownMenu(jobName);
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Move')]"))).click();
         return new MovePage<>(jobTypePage);

@@ -16,7 +16,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent<Page> {
+public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseComponent<Page> {
 
     public MainHeaderComponent(Page page) {
         super(page);
