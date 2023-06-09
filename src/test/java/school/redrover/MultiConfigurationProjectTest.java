@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
 import java.util.List;
 
 public class MultiConfigurationProjectTest extends BaseTest {
@@ -70,6 +71,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(projectName.substring(8, 32), MULTI_CONFIGURATION_NAME);
     }
+
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testCreateMultiConfigurationProjectWithEqualName() {
@@ -507,26 +509,23 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertFalse(dropDownMenuItems.contains("Build Now"), "'Build Now' option is present in drop-down menu");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
     public void testAddingAProjectOnGithubToTheMultiConfigurationProject() {
-        String nameProject = "Engineer";
-        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
-        String nameRepo = "Sign in";
+        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        final String expectedNameRepo = "Sign in";
 
-        TestUtils.createMultiConfigurationProject(this, nameProject, true);
-        new MainPage(getDriver())
-                .clickJobName(nameProject, new MultiConfigurationProjectPage(getDriver()))
+        String actualNameRepo = new MainPage(getDriver())
+                .clickJobName(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .clickConfigure()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(nameProject)
-                .selectFromJobDropdownMenuTheGitHub();
+                .openJobDropDownMenu(MULTI_CONFIGURATION_NAME)
+                .selectFromJobDropdownMenuTheGitHubTakeSignInText();
 
-        GitHubPage gitHubPage = new GitHubPage(getDriver());
-        Assert.assertEquals(gitHubPage.githubSignInText(), nameRepo);
+        Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 
 

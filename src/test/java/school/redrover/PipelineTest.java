@@ -648,24 +648,21 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(jobName, "P1");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreatePipeline")
     public void testAddingAProjectOnGithubToThePipelineProject() {
-        String nameProject = "Engineer";
-        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
-        String expectedNameRepo = "Sign in";
+        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        final String expectedNameRepo = "Sign in";
 
-        TestUtils.createPipeline(this, nameProject, true);
         String actualNameRepo = new MainPage(getDriver())
-                .clickJobName(nameProject, new PipelinePage(getDriver()))
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickConfigure()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(nameProject)
-                .selectFromJobDropdownMenuTheGitHub()
-                .githubSignInText();
+                .openJobDropDownMenu(PIPELINE_NAME)
+                .selectFromJobDropdownMenuTheGitHubTakeSignInText();
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }

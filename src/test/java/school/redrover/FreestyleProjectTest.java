@@ -7,7 +7,6 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
-import school.redrover.runner.TestUtils;
 
 import java.util.UUID;
 
@@ -377,24 +376,21 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testAddingAProjectOnGitHubToTheFreestyleProject() {
-        String nameProject = "Engineer";
-        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
-        String expectedNameRepo = "Sign in";
+        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        final String expectedNameRepo = "Sign in";
 
-        TestUtils.createFreestyleProject(this, nameProject, true);
         String actualNameRepo = new MainPage(getDriver())
-                .clickJobName(nameProject, new FreestyleProjectPage(getDriver()))
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigureButton()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(nameProject)
-                .selectFromJobDropdownMenuTheGitHub()
-                .githubSignInText();
+                .openJobDropDownMenu(FREESTYLE_NAME)
+                .selectFromJobDropdownMenuTheGitHubTakeSignInText();
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
