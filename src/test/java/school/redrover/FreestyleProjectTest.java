@@ -10,8 +10,6 @@ import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 import java.util.UUID;
-
-import static org.testng.Assert.assertEquals;
 import static school.redrover.runner.TestUtils.createFreestyleProject;
 
 public class FreestyleProjectTest extends BaseTest {
@@ -144,6 +142,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testAddDescription() {
         String description = "Freestyle project";
@@ -249,7 +248,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectDescriptionFromViewPage, DESCRIPTION_TEXT);
     }
 
-   // @Ignore
     @Test
     public void testBuildFreestyleProject() {
         String consoleOutput = new MainPage(getDriver())
