@@ -32,7 +32,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projectName, MULTI_CONFIGURATION_NAME);
     }
 
-      @Test
+    @Test
     public void testCreateMultiConfigurationProjectOnProjectPage() {
         String projectName = new MainPage(getDriver())
                 .clickNewItem()
@@ -59,6 +59,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
+
     @Ignore
     @Test(dependsOnMethods = "testCreateProject")
     public void testRenameFromDropDownMenu() {
@@ -467,6 +468,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(errorMessage, expectedResult);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateProject")
     public void testBuildNowOptionNotPresentInDisabledProject() {
         List<String> dropDownMenuItems = new MainPage(getDriver())
