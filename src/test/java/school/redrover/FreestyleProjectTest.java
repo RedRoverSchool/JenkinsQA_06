@@ -233,10 +233,13 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(previewDescription, "DESCRIPTION_TEXT");
     }
 
-    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    @Test
     public void testVisibleProjectNameAndDescriptionOnViewPage() {
         FreestyleProjectPage projectPage = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndOk()
+                .clickSaveButton()
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
                 .clickSaveDescription()
