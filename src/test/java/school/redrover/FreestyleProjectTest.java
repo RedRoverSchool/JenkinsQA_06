@@ -376,20 +376,21 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
     }
 
-    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    @Test(dependsOnMethods = "testCreateFreestyleProjectGoingFromPeoplePage")
     public void testAddingAProjectOnGitHubToTheFreestyleProject() {
         final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
+        final String projectName = "FreestyleProject";
 
         String actualNameRepo = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickJobName(projectName, new FreestyleProjectPage(getDriver()))
                 .clickConfigureButton()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(FREESTYLE_NAME)
+                .openJobDropDownMenu(projectName)
                 .selectFromJobDropdownMenuTheGitHubTakeSignInText();
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
