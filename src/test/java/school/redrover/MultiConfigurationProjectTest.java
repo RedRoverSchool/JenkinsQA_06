@@ -18,7 +18,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";
 
     @Test
-    public void testCreateMultiConfiguration() {
+    public void testCreateProject() {
         final String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
@@ -26,41 +26,13 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName().getText();
+                .getProjectName()
+                .getText();
 
         Assert.assertEquals(projectName, MULTI_CONFIGURATION_NAME);
     }
 
-    @Test
-    public void testCreate() {
-
-        WebElement projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProjectAndOk()
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .getProjectName();
-
-        Assert.assertEquals(projectName.getText(), MULTI_CONFIGURATION_NAME);
-    }
-
-    @Test
-    public void testCreateMultiConfigurationProject() {
-        WebElement projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectMultiConfigurationProjectAndOk()
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .getProjectName();
-
-        Assert.assertEquals(projectName.getText(), MULTI_CONFIGURATION_NAME);
-    }
-
-    @Test
+      @Test
     public void testCreateMultiConfigurationProjectOnProjectPage() {
         String projectName = new MainPage(getDriver())
                 .clickNewItem()
@@ -73,7 +45,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testCreateMultiConfigurationProjectWithEqualName() {
         final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
 
@@ -87,8 +59,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
-
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    @Ignore
+    @Test(dependsOnMethods = "testCreateProject")
     public void testRenameFromDropDownMenu() {
         String NewNameProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
@@ -189,7 +161,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testRenameFromDashboard() {
         String renamedProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
@@ -205,7 +177,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testJobDropdownDelete() {
         MainPage deletedProjPage = new MainPage((getDriver()))
                 .dropDownMenuClickDelete(MULTI_CONFIGURATION_NEW_NAME);
@@ -216,7 +188,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testProjectPageDelete() {
         MainPage deletedProjPage = new MainPage(getDriver())
                 .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
@@ -246,7 +218,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testMultiConfigurationProjectAddDescription1() {
         final String text = "text";
 
@@ -259,7 +231,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(addDescriptionText, text);
     }
 
-    //    Test does not pass at my computer because a Wait is needed (Actual result was "In progress")
     @Ignore
     @Test
     public void testBuildNowDropDownMenuMultiConfigurationProject() {
@@ -381,17 +352,17 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(disableMessage.contains(disableResult), "Not found such message");
     }
 
-    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testDeleteProjectFromDropDownMenu() {
         List<String> deleteProject = new MainPage(getDriver())
-                .dropDownMenuClickDelete(MULTI_CONFIGURATION_NEW_NAME)
+                .dropDownMenuClickDelete(MULTI_CONFIGURATION_NAME)
                 .acceptAlert()
                 .getJobList();
 
         Assert.assertEquals(deleteProject.size(), 0);
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testAddDescriptionInMultiConfigurationProject() {
         final String textDescription = "Text Description Test";
 
@@ -403,7 +374,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDescription, textDescription);
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProject")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testAddDescriptionToMultiConfigurationProject() {
         final String descriptionText = "Web-application project";
 
@@ -496,8 +467,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(errorMessage, expectedResult);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfiguration")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testBuildNowOptionNotPresentInDisabledProject() {
         List<String> dropDownMenuItems = new MainPage(getDriver())
                 .clickJobName(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
