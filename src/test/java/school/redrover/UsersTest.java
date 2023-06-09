@@ -389,4 +389,21 @@ public class UsersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id = 'people']/tbody")).getText().contains(USER_NAME), "true");
         Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id = 'people']/tbody")).getText().contains(USER_FULL_NAME), "true");
     }
+
+    @Test
+    public void testCreateUserCheckInManageUsers() {
+
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .navigateToManageJenkinsPage()
+                .clickManageUsers();
+
+        Assert.assertEquals(getDriver().getTitle(), "Users [Jenkins]");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//a")).getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//td[3]")).getText(), USER_FULL_NAME);
+    }
 }
