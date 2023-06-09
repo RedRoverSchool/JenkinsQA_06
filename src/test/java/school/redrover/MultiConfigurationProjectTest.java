@@ -350,10 +350,10 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(disableMessage.contains(disableResult), "Not found such message");
     }
 
-    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testDeleteProjectFromDropDownMenu() {
         List<String> deleteProject = new MainPage(getDriver())
-                .dropDownMenuClickDelete(MULTI_CONFIGURATION_NEW_NAME)
+                .dropDownMenuClickDelete(MULTI_CONFIGURATION_NAME)
                 .acceptAlert()
                 .getJobList();
 
