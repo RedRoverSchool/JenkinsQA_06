@@ -139,7 +139,7 @@ public class PipelineTest extends BaseTest {
 
     @Test()
     public void testDeletePipelineLeftMenu() {
-        new MainPage(getDriver())
+        boolean projectIsPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
@@ -148,9 +148,10 @@ public class PipelineTest extends BaseTest {
                 .clickLogo()
                 .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickDeletePipeline()
-                .acceptAlert();
+                .acceptAlert()
+                .verifyJobIsPresent(PIPELINE_NAME);
 
-        Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
+        Assert.assertFalse(projectIsPresent);
     }
 
     @Test
