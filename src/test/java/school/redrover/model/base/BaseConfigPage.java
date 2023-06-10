@@ -41,8 +41,4 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
         getDriver().findElement(By.xpath("//textarea[contains(@name, 'description')]")).clear();
         return (Self) this;
     }
-
-    public WebElement viewDescription(){
-        return getDriver().findElement(By.xpath("//*[@id='description']/div[1]"));
-    }
 }
