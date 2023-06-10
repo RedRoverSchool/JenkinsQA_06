@@ -1,6 +1,5 @@
 package school.redrover;
 
-import com.fasterxml.jackson.databind.node.TextNode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -8,11 +7,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.component.MainHeaderComponent;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -197,29 +194,30 @@ public class UsersTest extends BaseTest {
 
     @Test
     public void testSortArrowModeChangesAfterClickingSortHeaderButton() {
-        getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
 
-        WebElement userIdBtnNoSortArrowBeforeClick = getDriver().findElement(
-                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
-        Assert.assertTrue(userIdBtnNoSortArrowBeforeClick.getText().isEmpty());
+        boolean userIDButtonWithoutArrow = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
+                .isUserIDButtonWithoutArrow();
 
-        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]")).click();
+        Assert.assertTrue(userIDButtonWithoutArrow, "UserID button has sort arrow");
 
-        String userIdBtnSortArrowUpAfterFirstClick = getDriver().findElement(
-                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
-        Assert.assertEquals(userIdBtnSortArrowUpAfterFirstClick, "  ↑");
+        boolean userIDButtonWithUpArrow = new PeoplePage(getDriver())
+                .clickUserIDButton()
+                .isUserIDButtonWithUpArrow();
 
-        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]")).click();
+        Assert.assertTrue(userIDButtonWithUpArrow, "UserID button has not up arrow");
 
-        String userIdBtnSortArrowDownAfterSecondClick = getDriver().findElement(
-                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
-        Assert.assertEquals(userIdBtnSortArrowDownAfterSecondClick, "  ↓");
+        boolean userIDButtonWithDownArrow = new PeoplePage(getDriver())
+                .clickUserIDButton()
+                .isUserIDButtonWithDownArrow();
 
-        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'Name')]")).click();
+        Assert.assertTrue(userIDButtonWithDownArrow, "UserID button has not down arrow");
 
-        WebElement userIdBtnNoArrowAfterAnotherButtonClick = getDriver().findElement(
-                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
-        Assert.assertTrue(userIdBtnNoArrowAfterAnotherButtonClick.getText().isEmpty());
+        boolean userIDButtonNotContainsArrow = new PeoplePage(getDriver())
+                .clickNameButton()
+                .isUserIDButtonWithoutArrow();
+
+        Assert.assertTrue(userIDButtonNotContainsArrow, "UserID button has sort arrow");
     }
 
     @Test

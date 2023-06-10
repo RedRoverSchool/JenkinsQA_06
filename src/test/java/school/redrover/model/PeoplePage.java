@@ -2,7 +2,9 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 public class PeoplePage extends BaseMainHeaderPage<PeoplePage> {
@@ -27,5 +29,37 @@ public class PeoplePage extends BaseMainHeaderPage<PeoplePage> {
     public NewJobPage clickNewItem() {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
+    }
+
+    public PeoplePage clickUserIDButton() {
+        WebElement userIDButton = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]"));
+            userIDButton.click();
+            return new PeoplePage(getDriver());
+    }
+
+    public boolean isUserIDButtonWithoutArrow() {
+        WebElement userIDButtonArrow = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
+        return userIDButtonArrow.getText().isEmpty();
+    }
+
+    public boolean isUserIDButtonWithUpArrow() {
+        WebElement userIDButtonArrow = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
+        return userIDButtonArrow.getText().trim().contains("↑");
+    }
+
+    public boolean isUserIDButtonWithDownArrow() {
+        WebElement userIDButtonArrow = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
+        return userIDButtonArrow.getText().trim().contains("↓");
+    }
+
+    public PeoplePage clickNameButton() {
+        WebElement nameButton = getDriver().findElement(
+                By.xpath("//a[@class='sortheader'][contains(text(), 'Name')]"));
+        nameButton.click();
+        return new PeoplePage(getDriver());
     }
 }

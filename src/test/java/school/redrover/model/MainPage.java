@@ -60,7 +60,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     }
 
     public PeoplePage clickPeopleOnLeftSideMenu() {
-        getDriver().findElement(By.xpath("//*[@href='/asynchPeople/']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
         return new PeoplePage(getDriver());
     }
 
