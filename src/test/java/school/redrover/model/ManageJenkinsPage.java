@@ -120,7 +120,7 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
 
     public boolean isDropdownResultsFromSearchFieldContainsTextToSearch(String text) {
         for (WebElement option : options) {
-            if (!option.getText().contains(text)) {
+            if (!option.getText().toLowerCase().contains(text)) {
                 return false;
             }
         }

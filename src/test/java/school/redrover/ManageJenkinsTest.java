@@ -156,7 +156,7 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testAccessSearchSettingsFieldUsingShortcutKey() {
-        final String partOfSettingsName = "Manage";
+        final String partOfSettingsName = "manage";
         ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
                 .inputToSearchFieldUsingKeyboardShortcut(partOfSettingsName)
