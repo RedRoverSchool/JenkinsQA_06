@@ -62,4 +62,8 @@ public class PeoplePage extends BaseMainHeaderPage<PeoplePage> {
         nameButton.click();
         return new PeoplePage(getDriver());
     }
+
+    public String getPageTitle() {
+        return getDriver().findElement(By.xpath("//h1")).getText();
+    }
 }

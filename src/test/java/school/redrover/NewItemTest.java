@@ -10,6 +10,7 @@ import school.redrover.model.MainPage;
 import school.redrover.model.MultibranchPipelineConfigPage;
 import school.redrover.model.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class NewItemTest extends BaseTest {
 
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectTypeJob(3)
+                .selectTypeJob(TestUtils.JobType.MultiConfigurationProject)
                 .getItemNameRequiredErrorText();
 
         Assert.assertTrue(errorMessage.contains("» This field cannot be empty, please enter a valid name"));
@@ -75,7 +76,7 @@ public class NewItemTest extends BaseTest {
     public void testErrorRequiredCreateFreestyleProjectWithEmptyName() {
         String actualErrorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectTypeJob(1)
+                .selectTypeJob(TestUtils.JobType.FreestyleProject)
                 .getItemNameRequiredMessage();
 
         Assert.assertEquals(actualErrorMessage, "» This field cannot be empty, please enter a valid name");
@@ -164,7 +165,7 @@ public class NewItemTest extends BaseTest {
         String project = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MultibranchPipeline_Project")
-                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.MultibranchPipeline, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .clickSaveButton()
                 .getTextFromNameMultibranchProject();
 

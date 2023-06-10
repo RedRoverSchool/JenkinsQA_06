@@ -66,7 +66,7 @@ public class MyViewsTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickCreateAJobArrow()
                 .enterItemName("My project")
-                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickUserName()

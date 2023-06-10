@@ -85,9 +85,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return new ConfigureGlobalSecurityPage(getDriver());
     }
 
-    public <JobPage extends BasePage<?, ?>>JobPage clickJobName(String folderName, JobPage jobPage) {
+    public <JobPage extends BasePage<?, ?>> JobPage clickJobName(String jobName, JobPage jobPage) {
         WebElement job = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath(String.format("//a[@href='job/%s/']",folderName.replaceAll(" ","%20")))));
+                By.xpath(String.format("//a[@href='job/%s/']", jobName.replaceAll(" ","%20")))));
         new Actions(getDriver()).moveToElement(job).click(job).perform();
         return jobPage;
     }

@@ -182,4 +182,10 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         getDriver().findElement(By.xpath("//div[3]/a[1]/span")).click();
         return new UserPage(getDriver());
     }
+
+    public PeoplePage openPeoplePageFromDashboardDropdownMenu () {
+        clickDashboardDropdownMenu();
+        getDriver().findElement(By.xpath("//li/a/span[contains(text(), 'People')]")).click();
+        return new PeoplePage(getDriver());
+    }
 }
