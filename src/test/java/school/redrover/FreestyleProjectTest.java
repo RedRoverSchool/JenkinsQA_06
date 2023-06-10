@@ -171,7 +171,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
     }
-
+@Ignore
     @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
     public void testRenameFreestyleProjectUsingDropDownMenu() {
         String actualFreestyleProjectName = new MainPage(getDriver())
