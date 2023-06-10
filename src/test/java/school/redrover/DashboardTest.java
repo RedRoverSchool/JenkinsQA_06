@@ -78,4 +78,15 @@ public class DashboardTest extends BaseTest {
 
         Assert.assertEquals(actualMenuList, expectedMenuList);
     }
+
+    @Test
+    public void testMoveFromBuildHistoryPageToPeoplePageByDropDownMenu() {
+        String actualTitle = new MainPage(getDriver())
+                .clickBuildsHistoryButton()
+                .getHeader()
+                .openPeoplePageFromDashboardDropdownMenu()
+                .getPageTitle();
+
+        Assert.assertEquals(actualTitle, "People");
+    }
 }

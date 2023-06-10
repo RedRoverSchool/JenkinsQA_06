@@ -28,4 +28,8 @@ public class PeoplePage extends BaseMainHeaderPage<PeoplePage> {
         getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
         return new NewJobPage(getDriver());
     }
+
+    public String getPageTitle() {
+        return getDriver().findElement(By.xpath("//h1")).getText();
+    }
 }
