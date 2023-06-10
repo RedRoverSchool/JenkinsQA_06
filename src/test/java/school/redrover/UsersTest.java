@@ -270,7 +270,7 @@ public class UsersTest extends BaseTest {
     @Test
     public void testDeleteUserViaManageUsers() {
 
-        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        new CreateUserPage(getDriver()).createUserAndReturnToMainPage(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         boolean userIsNotFind = new MainPage(getDriver())
                 .navigateToManageJenkinsPage()
