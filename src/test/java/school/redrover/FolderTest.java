@@ -27,7 +27,8 @@ public class FolderTest extends BaseTest {
                 .enterItemName(jobName)
                 .selectTypeJobAndOk(jobTypeByNumber, jobConfigPage)
                 .getHeader()
-                .clickLogo() .clickJobName(folderName, new FolderPage(getDriver()))
+                .clickLogo()
+                .clickJobName(folderName, new FolderPage(getDriver()))
                 .nestedProjectIsDisplayed(jobName);
     }
 
