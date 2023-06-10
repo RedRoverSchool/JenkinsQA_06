@@ -135,6 +135,7 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
 
         return list;
     }
+}
 
     public NewJobPage clickCreateAJobArrow() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']"))).click();
