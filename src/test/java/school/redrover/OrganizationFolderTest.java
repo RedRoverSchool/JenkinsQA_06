@@ -5,6 +5,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class OrganizationFolderTest extends BaseTest {
 
@@ -17,7 +18,7 @@ public class OrganizationFolderTest extends BaseTest {
         String actualNewFolderName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectTypeJobAndOk(6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.OrganizationFolder, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -48,7 +49,7 @@ public class OrganizationFolderTest extends BaseTest {
         boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderName)
-                .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -69,7 +70,7 @@ public class OrganizationFolderTest extends BaseTest {
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectTypeJobAndOk(6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.OrganizationFolder, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .clickDisable()
                 .clickSaveButton()
                 .getTextFromDisableMessage();
@@ -83,7 +84,7 @@ public class OrganizationFolderTest extends BaseTest {
         String textFromDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectTypeJobAndOk(6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.OrganizationFolder, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .addDescription("Description")
                 .clickSaveButton()
                 .getTextFromDescription();

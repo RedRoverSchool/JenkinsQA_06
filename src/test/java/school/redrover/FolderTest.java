@@ -20,12 +20,12 @@ public class FolderTest extends BaseTest {
     private static final String DESCRIPTION = "Created new folder";
     private static final String DISPLAY_NAME = "NewFolder";
 
-    private boolean createdJobInFolderIsDisplayed(String jobName, String folderName, int jobTypeByNumber, BaseConfigPage<?,?> jobConfigPage){
+    private boolean createdJobInFolderIsDisplayed(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?,?> jobConfigPage){
         return new MainPage(getDriver())
                 .clickJobName(folderName, new FolderPage(getDriver()))
                 .newItem()
                 .enterItemName(jobName)
-                .selectTypeJobAndOk(jobTypeByNumber, jobConfigPage)
+                .selectTypeJobAndOk(jobType, jobConfigPage)
                 .getHeader()
                 .clickLogo()
                 .clickJobName(folderName, new FolderPage(getDriver()))
@@ -38,7 +38,7 @@ public class FolderTest extends BaseTest {
         MainPage mainPage = new MainPage(getDriver())
                 .clickCreateAJob()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
                 .getHeader()
                 .clickLogo();
 
@@ -61,7 +61,7 @@ public class FolderTest extends BaseTest {
                 .getHeader()
                 .clickNewItemDashboardDropdownMenu()
                 .enterItemName(NAME3)
-                .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
                 .getHeader()
                 .clickLogo();
 
@@ -75,7 +75,7 @@ public class FolderTest extends BaseTest {
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectJobAndOkAndGoError(4, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectJobAndOkAndGoError(TestUtils.JobType.Folder)
                 .getErrorMessage();
 
         Assert.assertEquals(errorMessage, "A job already exists with the name ‘" + NAME + "’");
@@ -201,7 +201,7 @@ public class FolderTest extends BaseTest {
         final String freestyleProjectName = "new project";
 
         Assert.assertTrue(createdJobInFolderIsDisplayed
-                (freestyleProjectName, NAME2, 1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))),
+                (freestyleProjectName, NAME2, TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))),
                 "error was not show nested Freestyle Project");
     }
 
@@ -210,7 +210,7 @@ public class FolderTest extends BaseTest {
         final String pipelineName = "pipeline project";
 
         Assert.assertTrue(createdJobInFolderIsDisplayed
-                        (pipelineName, NAME2, 2, new PipelineConfigPage(new PipelinePage(getDriver()))),
+                        (pipelineName, NAME2, TestUtils.JobType.Pipeline, new PipelineConfigPage(new PipelinePage(getDriver()))),
                 "error was not show nested Pipeline");
     }
 
@@ -219,7 +219,7 @@ public class FolderTest extends BaseTest {
         final String multibranchPipelineName = "My Multibranch Pipeline";
 
         Assert.assertTrue(createdJobInFolderIsDisplayed
-                        (multibranchPipelineName, NAME2, 5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver()))),
+                        (multibranchPipelineName, NAME2, TestUtils.JobType.MultibranchPipeline, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver()))),
                 "error was not show nested Multibranch Pipeline");
     }
 
@@ -228,7 +228,7 @@ public class FolderTest extends BaseTest {
         final String multiconfigurationProjectName = "Mine Project";
 
         Assert.assertTrue(createdJobInFolderIsDisplayed
-                (multiconfigurationProjectName, NAME2, 3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()))),
+                (multiconfigurationProjectName, NAME2, TestUtils.JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()))),
                 "error was not show nested Multi-configurationProject");
     }
 
@@ -237,7 +237,7 @@ public class FolderTest extends BaseTest {
         final String secondFolderName = "SecondFolder";
 
         Assert.assertTrue(createdJobInFolderIsDisplayed
-                (secondFolderName, NAME2, 4, new FolderConfigPage(new FolderPage(getDriver()))),
+                (secondFolderName, NAME2, TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver()))),
                 "error was not show nested second folder");
     }
 
@@ -247,7 +247,7 @@ public class FolderTest extends BaseTest {
 
 
         Assert.assertTrue(createdJobInFolderIsDisplayed
-                (organizationFolderName, NAME2, 6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver()))),
+                (organizationFolderName, NAME2, TestUtils.JobType.OrganizationFolder, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver()))),
                 "error was not show nested Organization folder");
     }
 
@@ -286,14 +286,14 @@ public class FolderTest extends BaseTest {
         boolean movedFreestyleProjectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
 
                 .clickNewItem()
                 .enterItemName(projectName)
-                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
 
                 .clickMoveOnSideMenu()
@@ -378,7 +378,7 @@ public class FolderTest extends BaseTest {
         String createdMultiConfigurationProjectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(multiConfigurationProjectName)
-                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -403,12 +403,12 @@ public class FolderTest extends BaseTest {
         String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderName)
-                .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
 
                 .clickNewItem()
                 .enterItemName(pipelineName)
-                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.Pipeline, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getProjectName();
 
