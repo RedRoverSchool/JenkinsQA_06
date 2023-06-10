@@ -1,6 +1,6 @@
 package school.redrover.model.base;
 
-public class BaseComponent<Page extends BasePage<?>> extends BaseModel {
+public class BaseComponent<Page extends BasePage<?, ?>> extends BaseModel {
 
     private final Page page;
 

@@ -131,8 +131,12 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 .replaceAll("\\n", " > ");
     }
 
-    public String getNestedFreestyleProjectName(String name) {
+    public boolean nestedProjectIsDisplayed(String name) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + name + "/')]"))).getText();
+                (By.xpath(String.format("//a[@href='job/%s/']",name.replaceAll(" ","%20"))))).isDisplayed();
+    }
+
+    public boolean viewIsDisplayed(String viewName){
+       return getDriver().findElement(By.linkText(viewName)).isDisplayed();
     }
 }
