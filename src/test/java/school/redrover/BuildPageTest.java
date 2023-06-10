@@ -1,15 +1,9 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.ConsoleOutputPage;
-import school.redrover.model.MainPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -17,22 +11,23 @@ public class BuildPageTest extends BaseTest {
 
     private static final String NAME_PIPELINE = "Pipeline2023";
     private static final String BUILD_DESCRIPTION = "For QA";
-    private final String freestyleProjectName = "FreestyleName";
+    private final String FREESTYLE_PROJECT_NAME = "FreestyleName";
+    private final String MULTI_CONFIGURATION_PROJECT_NAME = "MultiConfiguration001";
 
     @Test
-    public void testNavigateToBuildHistoryPage() {
+    public void testBuildHistoryOfTwoDifferentTypesProjectsIsShown() {
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_PROJECT_NAME, true);
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME,true);
 
-        final String expectedBuildHistoryPageUrl = "http://localhost:8080/view/all/builds";
-        final String expectedBuildHistoryPageTitle = "All [Jenkins]";
+        int numberOfLinesInBuildHistoryTable = new MainPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickJobDropdownMenuBuildNow(MULTI_CONFIGURATION_PROJECT_NAME)
+                .clickJobDropdownMenuBuildNow(FREESTYLE_PROJECT_NAME)
+                .clickBuildsHistoryButton()
+                .getNumberOfLinesInBuildHistoryTable();
 
-        WebElement buildHistorySideMenu = getDriver().findElement(By.xpath("//a[@href = '/view/all/builds']"));
-        buildHistorySideMenu.click();
-
-        String actualBuildHistoryPageTitle = getDriver().getTitle();
-        String actualBuildHistoryPageUrl = getDriver().getCurrentUrl();
-
-        Assert.assertEquals(actualBuildHistoryPageTitle, expectedBuildHistoryPageTitle);
-        Assert.assertEquals(actualBuildHistoryPageUrl, expectedBuildHistoryPageUrl);
+        Assert.assertTrue(numberOfLinesInBuildHistoryTable >= 2);
     }
 
     @Test
@@ -40,15 +35,15 @@ public class BuildPageTest extends BaseTest {
         String buildDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME_PIPELINE)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickPipelineProject(NAME_PIPELINE)
+                .clickJobName(NAME_PIPELINE, new PipelinePage(getDriver()))
                 .clickEditDescription()
-                .enterNewDescription(BUILD_DESCRIPTION)
+                .enterDescription(BUILD_DESCRIPTION)
                 .clickSaveButton()
-                .getDescription().getText();
+                .getDescription();
 
         Assert.assertEquals(buildDescription, BUILD_DESCRIPTION);
     }
@@ -58,21 +53,20 @@ public class BuildPageTest extends BaseTest {
     public void testConsoleFreestyleBuildLocation() {
         String consoleOutputText = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(freestyleProjectName)
-                .selectFreestyleProject()
-                .selectFreestyleProjectAndOk()
+                .enterItemName(FREESTYLE_PROJECT_NAME)
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .selectBuildNow()
                 .getHeader()
                 .clickLogo()
                 .clickBuildsHistoryButton()
-                .clickProjectBuildConsole(freestyleProjectName)
+                .clickProjectBuildConsole(FREESTYLE_PROJECT_NAME)
                 .getConsoleOutputText();
 
         String actualLocation = new ConsoleOutputPage(getDriver())
                 .getParameterFromConsoleOutput(consoleOutputText, "workspace");
 
-        Assert.assertEquals(actualLocation, "Building in workspace /var/jenkins_home/workspace/" + freestyleProjectName);
+        Assert.assertEquals(actualLocation, "Building in workspace /var/jenkins_home/workspace/" + FREESTYLE_PROJECT_NAME);
     }
 
     @Test
@@ -81,15 +75,14 @@ public class BuildPageTest extends BaseTest {
 
         final String userConsoleOutput = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(freestyleProjectName)
-                .selectFreestyleProject()
-                .selectFreestyleProjectAndOk()
+                .enterItemName(FREESTYLE_PROJECT_NAME)
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .selectBuildNow()
                 .getHeader()
                 .clickLogo()
                 .clickBuildsHistoryButton()
-                .clickProjectBuildConsole(freestyleProjectName)
+                .clickProjectBuildConsole(FREESTYLE_PROJECT_NAME)
                 .getStartedByUser();
 
         Assert.assertEquals(currentUser, userConsoleOutput);
@@ -99,15 +92,14 @@ public class BuildPageTest extends BaseTest {
     public void testConsoleOutputFreestyleBuildStatus(){
         final String consoleOutput = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(freestyleProjectName)
-                .selectFreestyleProject()
-                .selectFreestyleProjectAndOk()
+                .enterItemName(FREESTYLE_PROJECT_NAME)
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .selectBuildNow()
                 .getHeader()
                 .clickLogo()
                 .clickBuildsHistoryButton()
-                .clickProjectBuildConsole(freestyleProjectName)
+                .clickProjectBuildConsole(FREESTYLE_PROJECT_NAME)
                 .getConsoleOutputText();
 
         String actualStatus = new ConsoleOutputPage(getDriver())
@@ -128,7 +120,7 @@ public class BuildPageTest extends BaseTest {
         String actualStatusMessageText = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(namePipeline)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .addDescription(textToDescriptionField)
                 .scrollToBuildTriggers()
                 .clickBuildTriggerCheckBox()
@@ -149,7 +141,7 @@ public class BuildPageTest extends BaseTest {
         String projectNameOnBuildHistoryTimeline = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(itemName)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()

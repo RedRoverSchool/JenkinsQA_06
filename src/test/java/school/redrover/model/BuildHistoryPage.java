@@ -39,4 +39,10 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
                 By.xpath("//div[@class='simileAjax-bubble-contentContainer simileAjax-bubble-contentContainer-pngTranslucent']")));
         return getDriver().findElement(By.xpath("//div[@class='timeline-event-bubble-title']/a")).getText();
     }
+
+    public int getNumberOfLinesInBuildHistoryTable() {
+        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1")));
+
+        return getDriver().findElements(By.xpath("//table[@id='projectStatus']/tbody/tr")).size();
+    }
 }

@@ -22,7 +22,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
 
     public abstract BaseConfigPage clickConfigure();
 
-    public String getName() {
+    public String getProjectName() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel>h1"))).getText();
     }
 
@@ -36,6 +36,21 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         getDriver().switchTo().alert().accept();
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
         return new MainPage(getDriver());
+    }
+
+    public Self clickEditDescription() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='description-link']"))).click();
+        return (Self) this;
+    }
+
+    public Self enterDescription(String description) {
+        getDriver().findElement(By.name("description")).sendKeys(description);
+        return (Self) this;
+    }
+
+    public Self clearDescriptionField() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).clear();
+        return (Self) this;
     }
 
     public String getDescription() {

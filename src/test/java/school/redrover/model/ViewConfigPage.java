@@ -62,7 +62,7 @@ public class ViewConfigPage extends BaseConfigPage<ViewConfigPage, ViewPage> {
 
     public ViewPage clickViewJob(String name) {
         getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath(String.format("//*[@href='/view/%s/']", name)))).click();
+                By.xpath(String.format("//*[@href='/view/%s/']", name.replaceAll(" ","%20"))))).click();
         return new ViewPage(getDriver());
     }
 }

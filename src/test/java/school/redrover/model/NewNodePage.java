@@ -22,6 +22,17 @@ public class NewNodePage extends BaseMainHeaderPage<NewNodePage> {
         return this;
     }
 
+    public NewNodePage clickCopyExistingNode(){
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//label[@for='copy']"))).click();
+        return this;
+    }
+
+    public NewNodePage inputExistingNode(String existingNodeName){
+        getWait2().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//input[@name='from']"))).sendKeys(existingNodeName);
+        return this;
+    }
+
     public CreateNodePage clickCreateButton() {
         getWait2().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();

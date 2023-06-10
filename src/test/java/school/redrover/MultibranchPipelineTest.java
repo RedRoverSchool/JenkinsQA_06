@@ -22,7 +22,7 @@ public class MultibranchPipelineTest extends BaseTest {
         MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectMultibranchPipelineAndOk()
+                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .enterDisplayName(multibranchPipelineDisplayName)
                 .clickSaveButton();
 
@@ -35,11 +35,11 @@ public class MultibranchPipelineTest extends BaseTest {
         String MultibranchPipeline = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectMultibranchPipelineAndOk()
+                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .addDescription("DESCRIPTION")
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
-                .clickMultibranchPipelineName(NAME)
+                .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
                 .getDescription();
 
         Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
@@ -50,7 +50,7 @@ public class MultibranchPipelineTest extends BaseTest {
         MultibranchPipelinePage pageWithOutDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectMultibranchPipelineAndOk()
+                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .clickSaveButton();
 
         Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).viewDescription().getText().isEmpty());
@@ -59,10 +59,10 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultibranchPipelineWithoutDescription")
     public void testRenameMultibranchPipeline() {
         String actualDisplayedName = new MainPage(getDriver())
-                .clickMultibranchPipelineName(NAME)
+                .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
                 .renameMultibranchPipelinePage()
                 .enterNewName(RENAMED)
-                .submitNewName()
+                .clickRenameButton()
                 .getDisplayedName();
 
         Assert.assertEquals(actualDisplayedName, RENAMED);
@@ -71,7 +71,7 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testRenameMultibranchPipeline")
     public void testDisableMultibranchPipeline() {
         String actualDisableMessage = new MainPage(getDriver())
-                .clickMultibranchPipelineName(RENAMED)
+                .clickJobName(RENAMED, new MultibranchPipelinePage(getDriver()))
                 .clickConfigureSideMenu()
                 .clickDisable()
                 .clickSaveButton()
@@ -84,8 +84,7 @@ public class MultibranchPipelineTest extends BaseTest {
         String WelcomeJenkinsPage = new MainPage(getDriver())
                 .dropDownMenuClickDeleteFolders(RENAMED)
                 .clickYes()
-                .getWelcomeWebElement()
-                .getText();
+                .getWelcomeText();
 
         Assert.assertEquals(WelcomeJenkinsPage, "Welcome to Jenkins!");
     }
@@ -93,7 +92,7 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithDisplayName")
     public void testChooseDefaultIcon() {
         MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
-                .clickMultibranchPipelineName(NAME)
+                .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
                 .clickConfigureSideMenu()
                 .clickAppearance()
                 .selectDefaultIcon()
@@ -105,7 +104,7 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithDisplayName")
     public void testAddHealthMetrics() {
         boolean healthMetricIsVisible = new MainPage(getDriver())
-                .clickMultibranchPipelineName(NAME)
+                .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
                 .clickConfigureSideMenu()
                 .addHealthMetrics()
                 .clickSaveButton()

@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -7,9 +8,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.component.MainHeaderComponent;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -352,5 +355,77 @@ public class UsersTest extends BaseTest {
                 .getTextAlertIncorrectUsernameOrPassword();
 
         Assert.assertEquals(actualTextAlertIncorrectUsernameAndPassword, EXPECTED_TEXT_ALERT_INCORRECT_LOGIN_AND_PASSWORD);
+    }
+  
+    @Test
+    public void testCreateUserFromManageUser() {
+
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton();
+
+        new LoginPage(getDriver())
+                .enterUsername(USER_NAME)
+                .enterPassword(PASSWORD)
+                .enterSignIn(new LoginPage(getDriver()));
+
+        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[1]/span")).getText(), USER_FULL_NAME);
+    }
+
+    @Test
+    public void testCreateUserCheckInPeople() {
+
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickPeopleOnLeftSideMenu();
+
+        Assert.assertEquals(getDriver().getTitle(), "People - [Jenkins]");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id = 'people']/tbody")).getText().contains(USER_NAME), "true");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id = 'people']/tbody")).getText().contains(USER_FULL_NAME), "true");
+    }
+
+    @Test
+    public void testCreateUserCheckInManageUsers() {
+
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .navigateToManageJenkinsPage()
+                .clickManageUsers();
+
+        Assert.assertEquals(getDriver().getTitle(), "Users [Jenkins]");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//a")).getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//td[3]")).getText(), USER_FULL_NAME);
+    }
+
+   @Test
+    public void testVerifyCreateUserButton() {
+        String buttonName = new ManageUsersPage(getDriver())
+        .navigateToManageJenkinsPage()
+        .clickManageUsers()
+        .getButtonText();
+
+        Assert.assertEquals(buttonName, "Create User");
+    }
+    @Test
+    public void testCreateUserButtonClickable() {
+        String iconName = new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .getActualIconName();
+
+        Assert.assertEquals(iconName, "Create User");
     }
 }

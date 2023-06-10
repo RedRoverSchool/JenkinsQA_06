@@ -115,6 +115,10 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
 
         return this;
     }
+
+    public NewJobPage clickCreateAJobArrow() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']"))).click();
+
+        return new NewJobPage(getDriver());
+    }
 }
-
-
