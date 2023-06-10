@@ -38,8 +38,12 @@ public class UsersTest extends BaseTest {
                 .navigateToManageJenkinsPage()
                 .clickManageUsers()
                 .clickCreateUser()
-                .fillUserDetails(USER_NAME)
-                .clickYesButton()
+                .enterUsername(USER_NAME)
+                .enterPassword(PASSWORD)
+                .enterConfirmPassword(PASSWORD)
+                .enterFullName(USER_FULL_NAME)
+                .enterEmail(EMAIL)
+                .clickCreateUserButton()
                 .isUserExist(USER_NAME);
 
         Assert.assertTrue(newUser);
@@ -51,11 +55,11 @@ public class UsersTest extends BaseTest {
                 .navigateToManageJenkinsPage()
                 .clickManageUsers()
                 .clickCreateUser()
-                .fillUserDetailsWithInvalidEmail(USER_NAME)
-                .clickYesButton()
+                .fillUserDetails(USER_NAME, PASSWORD, USER_FULL_NAME, "test.mail.com")
                 .getInvalidEmailError();
 
-        Assert.assertEquals(errorEmail, "Invalid e-mail address");
+        Assert.assertEquals(errorEmail, "Invalid e-mail address",
+                "The error message is incorrect or missing");
     }
 
     @Test
@@ -65,24 +69,22 @@ public class UsersTest extends BaseTest {
 
         String errorDuplicatedUser = new ManageUsersPage(getDriver())
                 .clickCreateUser()
-                .enterUsername(USER_NAME)
-                .enterPassword(PASSWORD)
-                .enterConfirmPassword(PASSWORD)
-                .enterFullName(USER_FULL_NAME)
-                .enterEmail(EMAIL)
+                .fillUserDetails(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL)
                 .getUserNameExistsError();
 
         Assert.assertEquals(errorDuplicatedUser, "User name is already taken",
-                "Unexpected error message");
+                "The error message is incorrect or missing");
     }
 
     @Test
     public void testAddDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "Test User Description";
 
-        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        new ManageUsersPage(getDriver()).clickUserIDName(USER_NAME);
+        new ManageUsersPage(getDriver())
+                .clickUserIDName(USER_NAME);
 
         String actualDisplayedDescriptionText = new StatusUserPage(getDriver())
                 .clickAddDescriptionLink()
@@ -137,7 +139,8 @@ public class UsersTest extends BaseTest {
     public void testEditEmailOnTheUserProfilePageByDropDown() {
         final String displayedEmail = "testedited@test.com";
 
-        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         new ManageUsersPage(getDriver())
                 .clickUserIDDropDownMenu(USER_NAME)
