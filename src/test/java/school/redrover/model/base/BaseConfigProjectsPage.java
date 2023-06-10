@@ -1,6 +1,7 @@
 package school.redrover.model.base;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -44,6 +45,9 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,P
     public Self enterDaysToKeepBuilds(int number){
         WebElement daysToKeepBuilds = getDriver()
                 .findElement(By.xpath("//input[@name='_.daysToKeepStr']"));
+        WebElement nameFieldDaysToKeepBuilds = getDriver().findElement(By.xpath("//div[text()='Days to keep builds']"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", nameFieldDaysToKeepBuilds);
         TestUtils.sendTextToInput(this, daysToKeepBuilds, String.valueOf(number));
 
         return (Self)this;
