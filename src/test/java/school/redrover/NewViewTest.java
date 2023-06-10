@@ -3,9 +3,7 @@ package school.redrover;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.ViewPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -22,7 +20,7 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickNewItem()
                 .enterItemName(projectName)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo();
@@ -41,7 +39,7 @@ public class NewViewTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .clickDashboard()
                 .createNewView()
@@ -62,7 +60,7 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickNewItem()
                 .enterItemName(freestyleProjectName)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -112,7 +110,7 @@ public class NewViewTest extends BaseTest {
         boolean isDeletedViewPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(freestyleProjectName)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .clickDashboard()
                 .createNewView()
@@ -192,7 +190,7 @@ public class NewViewTest extends BaseTest {
         WebElement newView = new MainPage(getDriver())
                  .clickNewItem()
                  .enterItemName("TestFolder")
-                 .selectFolderAndOk()
+                 .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(getDriver())))
                  .getHeader()
                  .clickLogo()
                  .clickJobName("TestFolder", new FolderPage(getDriver()))

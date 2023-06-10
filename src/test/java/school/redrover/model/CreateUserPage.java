@@ -100,4 +100,9 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@class='error jenkins-!-margin-bottom-2']"))).getText();
     }
+
+    public String getActualIconName() {
+        return getDriver().findElement(By.xpath("//li[@aria-current]")).getText().trim();
+    }
 }
+
