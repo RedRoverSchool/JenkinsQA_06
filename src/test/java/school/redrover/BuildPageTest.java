@@ -120,7 +120,7 @@ public class BuildPageTest extends BaseTest {
         String actualStatusMessageText = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(namePipeline)
-                .selectTypeJobAndOk(TestUtils.JobType.FreestyleProject, new PipelineConfigPage(new PipelinePage(getDriver())))
+                .selectTypeJobAndOk(TestUtils.JobType.Pipeline, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .addDescription(textToDescriptionField)
                 .scrollToBuildTriggers()
                 .clickBuildTriggerCheckBox()
