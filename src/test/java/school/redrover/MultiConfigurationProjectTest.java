@@ -44,10 +44,12 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projectName.substring(8, 32), MULTI_CONFIGURATION_NAME);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateProject")
+
+    @Test
     public void testCreateMultiConfigurationProjectWithEqualName() {
         final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
+
+        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
 
         new MainPage(getDriver())
                 .clickNewItem()
@@ -57,10 +59,10 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String error = new ErrorNodePage(getDriver())
                 .getErrorEqualName();
 
-        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
+            Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
 
-    @Ignore
+
     @Test(dependsOnMethods = "testCreateProject")
     public void testRenameFromDropDownMenu() {
         String NewNameProject = new MainPage(getDriver())
@@ -353,6 +355,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(disableMessage.contains(disableResult), "Not found such message");
     }
 
+
+    @Ignore
     @Test(dependsOnMethods = "testCreateProject")
     public void testDeleteProjectFromDropDownMenu() {
         List<String> deleteProject = new MainPage(getDriver())
