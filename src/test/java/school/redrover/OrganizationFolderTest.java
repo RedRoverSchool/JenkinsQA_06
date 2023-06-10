@@ -3,9 +3,7 @@ package school.redrover;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.OrganizationFolderPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 
 public class OrganizationFolderTest extends BaseTest {
@@ -19,11 +17,12 @@ public class OrganizationFolderTest extends BaseTest {
         String actualNewFolderName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectOrganizationFolderAndOk()
+                .selectTypeJobAndOk(6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectNameMainPage(ORGANIZATION_FOLDER_NAME);
+
 
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
@@ -49,7 +48,7 @@ public class OrganizationFolderTest extends BaseTest {
         boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderName)
-                .selectFolderAndOk()
+                .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -70,7 +69,7 @@ public class OrganizationFolderTest extends BaseTest {
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectOrganizationFolderAndOk()
+                .selectTypeJobAndOk(6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .clickDisable()
                 .clickSaveButton()
                 .getTextFromDisableMessage();
@@ -84,7 +83,7 @@ public class OrganizationFolderTest extends BaseTest {
         String textFromDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectOrganizationFolderAndOk()
+                .selectTypeJobAndOk(6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .addDescription("Description")
                 .clickSaveButton()
                 .getTextFromDescription();
@@ -115,7 +114,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = {"testCreateOrganizationFolderWithDescription", "testRenameFromDropDownMenu"} )
+    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
     public void testRenameNegative() {
         String errorMessage = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))

@@ -22,7 +22,7 @@ public class PipelineTest extends BaseTest {
         String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -39,7 +39,7 @@ public class PipelineTest extends BaseTest {
         String jobDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .addDescription(textDescription)
                 .clickSaveButton()
                 .getDescription();
@@ -55,7 +55,7 @@ public class PipelineTest extends BaseTest {
         String jobDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .addDescription(description)
                 .clickSaveButton()
                 .getHeader()
@@ -75,7 +75,7 @@ public class PipelineTest extends BaseTest {
         String stageName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickScriptDropDownMenu()
                 .selectHelloWord()
                 .clickSaveButton()
@@ -91,7 +91,7 @@ public class PipelineTest extends BaseTest {
         String text = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickScriptDropDownMenu()
                 .selectHelloWord()
                 .clickSaveButton()
@@ -110,7 +110,7 @@ public class PipelineTest extends BaseTest {
         String resultDescriptionText = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(pipelineName)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .clickEditDescription()
                 .enterDescription(descriptionText)
@@ -142,7 +142,7 @@ public class PipelineTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -158,7 +158,7 @@ public class PipelineTest extends BaseTest {
         String resultOptionDefinitionFieldText = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .scrollToPipelineSection()
                 .getOptionTextInDefinitionField();
 
@@ -172,7 +172,7 @@ public class PipelineTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -268,10 +268,11 @@ public class PipelineTest extends BaseTest {
         List buildNumber = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(jobName)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
-                .clickLogo().clickJobName(jobName, new PipelinePage(getDriver()))
+                .clickLogo()
+                .clickJobName(jobName, new PipelinePage(getDriver()))
                 .clickBuildNow()
                 .clickBuildNow()
                 .clickBuildNow()
@@ -286,7 +287,7 @@ public class PipelineTest extends BaseTest {
         String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .selectScriptedPipelineAndSubmit()
                 .getProjectName();
 
@@ -328,13 +329,13 @@ public class PipelineTest extends BaseTest {
         String jobExists = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineProject()
+                .selectTypeJob(2)
                 .getItemInvalidMessage();
 
         Assert.assertEquals(jobExists, "» A job already exists with the name " + "‘" + PIPELINE_NAME + "’");
@@ -379,7 +380,7 @@ public class PipelineTest extends BaseTest {
         String projectNameDashboard = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(allowedChar)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -417,8 +418,7 @@ public class PipelineTest extends BaseTest {
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("  ")
-                .selectPipelineProject()
-                .clickOkButtonAndMoveToErrorPage();
+                .selectJobAndOkAndGoError(2, new PipelineConfigPage(new PipelinePage(getDriver())));
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), "No name is specified");
@@ -459,7 +459,7 @@ public class PipelineTest extends BaseTest {
         PipelineConfigPage pipelineConfigPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("test-pipeline")
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .clickConfigure()
                 .clickDiscardOldBuildsCheckbox()
@@ -477,7 +477,7 @@ public class PipelineTest extends BaseTest {
         String  actualErrorMessage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("test-pipeline")
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .clickConfigure()
                 .clickDiscardOldBuildsCheckbox()
@@ -509,7 +509,7 @@ public class PipelineTest extends BaseTest {
         boolean projectDisable = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .toggleDisableProject()
                 .clickSaveButton()
                 .checkWarningMessage()
@@ -524,14 +524,13 @@ public class PipelineTest extends BaseTest {
         String actualErrorMessage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineProject()
-                .clickOkToCreateWithExistingName()
+                .selectJobAndOkAndGoError(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .getErrorMessage();
 
         Assert.assertEquals(actualErrorMessage, "A job already exists with the name ‘" + PIPELINE_NAME + "’");
@@ -543,7 +542,7 @@ public class PipelineTest extends BaseTest {
                 .navigateToManageJenkinsPage()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -575,7 +574,7 @@ public class PipelineTest extends BaseTest {
         String textPreview = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("Engineer")
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .addDescription(description)
                 .clickPreview()
                 .getPreviewText();
@@ -639,7 +638,7 @@ public class PipelineTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(jobName)
-                .selectPipelineAndOk()
+                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -650,22 +649,21 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testAddingAProjectOnGithubToThePipelineProject() {
-        String nameProject = "Engineer";
-        String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
-        String expectedNameRepo = "Sign in";
+        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
+        final String expectedNameRepo = "Sign in";
 
-        TestUtils.createPipeline(this, nameProject, true);
+        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+
         String actualNameRepo = new MainPage(getDriver())
-                .clickJobName(nameProject, new PipelinePage(getDriver()))
+                .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
                 .clickConfigure()
                 .clickGitHubProjectCheckbox()
                 .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(nameProject)
-                .selectFromJobDropdownMenuTheGitHub()
-                .githubSignInText();
+                .openJobDropDownMenu(PIPELINE_NAME)
+                .selectFromJobDropdownMenuTheGitHub();
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }

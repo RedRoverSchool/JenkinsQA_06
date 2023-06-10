@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -21,7 +20,7 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickNewItem()
                 .enterItemName(projectName)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo();
@@ -31,7 +30,7 @@ public class NewViewTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .clickDashboard()
                 .createNewView()
@@ -52,7 +51,7 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickNewItem()
                 .enterItemName(freestyleProjectName)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -121,7 +120,7 @@ public class NewViewTest extends BaseTest {
         boolean isDeletedViewPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(freestyleProjectName)
-                .selectFreestyleProjectAndOk()
+                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .clickDashboard()
                 .createNewView()
@@ -129,7 +128,8 @@ public class NewViewTest extends BaseTest {
                 .selectListView()
                 .clickCreateButton()
                 .clickSaveButton()
-                .clickDashboard()
+                .getHeader()
+                .clickLogo()
                 .clickOnView(viewName)
                 .clickDeleteView()
                 .clickYes()
@@ -200,7 +200,7 @@ public class NewViewTest extends BaseTest {
         WebElement newView = new MainPage(getDriver())
                  .clickNewItem()
                  .enterItemName("TestFolder")
-                 .selectFolderAndOk()
+                 .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(getDriver())))
                  .getHeader()
                  .clickLogo()
                  .clickJobName("TestFolder", new FolderPage(getDriver()))
