@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -10,6 +11,7 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -362,4 +364,15 @@ public class UsersTest extends BaseTest {
 
         Assert.assertEquals(buttonName, "Create User");
     }
+    @Test
+    public void testCreateUserButtonClickable() {
+        String iconName = new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .getActualIconName();
+
+        Assert.assertEquals(iconName, "Create User");
+    }
+
 }
