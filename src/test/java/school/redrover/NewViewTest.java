@@ -4,9 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.ViewPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -27,15 +25,6 @@ public class NewViewTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo();
-    }
-
-    private List<String> getListFromWebElements(List<WebElement> elements) {
-        List<String> list = new ArrayList<>();
-        for (WebElement element : elements) {
-            list.add(element.getText());
-        }
-
-        return list;
     }
 
     private void createNewFreestyleProjectAndNewView(String name) {
@@ -103,6 +92,25 @@ public class NewViewTest extends BaseTest {
                 .getActiveView();
 
         assertEquals(actualViewName, expectedEditedMyViewText);
+    }
+
+    @Test(dependsOnMethods = "testRenameView")
+    public void testDeleteMyView() {
+        final int numberOfAllViews;
+        final int numberOfAllViewsAfterDeletion;
+
+        numberOfAllViews = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .getListOfAllViews().size();
+
+        numberOfAllViewsAfterDeletion = new MyViewsPage(getDriver())
+                .clickInactiveLastCreatedMyView()
+                .clickDeleteViewButton()
+                .clickYesButton()
+                .getListOfAllViews().size();
+
+        assertEquals(numberOfAllViews - numberOfAllViewsAfterDeletion, 1 );
+
     }
 
     @Test

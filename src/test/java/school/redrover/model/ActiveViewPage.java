@@ -14,5 +14,4 @@ public class ActiveViewPage extends BaseMainHeaderPage<ActiveViewPage> {
 
         return TestUtils.getText(this, getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
     }
-
 }
