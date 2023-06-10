@@ -5,16 +5,16 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.LoginPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.PluginsPage;
+import school.redrover.model.*;
 import school.redrover.model.base.BaseComponent;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent<Page> {
+public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseComponent<Page> {
 
     public MainHeaderComponent(Page page) {
         super(page);
@@ -31,11 +31,18 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
                 .perform();
     }
 
-    private void openDropdownSubmenuFromDashboard(By locator) {
+    public MainHeaderComponent<Page> clickDashboardDropdownMenu() {
+        hoverOver(By.xpath("//a[text()='Dashboard']"));
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
+        return this;
+    }
+
+    private void clickDashboardDropdownMenu(By subMenu) {
+        clickDashboardDropdownMenu();
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel yuimenuitemlabel-hassubmenu']")))
                 .pause(Duration.ofSeconds(1))
-                .moveToElement(getDriver().findElement(locator))
+                .moveToElement(getDriver().findElement(subMenu))
                 .click()
                 .perform();
     }
@@ -135,16 +142,18 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
         return getDriver().findElement(By.id("visible-am-button")).getCssValue("background-color");
     }
 
-    public WebElement getLinkVersion() {
-        return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']"));
+    public String getLinkVersion() {
+        return getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']")).getText();
+    }
+
+    public NewJobPage clickNewItemDashboardDropdownMenu(){
+        clickDashboardDropdownMenu();
+        getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']/div/ul/li/a")).click();
+        return new NewJobPage(getDriver());
     }
 
     public PluginsPage openPluginsPageFromDashboardDropdownMenu () {
-        hoverOver(By.xpath("//a[text()='Dashboard']"));
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
-
-        openDropdownSubmenuFromDashboard(By.xpath("//*[@id='yui-gen8']/a/span"));
-
+        clickDashboardDropdownMenu(By.xpath("//span[contains(text(), 'Manage Plugins')]"));
         return new PluginsPage(getDriver());
     }
 
@@ -158,5 +167,19 @@ public class MainHeaderComponent<Page extends BasePage<?>> extends BaseComponent
     public LoginPage clickLogoutButton() {
         getDriver().findElement(LOGOUT_BUTTON).click();
         return new LoginPage(getDriver());
+    }
+
+    public List<String> getMenuList() {
+        List<WebElement> dropDownMenu = getDriver().findElements(By.cssSelector("#breadcrumb-menu>div:first-child>ul>li"));
+        List<String> menuList = new ArrayList<>();
+        for (WebElement el : dropDownMenu) {
+            menuList.add(el.getAttribute("innerText"));
+        }
+        return menuList;
+    }
+
+    public UserPage clickUserName() {
+        getDriver().findElement(By.xpath("//div[3]/a[1]/span")).click();
+        return new UserPage(getDriver());
     }
 }

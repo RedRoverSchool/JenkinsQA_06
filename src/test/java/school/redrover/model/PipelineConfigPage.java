@@ -6,9 +6,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.base.BaseConfigPage;
+import school.redrover.model.base.BaseConfigProjectsPage;
 import school.redrover.runner.TestUtils;
 
-public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, PipelinePage> {
+public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPage, PipelinePage> {
 
     public PipelineConfigPage(PipelinePage pipelinePage) {
         super(pipelinePage);
@@ -186,13 +187,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage, Pipel
                 .getAttribute("value"));
     }
 
-    public PipelineConfigPage clickGitHubProjectCheckbox() {
-        getDriver().findElement(By.xpath("//label[text()='GitHub project']")).click();
-        return this;
-    }
-
-    public PipelineConfigPage inputTextTheInputAreaProjectUrlInGitHubProject(String text) {
-        getDriver().findElement(By.cssSelector("[name='_.projectUrlStr']")).sendKeys(text);
-        return this;
+    public String getErrorMessageStrategyDays() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']"))).getText();
     }
 }

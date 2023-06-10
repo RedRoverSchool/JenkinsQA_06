@@ -15,6 +15,10 @@ public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage>
         return getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
     }
 
+    public String getError() {
+        return getDriver().findElement(By.xpath("//h1")).getText();
+    }
+
     public String getHeaderText() {
 
         return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']//h1"))).getText();

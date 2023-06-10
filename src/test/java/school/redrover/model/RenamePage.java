@@ -6,7 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
 
-public class RenamePage <JobTypePage extends BasePage<?>> extends BaseMainHeaderPage<RenamePage<JobTypePage>> {
+public class RenamePage <JobTypePage extends BasePage<?, ?>> extends BaseMainHeaderPage<RenamePage<JobTypePage>> {
 
     private final JobTypePage jobTypePage;
 
@@ -22,7 +22,7 @@ public class RenamePage <JobTypePage extends BasePage<?>> extends BaseMainHeader
         return this;
     }
 
-    public JobTypePage submitNewName() {
+    public JobTypePage clickRenameButton() {
         getDriver().findElement(By.name("Submit")).click();
         return jobTypePage;
     }
@@ -32,7 +32,7 @@ public class RenamePage <JobTypePage extends BasePage<?>> extends BaseMainHeader
         return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".error"))).getText();
     }
 
-    public CreateItemErrorPage clickRenameButton() {
+    public CreateItemErrorPage clickRenameButtonAndGoError() {
         getDriver().findElement(By.name("Submit")).click();
         return new CreateItemErrorPage(getDriver());
     }
