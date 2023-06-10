@@ -413,7 +413,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
-    public void testSetParametersToDiscardOldBuilds() throws InterruptedException {
+    public void testSetParametersToDiscardOldBuilds() {
         final int daysToKeepBuilds = 3;
         final int maxOfBuildsToKeep = 5;
 
