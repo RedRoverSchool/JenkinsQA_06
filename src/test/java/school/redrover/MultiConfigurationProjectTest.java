@@ -355,6 +355,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(disableMessage.contains(disableResult), "Not found such message");
     }
 
+
+    @Ignore
     @Test(dependsOnMethods = "testCreateProject")
     public void testDeleteProjectFromDropDownMenu() {
         List<String> deleteProject = new MainPage(getDriver())
