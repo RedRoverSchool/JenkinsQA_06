@@ -73,8 +73,8 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     }
 
     public ConfigureGlobalSecurityPage clickConfigureGlobalSecurity() {
-        getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='configureSecurity']"))).click();
 
         return new ConfigureGlobalSecurityPage(getDriver());
     }
