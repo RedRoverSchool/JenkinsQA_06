@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
@@ -101,5 +100,17 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
                 .checkRadioButtons();
 
         Assert.assertTrue(allChecksAreOk);
+    }
+
+    @Test
+    public void testSavedNotificationAppearsWhenClickApply() {
+
+        String savedNotificationText = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .clickApplyButton()
+                .getSavedNotificationText();
+
+        Assert.assertEquals(savedNotificationText, "Saved");
     }
 }

@@ -74,4 +74,15 @@ public class ConfigureGlobalSecurityPage extends BaseMainHeaderPage<ConfigureGlo
         }
         return true;
     }
+
+    public ConfigureGlobalSecurityPage clickApplyButton() {
+        getDriver().findElement(By.xpath("//button[@name = 'Apply']")).click();
+
+        return new ConfigureGlobalSecurityPage(getDriver());
+    }
+
+    public String getSavedNotificationText() {
+
+        return getDriver().findElement(By.xpath("//div[@id='notification-bar']/span")).getText();
+    }
 }
