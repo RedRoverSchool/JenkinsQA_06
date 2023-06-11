@@ -63,13 +63,12 @@ public class UsersTest extends BaseTest {
                 "The error message is incorrect or missing");
     }
 
-    @Ignore
-    @Test
+    @Test(dependsOnMethods = "testCreateNewUser")
     public void testErrorWhenCreateDuplicatedUser() {
 
-        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
-
         String errorDuplicatedUser = new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
                 .clickCreateUser()
                 .fillUserDetails(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL)
                 .getUserNameExistsError();
@@ -78,15 +77,14 @@ public class UsersTest extends BaseTest {
                 "The error message is incorrect or missing");
     }
 
-    @Ignore
-    @Test
+
+    @Test(dependsOnMethods = "testCreateNewUser")
     public void testAddDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "Test User Description";
 
-        new CreateUserPage(getDriver())
-                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
-
         new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
                 .clickUserIDName(USER_NAME);
 
         String actualDisplayedDescriptionText = new StatusUserPage(getDriver())
@@ -99,8 +97,7 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualDisplayedDescriptionText, displayedDescriptionText);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testAddDescriptionToUserOnUserStatusPage")
+    @Test(dependsOnMethods = {"testCreateNewUser", "testAddDescriptionToUserOnUserStatusPage"})
     public void testEditDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "User Description Updated";
 
@@ -139,14 +136,13 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals("Description text", descriptionText);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateNewUser")
     public void testEditEmailOnTheUserProfilePageByDropDown() {
         final String displayedEmail = "testedited@test.com";
 
-        new CreateUserPage(getDriver())
-                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
-
         new ManageUsersPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
                 .clickUserIDDropDownMenu(USER_NAME)
                 .selectConfigureUserIDDropDownMenu();
 
