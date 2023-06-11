@@ -19,9 +19,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new NewJobPage(getDriver());
     }
 
-    public DeleteFoldersPage delete() {
+    public DeletePage<FolderPage> delete() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
-        return new DeleteFoldersPage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public RenamePage<FolderPage> rename() {

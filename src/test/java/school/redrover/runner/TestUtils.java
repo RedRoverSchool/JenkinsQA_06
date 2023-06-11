@@ -13,6 +13,30 @@ import java.util.List;
 
 public class TestUtils {
 
+    public enum JobType {
+        FreestyleProject(1),
+
+        Pipeline(2),
+
+        MultiConfigurationProject(3),
+
+        Folder(4),
+
+        MultibranchPipeline(5),
+
+        OrganizationFolder(6);
+
+        private final int position;
+
+        JobType(int position) {
+            this.position = position;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+    }
+
     private static void createProject(BaseTest baseTest, String name) {
         new MainPage(baseTest.getDriver())
                 .clickNewItem()
@@ -31,7 +55,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
+                .selectJobType(JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -41,7 +66,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(2, new PipelineConfigPage(new PipelinePage(baseTest.getDriver())))
+                .selectJobType(JobType.Pipeline)
+                .clickOkButton(new PipelineConfigPage(new PipelinePage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -51,7 +77,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(3, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(baseTest.getDriver())))
+                .selectJobType(JobType.MultiConfigurationProject)
+                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -61,7 +88,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(baseTest.getDriver())))
+                .selectJobType(JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -71,7 +99,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(baseTest.getDriver())))
+                .selectJobType(JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -147,7 +176,8 @@ public class TestUtils {
                 .clickDropDownMenuFolder(folderName)
                 .selectNewItemInDropDownMenu(viewName, folderName)
                 .enterItemName(jobName)
-                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
+                .selectJobType(JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
        clickBreadcrumbLinkItem(baseTest, viewName);

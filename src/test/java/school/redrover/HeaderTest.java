@@ -13,18 +13,17 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import static org.testng.Assert.assertEquals;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class HeaderTest extends BaseTest {
+import static org.testng.Assert.*;
 
-    private static final By NOTIFICATION_ICON = By.id("visible-am-button");
-    private static final By MANAGE_JENKINS_LINK = By.xpath("//a[text()='Manage Jenkins']");
+public class HeaderTest extends BaseTest {
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
@@ -311,7 +310,7 @@ public class HeaderTest extends BaseTest {
     @Ignore
     @Test
     public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
-        getDriver().findElement(NOTIFICATION_ICON).click();
+        getDriver().findElement(By.id("visible-am-button")).click();
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list")));
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Manage Jenkins')]"))).click();
 
@@ -354,9 +353,9 @@ public class HeaderTest extends BaseTest {
     @Ignore
     @Test
     public void testNotificationIcon(){
-        iconChangeColor(NOTIFICATION_ICON);
-        getDriver().findElement(NOTIFICATION_ICON).click();
-        String actualRes = getDriver().findElement(MANAGE_JENKINS_LINK).getText();
+        iconChangeColor(By.id("visible-am-button"));
+        getDriver().findElement(By.id("visible-am-button")).click();
+        String actualRes = getDriver().findElement(By.xpath("//a[text()='Manage Jenkins']")).getText();
         Assert.assertEquals(actualRes, "Manage Jenkins");
     }
 
@@ -388,5 +387,78 @@ public class HeaderTest extends BaseTest {
                 .openCredentialsTabFromAdminDropdownMenu();
 
         Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+    }
+
+    @Test
+    public void testClickLogoToReturnToDashboardPage() {
+
+        TestUtils.createFreestyleProject(this, "New Item 1", true);
+        TestUtils.createFolder(this, "New Item 2", false);
+
+        WebElement goToUserIdPage = getDriver()
+                .findElement(By.xpath("//a[@href='/user/admin']//*[not(self::button)]"));
+        goToUserIdPage.click();
+
+        WebElement clickJenkinsLogoToReturnToDashboardPage = getDriver()
+                .findElement(By.xpath("//div[@class='logo']/a"));
+        clickJenkinsLogoToReturnToDashboardPage.click();
+
+        List<WebElement> ifBreadcrumbBarMenuListConsistsOfDashboardWord = getDriver()
+                .findElements(By.xpath("//div[@id='breadcrumbBar']/descendant::text()/parent::*"));
+        for (WebElement i : ifBreadcrumbBarMenuListConsistsOfDashboardWord) {
+            assertEquals(i.getText(), "Dashboard");
+        }
+
+        List<String> expectedCreatedItemsList = Arrays.asList("New Item 1", "New Item 2");
+        List<WebElement> actualItemsList = getDriver()
+                .findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
+        for (int i = 0; i < actualItemsList.size(); i++) {
+            assertEquals(actualItemsList.get(i).getText(), expectedCreatedItemsList.get(i));
+        }
+    }
+
+    @Test
+    public void testNotificationAndSecurityIconsVisibilityOfIcons() {
+
+        List<WebElement> visibilityOfIcons = getDriver()
+                .findElements(By.xpath("//div[@class='login page-header__hyperlinks']//*[name()= 'svg']"));
+        for (WebElement icons : visibilityOfIcons) {
+            assertTrue(icons.isDisplayed());
+        }
+    }
+
+    @Test
+    public void testNotificationAndSecurityIconsButtonsChangeColorWhenMouseover() {
+        List<WebElement> buttonsChangeColorWhenMouseover = getDriver()
+                .findElements(By.xpath("//div[contains(@class,'am-container')]"));
+        for (int i = 0; i < buttonsChangeColorWhenMouseover.size(); i++) {
+
+            WebElement iconButtons = buttonsChangeColorWhenMouseover.get(i);
+
+            String backgroundColor = iconButtons.getCssValue("color");
+            new Actions(getDriver()).moveToElement(iconButtons).perform();
+            String hoverColor = iconButtons.getCssValue("background-color");
+
+            assertNotEquals(backgroundColor, hoverColor);
+        }
+    }
+
+    @Test
+    public void testNotificationAndSecurityIconsPopUpScreen() {
+        List<WebElement> popUpScreen = getDriver()
+                .findElements(By.xpath("//div[contains(@class,'am-container')]"));
+        for (int i = 0; i < popUpScreen.size(); i++) {
+            if (popUpScreen.get(i).isDisplayed()) {
+                popUpScreen.get(i).click();
+
+                assertTrue(getWait2().
+                        until(ExpectedConditions.visibilityOfElementLocated
+                                (By.xpath("//div[@id='visible-am-list']"))).isDisplayed());
+
+                if (i < popUpScreen.size() - 1 && !popUpScreen.get(i++).isDisplayed()) {
+                    break;
+                }
+            }
+        }
     }
 }

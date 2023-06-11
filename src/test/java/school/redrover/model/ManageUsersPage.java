@@ -71,16 +71,11 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         return this;
     }
 
-    public String getInvalidEmailError() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@class='error jenkins-!-margin-bottom-2']"))).getText();
-    }
-
-    public ManageUsersPage clickDeleteUser() {
+    public DeletePage<ManageUsersPage> clickDeleteUser() {
         getDriver().findElement(
                 By.xpath("//a[@class='jenkins-table__button jenkins-!-destructive-color']")).click();
 
-        return this;
+        return new DeletePage<>(getDriver(), this);
     }
 
     public boolean getUserDeleted(String username) {

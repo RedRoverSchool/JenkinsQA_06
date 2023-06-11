@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
@@ -32,20 +33,20 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return this;
     }
 
-    public NewJobPage selectTypeJob(int jobTypeByNumber) {
+    public NewJobPage selectJobType(TestUtils.JobType jobType) {
         List<WebElement> jobs = getDriver().findElements(By.cssSelector("#items>div>ul>li"));
-        jobs.get(jobTypeByNumber - 1).click();
+        jobs.get(jobType.getPosition() - 1).click();
         return this;
     }
 
-    public <JobConfigPage extends BaseConfigPage<?,?>>JobConfigPage selectTypeJobAndOk(int jobTypeByNumber, JobConfigPage jobConfigPage) {
-        selectTypeJob(jobTypeByNumber);
+    public <JobConfigPage extends BaseConfigPage<?,?>> JobConfigPage clickOkButton(JobConfigPage jobConfigPage) {
         getOkButton().click();
         return jobConfigPage;
     }
 
-    public CreateItemErrorPage selectJobAndOkAndGoError(int jobTypeByNumber, BaseConfigPage<?,?> jobConfigPage) {
-        selectTypeJobAndOk(jobTypeByNumber, jobConfigPage);
+    public CreateItemErrorPage selectJobAndOkAndGoError(TestUtils.JobType jobType) {
+        selectJobType(jobType);
+        clickOkButton(null);
         return new CreateItemErrorPage(getDriver());
     }
 

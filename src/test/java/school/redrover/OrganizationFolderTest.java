@@ -5,6 +5,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class OrganizationFolderTest extends BaseTest {
 
@@ -17,7 +18,8 @@ public class OrganizationFolderTest extends BaseTest {
         String actualNewFolderName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectTypeJobAndOk(6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -48,7 +50,8 @@ public class OrganizationFolderTest extends BaseTest {
         boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderName)
-                .selectTypeJobAndOk(4, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -69,7 +72,8 @@ public class OrganizationFolderTest extends BaseTest {
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectTypeJobAndOk(6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .clickDisable()
                 .clickSaveButton()
                 .getTextFromDisableMessage();
@@ -83,7 +87,8 @@ public class OrganizationFolderTest extends BaseTest {
         String textFromDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectTypeJobAndOk(6, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .addDescription("Description")
                 .clickSaveButton()
                 .getTextFromDescription();
@@ -123,5 +128,18 @@ public class OrganizationFolderTest extends BaseTest {
                 .getErrorMessage();
 
         Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
+    }
+
+    @Test(dependsOnMethods = {"testRenameNegative"} )
+    public void testDeleteOrganizationFolder() {
+        String welcomeText = new CreateItemErrorPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickJodOrganizationFolder()
+                .clickDeleteOrganizationFolderSideMenu()
+                .clickYesButton()
+                .getWelcomeText();
+
+        Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
 }

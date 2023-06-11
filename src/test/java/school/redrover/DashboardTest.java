@@ -8,6 +8,7 @@ import school.redrover.model.FreestyleProjectConfigPage;
 import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,8 @@ public class DashboardTest extends BaseTest {
         return new MainPage(getDriver())
                 .clickCreateAJobArrow()
                 .enterItemName(name)
-                .selectTypeJobAndOk(1, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .getHeader()
                 .clickLogo();
     }
@@ -77,5 +79,16 @@ public class DashboardTest extends BaseTest {
                 .getMenuList();
 
         Assert.assertEquals(actualMenuList, expectedMenuList);
+    }
+
+    @Test
+    public void testMoveFromBuildHistoryPageToPeoplePageByDropDownMenu() {
+        String actualTitle = new MainPage(getDriver())
+                .clickBuildsHistoryButton()
+                .getHeader()
+                .openPeoplePageFromDashboardDropdownMenu()
+                .getPageTitle();
+
+        Assert.assertEquals(actualTitle, "People");
     }
 }

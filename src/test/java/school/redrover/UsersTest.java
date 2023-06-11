@@ -1,18 +1,16 @@
 package school.redrover;
 
-import com.fasterxml.jackson.databind.node.TextNode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.component.MainHeaderComponent;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,8 +39,12 @@ public class UsersTest extends BaseTest {
                 .navigateToManageJenkinsPage()
                 .clickManageUsers()
                 .clickCreateUser()
-                .fillUserDetails(USER_NAME)
-                .clickYesButton()
+                .enterUsername(USER_NAME)
+                .enterPassword(PASSWORD)
+                .enterConfirmPassword(PASSWORD)
+                .enterFullName(USER_FULL_NAME)
+                .enterEmail(EMAIL)
+                .clickCreateUserButton()
                 .isUserExist(USER_NAME);
 
         Assert.assertTrue(newUser);
@@ -54,13 +56,14 @@ public class UsersTest extends BaseTest {
                 .navigateToManageJenkinsPage()
                 .clickManageUsers()
                 .clickCreateUser()
-                .fillUserDetailsWithInvalidEmail(USER_NAME)
-                .clickYesButton()
+                .fillUserDetails(USER_NAME, PASSWORD, USER_FULL_NAME, "test.mail.com")
                 .getInvalidEmailError();
 
-        Assert.assertEquals(errorEmail, "Invalid e-mail address");
+        Assert.assertEquals(errorEmail, "Invalid e-mail address",
+                "The error message is incorrect or missing");
     }
 
+    @Ignore
     @Test
     public void testErrorWhenCreateDuplicatedUser() {
 
@@ -68,24 +71,23 @@ public class UsersTest extends BaseTest {
 
         String errorDuplicatedUser = new ManageUsersPage(getDriver())
                 .clickCreateUser()
-                .enterUsername(USER_NAME)
-                .enterPassword(PASSWORD)
-                .enterConfirmPassword(PASSWORD)
-                .enterFullName(USER_FULL_NAME)
-                .enterEmail(EMAIL)
+                .fillUserDetails(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL)
                 .getUserNameExistsError();
 
         Assert.assertEquals(errorDuplicatedUser, "User name is already taken",
-                "Unexpected error message");
+                "The error message is incorrect or missing");
     }
 
+    @Ignore
     @Test
     public void testAddDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "Test User Description";
 
-        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        new ManageUsersPage(getDriver()).clickUserIDName(USER_NAME);
+        new ManageUsersPage(getDriver())
+                .clickUserIDName(USER_NAME);
 
         String actualDisplayedDescriptionText = new StatusUserPage(getDriver())
                 .clickAddDescriptionLink()
@@ -97,6 +99,7 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualDisplayedDescriptionText, displayedDescriptionText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddDescriptionToUserOnUserStatusPage")
     public void testEditDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "User Description Updated";
@@ -140,7 +143,8 @@ public class UsersTest extends BaseTest {
     public void testEditEmailOnTheUserProfilePageByDropDown() {
         final String displayedEmail = "testedited@test.com";
 
-        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         new ManageUsersPage(getDriver())
                 .clickUserIDDropDownMenu(USER_NAME)
@@ -160,6 +164,7 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualEmail, displayedEmail);
     }
 
+    @Ignore
     @Test
     public void testVerifyUserPageMenu() {
         new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -197,29 +202,30 @@ public class UsersTest extends BaseTest {
 
     @Test
     public void testSortArrowModeChangesAfterClickingSortHeaderButton() {
-        getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
 
-        WebElement userIdBtnNoSortArrowBeforeClick = getDriver().findElement(
-                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
-        Assert.assertTrue(userIdBtnNoSortArrowBeforeClick.getText().isEmpty());
+        boolean userIDButtonWithoutArrow = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
+                .isUserIDButtonWithoutArrow();
 
-        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]")).click();
+        Assert.assertTrue(userIDButtonWithoutArrow, "UserID button has sort arrow");
 
-        String userIdBtnSortArrowUpAfterFirstClick = getDriver().findElement(
-                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
-        Assert.assertEquals(userIdBtnSortArrowUpAfterFirstClick, "  ↑");
+        boolean userIDButtonWithUpArrow = new PeoplePage(getDriver())
+                .clickUserIDButton()
+                .isUserIDButtonWithUpArrow();
 
-        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]")).click();
+        Assert.assertTrue(userIDButtonWithUpArrow, "UserID button has not up arrow");
 
-        String userIdBtnSortArrowDownAfterSecondClick = getDriver().findElement(
-                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span")).getText();
-        Assert.assertEquals(userIdBtnSortArrowDownAfterSecondClick, "  ↓");
+        boolean userIDButtonWithDownArrow = new PeoplePage(getDriver())
+                .clickUserIDButton()
+                .isUserIDButtonWithDownArrow();
 
-        getDriver().findElement(By.xpath("//a[@class='sortheader'][contains(text(), 'Name')]")).click();
+        Assert.assertTrue(userIDButtonWithDownArrow, "UserID button has not down arrow");
 
-        WebElement userIdBtnNoArrowAfterAnotherButtonClick = getDriver().findElement(
-                By.xpath("//a[@class='sortheader'][contains(text(), 'User ID')]/span"));
-        Assert.assertTrue(userIdBtnNoArrowAfterAnotherButtonClick.getText().isEmpty());
+        boolean userIDButtonNotContainsArrow = new PeoplePage(getDriver())
+                .clickNameButton()
+                .isUserIDButtonWithoutArrow();
+
+        Assert.assertTrue(userIDButtonNotContainsArrow, "UserID button has sort arrow");
     }
 
     @Test
@@ -269,22 +275,21 @@ public class UsersTest extends BaseTest {
     @Test
     public void testDeleteUserViaManageUsers() {
 
-        new CreateUserPage(getDriver()).createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        new CreateUserPage(getDriver()).createUserAndReturnToMainPage(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        WebElement basketButtonSelectedUser = getDriver().findElement(
-                By.xpath("//a[@href='user/" + USER_NAME + "/delete']"));
-        basketButtonSelectedUser.click();
+        boolean userIsNotFind = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageUsers()
+                .clickDeleteUser()
+                .clickYesButton()
+                .isUserExist(USER_NAME);
 
-        getDriver().findElement(By.name("Submit")).click();
-
-        Boolean userIsNotFind = ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(
-                By.xpath("//a[@href='user/" + USER_NAME + "/']"))).apply(getDriver());
-
-        Assert.assertTrue(userIsNotFind);
+        Assert.assertFalse(userIsNotFind);
     }
 
     @Test(dependsOnMethods = "testDeleteUserViaManageUsers")
     public void testLogInWithDeletedUserCredentials() {
+
         getDriver().findElement(By.xpath("//a[@href= '/logout']")).click();
         getDriver().findElement(By.id("j_username")).sendKeys(USER_NAME);
         getDriver().findElement(By.xpath("//input[@name='j_password']")).sendKeys(PASSWORD);

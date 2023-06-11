@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.component.MainHeaderComponent;
 
 public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage> {
 
@@ -23,4 +24,6 @@ public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage>
 
         return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']//h1"))).getText();
     }
+
+
 }

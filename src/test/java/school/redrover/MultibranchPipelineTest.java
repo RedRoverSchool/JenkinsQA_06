@@ -8,8 +8,6 @@ import school.redrover.model.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.util.List;
-
 public class MultibranchPipelineTest extends BaseTest {
 
     private static final String NAME = "MultibranchPipeline";
@@ -22,7 +20,8 @@ public class MultibranchPipelineTest extends BaseTest {
         MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
+                .selectJobType(TestUtils.JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .enterDisplayName(multibranchPipelineDisplayName)
                 .clickSaveButton();
 
@@ -35,7 +34,8 @@ public class MultibranchPipelineTest extends BaseTest {
         String MultibranchPipeline = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
+                .selectJobType(TestUtils.JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .addDescription("DESCRIPTION")
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
@@ -47,13 +47,15 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testCreateMultibranchPipelineWithoutDescription() {
-        MultibranchPipelinePage pageWithOutDescription = new MainPage(getDriver())
+        boolean isDescriptionEmpty = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(5, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
-                .clickSaveButton();
+                .selectJobType(TestUtils.JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
+                .clickSaveButton()
+                .isDescriptionEmpty();
 
-        Assert.assertTrue(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())).viewDescription().getText().isEmpty());
+        Assert.assertTrue(isDescriptionEmpty);
     }
 
     @Test(dependsOnMethods = "testCreateMultibranchPipelineWithoutDescription")
@@ -83,7 +85,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testDeleteMultibranchPipeline() {
         String WelcomeJenkinsPage = new MainPage(getDriver())
                 .dropDownMenuClickDeleteFolders(RENAMED)
-                .clickYes()
+                .clickYesButton()
                 .getWelcomeText();
 
         Assert.assertEquals(WelcomeJenkinsPage, "Welcome to Jenkins!");
@@ -91,14 +93,15 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithDisplayName")
     public void testChooseDefaultIcon() {
-        MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
+        boolean defaultIconDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
                 .clickConfigureSideMenu()
                 .clickAppearance()
                 .selectDefaultIcon()
-                .clickSaveButton();
+                .clickSaveButton()
+                .defaultIconIsDisplayed();
 
-        Assert.assertTrue(multibranchPipelinePage.defaultIconIsDisplayed(), "error was not shown default icon");
+        Assert.assertTrue(defaultIconDisplayed, "error was not shown default icon");
     }
 
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithDisplayName")
@@ -115,21 +118,11 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertTrue(healthMetricIsVisible, "error was not shown Health Metrics");
     }
 
-    @Test
-    public void createMultiPipeline(){
-        for (int i = 0 ;i < 4; i++){
-            String jobName = "M0"+i;
-            TestUtils.createMultibranchPipeline(this,jobName,true);
-        }
-        MainPage mainPage = new MainPage(getDriver());
-        List<String> jobs = mainPage.getJobList();
-        Assert.assertTrue(jobs.size()==4);
-    }
+    @Test(dependsOnMethods = "testCreateMultibranchPipelineWithDescription")
+    public void testFindCreatedMultibranchPipelineOnMainPage(){
+        boolean jobIsPresent = new MainPage(getDriver())
+                .verifyJobIsPresent(NAME);
 
-    @Test(dependsOnMethods = "createMultiPipeline")
-    public void testFindCreatedMultibranchPipelineOnDashboard(){
-        MainPage mainPage = new MainPage(getDriver());
-        boolean status = mainPage.verifyJobIsPresent("M00");
-        Assert.assertTrue(status);
+        Assert.assertTrue(jobIsPresent);
     }
 }
