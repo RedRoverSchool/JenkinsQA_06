@@ -71,11 +71,11 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         return this;
     }
 
-    public ManageUsersPage clickDeleteUser() {
+    public DeletePage<ManageUsersPage> clickDeleteUser() {
         getDriver().findElement(
                 By.xpath("//a[@class='jenkins-table__button jenkins-!-destructive-color']")).click();
 
-        return this;
+        return new DeletePage<>(getDriver(), this);
     }
 
     public boolean getUserDeleted(String username) {

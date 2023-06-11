@@ -7,7 +7,6 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -109,7 +108,6 @@ public class NewViewTest extends BaseTest {
                 .getListOfAllViews().size();
 
         assertEquals(numberOfAllViews - numberOfAllViewsAfterDeletion, 1 );
-
     }
 
     @Test
@@ -132,7 +130,7 @@ public class NewViewTest extends BaseTest {
                 .clickLogo()
                 .clickOnView(viewName)
                 .clickDeleteView()
-                .clickYes()
+                .clickYesButton()
                 .verifyViewIsPresent(viewName);
 
         Assert.assertFalse(isDeletedViewPresent);

@@ -98,9 +98,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return this;
     }
 
-    public DeleteFoldersPage dropDownMenuClickDeleteFolders(String jobName) {
+    public DeletePage<MainPage> dropDownMenuClickDeleteFolders(String jobName) {
         dropDownMenuClickDelete(jobName);
-        return new DeleteFoldersPage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public MainPage acceptAlert() {
