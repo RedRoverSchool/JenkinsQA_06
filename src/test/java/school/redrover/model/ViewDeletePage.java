@@ -15,4 +15,9 @@ public class ViewDeletePage extends BaseMainHeaderPage<ViewDeletePage> {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
         return new MainPage(getDriver());
     }
+
+    public MyViewsPage clickYesButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).click();
+        return new MyViewsPage(getDriver());
+    }
 }

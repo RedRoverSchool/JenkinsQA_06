@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.List;
@@ -151,6 +152,19 @@ public class ManageJenkinsTest extends BaseTest {
             .inputToSearchField(inputText)
             .getDropdownResultsInSearchField();
         Assert.assertEquals(searchResult, inputText);
+    }
+
+    @Test
+    public void testAccessSearchSettingsFieldUsingShortcutKey() {
+        final String partOfSettingsName = "manage";
+
+        ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchFieldUsingKeyboardShortcut(partOfSettingsName)
+                .selectAllDropdownResultsFromSearchField();
+
+        Assert.assertTrue(manageJenkinsPage.isDropdownResultsFromSearchFieldContainsTextToSearch(partOfSettingsName));
+        Assert.assertTrue(manageJenkinsPage.isDropdownResultsFromSearchFieldLinks());
     }
 
     @Test

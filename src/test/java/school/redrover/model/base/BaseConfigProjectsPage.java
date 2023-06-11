@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.CreateItemErrorPage;
 import school.redrover.runner.TestUtils;
 
 public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,ProjectPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, ProjectPage> {
@@ -101,5 +102,9 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,P
     public Self inputTextTheInputAreaProjectUrlInGitHubProject(String text) {
         getDriver().findElement(By.cssSelector("[name='_.projectUrlStr']")).sendKeys(text);
         return (Self) this;
+    }
+
+    public CreateItemErrorPage getErrorPage() {
+        return new CreateItemErrorPage(getDriver());
     }
 }
