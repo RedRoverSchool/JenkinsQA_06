@@ -66,7 +66,6 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         Assert.assertEquals(actualNumberOfHelpButton, expectedNumberOfHelpButton);
     }
 
-    @Ignore
     @Test
     public void testHostKeyVerificationStrategyDropdownMenuOptions() {
         List<String> expectedMenuNames = List.of(
