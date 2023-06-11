@@ -114,7 +114,10 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     }
 
     public ManageJenkinsPage selectAllDropdownResultsFromSearchField() {
-        options = getDriver().findElements(By.xpath("//div[@class='jenkins-search__results']/a"));
+        Actions action = new Actions(getDriver());
+        WebElement searchResultDropdown = getDriver().findElement(By.cssSelector("div.jenkins-search__results-container--visible"));
+        action.moveToElement(searchResultDropdown).perform();
+        options = searchResultDropdown.findElements(By.xpath("//div[@class='jenkins-search__results']/a"));
         return this;
     }
 
