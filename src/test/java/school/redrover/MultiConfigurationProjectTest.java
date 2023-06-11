@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
 import java.util.List;
 
 public class MultiConfigurationProjectTest extends BaseTest {
@@ -45,25 +44,22 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
 
-    @Test
+    @Test(dependsOnMethods = "testCreateProject")
     public void testCreateMultiConfigurationProjectWithEqualName() {
         final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + MULTI_CONFIGURATION_NAME + "’";
 
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
-
-        new MainPage(getDriver())
+        String error = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(MULTI_CONFIGURATION_NAME)
-                .selectTypeJobAndOk(TestUtils.JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())));
-
-        String error = new ErrorNodePage(getDriver())
-                .getErrorEqualName();
+                .selectTypeJobAndOk(TestUtils.JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
+                .getErrorPage()
+                .getErrorMessage();
 
             Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
 
 
-    @Test(dependsOnMethods = "testCreateProject")
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
     public void testRenameFromDropDownMenu() {
         String NewNameProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
@@ -179,15 +175,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateProject")
     public void testJobDropdownDelete() {
-        MainPage deletedProjPage = new MainPage((getDriver()))
-                .dropDownMenuClickDelete(MULTI_CONFIGURATION_NEW_NAME);
+        String helloMessage = new MainPage((getDriver()))
+                .dropDownMenuClickDelete(MULTI_CONFIGURATION_NAME)
+               .acceptAlert()
+               .getWelcomeText();
 
-        Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
-
-        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(), "Welcome to Jenkins!");
+        Assert.assertEquals(helloMessage, "Welcome to Jenkins!");
     }
 
     @Ignore
@@ -294,16 +289,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(messageUnderInputField, expectedResult);
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
+    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
     public void testRenameMultiConfigurationProject() {
         String newName = new MainPage(getDriver())
-                .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
+                .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NEW_NAME)
                 .clickRename()
-                .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
+                .enterNewName(MULTI_CONFIGURATION_NAME)
                 .clickRenameButton()
                 .getProjectName();
 
-        Assert.assertEquals(newName, "Project " + MULTI_CONFIGURATION_NEW_NAME);
+        Assert.assertEquals(newName, "Project " + MULTI_CONFIGURATION_NAME);
     }
 
     @Test
@@ -460,14 +455,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
-        final String expectedResult = "Error";
+        final String expectedResult = "No name is specified";
 
-        new MainPage(getDriver())
+        String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(" ")
-                .selectTypeJobAndOk(TestUtils.JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())));
-
-        String errorMessage = new ErrorNodePage(getDriver()).getErrorMessage();
+                .selectTypeJobAndOk(TestUtils.JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
+                .getErrorPage()
+                .getErrorMessage();
 
         Assert.assertEquals(errorMessage, expectedResult);
     }
@@ -506,6 +501,4 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
-
-
 }
