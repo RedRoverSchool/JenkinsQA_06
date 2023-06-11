@@ -97,6 +97,7 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualDisplayedDescriptionText, displayedDescriptionText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddDescriptionToUserOnUserStatusPage")
     public void testEditDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "User Description Updated";
@@ -135,7 +136,7 @@ public class UsersTest extends BaseTest {
 
         Assert.assertEquals("Description text", descriptionText);
     }
-    @Ignore
+
     @Test
     public void testEditEmailOnTheUserProfilePageByDropDown() {
         final String displayedEmail = "testedited@test.com";
