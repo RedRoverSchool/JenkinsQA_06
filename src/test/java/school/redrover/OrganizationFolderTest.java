@@ -129,4 +129,17 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
     }
+
+    @Test(dependsOnMethods = {"testRenameNegative"} )
+    public void testDeleteOrganizationFolder() {
+        String welcomeText = new CreateItemErrorPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickJodOrganizationFolder()
+                .clickDeleteOrganizationFolderSideMenu()
+                .clickYesButton()
+                .getWelcomeText();
+
+        Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
+    }
 }
