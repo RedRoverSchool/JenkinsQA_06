@@ -23,7 +23,7 @@ public class NewItemTest extends BaseTest {
 
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectTypeJob(TestUtils.JobType.MultiConfigurationProject)
+                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
                 .getItemNameRequiredErrorText();
 
         Assert.assertTrue(errorMessage.contains("» This field cannot be empty, please enter a valid name"));
@@ -76,7 +76,7 @@ public class NewItemTest extends BaseTest {
     public void testErrorRequiredCreateFreestyleProjectWithEmptyName() {
         String actualErrorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectTypeJob(TestUtils.JobType.FreestyleProject)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
                 .getItemNameRequiredMessage();
 
         Assert.assertEquals(actualErrorMessage, "» This field cannot be empty, please enter a valid name");
@@ -165,7 +165,8 @@ public class NewItemTest extends BaseTest {
         String project = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MultibranchPipeline_Project")
-                .selectTypeJobAndOk(TestUtils.JobType.MultibranchPipeline, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
+                .selectJobType(TestUtils.JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .clickSaveButton()
                 .getTextFromNameMultibranchProject();
 

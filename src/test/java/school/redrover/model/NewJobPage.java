@@ -33,20 +33,20 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return this;
     }
 
-    public NewJobPage selectTypeJob(TestUtils.JobType jobType) {
+    public NewJobPage selectJobType(TestUtils.JobType jobType) {
         List<WebElement> jobs = getDriver().findElements(By.cssSelector("#items>div>ul>li"));
         jobs.get(jobType.getPosition() - 1).click();
         return this;
     }
 
-    public <JobConfigPage extends BaseConfigPage<?,?>> JobConfigPage selectTypeJobAndOk(TestUtils.JobType jobType, JobConfigPage jobConfigPage) {
-        selectTypeJob(jobType);
+    public <JobConfigPage extends BaseConfigPage<?,?>> JobConfigPage clickOkButton(JobConfigPage jobConfigPage) {
         getOkButton().click();
         return jobConfigPage;
     }
 
     public CreateItemErrorPage selectJobAndOkAndGoError(TestUtils.JobType jobType) {
-        selectTypeJobAndOk(jobType, null);
+        selectJobType(jobType);
+        clickOkButton(null);
         return new CreateItemErrorPage(getDriver());
     }
 

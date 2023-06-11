@@ -8,8 +8,6 @@ import school.redrover.model.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.util.List;
-
 public class MultibranchPipelineTest extends BaseTest {
 
     private static final String NAME = "MultibranchPipeline";
@@ -22,7 +20,8 @@ public class MultibranchPipelineTest extends BaseTest {
         MultibranchPipelinePage multibranchPipelinePage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(TestUtils.JobType.MultibranchPipeline, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
+                .selectJobType(TestUtils.JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .enterDisplayName(multibranchPipelineDisplayName)
                 .clickSaveButton();
 
@@ -35,7 +34,8 @@ public class MultibranchPipelineTest extends BaseTest {
         String MultibranchPipeline = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(TestUtils.JobType.MultibranchPipeline, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
+                .selectJobType(TestUtils.JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .addDescription("DESCRIPTION")
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
@@ -50,7 +50,8 @@ public class MultibranchPipelineTest extends BaseTest {
         boolean isDescriptionEmpty = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(TestUtils.JobType.MultibranchPipeline, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
+                .selectJobType(TestUtils.JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .clickSaveButton()
                 .isDescriptionEmpty();
 
