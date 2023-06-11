@@ -78,14 +78,14 @@ public class UsersTest extends BaseTest {
     }
 
 
-    @Test(dependsOnMethods = "testCreateNewUser")
+    @Test
     public void testAddDescriptionToUserOnUserStatusPage() {
         final String displayedDescriptionText = "Test User Description";
 
-        new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
-                .clickManageUsers()
-                .clickUserIDName(USER_NAME);
+        new CreateUserPage(getDriver())
+                .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+
+        new ManageUsersPage(getDriver()).clickUserIDName(USER_NAME);
 
         String actualDisplayedDescriptionText = new StatusUserPage(getDriver())
                 .clickAddDescriptionLink()
