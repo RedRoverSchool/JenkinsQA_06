@@ -7,7 +7,6 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +19,8 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickNewItem()
                 .enterItemName(projectName)
-                .selectTypeJobAndOk(TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo();
@@ -30,7 +30,8 @@ public class NewViewTest extends BaseTest {
         new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
-                .selectTypeJobAndOk(TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .clickDashboard()
                 .createNewView()
@@ -51,7 +52,8 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickNewItem()
                 .enterItemName(freestyleProjectName)
-                .selectTypeJobAndOk(TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -120,7 +122,8 @@ public class NewViewTest extends BaseTest {
         boolean isDeletedViewPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(freestyleProjectName)
-                .selectTypeJobAndOk(TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .clickDashboard()
                 .createNewView()
@@ -200,7 +203,8 @@ public class NewViewTest extends BaseTest {
         WebElement newView = new MainPage(getDriver())
                  .clickNewItem()
                  .enterItemName("TestFolder")
-                 .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectJobType(TestUtils.JobType.Folder)
+                 .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                  .getHeader()
                  .clickLogo()
                  .clickJobName("TestFolder", new FolderPage(getDriver()))

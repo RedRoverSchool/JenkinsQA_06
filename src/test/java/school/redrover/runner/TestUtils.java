@@ -3,11 +3,9 @@ package school.redrover.runner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
-import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseModel;
 
 import java.util.ArrayList;
@@ -57,7 +55,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
+                .selectJobType(JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -67,7 +66,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(JobType.Pipeline, new PipelineConfigPage(new PipelinePage(baseTest.getDriver())))
+                .selectJobType(JobType.Pipeline)
+                .clickOkButton(new PipelineConfigPage(new PipelinePage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -77,7 +77,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(baseTest.getDriver())))
+                .selectJobType(JobType.MultiConfigurationProject)
+                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -87,7 +88,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(JobType.Folder, new FolderConfigPage(new FolderPage(baseTest.getDriver())))
+                .selectJobType(JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -97,7 +99,8 @@ public class TestUtils {
         createProject(baseTest, name);
 
         new NewJobPage(baseTest.getDriver())
-                .selectTypeJobAndOk(JobType.MultibranchPipeline, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(baseTest.getDriver())))
+                .selectJobType(JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(baseTest.getDriver())))
                 .clickSaveButton();
 
         goToMainPage(baseTest, goToHomePage);
@@ -173,7 +176,8 @@ public class TestUtils {
                 .clickDropDownMenuFolder(folderName)
                 .selectNewItemInDropDownMenu(viewName, folderName)
                 .enterItemName(jobName)
-                .selectTypeJobAndOk(JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
+                .selectJobType(JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
        clickBreadcrumbLinkItem(baseTest, viewName);

@@ -21,7 +21,8 @@ public class DashboardTest extends BaseTest {
         return new MainPage(getDriver())
                 .clickCreateAJobArrow()
                 .enterItemName(name)
-                .selectTypeJobAndOk(TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .getHeader()
                 .clickLogo();
     }

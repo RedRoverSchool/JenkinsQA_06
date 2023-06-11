@@ -25,7 +25,8 @@ public class FolderTest extends BaseTest {
                 .clickJobName(folderName, new FolderPage(getDriver()))
                 .newItem()
                 .enterItemName(jobName)
-                .selectTypeJobAndOk(jobType, jobConfigPage)
+                .selectJobType(jobType)
+                .clickOkButton(jobConfigPage)
                 .getHeader()
                 .clickLogo()
                 .clickJobName(folderName, new FolderPage(getDriver()))
@@ -38,7 +39,8 @@ public class FolderTest extends BaseTest {
         MainPage mainPage = new MainPage(getDriver())
                 .clickCreateAJob()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .getHeader()
                 .clickLogo();
 
@@ -61,7 +63,8 @@ public class FolderTest extends BaseTest {
                 .getHeader()
                 .clickNewItemDashboardDropdownMenu()
                 .enterItemName(NAME3)
-                .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .getHeader()
                 .clickLogo();
 
@@ -286,14 +289,16 @@ public class FolderTest extends BaseTest {
         boolean movedFreestyleProjectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
 
                 .clickNewItem()
                 .enterItemName(projectName)
-                .selectTypeJobAndOk(TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
 
                 .clickMoveOnSideMenu()
@@ -378,7 +383,8 @@ public class FolderTest extends BaseTest {
         String createdMultiConfigurationProjectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(multiConfigurationProjectName)
-                .selectTypeJobAndOk(TestUtils.JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
+                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
+                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -403,12 +409,14 @@ public class FolderTest extends BaseTest {
         String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderName)
-                .selectTypeJobAndOk(TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver())))
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
 
                 .clickNewItem()
                 .enterItemName(pipelineName)
-                .selectTypeJobAndOk(TestUtils.JobType.Pipeline, new PipelineConfigPage(new PipelinePage(getDriver())))
+                .selectJobType(TestUtils.JobType.Pipeline)
+                .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getProjectName();
 
