@@ -431,7 +431,6 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testMovePipelineToFolder() {
-
         TestUtils.createFolder(this, "testFolder", true);
         TestUtils.createPipeline(this, "testPipeline", true);
 
@@ -443,5 +442,32 @@ public class FolderTest extends BaseTest {
                         getBreadcrumbText();
 
         Assert.assertEquals(actualBreadcrumbText, "Dashboard > testFolder > testPipeline");
+    }
+
+    @Test
+    public void testMoveOrganizationFolderToFolderFromSideMenu() {
+        final String organizationFolderName = "organizationFolder";
+        TestUtils.createFolder(this, NAME, true);
+
+        String orgFolderName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(organizationFolderName)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+
+                .clickJobName(organizationFolderName, new OrganizationFolderPage(getDriver()))
+                .clickMoveOnSideMenu()
+                .selectDestinationFolder(NAME)
+                .clickMoveButton()
+                .getHeader()
+                .clickLogo()
+                .clickJobName(NAME, new FolderPage(getDriver()))
+
+                .getNestedOrganizationFolder(organizationFolderName);
+
+        Assert.assertEquals(orgFolderName, organizationFolderName);
     }
 }

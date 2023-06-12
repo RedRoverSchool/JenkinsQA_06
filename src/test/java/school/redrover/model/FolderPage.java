@@ -94,9 +94,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MovePage<>(this);
     }
 
-    public WebElement getNestedOrganizationFolder(String nameFolder) {
+    public String getNestedOrganizationFolder(String nameFolder) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]"))).getText();
     }
 
     public String getNestedMultiConfigurationProjectName(String name) {
