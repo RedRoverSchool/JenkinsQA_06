@@ -115,7 +115,7 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     }
 
     public Self checkProjectIsParametrized() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By
+        getWait10().until(ExpectedConditions.elementToBeClickable(By
                 .xpath("//label[text()='This project is parameterized']"))).click();
         return (Self) this;
     }
