@@ -83,6 +83,6 @@ public class ConfigureGlobalSecurityPage extends BaseMainHeaderPage<ConfigureGlo
 
     public String getSavedNotificationText() {
 
-        return getDriver().findElement(By.xpath("//div[@id='notification-bar']/span")).getText();
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//div[@id='notification-bar']/span")))).getText();
     }
 }
