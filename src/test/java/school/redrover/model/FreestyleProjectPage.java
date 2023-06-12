@@ -3,7 +3,6 @@ package school.redrover.model;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseProjectPage;
 
 import java.util.List;
@@ -17,8 +16,9 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
     }
 
     @Override
-    public BaseConfigPage clickConfigure() {
-        return null;
+    public FreestyleProjectConfigPage clickConfigure() {
+        setupClickConfigure();
+        return new FreestyleProjectConfigPage(this);
     }
 
     public FreestyleProjectPage selectBuildNow() {
