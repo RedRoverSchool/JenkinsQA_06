@@ -2,30 +2,21 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigureGlobalSecurityTest extends BaseTest {
+
     public void navigateToConfigureGlobalSecurityPage() {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
-    }
-
-    public int getNumberOfTitles() {
-        List<WebElement> listTitle = new ArrayList<>(getDriver().findElements(By.cssSelector(".jenkins-form-label")));
-        return listTitle.size();
-    }
-
-    public int getNumberOfHelpButton() {
-        List<WebElement> listHelpButton = new ArrayList<>(getDriver().findElements(By.xpath("//a[starts-with(@tooltip,'Help')]")));
-        return listHelpButton.size();
     }
 
     @Test
@@ -56,18 +47,22 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
     public void testCheckNumberOfTitles() {
         int expectedNumberOfTitles = 10;
 
-        navigateToConfigureGlobalSecurityPage();
+        int actualNumberOfTitles = new MainPage(getDriver())
+                .navigateToConfigureGlobalSecurityPage()
+                .getNumberOfTitles();
 
-        Assert.assertEquals(getNumberOfTitles(), expectedNumberOfTitles);
+        Assert.assertEquals(actualNumberOfTitles, expectedNumberOfTitles);
     }
 
     @Test
     public void testCheckNumberOfHelpButton() {
         int expectedNumberOfHelpButton = 15;
 
-        navigateToConfigureGlobalSecurityPage();
+        int actualNumberOfHelpButton = new MainPage(getDriver())
+                .navigateToConfigureGlobalSecurityPage()
+                .getNumberOfHelpButton();
 
-        Assert.assertEquals(getNumberOfHelpButton(), expectedNumberOfHelpButton);
+        Assert.assertEquals(actualNumberOfHelpButton, expectedNumberOfHelpButton);
     }
 
     @Test
@@ -78,19 +73,44 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
                 "Manually provided keys",
                 "No verification");
 
-        navigateToConfigureGlobalSecurityPage();
-
-        Actions action = new Actions(getDriver());
-        WebElement hostKeyVerificationDropdown = getDriver().findElement(By.xpath("//div[@class='jenkins-form-item ']//div[@class='jenkins-select']"));
-        action.moveToElement(hostKeyVerificationDropdown).click().perform();
-
-        List<WebElement> menus = getDriver().findElements(
-                By.xpath("//div[@class='jenkins-form-item ']//div[@class='jenkins-select']//option"));
-        List<String> actualMenuNames = new ArrayList<>();
-        for (WebElement element : menus) {
-            actualMenuNames.add(element.getText());
-        }
+        List<String> actualMenuNames = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .navigateToHostKeyVerificationStrategyDropdownAndClick()
+                .getDropDownMenuTexts();
 
         Assert.assertEquals(actualMenuNames, expectedMenuNames);
+    }
+
+    @Test
+    public void testAPICheckboxesAreClickable() {
+        boolean allChecksAreOk = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .checkAPICheckBoxes();
+
+        Assert.assertTrue(allChecksAreOk);
+    }
+
+    @Test
+    public void testRadioButtonsAreClickable() {
+        boolean allChecksAreOk = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .checkRadioButtons();
+
+        Assert.assertTrue(allChecksAreOk);
+    }
+
+    @Test
+    public void testSavedNotificationAppearsWhenClickApply() {
+
+        String savedNotificationText = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickConfigureGlobalSecurity()
+                .clickApplyButton()
+                .getSavedNotificationText();
+
+        Assert.assertEquals(savedNotificationText, "Saved");
     }
 }

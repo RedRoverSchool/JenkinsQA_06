@@ -5,19 +5,19 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class ManageJenkinsTest extends BaseTest {
-    final String NAME_NEW_NODE = "testNameNewNode";
+import static school.redrover.runner.TestUtils.getRandomStr;
 
-    private final By Manage_Jenkins = By.xpath("//a[@href='/manage']");
+public class ManageJenkinsTest extends BaseTest {
+
+    final String NAME_NEW_NODE = "testNameNewNode";
 
     public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
         for (WebElement element : titleTexts) {
@@ -29,46 +29,55 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testNameNewNodeOnCreatePage() {
+    public void testSearchWithLetterConfigureSystem() {
+        String configurePage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField("m")
+                .selectOnTheFirstLineInDropdown()
+                .getConfigureSystemPage();
 
-        WebElement buildExecutorStatus = getDriver().findElement(By.xpath("//a[@href='/computer/']"));
-        buildExecutorStatus.click();
-        WebElement newNodeButton = getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='new']"));
-        newNodeButton.click();
-        WebElement inputNodeName = getDriver().findElement(By.xpath("//input[@id='name']"));
-        inputNodeName.sendKeys(NAME_NEW_NODE);
-        WebElement permanentAgentRadioButton = getDriver().findElement(By.xpath("//label"));
-        permanentAgentRadioButton.click();
-        WebElement createButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        createButton.click();
-        WebElement nameField = getDriver().findElement(By.xpath("//input[@name='name']"));
-        String actualValueName = nameField.getAttribute("value");
-
-        Assert.assertEquals(actualValueName, NAME_NEW_NODE);
+        Assert.assertEquals(configurePage, "Configure System");
     }
 
     @Test
-    public void testErrorWhenCreateNewNodeWithEmptyName() {
+    public void testNavigateToManageJenkinsFromMainPageUsingDashboard() {
 
-        WebElement buildExecutorStatus = getDriver().findElement(By.xpath("//a[@href='/computer/']"));
-        buildExecutorStatus.click();
-        WebElement newNodeButton = getDriver().findElement(By.xpath("//div[@id='main-panel']//a[@href='new']"));
-        newNodeButton.click();
-        WebElement inputNodeName = getDriver().findElement(By.xpath("//input[@id='name']"));
-        inputNodeName.sendKeys(NAME_NEW_NODE);
-        WebElement permanentAgentRadioButton = getDriver().findElement(By.xpath("//label"));
-        permanentAgentRadioButton.click();
-        WebElement createButton = getDriver().findElement(By.xpath("//button[@name='Submit']"));
-        createButton.click();
-        WebElement nameField = getDriver().findElement(By.xpath("//input[@name='name']"));
-        nameField.clear();
-        WebElement saveButton = getDriver().findElement(By.name("Submit"));
-        saveButton.click();
-        WebElement H1Text = getDriver().findElement(By.xpath("//h1"));
-        WebElement textError = getDriver().findElement(By.xpath("//p"));
+        String page = new MainPage(getDriver())
+                .clickManageJenkinsOnDropDown()
+                .verifyManageJenkinsPage();
 
-        Assert.assertEquals(H1Text.getText(), "Error");
-        Assert.assertEquals(textError.getText(), "Query parameter 'name' is required");
+        Assert.assertEquals(page, "Manage Jenkins");
+    }
+
+    @Test
+    public void testNameNewNodeOnCreatePage() {
+        final String nodeName = "NodeTest";
+        String actualNodeName = new MainPage(getDriver())
+                .clickBuildExecutorStatus()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .clickSaveButton()
+                .getNodeName(nodeName);
+        Assert.assertEquals(actualNodeName, nodeName);
+    }
+
+    @Test
+    public void testTextErrorWhenCreateNewNodeWithEmptyName() {
+
+        String textError = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(NAME_NEW_NODE)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .clearNameField()
+                .clickSaveButtonWhenNameFieldEmpty()
+                .getTextError();
+
+        Assert.assertEquals(textError, "Query parameter 'name' is required");
     }
 
     @Test
@@ -112,22 +121,105 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test(dataProvider = "keywords")
     public void testSearchSettingsItemsByKeyword(String keyword) {
-        List<WebElement> actualResult, expectedResult, listSettingsItems;
 
-        getDriver().findElement(By.xpath("//div[@id='tasks']//div//a[@href='/manage']")).click();
+        boolean manageJenkinsPage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField(keyword)
+                .selectAllDropdownResultsFromSearchField()
+                .isDropdownResultsFromSearchFieldContainsTextToSearch(keyword);
 
-        listSettingsItems = getDriver().findElements(By.xpath("//div[@class='jenkins-section__item']//dt"));
+        Assert.assertTrue(manageJenkinsPage);
+    }
 
-        WebElement searchSettingsField = getDriver().findElement(By.xpath("//input[@id='settings-search-bar']"));
-        searchSettingsField.click();
-        searchSettingsField.sendKeys(keyword);
-        getWait10().until(ExpectedConditions.textToBePresentInElementValue(searchSettingsField, keyword));
+    @DataProvider(name = "ToolsAndActions")
+    public Object[][] searchToolsAndActions() {
+        return new Object[][]{{"Script Console"}, {"Jenkins CLI"}, {"Prepare for Shutdown"}};
+    }
 
-        actualResult = getWait10().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='jenkins-search__results']//a")));
-        expectedResult = listSettingsItems.stream().filter(item -> item.getText().toLowerCase().contains(keyword)).toList();
+    @Test(dataProvider = "ToolsAndActions")
+    public void testSearchToolsAndActions(String inputText) {
+        String searchResult = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField(inputText)
+                .getDropdownResultsInSearchField();
+        Assert.assertEquals(searchResult, inputText);
+    }
 
-        for (int i = 0; i < expectedResult.size(); i++) {
-            Assert.assertEquals(actualResult.get(i).getText(), expectedResult.get(i).getText());
-        }
+    @Test
+    public void testAccessSearchSettingsFieldUsingShortcutKey() {
+        final String partOfSettingsName = "manage";
+
+        ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchFieldUsingKeyboardShortcut(partOfSettingsName)
+                .selectAllDropdownResultsFromSearchField();
+
+        Assert.assertTrue(manageJenkinsPage.isDropdownResultsFromSearchFieldContainsTextToSearch(partOfSettingsName));
+        Assert.assertTrue(manageJenkinsPage.isDropdownResultsFromSearchFieldLinks());
+    }
+
+    @Test
+    public void testCreateNewAgentNode() {
+        final String nodeName = getRandomStr(10);
+
+        String manageNodesPage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .clickSaveButton()
+                .getNodeName(nodeName);
+
+        Assert.assertEquals(manageNodesPage, nodeName);
+    }
+
+    @Test
+    public void testCreateNewAgentNodeWithDescription() {
+        final String nodeName = getRandomStr(10);
+        final String description = getRandomStr(50);
+
+        String nodeDescription = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .addDescription(description)
+                .clickSaveButton()
+                .clickOnNode(nodeName)
+                .getNodeDescription();
+
+        Assert.assertEquals(nodeDescription, description);
+
+    }
+
+    @Test
+    public void testCreateNewAgentNodeByCopyingExistingNode() {
+        final String nodeName = getRandomStr(10);
+        final String newNodeName = getRandomStr(10);
+        final String description = getRandomStr(50);
+
+        String newNodeDescription = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .addDescription(description)
+                .clickSaveButton()
+                .clickNewNodeButton()
+                .inputNodeNameField(newNodeName)
+                .clickCopyExistingNode()
+                .inputExistingNode(nodeName)
+                .clickCreateButton()
+                .clickSaveButton()
+                .clickOnNode(newNodeName)
+                .getNodeDescription();
+
+        Assert.assertEquals(newNodeDescription, description);
     }
 }

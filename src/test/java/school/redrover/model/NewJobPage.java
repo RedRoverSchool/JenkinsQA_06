@@ -3,102 +3,84 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseConfigPage;
+import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.runner.TestUtils;
 
-public class NewJobPage extends BasePage {
+import java.util.List;
 
-    @FindBy(xpath = "//button[@id='ok-button']")
-    private WebElement okButton;
-
-    @FindBy(className = "hudson_model_FreeStyleProject")
-    private WebElement freestyleProject;
-
-    @FindBy(id = "itemname-invalid")
-    private WebElement itemInvalidNameMessage;
-
-    @FindBy(id = "itemname-required")
-    private WebElement itemNameRequiredMessage;
+public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
     public NewJobPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(getDriver(), this);
     }
 
-    public NewJobPage enterItemName(String nameJob) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='name']"))).sendKeys(nameJob);
+    private WebElement getOkButton() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//button[@id='ok-button']")));
+    }
+
+    public boolean okButtonDisabled(){
+        return getOkButton().getAttribute("disabled").isEmpty();
+    }
+    public boolean okButtonIsEnabled(){
+        return getOkButton().isEnabled();
+    }
+
+    public NewJobPage enterItemName(String jobName) {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='name']"))).sendKeys(jobName);
         return this;
     }
 
-    public FreestyleProjectConfigPage selectFreestyleProjectAndOk() {
-        freestyleProject.click();
-        okButton.click();
-        return new FreestyleProjectConfigPage(getDriver());
-    }
-
-    public PipelineConfigPage selectPipelineAndOk() {
-        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
-        okButton.click();
-        return new PipelineConfigPage(getDriver());
-    }
-
-    public MultiConfigurationProjectConfigPage selectMultiConfigurationProjectAndOk() {
-        getDriver().findElement(By.xpath("//span[.='Multi-configuration project']")).click();
-        okButton.click();
-        return new MultiConfigurationProjectConfigPage(getDriver());
-    }
-
-    public FolderConfigPage selectFolderAndOk() {
-        getDriver().findElement(By.xpath("//li[contains(@class, 'folder_Folder')]")).click();
-        okButton.click();
-        return new FolderConfigPage(getDriver());
-    }
-
-    public MultibranchPipelineConfigPage selectMultibranchPipelineAndOk() {
-        getDriver().findElement(By.xpath("//li[contains(@class, 'WorkflowMultiBranchProject')]")).click();
-        okButton.click();
-        return new MultibranchPipelineConfigPage(getDriver());
-    }
-
-    public OrganizationFolderConfigPage selectOrganizationFolderAndOk() {
-        getDriver().findElement(By.xpath("//li[contains(@class, 'OrganizationFolder')]")).click();
-        okButton.click();
-        return new OrganizationFolderConfigPage(getDriver());
-    }
-
-    public NewJobPage copyFrom(String typeToAutocomplete) {
-        getDriver().findElement(By.xpath("//input[contains(@autocompleteurl, 'autoCompleteCopyNewItemFrom')]"))
-                .sendKeys(typeToAutocomplete);
+    public NewJobPage selectJobType(TestUtils.JobType jobType) {
+        List<WebElement> jobs = getDriver().findElements(By.cssSelector("#items>div>ul>li"));
+        jobs.get(jobType.getPosition() - 1).click();
         return this;
     }
 
-    public PipelineConfigPage selectPipelineAndClickOK() {
-        getDriver().findElement(By.xpath("//div[@id='items']//li[2]")).click();
-        okButton.click();
-        return new PipelineConfigPage(getDriver());
+    public <JobConfigPage extends BaseConfigPage<?,?>> JobConfigPage clickOkButton(JobConfigPage jobConfigPage) {
+        getOkButton().click();
+        return jobConfigPage;
     }
 
-    public String getItemInvalidMessage() {
-        return getWait2().until(ExpectedConditions.visibilityOf(itemInvalidNameMessage)).getText();
-    }
-
-    public NewJobPage selectFreestyleProject() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(freestyleProject)).click();
-        return this;
-    }
-
-    public boolean isOkButtonEnabled() {
-        return okButton.isEnabled();
-    }
-
-    public CreateItemErrorPage clickOkToCreateWithExistingName() {
-        okButton.click();
+    public CreateItemErrorPage selectJobAndOkAndGoError(TestUtils.JobType jobType) {
+        selectJobType(jobType);
+        clickOkButton(null);
         return new CreateItemErrorPage(getDriver());
     }
 
+    public String getItemInvalidMessage() {
+        return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
+    }
+
+    public boolean isOkButtonEnabled() {
+        return getOkButton().isEnabled();
+    }
+
     public String getItemNameRequiredMessage() {
-        return itemNameRequiredMessage.getText();
+        return getDriver().findElement(By.id("itemname-required")).getText();
+    }
+
+    private WebElement getItemInvalidNameMessage() {
+        return getDriver().findElement(By.id("itemname-invalid"));
+    }
+
+    public String getItemNameRequiredErrorText() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
+    }
+
+    public String getTitle() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//label[@class = 'h3']"))).getText();
+    }
+
+    public List<String> getListOfNewItems() {
+        List<WebElement> listOfNewItems = getDriver().findElements(By.cssSelector("label > span"));
+        List<String> newList = new java.util.ArrayList<>(List.of());
+        for(int i = 0; i< listOfNewItems.size(); i++) {
+            newList.add(listOfNewItems.get(i).getText());
+        }
+        return newList;
     }
 }

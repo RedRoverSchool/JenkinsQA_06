@@ -1,39 +1,30 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.FreestyleProjectConfigPage;
+import school.redrover.model.FreestyleProjectPage;
+import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
-import java.time.Duration;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 public class DashboardTest extends BaseTest {
 
-    private void createFreestyleProjectWithDefaultConfigurations(String name) {
-        getDriver().findElement(By.xpath("//a[@href='newJob']/span[@class='trailing-icon']")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(name);
-        getDriver().findElement(By.xpath("//label/span[text()='Freestyle project']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
+    private MainPage createFreestyleProjectWithDefaultConfigurations(String name) {
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.id("jenkins-home-link"))).click();
-    }
-
-    private List<String> getTexts(List<WebElement> elements) {
-        List<String> texts = new ArrayList<>();
-
-        for (WebElement element : elements) {
-            texts.add(element.getText());
-        }
-
-        return texts;
+        return new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .enterItemName(name)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
     }
 
     @Test()
@@ -48,18 +39,10 @@ public class DashboardTest extends BaseTest {
                 "Rename"
         );
 
-        createFreestyleProjectWithDefaultConfigurations(projectName);
+        List<String> listOfMenus = createFreestyleProjectWithDefaultConfigurations(projectName)
+                .getListOfProjectMenuItems(projectName);
 
-        WebElement chevron = getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(
-                        By.xpath("//a[@href='job/" + projectName + "/']/button"))
-        );
-        chevron.sendKeys(Keys.ENTER);
-
-        List<WebElement> menus = getDriver().findElements(
-                By.xpath("//div[@id = 'breadcrumb-menu' and @class = 'yui-module yui-overlay yuimenu visible']//li/a/span"));
-
-        Assert.assertEquals(getTexts(menus), expectedMenus);
+        Assert.assertEquals(listOfMenus, expectedMenus);
     }
 
     @Test
@@ -76,27 +59,36 @@ public class DashboardTest extends BaseTest {
     }
 
     @Test
-    public void testDropDownMenuFromPeoplePage() {
-        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
+    public void testMoveFromPeoplePageToPluginsPageByDropDownMenu() {
+        String actualTitle = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
+                .getHeader()
+                .openPluginsPageFromDashboardDropdownMenu()
+                .getPageTitle();
 
-        WebElement dashboardButton = getDriver()
-                .findElement(By.xpath("//a[text()='Dashboard']"));
-        new Actions(getDriver())
-                .moveToElement(dashboardButton)
-                .perform();
+        Assert.assertEquals(actualTitle, "Plugins");
+    }
 
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
+    @Test
+    public void testDashboardDropdownMenu() {
+        final List<String> expectedMenuList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
 
-        WebElement manageJenkinsButton = getDriver()
-                .findElement(By.xpath("//a[@class='yuimenuitemlabel yuimenuitemlabel-hassubmenu']"));
-        WebElement managePluginsButton = getDriver().findElement(By.xpath("//*[@id='yui-gen8']/a/span"));
-        new Actions(getDriver())
-                .moveToElement(manageJenkinsButton)
-                .pause(Duration.ofSeconds(1))
-                .moveToElement(managePluginsButton)
-                .click()
-                .perform();
+        List<String> actualMenuList = new MainPage(getDriver())
+                .getHeader()
+                .clickDashboardDropdownMenu()
+                .getMenuList();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Plugins");
+        Assert.assertEquals(actualMenuList, expectedMenuList);
+    }
+
+    @Test
+    public void testMoveFromBuildHistoryPageToPeoplePageByDropDownMenu() {
+        String actualTitle = new MainPage(getDriver())
+                .clickBuildsHistoryButton()
+                .getHeader()
+                .openPeoplePageFromDashboardDropdownMenu()
+                .getPageTitle();
+
+        Assert.assertEquals(actualTitle, "People");
     }
 }
