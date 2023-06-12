@@ -449,8 +449,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .parseInt(freestyleProjectConfigPage.getMaxNumOfBuildsToKeep("value")), maxOfBuildsToKeep);
     }
 
-    @Test(dependsOnMethods = "testCreateFreestyleProject")
-    public void testSetChoiceParameters() {
+    @Test
+    public void testAddChoiceParameter() {
         final String parameterType = "Choice Parameter";
         final String parameterName = "Choice parameter name test";
         final String parameterDesc = "Choice parameter desc test";
@@ -460,8 +460,9 @@ public class FreestyleProjectTest extends BaseTest {
             add("choice three");
         }};
 
-        BuildPage buildPage = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, false);
+
+        BuildPage buildPage = new FreestyleProjectPage(getDriver())
                 .clickConfigureButton()
                 .checkProjectIsParametrized()
                 .openAddParameterDropDown()
