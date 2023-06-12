@@ -9,6 +9,8 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static school.redrover.runner.TestUtils.createFreestyleProject;
@@ -447,4 +449,31 @@ public class FreestyleProjectTest extends BaseTest {
                 .parseInt(freestyleProjectConfigPage.getMaxNumOfBuildsToKeep("value")), maxOfBuildsToKeep);
     }
 
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testSetChoiceParameters() {
+        final String parameterType = "Choice Parameter";
+        final String parameterName = "Choice parameter name test";
+        final String parameterDesc = "Choice parameter desc test";
+        final List<String> parameterChoicesList = new ArrayList<>() {{
+            add("choice one");
+            add("choice two");
+            add("choice three");
+        }};
+
+        BuildPage buildPage = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigureButton()
+                .checkProjectIsParametrized()
+                .openAddParameterDropDown()
+                .selectParameterInDropDownByType(parameterType)
+                .inputParameterName(parameterName)
+                .inputParameterChoices(parameterChoicesList)
+                .inputParameterDesc(parameterDesc)
+                .clickSaveButton()
+                .clickBuildWithParameters();
+
+        Assert.assertTrue(buildPage.isParameterNameDisplayed(parameterName));
+        Assert.assertEquals(buildPage.getParameterDescription(), parameterDesc);
+        Assert.assertEquals(buildPage.getChoiceParametersValuesList(), parameterChoicesList);
+    }
 }

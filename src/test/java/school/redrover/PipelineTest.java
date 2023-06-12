@@ -629,7 +629,7 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(buildPage.getBooleanParameterName(), name);
         Assert.assertEquals(buildPage.getBooleanParameterCheckbox(), "true");
-        Assert.assertEquals(buildPage.getBooleanParameterDescription(), description);
+        Assert.assertEquals(buildPage.getParameterDescription(), description);
     }
 
     @Test

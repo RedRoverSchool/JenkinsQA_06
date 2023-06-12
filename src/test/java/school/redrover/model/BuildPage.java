@@ -6,6 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public BuildPage(WebDriver driver) {
@@ -49,7 +52,29 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
         return getDriver().findElement(By.xpath("//input[@name='value']")).getAttribute("checked");
     }
 
-    public String getBooleanParameterDescription() {
+    public String getParameterDescription() {
         return getDriver().findElement(By.xpath("//div[@class='jenkins-form-description']")).getText();
+    }
+
+    public boolean isParameterNameDisplayed(String parameterName) {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String
+                .format("//div[@class = 'jenkins-form-label help-sibling' and text() = '%s']", parameterName))))
+                .isDisplayed();
+    }
+
+    public List<WebElement> getChoiceParametersList() {
+        return getDriver().findElements(By.xpath("//select[@name='value']/option"));
+    }
+
+    public List<String> getChoiceParametersValuesList() {
+        if (getChoiceParametersList().size() > 0) {
+            getWait10().until(ExpectedConditions.visibilityOfAllElements(getChoiceParametersList()));
+            List<String> valuesList = new ArrayList<>();
+            for (WebElement element : getChoiceParametersList()) {
+                valuesList.add(element.getText());
+            }
+            return valuesList;
+        }
+        return null;
     }
 }
