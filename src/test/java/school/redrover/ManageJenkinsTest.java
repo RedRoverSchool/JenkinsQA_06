@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.List;
@@ -120,37 +121,41 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test(dataProvider = "keywords")
     public void testSearchSettingsItemsByKeyword(String keyword) {
-        List<WebElement> actualResult, expectedResult, listSettingsItems;
 
-        getDriver().findElement(By.xpath("//div[@id='tasks']//div//a[@href='/manage']")).click();
+        boolean manageJenkinsPage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchField(keyword)
+                .selectAllDropdownResultsFromSearchField()
+                .isDropdownResultsFromSearchFieldContainsTextToSearch(keyword);
 
-        listSettingsItems = getDriver().findElements(By.xpath("//div[@class='jenkins-section__item']//dt"));
-
-        WebElement searchSettingsField = getDriver().findElement(By.xpath("//input[@id='settings-search-bar']"));
-        searchSettingsField.click();
-        searchSettingsField.sendKeys(keyword);
-        getWait10().until(ExpectedConditions.textToBePresentInElementValue(searchSettingsField, keyword));
-
-        actualResult = getWait10().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='jenkins-search__results']//a")));
-        expectedResult = listSettingsItems.stream().filter(item -> item.getText().toLowerCase().contains(keyword)).toList();
-
-        for (int i = 0; i < expectedResult.size(); i++) {
-            Assert.assertEquals(actualResult.get(i).getText(), expectedResult.get(i).getText());
-        }
+        Assert.assertTrue(manageJenkinsPage);
     }
 
     @DataProvider(name = "ToolsAndActions")
-    public Object [][] searchToolsAndActions() {
-        return new Object [][] {{"Script Console"}, {"Jenkins CLI"}, {"Prepare for Shutdown"}};
+    public Object[][] searchToolsAndActions() {
+        return new Object[][]{{"Script Console"}, {"Jenkins CLI"}, {"Prepare for Shutdown"}};
     }
 
     @Test(dataProvider = "ToolsAndActions")
-    public void testSearchToolsAndActions(String inputText)  {
+    public void testSearchToolsAndActions(String inputText) {
         String searchResult = new MainPage(getDriver())
-            .navigateToManageJenkinsPage()
-            .inputToSearchField(inputText)
-            .getDropdownResultsInSearchField();
+                .navigateToManageJenkinsPage()
+                .inputToSearchField(inputText)
+                .getDropdownResultsInSearchField();
         Assert.assertEquals(searchResult, inputText);
+    }
+
+    @Test
+    public void testAccessSearchSettingsFieldUsingShortcutKey() {
+        final String partOfSettingsName = "manage";
+
+        ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .inputToSearchFieldUsingKeyboardShortcut(partOfSettingsName)
+                .selectAllDropdownResultsFromSearchField();
+
+        Assert.assertTrue(manageJenkinsPage.isDropdownResultsFromSearchFieldContainsTextToSearch(partOfSettingsName));
+        Assert.assertTrue(manageJenkinsPage.isDropdownResultsFromSearchFieldLinks());
     }
 
     @Test
@@ -167,7 +172,7 @@ public class ManageJenkinsTest extends BaseTest {
                 .clickSaveButton()
                 .getNodeName(nodeName);
 
-        Assert.assertEquals(manageNodesPage,nodeName);
+        Assert.assertEquals(manageNodesPage, nodeName);
     }
 
     @Test
@@ -189,5 +194,32 @@ public class ManageJenkinsTest extends BaseTest {
 
         Assert.assertEquals(nodeDescription, description);
 
+    }
+
+    @Test
+    public void testCreateNewAgentNodeByCopyingExistingNode() {
+        final String nodeName = getRandomStr(10);
+        final String newNodeName = getRandomStr(10);
+        final String description = getRandomStr(50);
+
+        String newNodeDescription = new MainPage(getDriver())
+                .navigateToManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField(nodeName)
+                .clickPermanentAgentRadioButton()
+                .clickCreateButton()
+                .addDescription(description)
+                .clickSaveButton()
+                .clickNewNodeButton()
+                .inputNodeNameField(newNodeName)
+                .clickCopyExistingNode()
+                .inputExistingNode(nodeName)
+                .clickCreateButton()
+                .clickSaveButton()
+                .clickOnNode(newNodeName)
+                .getNodeDescription();
+
+        Assert.assertEquals(newNodeDescription, description);
     }
 }

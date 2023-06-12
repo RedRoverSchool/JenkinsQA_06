@@ -4,17 +4,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.MainPage;
-import school.redrover.model.MyViewsPage;
-import school.redrover.model.ViewPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
-
-import java.util.List;
 
 public class MyViewsTest extends BaseTest {
 
@@ -28,15 +23,9 @@ public class MyViewsTest extends BaseTest {
                 .enterAnItemName(newViewNameRandom)
                 .clickFreestyleProject()
                 .clickOkButton()
-                .clickSaveButton()
-                .clickOnDashboardPage()
-                .clickOnNewJob();
+                .clickSaveButton();
 
-        List<WebElement> table = getDriver().findElements(By.xpath("//tr[@class =' job-status-nobuilt']/td"));
-        for (WebElement td : table) {
-
-            Assert.assertTrue(td.getText().contains(newViewNameRandom));
-        }
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project " + newViewNameRandom);
     }
 
     @Test
@@ -49,7 +38,7 @@ public class MyViewsTest extends BaseTest {
                 .enterDescription(newViewDescriptionRandom)
                 .clickSaveButtonDescription();
 
-        Assert.assertEquals(myViewsPage.getTextFromDescription(),newViewDescriptionRandom);
+        Assert.assertEquals(myViewsPage.getTextFromDescription(), newViewDescriptionRandom);
     }
 
     @Test
@@ -73,28 +62,23 @@ public class MyViewsTest extends BaseTest {
 
     @Test
     public void testCreateMyView() {
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        getDriver().findElement(By.xpath("//span[@class='trailing-icon']")).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//input[@id='name']"))))
-                .sendKeys("My project");
-        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li[1]/label/span")).click();
-        WebElement okButton = getDriver().findElement(By.id("ok-button"));
-        okButton.click();
-        WebElement buttonSave = getDriver().findElement(By.cssSelector("button[formnovalidate='formNoValidate' ]"));
-        buttonSave.click();
+        String viewName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJobArrow()
+                .enterItemName("My project")
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSaveButton()
+                .getHeader()
+                .clickUserName()
+                .clickMyViewsDropDownMenuUser()
+                .clickPlusSign()
+                .setNewViewName("Java")
+                .selectMyView()
+                .clickCreateMyViewButton()
+                .getActiveViewName();
 
-        getDriver().findElement(By.xpath("//div[3]/a[1]/span")).click();
-        getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views']")).click();
-        getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]/a")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("Java");
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.MyView']")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok']")).click();
-
-        WebElement myViewsPage = getDriver().findElement(By.xpath("//div[@id=\"breadcrumbBar\"]//li[5]"));
-        Assert.assertEquals(myViewsPage.getText(), "My Views");
-
-        WebElement myViewName = getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]"));
-        Assert.assertEquals(myViewName.getText(), "Java");
+        Assert.assertEquals(viewName, "Java");
     }
 
     @Test
@@ -121,9 +105,9 @@ public class MyViewsTest extends BaseTest {
     }
 
     @DataProvider(name = "description")
-    public static Object [][] provideDescription() {
+    public static Object[][] provideDescription() {
         return new Object[][]
-                {{"Description first"},{"Description second"}};
+                {{"Description first"}, {"Description second"}};
     }
 
     @Test(dataProvider = "description")

@@ -3,15 +3,14 @@ package school.redrover;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.OrganizationFolderPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 public class OrganizationFolderTest extends BaseTest {
 
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
-    private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderRenamed";
+    private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -19,11 +18,13 @@ public class OrganizationFolderTest extends BaseTest {
         String actualNewFolderName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectOrganizationFolderAndOk()
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .getProjectNameMainPage(ORGANIZATION_FOLDER_NAME);
+
 
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
@@ -49,7 +50,8 @@ public class OrganizationFolderTest extends BaseTest {
         boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderName)
-                .selectFolderAndOk()
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -70,7 +72,8 @@ public class OrganizationFolderTest extends BaseTest {
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectOrganizationFolderAndOk()
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .clickDisable()
                 .clickSaveButton()
                 .getTextFromDisableMessage();
@@ -84,7 +87,8 @@ public class OrganizationFolderTest extends BaseTest {
         String textFromDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectOrganizationFolderAndOk()
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .addDescription("Description")
                 .clickSaveButton()
                 .getTextFromDescription();
@@ -115,4 +119,27 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }
 
+    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
+    public void testRenameNegative() {
+        String errorMessage = new MainPage(getDriver())
+                .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
+                .enterNewName(ORGANIZATION_FOLDER_RENAMED)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
+    }
+
+    @Test(dependsOnMethods = {"testRenameNegative"} )
+    public void testDeleteOrganizationFolder() {
+        String welcomeText = new CreateItemErrorPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickJodOrganizationFolder()
+                .clickDeleteOrganizationFolderSideMenu()
+                .clickYesButton()
+                .getWelcomeText();
+
+        Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
+    }
 }

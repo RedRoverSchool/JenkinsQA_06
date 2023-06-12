@@ -7,7 +7,10 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
+import school.redrover.model.MultibranchPipelineConfigPage;
+import school.redrover.model.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +23,7 @@ public class NewItemTest extends BaseTest {
 
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectMultiConfigurationProject()
+                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
                 .getItemNameRequiredErrorText();
 
         Assert.assertTrue(errorMessage.contains("» This field cannot be empty, please enter a valid name"));
@@ -50,11 +53,11 @@ public class NewItemTest extends BaseTest {
 
     @Test
     public void testVerifyButtonIsDisabled() {
-        WebElement button = new MainPage(getDriver())
+        boolean buttonIsEnabled = new MainPage(getDriver())
                 .clickNewItem()
-                .getOkButton();
+                .okButtonIsEnabled();
 
-        Assert.assertFalse(button.isEnabled());
+        Assert.assertFalse(buttonIsEnabled);
     }
 
     @Test
@@ -73,7 +76,7 @@ public class NewItemTest extends BaseTest {
     public void testErrorRequiredCreateFreestyleProjectWithEmptyName() {
         String actualErrorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectFreestyleProject()
+                .selectJobType(TestUtils.JobType.FreestyleProject)
                 .getItemNameRequiredMessage();
 
         Assert.assertEquals(actualErrorMessage, "» This field cannot be empty, please enter a valid name");
@@ -162,7 +165,8 @@ public class NewItemTest extends BaseTest {
         String project = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("MultibranchPipeline_Project")
-                .selectMultibranchPipelineAndOk()
+                .selectJobType(TestUtils.JobType.MultibranchPipeline)
+                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .clickSaveButton()
                 .getTextFromNameMultibranchProject();
 

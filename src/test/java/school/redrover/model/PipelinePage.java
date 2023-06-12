@@ -37,7 +37,10 @@ public class PipelinePage extends BaseProjectPage<PipelinePage> {
     }
 
     public PipelinePage clickBuildNow() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id = 'tasks']/div[3]//a"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id = 'tasks']/div[3]//a")))
+                .click();
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(By
+                .xpath("//div[@class='build-icon']//a[@tooltip='Success > Console Output']")));
         return this;
     }
 

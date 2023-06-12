@@ -19,9 +19,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new NewJobPage(getDriver());
     }
 
-    public DeleteFoldersPage delete() {
+    public DeletePage<FolderPage> delete() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
-        return new DeleteFoldersPage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public RenamePage<FolderPage> rename() {
@@ -94,9 +94,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MovePage<>(this);
     }
 
-    public WebElement getNestedOrganizationFolder(String nameFolder) {
+    public String getNestedOrganizationFolder(String nameFolder) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]"))).getText();
     }
 
     public String getNestedMultiConfigurationProjectName(String name) {
@@ -131,8 +131,12 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 .replaceAll("\\n", " > ");
     }
 
-    public String getNestedFreestyleProjectName(String name) {
+    public boolean nestedProjectIsDisplayed(String name) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + name + "/')]"))).getText();
+                (By.xpath(String.format("//a[@href='job/%s/']",name.replaceAll(" ","%20"))))).isDisplayed();
+    }
+
+    public boolean viewIsDisplayed(String viewName){
+       return getDriver().findElement(By.linkText(viewName)).isDisplayed();
     }
 }

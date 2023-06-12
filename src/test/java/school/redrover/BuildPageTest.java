@@ -3,9 +3,7 @@ package school.redrover;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.ConsoleOutputPage;
-import school.redrover.model.MainPage;
-import school.redrover.model.PipelinePage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -37,7 +35,8 @@ public class BuildPageTest extends BaseTest {
         String buildDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME_PIPELINE)
-                .selectPipelineAndOk()
+                .selectJobType(TestUtils.JobType.Pipeline)
+                .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -56,8 +55,8 @@ public class BuildPageTest extends BaseTest {
         String consoleOutputText = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_PROJECT_NAME)
-                .selectFreestyleProject()
-                .selectFreestyleProjectAndOk()
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .selectBuildNow()
                 .getHeader()
@@ -79,8 +78,8 @@ public class BuildPageTest extends BaseTest {
         final String userConsoleOutput = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_PROJECT_NAME)
-                .selectFreestyleProject()
-                .selectFreestyleProjectAndOk()
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .selectBuildNow()
                 .getHeader()
@@ -97,8 +96,8 @@ public class BuildPageTest extends BaseTest {
         final String consoleOutput = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_PROJECT_NAME)
-                .selectFreestyleProject()
-                .selectFreestyleProjectAndOk()
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .selectBuildNow()
                 .getHeader()
@@ -125,7 +124,8 @@ public class BuildPageTest extends BaseTest {
         String actualStatusMessageText = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(namePipeline)
-                .selectPipelineAndOk()
+                .selectJobType(TestUtils.JobType.Pipeline)
+                .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
                 .addDescription(textToDescriptionField)
                 .scrollToBuildTriggers()
                 .clickBuildTriggerCheckBox()
@@ -146,7 +146,8 @@ public class BuildPageTest extends BaseTest {
         String projectNameOnBuildHistoryTimeline = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(itemName)
-                .selectFreestyleProjectAndOk()
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()

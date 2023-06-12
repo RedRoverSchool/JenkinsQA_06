@@ -2,9 +2,13 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
 
@@ -64,9 +68,9 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
     }
 
     public String getTextFromDescription(){
-        String getTextDescription = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@id='description']/div[not(@class)]"))).getText();
-        return getTextDescription;
     }
 
     public MyViewsPage clearTextFromDescription() {
@@ -87,8 +91,8 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
     }
 
     public String getStatusMessageText() {
-        String statusMessageText = getDriver().findElement(By.xpath("//h2")).getText();
-        return statusMessageText;
+
+        return getDriver().findElement(By.xpath("//h2")).getText();
     }
 
     public NewViewPage clickNewViewButton() {
@@ -115,6 +119,26 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
 
         return this;
     }
+
+    public DeletePage<MyViewsPage> clickDeleteViewButton() {
+        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href = 'delete']")));
+
+        return new DeletePage<>(getDriver(), this);
+    }
+
+    public List<String> getListOfAllViews() {
+        List<String> list = new ArrayList<>();
+        List<WebElement> views = getDriver().findElements(By.xpath("//div[@class='tabBar']//div[starts-with(@class, 'tab')]"));
+        for (WebElement view : views) {
+            list.add(view.getText());
+        }
+
+        return list;
+    }
+
+    public NewJobPage clickCreateAJobArrow() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']"))).click();
+
+        return new NewJobPage(getDriver());
+    }
 }
-
-

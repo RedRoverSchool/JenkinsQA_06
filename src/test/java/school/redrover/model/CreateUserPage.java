@@ -75,29 +75,30 @@ public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
                 .clickLogo();
     }
 
-    public ManageUsersPage fillUserDetails(String username) {
-        getDriver().findElement(By.id("username")).sendKeys(username);
-        getDriver().findElement(By.name("password1")).sendKeys("1234");
-        getDriver().findElement(By.name("password2")).sendKeys("1234");
-        getDriver().findElement(By.name("fullname")).sendKeys("Nik Smith");
-        getDriver().findElement(By.name("email")).sendKeys("nik@gmail.com");
-
-        return new ManageUsersPage(getDriver());
-    }
-
-    public ManageUsersPage fillUserDetailsWithInvalidEmail(String username) {
-        getDriver().findElement(By.id("username")).sendKeys(username);
-        getDriver().findElement(By.name("password1")).sendKeys("1234");
-        getDriver().findElement(By.name("password2")).sendKeys("1234");
-        getDriver().findElement(By.name("fullname")).sendKeys("Nik Smith");
-        getDriver().findElement(By.name("email")).sendKeys("nik.com");
-
-        return new ManageUsersPage(getDriver());
+    public CreateUserPage fillUserDetails(String username, String password, String fullName, String email) {
+        return this.enterUsername(username)
+                .enterPassword(password)
+                .enterConfirmPassword(password)
+                .enterFullName(fullName)
+                .enterEmail(email);
     }
 
     public String getUserNameExistsError() {
         clickCreateUserButton();
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@class='error jenkins-!-margin-bottom-2']"))).getText();
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(text(),'Username')]/../following-sibling::div[@class='error jenkins-!-margin-bottom-2']")))
+                .getText();
+    }
+
+    public String getActualIconName() {
+        return getDriver().findElement(By.xpath("//li[@aria-current]")).getText().trim();
+    }
+
+    public String getInvalidEmailError() {
+        clickCreateUserButton();
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(text(),'E-mail address')]/../following-sibling::div[@class='error jenkins-!-margin-bottom-2']")))
+                .getText();
     }
 }
+

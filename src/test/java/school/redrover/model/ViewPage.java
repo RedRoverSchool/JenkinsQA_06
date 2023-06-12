@@ -121,14 +121,13 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
                 By.xpath("//div[@class='help-area tr']/div/div"))).getText();
     }
 
-    public ViewDeletePage clickDeleteView() {
+    public DeletePage<MainPage> clickDeleteView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='delete']"))).click();
-        return new ViewDeletePage(getDriver());
+        return new DeletePage<>(getDriver(), new MainPage(getDriver()));
     }
 
-    public MainPage clickDashboard() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.linkText("Dashboard"))).click();
-        return new MainPage(getDriver());
-
+    public NewViewPage clickPlusSign() {
+        getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]/a")).click();
+        return new NewViewPage(getDriver());
     }
 }

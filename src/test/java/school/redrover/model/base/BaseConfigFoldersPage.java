@@ -50,12 +50,12 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
     }
 
     public Self setHealthMetricsType(){
-
         getDriver().findElement(By.xpath("//*[@class='jenkins-button advanced-button advancedButton']")).click();
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='yui-gen1-button']"))).click();
         getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel']")).click();
         return (Self)this;
     }
+
     public boolean isRecursive(){
         return getWait10()
                 .until(ExpectedConditions

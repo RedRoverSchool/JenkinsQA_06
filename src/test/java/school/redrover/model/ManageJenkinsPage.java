@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -12,8 +13,9 @@ import java.util.List;
 
 public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
 
+    private List<WebElement> options;
 
-    public ManageJenkinsPage(WebDriver driver){
+    public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
 
@@ -22,6 +24,12 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     public ManageJenkinsPage inputToSearchField(String text) {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("settings-search-bar"))).sendKeys(text);
         return new ManageJenkinsPage(getDriver());
+    }
+
+    public ManageJenkinsPage inputToSearchFieldUsingKeyboardShortcut(String text) {
+        getDriver().findElement(By.tagName("html")).sendKeys(Keys.chord("/"));
+        new Actions(getDriver()).sendKeys(text).perform();
+        return this;
     }
 
     public String getNoResultTextInSearchField() {
@@ -38,13 +46,13 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
         return this;
     }
 
-    public boolean isVersionJenkinsFromFooterCorrect(){
+    public boolean isVersionJenkinsFromFooterCorrect() {
         return getDriver().findElement(JENKINS_VERSION_BTN).getText().equals("Jenkins 2.387.2");
     }
 
     public ManageUsersPage clickManageUsers() {
         getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@href='securityRealm/']")))
+                        By.xpath("//a[@href='securityRealm/']")))
                 .click();
         return new ManageUsersPage(getDriver());
     }
@@ -65,8 +73,8 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     }
 
     public ConfigureGlobalSecurityPage clickConfigureGlobalSecurity() {
-        getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='configureSecurity']"))).click();
 
         return new ConfigureGlobalSecurityPage(getDriver());
     }
@@ -103,6 +111,32 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
             }
         }
         return this;
+    }
+
+    public ManageJenkinsPage selectAllDropdownResultsFromSearchField() {
+        Actions action = new Actions(getDriver());
+        WebElement searchResultDropdown = getDriver().findElement(By.cssSelector("div.jenkins-search__results-container--visible"));
+        action.moveToElement(searchResultDropdown).perform();
+        options = searchResultDropdown.findElements(By.xpath("//div[@class='jenkins-search__results']/a"));
+        return this;
+    }
+
+    public boolean isDropdownResultsFromSearchFieldContainsTextToSearch(String text) {
+        for (WebElement option : options) {
+            if (!option.getText().toLowerCase().contains(text)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isDropdownResultsFromSearchFieldLinks() {
+        for (WebElement option : options) {
+            if (!"a".equals(option.getTagName())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String getConfigureSystemPage() {

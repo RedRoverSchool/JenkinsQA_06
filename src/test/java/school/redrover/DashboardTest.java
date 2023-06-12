@@ -1,14 +1,14 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import school.redrover.model.FreestyleProjectConfigPage;
+import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,8 @@ public class DashboardTest extends BaseTest {
         return new MainPage(getDriver())
                 .clickCreateAJobArrow()
                 .enterItemName(name)
-                .selectFreestyleProjectAndOk()
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .getHeader()
                 .clickLogo();
     }
@@ -39,7 +40,7 @@ public class DashboardTest extends BaseTest {
         );
 
         List<String> listOfMenus = createFreestyleProjectWithDefaultConfigurations(projectName)
-               .getListOfProjectMenuItems(projectName);
+                .getListOfProjectMenuItems(projectName);
 
         Assert.assertEquals(listOfMenus, expectedMenus);
     }
@@ -70,42 +71,24 @@ public class DashboardTest extends BaseTest {
 
     @Test
     public void testDashboardDropdownMenu() {
-        new Actions(getDriver())
-                .moveToElement(getDriver()
-                        .findElement(By.xpath("//a[@href='/']/button")))
-                .click()
-                .build()
-                .perform();
-        List<WebElement> menuList = getDriver().findElements(By.cssSelector("#breadcrumb-menu>div:first-child>ul>li"));
-        List<String> expectedList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
-        for (WebElement el : menuList) {
-            Assert.assertTrue(expectedList.contains(el.getAttribute("innerText")));
-        }
+        final List<String> expectedMenuList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+
+        List<String> actualMenuList = new MainPage(getDriver())
+                .getHeader()
+                .clickDashboardDropdownMenu()
+                .getMenuList();
+
+        Assert.assertEquals(actualMenuList, expectedMenuList);
     }
 
     @Test
-    public void testVerifyDashboardDropdownMenuOptionsName() {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+    public void testMoveFromBuildHistoryPageToPeoplePageByDropDownMenu() {
+        String actualTitle = new MainPage(getDriver())
+                .clickBuildsHistoryButton()
+                .getHeader()
+                .openPeoplePageFromDashboardDropdownMenu()
+                .getPageTitle();
 
-        WebElement dashboardLink = getDriver()
-                .findElement(By.xpath("//li[@class='jenkins-breadcrumbs__list-item']"));
-
-        new Actions(getDriver())
-                .moveToElement(dashboardLink)
-                .perform();
-
-        WebElement dashboardDropdownMenuButton = getDriver()
-                .findElement(By.xpath("//div[@id='breadcrumbBar']//button[@class='jenkins-menu-dropdown-chevron']"));
-        js.executeScript("arguments[0].click();", dashboardDropdownMenuButton);
-
-        String[] expectedText = {"New Item", "People", "Build History", "Manage Jenkins", "My Views"};
-
-        List<WebElement> menuOptions = getDriver()
-                .findElements(By.xpath("//div[@id='breadcrumb-menu-target']//li[@class='yuimenuitem first-of-type']/parent::ul/li"));
-
-        for (int i = 0;  i < menuOptions.size(); i++) {
-
-            Assert.assertEquals(menuOptions.get(i).getText(), expectedText[i]);
-        }
+        Assert.assertEquals(actualTitle, "People");
     }
 }

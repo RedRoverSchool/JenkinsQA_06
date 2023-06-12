@@ -1,9 +1,7 @@
 package school.redrover.model;
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
@@ -140,5 +138,32 @@ public class FreestyleProjectPage extends BaseMainHeaderPage<FreestyleProjectPag
     public FreestyleProjectConfigPage clickConfigureButton() {
         getDriver().findElement(By.xpath("//a[contains(@href, '/configure')]")).click();
         return new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
+    }
+
+    public ChangesPage<FreestyleProjectPage> clickChangeOnLeftSideMenu() {
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'changes')]"))).click();
+        return new ChangesPage<>(this);
+    }
+
+    private void  openJobOnBreadcrumbBarDropDownMenu() {
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By
+                .xpath("//a[@class='model-link' and contains(@href,'job')]"))).perform();
+
+        WebElement options = getWait2().until(ExpectedConditions.elementToBeClickable(By
+                .xpath("//a[@class='model-link' and contains(@href,'job')]/button")));
+        new Actions(getDriver()).moveToElement(options).perform();
+        options.sendKeys(Keys.RETURN);
+    }
+
+    public FreestyleProjectPage clickDeleteProjectOnDropDown() {
+        openJobOnBreadcrumbBarDropDownMenu();
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+                        .xpath("//a[@class='yuimenuitemlabel' and @href='#']/span[text()='Delete Project']/.."))).click();
+        return this;
+    }
+
+    public FreestyleProjectPage dismissAlert() {
+        getDriver().switchTo().alert().dismiss();
+        return this;
     }
 }
