@@ -151,32 +151,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(disableButtonText, "Disable Project");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
-    public void testMultiConfigurationProjectDisabled() {
-        String enable = new MainPage(getDriver())
-                .clickJobName("MyProject", new MultiConfigurationProjectPage(getDriver()))
-                .clickEnable()
-                .getDisableButtonText();
-
-        Assert.assertEquals(enable, "Disable Project");
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testCreateProject")
-    public void testRenameFromDashboard() {
-        String renamedProject = new MainPage(getDriver())
-                .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
-                .enterNewName(MULTI_CONFIGURATION_NEW_NAME)
-                .clickRenameButton()
-                .getHeader()
-                .clickLogo()
-                .getProjectName()
-                .getText();
-
-        Assert.assertEquals(renamedProject, MULTI_CONFIGURATION_NEW_NAME);
-    }
-
     @Test(dependsOnMethods = "testCreateProject")
     public void testJobDropdownDelete() {
         String helloMessage = new MainPage((getDriver()))
@@ -262,17 +236,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
         Assert.assertFalse(newJobPage.isOkButtonEnabled());
-    }
-
-    @Test
-    public void testCreateProjectWithDescription() {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
-        String nameDescription = new MultiConfigurationProjectPage(getDriver())
-                .changeDescriptionWithoutSaving("Description")
-                .clickSaveButton()
-                .getDescription();
-
-        Assert.assertEquals(nameDescription, "Description");
     }
 
     @DataProvider(name = "unsafe-character")
@@ -374,18 +337,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getDescription();
 
         Assert.assertEquals(getDescription, textDescription);
-    }
-
-    @Test(dependsOnMethods = "testCreateProject")
-    public void testAddDescriptionToMultiConfigurationProject() {
-        final String descriptionText = "Web-application project";
-
-        String description = new MultiConfigurationProjectPage(getDriver())
-                .changeDescriptionWithoutSaving(descriptionText)
-                .clickSaveButton()
-                .getDescription();
-
-        Assert.assertEquals(description, descriptionText);
     }
 
     @DataProvider(name = "unsafeCharacters")
