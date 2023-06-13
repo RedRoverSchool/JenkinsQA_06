@@ -446,10 +446,11 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testMoveOrganizationFolderToFolderFromSideMenu() {
+        final String expectedOrganizationFolderName = "organizationFolder";
         final String organizationFolderName = "organizationFolder";
         TestUtils.createFolder(this, NAME, true);
 
-        String orgFolderName = new MainPage(getDriver())
+        String actualOrganizationFolderName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(organizationFolderName)
                 .selectJobType(TestUtils.JobType.OrganizationFolder)
@@ -468,6 +469,26 @@ public class FolderTest extends BaseTest {
 
                 .getNestedOrganizationFolder(organizationFolderName);
 
-        Assert.assertEquals(orgFolderName, organizationFolderName);
+        Assert.assertEquals(actualOrganizationFolderName, expectedOrganizationFolderName);
+    }
+
+    @Test
+    public void testCreateFolderWithNameOf100Characters() {
+        final String expectedFolderName =
+                "A very long project name with a description of various parameters and properties important words";
+        final String folderNameWith100Characters =
+                "A very long project name with a description of various parameters and properties important words";
+
+        String actualFolderName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(folderNameWith100Characters)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                .getHeader()
+                .clickLogo()
+                .clickJobName(folderNameWith100Characters, new FolderPage(getDriver()))
+                .getFolderName();
+
+        Assert.assertEquals(actualFolderName, expectedFolderName);
     }
 }
