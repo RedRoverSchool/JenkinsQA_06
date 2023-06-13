@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
 import java.util.List;
 
 public class MultiConfigurationProjectTest extends BaseTest {
@@ -58,9 +59,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getErrorPage()
                 .getErrorMessage();
 
-            Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
+        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
     }
-
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
     public void testRenameFromDropDownMenu() {
@@ -98,7 +98,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         MultiConfigurationProjectPage disabled = new MultiConfigurationProjectPage(getDriver())
                 .clickDisable();
 
-
         Assert.assertEquals(getDriver().findElement(By.cssSelector("form#enable-project"))
                 .getText().trim().substring(0, 34), "This project is currently disabled");
     }
@@ -128,7 +127,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getText();
 
         Assert.assertEquals(configPage, "Disabled");
-        getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
     }
 
     @Test(dependsOnMethods = "testMultiConfigurationProjectConfigurePageDisabled")
@@ -176,15 +174,14 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getText();
 
         Assert.assertEquals(renamedProject, MULTI_CONFIGURATION_NEW_NAME);
-
     }
 
     @Test(dependsOnMethods = "testCreateProject")
     public void testJobDropdownDelete() {
         String helloMessage = new MainPage((getDriver()))
                 .dropDownMenuClickDelete(MULTI_CONFIGURATION_NAME)
-               .acceptAlert()
-               .getWelcomeText();
+                .acceptAlert()
+                .getWelcomeText();
 
         Assert.assertEquals(helloMessage, "Welcome to Jenkins!");
     }
@@ -331,16 +328,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(checkStatusIsEnabled);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateProject")
     public void testCheckDisableIconOnDashboard() {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
+        String statusIcon = new MainPage(getDriver())
+                .clickJobMultiConfigurationProject(MULTI_CONFIGURATION_NAME)
+                .clickDisable()
+                .getHeader()
+                .clickDashboardButton()
+                .getJobBuildStatusIcon(MULTI_CONFIGURATION_NAME);
 
-        getDriver().findElement(By.xpath("//*[@id='disable-project']/button")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
-
-        WebElement iconDisabled = getDriver().findElement(By.xpath("//*[@tooltip='Disabled']"));
-
-        Assert.assertTrue(iconDisabled.isDisplayed());
+        Assert.assertEquals(statusIcon, "Disabled");
     }
 
     @Test
@@ -354,7 +351,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertTrue(disableMessage.contains(disableResult), "Not found such message");
     }
-
 
     @Ignore
     @Test(dependsOnMethods = "testCreateProject")
