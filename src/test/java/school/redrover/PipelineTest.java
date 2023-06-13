@@ -560,7 +560,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreatePipelineGoingFromManageJenkinsPage() {
         List<String> jobList = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectJobType(TestUtils.JobType.Pipeline)
