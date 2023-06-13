@@ -14,26 +14,26 @@ import java.util.List;
 public class TestUtils {
 
     public enum JobType {
-        FreestyleProject(1),
+        FreestyleProject(By.xpath("//span[contains(text(),'Pipeline')]")),
 
-        Pipeline(2),
+        Pipeline(By.xpath("//span[contains(text(),'Pipeline')]")),
 
-        MultiConfigurationProject(3),
+        MultiConfigurationProject(By.xpath("//span[contains(text(),'Pipeline')]")),
 
-        Folder(4),
+        Folder(By.xpath("//span[contains(text(),'Pipeline')]")),
 
-        MultibranchPipeline(5),
+        MultibranchPipeline(By.xpath("//span[contains(text(),'Pipeline')]")),
 
-        OrganizationFolder(6);
+        OrganizationFolder(By.xpath("//span[contains(text(),'Pipeline')]"));
 
-        private final int position;
+        private final By locator;
 
-        JobType(int position) {
-            this.position = position;
+        JobType(By locator) {
+            this.locator = locator;
         }
 
-        public int getPosition() {
-            return position;
+        public By getLocator() {
+            return locator;
         }
     }
 

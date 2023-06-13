@@ -34,8 +34,7 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public NewJobPage selectJobType(TestUtils.JobType jobType) {
-        List<WebElement> jobs = getDriver().findElements(By.cssSelector("#items>div>ul>li"));
-        jobs.get(jobType.getPosition() - 1).click();
+        getDriver().findElement(jobType.getLocator()).click();
         return this;
     }
 
