@@ -178,7 +178,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     }
 
-    @Test(dependsOnMethods = "testCreateProject")
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithEqualName")
     public void testJobDropdownDelete() {
         String helloMessage = new MainPage((getDriver()))
                 .dropDownMenuClickDelete(MULTI_CONFIGURATION_NAME)
