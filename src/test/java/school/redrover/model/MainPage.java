@@ -157,13 +157,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return new BuildPage(getDriver());
     }
 
-    public MainPage clickSchedulerBuildForPipeline(String pipelineName) {
-        WebElement buildRunnerButton = getDriver()
-                .findElement(By.xpath("//a[@title = 'Schedule a Build for " + pipelineName + "']"));
-        buildRunnerButton.click();
-        return this;
-    }
-
     public String getJobBuildStatus(String jobName) {
         openJobDropDownMenu(jobName);
         WebElement buildStatus = getDriver().findElement(By.id(String.format("job_%s", jobName)))
