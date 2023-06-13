@@ -1,6 +1,5 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -144,7 +143,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test()
-    public void testDeletePipelineLeftMenu() {
+    public void testDeleteLeftMenu() {
         boolean projectIsPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
@@ -175,10 +174,10 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testDeletePipelineDropDownMenu() {
+    public void testDeleteDropDownMenu() {
         final String name = PIPELINE_NAME + "1";
 
-        new MainPage(getDriver())
+        boolean projectIsPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
                 .selectJobType(TestUtils.JobType.Pipeline)
@@ -187,9 +186,10 @@ public class PipelineTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .dropDownMenuClickDelete(name)
-                .acceptAlert();
+                .acceptAlert()
+                .verifyJobIsPresent(name);
 
-        Assert.assertFalse(getDriver().findElements(By.xpath("//tr[contains(@id,'job_')]")).size() > 0);
+        Assert.assertFalse(projectIsPresent);
     }
 
     @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
@@ -295,15 +295,17 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreateNewPipelineWithScript() {
-        String projectName = new MainPage(getDriver())
+        boolean projectIsPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(PIPELINE_NAME)
                 .selectJobType(TestUtils.JobType.Pipeline)
                 .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
                 .selectScriptedPipelineAndSubmit()
-                .getProjectName();
+                .getHeader()
+                .clickLogo()
+                .verifyJobIsPresent(PIPELINE_NAME);
 
-        Assert.assertEquals(projectName, "Pipeline " + PIPELINE_NAME);
+        Assert.assertTrue(projectIsPresent);
     }
 
     @Test
@@ -420,11 +422,12 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDotBeforeNameProject() {
-        NewJobPage newJobPage = new MainPage(getDriver())
+        String  getMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(".");
+                .enterItemName(".")
+                .getItemInvalidMessage();
 
-        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
+        Assert.assertEquals(getMessage, "» “.” is not an allowed name");
     }
 
     @Test
@@ -489,7 +492,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuilds0Days() {
-        String  actualErrorMessage = new MainPage(getDriver())
+        String actualErrorMessage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("test-pipeline")
                 .selectJobType(TestUtils.JobType.Pipeline)
@@ -653,9 +656,10 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCancelPipelineDeletion() {
+    public void testCancelDeletion() {
         final String jobName = "P1";
-        new MainPage(getDriver())
+
+        boolean projectIsPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(jobName)
                 .selectJobType(TestUtils.JobType.Pipeline)
@@ -664,8 +668,10 @@ public class PipelineTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .dropDownMenuClickDelete(jobName)
-                .dismissAlert();
-        Assert.assertEquals(jobName, "P1");
+                .dismissAlert()
+                .verifyJobIsPresent(jobName);
+
+        Assert.assertTrue(projectIsPresent);
     }
 
     @Test
@@ -689,7 +695,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 
-    @Test (dependsOnMethods = "testCreatePipelineWithDescription")
+    @Test(dependsOnMethods = "testCreatePipelineWithDescription")
     public void testDiscardOldBuildsIsCheckedWithValidParams() {
         final String days = "7";
         final String builds = "5";
