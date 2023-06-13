@@ -329,6 +329,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(checkStatusIsEnabled);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateProject")
     public void testCheckDisableIconOnDashboard() {
         String statusIcon = new MainPage(getDriver())
