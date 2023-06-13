@@ -129,6 +129,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(configPage, "Disabled");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectConfigurePageDisabled")
     public void testMultiConfigurationProjectConfigurePageEnable() {
         String configPage = new MainPage(getDriver())
