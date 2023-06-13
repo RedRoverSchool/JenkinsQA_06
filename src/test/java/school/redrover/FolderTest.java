@@ -447,27 +447,26 @@ public class FolderTest extends BaseTest {
     @Test
     public void testMoveOrganizationFolderToFolderFromSideMenu() {
         final String expectedOrganizationFolderName = "organizationFolder";
-        final String organizationFolderName = "organizationFolder";
         TestUtils.createFolder(this, NAME, true);
 
         String actualOrganizationFolderName = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(organizationFolderName)
+                .enterItemName("organizationFolder")
                 .selectJobType(TestUtils.JobType.OrganizationFolder)
                 .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
 
-                .clickJobName(organizationFolderName, new OrganizationFolderPage(getDriver()))
+                .clickJobName("organizationFolder", new OrganizationFolderPage(getDriver()))
                 .clickMoveOnSideMenu()
                 .selectDestinationFolder(NAME)
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
                 .clickJobName(NAME, new FolderPage(getDriver()))
-
-                .getNestedOrganizationFolder(organizationFolderName);
+                .clickInnerFolder("organizationFolder")
+                .getFolderName();
 
         Assert.assertEquals(actualOrganizationFolderName, expectedOrganizationFolderName);
     }
@@ -482,7 +481,7 @@ public class FolderTest extends BaseTest {
         String actualFolderName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(folderNameWith100Characters)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .selectJobType(TestUtils.JobType.Folder)
                 .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .getHeader()
                 .clickLogo()
