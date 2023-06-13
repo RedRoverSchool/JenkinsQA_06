@@ -39,4 +39,9 @@ public class NewNodePage extends BaseMainHeaderPage<NewNodePage> {
         return new CreateNodePage(getDriver());
     }
 
+    public ErrorNodePage clickCreateButtonAndGoError() {
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
+        return new ErrorNodePage(getDriver());
+    }
 }

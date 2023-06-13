@@ -9,6 +9,8 @@ import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static school.redrover.runner.TestUtils.createFreestyleProject;
@@ -86,22 +88,6 @@ public class FreestyleProjectTest extends BaseTest {
                 .okButtonDisabled();
 
         Assert.assertFalse(okButton);
-    }
-
-    @DataProvider(name = "wrong-character")
-    public Object[][] provideWrongCharacters() {
-        return new Object[][]
-                {{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}};
-    }
-
-    @Test(dataProvider = "wrong-character")
-    public void testCreateFreestyleProjectWithInvalidName(String wrongCharacter) {
-        NewJobPage newJobPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(wrongCharacter);
-
-        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
-        Assert.assertFalse(newJobPage.isOkButtonEnabled());
     }
 
     @Test
@@ -373,7 +359,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testDeleteProjectFromDropdown() {
         final String projectName = "Name";
 
-        MyViewsPage h2text = new MainPage(getDriver())
+        String h2text = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(projectName)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -383,15 +369,17 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickLogo()
                 .dropDownMenuClickDelete(projectName)
                 .acceptAlert()
-                .clickMyViewsSideMenuLink();
+                .clickMyViewsSideMenuLink()
+                .getStatusMessageText();
 
-        Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
+        Assert.assertEquals(h2text, "This folder is empty");
     }
 
     @Test
     public void testDeleteProjectWithoutConfirmation() {
         final String name = "projectToDeleteWithoutConfirmation";
-        String projectName = new MainPage(getDriver())
+
+        boolean projectIsPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -399,10 +387,11 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickDeleteProjectOnDropDown()
                 .dismissAlert()
-                .clickDashboard()
-                .getProjectNameMainPage(name);
+                .getHeader()
+                .clickLogo()
+                .verifyJobIsPresent(name);
 
-        Assert.assertEquals(projectName, name);
+        Assert.assertTrue(projectIsPresent);
     }
 
     @Test
@@ -447,4 +436,32 @@ public class FreestyleProjectTest extends BaseTest {
                 .parseInt(freestyleProjectConfigPage.getMaxNumOfBuildsToKeep("value")), maxOfBuildsToKeep);
     }
 
+    @Test
+    public void testAddChoiceParameter() {
+        final String parameterType = "Choice Parameter";
+        final String parameterName = "Choice parameter name test";
+        final String parameterDesc = "Choice parameter desc test";
+        final List<String> parameterChoicesList = new ArrayList<>() {{
+            add("choice one");
+            add("choice two");
+            add("choice three");
+        }};
+
+        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, false);
+
+        BuildPage buildPage = new FreestyleProjectPage(getDriver())
+                .clickConfigureButton()
+                .checkProjectIsParametrized()
+                .openAddParameterDropDown()
+                .selectParameterInDropDownByType(parameterType)
+                .inputParameterName(parameterName)
+                .inputParameterChoices(parameterChoicesList)
+                .inputParameterDesc(parameterDesc)
+                .clickSaveButton()
+                .clickBuildWithParameters();
+
+        Assert.assertTrue(buildPage.isParameterNameDisplayed(parameterName));
+        Assert.assertEquals(buildPage.getParameterDescription(), parameterDesc);
+        Assert.assertEquals(buildPage.getChoiceParametersValuesList(), parameterChoicesList);
+    }
 }

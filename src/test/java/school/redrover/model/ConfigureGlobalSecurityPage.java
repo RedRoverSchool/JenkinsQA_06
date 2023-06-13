@@ -85,4 +85,13 @@ public class ConfigureGlobalSecurityPage extends BaseMainHeaderPage<ConfigureGlo
 
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//div[@id='notification-bar']/span")))).getText();
     }
+
+    public List<String> getSectionTitleList() {
+        List<WebElement> sectionTitles = getDriver().findElements(By.cssSelector(".jenkins-section__title"));
+        List<String> sectionTitleList = new ArrayList<>();
+        for (WebElement element : sectionTitles) {
+            sectionTitleList.add(element.getText());
+        }
+        return sectionTitleList;
+    }
 }

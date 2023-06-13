@@ -105,7 +105,7 @@ public class UsersTest extends BaseTest {
         final String displayedDescriptionText = "User Description Updated";
 
         new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageUsers();
 
         new ManageUsersPage(getDriver())
@@ -278,7 +278,7 @@ public class UsersTest extends BaseTest {
         new CreateUserPage(getDriver()).createUserAndReturnToMainPage(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         boolean userIsNotFind = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageUsers()
                 .clickDeleteUser()
                 .clickYesButton()
@@ -406,7 +406,7 @@ public class UsersTest extends BaseTest {
         new MainPage(getDriver())
                 .getHeader()
                 .clickLogo()
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageUsers();
 
         Assert.assertEquals(getDriver().getTitle(), "Users [Jenkins]");

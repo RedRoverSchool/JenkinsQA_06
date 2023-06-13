@@ -113,11 +113,10 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
                 ("//h1[.='Builds for admin']")));
     }
 
-    public WebElement openConfigureTabFromAdminDropdownMenu () {
+    public UserConfigPage openConfigureTabFromAdminDropdownMenu () {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//span[. ='Configure']"))).click();
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//li[@class='jenkins-breadcrumbs__list-item'][3]")));
+        return new UserConfigPage(new StatusUserPage(getDriver()));
     }
 
     public WebElement openMyViewsTabFromAdminDropdownMenu () {
@@ -187,5 +186,32 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         clickDashboardDropdownMenu();
         getDriver().findElement(By.xpath("//li/a/span[contains(text(), 'People')]")).click();
         return new PeoplePage(getDriver());
+    }
+
+    public MainHeaderComponent<Page> typeToSearch(String search){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("search-box"))).sendKeys(search);
+        return this;
+    }
+
+    public List<String> getListOfSearchResult(){
+        List<String> searchResult = new ArrayList<>();
+        List<WebElement> webElementList = getDriver().findElements(By.xpath("//div[@id='search-box-completion']//li"));
+        for(WebElement webElement : webElementList){
+            if (!webElement.getText().equals("")){
+                searchResult.add(webElement.getText());
+            }
+        }
+
+        return searchResult;
+    }
+
+    public boolean isSearchResultContainsText(String text){
+        List<String> searchResult = getListOfSearchResult();
+        for(String str : searchResult){
+            if(!str.toLowerCase().contains(text.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

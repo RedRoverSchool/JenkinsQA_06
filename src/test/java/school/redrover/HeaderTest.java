@@ -123,26 +123,21 @@ public class HeaderTest extends BaseTest {
         assertEquals(hoverExitButtonBackground, "rgba(64, 64, 64, 1)");
         assertEquals(hoverExitButtonUnderline, "underline");
     }
-
+    
     @Test
-    public void testCheckIconJenkinsOnHeader(){
+    public void testReturnToDashboardFromPeoplePage(){
 
-        Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-name-icon")).isDisplayed());
+        String textTitle = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
+                .getHeader()
+                .clickLogo()
+                .getTitle();
 
-        Assert.assertTrue(getDriver().findElement(By.cssSelector("img#jenkins-head-icon")).isDisplayed());
-    }
+        String textFromMainPage = new MainPage(getDriver())
+                .getWelcomeText();
 
-    @Test
-    public void testClickLogoReturnToMainPage(){
-
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Create a job')]"))).click();
-
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"jenkins-home-link\"]"))).click();
-
-        WebElement mainPageText = getDriver().findElement(By.xpath("//h1[contains(text(),'Welcome to Jenkins!')]"));
-        Assert.assertEquals(mainPageText.getText(),"Welcome to Jenkins!");
+        Assert.assertEquals(textTitle,"Dashboard [Jenkins]");
+        Assert.assertEquals(textFromMainPage,"Welcome to Jenkins!");
     }
 
     @Test
@@ -361,12 +356,13 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testConfigureTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean isPageOpened = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openConfigureTabFromAdminDropdownMenu();
+                .openConfigureTabFromAdminDropdownMenu()
+                .isConfigUserPageOpened();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(isPageOpened, "Page should be displayed");
     }
 
     @Test

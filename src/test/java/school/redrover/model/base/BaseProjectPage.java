@@ -3,6 +3,7 @@ package school.redrover.model.base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.BuildPage;
 import school.redrover.model.ConsoleOutputPage;
 
 import static org.openqa.selenium.By.cssSelector;
@@ -58,5 +59,10 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     public boolean isDisableButtonDisplayed() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//form[@id='disable-project']/button"))))
                 .isDisplayed();
+    }
+
+    public BuildPage clickBuildWithParameters() {
+        getDriver().findElement(By.xpath("//a[contains(@href, 'build')]")).click();
+        return new BuildPage(getDriver());
     }
 }
