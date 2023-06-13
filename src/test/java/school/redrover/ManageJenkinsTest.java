@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.ConfigureSystemPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
@@ -92,26 +93,16 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testSearchConfigureSystemByC() {
-        String oldUrl = getDriver().getCurrentUrl();
+    public void testNovigateToConfigureSystemPageBySearchField() {
 
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.id("settings-search-bar")).sendKeys("c");
-
-        getWait10().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[contains(@class, 'results-container')]")));
-
-        List<WebElement> titleTexts = getDriver()
-                .findElements(By.xpath("//div/a[contains(@href, 'manage')]"));
-
-        Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
-
-        getWait2()
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='jenkins-search__results-item--selected']")))
-                .click();
-        getWait10().until(t -> !Objects.equals(getDriver().getCurrentUrl(), oldUrl));
+        String configureSystemPageTitle = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .inputToSearchField("c")
+                .clickConfigureSystemFromSearchDropdown()
+                .getTitle();
 
         Assert.assertEquals(getDriver().getTitle(), "Configure System [Jenkins]");
+        Assert.assertEquals(configureSystemPageTitle, "Configure System");
     }
 
     @DataProvider(name = "keywords")
