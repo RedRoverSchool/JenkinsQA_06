@@ -13,7 +13,7 @@ public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage>
     }
 
     public String getErrorMessage() {
-        return getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
+        return getDriver().findElement(By.xpath("//div//p")).getText();
     }
 
     public String getError() {

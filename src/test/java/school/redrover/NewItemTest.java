@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.MultibranchPipelineConfigPage;
 import school.redrover.model.MultibranchPipelinePage;
+import school.redrover.model.NewJobPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -58,18 +59,6 @@ public class NewItemTest extends BaseTest {
                 .okButtonIsEnabled();
 
         Assert.assertFalse(buttonIsEnabled);
-    }
-
-    @Test
-    public void testErrorWhenCreateNewItemWithSpecialCharacterName() {
-        String expectedErrorMessage = "» ‘@’ is an unsafe character";
-
-        String errorMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName("@")
-                .getItemInvalidMessage();
-
-        Assert.assertEquals(errorMessage, expectedErrorMessage);
     }
 
     @Test
@@ -131,18 +120,15 @@ public class NewItemTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
     }
 
-    @Test
-    public void testCreatePipelineProjectWithInvalidName(){
-        String[] invalidChars = new String[] {"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "/", "|", "?", "<", ">"};
-        String typeOfProject = "Pipeline";
-        for (String invalidChar : invalidChars) {
-            createProject(invalidChar, typeOfProject);
-            String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
-            Assert.assertEquals(validationMessage, "» ‘" + invalidChar + "’ is an unsafe character");
-            Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
-            getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
+    @Test(dataProvider = "wrong-character")
+    public void testCreateNewJobProjectWithInvalidName(String wrongCharacter){
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(wrongCharacter);
+
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled());
         }
-    }
 
     @Test
     public void testCreatePipelineProjectSameNamed(){
