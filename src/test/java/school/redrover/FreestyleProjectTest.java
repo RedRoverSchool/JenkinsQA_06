@@ -395,7 +395,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testDeleteProjectWithoutConfirmation() {
         final String name = "projectToDeleteWithoutConfirmation";
 
-        String projectName = new MainPage(getDriver())
+        boolean projectIsPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -403,10 +403,11 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickDeleteProjectOnDropDown()
                 .dismissAlert()
-                .clickDashboard()
-                .getProjectNameMainPage(name);
+                .getHeader()
+                .clickLogo()
+                .verifyJobIsPresent(name);
 
-        Assert.assertEquals(projectName, name);
+        Assert.assertTrue(projectIsPresent);
     }
 
     @Test
