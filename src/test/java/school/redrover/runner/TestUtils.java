@@ -14,17 +14,17 @@ import java.util.List;
 public class TestUtils {
 
     public enum JobType {
-        FreestyleProject(By.xpath("//span[contains(text(),'Freestyle project')]/../..")),
+        FreestyleProject(By.xpath("//span[contains(text(),'Freestyle project')]")),
 
-        Pipeline(By.xpath("//span[contains(text(),'Pipeline')]/../..")),
+        Pipeline(By.xpath("//span[contains(text(),'Pipeline')]")),
 
-        MultiConfigurationProject(By.xpath("//span[contains(text(),'Multi-configuration project')]/../..")),
+        MultiConfigurationProject(By.xpath("//span[contains(text(),'Multi-configuration project')]")),
 
-        Folder(By.xpath("//span[contains(text(),'Folder')]/../..")),
+        Folder(By.xpath("//span[contains(text(),'Folder')]")),
 
-        MultibranchPipeline(By.xpath("//span[contains(text(),'Multibranch Pipeline')]/../..")),
+        MultibranchPipeline(By.xpath("//span[contains(text(),'Multibranch Pipeline')]")),
 
-        OrganizationFolder(By.xpath("//span[contains(text(),'Organization Folder')]/../.."));
+        OrganizationFolder(By.xpath("//span[contains(text(),'Organization Folder')]"));
 
         private final By locator;
 
