@@ -73,8 +73,8 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     }
 
     public ConfigureGlobalSecurityPage clickConfigureGlobalSecurity() {
-        getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
+        getWait2().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='configureSecurity']"))).click();
 
         return new ConfigureGlobalSecurityPage(getDriver());
     }
@@ -146,5 +146,15 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
 
     public String verifyManageJenkinsPage() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[normalize-space(.)= 'Manage Jenkins']"))).getText();
+    }
+
+    public ConfigureSystemPage clickConfigureSystemFromSearchDropdown() {
+
+        getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class ='jenkins-search__results']")));
+
+        getDriver().findElement(By.xpath("//div[@class = 'jenkins-search__results']//*[contains(text(), 'Configure System')]"))
+                .click();
+
+        return new ConfigureSystemPage(getDriver());
     }
 }

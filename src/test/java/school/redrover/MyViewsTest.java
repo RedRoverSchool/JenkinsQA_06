@@ -17,28 +17,33 @@ public class MyViewsTest extends BaseTest {
     public void testCreateAJobInThePageMyViews() {
         final String newViewNameRandom = RandomStringUtils.randomAlphanumeric(5);
 
-        new MainPage(getDriver())
+        boolean isJobPresent = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
-                .clickCreateAJob()
-                .enterAnItemName(newViewNameRandom)
-                .clickFreestyleProject()
-                .clickOkButton()
-                .clickSaveButton();
+                .clickNewItem()
+                .enterItemName(newViewNameRandom)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .verifyJobIsPresent(newViewNameRandom);
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project " + newViewNameRandom);
+        Assert.assertTrue(isJobPresent);
     }
 
     @Test
     public void testAddDescriptionFromMyViewsPage() {
         final String newViewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
 
-        MyViewsPage myViewsPage = new MainPage(getDriver())
+        String description = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickOnDescription()
+                .clearTextFromDescription()
                 .enterDescription(newViewDescriptionRandom)
-                .clickSaveButtonDescription();
+                .clickSaveButtonDescription()
+                .getTextFromDescription();
 
-        Assert.assertEquals(myViewsPage.getTextFromDescription(), newViewDescriptionRandom);
+        Assert.assertEquals(description, newViewDescriptionRandom);
     }
 
     @Test
@@ -47,7 +52,7 @@ public class MyViewsTest extends BaseTest {
 
         final String newViewNewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
 
-        MyViewsPage myViewsPage = new MainPage(getDriver())
+        String description = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickOnDescription()
                 .enterDescription(newViewDescriptionRandom)
@@ -55,9 +60,10 @@ public class MyViewsTest extends BaseTest {
                 .clickOnDescription()
                 .clearTextFromDescription()
                 .enterNewDescription(newViewNewDescriptionRandom)
-                .clickSaveButtonDescription();
+                .clickSaveButtonDescription()
+                .getTextFromDescription();
 
-        Assert.assertEquals(myViewsPage.getTextFromDescription(), newViewNewDescriptionRandom);
+        Assert.assertEquals(description, newViewNewDescriptionRandom);
     }
 
     @Test
@@ -84,7 +90,7 @@ public class MyViewsTest extends BaseTest {
     @Test
     public void testCreateViewItem() {
 
-        TestUtils.createPipeline(this, "NAME_FOLDER", true);
+        TestUtils.createJob(this, "NAME_FOLDER", TestUtils.JobType.Pipeline, true);
         WebElement myViews = getDriver().findElement(By.xpath("//a[@href='/me/my-views']"));
         myViews.click();
         WebElement plusButton = getDriver().findElement(By.xpath("//a[@title='New View']"));

@@ -106,32 +106,31 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         return adminLink.getCssValue("text-decoration");
     }
 
-    public WebElement openBuildsTabFromAdminDropdownMenu() {
+    public boolean openBuildsTabFromAdminDropdownMenuIsDisplayed () {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//div[@id='breadcrumb-menu']//span[.='Builds']"))).click();
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//h1[.='Builds for admin']")));
+                ("//h1[.='Builds for admin']"))).isDisplayed();
     }
 
-    public WebElement openConfigureTabFromAdminDropdownMenu () {
+    public UserConfigPage openConfigureTabFromAdminDropdownMenu () {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//span[. ='Configure']"))).click();
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//li[@class='jenkins-breadcrumbs__list-item'][3]")));
+        return new UserConfigPage(new StatusUserPage(getDriver()));
     }
 
-    public WebElement openMyViewsTabFromAdminDropdownMenu () {
+    public boolean openMyViewsTabFromAdminDropdownMenuIsDisplayed() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//div[@class='bd']//span[.='My Views']"))).click();
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//a[@href='/user/admin/my-views/']")));
+                ("//a[@href='/user/admin/my-views/']"))).isDisplayed();
     }
 
-    public WebElement openCredentialsTabFromAdminDropdownMenu () {
+    public boolean openCredentialsTabFromAdminDropdownMenuIsDisplayed () {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//span[.='Credentials']"))).click();
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//h1[.='Credentials']")));
+                ("//h1[.='Credentials']"))).isDisplayed();
     }
 
     public String getCurrentUserName() {
@@ -187,5 +186,32 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         clickDashboardDropdownMenu();
         getDriver().findElement(By.xpath("//li/a/span[contains(text(), 'People')]")).click();
         return new PeoplePage(getDriver());
+    }
+
+    public MainHeaderComponent<Page> typeToSearch(String search){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("search-box"))).sendKeys(search);
+        return this;
+    }
+
+    public List<String> getListOfSearchResult(){
+        List<String> searchResult = new ArrayList<>();
+        List<WebElement> webElementList = getDriver().findElements(By.xpath("//div[@id='search-box-completion']//li"));
+        for(WebElement webElement : webElementList){
+            if (!webElement.getText().equals("")){
+                searchResult.add(webElement.getText());
+            }
+        }
+
+        return searchResult;
+    }
+
+    public boolean isSearchResultContainsText(String text){
+        List<String> searchResult = getListOfSearchResult();
+        for(String str : searchResult){
+            if(!str.toLowerCase().contains(text.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

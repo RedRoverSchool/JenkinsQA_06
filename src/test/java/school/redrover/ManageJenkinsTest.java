@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import school.redrover.model.ConfigureSystemPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
@@ -31,7 +32,7 @@ public class ManageJenkinsTest extends BaseTest {
     @Test
     public void testSearchWithLetterConfigureSystem() {
         String configurePage = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchField("m")
                 .selectOnTheFirstLineInDropdown()
                 .getConfigureSystemPage();
@@ -67,7 +68,7 @@ public class ManageJenkinsTest extends BaseTest {
     public void testTextErrorWhenCreateNewNodeWithEmptyName() {
 
         String textError = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
                 .inputNodeNameField(NAME_NEW_NODE)
@@ -84,7 +85,7 @@ public class ManageJenkinsTest extends BaseTest {
     public void testSearchNumericSymbol() {
 
         String searchText = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchField("1")
                 .getNoResultTextInSearchField();
 
@@ -92,26 +93,16 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testSearchConfigureSystemByC() {
-        String oldUrl = getDriver().getCurrentUrl();
+    public void testNovigateToConfigureSystemPageBySearchField() {
 
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.id("settings-search-bar")).sendKeys("c");
-
-        getWait10().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[contains(@class, 'results-container')]")));
-
-        List<WebElement> titleTexts = getDriver()
-                .findElements(By.xpath("//div/a[contains(@href, 'manage')]"));
-
-        Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
-
-        getWait2()
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='jenkins-search__results-item--selected']")))
-                .click();
-        getWait10().until(t -> !Objects.equals(getDriver().getCurrentUrl(), oldUrl));
+        String configureSystemPageTitle = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .inputToSearchField("c")
+                .clickConfigureSystemFromSearchDropdown()
+                .getTitle();
 
         Assert.assertEquals(getDriver().getTitle(), "Configure System [Jenkins]");
+        Assert.assertEquals(configureSystemPageTitle, "Configure System");
     }
 
     @DataProvider(name = "keywords")
@@ -123,7 +114,7 @@ public class ManageJenkinsTest extends BaseTest {
     public void testSearchSettingsItemsByKeyword(String keyword) {
 
         boolean manageJenkinsPage = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchField(keyword)
                 .selectAllDropdownResultsFromSearchField()
                 .isDropdownResultsFromSearchFieldContainsTextToSearch(keyword);
@@ -139,7 +130,7 @@ public class ManageJenkinsTest extends BaseTest {
     @Test(dataProvider = "ToolsAndActions")
     public void testSearchToolsAndActions(String inputText) {
         String searchResult = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchField(inputText)
                 .getDropdownResultsInSearchField();
         Assert.assertEquals(searchResult, inputText);
@@ -150,7 +141,7 @@ public class ManageJenkinsTest extends BaseTest {
         final String partOfSettingsName = "manage";
 
         ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchFieldUsingKeyboardShortcut(partOfSettingsName)
                 .selectAllDropdownResultsFromSearchField();
 
@@ -163,7 +154,7 @@ public class ManageJenkinsTest extends BaseTest {
         final String nodeName = getRandomStr(10);
 
         String manageNodesPage = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
                 .inputNodeNameField(nodeName)
@@ -181,7 +172,7 @@ public class ManageJenkinsTest extends BaseTest {
         final String description = getRandomStr(50);
 
         String nodeDescription = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
                 .inputNodeNameField(nodeName)
@@ -203,7 +194,7 @@ public class ManageJenkinsTest extends BaseTest {
         final String description = getRandomStr(50);
 
         String newNodeDescription = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
                 .inputNodeNameField(nodeName)
@@ -221,5 +212,22 @@ public class ManageJenkinsTest extends BaseTest {
                 .getNodeDescription();
 
         Assert.assertEquals(newNodeDescription, description);
+    }
+
+    @Test
+    public void testCreateNewAgentNodeByCopyingNonExistingNode() {
+        final String nonExistingNodeName = ".0";
+
+        String errorMessage = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField("NewNode")
+                .clickCopyExistingNode()
+                .inputExistingNode(nonExistingNodeName)
+                .clickCreateButtonAndGoError()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "No such agent: " + nonExistingNodeName);
     }
 }

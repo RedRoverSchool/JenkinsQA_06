@@ -1,36 +1,51 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.MainPage;
-import school.redrover.model.MultibranchPipelineConfigPage;
-import school.redrover.model.MultibranchPipelinePage;
+import school.redrover.model.*;
+import school.redrover.model.NewJobPage;
+import school.redrover.model.base.BaseConfigPage;
+import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseProjectPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class NewItemTest extends BaseTest {
 
-    @Test
-    public void testCreateNewItemWithNullName() {
+    @DataProvider(name = "jobType")
+    public Object[][] JobTypes(){
+        return new Object[][]{
+                {TestUtils.JobType.FreestyleProject},
+                {TestUtils.JobType.Pipeline},
+                {TestUtils.JobType.MultiConfigurationProject},
+                {TestUtils.JobType.Folder},
+                {TestUtils.JobType.MultibranchPipeline},
+                {TestUtils.JobType.OrganizationFolder}};
+    }
 
+    @Test(dataProvider = "jobType")
+    public void testCreateNewItemWithEmptyName(TestUtils.JobType jobType){
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
+                .selectJobType(jobType)
                 .getItemNameRequiredErrorText();
 
-        Assert.assertTrue(errorMessage.contains("» This field cannot be empty, please enter a valid name"));
+        Assert.assertEquals(errorMessage, "» This field cannot be empty, please enter a valid name");
     }
 
     @Test
-    public void testNewItemHeader() {
+    public void testNewItemHeader(){
         String titleNewItem = new MainPage(getDriver())
                 .clickNewItem()
                 .getTitle();
@@ -39,7 +54,7 @@ public class NewItemTest extends BaseTest {
     }
 
     @Test
-    public void testVerifyNewItemsList() {
+    public void testVerifyNewItemsList(){
         List<String> listOfNewItemsExpect = Arrays.asList("Freestyle project", "Pipeline", "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder");
 
         List<String> listOfNewItems = new MainPage(getDriver())
@@ -52,7 +67,7 @@ public class NewItemTest extends BaseTest {
     }
 
     @Test
-    public void testVerifyButtonIsDisabled() {
+    public void testVerifyButtonIsDisabled(){
         boolean buttonIsEnabled = new MainPage(getDriver())
                 .clickNewItem()
                 .okButtonIsEnabled();
@@ -60,116 +75,73 @@ public class NewItemTest extends BaseTest {
         Assert.assertFalse(buttonIsEnabled);
     }
 
-    @Test
-    public void testErrorWhenCreateNewItemWithSpecialCharacterName() {
-        String expectedErrorMessage = "» ‘@’ is an unsafe character";
-
-        String errorMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName("@")
-                .getItemInvalidMessage();
-
-        Assert.assertEquals(errorMessage, expectedErrorMessage);
-    }
-
-    @Test
-    public void testErrorRequiredCreateFreestyleProjectWithEmptyName() {
-        String actualErrorMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .getItemNameRequiredMessage();
-
-        Assert.assertEquals(actualErrorMessage, "» This field cannot be empty, please enter a valid name");
-    }
-
-    public void createProject(String nameOfProject, String typeOfProject){
-        getDriver().findElement(By.className("task-icon-link")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.id("name"))).sendKeys(nameOfProject);
-
-        List <WebElement> listItemOptions = getDriver().findElements(By.id("j-add-item-type-standalone-projects"));
-        for(WebElement element:listItemOptions){
-            if (element.getText().contains(typeOfProject)){
-                element.click();
-            }
-        }
-    }
-
-    @Test
-    public void testCreatePipelineProject(){
-        String expectedResult = "New pipeline project";
-        String typeOfProject = "Pipeline";
-        createProject(expectedResult, typeOfProject);
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getDriver().findElement(By.xpath("//*[text()='Dashboard']")).click();
-
-        List <WebElement> listOfCreateProjects = getDriver().findElements(By.xpath("//table[@id='projectstatus']//a[@class='jenkins-table__link model-link inside']"));
-        List <String> nameOfCreateProjects = new ArrayList<>();
-        for(WebElement element : listOfCreateProjects){
-            nameOfCreateProjects.add(element.getText());
-        }
-
-        Assert.assertEquals(nameOfCreateProjects.get(0), expectedResult);
-        Assert.assertEquals(nameOfCreateProjects.size(), 1);
-    }
-
     @DataProvider(name = "wrong-character")
-    public Object[][] provideWrongCharacters() {
+    public Object[][] provideWrongCharacters(){
         return new Object[][]
                 {{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}};
     }
 
     @Test(dataProvider = "wrong-character")
-    public void testCreatePipelineProjectWithInvalidName2(String wrongCharacter){
-        createProject(wrongCharacter, "Pipeline");
-
-        String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
-        Assert.assertEquals(validationMessage, "» ‘" + wrongCharacter + "’ is an unsafe character");
-        Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
-
-        getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
-    }
-
-    @Test
-    public void testCreatePipelineProjectWithInvalidName(){
-        String[] invalidChars = new String[] {"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "/", "|", "?", "<", ">"};
-        String typeOfProject = "Pipeline";
-        for (String invalidChar : invalidChars) {
-            createProject(invalidChar, typeOfProject);
-            String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
-            Assert.assertEquals(validationMessage, "» ‘" + invalidChar + "’ is an unsafe character");
-            Assert.assertFalse(getDriver().findElement(By.id("ok-button")).isEnabled());
-            getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
-        }
-    }
-
-    @Test
-    public void testCreatePipelineProjectSameNamed(){
-        String expectedResult = "New Pipeline project";
-        String typeOfProject = "Pipeline";
-        createProject(expectedResult, typeOfProject);
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
-
-        createProject(expectedResult, typeOfProject);
-
-        String validationMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
-
-        Assert.assertEquals(validationMessage, String.format("» A job already exists with the name ‘%s’", expectedResult));
-    }
-
-    @Test
-    public void testCreateMultibranchPipeline(){
-        String project = new MainPage(getDriver())
+    public void testCreateNewJobProjectWithInvalidName(String wrongCharacter){
+        NewJobPage newJobPage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName("MultibranchPipeline_Project")
-                .selectJobType(TestUtils.JobType.MultibranchPipeline)
-                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
-                .clickSaveButton()
-                .getTextFromNameMultibranchProject();
+                .enterItemName(wrongCharacter);
 
-        Assert.assertEquals(project,"MultibranchPipeline_Project");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled());
+    }
+
+
+    public BaseConfigPage<?, ?> createJob(TestUtils.JobType jobType, String projectName){
+        BaseConfigPage<?, ?> page = null;
+        switch (jobType) {
+            case FreestyleProject -> page = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
+            case Pipeline -> page = new PipelineConfigPage(new PipelinePage(getDriver()));
+            case MultiConfigurationProject -> page = new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()));
+            case MultibranchPipeline -> page = new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver()));
+            case Folder -> page = new FolderConfigPage(new FolderPage(getDriver()));
+            case OrganizationFolder -> page = new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver()));
+        }
+
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(projectName)
+                .selectJobType(jobType)
+                .clickOkButton(page)
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo();
+        return page;
+    }
+
+    @Test(dataProvider = "jobType")
+    public void testCreateNewItemWithDuplicateName(TestUtils.JobType jobType){
+        String projectName = "project";
+        createJob(jobType, projectName);
+        String validationMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(projectName)
+                .selectJobType(jobType)
+                .getItemInvalidMessage();
+
+        Assert.assertEquals(validationMessage, String.format("» A job already exists with the name ‘%s’", projectName));
+    }
+
+    @Test(dataProvider = "jobType")
+    public void testCreateNewItemFromOtherExisting(TestUtils.JobType jobType){
+        String projectName = "projectName";
+        String newJobName = "newJobName";
+        BaseConfigPage<?, ?> page = createJob(jobType, projectName);
+
+        String newProjectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(newJobName)
+                .enterItemNameToPlaceHolder(projectName)
+                .clickOkButton(page)
+                .clickSaveButton()
+                .getBreadcrumb()
+                .getFullBreadcrumbText();
+
+        Assert.assertEquals(newProjectName, "Dashboard > " + newJobName);
     }
 }

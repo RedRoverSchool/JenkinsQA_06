@@ -1,12 +1,11 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.FreestyleProjectConfigPage;
 import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
+import school.redrover.model.PluginsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -46,16 +45,19 @@ public class DashboardTest extends BaseTest {
     }
 
     @Test
-    public void testReturnToDashboardPage() {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("name")).sendKeys("One");
-        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
+    public void testReturnToDashboardPageFromProjectPage() {
+        final String nameProject = "One";
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']"))).click();
-        getDriver().findElement(By.xpath("//a[@class='model-link'][contains(text(),'Dashboard')]")).click();
+        String nameProjectOnMainPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameProject)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSaveButton()
+                .clickDashboard()
+                .getProjectNameMainPage(nameProject);
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/One/']")).getText(), "One");
+        Assert.assertEquals(nameProjectOnMainPage, nameProject);
     }
 
     @Test
@@ -91,4 +93,19 @@ public class DashboardTest extends BaseTest {
 
         Assert.assertEquals(actualTitle, "People");
     }
+
+    @Test
+    public void testMoveToPluginsPageThroughDashboardDropDownMenu() {
+
+        String actualResult =
+                new MainPage(getDriver())
+                        .getBreadcrumb()
+                        .openDashboardDropdownMenu()
+                        .selectAnOptionFromDashboardManageJenkinsSubmenuList(
+                                "Manage Plugins", new PluginsPage(getDriver()))
+                        .getPageTitle();
+
+        Assert.assertEquals(actualResult, "Plugins");
+    }
 }
+

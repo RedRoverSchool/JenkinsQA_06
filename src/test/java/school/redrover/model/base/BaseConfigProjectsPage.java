@@ -8,7 +8,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.CreateItemErrorPage;
 import school.redrover.runner.TestUtils;
 
-public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,ProjectPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, ProjectPage> {
+import java.util.List;
+
+public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, ProjectPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, ProjectPage> {
 
     public BaseConfigProjectsPage(ProjectPage projectPage) {
         super(projectPage);
@@ -33,17 +35,17 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,P
         WebElement commandField = codeMirror.findElement(By.cssSelector("textarea"));
         commandField.sendKeys(command);
 
-        return (Self)this;
+        return (Self) this;
     }
 
-    public Self clickOldBuildCheckBox(){
+    public Self clickOldBuildCheckBox() {
         TestUtils.clickByJavaScript(this, getDriver()
                 .findElement(By.xpath("//span[@class='jenkins-checkbox']//input[@id='cb4']")));
 
-        return (Self)this;
+        return (Self) this;
     }
 
-    public Self enterDaysToKeepBuilds(int number){
+    public Self enterDaysToKeepBuilds(int number) {
         WebElement daysToKeepBuilds = getDriver()
                 .findElement(By.xpath("//input[@name='_.daysToKeepStr']"));
         WebElement nameFieldDaysToKeepBuilds = getDriver().findElement(By.xpath("//div[text()='Days to keep builds']"));
@@ -51,47 +53,47 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,P
         js.executeScript("arguments[0].scrollIntoView();", nameFieldDaysToKeepBuilds);
         TestUtils.sendTextToInput(this, daysToKeepBuilds, String.valueOf(number));
 
-        return (Self)this;
+        return (Self) this;
     }
 
-    public Self enterMaxNumOfBuildsToKeep(int number){
+    public Self enterMaxNumOfBuildsToKeep(int number) {
         WebElement maxNumOfBuildsToKeepNumber = getDriver()
                 .findElement(By.xpath("//input[@name='_.numToKeepStr']"));
         TestUtils.sendTextToInput(this, maxNumOfBuildsToKeepNumber, String.valueOf(number));
 
-        return (Self)this;
+        return (Self) this;
     }
 
     public Self switchCheckboxDisable() {
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).click();
-        return (Self)this;
+        return (Self) this;
     }
 
     public Self switchCheckboxEnabled() {
         getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//label[@for='enable-disable-project']")))).click();
-        return (Self)this;
+        return (Self) this;
     }
 
-    public WebElement getTextDisable() {
+    public String getTextDisable() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']"))));
+                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']")))).getText();
     }
 
-    public WebElement getTextEnabled() {
+    public String getTextEnabled() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']"))));
+                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).getText();
     }
 
-    public String getDaysToKeepBuilds(String attribute){
+    public String getDaysToKeepBuilds(String attribute) {
         WebElement daysToKeepBuilds = getDriver()
                 .findElement(By.xpath("//input[@name='_.daysToKeepStr']"));
 
         return daysToKeepBuilds.getAttribute(attribute);
     }
 
-    public String getMaxNumOfBuildsToKeep(String attribute){
+    public String getMaxNumOfBuildsToKeep(String attribute) {
         WebElement maxNumOfBuildsToKeepNumber = getDriver()
                 .findElement(By.xpath("//input[@name='_.numToKeepStr']"));
 
@@ -110,5 +112,45 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>,P
 
     public CreateItemErrorPage getErrorPage() {
         return new CreateItemErrorPage(getDriver());
+    }
+
+    public Self checkProjectIsParametrized() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By
+                .xpath("//label[text()='This project is parameterized']"))).click();
+        return (Self) this;
+    }
+
+    public Self selectParameterInDropDownByType(String type) {
+        getDriver().findElement(By.xpath(String.format("//li/a[text()='%s']", type))).click();
+        return (Self) this;
+    }
+
+    public Self openAddParameterDropDown() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='hetero-list-add']"))).click();
+        return (Self) this;
+    }
+
+    public Self inputParameterName(String name) {
+        getDriver().findElement(By.xpath("//input[@name='parameter.name']")).sendKeys(name);
+        return (Self) this;
+    }
+
+    public Self inputParameterChoices(List<String> parameterChoices) {
+        for (String element : parameterChoices) {
+            getDriver().findElement(By.xpath("//textarea[@name='parameter.choices']")).sendKeys(element + "\n");
+        }
+        return (Self) this;
+    }
+
+    public Self inputParameterDesc(String description) {
+        getDriver().findElement(By.xpath("//textarea[@name='parameter.description']")).sendKeys(description);
+        return (Self) this;
+    }
+
+    public Self selectCheckboxSetByDefault() {
+        WebElement checkboxSetByDefault = getDriver().findElement(By.xpath("//label[normalize-space(text())='Set by Default']"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", checkboxSetByDefault);
+        return (Self) this;
     }
 }

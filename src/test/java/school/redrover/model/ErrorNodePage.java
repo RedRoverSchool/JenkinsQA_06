@@ -18,11 +18,11 @@ public class ErrorNodePage extends BaseMainHeaderPage<ErrorNodePage> {
         return textError;
     }
 
-    public String getErrorEqualName(){
+    public String getErrorMessage() {
         return getDriver().findElement(By.xpath("//div//p")).getText();
     }
 
-    public String getErrorMessage(){
+    public String getErrorHeader() {
         return getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText();
     }
 }

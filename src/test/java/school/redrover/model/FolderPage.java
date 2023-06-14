@@ -40,9 +40,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MainPage(getDriver());
     }
 
-    public WebElement getMultibranchPipelineName() {
+    public String getMultibranchPipelineName() {
         return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector(".jenkins-table__link"))));
+                .findElement(By.cssSelector(".jenkins-table__link")))).getText();
     }
 
     public String getNestedFolder(String nameFolder) {
@@ -94,9 +94,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MovePage<>(this);
     }
 
-    public WebElement getNestedOrganizationFolder(String nameFolder) {
+    public String getNestedOrganizationFolder(String nameFolder) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]"))).getText();
     }
 
     public String getNestedMultiConfigurationProjectName(String name) {
@@ -114,7 +114,7 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 (By.xpath("//*[@id = 'projectstatus']//td/a"))).getText();
     }
 
-    public WebElement getInnerJobWebElement(String innerJobName) {
+    private WebElement getInnerJobWebElement(String innerJobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + innerJobName + "')]"))));
     }

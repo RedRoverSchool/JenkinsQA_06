@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.component.MainHeaderComponent;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -105,7 +106,7 @@ public class UsersTest extends BaseTest {
         final String displayedDescriptionText = "User Description Updated";
 
         new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageUsers();
 
         new ManageUsersPage(getDriver())
@@ -278,7 +279,7 @@ public class UsersTest extends BaseTest {
         new CreateUserPage(getDriver()).createUserAndReturnToMainPage(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         boolean userIsNotFind = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageUsers()
                 .clickDeleteUser()
                 .clickYesButton()
@@ -311,8 +312,8 @@ public class UsersTest extends BaseTest {
                 .enterUsername(USER_NAME)
                 .enterPassword(PASSWORD)
                 .enterSignIn(new MainPage(getDriver()));
-        TestUtils.createFreestyleProject(this, nameProject, true);
-        String actualResult = new MainPage(getDriver()).getProjectName().getText();
+        TestUtils.createJob(this, nameProject, TestUtils.JobType.FreestyleProject, true);
+        String actualResult = new MainPage(getDriver()).getProjectName();
 
         Assert.assertEquals(actualResult, nameProject);
     }
@@ -365,6 +366,9 @@ public class UsersTest extends BaseTest {
     @Test
     public void testCreateUserFromManageUser() {
 
+        final String expectedResultTitle = "Dashboard [Jenkins]";
+        final String expectedResultNameButton = USER_FULL_NAME;
+
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
@@ -377,12 +381,19 @@ public class UsersTest extends BaseTest {
                 .enterPassword(PASSWORD)
                 .enterSignIn(new LoginPage(getDriver()));
 
-        Assert.assertEquals(getDriver().getTitle(), "Dashboard [Jenkins]");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'login page-header__hyperlinks']/a[1]/span")).getText(), USER_FULL_NAME);
+        String actualResultTitle = getDriver().getTitle();
+        String actualResultNameButton = new MainPage(getDriver())
+                .getHeader()
+                .getCurrentUserName();
+
+        Assert.assertEquals(actualResultTitle, expectedResultTitle);
+        Assert.assertEquals(actualResultNameButton, expectedResultNameButton);
     }
 
     @Test
     public void testCreateUserCheckInPeople() {
+
+        final String expectedResultTitle = "People - [Jenkins]";
 
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -392,13 +403,21 @@ public class UsersTest extends BaseTest {
                 .clickLogo()
                 .clickPeopleOnLeftSideMenu();
 
-        Assert.assertEquals(getDriver().getTitle(), "People - [Jenkins]");
-        Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id = 'people']/tbody")).getText().contains(USER_NAME), "true");
-        Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id = 'people']/tbody")).getText().contains(USER_FULL_NAME), "true");
+        String actualResultTitle = getDriver().getTitle();
+        boolean actualResultFindUserID = new PeoplePage(getDriver())
+                .checkIfUserWasAdded(USER_NAME);
+        boolean actualResultFindUSerName = new PeoplePage(getDriver())
+                .checkIfUserWasAdded(USER_FULL_NAME);
+
+        Assert.assertEquals(actualResultTitle, expectedResultTitle);
+        Assert.assertTrue(actualResultFindUserID, "true");
+        Assert.assertTrue(actualResultFindUSerName, "true");
     }
 
     @Test
     public void testCreateUserCheckInManageUsers() {
+
+        final String expectedResultTitle = "Users [Jenkins]";
 
         new CreateUserPage(getDriver())
                 .createUser(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -406,12 +425,15 @@ public class UsersTest extends BaseTest {
         new MainPage(getDriver())
                 .getHeader()
                 .clickLogo()
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageUsers();
 
-        Assert.assertEquals(getDriver().getTitle(), "Users [Jenkins]");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//a")).getText(), USER_NAME);
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@class = 'jenkins-table sortable']/tbody/tr[last()]//td[3]")).getText(), USER_FULL_NAME);
+        String actualResultTitle = getDriver().getTitle();
+        boolean actualResultFindUserID = new ManageUsersPage(getDriver())
+                .isUserExist(USER_NAME);
+
+        Assert.assertEquals(actualResultTitle, expectedResultTitle);
+        Assert.assertTrue(actualResultFindUserID, "true");
     }
 
    @Test
