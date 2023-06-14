@@ -82,4 +82,9 @@ public class   NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         }
         return newList;
     }
+
+    public NewJobPage enterItemNameToPlaceHolder(String jobName){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='from']"))).sendKeys(jobName);
+        return this;
+    }
 }

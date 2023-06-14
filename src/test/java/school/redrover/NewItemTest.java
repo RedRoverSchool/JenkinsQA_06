@@ -92,15 +92,13 @@ public class NewItemTest extends BaseTest {
     }
 
 
-    public void createJob(TestUtils.JobType jobType, String projectName){
+    public BaseConfigPage<?, ?> createJob(TestUtils.JobType jobType, String projectName){
         BaseConfigPage<?, ?> page = null;
         switch (jobType) {
             case FreestyleProject -> page = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
             case Pipeline -> page = new PipelineConfigPage(new PipelinePage(getDriver()));
-            case MultiConfigurationProject ->
-                    page = new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()));
-            case MultibranchPipeline ->
-                    page = new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver()));
+            case MultiConfigurationProject -> page = new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()));
+            case MultibranchPipeline -> page = new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver()));
             case Folder -> page = new FolderConfigPage(new FolderPage(getDriver()));
             case OrganizationFolder -> page = new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver()));
         }
@@ -113,10 +111,11 @@ public class NewItemTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo();
+        return page;
     }
 
     @Test(dataProvider = "jobType")
-    public void testCreateNewItemWithDuplicateNamed(TestUtils.JobType jobType){
+    public void testCreateNewItemWithDuplicateName(TestUtils.JobType jobType){
         String projectName = "project";
         createJob(jobType, projectName);
         String validationMessage = new MainPage(getDriver())
@@ -126,5 +125,23 @@ public class NewItemTest extends BaseTest {
                 .getItemInvalidMessage();
 
         Assert.assertEquals(validationMessage, String.format("» A job already exists with the name ‘%s’", projectName));
+    }
+
+    @Test(dataProvider = "jobType")
+    public void testCreateNewItemFromOtherExisting(TestUtils.JobType jobType){
+        String projectName = "projectName";
+        String newJobName = "newJobName";
+        BaseConfigPage<?, ?> page = createJob(jobType, projectName);
+
+        String newProjectName = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(newJobName)
+                .enterItemNameToPlaceHolder(projectName)
+                .clickOkButton(page)
+                .clickSaveButton()
+                .getBreadcrumb()
+                .getFullBreadcrumbText();
+
+        Assert.assertEquals(newProjectName, "Dashboard > " + newJobName);
     }
 }
