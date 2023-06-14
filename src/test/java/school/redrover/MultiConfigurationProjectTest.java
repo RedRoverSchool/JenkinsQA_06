@@ -58,6 +58,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(NewNameProject, NEW_NAME);
     }
 
+    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
+    public void testRename() {
+        String newName = new MainPage(getDriver())
+                .clickJobMultiConfigurationProject(NEW_NAME)
+                .clickRename()
+                .enterNewName(NAME)
+                .clickRenameButton()
+                .getProjectName();
+
+        Assert.assertEquals(newName, "Project " + NAME);
+    }
+
     @DataProvider(name = "unsafeCharacter")
     public static Object[][] provideUnsafeCharacters() {
         return new Object[][]{{'!'}, {'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'&'},
@@ -75,7 +87,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(invalidMessage, "» ‘" + unsafeSymbol + "’" + " is an unsafe character");
     }
 
-    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
+    @Test(dependsOnMethods = "testRename")
     public void testDisable() {
 
         MultiConfigurationProjectPage disabled = new MainPage(getDriver())
@@ -134,7 +146,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateProject")
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
     public void testProjectPageDelete() {
         MainPage deletedProjPage = new MainPage(getDriver())
                 .clickJobMultiConfigurationProject(NAME)
@@ -225,18 +237,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getItemInvalidMessage();
 
         Assert.assertEquals(messageUnderInputField, expectedResult);
-    }
-
-    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
-    public void testRenameMultiConfigurationProject() {
-        String newName = new MainPage(getDriver())
-                .clickJobMultiConfigurationProject(NEW_NAME)
-                .clickRename()
-                .enterNewName(NAME)
-                .clickRenameButton()
-                .getProjectName();
-
-        Assert.assertEquals(newName, "Project " + NAME);
     }
 
     @Test
