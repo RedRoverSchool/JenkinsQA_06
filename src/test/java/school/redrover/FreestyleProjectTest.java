@@ -24,7 +24,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject() {
-        WebElement projectName = new MainPage(getDriver())
+        String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -32,9 +32,10 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName();
+                .getProjectName()
+                .getText();
 
-        Assert.assertEquals(projectName.getText(), FREESTYLE_NAME);
+        Assert.assertEquals(projectName, FREESTYLE_NAME);
     }
 
     @Test
