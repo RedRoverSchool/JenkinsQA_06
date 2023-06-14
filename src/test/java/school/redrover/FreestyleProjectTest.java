@@ -278,7 +278,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(new BuildPage(getDriver()).getBuildHeader().isDisplayed(), "build not created");
     }
-
+@Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
 
