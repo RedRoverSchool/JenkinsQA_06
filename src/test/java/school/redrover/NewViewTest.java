@@ -146,8 +146,8 @@ public class NewViewTest extends BaseTest {
         final String folderName2 = "f2";
         final String viewName = "view1";
 
-        TestUtils.createFolder(this, folderName1, true);
-        TestUtils.createFolder(this, folderName2, true);
+        TestUtils.createJob(this, folderName1, TestUtils.JobType.Folder, true);
+        TestUtils.createJob(this, folderName2, TestUtils.JobType.Folder, true);
 
         ViewPage viewPage = new MainPage(getDriver())
                 .createNewView()

@@ -186,8 +186,8 @@ public class HeaderTest extends BaseTest {
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
         final List<String> listItemName = new ArrayList<>(List.of("Test Item", "Second"));
 
-        TestUtils.createFreestyleProject(this, listItemName.get(0), true);
-        TestUtils.createFreestyleProject(this, listItemName.get(1), false);
+        TestUtils.createJob(this, listItemName.get(0), TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, listItemName.get(1), TestUtils.JobType.FreestyleProject, false);
 
         boolean isPageOpen = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))
                 .getHeader()
@@ -388,8 +388,8 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testClickLogoToReturnToDashboardPage() {
 
-        TestUtils.createFreestyleProject(this, "New Item 1", true);
-        TestUtils.createFolder(this, "New Item 2", false);
+        TestUtils.createJob(this, "New Item 1", TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, "New Item 2", TestUtils.JobType.Folder, false);
 
         WebElement goToUserIdPage = getDriver()
                 .findElement(By.xpath("//a[@href='/user/admin']//*[not(self::button)]"));

@@ -90,7 +90,7 @@ public class MyViewsTest extends BaseTest {
     @Test
     public void testCreateViewItem() {
 
-        TestUtils.createPipeline(this, "NAME_FOLDER", true);
+        TestUtils.createJob(this, "NAME_FOLDER", TestUtils.JobType.Pipeline, true);
         WebElement myViews = getDriver().findElement(By.xpath("//a[@href='/me/my-views']"));
         myViews.click();
         WebElement plusButton = getDriver().findElement(By.xpath("//a[@title='New View']"));

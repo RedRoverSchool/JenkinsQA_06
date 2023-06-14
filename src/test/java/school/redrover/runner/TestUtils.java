@@ -3,9 +3,11 @@ package school.redrover.runner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
+import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseModel;
 
 import java.util.ArrayList;
@@ -37,73 +39,39 @@ public class TestUtils {
         }
     }
 
-    private static void createProject(BaseTest baseTest, String name) {
-        new MainPage(baseTest.getDriver())
-                .clickNewItem()
-                .enterItemName(name);
-    }
+    public static void createJob(BaseTest baseTest, String name, JobType jobType, Boolean goToMainPage) {
+        final WebDriver driver = baseTest.getDriver();
+        BaseConfigPage<?,?> configPage = null;
 
-    private static void goToMainPage(BaseTest baseTest, Boolean goToMainPage) {
+        switch (jobType) {
+            case FreestyleProject ->
+                    configPage = new FreestyleProjectConfigPage(new FreestyleProjectPage(driver));
+            case Pipeline ->
+                    configPage = new PipelineConfigPage(new PipelinePage(driver));
+            case MultiConfigurationProject ->
+                    configPage = new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(driver));
+            case  Folder ->
+                    configPage = new FolderConfigPage(new FolderPage(driver));
+            case MultibranchPipeline ->
+                    configPage = new MultibranchPipelineConfigPage(new MultibranchPipelinePage(driver));
+            case OrganizationFolder ->
+                    configPage = new OrganizationFolderConfigPage(new OrganizationFolderPage(driver));
+            default -> {
+            }
+        }
+
+        new MainPage(driver)
+                .clickNewItem()
+                .enterItemName(name)
+                .selectJobType(jobType)
+                .clickOkButton(configPage)
+                .clickSaveButton();
+
         if (goToMainPage) {
-            new MainPage(baseTest.getDriver())
+            new MainPage(driver)
                     .getHeader()
                     .clickLogo();
         }
-    }
-
-    public static void createFreestyleProject(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
-    }
-
-    public static void createPipeline(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.Pipeline)
-                .clickOkButton(new PipelineConfigPage(new PipelinePage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
-    }
-
-    public static void createMultiConfigurationProject(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.MultiConfigurationProject)
-                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
-    }
-
-    public static void createFolder(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.Folder)
-                .clickOkButton(new FolderConfigPage(new FolderPage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
-    }
-
-    public static void createMultibranchPipeline(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.MultibranchPipeline)
-                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
     }
 
     public static List<String> getTexts(List<WebElement> elements) {

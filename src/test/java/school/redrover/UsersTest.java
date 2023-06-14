@@ -311,7 +311,7 @@ public class UsersTest extends BaseTest {
                 .enterUsername(USER_NAME)
                 .enterPassword(PASSWORD)
                 .enterSignIn(new MainPage(getDriver()));
-        TestUtils.createFreestyleProject(this, nameProject, true);
+        TestUtils.createJob(this, nameProject, TestUtils.JobType.FreestyleProject, true);
         String actualResult = new MainPage(getDriver()).getProjectName().getText();
 
         Assert.assertEquals(actualResult, nameProject);

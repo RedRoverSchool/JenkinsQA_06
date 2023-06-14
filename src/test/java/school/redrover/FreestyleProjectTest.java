@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static school.redrover.runner.TestUtils.createFreestyleProject;
+import static school.redrover.runner.TestUtils.createJob;
 
 public class FreestyleProjectTest extends BaseTest {
 
@@ -55,7 +55,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateWithExistingName() {
-        createFreestyleProject(this, FREESTYLE_NAME, true);
+        createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         String itemAlreadyExistsMessage = new MainPage(getDriver())
                 .clickNewItem()
@@ -91,7 +91,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testNavigateToChangePage() {
-        createFreestyleProject(this, "Engineer", true);
+        createJob(this, "Engineer", TestUtils.JobType.FreestyleProject, true);
 
         String text = new MainPage(getDriver())
                 .clickJobName("Engineer", new FreestyleProjectPage(getDriver()))
@@ -399,7 +399,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
 
-        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, true);
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         String actualNameRepo = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -447,7 +447,7 @@ public class FreestyleProjectTest extends BaseTest {
             add("choice three");
         }};
 
-        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, false);
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
 
         BuildPage buildPage = new FreestyleProjectPage(getDriver())
                 .clickConfigureButton()
