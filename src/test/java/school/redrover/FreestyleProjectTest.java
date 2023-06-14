@@ -1,8 +1,6 @@
 package school.redrover;
 
-import org.openqa.selenium.*;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
@@ -162,7 +160,8 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
     }
-@Ignore
+
+    @Ignore
     @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
     public void testRenameFreestyleProjectUsingDropDownMenu() {
         String actualFreestyleProjectName = new MainPage(getDriver())
@@ -320,7 +319,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testAddDescriptionFromConfigureDropDownAndPreview() {
         final String descriptionText = "In publishing and graphic design, Lorem ipsum is a placeholder " +
-                                       "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
+                "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
 
         String previewText = new MainPage(getDriver())
                 .clickNewItem()
