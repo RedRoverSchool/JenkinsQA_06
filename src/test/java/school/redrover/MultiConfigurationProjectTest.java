@@ -91,7 +91,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testDisable() {
 
         MultiConfigurationProjectPage disabled = new MainPage(getDriver())
-                .clickJobName(NEW_NAME, new MultiConfigurationProjectPage(getDriver()))
+                .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
                 .clickDisable();
 
         Assert.assertEquals(disabled.getDisabledMessageText(), "This project is currently disabled");
