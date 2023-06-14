@@ -106,11 +106,11 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         return adminLink.getCssValue("text-decoration");
     }
 
-    public WebElement openBuildsTabFromAdminDropdownMenu() {
+    public boolean openBuildsTabFromAdminDropdownMenuIsDisplayed () {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//div[@id='breadcrumb-menu']//span[.='Builds']"))).click();
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//h1[.='Builds for admin']")));
+                ("//h1[.='Builds for admin']"))).isDisplayed();
     }
 
     public UserConfigPage openConfigureTabFromAdminDropdownMenu () {
@@ -119,18 +119,18 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         return new UserConfigPage(new StatusUserPage(getDriver()));
     }
 
-    public WebElement openMyViewsTabFromAdminDropdownMenu () {
+    public boolean openMyViewsTabFromAdminDropdownMenuIsDisplayed() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//div[@class='bd']//span[.='My Views']"))).click();
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//a[@href='/user/admin/my-views/']")));
+                ("//a[@href='/user/admin/my-views/']"))).isDisplayed();
     }
 
-    public WebElement openCredentialsTabFromAdminDropdownMenu () {
+    public boolean openCredentialsTabFromAdminDropdownMenuIsDisplayed () {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//span[.='Credentials']"))).click();
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath
-                ("//h1[.='Credentials']")));
+                ("//h1[.='Credentials']"))).isDisplayed();
     }
 
     public String getCurrentUserName() {

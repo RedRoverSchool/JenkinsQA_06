@@ -44,7 +44,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     }
 
-    public WebElement getListItemOfBreadcrumb(String listItemName) {
+    private WebElement getListItemOfBreadcrumb(String listItemName) {
 
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//li[@class='jenkins-breadcrumbs__list-item']" +

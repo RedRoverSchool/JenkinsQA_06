@@ -74,16 +74,16 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
         return (Self) this;
     }
 
-    public WebElement getTextDisable() {
+    public String getTextDisable() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']"))));
+                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']")))).getText();
     }
 
-    public WebElement getTextEnabled() {
+    public String getTextEnabled() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']"))));
+                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).getText();
     }
 
     public String getDaysToKeepBuilds(String attribute) {

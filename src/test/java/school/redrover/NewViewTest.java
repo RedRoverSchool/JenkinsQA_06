@@ -199,7 +199,7 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateMyView() {
-        WebElement newView = new MainPage(getDriver())
+        String  newView = new MainPage(getDriver())
                  .clickNewItem()
                  .enterItemName("TestFolder")
                 .selectJobType(TestUtils.JobType.Folder)
@@ -212,7 +212,7 @@ public class NewViewTest extends BaseTest {
                  .selectMyViewAndClickCreate()
                  .getMyView();
 
-        assertEquals(newView.getText(), "MyNewView");
+        assertEquals(newView, "MyNewView");
     }
 
     @Test

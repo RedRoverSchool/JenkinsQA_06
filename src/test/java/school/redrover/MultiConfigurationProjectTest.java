@@ -27,8 +27,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName()
-                .getText();
+                .getProjectName();
 
         Assert.assertEquals(projectName, MULTI_CONFIGURATION_NAME);
     }
@@ -69,7 +68,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName().getText();
+                .getProjectName();
 
         Assert.assertEquals(NewNameProject, MULTI_CONFIGURATION_NEW_NAME);
     }
@@ -122,8 +121,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickConfigure()
                 .switchCheckboxDisable()
-                .getTextDisable()
-                .getText();
+                .getTextDisable();
 
         Assert.assertEquals(configPage, "Disabled");
     }
@@ -135,7 +133,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickJobMultiConfigurationProject("My Multi configuration project")
                 .clickConfigure()
                 .switchCheckboxEnabled()
-                .getTextEnabled().getText();
+                .getTextEnabled();
 
         Assert.assertEquals(configPage, "Enabled");
     }
@@ -169,7 +167,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
 
-        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(), "Welcome to Jenkins!");
+        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader(), "Welcome to Jenkins!");
     }
 
     @Test

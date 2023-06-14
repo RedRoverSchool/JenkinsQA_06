@@ -313,7 +313,7 @@ public class UsersTest extends BaseTest {
                 .enterPassword(PASSWORD)
                 .enterSignIn(new MainPage(getDriver()));
         TestUtils.createJob(this, nameProject, TestUtils.JobType.FreestyleProject, true);
-        String actualResult = new MainPage(getDriver()).getProjectName().getText();
+        String actualResult = new MainPage(getDriver()).getProjectName();
 
         Assert.assertEquals(actualResult, nameProject);
     }

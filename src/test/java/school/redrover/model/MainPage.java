@@ -205,19 +205,19 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
                 .getText();
     }
 
-    public WebElement getMainPanel() {
+    private WebElement getProjectStatusTable() {
 
-        return getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("main-panel")));
+        return getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("main-panel")))
+                .findElement(By.id("projectstatus"));
     }
 
-    public WebElement getProjectStatusTable() {
-
-        return getMainPanel().findElement(By.id("projectstatus"));
+    public boolean projectStatusTableIsDisplayed() {
+        return getProjectStatusTable().isDisplayed();
     }
 
-    public WebElement getProjectName() {
+    public String getProjectName() {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector(".job-status-nobuilt td>a>span"))));
+                .findElement(By.cssSelector(".job-status-nobuilt td>a>span")))).getText();
     }
 
     public String getProjectNameMainPage(String projectName) {
@@ -235,8 +235,8 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed();
     }
 
-    public WebElement getNoJobsMainPageHeader() {
-        return getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1"));
+    public String getNoJobsMainPageHeader() {
+        return getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1")).getText();
     }
 
     public String getTitle() {
@@ -295,12 +295,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return buildStatusIcon.getAttribute("title");
 
     }
-
-   public OrganizationFolderPage clickJodOrganizationFolder(){
-        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).click();
-
-        return new OrganizationFolderPage(getDriver());
-   }
 
     public String selectFromJobDropdownMenuTheGitHub() {
         getDriver().findElement(By.xpath("//a[contains(@href, 'github.com')]")).click();

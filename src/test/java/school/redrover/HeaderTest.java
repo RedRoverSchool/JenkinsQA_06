@@ -209,12 +209,12 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testOpenBuildsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openBuildsTabFromAdminDropdownMenu();
+                .openBuildsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
@@ -367,22 +367,22 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testMyViewsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openMyViewsTabFromAdminDropdownMenu();
+                .openMyViewsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
     public void testCredentialsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openCredentialsTabFromAdminDropdownMenu();
+                .openCredentialsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test

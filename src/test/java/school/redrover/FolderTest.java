@@ -368,7 +368,7 @@ public class FolderTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .clickJobName(nameFolder, new FolderPage(getDriver()))
-                .getMultibranchPipelineName().getText();
+                .getMultibranchPipelineName();
 
         Assert.assertEquals(nameMultibranchPipelineDisplays, nameMultibranchPipeline);
     }

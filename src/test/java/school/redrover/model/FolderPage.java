@@ -40,9 +40,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MainPage(getDriver());
     }
 
-    public WebElement getMultibranchPipelineName() {
+    public String getMultibranchPipelineName() {
         return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector(".jenkins-table__link"))));
+                .findElement(By.cssSelector(".jenkins-table__link")))).getText();
     }
 
     public String getNestedFolder(String nameFolder) {
@@ -114,7 +114,7 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 (By.xpath("//*[@id = 'projectstatus']//td/a"))).getText();
     }
 
-    public WebElement getInnerJobWebElement(String innerJobName) {
+    private WebElement getInnerJobWebElement(String innerJobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + innerJobName + "')]"))));
     }

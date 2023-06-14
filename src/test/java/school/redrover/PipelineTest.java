@@ -26,8 +26,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName()
-                .getText();
+                .getProjectName();
 
         Assert.assertEquals(projectName, PIPELINE_NAME);
     }
@@ -83,8 +82,7 @@ public class PipelineTest extends BaseTest {
                 .selectHelloWord()
                 .clickSaveButton()
                 .clickBuildNow()
-                .getStage()
-                .getText();
+                .getStage();
 
         Assert.assertEquals(stageName, "Hello");
     }
@@ -101,8 +99,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .clickBuildNow()
                 .clickBuildIcon()
-                .getConsoleOutputField()
-                .getText();
+                .getConsoleOutputField();
 
         Assert.assertTrue(text.contains("Finished: SUCCESS"), "Job does not finished success");
     }
@@ -136,8 +133,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName()
-                .getText();
+                .getProjectName();
 
         Assert.assertEquals(projectName, newPipelineName);
     }
@@ -382,8 +378,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName()
-                .getText();
+                .getProjectName();
 
         Assert.assertEquals(renamedPipeline, RENAME);
     }
@@ -585,7 +580,7 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + RENAME);
         Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), PIPELINE_NAME);
-        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getProjectName().getText(), RENAME);
+        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getProjectName(), RENAME);
     }
 
     @Test

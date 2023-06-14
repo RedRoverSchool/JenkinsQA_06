@@ -30,8 +30,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName()
-                .getText();
+                .getProjectName();
 
         Assert.assertEquals(projectName, FREESTYLE_NAME);
     }
@@ -48,7 +47,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .getHeader()
                 .clickLogo();
 
-        Assert.assertTrue(mainPage.getProjectStatusTable().isDisplayed());
+        Assert.assertTrue(mainPage.projectStatusTableIsDisplayed());
         Assert.assertEquals(mainPage.getProjectsList().size(), 1);
         Assert.assertEquals(mainPage.getOnlyProjectName(), PROJECT_NAME);
     }
@@ -276,7 +275,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
-        Assert.assertTrue(new BuildPage(getDriver()).getBuildHeader().isDisplayed(), "build not created");
+        Assert.assertTrue(new BuildPage(getDriver()).buildHeaderIsDisplayed(), "build not created");
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
