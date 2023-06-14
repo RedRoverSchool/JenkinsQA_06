@@ -116,7 +116,7 @@ public class NewItemTest extends BaseTest {
     }
 
     @Test(dataProvider = "jobType")
-    public void testCreateNewItemWithSameNamed(TestUtils.JobType jobType){
+    public void testCreateNewItemWithDuplicateNamed(TestUtils.JobType jobType){
         String projectName = "project";
         createJob(jobType, projectName);
         String validationMessage = new MainPage(getDriver())
