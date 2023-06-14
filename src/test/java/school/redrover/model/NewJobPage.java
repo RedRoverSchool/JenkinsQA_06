@@ -10,7 +10,7 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
+public class   NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
     public NewJobPage(WebDriver driver) {
         super(driver);

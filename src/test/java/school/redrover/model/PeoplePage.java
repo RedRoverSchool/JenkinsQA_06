@@ -66,4 +66,9 @@ public class PeoplePage extends BaseMainHeaderPage<PeoplePage> {
     public String getPageTitle() {
         return getDriver().findElement(By.xpath("//h1")).getText();
     }
+
+    public boolean checkIfUserWasAdded(String userName) {
+        return getDriver().findElement(By.xpath("//table[@id = 'people']/tbody")).getText().contains(userName);
+
+    }
 }
