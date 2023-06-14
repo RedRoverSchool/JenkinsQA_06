@@ -464,4 +464,24 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(buildPage.getParameterDescription(), parameterDesc);
         Assert.assertEquals(buildPage.getChoiceParametersValuesList(), parameterChoicesList);
     }
+
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testAddBooleanParameterTheFreestyleProject() {
+        final String booleanParameter = "Boolean Parameter";
+        final String booleanParameterName = "Boolean";
+
+        boolean checkedSetByDefault = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigureButton()
+                .checkProjectIsParametrized()
+                .openAddParameterDropDown()
+                .selectParameterInDropDownByType(booleanParameter)
+                .inputParameterName(booleanParameterName)
+                .selectCheckboxSetByDefault()
+                .clickSaveButton()
+                .clickBuildWithParameters()
+                .checkedTrue();
+
+        Assert.assertTrue(checkedSetByDefault);
+    }
 }

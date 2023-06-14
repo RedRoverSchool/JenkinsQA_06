@@ -146,4 +146,11 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
         getDriver().findElement(By.xpath("//textarea[@name='parameter.description']")).sendKeys(description);
         return (Self) this;
     }
+
+    public Self selectCheckboxSetByDefault() {
+        WebElement checkboxSetByDefault = getDriver().findElement(By.xpath("//label[normalize-space(text())='Set by Default']"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", checkboxSetByDefault);
+        return (Self) this;
+    }
 }

@@ -77,4 +77,12 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
         }
         return null;
     }
+
+    public boolean checkedTrue() {
+       String checked = getDriver().findElement(By.xpath("//input[@checked='true']")).getAttribute("checked");
+        if(checked.equals("true")){
+            return true;
+        }
+        return false;
+    }
 }
