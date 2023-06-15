@@ -110,15 +110,10 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
         MainPage projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
-                .clickTheDisableProjectButton()
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickTheEnableProjectButton()
                 .getHeader()
                 .clickLogo();
@@ -126,19 +121,16 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    @Test(dependsOnMethods = "testEnableProject")
     public void testAddDescription() {
-        String description = "Freestyle project";
-
         String actualDescription = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigureButton()
-                .addDescription(description)
+                .addDescription("Freestyle project")
                 .clickSaveButton()
                 .getDescription();
 
-        Assert.assertEquals(actualDescription, description);
+        Assert.assertEquals(actualDescription,  "Freestyle project");
     }
 
     @Test
