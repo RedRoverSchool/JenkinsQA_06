@@ -6,9 +6,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.MainPage;
-import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.TestUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BreadcrumbTest extends BaseTest {
     @Test
@@ -80,5 +83,69 @@ public class BreadcrumbTest extends BaseTest {
             getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
             Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), subsectionName);
         }
+    }
+
+    @Test
+    public void testDashboardDropdownMenu() {
+        final List<String> expectedMenuList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
+
+        List<String> actualMenuList = new MainPage(getDriver())
+                .getHeader()
+                .clickDashboardDropdownMenu()
+                .getMenuList();
+
+        Assert.assertEquals(actualMenuList, expectedMenuList);
+    }
+
+    @Test
+    public void testReturnToDashboardPageFromProjectPage() {
+        final String nameProject = "One";
+
+        String nameProjectOnMainPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameProject)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSaveButton()
+                .clickDashboard()
+                .getProjectNameMainPage(nameProject);
+
+        Assert.assertEquals(nameProjectOnMainPage, nameProject);
+    }
+
+    @Test
+    public void testMoveFromPeoplePageToPluginsPageByDropDownMenu() {
+        String actualTitle = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
+                .getHeader()
+                .openPluginsPageFromDashboardDropdownMenu()
+                .getPageTitle();
+
+        Assert.assertEquals(actualTitle, "Plugins");
+    }
+
+    @Test
+    public void testMoveToPluginsPageThroughDashboardDropDownMenu() {
+
+        String actualResult =
+                new MainPage(getDriver())
+                        .getBreadcrumb()
+                        .openDashboardDropdownMenu()
+                        .selectAnOptionFromDashboardManageJenkinsSubmenuList(
+                                "Manage Plugins", new PluginsPage(getDriver()))
+                        .getPageTitle();
+
+        Assert.assertEquals(actualResult, "Plugins");
+    }
+
+    @Test
+    public void testMoveFromBuildHistoryPageToPeoplePageByDropDownMenu() {
+        String actualTitle = new MainPage(getDriver())
+                .clickBuildsHistoryButton()
+                .getHeader()
+                .openPeoplePageFromDashboardDropdownMenu()
+                .getPageTitle();
+
+        Assert.assertEquals(actualTitle, "People");
     }
 }
