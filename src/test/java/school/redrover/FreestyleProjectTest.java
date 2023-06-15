@@ -133,19 +133,15 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDescription,  "Freestyle project");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testAddDescription")
     public void testRenameFreestyleProject() {
-        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
+        FreestyleProjectPage projectName = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickRenameProject(FREESTYLE_NAME)
                 .enterNewName(FREESTYLE_NAME + " New")
                 .clickRenameButton();
 
-        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
+        Assert.assertEquals(projectName.getProjectName(), "Project " + FREESTYLE_NAME + " New");
     }
 
     @Ignore
