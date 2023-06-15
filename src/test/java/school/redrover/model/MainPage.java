@@ -340,4 +340,29 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
         return securityButton.getCssValue("background-color");
     }
+
+    public boolean iconExitButton(){
+
+        return getDriver()
+                .findElement(By.cssSelector("#page-header > div.login.page-header__hyperlinks > a:nth-child(4) > svg"))
+                .isDisplayed();
+    }
+
+    public String getUnderLineExitButton(){
+        WebElement exitButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[2]"));
+
+        Actions hover = new Actions(getDriver());
+        hover.moveToElement(exitButton).perform();
+
+        return exitButton.getCssValue("text-decoration-line");
+    }
+
+    public String getBackgroundExitButton(){
+        WebElement exitButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[2]"));
+
+        Actions hover = new Actions(getDriver());
+        hover.moveToElement(exitButton).perform();
+
+        return exitButton.getCssValue("background-color");
+    }
 }

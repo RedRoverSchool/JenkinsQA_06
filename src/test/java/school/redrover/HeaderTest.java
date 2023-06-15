@@ -104,22 +104,21 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testExitButton() throws InterruptedException {
-        Actions hover = new Actions(getDriver());
+    public void testExitButton() {
 
-        WebElement exitButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[2]"));
-        WebElement exitButtonIcon = getDriver()
-                .findElement(By.cssSelector("#page-header > div.login.page-header__hyperlinks > a:nth-child(4) > svg"));
+        boolean exitButtonIcon = new MainPage(getDriver())
+                .iconExitButton();
 
-        Assert.assertTrue(exitButtonIcon.isDisplayed());
+        Assert.assertTrue(exitButtonIcon);
 
-        hover.moveToElement(exitButton).perform();
-        Thread.sleep(500);
-        String hoverExitButtonBackground = exitButton.getCssValue("background-color");
-        String hoverExitButtonUnderline = exitButton.getCssValue("text-decoration-line");
+        String getUnderLineExitIcon = new MainPage(getDriver())
+                .getUnderLineExitButton();
 
-        assertEquals(hoverExitButtonBackground, "rgba(64, 64, 64, 1)");
-        assertEquals(hoverExitButtonUnderline, "underline");
+        String getBackgroundExitIcon = new MainPage(getDriver())
+                .getBackgroundExitButton();
+
+        Assert.assertEquals(getBackgroundExitIcon, "rgba(64, 64, 64, 1)");
+        Assert.assertEquals(getUnderLineExitIcon, "underline");
     }
     
     @Test
