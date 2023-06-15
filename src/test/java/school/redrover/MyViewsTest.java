@@ -46,17 +46,12 @@ public class MyViewsTest extends BaseTest {
         Assert.assertEquals(description, newViewDescriptionRandom);
     }
 
-    @Test
+    @Test (dependsOnMethods = "testAddDescriptionFromMyViewsPage")
     public void testEditDescription() {
-        final String newViewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
 
         final String newViewNewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
 
-        String description = new MainPage(getDriver())
-                .clickMyViewsSideMenuLink()
-                .clickOnDescription()
-                .enterDescription(newViewDescriptionRandom)
-                .clickSaveButtonDescription()
+        String description = new MyViewsPage(getDriver())
                 .clickOnDescription()
                 .clearTextFromDescription()
                 .enterNewDescription(newViewNewDescriptionRandom)
