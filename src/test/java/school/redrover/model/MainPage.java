@@ -325,4 +325,19 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#visible-am-list > p > a"))).getText();
     }
+
+    public boolean getSecurityButtonOnHeader(){
+
+        return getDriver().findElement(By.cssSelector("#visible-sec-am-button > svg")).isDisplayed();
+    }
+
+    public String getBackgroundSecurityButton(){
+        WebElement securityButton = getDriver()
+                .findElement(By.xpath("//*[@id=\"visible-sec-am-button\"]"));
+
+        Actions hover = new Actions(getDriver());
+        hover.moveToElement(securityButton).perform();
+
+        return securityButton.getCssValue("background-color");
+    }
 }
