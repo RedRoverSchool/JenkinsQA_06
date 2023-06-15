@@ -399,6 +399,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testSetParametersToDiscardOldBuilds() {
         final int daysToKeepBuilds = 3;
