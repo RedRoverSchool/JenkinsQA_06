@@ -314,4 +314,15 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         }
         return status;
     }
+
+    public MainPage clickNotificationsButton(){
+        getDriver().findElement(By.xpath("//a[@id='visible-am-button']")).click();
+
+        return this;
+    }
+
+    public String getTextFromHeaderManageJenkins(){
+
+       return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#visible-am-list > p > a"))).getText();
+    }
 }

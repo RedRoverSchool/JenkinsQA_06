@@ -230,11 +230,11 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testButtonNotificationsWorks() {
 
-        WebElement notificationsButton = getDriver().findElement(By.xpath("//a[@id='visible-am-button']"));
-        notificationsButton.click();
+        String getTitle = new MainPage(getDriver())
+                .clickNotificationsButton()
+                .getTextFromHeaderManageJenkins();
 
-        WebElement manageJenkinsString = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#visible-am-list > p > a")));
-        assertEquals(manageJenkinsString.getText(),"Manage Jenkins");
+        Assert.assertEquals(getTitle, "Manage Jenkins");
     }
 
     @Test
