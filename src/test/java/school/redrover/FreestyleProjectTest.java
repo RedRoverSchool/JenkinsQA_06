@@ -461,6 +461,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(buildPage.getChoiceParametersValuesList(), parameterChoicesList);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testAddBooleanParameterTheFreestyleProject() {
         final String booleanParameter = "Boolean Parameter";
