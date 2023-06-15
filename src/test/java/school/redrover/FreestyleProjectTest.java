@@ -110,10 +110,15 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
     }
 
-    @Test(dependsOnMethods = "testDisableProject")
+    @Test
     public void testEnableProject() {
         MainPage projectName = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSaveButton()
+                .clickTheDisableProjectButton()
                 .clickTheEnableProjectButton()
                 .getHeader()
                 .clickLogo();
@@ -121,31 +126,30 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
-    @Test(dependsOnMethods = "testEnableProject")
+    @Ignore
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testAddDescription() {
+        String description = "Freestyle project";
+
         String actualDescription = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigureButton()
-                .addDescription("Freestyle project")
+                .addDescription(description)
                 .clickSaveButton()
                 .getDescription();
 
-        Assert.assertEquals(actualDescription,  "Freestyle project");
+        Assert.assertEquals(actualDescription, description);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testAddDescription")
     public void testRenameFreestyleProject() {
-        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
+        FreestyleProjectPage projectName = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickRenameProject(FREESTYLE_NAME)
                 .enterNewName(FREESTYLE_NAME + " New")
                 .clickRenameButton();
 
-        Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
+        Assert.assertEquals(projectName.getProjectName(), "Project " + FREESTYLE_NAME + " New");
     }
 
     @Ignore
