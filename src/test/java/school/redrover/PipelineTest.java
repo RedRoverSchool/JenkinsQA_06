@@ -26,8 +26,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName()
-                .getText();
+                .getProjectName();
 
         Assert.assertEquals(projectName, PIPELINE_NAME);
     }
@@ -83,8 +82,7 @@ public class PipelineTest extends BaseTest {
                 .selectHelloWord()
                 .clickSaveButton()
                 .clickBuildNow()
-                .getStage()
-                .getText();
+                .getStage();
 
         Assert.assertEquals(stageName, "Hello");
     }
@@ -101,8 +99,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .clickBuildNow()
                 .clickBuildIcon()
-                .getConsoleOutputField()
-                .getText();
+                .getConsoleOutputField();
 
         Assert.assertTrue(text.contains("Finished: SUCCESS"), "Job does not finished success");
     }
@@ -136,8 +133,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName()
-                .getText();
+                .getProjectName();
 
         Assert.assertEquals(projectName, newPipelineName);
     }
@@ -213,7 +209,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testSetDescriptionPipeline() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, false);
 
         String jobDescription = new PipelinePage(getDriver())
                 .clickConfigure()
@@ -226,7 +222,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuildsPipeline() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, false);
 
         String jobName = new PipelinePage(getDriver())
                 .clickConfigure()
@@ -243,7 +239,7 @@ public class PipelineTest extends BaseTest {
     public void testBuildPipeline() {
         final String namePipeline = "FirstPipeline";
 
-        TestUtils.createPipeline(this, namePipeline, true);
+        TestUtils.createJob(this, namePipeline, TestUtils.JobType.Pipeline, true);
 
         ConsoleOutputPage consoleOutputPage = new MainPage(getDriver())
                 .clickJobName(namePipeline, new PipelinePage(getDriver()))
@@ -258,7 +254,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testChangesStatusOfLastBuild() {
 
-        TestUtils.createPipeline(this, "Engineer", true);
+        TestUtils.createJob(this, "Engineer", TestUtils.JobType.Pipeline, true);
 
         String text = new MainPage(getDriver())
                 .clickJobName("Engineer", new PipelinePage(getDriver()))
@@ -310,7 +306,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDisablePipeline() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, true);
 
         String jobStatus = new MainPage(getDriver())
                 .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
@@ -324,7 +320,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testEnablePipeline() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, true);
 
         String jobStatus = new MainPage(getDriver())
                 .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
@@ -361,9 +357,9 @@ public class PipelineTest extends BaseTest {
 
         List<String> namesOfJobs = Arrays.asList("UProject", "SProject", "AProject");
 
-        TestUtils.createPipeline(this, namesOfJobs.get(1), true);
-        TestUtils.createPipeline(this, namesOfJobs.get(2), true);
-        TestUtils.createPipeline(this, namesOfJobs.get(0), true);
+        TestUtils.createJob(this, namesOfJobs.get(1), TestUtils.JobType.Pipeline, true);
+        TestUtils.createJob(this, namesOfJobs.get(2), TestUtils.JobType.Pipeline, true);
+        TestUtils.createJob(this, namesOfJobs.get(0), TestUtils.JobType.Pipeline, true);
 
         List<String> listNamesOfJobs = new MainPage(getDriver())
                 .clickSortByName()
@@ -374,7 +370,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testRenamePipelineDropDownMenu() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, true);
 
         String renamedPipeline = new MainPage(getDriver())
                 .dropDownMenuClickRename(PIPELINE_NAME.replaceAll(" ", "%20"), new PipelinePage(getDriver()))
@@ -382,8 +378,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName()
-                .getText();
+                .getProjectName();
 
         Assert.assertEquals(renamedPipeline, RENAME);
     }
@@ -443,7 +438,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testSetDescription() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, true);
 
         String addDescription = new MainPage(getDriver())
                 .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))
@@ -457,7 +452,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuildsIsChecked() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, false);
 
         boolean discardOldBuildsCheckbox = new PipelinePage(getDriver())
                 .clickConfigure()
@@ -509,7 +504,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testDiscardOldBuildsIsChecked0Builds() {
-        TestUtils.createPipeline(this, "test-pipeline", false);
+        TestUtils.createJob(this, "test-pipeline", TestUtils.JobType.Pipeline, false);
 
         boolean notPositiveInteger = new PipelinePage(getDriver())
                 .clickConfigure()
@@ -575,7 +570,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testSetPipelineDisplayName() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, false);
 
         PipelinePage pipelinePage = new PipelinePage(getDriver())
                 .clickConfigure()
@@ -585,7 +580,7 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + RENAME);
         Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), PIPELINE_NAME);
-        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getProjectName().getText(), RENAME);
+        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getProjectName(), RENAME);
     }
 
     @Test
@@ -613,7 +608,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testAddBooleanParameterWithDescription() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, false);
 
         final String name = "Pipeline Boolean Parameter";
         final String description = "Some boolean parameters here";
@@ -637,7 +632,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testAddBooleanParameter() {
-        TestUtils.createPipeline(this, PIPELINE_NAME, false);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, false);
 
         final String name = "Pipeline Boolean Parameter";
         final String parameterName = "Boolean Parameter";
@@ -679,7 +674,7 @@ public class PipelineTest extends BaseTest {
         final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
 
-        TestUtils.createPipeline(this, PIPELINE_NAME, true);
+        TestUtils.createJob(this, PIPELINE_NAME, TestUtils.JobType.Pipeline, true);
 
         String actualNameRepo = new MainPage(getDriver())
                 .clickJobName(PIPELINE_NAME, new PipelinePage(getDriver()))

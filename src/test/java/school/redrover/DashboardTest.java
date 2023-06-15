@@ -1,13 +1,11 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.FolderConfigPage;
 import school.redrover.model.FreestyleProjectConfigPage;
 import school.redrover.model.FreestyleProjectPage;
 import school.redrover.model.MainPage;
+import school.redrover.model.PluginsPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -59,7 +57,7 @@ public class DashboardTest extends BaseTest {
                 .clickDashboard()
                 .getProjectNameMainPage(nameProject);
 
-        Assert.assertEquals(nameProjectOnMainPage,nameProject);
+        Assert.assertEquals(nameProjectOnMainPage, nameProject);
     }
 
     @Test
@@ -95,4 +93,19 @@ public class DashboardTest extends BaseTest {
 
         Assert.assertEquals(actualTitle, "People");
     }
+
+    @Test
+    public void testMoveToPluginsPageThroughDashboardDropDownMenu() {
+
+        String actualResult =
+                new MainPage(getDriver())
+                        .getBreadcrumb()
+                        .openDashboardDropdownMenu()
+                        .selectAnOptionFromDashboardManageJenkinsSubmenuList(
+                                "Manage Plugins", new PluginsPage(getDriver()))
+                        .getPageTitle();
+
+        Assert.assertEquals(actualResult, "Plugins");
+    }
 }
+

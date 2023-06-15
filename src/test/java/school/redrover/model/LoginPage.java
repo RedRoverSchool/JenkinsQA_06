@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import school.redrover.model.base.BaseModel;
 
-public class LoginPage extends BaseModel {
+public class  LoginPage extends BaseModel {
 
     public LoginPage(WebDriver driver) {
         super(driver);

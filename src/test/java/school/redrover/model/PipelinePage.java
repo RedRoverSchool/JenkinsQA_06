@@ -44,8 +44,8 @@ public class PipelinePage extends BaseProjectPage<PipelinePage> {
         return this;
     }
 
-    public WebElement getStage() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".stage-header-name-0")));
+    public String getStage() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".stage-header-name-0"))).getText();
     }
 
     public PipelinePage clickBuildIcon() {
@@ -53,8 +53,8 @@ public class PipelinePage extends BaseProjectPage<PipelinePage> {
         return this;
     }
 
-    public WebElement getConsoleOutputField() {
-        return getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".console-output")));
+    public String getConsoleOutputField() {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".console-output"))).getText();
     }
 
     public BuildPage click1BuildHistory() {

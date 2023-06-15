@@ -186,8 +186,8 @@ public class HeaderTest extends BaseTest {
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
         final List<String> listItemName = new ArrayList<>(List.of("Test Item", "Second"));
 
-        TestUtils.createFreestyleProject(this, listItemName.get(0), true);
-        TestUtils.createFreestyleProject(this, listItemName.get(1), false);
+        TestUtils.createJob(this, listItemName.get(0), TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, listItemName.get(1), TestUtils.JobType.FreestyleProject, false);
 
         boolean isPageOpen = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))
                 .getHeader()
@@ -209,12 +209,12 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testOpenBuildsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openBuildsTabFromAdminDropdownMenu();
+                .openBuildsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
@@ -367,29 +367,29 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testMyViewsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openMyViewsTabFromAdminDropdownMenu();
+                .openMyViewsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
     public void testCredentialsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openCredentialsTabFromAdminDropdownMenu();
+                .openCredentialsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
     public void testClickLogoToReturnToDashboardPage() {
 
-        TestUtils.createFreestyleProject(this, "New Item 1", true);
-        TestUtils.createFolder(this, "New Item 2", false);
+        TestUtils.createJob(this, "New Item 1", TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, "New Item 2", TestUtils.JobType.Folder, false);
 
         WebElement goToUserIdPage = getDriver()
                 .findElement(By.xpath("//a[@href='/user/admin']//*[not(self::button)]"));

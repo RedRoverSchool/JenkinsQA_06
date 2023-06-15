@@ -15,12 +15,11 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
         super(driver);
     }
 
-    private WebElement getBuildHistoryTitle() {
-        return getDriver().findElement(By.xpath("//a[normalize-space()='Build']"));
-    }
-
-    public WebElement getBuildHeader() {
+    private WebElement getBuildHeader() {
         return getDriver().findElement(By.xpath("//h1"));
+    }
+    public boolean buildHeaderIsDisplayed() {
+        return getDriver().findElement(By.xpath("//h1")).isDisplayed();
     }
 
     public boolean isDisplayedGreenIconV() {
@@ -76,5 +75,13 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
             return valuesList;
         }
         return null;
+    }
+
+    public boolean checkedTrue() {
+       String checked = getDriver().findElement(By.xpath("//input[@checked='true']")).getAttribute("checked");
+        if(checked.equals("true")){
+            return true;
+        }
+        return false;
     }
 }

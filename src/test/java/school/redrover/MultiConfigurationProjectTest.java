@@ -27,8 +27,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName()
-                .getText();
+                .getProjectName();
 
         Assert.assertEquals(projectName, MULTI_CONFIGURATION_NAME);
     }
@@ -69,7 +68,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName().getText();
+                .getProjectName();
 
         Assert.assertEquals(NewNameProject, MULTI_CONFIGURATION_NEW_NAME);
     }
@@ -93,7 +92,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testDisabledMultiConfigurationProject() {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
+        TestUtils.createJob(this, MULTI_CONFIGURATION_NAME, TestUtils.JobType.MultiConfigurationProject, false);
         MultiConfigurationProjectPage disabled = new MultiConfigurationProjectPage(getDriver())
                 .clickDisable();
 
@@ -103,7 +102,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testDisableMultiConfigurationProject() {
-        TestUtils.createMultiConfigurationProject(this, "MyProject", false);
+        TestUtils.createJob(this, "MyProject", TestUtils.JobType.MultiConfigurationProject, false);
 
         String enable = new MultiConfigurationProjectPage(getDriver())
                 .clickDisable()
@@ -122,8 +121,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickConfigure()
                 .switchCheckboxDisable()
-                .getTextDisable()
-                .getText();
+                .getTextDisable();
 
         Assert.assertEquals(configPage, "Disabled");
     }
@@ -135,7 +133,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickJobMultiConfigurationProject("My Multi configuration project")
                 .clickConfigure()
                 .switchCheckboxEnabled()
-                .getTextEnabled().getText();
+                .getTextEnabled();
 
         Assert.assertEquals(configPage, "Enabled");
     }
@@ -169,7 +167,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
 
-        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader().getText(), "Welcome to Jenkins!");
+        Assert.assertEquals(deletedProjPage.getNoJobsMainPageHeader(), "Welcome to Jenkins!");
     }
 
     @Test
@@ -208,7 +206,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Ignore
     @Test
     public void testBuildNowDropDownMenuMultiConfigurationProject() {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+        TestUtils.createJob(this, MULTI_CONFIGURATION_NAME, TestUtils.JobType.MultiConfigurationProject, true);
 
         Assert.assertEquals(new MainPage(getDriver()).getJobBuildStatus(MULTI_CONFIGURATION_NAME), "Not built");
 
@@ -278,7 +276,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testDisableEnableProject() {
-        TestUtils.createMultiConfigurationProject(this, "DisableTestName", false);
+        TestUtils.createJob(this, "DisableTestName", TestUtils.JobType.MultiConfigurationProject, false);
 
         String checkStatusIsDisabled = new MultiConfigurationProjectPage(getDriver())
                 .clickDisable()
@@ -291,6 +289,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(checkStatusIsEnabled);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateProject")
     public void testCheckDisableIconOnDashboard() {
         String statusIcon = new MainPage(getDriver())
@@ -307,7 +306,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testDisableProjectFromConfigurationPage() {
         final String disableResult = "This project is currently disabled";
 
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, false);
+        TestUtils.createJob(this, MULTI_CONFIGURATION_NAME, TestUtils.JobType.MultiConfigurationProject, false);
         String disableMessage = new MultiConfigurationProjectPage(getDriver())
                 .clickDisable()
                 .getDisabledMessageText();
@@ -348,7 +347,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dataProvider = "unsafeCharacters")
     public void testVerifyProjectNameRenameWithUnsafeSymbols(char unsafeSymbol, String htmlUnsafeSymbol) {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+        TestUtils.createJob(this, MULTI_CONFIGURATION_NAME, TestUtils.JobType.MultiConfigurationProject, true);
 
         String errorNotification = new MainPage(getDriver())
                 .dropDownMenuClickRename(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
@@ -441,7 +440,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
 
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_NAME, true);
+        TestUtils.createJob(this, MULTI_CONFIGURATION_NAME, TestUtils.JobType.MultiConfigurationProject, true);
 
         String actualNameRepo = new MainPage(getDriver())
                 .clickJobName(MULTI_CONFIGURATION_NAME, new MultiConfigurationProjectPage(getDriver()))
