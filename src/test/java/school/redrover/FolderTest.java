@@ -15,22 +15,19 @@ public class FolderTest extends BaseTest {
 
     private static final String NAME = "FolderName";
     private static final String NAME2 = "FolderName2";
-    private static final String NAME3 = "FolderName3";
     private static final String NEW_NAME = "newTestName";
     private static final String DESCRIPTION = "Created new folder";
     private static final String DISPLAY_NAME = "NewFolder";
 
-    private boolean createdJobInFolderIsDisplayed(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?,?> jobConfigPage){
-        return new MainPage(getDriver())
+    private void createdJobInFolder(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?,?> jobConfigPage){
+        new MainPage(getDriver())
                 .clickJobName(folderName, new FolderPage(getDriver()))
                 .newItem()
                 .enterItemName(jobName)
                 .selectJobType(jobType)
                 .clickOkButton(jobConfigPage)
                 .getHeader()
-                .clickLogo()
-                .clickJobName(folderName, new FolderPage(getDriver()))
-                .nestedProjectIsDisplayed(jobName);
+                .clickLogo();
     }
 
     @Test
@@ -50,9 +47,9 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateFromNewItem() {
-        TestUtils.createJob(this, NAME2, TestUtils.JobType.Folder, true);
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        Assert.assertTrue(new MainPage(getDriver()).jobIsDisplayed(NAME2), "error was not show name folder");
+        Assert.assertTrue(new MainPage(getDriver()).jobIsDisplayed(NAME), "error was not show name folder");
         Assert.assertTrue(new MainPage(getDriver()).iconFolderIsDisplayed(), "error was not shown icon folder");
     }
 
@@ -62,13 +59,13 @@ public class FolderTest extends BaseTest {
         MainPage mainPage = new MainPage(getDriver())
                 .getHeader()
                 .clickNewItemDashboardDropdownMenu()
-                .enterItemName(NAME3)
+                .enterItemName(NAME2)
                 .selectJobType(TestUtils.JobType.Folder)
                 .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .getHeader()
                 .clickLogo();
 
-        Assert.assertTrue(mainPage.jobIsDisplayed(NAME3), "error was not show name folder");
+        Assert.assertTrue(mainPage.jobIsDisplayed(NAME2), "error was not show name folder");
         Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
     }
 
@@ -148,15 +145,15 @@ public class FolderTest extends BaseTest {
     public void testMoveFolderToFolder() {
 
         String folderName = new MainPage(getDriver())
-                .dropDownMenuClickMove(NAME3, new FolderPage(getDriver()))
-                .selectDestinationFolder(NAME2)
+                .dropDownMenuClickMove(NAME2, new FolderPage(getDriver()))
+                .selectDestinationFolder(NAME)
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickJobName(NAME2, new FolderPage(getDriver()))
-                .getNestedFolder(NAME3);
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .getNestedFolder(NAME2);
 
-        Assert.assertEquals(folderName, NAME3);
+        Assert.assertEquals(folderName, NAME2);
     }
 
     @Test(dependsOnMethods = "testRenameNegative")
@@ -189,6 +186,34 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCancelDeleting")
+    public void testCreateJobsInFolder() {
+
+        List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
+                "Folder", "Multibranch Pipeline", "Organization");
+
+        createdJobInFolder(jobName.get(0), NEW_NAME, TestUtils.JobType.FreestyleProject,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(1), NEW_NAME, TestUtils.JobType.Pipeline,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(2), NEW_NAME, TestUtils.JobType.MultiConfigurationProject,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(3), NEW_NAME, TestUtils.JobType.Folder,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(4), NEW_NAME, TestUtils.JobType.MultibranchPipeline,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(5), NEW_NAME, TestUtils.JobType.OrganizationFolder,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+
+        List<String> createdJobList= new MainPage(getDriver())
+                .clickJobName(NEW_NAME, new FolderPage(getDriver()))
+                .getJobList();
+
+        jobName.sort(String.CASE_INSENSITIVE_ORDER);
+
+        Assert.assertEquals(createdJobList, jobName);
+    }
+
+    @Test(dependsOnMethods = "testCreateJobsInFolder")
     public void testDeleteFolder() {
 
         boolean welcomeIsDisplayed = new MainPage(getDriver())
@@ -197,61 +222,6 @@ public class FolderTest extends BaseTest {
                 .WelcomeIsDisplayed();
 
         Assert.assertTrue(welcomeIsDisplayed,"error was not show Welcome to Jenkins!");
-    }
-
-    @Test(dependsOnMethods = "testMoveFolderToFolder")
-    public void testCreateFreestyleProjectInFolder(){
-        final String freestyleProjectName = "new project";
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                (freestyleProjectName, NAME2, TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))),
-                "error was not show nested Freestyle Project");
-    }
-
-    @Test(dependsOnMethods = "testCreateFreestyleProjectInFolder")
-    public void testCreatePipelineInFolder(){
-        final String pipelineName = "pipeline project";
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                        (pipelineName, NAME2, TestUtils.JobType.Pipeline, new PipelineConfigPage(new PipelinePage(getDriver()))),
-                "error was not show nested Pipeline");
-    }
-
-    @Test(dependsOnMethods = "testCreatePipelineInFolder")
-    public void testCreateMultibranchPipelineInFolder() {
-        final String multibranchPipelineName = "My Multibranch Pipeline";
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                        (multibranchPipelineName, NAME2, TestUtils.JobType.MultibranchPipeline, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver()))),
-                "error was not show nested Multibranch Pipeline");
-    }
-
-    @Test(dependsOnMethods = "testCreateMultibranchPipelineInFolder")
-    public void testCreateMulticonfigurationProjectInFolder() {
-        final String multiconfigurationProjectName = "Mine Project";
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                (multiconfigurationProjectName, NAME2, TestUtils.JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()))),
-                "error was not show nested Multi-configurationProject");
-    }
-
-    @Test(dependsOnMethods = "testCreateMulticonfigurationProjectInFolder")
-    public void testCreateFolderFromExistingFolder() {
-        final String secondFolderName = "SecondFolder";
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                (secondFolderName, NAME2, TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver()))),
-                "error was not show nested second folder");
-    }
-
-    @Test(dependsOnMethods = "testCreateFolderFromExistingFolder")
-    public void testCreateOrganizationFolderInFolder() {
-        final String organizationFolderName = "Organization";
-
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                (organizationFolderName, NAME2, TestUtils.JobType.OrganizationFolder, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver()))),
-                "error was not show nested Organization folder");
     }
 
    @Test

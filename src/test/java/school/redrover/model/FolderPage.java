@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
+import java.util.List;
+
 public class FolderPage extends BaseMainHeaderPage<FolderPage> {
 
     public FolderPage(WebDriver driver) {
@@ -138,5 +140,17 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
 
     public boolean viewIsDisplayed(String viewName){
        return getDriver().findElement(By.linkText(viewName)).isDisplayed();
+    }
+
+    public FolderPage clickSortJobName(){
+        getDriver().findElement(By.xpath("//a[text()='Name']")).click();
+        return this;
+    }
+
+    public List<String> getJobList() {
+        return getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
     }
 }
