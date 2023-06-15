@@ -5,15 +5,22 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseConfigPage;
+import school.redrover.model.base.BaseJobPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-public class FolderPage extends BaseMainHeaderPage<FolderPage> {
+public class FolderPage extends BaseJobPage<FolderPage> {
 
     public FolderPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public FolderConfigPage clickConfigure() {
+        return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
     public NewJobPage newItem() {
