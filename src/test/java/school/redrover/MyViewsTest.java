@@ -32,6 +32,22 @@ public class MyViewsTest extends BaseTest {
     }
 
     @Test
+    public void testCreateAJobFromMyViewsPage() {
+
+        final String newViewNameRandom = RandomStringUtils.randomAlphanumeric(5);
+
+        new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJob()
+                .enterAnItemName(newViewNameRandom)
+                .clickFreestyleProject()
+                .clickOkButton()
+                .clickSaveButton();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project " + newViewNameRandom);
+    }
+
+    @Test
     public void testAddDescriptionFromMyViewsPage() {
         final String newViewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
 
