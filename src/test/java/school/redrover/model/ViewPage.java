@@ -121,9 +121,9 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
                 By.xpath("//div[@class='help-area tr']/div/div"))).getText();
     }
 
-    public ViewDeletePage clickDeleteView() {
+    public DeletePage<MainPage> clickDeleteView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='delete']"))).click();
-        return new ViewDeletePage(getDriver());
+        return new DeletePage<>(getDriver(), new MainPage(getDriver()));
     }
 
     public NewViewPage clickPlusSign() {

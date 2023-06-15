@@ -13,7 +13,7 @@ public class ManagePluginsTest extends BaseTest {
     public void testFourTasksOnLeftsidePanel() {
         final List<String> expectedListOfTasks = List.of(new String[]{"Updates", "Available plugins", "Installed plugins", "Advanced settings"});
         List<String> actualListOfTasks = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManagePlugins()
                 .checkFourTasksOnTheLeftsidePanel();
 
@@ -24,7 +24,7 @@ public class ManagePluginsTest extends BaseTest {
     public void testServerInfoBoxAdvancedSettingsPluginPage(){
         final String expectedInfoServerText = "If your Jenkins server sits behind a firewall ";
         String ServerInfoBox = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManagePlugins()
                 .clickAdvancedSettings()
                 .clickExtraInfoServerIcon()

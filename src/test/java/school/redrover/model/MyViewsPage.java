@@ -16,39 +16,9 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
         super(driver);
     }
 
-    public MyViewsPage clickCreateAJob() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='newJob']"))).click();
-        return new MyViewsPage(getDriver());
-    }
-
-    public MyViewsPage enterAnItemName(String name) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(name);
-        return this;
-    }
-
-    public MyViewsPage clickFreestyleProject() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hudson_model_FreeStyleProject"))).click();
-        return this;
-    }
-
     public MyViewsPage clickOkButton() {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#ok-button"))).click();
         return this;
-    }
-
-    public MyViewsPage clickSaveButton() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@formnovalidate = 'formNoValidate']"))).click();
-        return this;
-    }
-
-    public MyViewsPage clickOnDashboardPage() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Dashboard"))).click();
-        return this;
-    }
-
-    public MyViewsPage clickOnNewJob() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, '/view/all/newJob')]"))).click();
-        return new MyViewsPage(getDriver());
     }
 
     public MyViewsPage clickOnDescription() {
@@ -120,10 +90,10 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
         return this;
     }
 
-    public ViewDeletePage clickDeleteViewButton() {
+    public DeletePage<MyViewsPage> clickDeleteViewButton() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href = 'delete']")));
 
-        return new ViewDeletePage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public List<String> getListOfAllViews() {
@@ -140,5 +110,26 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']"))).click();
 
         return new NewJobPage(getDriver());
+    }
+
+    public MyViewsPage clickCreateAJob() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='newJob']"))).click();
+        return new MyViewsPage(getDriver());
+    }
+
+    public MyViewsPage enterAnItemName(String name) {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(name);
+        return this;
+    }
+
+    public MyViewsPage clickFreestyleProject() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hudson_model_FreeStyleProject"))).click();
+        return this;
+    }
+
+    public MyViewsPage clickSaveButton() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@formnovalidate = 'formNoValidate']"))).click();
+
+        return this;
     }
 }

@@ -68,7 +68,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return new BuildHistoryPage(getDriver());
     }
 
-    public ManageJenkinsPage navigateToManageJenkinsPage() {
+    public ManageJenkinsPage clickManageJenkinsPage() {
         getDriver().findElement(By.cssSelector("[href='/manage']")).click();
         return new ManageJenkinsPage(getDriver());
     }
@@ -76,13 +76,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     public MyViewsPage clickMyViewsSideMenuLink() {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/me/my-views']"))).click();
         return new MyViewsPage(getDriver());
-    }
-
-    public ConfigureGlobalSecurityPage navigateToConfigureGlobalSecurityPage() {
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.xpath("//dt[text()='Configure Global Security']")).click();
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Configure Global Security']")));
-        return new ConfigureGlobalSecurityPage(getDriver());
     }
 
     public <JobPage extends BasePage<?, ?>> JobPage clickJobName(String jobName, JobPage jobPage) {
@@ -98,9 +91,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return this;
     }
 
-    public DeleteFoldersPage dropDownMenuClickDeleteFolders(String jobName) {
+    public DeletePage<MainPage> dropDownMenuClickDeleteFolders(String jobName) {
         dropDownMenuClickDelete(jobName);
-        return new DeleteFoldersPage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public MainPage acceptAlert() {
@@ -155,13 +148,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     public BuildPage clickBuildButton() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//td[@class='jenkins-table__cell--tight']"))).click();
         return new BuildPage(getDriver());
-    }
-
-    public MainPage clickSchedulerBuildForPipeline(String pipelineName) {
-        WebElement buildRunnerButton = getDriver()
-                .findElement(By.xpath("//a[@title = 'Schedule a Build for " + pipelineName + "']"));
-        buildRunnerButton.click();
-        return this;
     }
 
     public String getJobBuildStatus(String jobName) {
@@ -219,19 +205,19 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
                 .getText();
     }
 
-    public WebElement getMainPanel() {
+    private WebElement getProjectStatusTable() {
 
-        return getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("main-panel")));
+        return getWait2().until(ExpectedConditions.presenceOfElementLocated(By.id("main-panel")))
+                .findElement(By.id("projectstatus"));
     }
 
-    public WebElement getProjectStatusTable() {
-
-        return getMainPanel().findElement(By.id("projectstatus"));
+    public boolean projectStatusTableIsDisplayed() {
+        return getProjectStatusTable().isDisplayed();
     }
 
-    public WebElement getProjectName() {
+    public String getProjectName() {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector(".job-status-nobuilt td>a>span"))));
+                .findElement(By.cssSelector(".job-status-nobuilt td>a>span")))).getText();
     }
 
     public String getProjectNameMainPage(String projectName) {
@@ -249,8 +235,8 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return getDriver().findElement(By.cssSelector("svg[title='Folder']")).isDisplayed();
     }
 
-    public WebElement getNoJobsMainPageHeader() {
-        return getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1"));
+    public String getNoJobsMainPageHeader() {
+        return getDriver().findElement(By.xpath("//div[@class='empty-state-block']/h1")).getText();
     }
 
     public String getTitle() {
@@ -310,12 +296,6 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
     }
 
-   public OrganizationFolderPage clickJodOrganizationFolder(){
-        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).click();
-
-        return new OrganizationFolderPage(getDriver());
-   }
-
     public String selectFromJobDropdownMenuTheGitHub() {
         getDriver().findElement(By.xpath("//a[contains(@href, 'github.com')]")).click();
         return getDriver().findElement(By.xpath("//a[normalize-space(text())= 'Sign in']")).getText();
@@ -333,5 +313,56 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
             }
         }
         return status;
+    }
+
+    public MainPage clickNotificationsButton(){
+        getDriver().findElement(By.xpath("//a[@id='visible-am-button']")).click();
+
+        return this;
+    }
+
+    public String getTextFromHeaderManageJenkins(){
+
+       return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#visible-am-list > p > a"))).getText();
+    }
+
+    public boolean getSecurityButtonOnHeader(){
+
+        return getDriver().findElement(By.cssSelector("#visible-sec-am-button > svg")).isDisplayed();
+    }
+
+    public String getBackgroundSecurityButton(){
+        WebElement securityButton = getDriver()
+                .findElement(By.xpath("//*[@id=\"visible-sec-am-button\"]"));
+
+        Actions hover = new Actions(getDriver());
+        hover.moveToElement(securityButton).perform();
+
+        return securityButton.getCssValue("background-color");
+    }
+
+    public boolean iconExitButton(){
+
+        return getDriver()
+                .findElement(By.cssSelector("#page-header > div.login.page-header__hyperlinks > a:nth-child(4) > svg"))
+                .isDisplayed();
+    }
+
+    public String getUnderLineExitButton(){
+        WebElement exitButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[2]"));
+
+        Actions hover = new Actions(getDriver());
+        hover.moveToElement(exitButton).perform();
+
+        return exitButton.getCssValue("text-decoration-line");
+    }
+
+    public String getBackgroundExitButton(){
+        WebElement exitButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[2]"));
+
+        Actions hover = new Actions(getDriver());
+        hover.moveToElement(exitButton).perform();
+
+        return exitButton.getCssValue("background-color");
     }
 }

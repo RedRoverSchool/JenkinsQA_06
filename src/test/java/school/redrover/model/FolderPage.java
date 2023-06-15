@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
+import java.util.List;
+
 public class FolderPage extends BaseMainHeaderPage<FolderPage> {
 
     public FolderPage(WebDriver driver) {
@@ -19,9 +21,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new NewJobPage(getDriver());
     }
 
-    public DeleteFoldersPage delete() {
+    public DeletePage<FolderPage> delete() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
-        return new DeleteFoldersPage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public RenamePage<FolderPage> rename() {
@@ -40,9 +42,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MainPage(getDriver());
     }
 
-    public WebElement getMultibranchPipelineName() {
+    public String getMultibranchPipelineName() {
         return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector(".jenkins-table__link"))));
+                .findElement(By.cssSelector(".jenkins-table__link")))).getText();
     }
 
     public String getNestedFolder(String nameFolder) {
@@ -94,9 +96,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MovePage<>(this);
     }
 
-    public WebElement getNestedOrganizationFolder(String nameFolder) {
+    public String getNestedOrganizationFolder(String nameFolder) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]")));
+                (By.xpath("//a[contains(@href,'job/" + nameFolder + "/')]"))).getText();
     }
 
     public String getNestedMultiConfigurationProjectName(String name) {
@@ -114,7 +116,7 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 (By.xpath("//*[@id = 'projectstatus']//td/a"))).getText();
     }
 
-    public WebElement getInnerJobWebElement(String innerJobName) {
+    private WebElement getInnerJobWebElement(String innerJobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + innerJobName + "')]"))));
     }
@@ -138,5 +140,17 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
 
     public boolean viewIsDisplayed(String viewName){
        return getDriver().findElement(By.linkText(viewName)).isDisplayed();
+    }
+
+    public FolderPage clickSortJobName(){
+        getDriver().findElement(By.xpath("//a[text()='Name']")).click();
+        return this;
+    }
+
+    public List<String> getJobList() {
+        return getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
     }
 }

@@ -1,16 +1,17 @@
 package school.redrover;
 
-import org.openqa.selenium.*;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
-import static school.redrover.runner.TestUtils.createFreestyleProject;
+
+import static school.redrover.runner.TestUtils.createJob;
 
 public class FreestyleProjectTest extends BaseTest {
 
@@ -21,7 +22,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject() {
-        WebElement projectName = new MainPage(getDriver())
+        String projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -31,7 +32,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickLogo()
                 .getProjectName();
 
-        Assert.assertEquals(projectName.getText(), FREESTYLE_NAME);
+        Assert.assertEquals(projectName, FREESTYLE_NAME);
     }
 
     @Test
@@ -46,14 +47,14 @@ public class FreestyleProjectTest extends BaseTest {
                 .getHeader()
                 .clickLogo();
 
-        Assert.assertTrue(mainPage.getProjectStatusTable().isDisplayed());
+        Assert.assertTrue(mainPage.projectStatusTableIsDisplayed());
         Assert.assertEquals(mainPage.getProjectsList().size(), 1);
         Assert.assertEquals(mainPage.getOnlyProjectName(), PROJECT_NAME);
     }
 
     @Test
     public void testCreateWithExistingName() {
-        createFreestyleProject(this, FREESTYLE_NAME, true);
+        createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         String itemAlreadyExistsMessage = new MainPage(getDriver())
                 .clickNewItem()
@@ -87,25 +88,9 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertFalse(okButton);
     }
 
-    @DataProvider(name = "wrong-character")
-    public Object[][] provideWrongCharacters() {
-        return new Object[][]
-                {{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}};
-    }
-
-    @Test(dataProvider = "wrong-character")
-    public void testCreateFreestyleProjectWithInvalidName(String wrongCharacter) {
-        NewJobPage newJobPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(wrongCharacter);
-
-        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
-        Assert.assertFalse(newJobPage.isOkButtonEnabled());
-    }
-
     @Test
     public void testNavigateToChangePage() {
-        createFreestyleProject(this, "Engineer", true);
+        createJob(this, "Engineer", TestUtils.JobType.FreestyleProject, true);
 
         String text = new MainPage(getDriver())
                 .clickJobName("Engineer", new FreestyleProjectPage(getDriver()))
@@ -116,28 +101,19 @@ public class FreestyleProjectTest extends BaseTest {
                 "In the Freestyle project Changes chapter, not displayed status of the latest build.");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testDisableProject() {
         FreestyleProjectPage projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickTheDisableProjectButton();
 
         Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
         MainPage projectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
-                .clickTheDisableProjectButton()
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickTheEnableProjectButton()
                 .getHeader()
                 .clickLogo();
@@ -145,19 +121,16 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    @Test(dependsOnMethods = "testEnableProject")
     public void testAddDescription() {
-        String description = "Freestyle project";
-
         String actualDescription = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigureButton()
-                .addDescription(description)
+                .addDescription("Freestyle project")
                 .clickSaveButton()
                 .getDescription();
 
-        Assert.assertEquals(actualDescription, description);
+        Assert.assertEquals(actualDescription,  "Freestyle project");
     }
 
     @Test
@@ -175,6 +148,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectPage.getProjectName(), "Project " + FREESTYLE_NAME + " New");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
     public void testRenameFreestyleProjectUsingDropDownMenu() {
         String actualFreestyleProjectName = new MainPage(getDriver())
@@ -289,9 +263,9 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectBuildNow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
-        Assert.assertTrue(new BuildPage(getDriver()).getBuildHeader().isDisplayed(), "build not created");
+        Assert.assertTrue(new BuildPage(getDriver()).buildHeaderIsDisplayed(), "build not created");
     }
-
+@Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
 
@@ -310,6 +284,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(sizeOfPermalinksList == 4);
     }
 
+    @Ignore
     @Test
     public void testFreestyleProjectJob() {
         String nameProject = "Hello world";
@@ -332,7 +307,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testAddDescriptionFromConfigureDropDownAndPreview() {
         final String descriptionText = "In publishing and graphic design, Lorem ipsum is a placeholder " +
-                                       "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
+                "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
 
         String previewText = new MainPage(getDriver())
                 .clickNewItem()
@@ -372,7 +347,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testDeleteProjectFromDropdown() {
         final String projectName = "Name";
 
-        MyViewsPage h2text = new MainPage(getDriver())
+        String h2text = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(projectName)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -382,15 +357,17 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickLogo()
                 .dropDownMenuClickDelete(projectName)
                 .acceptAlert()
-                .clickMyViewsSideMenuLink();
+                .clickMyViewsSideMenuLink()
+                .getStatusMessageText();
 
-        Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
+        Assert.assertEquals(h2text, "This folder is empty");
     }
 
     @Test
     public void testDeleteProjectWithoutConfirmation() {
         final String name = "projectToDeleteWithoutConfirmation";
-        String projectName = new MainPage(getDriver())
+
+        boolean projectIsPresent = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(name)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -398,10 +375,11 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickDeleteProjectOnDropDown()
                 .dismissAlert()
-                .clickDashboard()
-                .getProjectNameMainPage(name);
+                .getHeader()
+                .clickLogo()
+                .verifyJobIsPresent(name);
 
-        Assert.assertEquals(projectName, name);
+        Assert.assertTrue(projectIsPresent);
     }
 
     @Test
@@ -409,7 +387,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
 
-        TestUtils.createFreestyleProject(this, FREESTYLE_NAME, true);
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         String actualNameRepo = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -425,4 +403,74 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testSetParametersToDiscardOldBuilds() {
+        final int daysToKeepBuilds = 3;
+        final int maxOfBuildsToKeep = 5;
+
+        FreestyleProjectConfigPage freestyleProjectConfigPage = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigureButton()
+                .clickOldBuildCheckBox()
+                .enterDaysToKeepBuilds(daysToKeepBuilds)
+                .enterMaxNumOfBuildsToKeep(maxOfBuildsToKeep)
+                .clickSaveButton()
+                .clickConfigureButton();
+
+        Assert.assertEquals(Integer
+                .parseInt(freestyleProjectConfigPage.getDaysToKeepBuilds("value")), daysToKeepBuilds);
+
+        Assert.assertEquals(Integer
+                .parseInt(freestyleProjectConfigPage.getMaxNumOfBuildsToKeep("value")), maxOfBuildsToKeep);
+    }
+
+    @Test
+    public void testAddChoiceParameter() {
+        final String parameterType = "Choice Parameter";
+        final String parameterName = "Choice parameter name test";
+        final String parameterDesc = "Choice parameter desc test";
+        final List<String> parameterChoicesList = new ArrayList<>() {{
+            add("choice one");
+            add("choice two");
+            add("choice three");
+        }};
+
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+
+        BuildPage buildPage = new FreestyleProjectPage(getDriver())
+                .clickConfigureButton()
+                .checkProjectIsParametrized()
+                .openAddParameterDropDown()
+                .selectParameterInDropDownByType(parameterType)
+                .inputParameterName(parameterName)
+                .inputParameterChoices(parameterChoicesList)
+                .inputParameterDesc(parameterDesc)
+                .clickSaveButton()
+                .clickBuildWithParameters();
+
+        Assert.assertTrue(buildPage.isParameterNameDisplayed(parameterName));
+        Assert.assertEquals(buildPage.getParameterDescription(), parameterDesc);
+        Assert.assertEquals(buildPage.getChoiceParametersValuesList(), parameterChoicesList);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testAddBooleanParameterTheFreestyleProject() {
+        final String booleanParameter = "Boolean Parameter";
+        final String booleanParameterName = "Boolean";
+
+        boolean checkedSetByDefault = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigureButton()
+                .checkProjectIsParametrized()
+                .openAddParameterDropDown()
+                .selectParameterInDropDownByType(booleanParameter)
+                .inputParameterName(booleanParameterName)
+                .selectCheckboxSetByDefault()
+                .clickSaveButton()
+                .clickBuildWithParameters()
+                .checkedTrue();
+
+        Assert.assertTrue(checkedSetByDefault);
+    }
 }

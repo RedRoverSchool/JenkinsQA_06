@@ -101,7 +101,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testDisabledOrganizationFolder() {
 
         String disabledText = new MainPage(getDriver())
-                .clickJodOrganizationFolder()
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableButton()
                 .getTextFromDisableMessage();
 
@@ -128,5 +128,18 @@ public class OrganizationFolderTest extends BaseTest {
                 .getErrorMessage();
 
         Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
+    }
+
+    @Test(dependsOnMethods = {"testRenameNegative"} )
+    public void testDeleteOrganizationFolder() {
+        String welcomeText = new CreateItemErrorPage(getDriver())
+                .getHeader()
+                .clickLogo()
+                .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
+                .clickDeleteOrganizationFolderSideMenu()
+                .clickYesButton()
+                .getWelcomeText();
+
+        Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
 }

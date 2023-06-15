@@ -16,8 +16,8 @@ public class BuildPageTest extends BaseTest {
 
     @Test
     public void testBuildHistoryOfTwoDifferentTypesProjectsIsShown() {
-        TestUtils.createMultiConfigurationProject(this, MULTI_CONFIGURATION_PROJECT_NAME, true);
-        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME,true);
+        TestUtils.createJob(this, MULTI_CONFIGURATION_PROJECT_NAME, TestUtils.JobType.MultiConfigurationProject, true);
+        TestUtils.createJob(this, FREESTYLE_PROJECT_NAME, TestUtils.JobType.FreestyleProject,true);
 
         int numberOfLinesInBuildHistoryTable = new MainPage(getDriver())
                 .getHeader()
