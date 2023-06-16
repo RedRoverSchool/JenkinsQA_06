@@ -106,6 +106,13 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         return adminLink.getCssValue("text-decoration");
     }
 
+    public String getLogOutTextDecorationValue(){
+        WebElement logoutLink = getDriver().findElement(LOGOUT_BUTTON);
+        getWait5().until(ExpectedConditions.attributeToBeNotEmpty(logoutLink, "text-decoration"));
+
+        return logoutLink.getCssValue("color");
+    }
+
     public boolean openBuildsTabFromAdminDropdownMenuIsDisplayed () {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//div[@id='breadcrumb-menu']//span[.='Builds']"))).click();

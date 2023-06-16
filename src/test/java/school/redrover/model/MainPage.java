@@ -365,4 +365,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
         return exitButton.getCssValue("background-color");
     }
+
+    public MainPage clickLogOUTButton(){
+        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
+
+        return this;
+    }
 }
