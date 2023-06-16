@@ -113,6 +113,12 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         return logoutLink.getCssValue("color");
     }
 
+    public ManageJenkinsPage clickManageLinkFromPopUp(){
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Manage Jenkins')]"))).click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+
     public boolean openBuildsTabFromAdminDropdownMenuIsDisplayed () {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//div[@id='breadcrumb-menu']//span[.='Builds']"))).click();
