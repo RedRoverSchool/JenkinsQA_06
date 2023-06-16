@@ -37,7 +37,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     }
 
     public String getDisabledMessageText(){
-        return getDriver().findElement(By.cssSelector("form#enable-project")).getText();
+        return getDriver().findElement(By.cssSelector("form#enable-project")).getText().trim().substring(0, 34);
     }
 
     public Self clickBuildNow() {

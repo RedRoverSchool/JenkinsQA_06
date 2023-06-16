@@ -10,7 +10,7 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
+public class   NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
     public NewJobPage(WebDriver driver) {
         super(driver);
@@ -34,8 +34,7 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public NewJobPage selectJobType(TestUtils.JobType jobType) {
-        List<WebElement> jobs = getDriver().findElements(By.cssSelector("#items>div>ul>li"));
-        jobs.get(jobType.getPosition() - 1).click();
+        getDriver().findElement(jobType.getLocator()).click();
         return this;
     }
 
@@ -82,5 +81,10 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
             newList.add(listOfNewItems.get(i).getText());
         }
         return newList;
+    }
+
+    public NewJobPage enterItemNameToPlaceHolder(String jobName){
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='from']"))).sendKeys(jobName);
+        return this;
     }
 }

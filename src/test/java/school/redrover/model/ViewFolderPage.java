@@ -17,7 +17,7 @@ public class ViewFolderPage extends BaseMainHeaderPage<ViewFolderPage> {
         return new FolderPage(getDriver());
     }
 
-    public WebElement getMyView() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tab active']")));
+    public String  getMyView() {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tab active']"))).getText();
     }
 }

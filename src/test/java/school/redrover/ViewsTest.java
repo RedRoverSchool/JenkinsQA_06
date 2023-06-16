@@ -1,6 +1,7 @@
 package school.redrover;
 
-import org.openqa.selenium.WebElement;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-public class NewViewTest extends BaseTest {
+public class ViewsTest extends BaseTest {
 
     private void createNewFreestyleProjectFromMyViewsPage(String projectName) {
         new MainPage(getDriver())
@@ -42,6 +43,70 @@ public class NewViewTest extends BaseTest {
                 .clickDashboard()
                 .clickViewJob(name)
                 .clickEditView(name);
+    }
+
+    @Test
+    public void testCreateAJobInThePageMyViews() {
+        final String newViewNameRandom = RandomStringUtils.randomAlphanumeric(5);
+
+        boolean isJobPresent = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewItem()
+                .enterItemName(newViewNameRandom)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .verifyJobIsPresent(newViewNameRandom);
+
+        Assert.assertTrue(isJobPresent);
+    }
+
+    @Test
+    public void testCreateAJobFromMyViewsPage() {
+
+        final String newViewNameRandom = RandomStringUtils.randomAlphanumeric(5);
+
+        new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJob()
+                .enterAnItemName(newViewNameRandom)
+                .clickFreestyleProject()
+                .clickOkButton()
+                .clickSaveButton();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project " + newViewNameRandom);
+    }
+
+    @Test
+    public void testAddDescriptionFromMyViewsPage() {
+        final String newViewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
+
+        String description = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickOnDescription()
+                .clearTextFromDescription()
+                .enterDescription(newViewDescriptionRandom)
+                .clickSaveButtonDescription()
+                .getTextFromDescription();
+
+        Assert.assertEquals(description, newViewDescriptionRandom);
+    }
+
+    @Test (dependsOnMethods = "testAddDescriptionFromMyViewsPage")
+    public void testEditDescription() {
+
+        final String newViewNewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
+
+        String description = new MyViewsPage(getDriver())
+                .clickOnDescription()
+                .clearTextFromDescription()
+                .enterNewDescription(newViewNewDescriptionRandom)
+                .clickSaveButtonDescription()
+                .getTextFromDescription();
+
+        Assert.assertEquals(description, newViewNewDescriptionRandom);
     }
 
     @Test
@@ -146,8 +211,8 @@ public class NewViewTest extends BaseTest {
         final String folderName2 = "f2";
         final String viewName = "view1";
 
-        TestUtils.createFolder(this, folderName1, true);
-        TestUtils.createFolder(this, folderName2, true);
+        TestUtils.createJob(this, folderName1, TestUtils.JobType.Folder, true);
+        TestUtils.createJob(this, folderName2, TestUtils.JobType.Folder, true);
 
         ViewPage viewPage = new MainPage(getDriver())
                 .createNewView()
@@ -199,7 +264,7 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateMyView() {
-        WebElement newView = new MainPage(getDriver())
+        String  newView = new MainPage(getDriver())
                  .clickNewItem()
                  .enterItemName("TestFolder")
                 .selectJobType(TestUtils.JobType.Folder)
@@ -212,7 +277,7 @@ public class NewViewTest extends BaseTest {
                  .selectMyViewAndClickCreate()
                  .getMyView();
 
-        assertEquals(newView.getText(), "MyNewView");
+        assertEquals(newView, "MyNewView");
     }
 
     @Test

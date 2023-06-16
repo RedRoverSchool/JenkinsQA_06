@@ -74,16 +74,16 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
         return (Self) this;
     }
 
-    public WebElement getTextDisable() {
+    public String getTextDisable() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']"))));
+                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']")))).getText();
     }
 
-    public WebElement getTextEnabled() {
+    public String getTextEnabled() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']"))));
+                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).getText();
     }
 
     public String getDaysToKeepBuilds(String attribute) {
@@ -144,6 +144,13 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
 
     public Self inputParameterDesc(String description) {
         getDriver().findElement(By.xpath("//textarea[@name='parameter.description']")).sendKeys(description);
+        return (Self) this;
+    }
+
+    public Self selectCheckboxSetByDefault() {
+        WebElement checkboxSetByDefault = getDriver().findElement(By.xpath("//label[normalize-space(text())='Set by Default']"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", checkboxSetByDefault);
         return (Self) this;
     }
 }

@@ -80,19 +80,17 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testSecurityButton() throws InterruptedException {
-        Actions hover = new Actions(getDriver());
+    public void testSecurityButton() {
 
-        WebElement securityButton = getDriver()
-                .findElement(By.xpath("//*[@id=\"visible-sec-am-button\"]"));
-        WebElement securityButtonIcon = getDriver().findElement(By.cssSelector("#visible-sec-am-button > svg"));
+        boolean securityButton = new MainPage(getDriver())
+                .getSecurityButtonOnHeader();
 
-        Assert.assertTrue(securityButtonIcon.isDisplayed());
+        Assert.assertTrue(securityButton);
 
-        hover.moveToElement(securityButton).perform();
-        Thread.sleep(500);
-        String hoverSecurityButtonBackground = securityButton.getCssValue("background-color");
-        assertEquals(hoverSecurityButtonBackground, "rgba(64, 64, 64, 1)");
+        String background = new MainPage(getDriver())
+                .getBackgroundSecurityButton();
+
+        Assert.assertEquals(background, "rgba(64, 64, 64, 1)");
     }
 
     @Test
@@ -106,22 +104,21 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testExitButton() throws InterruptedException {
-        Actions hover = new Actions(getDriver());
+    public void testExitButton() {
 
-        WebElement exitButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[2]"));
-        WebElement exitButtonIcon = getDriver()
-                .findElement(By.cssSelector("#page-header > div.login.page-header__hyperlinks > a:nth-child(4) > svg"));
+        boolean exitButtonIcon = new MainPage(getDriver())
+                .iconExitButton();
 
-        Assert.assertTrue(exitButtonIcon.isDisplayed());
+        Assert.assertTrue(exitButtonIcon);
 
-        hover.moveToElement(exitButton).perform();
-        Thread.sleep(500);
-        String hoverExitButtonBackground = exitButton.getCssValue("background-color");
-        String hoverExitButtonUnderline = exitButton.getCssValue("text-decoration-line");
+        String getUnderLineExitIcon = new MainPage(getDriver())
+                .getUnderLineExitButton();
 
-        assertEquals(hoverExitButtonBackground, "rgba(64, 64, 64, 1)");
-        assertEquals(hoverExitButtonUnderline, "underline");
+        String getBackgroundExitIcon = new MainPage(getDriver())
+                .getBackgroundExitButton();
+
+        Assert.assertEquals(getBackgroundExitIcon, "rgba(64, 64, 64, 1)");
+        Assert.assertEquals(getUnderLineExitIcon, "underline");
     }
     
     @Test
@@ -186,8 +183,8 @@ public class HeaderTest extends BaseTest {
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
         final List<String> listItemName = new ArrayList<>(List.of("Test Item", "Second"));
 
-        TestUtils.createFreestyleProject(this, listItemName.get(0), true);
-        TestUtils.createFreestyleProject(this, listItemName.get(1), false);
+        TestUtils.createJob(this, listItemName.get(0), TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, listItemName.get(1), TestUtils.JobType.FreestyleProject, false);
 
         boolean isPageOpen = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))
                 .getHeader()
@@ -209,12 +206,12 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testOpenBuildsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openBuildsTabFromAdminDropdownMenu();
+                .openBuildsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
@@ -230,11 +227,11 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testButtonNotificationsWorks() {
 
-        WebElement notificationsButton = getDriver().findElement(By.xpath("//a[@id='visible-am-button']"));
-        notificationsButton.click();
+        String getTitle = new MainPage(getDriver())
+                .clickNotificationsButton()
+                .getTextFromHeaderManageJenkins();
 
-        WebElement manageJenkinsString = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#visible-am-list > p > a")));
-        assertEquals(manageJenkinsString.getText(),"Manage Jenkins");
+        Assert.assertEquals(getTitle, "Manage Jenkins");
     }
 
     @Test
@@ -367,29 +364,29 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testMyViewsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openMyViewsTabFromAdminDropdownMenu();
+                .openMyViewsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
     public void testCredentialsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openCredentialsTabFromAdminDropdownMenu();
+                .openCredentialsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
     public void testClickLogoToReturnToDashboardPage() {
 
-        TestUtils.createFreestyleProject(this, "New Item 1", true);
-        TestUtils.createFolder(this, "New Item 2", false);
+        TestUtils.createJob(this, "New Item 1", TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, "New Item 2", TestUtils.JobType.Folder, false);
 
         WebElement goToUserIdPage = getDriver()
                 .findElement(By.xpath("//a[@href='/user/admin']//*[not(self::button)]"));

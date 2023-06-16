@@ -147,4 +147,14 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     public String verifyManageJenkinsPage() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[normalize-space(.)= 'Manage Jenkins']"))).getText();
     }
+
+    public ConfigureSystemPage clickConfigureSystemFromSearchDropdown() {
+
+        getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class ='jenkins-search__results']")));
+
+        getDriver().findElement(By.xpath("//div[@class = 'jenkins-search__results']//*[contains(text(), 'Configure System')]"))
+                .click();
+
+        return new ConfigureSystemPage(getDriver());
+    }
 }

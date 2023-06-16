@@ -101,7 +101,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testDisabledOrganizationFolder() {
 
         String disabledText = new MainPage(getDriver())
-                .clickJodOrganizationFolder()
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableButton()
                 .getTextFromDisableMessage();
 
@@ -135,7 +135,7 @@ public class OrganizationFolderTest extends BaseTest {
         String welcomeText = new CreateItemErrorPage(getDriver())
                 .getHeader()
                 .clickLogo()
-                .clickJodOrganizationFolder()
+                .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .clickDeleteOrganizationFolderSideMenu()
                 .clickYesButton()
                 .getWelcomeText();

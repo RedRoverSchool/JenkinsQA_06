@@ -5,13 +5,22 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.base.BaseConfigPage;
+import school.redrover.model.base.BaseJobPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
-public class FolderPage extends BaseMainHeaderPage<FolderPage> {
+import java.util.List;
+
+public class FolderPage extends BaseJobPage<FolderPage> {
 
     public FolderPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public FolderConfigPage clickConfigure() {
+        return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
     public NewJobPage newItem() {
@@ -40,9 +49,9 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
         return new MainPage(getDriver());
     }
 
-    public WebElement getMultibranchPipelineName() {
+    public String getMultibranchPipelineName() {
         return getWait2().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.cssSelector(".jenkins-table__link"))));
+                .findElement(By.cssSelector(".jenkins-table__link")))).getText();
     }
 
     public String getNestedFolder(String nameFolder) {
@@ -114,7 +123,7 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
                 (By.xpath("//*[@id = 'projectstatus']//td/a"))).getText();
     }
 
-    public WebElement getInnerJobWebElement(String innerJobName) {
+    private WebElement getInnerJobWebElement(String innerJobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
                 .findElement(By.xpath("//span[contains(text(),'" + innerJobName + "')]"))));
     }
@@ -138,5 +147,17 @@ public class FolderPage extends BaseMainHeaderPage<FolderPage> {
 
     public boolean viewIsDisplayed(String viewName){
        return getDriver().findElement(By.linkText(viewName)).isDisplayed();
+    }
+
+    public FolderPage clickSortJobName(){
+        getDriver().findElement(By.xpath("//a[text()='Name']")).click();
+        return this;
+    }
+
+    public List<String> getJobList() {
+        return getDriver().findElements(By.cssSelector(".jenkins-table__link"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
     }
 }
