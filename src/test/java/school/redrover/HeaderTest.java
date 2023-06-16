@@ -27,6 +27,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testHeaderLogoIcon() throws IOException {
+
         WebElement logoIcon = getDriver().findElement(By.xpath("//*[@id=\"jenkins-head-icon\"]"));
         Assert.assertTrue(logoIcon.isDisplayed());
 
@@ -42,6 +43,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testHeaderLogoText() throws IOException {
+
         WebElement logoText = getDriver().findElement(By.xpath("//*[@id=\"jenkins-name-icon\"]"));
         Assert.assertTrue(logoText.isDisplayed());
 
@@ -57,6 +59,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testSearchTextField() throws InterruptedException {
+
         Actions hover = new Actions(getDriver());
 
         WebElement searchTextBox = getDriver().findElement(By.xpath("//*[@id=\"search-box\"]"));
@@ -95,6 +98,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testAdminButtonBackgroundColorIsPresentWhenMouseOver() {
+
         String actualAdminButtonBackgroundColor = new MainPage(getDriver())
                 .getHeader()
                 .hoverOverAdminButton()
@@ -139,6 +143,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testSearchField() {
+
         WebElement searchBox = getDriver().findElement(By.id("search-box"));
         searchBox.sendKeys("");
         searchBox.sendKeys(Keys.RETURN);
@@ -183,6 +188,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
+
         final List<String> listItemName = new ArrayList<>(List.of("Test Item", "Second"));
 
         TestUtils.createJob(this, listItemName.get(0), TestUtils.JobType.FreestyleProject, true);
@@ -208,6 +214,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testOpenBuildsTabFromDropdownMenu() {
+
         boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
@@ -238,6 +245,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testOfNotificationIconColorChange() {
+
         String notificationIconColorBefore = new MainPage(getDriver())
                 .getHeader()
                 .getNotificationIconBackgroundColor();
@@ -253,6 +261,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testOfAdminButtonColorChange() {
+
         String adminButtonColorBefore = new MainPage(getDriver())
                 .getHeader()
                 .getAdminButtonBackgroundColor();
@@ -268,6 +277,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testOfLogOutButtonColorChange() {
+
         String logOutButtonColorBefore = new MainPage(getDriver())
                 .getHeader()
                 .getLogOutButtonBackgroundColor();
@@ -283,6 +293,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testAppearanceOfPopUpMenuWhenClickingOnNotificationIcon() {
+
         boolean isPopUpScreenDisplayed = new MainPage(getDriver())
                 .getHeader()
                 .clickNotificationIcon()
@@ -293,6 +304,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testAppearanceOfPopUpMenusWhenClickingOnAdminIcon() {
+
         boolean isPopUpScreenDisplayed = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
@@ -325,6 +337,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testLogoutButtonColorChange() {
+
         String expectedColor = "rgba(245, 245, 245, 1)";
 
         String actualColorLogOutButton = new MainPage(getDriver())
@@ -336,6 +349,7 @@ public class HeaderTest extends BaseTest {
     }
 
     public void iconChangeColor(By el) {
+
         String colorBefore = getDriver().findElement(el).getCssValue("background-color");
         String colorAfter = "";
         new Actions(getDriver()).moveToElement(getDriver().findElement(el)).perform();
@@ -355,6 +369,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testConfigureTabFromDropdownMenu() {
+
         boolean isPageOpened = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
@@ -366,6 +381,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testMyViewsTabFromDropdownMenu() {
+
         boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
@@ -376,6 +392,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testCredentialsTabFromDropdownMenu() {
+
         boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
@@ -424,6 +441,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testNotificationAndSecurityIconsButtonsChangeColorWhenMouseover() {
+
         List<WebElement> buttonsChangeColorWhenMouseover = getDriver()
                 .findElements(By.xpath("//div[contains(@class,'am-container')]"));
         for (int i = 0; i < buttonsChangeColorWhenMouseover.size(); i++) {
@@ -440,6 +458,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testNotificationAndSecurityIconsPopUpScreen() {
+
         List<WebElement> popUpScreen = getDriver()
                 .findElements(By.xpath("//div[contains(@class,'am-container')]"));
         for (int i = 0; i < popUpScreen.size(); i++) {
