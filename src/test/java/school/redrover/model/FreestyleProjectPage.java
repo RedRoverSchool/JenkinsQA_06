@@ -22,7 +22,17 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
     }
 
     public FreestyleProjectPage selectBuildNow() {
-        getDriver().findElement(cssSelector("[href*='build?']")).click();
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
+        return this;
+    }
+
+    public FreestyleProjectPage selectBuildWitchParameters() {
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         getWait10().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
         return this;
