@@ -470,4 +470,21 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(checkedSetByDefault);
     }
+
+    @Test
+    public void testBuildStepsOptions() {
+        List<String> expectedOptionsInBuildStepsSection = List.of("Execute Windows batch command", "Execute shell",
+                "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets", "Run with timeout",
+                "Set build status to \"pending\" on GitHub commit");
+
+        List<String> actualOptionsInBuildStepsSection = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .openBuildStepOptionsDropdown()
+                .getOptionsInBuildStepDropdown();
+
+        Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
+    }
 }

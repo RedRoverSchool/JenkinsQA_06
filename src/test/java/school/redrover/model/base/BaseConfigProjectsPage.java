@@ -153,4 +153,15 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
         js.executeScript("arguments[0].click();", checkboxSetByDefault);
         return (Self) this;
     }
+
+    public Self openBuildStepOptionsDropdown() {
+        WebElement addBuildStepButton = getDriver().findElement(By.xpath("//button[text()='Add build step']"));
+        TestUtils.scrollToElementByJavaScript(this, addBuildStepButton);
+        getWait5().until(ExpectedConditions.elementToBeClickable(addBuildStepButton)).click();
+        return (Self) this;
+    }
+
+    public List<String> getOptionsInBuildStepDropdown() {
+        return TestUtils.getTexts(getDriver().findElements(By.xpath("//button[text()='Add build step']/../../..//a"))) ;
+    }
 }
