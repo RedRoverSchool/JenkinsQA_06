@@ -94,7 +94,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testAdminButtonBackgroundColorIsPresentWhenMouseOver()  {
+    public void testAdminButtonBackgroundColorIsPresentWhenMouseOver() {
         String actualAdminButtonBackgroundColor = new MainPage(getDriver())
                 .getHeader()
                 .hoverOverAdminButton()
@@ -120,9 +120,9 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(getBackgroundExitIcon, "rgba(64, 64, 64, 1)");
         Assert.assertEquals(getUnderLineExitIcon, "underline");
     }
-    
+
     @Test
-    public void testReturnToDashboardFromPeoplePage(){
+    public void testReturnToDashboardFromPeoplePage() {
 
         String textTitle = new MainPage(getDriver())
                 .clickPeopleOnLeftSideMenu()
@@ -133,8 +133,8 @@ public class HeaderTest extends BaseTest {
         String textFromMainPage = new MainPage(getDriver())
                 .getWelcomeText();
 
-        Assert.assertEquals(textTitle,"Dashboard [Jenkins]");
-        Assert.assertEquals(textFromMainPage,"Welcome to Jenkins!");
+        Assert.assertEquals(textTitle, "Dashboard [Jenkins]");
+        Assert.assertEquals(textFromMainPage, "Welcome to Jenkins!");
     }
 
     @Test
@@ -149,12 +149,14 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testLogOutButtonTransfersBackToLoginPaged() {
+
         final String expectedHeader = "Welcome to Jenkins!";
 
-        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
-        WebElement actualHeader = getDriver().findElement(By.xpath("//h1"));
+        String getTextFromActualHeader = new MainPage(getDriver())
+                .clickLogOUTButton()
+                .getWelcomeText();
 
-        Assert.assertEquals(actualHeader.getText(), expectedHeader);
+        Assert.assertEquals(getTextFromActualHeader, expectedHeader);
     }
 
     @Test
@@ -176,7 +178,7 @@ public class HeaderTest extends BaseTest {
                 .getActualHeader();
 
         Assert.assertNotEquals(backgroundColorBefore, backgroundColorAfter, " The color of icon is not changed");
-        Assert.assertEquals(actualManageJenkinsPageHeader,expectedManageJenkinsPageHeader, " The page is not correct");
+        Assert.assertEquals(actualManageJenkinsPageHeader, expectedManageJenkinsPageHeader, " The page is not correct");
     }
 
     @Test
@@ -221,7 +223,7 @@ public class HeaderTest extends BaseTest {
         adminButton.click();
 
         WebElement adminPageSign = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > div:nth-child(4)")));
-        assertEquals(adminPageSign.getText(),"Jenkins User ID: admin");
+        assertEquals(adminPageSign.getText(), "Jenkins User ID: admin");
     }
 
     @Test
@@ -301,7 +303,7 @@ public class HeaderTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
+    public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen() {
         getDriver().findElement(By.id("visible-am-button")).click();
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list")));
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Manage Jenkins')]"))).click();
@@ -333,7 +335,7 @@ public class HeaderTest extends BaseTest {
         assertEquals(actualColor, expectedColor);
     }
 
-    public void iconChangeColor(By el){
+    public void iconChangeColor(By el) {
         String colorBefore = getDriver().findElement(el).getCssValue("background-color");
         String colorAfter = "";
         new Actions(getDriver()).moveToElement(getDriver().findElement(el)).perform();
@@ -344,7 +346,7 @@ public class HeaderTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testNotificationIcon(){
+    public void testNotificationIcon() {
         iconChangeColor(By.id("visible-am-button"));
         getDriver().findElement(By.id("visible-am-button")).click();
         String actualRes = getDriver().findElement(By.xpath("//a[text()='Manage Jenkins']")).getText();
