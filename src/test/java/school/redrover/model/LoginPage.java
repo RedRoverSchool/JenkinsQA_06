@@ -2,9 +2,14 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BaseModel;
 
 public class  LoginPage extends BaseModel {
+
+    @FindBy(xpath = "//h1")
+    private WebElement welcomeJenkins;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -27,5 +32,9 @@ public class  LoginPage extends BaseModel {
 
     public String getTextAlertIncorrectUsernameOrPassword() {
        return getDriver().findElement(By.xpath("//div[text()='Invalid username or password']")).getText();
+    }
+
+    public String  getWelcomeText() {
+        return welcomeJenkins.getText();
     }
 }
