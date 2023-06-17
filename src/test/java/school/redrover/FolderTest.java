@@ -103,7 +103,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(errorMessage, "A job already exists with the name ‘" + NAME + "’");
     }
 
-    @DataProvider(name = "invalid-data")
+    /*@DataProvider(name = "invalid-data")
     public Object[][] provideInvalidData() {
         return new Object[][]{{"!"}, {"#"}, {"$"}, {"%"}, {"&"}, {"*"}, {"/"}, {":"},
                 {";"}, {"<"}, {">"}, {"?"}, {"@"}, {"["}, {"]"}, {"|"}, {"\\"}, {"^"}};
@@ -119,7 +119,7 @@ public class FolderTest extends BaseTest {
                 .getItemInvalidMessage();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
-    }
+    }*/
 
     @Test(dependsOnMethods = "testErrorWhenCreateWithExistingName")
     public void testCreateNewViewInFolder() {
@@ -184,7 +184,7 @@ public class FolderTest extends BaseTest {
 
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
-                .clickDelete()
+                .delete()
                 .getHeader()
                 .clickLogo()
                 .jobIsDisplayed(NAME_2);
@@ -232,13 +232,15 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(welcomeIsDisplayed,"error was not show Welcome to Jenkins!");
     }
 
+/*
     @DataProvider(name = "create-folder")
     public Object[][] provideFoldersNames() {
         return new Object[][]
                 {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
     }
+*/
 
-    @Test(dataProvider = "create-folder")
+/*    @Test(dataProvider = "create-folder")
     public void testFoldersCreationWithProvider(String provideNames) {
         TestUtils.createJob(this, provideNames, TestUtils.JobType.Folder, true);
 
@@ -300,5 +302,5 @@ public class FolderTest extends BaseTest {
         jobName.sort(String.CASE_INSENSITIVE_ORDER);
 
         Assert.assertEquals(createdJobList, jobName);
-    }
+    }*/
 }

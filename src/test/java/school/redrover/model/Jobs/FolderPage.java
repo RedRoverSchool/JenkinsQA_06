@@ -23,10 +23,10 @@ public class FolderPage extends BaseJobPage<FolderPage> {
     private WebElement buttonNewView;
 
     @FindBy(xpath = "//div[@id='main-panel']/h1")
-    private By folderName;
+    private WebElement folderName;
 
     @FindBy(id = "view-message")
-    private By folderDescription;
+    private WebElement folderDescription;
 
     @FindBy(css = ".jenkins-table__link")
     private List<WebElement> jobList;
@@ -51,12 +51,17 @@ public class FolderPage extends BaseJobPage<FolderPage> {
         return new NewViewFolderPage(getDriver());
     }
 
+    public DeletePage<MainPage> delete() {
+        getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
+        return new DeletePage<>(getDriver(), new MainPage(getDriver()));
+    }
+
     public String getFolderName() {
-        return TestUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(folderName)));
+        return TestUtils.getText(this, folderName);
     }
 
     public String getFolderDescription() {
-        return TestUtils.getText(this, getWait2().until(ExpectedConditions.visibilityOfElementLocated(folderDescription)));
+        return TestUtils.getText(this, folderDescription);
     }
 
     public boolean nestedFolderIsVisibleAndClickable(String nestedFolder) {
