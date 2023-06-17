@@ -166,4 +166,19 @@ public class TestUtils {
         return RandomStringUtils.random(length,
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
     }
+
+    public static void createUserAndReturnToMainPage(BaseTest baseTest, String username, String password, String fullName, String email) {
+        new MainPage(baseTest.getDriver())
+                .clickManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .enterUsername(username)
+                .enterPassword(password)
+                .enterConfirmPassword(password)
+                .enterFullName(fullName)
+                .enterEmail(email)
+                .clickCreateUserButton()
+                .getHeader()
+                .clickLogo();
+    }
 }
