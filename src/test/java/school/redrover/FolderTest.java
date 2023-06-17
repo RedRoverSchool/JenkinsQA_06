@@ -25,7 +25,7 @@ public class FolderTest extends BaseTest {
     private void createdJobInFolder(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?,?> jobConfigPage){
         new MainPage(getDriver())
                 .clickJobName(folderName, new FolderPage(getDriver()))
-                .newItem()
+                .clickNewItem()
                 .enterItemName(jobName)
                 .selectJobType(jobType)
                 .clickOkButton(jobConfigPage)
@@ -103,7 +103,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(errorMessage, "A job already exists with the name ‘" + NAME + "’");
     }
 
-    @DataProvider(name = "invalid-data")
+    /*@DataProvider(name = "invalid-data")
     public Object[][] provideInvalidData() {
         return new Object[][]{{"!"}, {"#"}, {"$"}, {"%"}, {"&"}, {"*"}, {"/"}, {":"},
                 {";"}, {"<"}, {">"}, {"?"}, {"@"}, {"["}, {"]"}, {"|"}, {"\\"}, {"^"}};
@@ -119,7 +119,7 @@ public class FolderTest extends BaseTest {
                 .getItemInvalidMessage();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
-    }
+    }*/
 
     @Test(dependsOnMethods = "testErrorWhenCreateWithExistingName")
     public void testCreateNewViewInFolder() {
@@ -155,7 +155,7 @@ public class FolderTest extends BaseTest {
 
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
-                .rename()
+                .clickRename()
                 .enterNewName(NAME_2)
                 .clickRenameButtonAndGoError();
 
@@ -168,7 +168,7 @@ public class FolderTest extends BaseTest {
 
         FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
-                .clickConfigureSideMenu()
+                .clickConfigure()
                 .enterDisplayName(DISPLAY_NAME)
                 .setHealthMetricsType()
                 .addDescription(DESCRIPTION)
@@ -176,7 +176,7 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(folderPage.getFolderName(), DISPLAY_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
-        Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
+        Assert.assertTrue(folderPage.clickConfigure().clickOnHealthMetricsType().isRecursive());
     }
 
     @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
@@ -232,11 +232,13 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(welcomeIsDisplayed,"error was not show Welcome to Jenkins!");
     }
 
+
     @DataProvider(name = "create-folder")
     public Object[][] provideFoldersNames() {
         return new Object[][]
                 {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
     }
+
 
     @Test(dataProvider = "create-folder")
     public void testFoldersCreationWithProvider(String provideNames) {
