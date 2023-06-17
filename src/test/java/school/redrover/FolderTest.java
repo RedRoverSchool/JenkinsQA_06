@@ -309,7 +309,7 @@ public class FolderTest extends BaseTest {
             .clickNewItem()
             .enterItemName(NAME)
             .selectJobType(TestUtils.JobType.Folder)
-            .clickOkButtonAndGoToFolderConfigPage()
+            .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
             .clickSaveButton()
             .getBreadcrumb()
             .clickDashboardButton()

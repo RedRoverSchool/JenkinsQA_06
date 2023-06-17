@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.Jobs.FolderPage;
-import school.redrover.model.JobsConfig.FolderConfigPage;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
@@ -88,10 +86,5 @@ public class   NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     public NewJobPage enterItemNameToPlaceHolder(String jobName){
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='from']"))).sendKeys(jobName);
         return this;
-    }
-
-    public FolderConfigPage clickOkButtonAndGoToFolderConfigPage() {
-        getOkButton().click();
-        return new FolderConfigPage(new FolderPage(getDriver()));
     }
 }
