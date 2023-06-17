@@ -301,4 +301,20 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(createdJobList, jobName);
     }
+
+    @Test
+    public void testCreateFolderGoingFromBuildHistoryPage() {
+    List<String> folderName = new MainPage(getDriver())
+            .clickBuildsHistoryButton()
+            .clickNewItem()
+            .enterItemName(NAME)
+            .selectJobType(TestUtils.JobType.Folder)
+            .clickOkButtonAndGoToFolderConfigPage()
+            .clickSaveButton()
+            .getBreadcrumb()
+            .clickDashboardButton()
+            .getJobList();
+
+            Assert.assertTrue(folderName.contains(NAME));
+    }
 }
