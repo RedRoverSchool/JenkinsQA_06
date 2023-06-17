@@ -232,15 +232,15 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(welcomeIsDisplayed,"error was not show Welcome to Jenkins!");
     }
 
-/*
+
     @DataProvider(name = "create-folder")
     public Object[][] provideFoldersNames() {
         return new Object[][]
                 {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
     }
-*/
 
-/*    @Test(dataProvider = "create-folder")
+
+    @Test(dataProvider = "create-folder")
     public void testFoldersCreationWithProvider(String provideNames) {
         TestUtils.createJob(this, provideNames, TestUtils.JobType.Folder, true);
 
@@ -302,5 +302,5 @@ public class FolderTest extends BaseTest {
         jobName.sort(String.CASE_INSENSITIVE_ORDER);
 
         Assert.assertEquals(createdJobList, jobName);
-    }*/
+    }
 }
