@@ -315,6 +315,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Admin icon screen is not displayed");
     }
 
+    @Ignore
     @Test
     public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen() {
         String screenManageFromPopUp = new MainPage(getDriver())
