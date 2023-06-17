@@ -14,6 +14,8 @@ import java.util.List;
 
 public class FolderPage extends BaseJobPage<FolderPage> {
 
+    @FindBy(css = "[href$='/configure']")
+    private WebElement buttonConfigure;
     @FindBy(css = "#tasks>:nth-child(3)")
     private WebElement buttonNewItem;
 
@@ -35,6 +37,7 @@ public class FolderPage extends BaseJobPage<FolderPage> {
 
     @Override
     public FolderConfigPage clickConfigure() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonConfigure)).click();
         return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
