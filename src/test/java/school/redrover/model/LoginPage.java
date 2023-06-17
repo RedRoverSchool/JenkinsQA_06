@@ -7,6 +7,17 @@ import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BaseModel;
 
 public class  LoginPage extends BaseModel {
+    @FindBy(xpath = "//input[@name='j_username']")
+    private WebElement inputUserNameField;
+
+    @FindBy (xpath = "//input[@name='j_password']")
+    private WebElement inputPasswordField;
+
+    @FindBy(xpath = "//div[text()='Invalid username or password']")
+    private WebElement incorrectUserNameOrPassword;
+
+    @FindBy (xpath = "//button[@name='Submit']")
+    private WebElement signInButton;
 
     @FindBy(xpath = "//h1")
     private WebElement welcomeJenkins;
@@ -16,22 +27,22 @@ public class  LoginPage extends BaseModel {
     }
 
     public LoginPage enterUsername(String userName) {
-        getDriver().findElement(By.xpath("//input[@name='j_username']")).sendKeys(userName);
+        inputUserNameField.sendKeys(userName);
         return this;
     }
 
     public LoginPage enterPassword(String password) {
-        getDriver().findElement(By.xpath("//input[@name='j_password']")).sendKeys(password);
+        inputPasswordField.sendKeys(password);
         return this;
     }
 
     public <Page extends BaseModel> Page enterSignIn(Page page) {
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        signInButton.click();
         return page;
     }
 
     public String getTextAlertIncorrectUsernameOrPassword() {
-       return getDriver().findElement(By.xpath("//div[text()='Invalid username or password']")).getText();
+       return incorrectUserNameOrPassword.getText();
     }
 
     public String  getWelcomeText() {

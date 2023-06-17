@@ -64,7 +64,7 @@ public class BreadcrumbTest extends BaseTest {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(sectionNameLocator));
         new Actions(getDriver()).moveToElement(getDriver().findElement(sectionNameLocator)).perform();
 
-        if (locator.contains("@class='yuimenuitemlabel'")||
+        if (locator.contains("@class='yuimenuitemlabel'") ||
                 locator.contains("/cli") || locator.contains("/script") || locator.contains("/prepareShutdown")) {
             new Actions(getDriver()).sendKeys(Keys.ARROW_RIGHT).perform();
             for (int i = 0; i < 16; i++) {
@@ -76,7 +76,7 @@ public class BreadcrumbTest extends BaseTest {
         WebElement subSection = getDriver().findElement(subsectionNameLocator);
         subSection.click();
 
-        if (locator.contains("@class='yuimenuitemlabel'")){
+        if (locator.contains("@class='yuimenuitemlabel'")) {
             Alert alert = getWait5().until(ExpectedConditions.alertIsPresent());
             String text = alert.getText();
             alert.dismiss();
@@ -129,11 +129,9 @@ public class BreadcrumbTest extends BaseTest {
     @Test
     public void testMoveToPluginsPageThroughDashboardDropDownMenu() {
 
-        String actualResult =
-                new MainPage(getDriver())
+        String actualResult = new MainPage(getDriver())
                         .getBreadcrumb()
-                        .selectAnOptionFromDashboardManageJenkinsSubmenuList(
-                                "Manage Plugins", new PluginsPage(getDriver()))
+                        .selectAnOptionFromDashboardManageJenkinsSubmenuList("Manage Plugins", new PluginsPage(getDriver()))
                         .getPageTitle();
 
         Assert.assertEquals(actualResult, "Plugins");

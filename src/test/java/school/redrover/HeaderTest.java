@@ -234,11 +234,11 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testAdminPageIsAvailable() {
 
-        WebElement adminButton = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/user/admin']")));
-        adminButton.click();
+        String adminPageSign = new MainPage(getDriver())
+                .clickOnAdminButton()
+                .getTitleText();
 
-        WebElement adminPageSign = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > div:nth-child(4)")));
-        assertEquals(adminPageSign.getText(), "Jenkins User ID: admin");
+        assertEquals(adminPageSign,"Jenkins User ID: admin");
     }
 
     @Test
