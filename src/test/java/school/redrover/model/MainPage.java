@@ -110,8 +110,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
     private void  clickOnSliderDashboardInDropDownMenu() {
         Actions actions = new Actions(getDriver());
+
         actions.moveToElement(dashboard).perform();
-        actions.moveToElement(sliderDashboard).click(sliderDashboard).perform();
+        actions.moveToElement(sliderDashboard).perform();
+        sliderDashboard.sendKeys(Keys.RETURN);
     }
 
     public ManageJenkinsPage clickManageJenkinsOnDropDown() {
