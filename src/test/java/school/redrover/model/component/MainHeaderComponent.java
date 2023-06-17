@@ -229,4 +229,10 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
 
         return new LoginPage(getDriver());
     }
+
+    public AdminPage clickOnAdminButton() {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/user/admin']"))).click();
+
+        return new AdminPage(getDriver());
+    }
 }

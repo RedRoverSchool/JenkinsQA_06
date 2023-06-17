@@ -235,6 +235,7 @@ public class HeaderTest extends BaseTest {
     public void testAdminPageIsAvailable() {
 
         String adminPageSign = new MainPage(getDriver())
+                .getHeader()
                 .clickOnAdminButton()
                 .getTitleText();
 
