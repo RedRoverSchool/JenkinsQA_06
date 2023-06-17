@@ -313,15 +313,15 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(isPopUpScreenDisplayed, "The pop-up Admin icon screen is not displayed");
     }
 
-    @Ignore
     @Test
     public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen() {
-        getDriver().findElement(By.id("visible-am-button")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list")));
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Manage Jenkins')]"))).click();
+        String screenManageFromPopUp = new MainPage(getDriver())
+                .getHeader()
+                .clickNotificationIcon()
+                .clickManageLinkFromPopUp()
+                .verifyManageJenkinsPage();
 
-        Assert.assertTrue(
-                getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("main-panel"))).isDisplayed());
+        Assert.assertEquals(screenManageFromPopUp,"Manage Jenkins");
     }
 
     @Test
