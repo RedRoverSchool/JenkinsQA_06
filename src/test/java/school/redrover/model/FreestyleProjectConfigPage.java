@@ -14,12 +14,13 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
         new Actions(getDriver())
                 .scrollByAmount(0, 2000)
-                .click(getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//*[@id='yui-gen9-button']"))))
                 .perform();
 
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[@id='yui-gen9-button']"))).click();
         getDriver().findElement(
                 By.xpath("//*[@id='yui-gen24']")).click();
+
         new Actions(getDriver())
                 .click(getDriver().findElement(By.xpath("//*[@name='description']")))
                 .sendKeys(buildSteps)

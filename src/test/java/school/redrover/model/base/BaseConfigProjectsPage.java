@@ -115,8 +115,10 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     }
 
     public Self checkProjectIsParametrized() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//label[text()='This project is parameterized']"))).click();
+        WebElement projectIsParametrized = getWait5().until(ExpectedConditions.elementToBeClickable(By
+                .xpath("//label[text()='This project is parameterized']")));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", projectIsParametrized);
         return (Self) this;
     }
 
@@ -126,7 +128,12 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     }
 
     public Self openAddParameterDropDown() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='hetero-list-add']"))).click();
+        WebElement addParameter = getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='hetero-list-add']")));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        WebElement projectIsParametrized = getWait5().until(ExpectedConditions.elementToBeClickable(By
+                .xpath("//label[text()='This project is parameterized']")));
+        js.executeScript("arguments[0].scrollIntoView();", projectIsParametrized);
+        addParameter.click();
         return (Self) this;
     }
 
@@ -152,5 +159,16 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].click();", checkboxSetByDefault);
         return (Self) this;
+    }
+
+    public Self openBuildStepOptionsDropdown() {
+        WebElement addBuildStepButton = getDriver().findElement(By.xpath("//button[text()='Add build step']"));
+        TestUtils.scrollToElementByJavaScript(this, addBuildStepButton);
+        getWait5().until(ExpectedConditions.elementToBeClickable(addBuildStepButton)).click();
+        return (Self) this;
+    }
+
+    public List<String> getOptionsInBuildStepDropdown() {
+        return TestUtils.getTexts(getDriver().findElements(By.xpath("//button[text()='Add build step']/../../..//a"))) ;
     }
 }

@@ -76,7 +76,7 @@ public class FolderTest extends BaseTest {
     public void testCreateFromDashboard() {
 
         MainPage mainPage = new MainPage(getDriver())
-                .getHeader()
+                .getBreadcrumb()
                 .clickNewItemDashboardDropdownMenu()
                 .enterItemName(NAME_2)
                 .selectJobType(TestUtils.JobType.Folder)
@@ -188,6 +188,7 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(folderIsDisplayed,"error was not show name folder");
     }
+
 
     @Test(dependsOnMethods = "testCancelDeleting")
     public void testCreateJobsInFolder() {

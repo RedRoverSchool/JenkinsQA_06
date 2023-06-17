@@ -90,8 +90,8 @@ public class BreadcrumbTest extends BaseTest {
         final List<String> expectedMenuList = Arrays.asList("New Item", "People", "Build History", "Manage Jenkins", "My Views");
 
         List<String> actualMenuList = new MainPage(getDriver())
-                .getHeader()
-                .clickDashboardDropdownMenu()
+                .getBreadcrumb()
+                .getDashboardDropdownMenu()
                 .getMenuList();
 
         Assert.assertEquals(actualMenuList, expectedMenuList);
@@ -117,8 +117,8 @@ public class BreadcrumbTest extends BaseTest {
     public void testMoveFromPeoplePageToPluginsPageByDropDownMenu() {
         String actualTitle = new MainPage(getDriver())
                 .clickPeopleOnLeftSideMenu()
-                .getHeader()
-                .openPluginsPageFromDashboardDropdownMenu()
+                .getBreadcrumb()
+                .selectAnOptionFromDashboardManageJenkinsSubmenuList("Manage Plugins", new PluginsPage(getDriver()))
                 .getPageTitle();
 
         Assert.assertEquals(actualTitle, "Plugins");
@@ -130,7 +130,6 @@ public class BreadcrumbTest extends BaseTest {
         String actualResult =
                 new MainPage(getDriver())
                         .getBreadcrumb()
-                        .openDashboardDropdownMenu()
                         .selectAnOptionFromDashboardManageJenkinsSubmenuList(
                                 "Manage Plugins", new PluginsPage(getDriver()))
                         .getPageTitle();
@@ -142,7 +141,7 @@ public class BreadcrumbTest extends BaseTest {
     public void testMoveFromBuildHistoryPageToPeoplePageByDropDownMenu() {
         String actualTitle = new MainPage(getDriver())
                 .clickBuildsHistoryButton()
-                .getHeader()
+                .getBreadcrumb()
                 .openPeoplePageFromDashboardDropdownMenu()
                 .getPageTitle();
 
