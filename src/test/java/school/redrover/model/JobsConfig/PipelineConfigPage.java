@@ -3,33 +3,116 @@ package school.redrover.model.JobsConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.Jobs.PipelinePage;
 import school.redrover.model.base.BaseConfigProjectsPage;
 import school.redrover.runner.TestUtils;
 
+import java.util.List;
+
 public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPage, PipelinePage> {
+    @FindBy(xpath = "//div[@class='ace_content']")
+    private WebElement scriptSection;
+
+    @FindBy(xpath = "//div[@class='jenkins-section']//button[@type='button'][normalize-space()='Advanced']")
+    private WebElement advancedButton;
+
+    @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
+    private WebElement name;
+
+    @FindBy(xpath = "//div[@id='pipeline']")
+    private WebElement section;
+
+    @FindBy(css = "div[class='jenkins-section'] select.jenkins-select__input.dropdownList>option")
+    private List<WebElement> optionText;
+
+    @FindBy(xpath = "//option[text() = 'try sample Pipeline...']")
+    private WebElement script;
+
+    @FindBy(css = "option[value='hello']")
+    private WebElement helloWord;
+
+    @FindBy(xpath = "//button[@data-section-id='pipeline']")
+    private WebElement pipeline;
+
+    @FindBy(xpath = "//label[normalize-space()='Poll SCM']")
+    private WebElement buildTriggersSection;
+
+    @FindBy(xpath = "//button[@class='hetero-list-add']")
+    private WebElement addParameter;
+
+    @FindBy(xpath = "//label[normalize-space()='This project is parameterized']")
+    private WebElement parameterized;
+
+    @FindBy(xpath = "//label[normalize-space()='GitHub hook trigger for GITScm polling']")
+    private WebElement scrollElement;
+
+    @FindBy(xpath = "//input[contains(@name,'parameter.name')]")
+    private WebElement inputName;
+
+    @FindBy(xpath = "//label[normalize-space()='Set by Default']")
+    private WebElement setDefault;
+
+    @FindBy(xpath = "//textarea[contains(@name,'parameter.description')]")
+    private WebElement textarea;
+
+    @FindBy(id = "cb2")
+    private WebElement cb2;
+
+    @FindBy(xpath = "//label[normalize-space()='Discard old builds']")
+    private WebElement discard;
+
+    @FindBy(xpath = "//label[normalize-space()='Throttle builds']")
+    private WebElement labelThrottleBuilds;
+
+    @FindBy(xpath = "//label[normalize-space()='Build after other projects are built']")
+    private WebElement labelBuilt;
+
+    @FindBy(xpath = "//div[@id='workflow-editor-1']//textarea")
+    private WebElement workflowEditor;
+
+    @FindBy(xpath = "//div[@class = 'samples']/select")
+    private WebElement samples;
+
+    @FindBy(name = "_.daysToKeepStr")
+    private WebElement daysToKeep;
+
+    @FindBy(name = "_.numToKeepStr")
+    private WebElement num;
+
+    @FindBy(xpath = "//*[@name='strategy']//div[@class='error']")
+    private WebElement error;
+
+    @FindBy(xpath = "//*[@name='strategy']/div/div")
+    private WebElement strategy;
+
+    @FindBy(id = "toggle-switch-enable-disable-project")
+    private WebElement toggle;
+
+    @FindBy(xpath = "//input[@name='enable']")
+    private WebElement input;
+
+    @FindBy(xpath = "//*[@name='strategy']//div[@class='error']")
+    private WebElement errorMessage;
 
     public PipelineConfigPage(PipelinePage pipelinePage) {
         super(pipelinePage);
     }
 
     public PipelineConfigPage scrollAndClickAdvancedButton() {
-        WebElement scriptSection = getDriver().findElement(By.xpath("//div[@class='ace_content']"));
-        WebElement advancedButton = getDriver().findElement(By.xpath("//div[@class='jenkins-section']//button[@type='button'][normalize-space()='Advanced']"));
-
         new Actions(getDriver()).scrollToElement(scriptSection).moveToElement(advancedButton).click().perform();
         return this;
     }
 
     public PipelineConfigPage setDisplayName(String displayName) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='_.displayNameOrNull']"))).sendKeys(displayName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(name)).sendKeys(displayName);
         return this;
     }
 
     private WebElement getPipelineSection() {
-        return getDriver().findElement(By.xpath("//div[@id='pipeline']"));
+        return section;
     }
 
     public PipelineConfigPage scrollToPipelineSection() {
@@ -41,8 +124,7 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     public String getOptionTextInDefinitionField() {
         String text = "";
 
-        for (WebElement element : getDriver().findElements((By.cssSelector(
-                "div[class='jenkins-section'] select.jenkins-select__input.dropdownList>option")))) {
+        for (WebElement element : optionText) {
             if (element.getAttribute("selected") != null &&
                     element.getAttribute("selected").equals("true")) {
                 text = element.getText();
@@ -52,25 +134,22 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     }
 
     public PipelineConfigPage clickScriptDropDownMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//option[text() = 'try sample Pipeline...']"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(script)).click();
         return this;
     }
 
     public PipelinePage selectHelloWord() {
-        getDriver().findElement(By.cssSelector("option[value='hello']")).click();
+        helloWord.click();
         return new PipelinePage(getDriver());
     }
 
     public PipelineConfigPage clickPipelineLeftMenu() {
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@data-section-id='pipeline']"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(pipeline)).click();
         return this;
     }
 
     public PipelineConfigPage clickAndAddParameter(String parameterName) {
-        WebElement buildTriggersSection = getDriver().findElement(By.xpath("//label[normalize-space()='Poll SCM']"));
-        WebElement addParameter = getDriver().findElement(By.xpath("//button[@class='hetero-list-add']"));
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//label[normalize-space()='This project is parameterized']"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(parameterized)).click();
 
         new Actions(getDriver())
                 .scrollToElement(buildTriggersSection)
@@ -83,9 +162,6 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     }
 
     public PipelineConfigPage setBooleanParameterName(String name) {
-        WebElement scrollElement = getDriver().findElement(By.xpath("//label[normalize-space()='GitHub hook trigger for GITScm polling']"));
-        WebElement inputName = getDriver().findElement(By.xpath("//input[contains(@name,'parameter.name')]"));
-
         new Actions(getDriver())
                 .scrollToElement(scrollElement)
                 .moveToElement(inputName)
@@ -97,66 +173,65 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     }
 
     public PipelineConfigPage setDefaultBooleanParameter() {
-        getDriver().findElement(By.xpath("//label[normalize-space()='Set by Default']")).click();
+        setDefault.click();
         return this;
     }
 
     public PipelineConfigPage setBooleanParameterDescription(String description) {
-        getDriver().findElement(By.xpath("//textarea[contains(@name,'parameter.description')]")).sendKeys(description);
+        textarea.sendKeys(description);
         return this;
     }
 
     public PipelinePage selectDiscardOldBuildsandSave() {
-        getDriver().findElement(By.xpath("//label[contains(text(),'Discard old builds')]")).click();
+        discard.click();
         getDriver().findElement(By.name("Submit")).click();
         return new PipelinePage(getDriver());
     }
 
     public boolean checkboxDiscardOldBuildsIsSelected() {
-        getDriver().findElement(By.id("cb2"));
-        return true;
+        return cb2.isDisplayed();
     }
 
     public PipelineConfigPage clickDiscardOldBuildsCheckbox() {
-        getDriver().findElement(By.xpath("//label[normalize-space()='Discard old builds']")).click();
+        discard.click();
         return this;
     }
 
     public PipelineConfigPage enterDaysToKeepBuilds(String days) {
-        getDriver().findElement(By.name("_.daysToKeepStr")).sendKeys(days);
+        daysToKeep.sendKeys(days);
         return this;
     }
 
     public PipelineConfigPage enterMaxOfBuildsToKeep(String builds) {
-        getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']")).sendKeys(builds);
+        num.sendKeys(builds);
         return this;
     }
 
     public PipelineConfigPage scrollToBuildTriggers() {
-        TestUtils.scrollToElementByJavaScript(this, getDriver().findElement(By.xpath("//label[normalize-space()='Throttle builds']")));
+        TestUtils.scrollToElementByJavaScript(this, labelThrottleBuilds);
         return this;
     }
 
     public PipelineConfigPage clickBuildTriggerCheckBox() {
-        getDriver().findElement(By.xpath("//label[normalize-space()='Build after other projects are built']")).click();
+        labelBuilt.click();
         return this;
     }
 
     public PipelineConfigPage sendAreContentInputString(String text) {
-        TestUtils.clickByJavaScript(this, getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")));
-        getDriver().findElement(By.xpath("//div[@id='workflow-editor-1']//textarea")).sendKeys(text);
+        TestUtils.clickByJavaScript(this, workflowEditor);
+        workflowEditor.sendKeys(text);
         return this;
     }
 
     public PipelinePage selectScriptedPipelineAndSubmit() {
-        Select selectPipelineScript = new Select(getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class = 'samples']/select"))));
+        Select selectPipelineScript = new Select(getWait2().until(ExpectedConditions.elementToBeClickable(samples)));
         selectPipelineScript.selectByVisibleText("Scripted Pipeline");
         getDriver().findElement(By.name("Submit")).click();
         return new PipelinePage(getDriver());
     }
 
     public String getDaysToKeepBuilds() {
-        return getDriver().findElement(By.name("_.daysToKeepStr")).getAttribute("value");
+        return daysToKeep.getAttribute("value");
     }
 
     public String getMaxNumbersOfBuildsToKeep() {
@@ -164,30 +239,28 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     }
 
     public boolean isErrorMessageDisplayed() {
-        return  getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']"))).isDisplayed();
+        return getWait5().until(ExpectedConditions.elementToBeClickable(error)).isDisplayed();
     }
 
     public PipelineConfigPage clickOutsideOfInputField() {
-       getDriver().findElement(By.xpath("//*[@name='strategy']/div/div")).click();
+        strategy.click();
         return this;
     }
 
     public PipelineConfigPage toggleDisableProject() {
-        boolean isPipelineEnabled = Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated
-                (By.xpath("//input[@name='enable']"))).getAttribute("value"));
+        boolean isPipelineEnabled = Boolean.parseBoolean(getWait5().until(ExpectedConditions.elementToBeClickable(input)).getAttribute("value"));
         if (isPipelineEnabled) {
-            getDriver().findElement(By.id("toggle-switch-enable-disable-project")).click();
+            toggle.click();
         }
         return this;
     }
 
     public boolean isProjectDisable() {
 
-        return Boolean.parseBoolean(getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='enable']")))
-                .getAttribute("value"));
+        return Boolean.parseBoolean(getWait5().until(ExpectedConditions.elementToBeClickable(input)).getAttribute("value"));
     }
 
     public String getErrorMessageStrategyDays() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@name='strategy']//div[@class='error']"))).getText();
+        return getWait2().until(ExpectedConditions.elementToBeClickable(errorMessage)).getText();
     }
 }
