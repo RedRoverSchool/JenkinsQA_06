@@ -3,6 +3,8 @@ package school.redrover.model;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.Jobs.FreestyleProjectPage;
+import school.redrover.model.Jobs.MultiConfigurationProjectPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;

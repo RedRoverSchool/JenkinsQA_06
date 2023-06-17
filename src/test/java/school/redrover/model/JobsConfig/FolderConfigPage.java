@@ -1,5 +1,6 @@
-package school.redrover.model;
+package school.redrover.model.JobsConfig;
 
+import school.redrover.model.Jobs.FolderPage;
 import school.redrover.model.base.BaseConfigFoldersPage;
 
 public class FolderConfigPage extends BaseConfigFoldersPage<FolderConfigPage, FolderPage> {

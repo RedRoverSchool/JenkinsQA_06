@@ -2,8 +2,8 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import school.redrover.model.FreestyleProjectConfigPage;
-import school.redrover.model.FreestyleProjectPage;
+import school.redrover.model.JobsConfig.FreestyleProjectConfigPage;
+import school.redrover.model.Jobs.FreestyleProjectPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.PluginsPage;
 import school.redrover.runner.BaseTest;

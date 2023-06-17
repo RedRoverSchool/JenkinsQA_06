@@ -1,10 +1,11 @@
-package school.redrover.model;
+package school.redrover.model.Jobs;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.*;
+import school.redrover.model.JobsConfig.PipelineConfigPage;
 import school.redrover.model.base.BaseProjectPage;
 
 public class PipelinePage extends BaseProjectPage<PipelinePage> {

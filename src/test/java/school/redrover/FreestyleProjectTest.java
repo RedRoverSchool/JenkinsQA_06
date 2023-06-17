@@ -1,9 +1,10 @@
 package school.redrover;
 
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.Jobs.FreestyleProjectPage;
+import school.redrover.model.JobsConfig.FreestyleProjectConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -236,7 +237,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .addExecuteShellBuildStep("echo Hello")
                 .clickSaveButton()
-                .selectBuildNow()
+                .selectBuildNowAndOpenBuildRow()
                 .openConsoleOutputForBuild()
                 .getConsoleOutputText();
 
@@ -255,7 +256,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .clickJobName("Engineer", new FreestyleProjectPage(getDriver()))
-                .selectBuildNow()
+                .selectBuildNowAndOpenBuildRow()
                 .selectBuildItemTheHistoryOnBuildPage();
 
         Assert.assertTrue(new BuildPage(getDriver()).buildHeaderIsDisplayed(), "build not created");
@@ -265,7 +266,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testPresenceOfBuildLinksAfterBuild() {
         MainPage mainPage = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .selectBuildWitchParameters()
+                .selectBuildWitchParametersAndSubmitAndOpenBuildRow()
                 .getBreadcrumb()
                 .clickDashboardButton();
 
@@ -290,7 +291,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .addBuildStepsExecuteShell(steps)
                 .clickSaveButton()
-                .selectBuildNow()
+                .selectBuildNowAndOpenBuildRow()
                 .openConsoleOutputForBuild()
                 .getConsoleOutputText();
 

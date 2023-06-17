@@ -65,4 +65,5 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         getDriver().findElement(By.xpath("//a[contains(@href, 'build')]")).click();
         return new BuildPage(getDriver());
     }
+
 }
