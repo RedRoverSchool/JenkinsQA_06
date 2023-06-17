@@ -38,6 +38,7 @@ public class FolderPage extends BaseJobPage<FolderPage> {
 
     @Override
     public FolderConfigPage clickConfigure() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonConfigure)).click();
         return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
