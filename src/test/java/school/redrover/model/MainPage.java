@@ -3,6 +3,8 @@ package school.redrover.model;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.Jobs.FreestyleProjectPage;
+import school.redrover.model.Jobs.MultiConfigurationProjectPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
 import school.redrover.runner.TestUtils;
@@ -364,5 +366,11 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         hover.moveToElement(exitButton).perform();
 
         return exitButton.getCssValue("background-color");
+    }
+
+    public MainPage clickLogOUTButton(){
+        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
+
+        return this;
     }
 }

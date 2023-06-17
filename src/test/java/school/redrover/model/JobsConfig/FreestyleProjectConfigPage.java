@@ -1,8 +1,9 @@
-package school.redrover.model;
+package school.redrover.model.JobsConfig;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.Jobs.FreestyleProjectPage;
 import school.redrover.model.base.BaseConfigProjectsPage;
 
 public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<FreestyleProjectConfigPage, FreestyleProjectPage> {
@@ -14,12 +15,13 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
         new Actions(getDriver())
                 .scrollByAmount(0, 2000)
-                .click(getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//*[@id='yui-gen9-button']"))))
                 .perform();
 
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[@id='yui-gen9-button']"))).click();
         getDriver().findElement(
                 By.xpath("//*[@id='yui-gen24']")).click();
+
         new Actions(getDriver())
                 .click(getDriver().findElement(By.xpath("//*[@name='description']")))
                 .sendKeys(buildSteps)

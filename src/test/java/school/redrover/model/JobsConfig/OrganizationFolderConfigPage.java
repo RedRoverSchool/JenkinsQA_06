@@ -1,6 +1,7 @@
-package school.redrover.model;
+package school.redrover.model.JobsConfig;
 
 import org.openqa.selenium.By;
+import school.redrover.model.Jobs.OrganizationFolderPage;
 import school.redrover.model.base.BaseConfigFoldersPage;
 
 public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<OrganizationFolderConfigPage, OrganizationFolderPage> {
