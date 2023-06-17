@@ -1,12 +1,12 @@
-package school.redrover.model;
+package school.redrover.model.Jobs;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseConfigPage;
+import school.redrover.model.MainPage;
+import school.redrover.model.JobsConfig.MultibranchPipelineConfigPage;
+import school.redrover.model.RenamePage;
 import school.redrover.model.base.BaseJobPage;
-import school.redrover.model.base.BaseMainHeaderPage;
 
 public class MultibranchPipelinePage extends BaseJobPage<MultibranchPipelinePage> {
 

@@ -1,7 +1,11 @@
-package school.redrover.model;
+package school.redrover.model.Jobs;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.*;
+import school.redrover.model.JobsConfig.PipelineConfigPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BaseProjectPage;
@@ -55,7 +59,7 @@ public class PipelinePage extends BaseProjectPage<PipelinePage> {
     }
 
     public PipelinePage clickDeletePipeline() {
-        delete.click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@data-url,'/doDelete')]"))).click();
         return this;
     }
 

@@ -1,8 +1,9 @@
-package school.redrover.model;
+package school.redrover.model.JobsConfig;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.Jobs.FreestyleProjectPage;
 import school.redrover.model.base.BaseConfigProjectsPage;
 
 public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<FreestyleProjectConfigPage, FreestyleProjectPage> {

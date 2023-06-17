@@ -1,10 +1,12 @@
-package school.redrover.model;
+package school.redrover.model.Jobs;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.*;
+import school.redrover.model.JobsConfig.FolderConfigPage;
 import school.redrover.model.base.BaseJobPage;
 import school.redrover.runner.TestUtils;
 
