@@ -14,10 +14,10 @@ import java.util.List;
 
 public class FolderPage extends BaseJobPage<FolderPage> {
 
-    @FindBy(xpath = "//div[@class='tab']")
+    @FindBy(css = "#tasks>:nth-child(3)")
     private WebElement buttonNewItem;
 
-    @FindBy(css = "#tasks>:nth-child(3)")
+    @FindBy(xpath = "//div[@class='tab']")
     private WebElement buttonNewView;
 
     @FindBy(xpath = "//div[@id='main-panel']/h1")
