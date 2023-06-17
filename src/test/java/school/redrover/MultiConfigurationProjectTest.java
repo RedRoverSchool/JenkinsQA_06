@@ -352,7 +352,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testAddingAProjectOnGithubToTheMultiConfigurationProject() {
+    public void testAddingAProjectOnGithubToTheProject() {
         final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
 
