@@ -86,6 +86,7 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
                 By.xpath(String.format("//*[@href='/view/%s/configure']", nameProject.replaceAll(" ","%20"))))).click();
         return this;
     }
+
     public ViewPage enterDescription(String text) {
         new Actions(getDriver())
                 .click(getDriver().findElement(By.xpath("//*[@name='description']")))
@@ -123,7 +124,7 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
 
     public DeletePage<MainPage> clickDeleteView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='delete']"))).click();
-        return new DeletePage<>(getDriver(), new MainPage(getDriver()));
+        return new DeletePage<>(new MainPage(getDriver()));
     }
 
     public NewViewPage clickPlusSign() {

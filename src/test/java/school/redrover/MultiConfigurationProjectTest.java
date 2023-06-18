@@ -161,7 +161,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testProjectPageDelete() {
         MainPage deletedProjPage = new MainPage(getDriver())
                 .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
-                .clickDelete();
+                .clickDeleteAndAlert();
 
         Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
 

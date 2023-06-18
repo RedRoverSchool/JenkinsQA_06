@@ -38,9 +38,10 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())))
                 .addDescription("DESCRIPTION")
                 .clickSaveButton()
-                .navigateToMainPageByBreadcrumbs()
+                .getHeader()
+                .clickLogo()
                 .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
-                .getDescription();
+                .getAddedDescriptionFromConfig();
 
         Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
     }

@@ -1,7 +1,6 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
 
@@ -9,8 +8,8 @@ public class DeletePage<ParentPage extends BasePage<?,?>> extends BaseMainHeader
 
     private final ParentPage parentPage;
 
-    public DeletePage(WebDriver driver, ParentPage parentPage) {
-        super(driver);
+    public DeletePage(ParentPage parentPage) {
+        super(parentPage.getDriver());
         this.parentPage = parentPage;
     }
 

@@ -172,7 +172,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
     public DeletePage<MainPage> dropDownMenuClickDeleteFolders(String jobName) {
         dropDownMenuClickDelete(jobName);
-        return new DeletePage<>(getDriver(), this);
+        return new DeletePage<>(this);
     }
 
     public MainPage acceptAlert() {

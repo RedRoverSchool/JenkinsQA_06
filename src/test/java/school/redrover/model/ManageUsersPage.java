@@ -75,7 +75,7 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         getDriver().findElement(
                 By.xpath("//a[@class='jenkins-table__button jenkins-!-destructive-color']")).click();
 
-        return new DeletePage<>(getDriver(), this);
+        return new DeletePage<>(this);
     }
 
     public boolean getUserDeleted(String username) {
@@ -108,6 +108,5 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@id='description']/div[1]"))).getText();
     }
-
 }
 

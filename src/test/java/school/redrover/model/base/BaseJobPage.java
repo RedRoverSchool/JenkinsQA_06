@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.DeletePage;
 import school.redrover.model.MainPage;
 import school.redrover.model.MovePage;
 import school.redrover.model.RenamePage;
@@ -58,7 +59,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         return new RenamePage<>((Self) this);
     }
 
-    public MainPage clickDelete() {
+    public MainPage clickDeleteAndAlert() {
         deleteButton.click();
         getDriver().switchTo().alert().accept();
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
@@ -82,6 +83,10 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
 
     public String getDescription() {
         return jobDescription.getText();
+    }
+
+    public boolean isDescriptionEmpty(){
+        return jobDescription.getText().isEmpty();
     }
 
     public MovePage<Self> clickMoveOnSideMenu() {

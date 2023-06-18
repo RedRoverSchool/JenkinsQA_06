@@ -93,7 +93,7 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
     public DeletePage<MyViewsPage> clickDeleteViewButton() {
         TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href = 'delete']")));
 
-        return new DeletePage<>(getDriver(), this);
+        return new DeletePage<>(this);
     }
 
     public List<String> getListOfAllViews() {

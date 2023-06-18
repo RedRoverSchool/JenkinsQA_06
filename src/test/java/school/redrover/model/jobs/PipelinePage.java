@@ -48,7 +48,6 @@ public class PipelinePage extends BaseProjectPage<PipelinePage> {
         super(driver);
     }
 
-
     @Override
     public PipelineConfigPage clickConfigure() {
         setupClickConfigure();
