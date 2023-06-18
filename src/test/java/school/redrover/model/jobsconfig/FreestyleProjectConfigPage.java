@@ -13,8 +13,9 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     }
 
     public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
+        int deltaY = getDriver().findElement(By.tagName("footer")).getRect().y;
         new Actions(getDriver())
-                .scrollByAmount(0, 2000)
+                .scrollByAmount(0, deltaY)
                 .perform();
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(
