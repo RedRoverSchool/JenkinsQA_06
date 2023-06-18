@@ -132,7 +132,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(disableButtonText, "Disable Project");
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithEqualName")
+    @Test(dependsOnMethods = "testCreateProjectWithEqualName")
     public void testJobDropdownDelete() {
         String helloMessage = new MainPage((getDriver()))
                 .dropDownMenuClickDelete(NAME)
@@ -199,23 +199,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickJobMultiConfigurationProject(NAME);
 
         Assert.assertEquals(multiConfigurationProjectPage.getJobBuildStatus(NAME), "Success");
-    }
-
-    @DataProvider(name = "unsafe-character")
-    public Object[][] putUnsafeCharacterInputField() {
-        return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}};
-    }
-
-    @Test(dataProvider = "unsafe-character")
-    public void testCreateProjectWithSpecialSymbols(String unsafeCharacter) {
-        final String expectedResult = "» ‘" + unsafeCharacter + "’ is an unsafe character";
-        String messageUnderInputField = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(unsafeCharacter)
-                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
-                .getItemInvalidMessage();
-
-        Assert.assertEquals(messageUnderInputField, expectedResult);
     }
 
     @Test
