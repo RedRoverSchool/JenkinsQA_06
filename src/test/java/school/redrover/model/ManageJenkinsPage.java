@@ -28,7 +28,6 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     @FindBy(xpath = "//a[text()='Manage Jenkins']")
     private WebElement manageJenkinsLink;
 
-
     @FindBy(id = "settings-search-bar")
     private WebElement searchBarOnManageJenkinsPage;
 
