@@ -50,7 +50,7 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         int actualNumberOfHelpButton = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .clickConfigureGlobalSecurity()
-                .getNumberOfHelpButton();
+                .getNumberOfHelpButtons();
 
         Assert.assertEquals(actualNumberOfHelpButton, expectedNumberOfHelpButton);
     }
@@ -77,7 +77,7 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         boolean allChecksAreOk = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .clickConfigureGlobalSecurity()
-                .checkAPICheckBoxes();
+                .checkAPITokenCheckboxes();
 
         Assert.assertTrue(allChecksAreOk);
     }
