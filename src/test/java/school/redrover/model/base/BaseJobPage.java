@@ -1,11 +1,12 @@
 package school.redrover.model.base;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.*;
+import school.redrover.model.MainPage;
+import school.redrover.model.MovePage;
+import school.redrover.model.RenamePage;
 
 import java.time.Duration;
 
@@ -55,16 +56,6 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     public RenamePage<Self> clickRename() {
         renameButton.click();
         return new RenamePage<>((Self) this);
-    }
-
-    public DeletePage<Self> clickDelete1() {
-        deleteButton.click();
-        return new DeletePage<Self>(getDriver(), (Self) this);
-    }
-
-    public <ParentPage  extends BasePage<?, ?>> DeletePage<ParentPage> clickDelete2( ParentPage parentPage) {
-        deleteButton.click();
-        return new DeletePage<>(parentPage);
     }
 
     public MainPage clickDelete() {
