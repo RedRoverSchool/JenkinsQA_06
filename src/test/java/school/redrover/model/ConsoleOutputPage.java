@@ -41,17 +41,14 @@ public class ConsoleOutputPage extends BaseMainHeaderPage<ConsoleOutputPage> {
     }
 
     public String getStartedByUser() {
-
         return getWait2().until(ExpectedConditions.visibilityOf(startedByUser)).getText();
     }
 
     public boolean isDisplayedGreenIconV() {
-
         return getWait2().until(ExpectedConditions.visibilityOf(greenIconV)).isDisplayed();
     }
 
     public boolean isDisplayedBuildTitle() {
-
         return getWait2().until(ExpectedConditions.visibilityOf(buildTitle)).isDisplayed();
     }
 }
