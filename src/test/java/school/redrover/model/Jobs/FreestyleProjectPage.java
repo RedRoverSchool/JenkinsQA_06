@@ -1,8 +1,10 @@
-package school.redrover.model;
+package school.redrover.model.Jobs;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.*;
+import school.redrover.model.JobsConfig.FreestyleProjectConfigPage;
 import school.redrover.model.base.BaseProjectPage;
 
 import java.util.List;
@@ -19,13 +21,6 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
     public FreestyleProjectConfigPage clickConfigure() {
         setupClickConfigure();
         return new FreestyleProjectConfigPage(this);
-    }
-
-    public FreestyleProjectPage selectBuildNow() {
-        getDriver().findElement(cssSelector("[href*='build?']")).click();
-        getWait10().until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
-        return this;
     }
 
     public BuildPage selectBuildItemTheHistoryOnBuildPage() {
@@ -170,6 +165,23 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
 
     public FreestyleProjectPage dismissAlert() {
         getDriver().switchTo().alert().dismiss();
+        return this;
+    }
+
+    public FreestyleProjectPage selectBuildNowAndOpenBuildRow() {
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
+        return this;
+    }
+
+    public FreestyleProjectPage selectBuildWitchParametersAndSubmitAndOpenBuildRow() {
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
         return this;
     }
 }

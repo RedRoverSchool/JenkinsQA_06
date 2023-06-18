@@ -50,4 +50,10 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
 
         return getDriver().findElements(By.xpath("//table[@id='projectStatus']/tbody/tr")).size();
     }
+
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
+
+        return new NewJobPage(getDriver());
+    }
 }

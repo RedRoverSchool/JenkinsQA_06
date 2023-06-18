@@ -4,8 +4,14 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.Jobs.FolderPage;
+import school.redrover.model.Jobs.OrganizationFolderPage;
+import school.redrover.model.JobsConfig.FolderConfigPage;
+import school.redrover.model.JobsConfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
+
+import java.util.List;
 
 public class OrganizationFolderTest extends BaseTest {
 
@@ -141,5 +147,21 @@ public class OrganizationFolderTest extends BaseTest {
                 .getWelcomeText();
 
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testCreateOrganizationFolderGoingFromManageJenkinsPage() {
+        List<String> organizationFolderName = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickSaveButton()
+                .getBreadcrumb()
+                .clickDashboardButton()
+                .getJobList();
+
+        Assert.assertTrue(organizationFolderName.contains(ORGANIZATION_FOLDER_NAME));
     }
 }
