@@ -29,7 +29,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
     @Test(dependsOnMethods = "testCreateProject")
     public void testCreateProjectWithEqualName() {
-        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + NAME + "’";
+        final String errorMessageEqualName = "A job already exists with the name " + "‘" + NAME + "’";
 
         String error = new MainPage(getDriver())
                 .clickNewItem()
@@ -39,12 +39,12 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getErrorPage()
                 .getErrorMessage();
 
-        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
+        Assert.assertEquals(error, errorMessageEqualName);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
     public void testRenameFromDropDownMenu() {
-        String NewNameProject = new MainPage(getDriver())
+        String newNameProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(NEW_NAME)
                 .clickRenameButton()
@@ -52,7 +52,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickLogo()
                 .getJobName();
 
-        Assert.assertEquals(NewNameProject, NEW_NAME);
+        Assert.assertEquals(newNameProject, NEW_NAME);
     }
 
     @Test(dependsOnMethods = "testRenameFromDropDownMenu")
