@@ -189,7 +189,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testBuildNowDropDownMenuMultiConfigurationProject() {
+    public void testBuildNowDropDownMenuProject() {
         TestUtils.createJob(this, NAME, TestUtils.JobType.MultiConfigurationProject, true);
 
         Assert.assertEquals(new MainPage(getDriver()).getJobBuildStatus(NAME), "Not built");
