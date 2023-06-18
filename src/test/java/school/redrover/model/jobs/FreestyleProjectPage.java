@@ -146,21 +146,4 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
         getDriver().switchTo().alert().dismiss();
         return this;
     }
-
-    public FreestyleProjectPage selectBuildNowAndOpenBuildRow() {
-        getWait10().until(ExpectedConditions
-                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
-        getWait10().until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
-        return this;
-    }
-
-    public FreestyleProjectPage selectBuildWitchParametersAndSubmitAndOpenBuildRow() {
-        getWait10().until(ExpectedConditions
-                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getWait10().until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
-        return this;
-    }
 }

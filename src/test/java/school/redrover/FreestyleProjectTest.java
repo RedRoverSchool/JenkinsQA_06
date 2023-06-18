@@ -263,7 +263,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(new BuildPage(getDriver()).buildHeaderIsDisplayed(), "build not created");
     }
 
-   @Ignore
     @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
         MainPage mainPage = new MainPage(getDriver())
@@ -328,8 +327,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 
-   @Ignore
-    @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
+    @Test(dependsOnMethods = "testSetRateLimitForBuilds")
     public void testDeleteFreestyleProject() {
         final String projName = NEW_FREESTYLE_NAME;
 
@@ -483,5 +481,20 @@ public class FreestyleProjectTest extends BaseTest {
                 .getOptionsInBuildStepDropdown();
 
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
+    }
+
+    @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
+    public void testSetRateLimitForBuilds() {
+        String expectedTimePeriod = "Minute";
+        String actualTimePeriod = new MainPage(getDriver())
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .checkThrottleBuilds()
+                .selectTimePeriod("Minute")
+                .clickSaveButton()
+                .clickConfigure()
+                .getTimePeriodText();
+
+        Assert.assertEquals(actualTimePeriod, expectedTimePeriod);
     }
 }

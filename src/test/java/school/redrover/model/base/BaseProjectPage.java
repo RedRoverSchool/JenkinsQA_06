@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.BuildPage;
 import school.redrover.model.ConsoleOutputPage;
+import school.redrover.model.jobs.FreestyleProjectPage;
 
 import static org.openqa.selenium.By.cssSelector;
 
@@ -64,6 +65,23 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     public BuildPage clickBuildWithParameters() {
         getDriver().findElement(By.xpath("//a[contains(@href, 'build')]")).click();
         return new BuildPage(getDriver());
+    }
+
+    public FreestyleProjectPage selectBuildNowAndOpenBuildRow() {
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
+        return new FreestyleProjectPage(getDriver());
+    }
+
+    public FreestyleProjectPage selectBuildWitchParametersAndSubmitAndOpenBuildRow() {
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
+        return new FreestyleProjectPage(getDriver());
     }
 
 }

@@ -4,13 +4,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.CreateItemErrorPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
 public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, ProjectPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, ProjectPage> {
+
+    @FindBy(xpath = "//label[normalize-space(text())='Throttle builds']")
+    private WebElement throttleBuilds;
+    @FindBy(xpath = "//select[@name='_.durationName']")
+    private WebElement getTimePeriod;
 
     public BaseConfigProjectsPage(ProjectPage projectPage) {
         super(projectPage);
@@ -169,6 +176,23 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     }
 
     public List<String> getOptionsInBuildStepDropdown() {
-        return TestUtils.getTexts(getDriver().findElements(By.xpath("//button[text()='Add build step']/../../..//a"))) ;
+        return TestUtils.getTexts(getDriver().findElements(By.xpath("//button[text()='Add build step']/../../..//a")));
+    }
+
+    public Self checkThrottleBuilds() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", throttleBuilds);
+        js.executeScript("arguments[0].click();", throttleBuilds);
+        return (Self) this;
+    }
+
+    public Self selectTimePeriod(String timePeriod) {
+        new Select(getDriver()
+                .findElement(By.xpath("//select[@name='_.durationName']"))).selectByValue(timePeriod.toLowerCase());
+        return (Self) this;
+    }
+
+    public String getTimePeriodText() {
+        return new Select(getDriver().findElement(By.xpath("//select[@name='_.durationName']"))).getFirstSelectedOption().getText();
     }
 }
