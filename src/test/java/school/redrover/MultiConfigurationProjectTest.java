@@ -96,7 +96,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test()
-    public void testMultiConfigurationProjectConfigurePageDisabled() {
+    public void testMultiConfigurationProjectConfigurePageDisable() {
         String configPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("My Multi configuration project")
