@@ -4,10 +4,10 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.Jobs.FolderPage;
-import school.redrover.model.Jobs.OrganizationFolderPage;
-import school.redrover.model.JobsConfig.FolderConfigPage;
-import school.redrover.model.JobsConfig.OrganizationFolderConfigPage;
+import school.redrover.model.jobs.FolderPage;
+import school.redrover.model.jobs.OrganizationFolderPage;
+import school.redrover.model.jobsconfig.FolderConfigPage;
+import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 

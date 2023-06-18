@@ -7,8 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
-import school.redrover.model.Jobs.*;
-import school.redrover.model.JobsConfig.*;
+import school.redrover.model.jobs.*;
+import school.redrover.model.jobsconfig.*;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseModel;
 

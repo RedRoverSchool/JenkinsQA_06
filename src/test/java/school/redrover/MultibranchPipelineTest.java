@@ -3,8 +3,8 @@ package school.redrover;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
-import school.redrover.model.JobsConfig.MultibranchPipelineConfigPage;
-import school.redrover.model.Jobs.MultibranchPipelinePage;
+import school.redrover.model.jobsconfig.MultibranchPipelineConfigPage;
+import school.redrover.model.jobs.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 

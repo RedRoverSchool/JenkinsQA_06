@@ -4,10 +4,10 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.Jobs.FreestyleProjectPage;
-import school.redrover.model.Jobs.PipelinePage;
-import school.redrover.model.JobsConfig.FreestyleProjectConfigPage;
-import school.redrover.model.JobsConfig.PipelineConfigPage;
+import school.redrover.model.jobs.FreestyleProjectPage;
+import school.redrover.model.jobs.PipelinePage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
+import school.redrover.model.jobsconfig.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 

@@ -10,8 +10,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
-import school.redrover.model.Jobs.FreestyleProjectPage;
-import school.redrover.model.JobsConfig.FreestyleProjectConfigPage;
+import school.redrover.model.jobs.FreestyleProjectPage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 

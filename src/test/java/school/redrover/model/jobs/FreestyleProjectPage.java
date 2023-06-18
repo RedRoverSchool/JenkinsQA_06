@@ -1,10 +1,10 @@
-package school.redrover.model.Jobs;
+package school.redrover.model.jobs;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
-import school.redrover.model.JobsConfig.FreestyleProjectConfigPage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.base.BaseProjectPage;
 
 import java.util.List;

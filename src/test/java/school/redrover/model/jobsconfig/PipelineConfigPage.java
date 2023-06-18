@@ -1,4 +1,4 @@
-package school.redrover.model.JobsConfig;
+package school.redrover.model.jobsconfig;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -6,7 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import school.redrover.model.Jobs.PipelinePage;
+import school.redrover.model.jobs.PipelinePage;
 import school.redrover.model.base.BaseConfigProjectsPage;
 import school.redrover.runner.TestUtils;
 

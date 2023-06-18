@@ -1,13 +1,12 @@
-package school.redrover.model.Jobs;
+package school.redrover.model.jobs;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.DeletePage;
 import school.redrover.model.MainPage;
-import school.redrover.model.JobsConfig.OrganizationFolderConfigPage;
+import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.model.base.BaseJobPage;
 
 public class OrganizationFolderPage extends BaseJobPage<OrganizationFolderPage> {
