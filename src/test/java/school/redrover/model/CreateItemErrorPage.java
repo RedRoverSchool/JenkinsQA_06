@@ -14,7 +14,7 @@ public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage>
     private WebElement error;
 
     @FindBy(xpath ="//div[@id='main-panel']//h1" )
-    WebElement headerText;
+    private WebElement headerText;
 
     public CreateItemErrorPage(WebDriver driver) {
         super(driver);
