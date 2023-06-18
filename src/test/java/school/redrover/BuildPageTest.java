@@ -4,6 +4,10 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.jobs.FreestyleProjectPage;
+import school.redrover.model.jobs.PipelinePage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
+import school.redrover.model.jobsconfig.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -58,7 +62,7 @@ public class BuildPageTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
-                .selectBuildNow()
+                .selectBuildNowAndOpenBuildRow()
                 .getHeader()
                 .clickLogo()
                 .clickBuildsHistoryButton()
@@ -81,7 +85,7 @@ public class BuildPageTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
-                .selectBuildNow()
+                .selectBuildNowAndOpenBuildRow()
                 .getHeader()
                 .clickLogo()
                 .clickBuildsHistoryButton()
@@ -99,7 +103,7 @@ public class BuildPageTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
-                .selectBuildNow()
+                .selectBuildNowAndOpenBuildRow()
                 .getHeader()
                 .clickLogo()
                 .clickBuildsHistoryButton()

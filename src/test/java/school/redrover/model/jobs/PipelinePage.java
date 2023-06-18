@@ -1,22 +1,57 @@
-package school.redrover.model;
+package school.redrover.model.jobs;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.*;
+import school.redrover.model.jobsconfig.PipelineConfigPage;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BaseProjectPage;
 
 public class PipelinePage extends BaseProjectPage<PipelinePage> {
+    @FindBy(xpath = "//a[contains(@data-url,'/doDelete')]")
+    private WebElement delete;
 
+    @FindBy(xpath = "//div[@id='main-panel']")
+    private WebElement mainPanel;
+
+    @FindBy(xpath = "//div[@id = 'tasks']/div[3]//a")
+    private WebElement buildNow;
+
+    @FindBy(xpath = "//div[@class='build-icon']//a[@tooltip='Success > Console Output']")
+    private WebElement buildIcon;
+
+    @FindBy(css = ".stage-header-name-0")
+    private WebElement stage;
+
+    @FindBy(css = ".build-icon")
+    private WebElement build;
+
+    @FindBy(css = ".console-output")
+    private WebElement consoleOutput;
+
+    @FindBy(xpath = "//a[contains(text() ,'#1')]")
+    private WebElement build1;
+
+    @FindBy(css = "#buildHistory>div>div>span>div>:nth-child(2)")
+    private WebElement trend;
+
+    @FindBy(xpath = "//a[contains(@href, 'changes')]")
+    private WebElement change;
+
+    @FindBy(id = "enable-project")
+    private WebElement enable;
 
     public PipelinePage(WebDriver driver) {
         super(driver);
     }
 
+
     @Override
     public PipelineConfigPage clickConfigure() {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'configure')]"))).click();
+        setupClickConfigure();
         return new PipelineConfigPage(this);
     }
 
@@ -31,49 +66,47 @@ public class PipelinePage extends BaseProjectPage<PipelinePage> {
     }
 
     public String getProjectNameSubtitle() {
-        String projectName = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']"))).getText();
+        String projectName = mainPanel.getText();
         String subStr = projectName.substring(projectName.indexOf(':') + 2);
         return subStr.substring(0, subStr.indexOf("Add")).trim();
     }
 
     public PipelinePage clickBuildNow() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id = 'tasks']/div[3]//a")))
-                .click();
-        getWait10().until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath("//div[@class='build-icon']//a[@tooltip='Success > Console Output']")));
+        buildNow.click();
+        buildIcon.isDisplayed();
         return this;
     }
 
     public String getStage() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".stage-header-name-0"))).getText();
+        return stage.getText();
     }
 
     public PipelinePage clickBuildIcon() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".build-icon"))).click();
+        build.click();
         return this;
     }
 
     public String getConsoleOutputField() {
-        return getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector(".console-output"))).getText();
+        return consoleOutput.getText();
     }
 
     public BuildPage click1BuildHistory() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text() ,'#1')]"))).sendKeys(Keys.ENTER);
+        build1.sendKeys(Keys.ENTER);
         return new BuildPage(getDriver());
     }
 
     public TimelinePage clickTrend() {
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#buildHistory>div>div>span>div>:nth-child(2)"))).click();
+        trend.click();
         return new TimelinePage(getDriver());
     }
 
     public ChangesPage<PipelinePage> clickChangeOnLeftSideMenu() {
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, 'changes')]"))).click();
+        change.click();
         return new ChangesPage<>(this);
     }
 
     public PipelinePage checkWarningMessage() {
-        getWait2().until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(By.id("enable-project")), "This project is currently disabled"));
+        enable.getText().contains("This project is currently disabled");
         return this;
     }
 }

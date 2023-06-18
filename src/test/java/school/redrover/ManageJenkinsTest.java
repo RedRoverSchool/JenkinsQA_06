@@ -93,7 +93,7 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testNovigateToConfigureSystemPageBySearchField() {
+    public void testNavigateToConfigureSystemPageBySearchField() {
 
         String configureSystemPageTitle = new MainPage(getDriver())
                 .clickManageJenkinsPage()

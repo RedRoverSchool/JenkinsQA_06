@@ -2,10 +2,15 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
+
+    @FindBy(xpath = "//table[@id='projectStatus']/tbody/tr/td[4]")
+    private WebElement statusMessage;
 
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
@@ -26,7 +31,7 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
 
     public String getStatusMessageText() {
         getDriver().navigate().refresh();
-        return getDriver().findElement(By.xpath("//table[@id='projectStatus']/tbody/tr/td[4]")).getText();
+        return statusMessage.getText();
     }
 
     public BuildHistoryPage clickBuildNameOnTimeline(String projectBuildName) {
@@ -44,5 +49,11 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1")));
 
         return getDriver().findElements(By.xpath("//table[@id='projectStatus']/tbody/tr")).size();
+    }
+
+    public NewJobPage clickNewItem() {
+        getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
+
+        return new NewJobPage(getDriver());
     }
 }

@@ -3,8 +3,8 @@ package school.redrover;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
-import school.redrover.model.MultibranchPipelineConfigPage;
-import school.redrover.model.MultibranchPipelinePage;
+import school.redrover.model.jobsconfig.MultibranchPipelineConfigPage;
+import school.redrover.model.jobs.MultibranchPipelinePage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -25,7 +25,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .enterDisplayName(multibranchPipelineDisplayName)
                 .clickSaveButton();
 
-        Assert.assertEquals(multibranchPipelinePage.getDisplayedName(), multibranchPipelineDisplayName);
+        Assert.assertEquals(multibranchPipelinePage.getJobName(), multibranchPipelineDisplayName);
         Assert.assertTrue(multibranchPipelinePage.metadataFolderIconIsDisplayed(), "error was not shown Metadata Folder icon");
     }
 
@@ -62,10 +62,10 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testRenameMultibranchPipeline() {
         String actualDisplayedName = new MainPage(getDriver())
                 .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
-                .renameMultibranchPipelinePage()
+                .clickRename()
                 .enterNewName(RENAMED)
                 .clickRenameButton()
-                .getDisplayedName();
+                .getJobName();
 
         Assert.assertEquals(actualDisplayedName, RENAMED);
     }
@@ -74,7 +74,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testDisableMultibranchPipeline() {
         String actualDisableMessage = new MainPage(getDriver())
                 .clickJobName(RENAMED, new MultibranchPipelinePage(getDriver()))
-                .clickConfigureSideMenu()
+                .clickConfigure()
                 .clickDisable()
                 .clickSaveButton()
                 .getTextFromDisableMessage();
@@ -95,7 +95,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testChooseDefaultIcon() {
         boolean defaultIconDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
-                .clickConfigureSideMenu()
+                .clickConfigure()
                 .clickAppearance()
                 .selectDefaultIcon()
                 .clickSaveButton()
@@ -108,10 +108,10 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testAddHealthMetrics() {
         boolean healthMetricIsVisible = new MainPage(getDriver())
                 .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
-                .clickConfigureSideMenu()
+                .clickConfigure()
                 .addHealthMetrics()
                 .clickSaveButton()
-                .clickConfigureSideMenu()
+                .clickConfigure()
                 .clickHealthMetrics()
                 .healthMetricIsVisible();
 

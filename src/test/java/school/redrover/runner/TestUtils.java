@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
+import school.redrover.model.jobs.*;
+import school.redrover.model.jobsconfig.*;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseModel;
 
@@ -163,5 +165,20 @@ public class TestUtils {
     public static String getRandomStr(int length) {
         return RandomStringUtils.random(length,
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+    }
+
+    public static void createUserAndReturnToMainPage(BaseTest baseTest, String username, String password, String fullName, String email) {
+        new MainPage(baseTest.getDriver())
+                .clickManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .enterUsername(username)
+                .enterPassword(password)
+                .enterConfirmPassword(password)
+                .enterFullName(fullName)
+                .enterEmail(email)
+                .clickCreateUserButton()
+                .getHeader()
+                .clickLogo();
     }
 }

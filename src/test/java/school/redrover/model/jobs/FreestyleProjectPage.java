@@ -1,8 +1,10 @@
-package school.redrover.model;
+package school.redrover.model.jobs;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.*;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.base.BaseProjectPage;
 
 import java.util.List;
@@ -19,23 +21,6 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
     public FreestyleProjectConfigPage clickConfigure() {
         setupClickConfigure();
         return new FreestyleProjectConfigPage(this);
-    }
-
-    public FreestyleProjectPage selectBuildNow() {
-        getWait10().until(ExpectedConditions
-                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
-        getWait10().until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
-        return this;
-    }
-
-    public FreestyleProjectPage selectBuildWitchParameters() {
-        getWait10().until(ExpectedConditions
-                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-        getWait10().until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
-        return this;
     }
 
     public BuildPage selectBuildItemTheHistoryOnBuildPage() {
@@ -101,16 +86,6 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
         return getDriver().findElement(By.xpath("//*[@class = 'textarea-preview']")).getText();
     }
 
-    public String getProjectName() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
-    }
-
-    public RenamePage<FreestyleProjectPage> clickRenameProject(String projectName) {
-        getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@href = '/job/" + projectName + "/confirm-rename']"))).click();
-        return new RenamePage<>(this);
-    }
-
     public MainPage clickDeleteProject() {
         getWait2().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href = '#']//span[text() = 'Delete Project' ]"))).click();
@@ -130,12 +105,6 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
         return new FreestyleProjectPage(getDriver());
     }
 
-    public MovePage<FreestyleProjectPage> clickMoveOnSideMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                getDriver().findElement(By.cssSelector("[href$='/move']")))).click();
-        return new MovePage<>(this);
-    }
-
     public int getSizeOfPermalinksList() {
         getWait2().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h2")));
 
@@ -149,11 +118,6 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.linkText("Dashboard"))).click();
         return new MainPage(getDriver());
-    }
-
-    public FreestyleProjectConfigPage clickConfigureButton() {
-        getDriver().findElement(By.xpath("//a[contains(@href, '/configure')]")).click();
-        return new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
     }
 
     public ChangesPage<FreestyleProjectPage> clickChangeOnLeftSideMenu() {
@@ -180,6 +144,23 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
 
     public FreestyleProjectPage dismissAlert() {
         getDriver().switchTo().alert().dismiss();
+        return this;
+    }
+
+    public FreestyleProjectPage selectBuildNowAndOpenBuildRow() {
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
+        return this;
+    }
+
+    public FreestyleProjectPage selectBuildWitchParametersAndSubmitAndOpenBuildRow() {
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(cssSelector("[href*='build?']"))).click();
+        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        getWait10().until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
         return this;
     }
 }

@@ -1,8 +1,8 @@
 package school.redrover.model.base;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
 import school.redrover.model.MovePage;
@@ -12,67 +12,93 @@ import java.time.Duration;
 
 public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainHeaderPage<Self> {
 
+    @FindBy(linkText = "Configure")
+    private WebElement configureButton;
+
+    @FindBy(css = "#main-panel>h1")
+    private WebElement jobName;
+
+    @FindBy(linkText = "Rename")
+    private WebElement renameButton;
+
+    @FindBy(partialLinkText = "Delete ")
+    private WebElement deleteButton;
+
+    @FindBy(xpath = "//a[@id='description-link']")
+    private WebElement editDescriptionButton;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement descriptionField;
+
+    @FindBy(xpath = "//div[@id='description']/div[1]")
+    private WebElement jobDescription;
+
+    @FindBy(css = "[href$='/move']")
+    private WebElement moveButton;
+
+    @FindBy(xpath = "//button[text() = 'Save']")
+    private WebElement saveButton;
+
     public BaseJobPage(WebDriver driver) {
         super(driver);
     }
 
     protected void setupClickConfigure() {
-        getWait10().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Configure")))).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(configureButton)).click();
     }
 
-    public abstract BaseConfigPage clickConfigure();
+    public abstract BaseConfigPage<?,?> clickConfigure();
 
-    public String getProjectName() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel>h1"))).getText();
+    public String getJobName() {
+        return getWait2().until(ExpectedConditions.visibilityOf(jobName)).getText();
     }
 
     public RenamePage<Self> clickRename() {
-        getDriver().findElement(By.linkText("Rename")).click();
-        return new RenamePage<>((Self)this);
+        renameButton.click();
+        return new RenamePage<>((Self) this);
     }
 
     public MainPage clickDelete() {
-        getDriver().findElement(By.partialLinkText("Delete ")).click();
+        deleteButton.click();
         getDriver().switchTo().alert().accept();
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
         return new MainPage(getDriver());
     }
 
     public Self clickEditDescription() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='description-link']"))).click();
+        getWait5().until(ExpectedConditions.visibilityOf(editDescriptionButton)).click();
         return (Self) this;
     }
 
     public Self enterDescription(String description) {
-        getDriver().findElement(By.name("description")).sendKeys(description);
+        descriptionField.sendKeys(description);
         return (Self) this;
     }
 
     public Self clearDescriptionField() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='description']"))).clear();
+        getWait5().until(ExpectedConditions.visibilityOf(descriptionField)).clear();
         return (Self) this;
     }
 
     public String getDescription() {
-        return getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText();
+        return jobDescription.getText();
     }
 
     public MovePage<Self> clickMoveOnSideMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                getDriver().findElement(By.cssSelector("[href$='/move']")))).click();
-        return new MovePage<>((Self)this);
+        getWait5().until(ExpectedConditions.elementToBeClickable(moveButton)).click();
+        return new MovePage<>((Self) this);
     }
 
     public Self changeDescriptionWithoutSaving(String newDescription) {
-        getDriver().findElement(By.cssSelector("#description-link")).click();
-        WebElement textInput = getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector("textarea[name='description']"))));
-        textInput.clear();
-        textInput.sendKeys(newDescription);
-        return (Self)this;
+        editDescriptionButton.click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(descriptionField));
+        descriptionField.clear();
+        descriptionField.sendKeys(newDescription);
+        return (Self) this;
     }
 
     public Self clickSaveButton() {
-        getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
-        return (Self)this;
+        saveButton.click();
+        return (Self) this;
     }
 }
