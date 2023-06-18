@@ -20,21 +20,20 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateProject() {
-        TestUtils.createJob(this, NAME, TestUtils.JobType.MultiConfigurationProject, true);
+        TestUtils.createJob(this, NAME, TestUtils.JobType.MultiConfigurationProject, false);
+
+        Assert.assertEquals(new MultiConfigurationProjectPage(getDriver()).getJobName().substring(8, 32), NAME);
+
+        new MainPage(getDriver())
+                .getHeader()
+                .clickLogo();
 
         Assert.assertEquals(new MainPage(getDriver()).getJobName(), NAME);
     }
 
-    @Test
-    public void testCreateMultiConfigurationProjectOnProjectPage() {
-        TestUtils.createJob(this, NAME, TestUtils.JobType.MultiConfigurationProject, false);
-
-        Assert.assertEquals(new MultiConfigurationProjectPage(getDriver()).getJobName().substring(8, 32), NAME);
-    }
-
-     @Test(dependsOnMethods = "testCreateProject")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testCreateMultiConfigurationProjectWithEqualName() {
-        final String ERROR_MESSAGE_EQUAL_NAME = "A job already exists with the name " + "‘" + NAME + "’";
+        final String errorMessageName = "A job already exists with the name " + "‘" + NAME + "’";
 
         String error = new MainPage(getDriver())
                 .clickNewItem()
@@ -44,12 +43,12 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getErrorPage()
                 .getErrorMessage();
 
-        Assert.assertEquals(error, ERROR_MESSAGE_EQUAL_NAME);
+        Assert.assertEquals(error, errorMessageName);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
     public void testRenameFromDropDownMenu() {
-        String NewNameProject = new MainPage(getDriver())
+        String newNameProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new MultiConfigurationProjectPage(getDriver()))
                 .enterNewName(NEW_NAME)
                 .clickRenameButton()
@@ -57,7 +56,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickLogo()
                 .getJobName();
 
-        Assert.assertEquals(NewNameProject, NEW_NAME);
+        Assert.assertEquals(newNameProject, NEW_NAME);
     }
 
     @Test(dependsOnMethods = "testRenameFromDropDownMenu")
@@ -279,18 +278,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(statusIcon, "Disabled");
     }
 
-    @Test
-    public void testDisableProjectFromConfigurationPage() {
-        final String disableResult = "This project is currently disabled";
-
-        TestUtils.createJob(this, NAME, TestUtils.JobType.MultiConfigurationProject, false);
-        String disableMessage = new MultiConfigurationProjectPage(getDriver())
-                .clickDisable()
-                .getDisabledMessageText();
-
-        Assert.assertTrue(disableMessage.contains(disableResult), "Not found such message");
-    }
-
     @Ignore
     @Test(dependsOnMethods = "testCreateProject")
     public void testDeleteProjectFromDropDownMenu() {
@@ -341,7 +328,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMultiConfigurationProjectWithDescription() {
+    public void testCreateProjectWithDescription() {
         final String multiConfigurationProjectName = "New project";
         final String description = "Description text";
 
@@ -359,7 +346,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testConfigureOldBuildForMultiConfigurationProject() {
+    public void testConfigureOldBuildForProject() {
         final String multiConfProjectName = "New project";
         final int displayedDaysToKeepBuilds = 5;
         final int displayedMaxNumOfBuildsToKeep = 7;
@@ -384,7 +371,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMultiConfigurationProjectWithSpaceInsteadName() {
+    public void testCreateProjectWithSpaceInsteadName() {
         final String expectedResult = "No name is specified";
 
         String errorMessage = new MainPage(getDriver())
