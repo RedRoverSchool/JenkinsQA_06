@@ -43,7 +43,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickRename()
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
                 .clickRenameButton()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
@@ -120,7 +120,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
                 .clickRenameButton()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }

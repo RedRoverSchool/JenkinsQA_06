@@ -198,7 +198,7 @@ public class PipelineTest extends BaseTest {
                 .enterDaysToKeepBuilds("2")
                 .enterMaxOfBuildsToKeep("30")
                 .clickSaveButton()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(jobName, "Pipeline " + NAME);
     }
@@ -490,7 +490,7 @@ public class PipelineTest extends BaseTest {
                 .setDisplayName(NEW_NAME)
                 .clickSaveButton();
 
-        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + NEW_NAME);
+        Assert.assertEquals(pipelinePage.getJobName(), "Pipeline " + NEW_NAME);
         Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), NAME);
         Assert.assertEquals(pipelinePage.getHeader().clickLogo().getJobName(), NEW_NAME);
     }

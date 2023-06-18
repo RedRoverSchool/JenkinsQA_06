@@ -14,17 +14,11 @@ import java.util.List;
 
 public class FolderPage extends BaseJobPage<FolderPage> {
 
-    @FindBy(css = "[href$='/configure']")
-    private WebElement buttonConfigure;
-
     @FindBy(css = "#tasks>:nth-child(3)")
     private WebElement buttonNewItem;
 
     @FindBy(xpath = "//div[@class='tab']")
     private WebElement buttonNewView;
-
-    @FindBy(xpath = "//div[@id='main-panel']/h1")
-    private WebElement folderName;
 
     @FindBy(id = "view-message")
     private WebElement folderDescription;
@@ -38,7 +32,7 @@ public class FolderPage extends BaseJobPage<FolderPage> {
 
     @Override
     public FolderConfigPage clickConfigure() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(buttonConfigure)).click();
+        setupClickConfigure();
         return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
@@ -55,10 +49,6 @@ public class FolderPage extends BaseJobPage<FolderPage> {
     public DeletePage<MainPage> delete() {
         getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
         return new DeletePage<>(getDriver(), new MainPage(getDriver()));
-    }
-
-    public String getFolderName() {
-        return TestUtils.getText(this, folderName);
     }
 
     public String getFolderDescription() {

@@ -47,9 +47,9 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         getWait10().until(ExpectedConditions.elementToBeClickable(configureButton)).click();
     }
 
-    public abstract BaseConfigPage clickConfigure();
+    public abstract BaseConfigPage<?,?> clickConfigure();
 
-    public String getProjectName() {
+    public String getJobName() {
         return getWait2().until(ExpectedConditions.visibilityOf(jobName)).getText();
     }
 

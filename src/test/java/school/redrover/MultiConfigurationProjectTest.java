@@ -29,7 +29,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testCreateMultiConfigurationProjectOnProjectPage() {
         TestUtils.createJob(this, NAME, TestUtils.JobType.MultiConfigurationProject, false);
 
-        Assert.assertEquals(new MultiConfigurationProjectPage(getDriver()).getProjectName().substring(8, 32), NAME);
+        Assert.assertEquals(new MultiConfigurationProjectPage(getDriver()).getJobName().substring(8, 32), NAME);
     }
 
      @Test(dependsOnMethods = "testCreateProject")
@@ -67,7 +67,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickRename()
                 .enterNewName(NAME)
                 .clickRenameButton()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(newName, "Project " + NAME);
     }
