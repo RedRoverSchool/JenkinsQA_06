@@ -1,11 +1,15 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
 
-public class ChangesPage<JobTypePage extends BasePage<?,?>> extends BaseMainHeaderPage<ChangesPage<JobTypePage>> {
+public class ChangesPage<JobTypePage extends BasePage<?, ?>> extends BaseMainHeaderPage<ChangesPage<JobTypePage>> {
+
+    @FindBy(xpath = "//div[@id='main-panel']")
+    private WebElement mainPanel;
 
     private final JobTypePage jobTypePage;
 
@@ -15,6 +19,6 @@ public class ChangesPage<JobTypePage extends BasePage<?,?>> extends BaseMainHead
     }
 
     public String getTextOfPage() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']"))).getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(mainPanel)).getText();
     }
 }

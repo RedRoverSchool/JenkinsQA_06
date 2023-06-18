@@ -16,6 +16,7 @@ public class FolderPage extends BaseJobPage<FolderPage> {
 
     @FindBy(css = "[href$='/configure']")
     private WebElement buttonConfigure;
+
     @FindBy(css = "#tasks>:nth-child(3)")
     private WebElement buttonNewItem;
 

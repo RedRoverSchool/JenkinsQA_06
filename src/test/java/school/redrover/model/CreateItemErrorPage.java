@@ -1,29 +1,34 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.component.MainHeaderComponent;
 
 public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage> {
+    @FindBy(xpath = "//div//p")
+    private WebElement errorMessage;
+
+    @FindBy(xpath = "//h1")
+    private WebElement error;
+
+    @FindBy(xpath ="//div[@id='main-panel']//h1" )
+    private WebElement headerText;
 
     public CreateItemErrorPage(WebDriver driver) {
         super(driver);
     }
 
     public String getErrorMessage() {
-        return getDriver().findElement(By.xpath("//div//p")).getText();
+        return errorMessage.getText();
     }
 
     public String getError() {
-        return getDriver().findElement(By.xpath("//h1")).getText();
+        return error.getText();
     }
 
     public String getHeaderText() {
-
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='main-panel']//h1"))).getText();
+        return getWait10().until(ExpectedConditions.visibilityOf(headerText)).getText();
     }
-
-
 }

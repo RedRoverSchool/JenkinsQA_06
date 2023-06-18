@@ -88,11 +88,13 @@ public class HeaderTest extends BaseTest {
     public void testSecurityButton() {
 
         boolean securityButton = new MainPage(getDriver())
+                .getHeader()
                 .getSecurityButtonOnHeader();
 
         Assert.assertTrue(securityButton);
 
         String background = new MainPage(getDriver())
+                .getHeader()
                 .getBackgroundSecurityButton();
 
         Assert.assertEquals(background, "rgba(64, 64, 64, 1)");
@@ -113,14 +115,17 @@ public class HeaderTest extends BaseTest {
     public void testExitButton() {
 
         boolean exitButtonIcon = new MainPage(getDriver())
+                .getHeader()
                 .iconExitButton();
 
         Assert.assertTrue(exitButtonIcon);
 
         String getUnderLineExitIcon = new MainPage(getDriver())
+                .getHeader()
                 .getUnderLineExitButton();
 
         String getBackgroundExitIcon = new MainPage(getDriver())
+                .getHeader()
                 .getBackgroundExitButton();
 
         Assert.assertEquals(getBackgroundExitIcon, "rgba(64, 64, 64, 1)");
@@ -160,6 +165,7 @@ public class HeaderTest extends BaseTest {
         final String expectedHeader = "Welcome to Jenkins!";
 
         String getTextFromActualHeader = new MainPage(getDriver())
+                .getHeader()
                 .clickLogOUTButton()
                 .getWelcomeText();
 
@@ -228,18 +234,20 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testAdminPageIsAvailable() {
 
-        WebElement adminButton = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/user/admin']")));
-        adminButton.click();
+        String adminPageSign = new MainPage(getDriver())
+                .getHeader()
+                .clickOnAdminButton()
+                .getTitleText();
 
-        WebElement adminPageSign = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > div:nth-child(4)")));
-        assertEquals(adminPageSign.getText(), "Jenkins User ID: admin");
+        assertEquals(adminPageSign,"Jenkins User ID: admin");
     }
 
     @Test
     public void testButtonNotificationsWorks() {
 
         String getTitle = new MainPage(getDriver())
-                .clickNotificationsButton()
+                .getHeader()
+                .clickNotificationIcon()
                 .getTextFromHeaderManageJenkins();
 
         Assert.assertEquals(getTitle, "Manage Jenkins");

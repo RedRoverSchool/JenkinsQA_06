@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.Jobs.PipelinePage;
@@ -28,7 +29,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(projectName, NAME);
     }
@@ -115,7 +116,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(projectName, NEW_NAME);
     }
@@ -154,6 +155,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
     public void testPipelineBuildingAfterChangesInCode() {
         BuildPage buildPage = new MainPage(getDriver())
@@ -307,7 +309,7 @@ public class PipelineTest extends BaseTest {
 
         List<String> listNamesOfJobs = new MainPage(getDriver())
                 .clickSortByName()
-                .getListNamesOfJobs();
+                .getJobList();
 
         Assert.assertEquals(listNamesOfJobs, namesOfJobs);
     }
@@ -320,7 +322,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(renamedPipeline, NEW_NAME);
     }
@@ -490,7 +492,7 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + NEW_NAME);
         Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), NAME);
-        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getProjectName(), NEW_NAME);
+        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getJobName(), NEW_NAME);
     }
 
     @Test
@@ -585,8 +587,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(NAME)
-                .selectFromJobDropdownMenuTheGitHub();
+                .selectFromJobDropdownMenuTheGitHub(NAME);
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }

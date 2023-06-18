@@ -103,7 +103,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(errorMessage, "A job already exists with the name ‘" + NAME + "’");
     }
 
-    /*@DataProvider(name = "invalid-data")
+    @DataProvider(name = "invalid-data")
     public Object[][] provideInvalidData() {
         return new Object[][]{{"!"}, {"#"}, {"$"}, {"%"}, {"&"}, {"*"}, {"/"}, {":"},
                 {";"}, {"<"}, {">"}, {"?"}, {"@"}, {"["}, {"]"}, {"|"}, {"\\"}, {"^"}};
@@ -119,7 +119,7 @@ public class FolderTest extends BaseTest {
                 .getItemInvalidMessage();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
-    }*/
+    }
 
     @Test(dependsOnMethods = "testErrorWhenCreateWithExistingName")
     public void testCreateNewViewInFolder() {
