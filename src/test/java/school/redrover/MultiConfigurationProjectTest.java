@@ -25,7 +25,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         new MainPage(getDriver())
                 .getHeader()
                 .clickLogo();
-        Assert.assertEquals(new MainPage(getDriver()).getProjectName(), NAME);
+        Assert.assertEquals(new MainPage(getDriver()).getJobName(), NAME);
     }
     @Test(dependsOnMethods = "testCreateProject")
     public void testCreateProjectWithEqualName() {
@@ -175,7 +175,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Ignore
     @Test(dependsOnMethods = "testCreateProject")
-    public void testMultiConfigurationProjectAddDescription1() {
+    public void testAddDescription() {
         final String text = "text";
 
         String addDescriptionText = new MainPage(getDriver())
