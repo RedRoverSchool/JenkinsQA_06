@@ -14,23 +14,17 @@ import java.util.List;
 
 public class FolderPage extends BaseJobPage<FolderPage> {
 
-    @FindBy(css = "[href$='/configure']")
-    private WebElement buttonConfigure;
-
     @FindBy(css = "#tasks>:nth-child(3)")
     private WebElement buttonNewItem;
 
     @FindBy(xpath = "//div[@class='tab']")
     private WebElement buttonNewView;
 
-    @FindBy(xpath = "//div[@id='main-panel']/h1")
-    private WebElement folderName;
-
-    @FindBy(id = "view-message")
-    private WebElement folderDescription;
-
     @FindBy(css = ".jenkins-table__link")
     private List<WebElement> jobList;
+
+    @FindBy(xpath = "//div[@id='view-message']")
+    private WebElement descriptionMessage;
 
     public FolderPage(WebDriver driver) {
         super(driver);
@@ -38,7 +32,7 @@ public class FolderPage extends BaseJobPage<FolderPage> {
 
     @Override
     public FolderConfigPage clickConfigure() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(buttonConfigure)).click();
+        setupClickConfigure();
         return new FolderConfigPage(new FolderPage(getDriver()));
     }
 
@@ -57,14 +51,6 @@ public class FolderPage extends BaseJobPage<FolderPage> {
         return new DeletePage<>(getDriver(), new MainPage(getDriver()));
     }
 
-    public String getFolderName() {
-        return TestUtils.getText(this, folderName);
-    }
-
-    public String getFolderDescription() {
-        return TestUtils.getText(this, folderDescription);
-    }
-
     public boolean nestedFolderIsVisibleAndClickable(String nestedFolder) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//a[contains(@href,'job/" + nestedFolder + "/')]"))).isDisplayed()
@@ -81,5 +67,10 @@ public class FolderPage extends BaseJobPage<FolderPage> {
                 .stream()
                 .map(WebElement::getText)
                 .toList();
+    }
+
+    public String getDescriptionFromConfig() {
+
+        return descriptionMessage.getText();
     }
 }

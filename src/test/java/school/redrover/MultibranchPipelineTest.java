@@ -25,7 +25,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .enterDisplayName(multibranchPipelineDisplayName)
                 .clickSaveButton();
 
-        Assert.assertEquals(multibranchPipelinePage.getDisplayedName(), multibranchPipelineDisplayName);
+        Assert.assertEquals(multibranchPipelinePage.getJobName(), multibranchPipelineDisplayName);
         Assert.assertTrue(multibranchPipelinePage.metadataFolderIconIsDisplayed(), "error was not shown Metadata Folder icon");
     }
 
@@ -40,7 +40,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSaveButton()
                 .navigateToMainPageByBreadcrumbs()
                 .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
-                .getDescription();
+                .getDescriptionFromConfig();
 
         Assert.assertEquals(MultibranchPipeline, "DESCRIPTION");
     }
@@ -62,10 +62,10 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testRenameMultibranchPipeline() {
         String actualDisplayedName = new MainPage(getDriver())
                 .clickJobName(NAME, new MultibranchPipelinePage(getDriver()))
-                .renameMultibranchPipelinePage()
+                .clickRename()
                 .enterNewName(RENAMED)
                 .clickRenameButton()
-                .getDisplayedName();
+                .getJobName();
 
         Assert.assertEquals(actualDisplayedName, RENAMED);
     }
@@ -74,7 +74,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testDisableMultibranchPipeline() {
         String actualDisableMessage = new MainPage(getDriver())
                 .clickJobName(RENAMED, new MultibranchPipelinePage(getDriver()))
-                .clickConfigureSideMenu()
+                .clickConfigure()
                 .clickDisable()
                 .clickSaveButton()
                 .getTextFromDisableMessage();

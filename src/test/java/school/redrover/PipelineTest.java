@@ -54,10 +54,7 @@ public class PipelineTest extends BaseTest {
 
         String jobDescription = new MainPage(getDriver())
                 .clickJobName(NAME, new PipelinePage(getDriver()))
-                .clickEditDescription()
-                .clearDescriptionField()
-                .enterDescription(newDescription)
-                .clickSaveButton()
+                .removeOldDescriptionAndAddNewAndSave(newDescription)
                 .getDescription();
 
         Assert.assertEquals(jobDescription, newDescription);
@@ -99,9 +96,7 @@ public class PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCreatePipeline")
     public void testAddingDescriptionToPipeline() {
         String resultDescriptionText = new PipelinePage(getDriver())
-                .clickEditDescription()
-                .enterDescription(DESCRIPTION)
-                .clickSaveButton()
+                .addDescriptionAndSave(DESCRIPTION)
                 .getDescription();
 
         Assert.assertEquals(resultDescriptionText, DESCRIPTION);
@@ -198,7 +193,7 @@ public class PipelineTest extends BaseTest {
                 .enterDaysToKeepBuilds("2")
                 .enterMaxOfBuildsToKeep("30")
                 .clickSaveButton()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(jobName, "Pipeline " + NAME);
     }
@@ -490,7 +485,7 @@ public class PipelineTest extends BaseTest {
                 .setDisplayName(NEW_NAME)
                 .clickSaveButton();
 
-        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + NEW_NAME);
+        Assert.assertEquals(pipelinePage.getJobName(), "Pipeline " + NEW_NAME);
         Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), NAME);
         Assert.assertEquals(pipelinePage.getHeader().clickLogo().getJobName(), NEW_NAME);
     }

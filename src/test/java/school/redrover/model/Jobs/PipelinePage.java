@@ -11,8 +11,6 @@ import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BaseProjectPage;
 
 public class PipelinePage extends BaseProjectPage<PipelinePage> {
-    @FindBy(xpath = "//a[contains(@href, 'configure')]")
-    private WebElement configure;
 
     @FindBy(xpath = "//a[contains(@data-url,'/doDelete')]")
     private WebElement delete;
@@ -54,7 +52,7 @@ public class PipelinePage extends BaseProjectPage<PipelinePage> {
 
     @Override
     public PipelineConfigPage clickConfigure() {
-        configure.click();
+        setupClickConfigure();
         return new PipelineConfigPage(this);
     }
 

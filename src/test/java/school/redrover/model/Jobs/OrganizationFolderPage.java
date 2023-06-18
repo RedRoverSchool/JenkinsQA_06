@@ -1,6 +1,5 @@
 package school.redrover.model.Jobs;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -38,7 +37,7 @@ public class OrganizationFolderPage extends BaseJobPage<OrganizationFolderPage> 
         return disableMessage.getText();
     }
 
-    public String getTextFromDescription() {
+    public String getDescriptionFromConfig() {
 
         return descriptionMessage.getText();
     }

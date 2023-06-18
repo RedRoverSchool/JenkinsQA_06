@@ -41,59 +41,9 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
         return this;
     }
 
-    public String getDescription() {
-        return getDriver().findElement(By.xpath("//*[@id='description']/div")).getText();
-    }
-
-    public FreestyleProjectPage clickAddDescription() {
-        getDriver().findElement(By.id("description-link")).click();
-        return this;
-    }
-
-    public FreestyleProjectPage clickEditDescription() {
-        getDriver().findElement(By.xpath("//*[@href = 'editDescription']")).click();
-        return this;
-    }
-
-    public FreestyleProjectPage clickSaveDescription() {
-        getDriver().findElement(By.xpath("//*[@id='description']/form/div[2]/button")).click();
-        return this;
-    }
-
-    public FreestyleProjectPage addDescription(String description) {
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
-        return this;
-    }
-
-    public FreestyleProjectPage removeOldDescriptionAndAddNew (String description) {
-        WebElement oldDescription = getDriver().findElement(By.xpath("//*[@id='description']/form/div[1]/div[1]/textarea"));
-        oldDescription.clear();
-        oldDescription.sendKeys(description);
-        return this;
-    }
-
     public String  getWarningMessage() {
 
         return getDriver().findElement(By.id("enable-project")).getText().substring(0,34);
-    }
-
-    public FreestyleProjectPage clickPreviewButton () {
-        getDriver().findElement(By.xpath("//a[@class = 'textarea-show-preview']")).click();
-        return this;
-    }
-
-    public String getPreviewDescription () {
-        return getDriver().findElement(By.xpath("//*[@class = 'textarea-preview']")).getText();
-    }
-
-    public String getProjectName() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
-    }
-
-    public RenamePage<FreestyleProjectPage> clickRenameProject(String projectName) {
-        getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@href = '/job/" + projectName + "/confirm-rename']"))).click();
-        return new RenamePage<>(this);
     }
 
     public MainPage clickDeleteProject() {
@@ -134,11 +84,6 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.linkText("Dashboard"))).click();
         return new MainPage(getDriver());
-    }
-
-    public FreestyleProjectConfigPage clickConfigureButton() {
-        getDriver().findElement(By.xpath("//a[contains(@href, '/configure')]")).click();
-        return new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
     }
 
     public ChangesPage<FreestyleProjectPage> clickChangeOnLeftSideMenu() {

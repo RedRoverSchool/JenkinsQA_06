@@ -174,8 +174,8 @@ public class FolderTest extends BaseTest {
                 .addDescription(DESCRIPTION)
                 .clickSaveButton();
 
-        Assert.assertEquals(folderPage.getFolderName(), DISPLAY_NAME);
-        Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
+        Assert.assertEquals(folderPage.getJobName(), DISPLAY_NAME);
+        Assert.assertEquals(folderPage.getDescriptionFromConfig(), DESCRIPTION);
         Assert.assertTrue(folderPage.clickConfigure().clickOnHealthMetricsType().isRecursive());
     }
 

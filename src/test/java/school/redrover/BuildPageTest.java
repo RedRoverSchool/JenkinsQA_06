@@ -41,13 +41,10 @@ public class BuildPageTest extends BaseTest {
                 .enterItemName(NAME_PIPELINE)
                 .selectJobType(TestUtils.JobType.Pipeline)
                 .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
-                .clickSaveButton()
                 .getHeader()
                 .clickLogo()
                 .clickJobName(NAME_PIPELINE, new PipelinePage(getDriver()))
-                .clickEditDescription()
-                .enterDescription(BUILD_DESCRIPTION)
-                .clickSaveButton()
+                .addDescriptionAndSave(BUILD_DESCRIPTION)
                 .getDescription();
 
         Assert.assertEquals(buildDescription, BUILD_DESCRIPTION);
