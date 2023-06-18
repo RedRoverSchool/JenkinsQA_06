@@ -46,7 +46,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(error, errorMessageName);
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithEqualName")
     public void testRenameFromDropDownMenu() {
         String newNameProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new MultiConfigurationProjectPage(getDriver()))
@@ -136,7 +136,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(disableButtonText, "Disable Project");
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithEqualName")
+    @Test(dependsOnMethods = "testEnabledMultiConfigurationProject")
     public void testJobDropdownDelete() {
         String helloMessage = new MainPage((getDriver()))
                 .dropDownMenuClickDelete(NAME)
@@ -147,7 +147,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectOnProjectPage")
+    @Test(dependsOnMethods = "testCreateProject")
     public void testProjectPageDelete() {
         MainPage deletedProjPage = new MainPage(getDriver())
                 .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
