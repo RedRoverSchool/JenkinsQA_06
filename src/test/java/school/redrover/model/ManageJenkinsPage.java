@@ -17,7 +17,7 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     private WebElement page;
 
     @FindBy(tagName = "h1")
-    private WebElement h1Element;
+    private WebElement header;
 
     @FindBy(linkText = "New Item")
     private WebElement newItemOnSideMenu;
@@ -92,8 +92,8 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     }
 
     public String getActualHeader() {
-        getWait5().until(ExpectedConditions.visibilityOf(h1Element));
-        return h1Element.getText();
+        getWait5().until(ExpectedConditions.visibilityOf(header));
+        return header.getText();
     }
 
     public String getDropdownResultsInSearchField() {
