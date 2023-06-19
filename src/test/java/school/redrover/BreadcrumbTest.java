@@ -30,7 +30,7 @@ public class BreadcrumbTest extends BaseTest {
                 {"//a[@href='/manage/computer']/span", "Nodes [Jenkins]", "/manage/computer/"},
                 {"//a[@href='/manage/configureSecurity']/span", "Configure Global Security [Jenkins]", "/manage/configureSecurity/"},
                 {"//a[@href='/manage/credentials']/span", "Jenkins » Credentials [Jenkins]", "/manage/credentials/"},
-                {"//a[@href='/manage/configureCredentials']/span", "Credential Providers [Jenkins]", "/manage/configureCredentials/"},
+                {"//a[@href='/manage/configureCredentials']/span", "Configure Credential Providers [Jenkins]", "/manage/configureCredentials/"},
                 {"//a[@href='/manage/securityRealm/']/span", "Users [Jenkins]", "/manage/securityRealm/"},
                 {"//a[@href='/manage/systemInfo']/span", "System Information [Jenkins]", "/manage/systemInfo"},
                 {"//a[@href='/manage/log']/span", "Log [Jenkins]", "/manage/log/"},
