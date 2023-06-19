@@ -28,7 +28,6 @@ public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends 
     @FindBy(xpath = "//h1/img")
     private WebElement metadataFolderIcon;
 
-
     public BaseOtherFoldersPage(WebDriver driver) {
         super(driver);
     }
