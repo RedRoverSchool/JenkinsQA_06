@@ -35,8 +35,8 @@ public class UsersTest extends BaseTest {
 
     @Test
     public void testCreateNewUser() {
-        boolean newUser = new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
+        boolean newUser = new MainPage(getDriver())
+                .clickManageJenkinsPage()
                 .clickManageUsers()
                 .clickCreateUser()
                 .enterUsername(USER_NAME)
@@ -52,8 +52,8 @@ public class UsersTest extends BaseTest {
 
     @Test
     public void testErrorIfCreateNewUserWithInvalidEmail() {
-        String errorEmail = new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
+        String errorEmail = new MainPage(getDriver())
+                .clickManageJenkinsPage()
                 .clickManageUsers()
                 .clickCreateUser()
                 .fillUserDetails(USER_NAME, PASSWORD, USER_FULL_NAME, "test.mail.com")
@@ -68,8 +68,8 @@ public class UsersTest extends BaseTest {
     public void testErrorWhenCreateDuplicatedUser() {
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        String errorDuplicatedUser = new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
+        String errorDuplicatedUser = new MainPage(getDriver())
+                .clickManageJenkinsPage()
                 .clickManageUsers()
                 .clickCreateUser()
                 .fillUserDetails(USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL)
@@ -85,15 +85,14 @@ public class UsersTest extends BaseTest {
 
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
+        new MainPage(getDriver())
+                .clickManageJenkinsPage()
                 .clickManageUsers()
                 .clickUserIDName(USER_NAME);
 
         String actualDisplayedDescriptionText = new StatusUserPage(getDriver())
                 .clickAddDescriptionLink()
-                .clearDescriptionInputField()
-                .enterDescription(displayedDescriptionText)
+                .addDescription(displayedDescriptionText)
                 .clickSaveButton()
                 .getDescription();
 
@@ -106,9 +105,7 @@ public class UsersTest extends BaseTest {
 
         new MainPage(getDriver())
                 .clickManageJenkinsPage()
-                .clickManageUsers();
-
-        new ManageUsersPage(getDriver())
+                .clickManageUsers()
                 .clickUserIDName(USER_NAME);
 
         StatusUserPage statusUserPage = new StatusUserPage(getDriver());
@@ -117,8 +114,7 @@ public class UsersTest extends BaseTest {
                 .getDescriptionText();
 
         String actualDisplayedDescriptionText = statusUserPage
-                .clearDescriptionInputField()
-                .enterDescription(displayedDescriptionText)
+                .addDescription(displayedDescriptionText)
                 .clickSaveButton()
                 .getDescription();
 
@@ -128,13 +124,13 @@ public class UsersTest extends BaseTest {
 
     @Test
     public void testAddDescriptionToUserOnTheUserProfilePage() {
-        String descriptionText = new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
+        String descriptionText = new MainPage(getDriver())
+                .clickManageJenkinsPage()
                 .clickManageUsers()
                 .clickUserEditButton()
-                .enterDescriptionText()
-                .clickYesButton()
-                .getDescriptionText();
+                .enterDescriptionText("Description text")
+                .clickSaveButton()
+                .getDescription();
 
         Assert.assertEquals("Description text", descriptionText);
     }
@@ -145,10 +141,10 @@ public class UsersTest extends BaseTest {
 
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
+        new MainPage(getDriver())
+                .clickManageJenkinsPage()
                 .clickManageUsers()
-                .clickUserIDDropDownMenu(USER_NAME)
+                .openUserIDDropDownMenu(USER_NAME)
                 .selectConfigureUserIDDropDownMenu();
 
         UserConfigPage configureUserPage = new UserConfigPage(new StatusUserPage(getDriver()));
@@ -263,8 +259,8 @@ public class UsersTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewUser")
     public void testDeleteUserViaManageUsersByDeleteButton() {
-        boolean userNotFound = new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
+        boolean userNotFound = new MainPage(getDriver())
+                .clickManageJenkinsPage()
                 .clickManageUsers()
                 .clickDeleteUser()
                 .clickYesButton()
@@ -422,8 +418,8 @@ public class UsersTest extends BaseTest {
 
    @Test
     public void testVerifyCreateUserButton() {
-        String buttonName = new ManageUsersPage(getDriver())
-        .navigateToManageJenkinsPage()
+        String buttonName = new MainPage(getDriver())
+        .clickManageJenkinsPage()
         .clickManageUsers()
         .getButtonText();
 
@@ -431,8 +427,8 @@ public class UsersTest extends BaseTest {
     }
     @Test
     public void testCreateUserButtonClickable() {
-        String iconName = new ManageUsersPage(getDriver())
-                .navigateToManageJenkinsPage()
+        String iconName = new MainPage(getDriver())
+                .clickManageJenkinsPage()
                 .clickManageUsers()
                 .clickCreateUser()
                 .getActualIconName();
