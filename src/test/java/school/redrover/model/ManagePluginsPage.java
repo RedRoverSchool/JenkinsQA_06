@@ -27,8 +27,8 @@ public class ManagePluginsPage extends BaseMainHeaderPage<ManagePluginsPage> {
         return TestUtils.getTexts(listOfTasks);
     }
 
-    public AdvancedSettingsPage clickAdvancedSettings(){
+    public ManagePluginsAdvancedPage clickAdvancedSettings(){
         advancedSettings.click();
-        return new AdvancedSettingsPage(getDriver());
+        return new ManagePluginsAdvancedPage(getDriver());
     }
 }
