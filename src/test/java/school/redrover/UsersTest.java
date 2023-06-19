@@ -371,17 +371,14 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualResultNameButton, expectedResultNameButton);
     }
 
-   @Ignore
     @Test
     public void testCreateUserCheckInPeople() {
 
         final String expectedResultTitle = "People - [Jenkins]";
 
-       TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
+        TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         new MainPage(getDriver())
-                .getHeader()
-                .clickLogo()
                 .clickPeopleOnLeftSideMenu();
 
         String actualResultTitle = getDriver().getTitle();
@@ -403,8 +400,6 @@ public class UsersTest extends BaseTest {
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         new MainPage(getDriver())
-                .getHeader()
-                .clickLogo()
                 .clickManageJenkinsPage()
                 .clickManageUsers();
 
