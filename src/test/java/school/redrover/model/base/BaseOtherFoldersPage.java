@@ -33,12 +33,12 @@ public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends 
         super(driver);
     }
 
-    public DeletePage<MainPage> clickDeleteJobThatIsMainPage() {
+    public DeletePage<MainPage> clickDeleteJobLocatedOnMainPage() {
         deleteButton.click();
         return new DeletePage<>(new MainPage(getDriver()));
     }
 
-    public DeletePage<FolderPage> clickDeleteJobThatIsFolderPage() {
+    public DeletePage<FolderPage> clickDeleteJobLocatedOnFolderPage() {
         deleteButton.click();
         return new DeletePage<>(new FolderPage(getDriver()));
     }
@@ -56,11 +56,11 @@ public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends 
         return descriptionMessage.getText();
     }
 
-    public boolean defaultIconIsDisplayed() {
+    public boolean isDefaultIconDisplayed() {
         return getWait5().until(ExpectedConditions.visibilityOf(defaultIcon)).isDisplayed();
     }
 
-    public boolean metadataFolderIconIsDisplayed() {
+    public boolean isMetadataFolderIconDisplayed() {
         return getWait5().until(ExpectedConditions.visibilityOf(metadataFolderIcon)).isDisplayed();
     }
 }

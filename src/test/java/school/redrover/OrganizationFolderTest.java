@@ -142,7 +142,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
-                .clickDeleteJobThatIsMainPage()
+                .clickDeleteJobLocatedOnMainPage()
                 .clickYesButton()
                 .getWelcomeText();
 

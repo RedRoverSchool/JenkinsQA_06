@@ -26,7 +26,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(multibranchPipelinePage.getJobName(), multibranchPipelineDisplayName);
-        Assert.assertTrue(multibranchPipelinePage.metadataFolderIconIsDisplayed(), "error was not shown Metadata Folder icon");
+        Assert.assertTrue(multibranchPipelinePage.isMetadataFolderIconDisplayed(), "error was not shown Metadata Folder icon");
     }
 
     @Test
@@ -100,7 +100,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickAppearance()
                 .selectDefaultIcon()
                 .clickSaveButton()
-                .defaultIconIsDisplayed();
+                .isDefaultIconDisplayed();
 
         Assert.assertTrue(defaultIconDisplayed, "error was not shown default icon");
     }
