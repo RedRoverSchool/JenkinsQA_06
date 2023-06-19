@@ -16,6 +16,7 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
 
     @FindBy(xpath = "//label[normalize-space(text())='Throttle builds']")
     private WebElement throttleBuilds;
+
     @FindBy(xpath = "//select[@name='_.durationName']")
     private WebElement getTimePeriod;
 

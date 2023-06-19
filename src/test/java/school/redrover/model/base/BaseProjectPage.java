@@ -67,21 +67,21 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         return new BuildPage(getDriver());
     }
 
-    public FreestyleProjectPage selectBuildNowAndOpenBuildRow() {
+    public Self selectBuildNowAndOpenBuildRow() {
         getWait10().until(ExpectedConditions
                 .elementToBeClickable(cssSelector("[href*='build?']"))).click();
         getWait10().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
-        return new FreestyleProjectPage(getDriver());
+        return (Self) this;
     }
 
-    public FreestyleProjectPage selectBuildWitchParametersAndSubmitAndOpenBuildRow() {
+    public Self selectBuildWitchParametersAndSubmitAndOpenBuildRow() {
         getWait10().until(ExpectedConditions
                 .elementToBeClickable(cssSelector("[href*='build?']"))).click();
         getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
         getWait10().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//td[@class='build-row-cell']")));
-        return new FreestyleProjectPage(getDriver());
+        return (Self) this;
     }
 
 }
