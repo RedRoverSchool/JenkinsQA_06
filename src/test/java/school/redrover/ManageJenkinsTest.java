@@ -1,18 +1,14 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.ConfigureSystemPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.List;
-import java.util.Objects;
 
 import static school.redrover.runner.TestUtils.getRandomStr;
 
@@ -31,13 +27,14 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testSearchWithLetterConfigureSystem() {
+        String textConfigureSystem = "Configure System";
         String configurePage = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .inputToSearchField("m")
-                .selectOnTheFirstLineInDropdown()
+                .selectOnTheFirstLineInDropdown(textConfigureSystem)
                 .getConfigureSystemPage();
 
-        Assert.assertEquals(configurePage, "Configure System");
+        Assert.assertEquals(configurePage, textConfigureSystem);
     }
 
     @Test
@@ -53,6 +50,7 @@ public class ManageJenkinsTest extends BaseTest {
     @Test
     public void testNameNewNodeOnCreatePage() {
         final String nodeName = "NodeTest";
+
         String actualNodeName = new MainPage(getDriver())
                 .clickBuildExecutorStatus()
                 .clickNewNodeButton()
@@ -61,6 +59,7 @@ public class ManageJenkinsTest extends BaseTest {
                 .clickCreateButton()
                 .clickSaveButton()
                 .getNodeName(nodeName);
+
         Assert.assertEquals(actualNodeName, nodeName);
     }
 

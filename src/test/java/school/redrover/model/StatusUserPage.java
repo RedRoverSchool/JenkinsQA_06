@@ -2,51 +2,56 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 public class StatusUserPage extends BaseMainHeaderPage<StatusUserPage> {
+
+    @FindBy(id = "description-link")
+    private WebElement addEditDescriptionLink;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement addDescriptionInput;
+
+    @FindBy(xpath = "//div[@id='description']/div[1]")
+    private WebElement descriptionText;
+
+    @FindBy(name = "Submit")
+    private WebElement saveButton;
 
     public StatusUserPage(WebDriver driver) {
         super(driver);
     }
 
     public StatusUserPage clickAddDescriptionLink() {
-        getDriver().findElement(By.id("description-link")).click();
+        addEditDescriptionLink.click();
 
         return this;
     }
 
-    public StatusUserPage clearDescriptionInputField() {
-        getWait10().until(ExpectedConditions.visibilityOf(getDriver()
-                .findElement(By.xpath("//textarea[@name='description']"))))
-                .clear();
-
-        return this;
-    }
-
-    public StatusUserPage enterDescription(String text) {
-        getWait10().until(ExpectedConditions.visibilityOf(getDriver()
-                .findElement(By.xpath("//textarea[@name='description']"))))
-                .sendKeys(text);
+    public StatusUserPage addDescription(String text) {
+        addDescriptionInput.clear();
+        addDescriptionInput.sendKeys(text);
 
         return this;
     }
 
     public StatusUserPage clickSaveButton() {
-        getDriver().findElement(By.name("Submit")).click();
+        saveButton.click();
 
         return this;
     }
 
     public String getDescription() {
 
-        return getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText();
+        return descriptionText.getText();
     }
 
     public String getDescriptionText() {
 
-        return getDriver().findElement(By.xpath("//textarea[@name='description']")).getText();
+        return addDescriptionInput.getText();
     }
 
     public UserConfigPage clickConfigureSideMenu() {
