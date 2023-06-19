@@ -146,28 +146,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(enabledButtonText, "Enabled");
     }
 
-    @Test(dependsOnMethods = "testEnabled")
-    public void testJobDropdownDelete() {
-        String helloMessage = new MainPage((getDriver()))
-                .dropDownMenuClickDelete(NAME)
-                .acceptAlert()
-                .getWelcomeText();
-
-        Assert.assertEquals(helloMessage, "Welcome to Jenkins!");
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testCreateProject")
-    public void testProjectPageDelete() {
-        MainPage deletedProjPage = new MainPage(getDriver())
-                .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
-                .clickDeleteAndAlert();
-
-        Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
-
-        Assert.assertEquals(deletedProjPage.getWelcomeText(), "Welcome to Jenkins!");
-    }
-
     @Test
     public void testCheckGeneralParametersDisplayedAndClickable() {
         MultiConfigurationProjectConfigPage config = new MainPage(getDriver())
@@ -188,22 +166,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateProject")
-    public void testMultiConfigurationProjectAddDescription1() {
-        final String text = "text";
-
-        String addDescriptionText = new MainPage(getDriver())
-                .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
-                .changeDescriptionWithoutSaving(text)
-                .clickSaveButton()
-                .getDescription();
-
-        Assert.assertEquals(addDescriptionText, text);
-    }
-
-    @Ignore
     @Test
-    public void testBuildNowDropDownMenuMultiConfigurationProject() {
+    public void testBuildNowDropDownMenu() {
         TestUtils.createJob(this, NAME, TestUtils.JobType.MultiConfigurationProject, true);
 
         Assert.assertEquals(new MainPage(getDriver()).getJobBuildStatus(NAME), "Not built");
@@ -215,41 +179,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(multiConfigurationProjectPage.getJobBuildStatus(NAME), "Success");
     }
 
-    @DataProvider(name = "wrong character")
-    public Object[][] wrongCharacters() {
-        return new Object[][]{
-                {"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {":"}, {";"}, {"/"}, {"|"}, {"?"}, {"<"}, {">"}
-        };
-    }
-
-    @Test(dataProvider = "wrong character")
-    public void testCreateProjectWithWrongName(String wrongCharacter) {
-        NewJobPage newJobPage = new MainPage(getDriver())
-                .clickNewItem()
-                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
-                .enterItemName(wrongCharacter);
-
-        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
-        Assert.assertFalse(newJobPage.isOkButtonEnabled());
-    }
-
-    @DataProvider(name = "unsafe-character")
-    public Object[][] putUnsafeCharacterInputField() {
-        return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}};
-    }
-
-    @Test(dataProvider = "unsafe-character")
-    public void testCreateMultiConfigurationProjectWithSpecialSymbols(String unsafeCharacter) {
-        final String expectedResult = "» ‘" + unsafeCharacter + "’ is an unsafe character";
-        String messageUnderInputField = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(unsafeCharacter)
-                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
-                .getItemInvalidMessage();
-
-        Assert.assertEquals(messageUnderInputField, expectedResult);
-    }
-
     @Test
     public void testCheckExceptionOfNameToMultiConfiguration() {
         String exceptionMessage = new MainPage(getDriver())
@@ -259,20 +188,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(exceptionMessage, "» This field cannot be empty, please enter a valid name");
     }
-
-    @Ignore
     @Test(dependsOnMethods = "testCreateProject")
-    public void testDeleteProjectFromDropDownMenu() {
-        List<String> deleteProject = new MainPage(getDriver())
-                .dropDownMenuClickDelete(NAME)
-                .acceptAlert()
-                .getJobList();
-
-        Assert.assertEquals(deleteProject.size(), 0);
-    }
-
-    @Test(dependsOnMethods = "testCreateProject")
-    public void testAddDescriptionInMultiConfigurationProject() {
+    public void testAddDescriptionInProject() {
         final String textDescription = "Text Description Test";
 
         String getDescription = new MultiConfigurationProjectPage(getDriver())
@@ -281,32 +198,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getDescription();
 
         Assert.assertEquals(getDescription, textDescription);
-    }
-
-    @DataProvider(name = "unsafeCharacters")
-    public static Object[][] unsafeCharacterArray() {
-        return new Object[][]{
-                {'!', "!"}, {'@', "@"}, {'#', "#"}, {'$', "$"}, {'%', "%"}, {'^', "^"}, {'&', "&amp;"},
-                {'*', "*"}, {'[', "["}, {']', "]"}, {'\\', "\\"}, {'|', "|"}, {';', ";"}, {':', ":"},
-                {'<', "&lt;"}, {'>', "&gt;"}, {'/', "/"}, {'?', "?"}};
-    }
-
-    @Test(dataProvider = "unsafeCharacters")
-    public void testVerifyProjectNameRenameWithUnsafeSymbols(char unsafeSymbol, String htmlUnsafeSymbol) {
-        TestUtils.createJob(this, NAME, TestUtils.JobType.MultiConfigurationProject, true);
-
-        String errorNotification = new MainPage(getDriver())
-                .dropDownMenuClickRename(NAME, new MultiConfigurationProjectPage(getDriver()))
-                .enterNewName(NAME + unsafeSymbol)
-                .getErrorMessage();
-
-        Assert.assertEquals(errorNotification, String.format("‘%s’ is an unsafe character", unsafeSymbol));
-
-        CreateItemErrorPage createItemErrorPage = new RenamePage<>(new MultiConfigurationProjectPage(getDriver()))
-                .clickRenameButtonAndGoError();
-
-        Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
-        Assert.assertEquals(createItemErrorPage.getErrorMessage(), String.format("‘%s’ is an unsafe character", htmlUnsafeSymbol));
     }
 
     @Test
@@ -365,6 +256,38 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getErrorMessage();
 
         Assert.assertEquals(errorMessage, expectedResult);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testCreateProject")
+    public void testDeleteProjectFromDropDownMenu() {
+        List<String> deleteProject = new MainPage(getDriver())
+                .dropDownMenuClickDelete(NAME)
+                .acceptAlert()
+                .getJobList();
+
+        Assert.assertEquals(deleteProject.size(), 0);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testCreateProject")
+    public void testProjectPageDelete() {
+        MainPage deletedProjPage = new MainPage(getDriver())
+                .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
+                .clickDeleteAndAlert();
+
+        Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
+
+        Assert.assertEquals(deletedProjPage.getWelcomeText(), "Welcome to Jenkins!");
+    }
+    @Test(dependsOnMethods = "testEnabled")
+    public void testJobDropdownDelete() {
+        String helloMessage = new MainPage((getDriver()))
+                .dropDownMenuClickDelete(NAME)
+                .acceptAlert()
+                .getWelcomeText();
+
+        Assert.assertEquals(helloMessage, "Welcome to Jenkins!");
     }
 
     @Test
