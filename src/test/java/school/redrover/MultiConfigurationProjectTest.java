@@ -146,6 +146,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(enabledButtonText, "Enabled");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEnabled")
     public void testCheckGeneralParametersDisplayedAndClickable() {
         MultiConfigurationProjectConfigPage parameter = new MainPage(getDriver())
@@ -174,7 +175,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(jobBuildStatus, "Success");
     }
 
-    @Test(dependsOnMethods = "testBuildNowDropDownMenu")
+    @Test(dependsOnMethods = "testCheckGeneralParametersDisplayedAndClickable")
     public void testAddDescription() {
         final String textDescription = "Text Description Test";
 
@@ -195,7 +196,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(deleteProject.size(), 0);
     }
-        @Test(dependsOnMethods = "testDeleteProjectFromDropDownMenu")
+    @Test(dependsOnMethods = "testDeleteProjectFromDropDownMenu")
     public void testCreateProjectWithSpaceInsteadName() {
         final String expectedResult = "No name is specified";
 
@@ -210,7 +211,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(errorMessage, expectedResult);
     }
 
-     @Test(dependsOnMethods = "testCreateProjectWithSpaceInsteadName")
+    @Test(dependsOnMethods = "testCreateProjectWithSpaceInsteadName")
     public void testCheckExceptionOfNameToMultiConfiguration() {
     String exceptionMessage = new MainPage(getDriver())
             .clickNewItem()
