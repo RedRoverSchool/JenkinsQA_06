@@ -17,7 +17,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     private static final String NAME = "MULTI_CONFIGURATION_NAME";
     private static final String NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";
-    private static final String DISCRIPTION = "DISCRIPTION";
+    private static final String DESCRIPTION = "Description";
 
     @Test
     public void testCreateProject() {
@@ -203,11 +203,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testAddDescription() {
 
         String getDescription = new MultiConfigurationProjectPage(getDriver())
-                .changeDescriptionWithoutSaving(DISCRIPTION)
+                .changeDescriptionWithoutSaving(DESCRIPTION)
                 .clickSaveButton()
                 .getDescription();
 
-        Assert.assertEquals(getDescription, DISCRIPTION);
+        Assert.assertEquals(getDescription, DESCRIPTION);
     }
 
     @Test(dependsOnMethods = "testAddDescription")
