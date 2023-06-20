@@ -29,23 +29,37 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//div[5]/div[1]/button")
     private WebElement advancedDropdownMenu;
 
+    @FindBy(tagName = "footer")
+    private WebElement footer;
+
+    @FindBy(xpath = "//*[@id='yui-gen9-button']")
+    private WebElement executeShellButton;
+
+    @FindBy(xpath = "//*[@id='yui-gen24']")
+    private WebElement generalButton;
+
+    @FindBy(xpath = "//*[@name='description']")
+    private WebElement descriptionField;
+
+    @FindBy(xpath = "//label[normalize-space(text())='Throttle builds']")
+    private WebElement throttleBuildsCheckbox;
+
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
 
     public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
-        int deltaY = getDriver().findElement(By.tagName("footer")).getRect().y;
+        int deltaY = footer.getRect().y;
         new Actions(getDriver())
                 .scrollByAmount(0, deltaY)
                 .perform();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//*[@id='yui-gen9-button']"))).click();
-        getDriver().findElement(
-                By.xpath("//*[@id='yui-gen24']")).click();
+        getWait5().until(ExpectedConditions.visibilityOf(executeShellButton)).click();
+        generalButton.click();
 
         new Actions(getDriver())
-                .click(getDriver().findElement(By.xpath("//*[@name='description']")))
+                .click(descriptionField)
                 .sendKeys(buildSteps)
                 .perform();
         return this;
@@ -53,16 +67,14 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     public FreestyleProjectConfigPage clickCheckBoxExecuteConcurrentBuilds() {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView();", getDriver()
-                .findElement(By.xpath("//label[normalize-space(text())='Throttle builds']")));
+        js.executeScript("arguments[0].scrollIntoView();", throttleBuildsCheckbox);
         checkBoxExecuteConcurrentBuilds.click();
         return this;
     }
 
     public WebElement getTrueExecuteConcurrentBuilds() {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView();", getDriver()
-                .findElement(By.xpath("//label[normalize-space(text())='Throttle builds']")));
+        js.executeScript("arguments[0].scrollIntoView();", throttleBuildsCheckbox);
         return trueExecuteConcurrentBuilds;
     }
 
