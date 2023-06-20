@@ -271,7 +271,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }
 
-    @Test(dependsOnMethods = "testCreateProject")
+    @Test(dependsOnMethods = "testAddingAProjectOnGithubToTheMultiConfigurationProject")
     public void testProjectPageDelete() {
         MainPage deletedProjPage = new MainPage(getDriver())
                 .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
