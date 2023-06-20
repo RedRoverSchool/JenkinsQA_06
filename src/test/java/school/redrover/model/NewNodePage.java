@@ -44,7 +44,7 @@ public class NewNodePage extends BaseMainHeaderPage<NewNodePage> {
     }
 
     public NewNodePage inputExistingNode(String existingNodeName){
-        getWait2().until(ExpectedConditions
+        getWait5().until(ExpectedConditions
                 .visibilityOf(existingNodeField)).sendKeys(existingNodeName);
         return this;
     }

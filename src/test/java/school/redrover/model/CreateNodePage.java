@@ -22,7 +22,7 @@ public class CreateNodePage extends BaseMainHeaderPage<CreateNodePage> {
     }
 
     public ManageNodesPage clickSaveButton() {
-        getWait2().until(ExpectedConditions
+        getWait10().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
         return new ManageNodesPage(getDriver());
     }

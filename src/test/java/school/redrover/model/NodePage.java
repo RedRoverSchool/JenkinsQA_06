@@ -11,7 +11,7 @@ public class NodePage extends BaseMainHeaderPage<NodePage> {
     }
 
     public String getNodeDescription() {
-        return getWait2().until(ExpectedConditions
+        return getWait5().until(ExpectedConditions
                         .visibilityOfElementLocated(By.xpath("//div[@id='description']/div[1]")))
                 .getText();
     }

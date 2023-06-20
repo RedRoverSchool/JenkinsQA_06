@@ -97,7 +97,7 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     }
 
     public String getDropdownResultsInSearchField() {
-        return getWait5().until(ExpectedConditions.elementToBeClickable(searchResults)).getText();
+        return getWait10().until(ExpectedConditions.elementToBeClickable(searchResults)).getText();
     }
 
     public NewJobPage clickNewItem() {
