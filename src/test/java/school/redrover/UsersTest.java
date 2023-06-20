@@ -180,10 +180,12 @@ public class UsersTest extends BaseTest {
 
     @Test
     public void testViewPeoplePage() {
-        getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
-        WebElement nameOfPeoplePageHeader = getDriver().findElement(By.xpath("//h1"));
 
-        Assert.assertEquals(nameOfPeoplePageHeader.getText(), "People");
+        String nameOfPeoplePageHeader = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
+                .getPageTitle();
+
+        Assert.assertEquals(nameOfPeoplePageHeader, "People");
     }
 
     @Test

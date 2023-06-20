@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
@@ -326,7 +325,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 
-    @Test(dependsOnMethods = "testSetRateLimitForBuilds")
+    @Test(dependsOnMethods = "testAllowParallelBuilds")
     public void testDeleteFreestyleProject() {
         final String projName = NEW_FREESTYLE_NAME;
 
@@ -495,5 +494,20 @@ public class FreestyleProjectTest extends BaseTest {
                 .getTimePeriodText();
 
         Assert.assertEquals(actualTimePeriod, expectedTimePeriod);
+    }
+
+    @Test(dependsOnMethods = "testSetRateLimitForBuilds")
+    public void testAllowParallelBuilds() {
+        String checkExecuteConcurrentBuilds = "rowvg-start tr";
+        new MainPage(getDriver())
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickCheckBoxExecuteConcurrentBuilds()
+                .clickSaveButton()
+                .clickConfigure()
+                .checkThrottleBuilds();
+
+        FreestyleProjectConfigPage actualResult = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
+        Assert.assertEquals(actualResult.getTrueExecuteConcurrentBuilds().getAttribute("class"), checkExecuteConcurrentBuilds);
     }
 }

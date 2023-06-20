@@ -10,7 +10,7 @@ import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
-public class   NewJobPage extends BaseMainHeaderPage<NewJobPage> {
+public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
     public NewJobPage(WebDriver driver) {
         super(driver);
@@ -21,10 +21,11 @@ public class   NewJobPage extends BaseMainHeaderPage<NewJobPage> {
                 .xpath("//button[@id='ok-button']")));
     }
 
-    public boolean okButtonDisabled(){
+    public boolean okButtonDisabled() {
         return getOkButton().getAttribute("disabled").isEmpty();
     }
-    public boolean okButtonIsEnabled(){
+
+    public boolean okButtonIsEnabled() {
         return getOkButton().isEnabled();
     }
 
@@ -38,7 +39,7 @@ public class   NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return this;
     }
 
-    public <JobConfigPage extends BaseConfigPage<?,?>> JobConfigPage clickOkButton(JobConfigPage jobConfigPage) {
+    public <JobConfigPage extends BaseConfigPage<?, ?>> JobConfigPage clickOkButton(JobConfigPage jobConfigPage) {
         getOkButton().click();
         return jobConfigPage;
     }
@@ -77,13 +78,13 @@ public class   NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     public List<String> getListOfNewItems() {
         List<WebElement> listOfNewItems = getDriver().findElements(By.cssSelector("label > span"));
         List<String> newList = new java.util.ArrayList<>(List.of());
-        for(int i = 0; i< listOfNewItems.size(); i++) {
+        for (int i = 0; i < listOfNewItems.size(); i++) {
             newList.add(listOfNewItems.get(i).getText());
         }
         return newList;
     }
 
-    public NewJobPage enterItemNameToPlaceHolder(String jobName){
+    public NewJobPage enterItemNameToPlaceHolder(String jobName) {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='from']"))).sendKeys(jobName);
         return this;
     }
