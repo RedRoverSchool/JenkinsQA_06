@@ -43,10 +43,20 @@ public class NewViewPage extends BaseMainHeaderPage<NewViewPage> {
         return this;
     }
 
-    public ViewConfigPage clickCreateButton () {
+    public ViewPage selectMyViewAndClickCreate() {
+        TestUtils.click(this, myViewRadio);
+        return new ViewPage(getDriver());
+    }
+
+    public ListViewConfigPage selectListViewAndClickCreate() {
+        TestUtils.click(this, myViewRadio);
+        return new ListViewConfigPage(new ViewPage(getDriver()));
+    }
+
+    public MyViewConfigPage clickCreateButton () {
         createButton.click();
 
-        return new ViewConfigPage(new ViewPage(getDriver()));
+        return new MyViewConfigPage(new ViewPage(getDriver()));
     }
 
     public ActiveViewPage clickCreateMyViewButton() {

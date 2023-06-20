@@ -370,4 +370,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         }
         return status;
     }
+
+    public ViewPage clickViewJob(String name) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath(String.format("//*[@href='/view/%s/']", name.replaceAll(" ","%20"))))).click();
+        return new ViewPage(getDriver());
+    }
 }

@@ -43,10 +43,10 @@ public class ViewsTest extends BaseTest {
                 .clickDashboardButton()
                 .createNewView()
                 .setNewViewName(name)
-                .selectListView()
-                .clickCreateButton()
-                .clickViewConfigOkButton()
-                .clickDashboard()
+                .selectListViewAndClickCreate()
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
                 .clickViewJob(name)
                 .clickEditView(name);
     }
@@ -227,8 +227,7 @@ public class ViewsTest extends BaseTest {
         ViewPage viewPage = new MainPage(getDriver())
                 .createNewView()
                 .setNewViewName(viewName)
-                .selectListView()
-                .clickCreateButton()
+                .selectListViewAndClickCreate()
                 .selectJobsInJobFilters(folderName1)
                 .clickSaveButton();
 
@@ -257,13 +256,12 @@ public class ViewsTest extends BaseTest {
         ViewPage viewPage = new ViewPage(getDriver())
                 .createNewView()
                 .setNewViewName(viewName2)
-                .selectListView()
-                .clickCreateButton()
+                .selectListViewAndClickCreate()
                 .selectRecurseCheckbox()
                 .scrollToAddJobFilterDropDown()
-                .chooseJobsInJobFilters(folderName1 + " » " + jobName1)
-                .chooseJobsInJobFilters(folderName1 + " » " + jobName3)
-                .chooseJobsInJobFilters(folderName2)
+                .selectJobsInJobFilters(folderName1 + " » " + jobName1)
+                .selectJobsInJobFilters(folderName1 + " » " + jobName3)
+                .selectJobsInJobFilters(folderName2)
                 .clickSaveButton();
 
         List<String> actualViewJobsTexts = viewPage.getJobNamesList();
