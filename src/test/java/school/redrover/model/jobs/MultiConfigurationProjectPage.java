@@ -19,7 +19,7 @@ public class MultiConfigurationProjectPage extends BaseProjectPage<MultiConfigur
         return new MultiConfigurationProjectConfigPage(this);
     }
 
-    public String getJobBuildStatus(String jobName) {
+    public String getJobBuildStatus() {
         WebElement buildStatus = getWait5().until(ExpectedConditions.visibilityOf(getDriver()
                 .findElement(By.xpath("//div[@id='matrix']//span[@class='build-status-icon__outer']/child::*"))));
         return buildStatus.getAttribute("tooltip");

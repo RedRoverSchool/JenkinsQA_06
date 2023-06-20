@@ -78,7 +78,8 @@ public class BreadcrumbTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
-                .clickDashboard()
+                .getBreadcrumb()
+                .clickDashboardButton()
                 .getProjectNameMainPage(nameProject);
 
         Assert.assertEquals(nameProjectOnMainPage, nameProject);

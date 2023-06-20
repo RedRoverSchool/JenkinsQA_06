@@ -106,16 +106,16 @@ public class FreestyleProjectTest extends BaseTest {
     public void testDisableProject() {
         FreestyleProjectPage projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickTheDisableProjectButton();
+                .clickDisable();
 
-        Assert.assertEquals(projectName.getWarningMessage(), "This project is currently disabled");
+        Assert.assertEquals(projectName.getDisabledMessageText(), "This project is currently disabled");
     }
 
     @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
         MainPage projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickTheEnableProjectButton()
+                .clickEnable()
                 .getHeader()
                 .clickLogo();
 
@@ -237,8 +237,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .addExecuteShellBuildStep("echo Hello")
                 .clickSaveButton()
-                .selectBuildNowAndOpenBuildRow()
-                .openConsoleOutputForBuild()
+                .clickBuildNow()
+                .clickIconBuildOpenConsoleOutput(1)
                 .getConsoleOutputText();
 
         Assert.assertTrue(consoleOutput.contains("echo Hello"), "Command wasn't run");
@@ -247,7 +247,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreatedNewBuild() {
-        new MainPage(getDriver())
+        boolean buildHeaderIsDisplayed = new  MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("Engineer")
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -256,17 +256,18 @@ public class FreestyleProjectTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .clickJobName("Engineer", new FreestyleProjectPage(getDriver()))
-                .selectBuildNowAndOpenBuildRow()
-                .selectBuildItemTheHistoryOnBuildPage();
+                .clickBuildNow()
+                .clickIconBuildOpenConsoleOutput(1)
+                .isDisplayedBuildTitle();
 
-        Assert.assertTrue(new BuildPage(getDriver()).buildHeaderIsDisplayed(), "build not created");
+        Assert.assertTrue(buildHeaderIsDisplayed, "build not created");
     }
 
     @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
         MainPage mainPage = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .selectBuildWitchParametersAndSubmitAndOpenBuildRow()
+                .clickBuildNow()
                 .getBreadcrumb()
                 .clickDashboardButton();
 
@@ -291,8 +292,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .addBuildStepsExecuteShell(steps)
                 .clickSaveButton()
-                .selectBuildNowAndOpenBuildRow()
-                .openConsoleOutputForBuild()
+                .clickBuildNow()
+                .clickIconBuildOpenConsoleOutput(1)
                 .getConsoleOutputText();
 
         Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
@@ -331,7 +332,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         boolean isProjectPresent = new MainPage(getDriver())
                 .clickJobName(projName, new FreestyleProjectPage(getDriver()))
-                .clickDeleteProject()
+                .clickDeleteAndAccept()
                 .verifyJobIsPresent(projName);
 
         Assert.assertFalse(isProjectPresent);
@@ -428,7 +429,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
 
-        BuildPage buildPage = new FreestyleProjectPage(getDriver())
+        BuildWithParametersPage buildPage = new FreestyleProjectPage(getDriver())
                 .clickConfigure()
                 .checkProjectIsParametrized()
                 .openAddParameterDropDown()

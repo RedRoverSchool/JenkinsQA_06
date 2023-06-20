@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseProjectPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.List;
@@ -216,9 +217,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return new MainPage(getDriver());
     }
 
-    public BuildPage clickBuildButton() {
+    public <JobTypePage extends BaseProjectPage<?>> BuildWithParametersPage<JobTypePage> clickBuildButton(JobTypePage jobTypePage) {
         getWait2().until(ExpectedConditions.elementToBeClickable(buildButton)).click();
-        return new BuildPage(getDriver());
+        return new BuildWithParametersPage<>(jobTypePage);
     }
 
     public String getJobBuildStatus(String jobName) {

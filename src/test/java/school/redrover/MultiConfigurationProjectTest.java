@@ -169,7 +169,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String jobBuildStatus = new MainPage(getDriver())
                 .clickJobDropdownMenuBuildNow(NAME)
                 .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
-                .getJobBuildStatus(NAME);
+                .getJobBuildStatus();
 
         Assert.assertEquals(jobBuildStatus, "Success");
     }
