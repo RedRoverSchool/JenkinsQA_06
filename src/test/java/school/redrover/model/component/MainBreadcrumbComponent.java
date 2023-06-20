@@ -66,7 +66,6 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
                 .pause(Duration.ofMillis(300))
                 .moveToElement(getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")))
                 .click()
-                .build()
                 .perform();
 
         return this;
@@ -74,9 +73,9 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     public <ReturnedPage extends BaseMainHeaderPage<?>> ReturnedPage clickDropdownOption(String subMenuOption, ReturnedPage pageToReturn) {
 
-        getDashboardDropdownMenu()
-                .getDriver()
-                .findElement(By.xpath("//span[contains(text(), '" + subMenuOption + "')]"))
+        getDashboardDropdownMenu();
+                getWait5().until(ExpectedConditions.elementToBeClickable(By
+                        .xpath(String.format("//a[contains(@href, '%s')][@class='yuimenuitemlabel']", subMenuOption))))
                 .click();
 
         return pageToReturn;
@@ -91,7 +90,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
                 .moveToElement(getDriver().findElement(By
                         .xpath("//span[contains(text(), 'Manage Jenkins')]")))
                 .pause(500)
-                .moveToElement(getDriver().findElement(By.xpath("//span[contains(text(), '" + menuItem + "')]")))
+                .moveToElement(getDriver().findElement(By.xpath(String.format("//span[text()='%s']/..", menuItem))))
                 .click()
                 .perform();
 

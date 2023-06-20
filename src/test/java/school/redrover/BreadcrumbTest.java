@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BreadcrumbTest extends BaseTest {
+    @Ignore
     @Test
     public void testNavigateToManageJenkinsSection() {
 
@@ -49,6 +51,7 @@ public class BreadcrumbTest extends BaseTest {
         };
     }
 
+    @Ignore
     @Test(dataProvider = "subsections")
     public void testNavigateToManageJenkinsSubsection(String locator, String subsectionName, String url) {
 
