@@ -17,6 +17,18 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//div[@ref='cb8']/following-sibling::div[2]")
     private WebElement trueExecuteConcurrentBuilds;
 
+    @FindBy(xpath = "//label[text()='Quiet period']")
+    private WebElement quietPeriod;
+
+    @FindBy(xpath = "//label[text()='Execute concurrent builds if necessary']")
+    private WebElement executeConcurrentBuildsIfNecessary;
+
+    @FindBy(xpath = "//input[@name='quiet_period']")
+    private WebElement inputQuietPeriod;
+
+    @FindBy(xpath = "//div[5]/div[1]/button")
+    private WebElement advancedDropdownMenu;
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
@@ -52,5 +64,25 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
         js.executeScript("arguments[0].scrollIntoView();", getDriver()
                 .findElement(By.xpath("//label[normalize-space(text())='Throttle builds']")));
         return trueExecuteConcurrentBuilds;
+    }
+
+    public FreestyleProjectConfigPage clickAdvancedDropdownMenu() {
+        advancedDropdownMenu.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickQuietPeriod() {
+        quietPeriod.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage inputQuietPeriod(String number) {
+        inputQuietPeriod.clear();
+        inputQuietPeriod.sendKeys(number);
+        return this;
+    }
+
+    public String getQuietPeriod() {
+        return inputQuietPeriod.getAttribute("value");
     }
 }

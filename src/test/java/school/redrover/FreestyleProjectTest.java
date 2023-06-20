@@ -325,7 +325,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 
-    @Test(dependsOnMethods = "testAllowParallelBuilds")
+    @Test(dependsOnMethods = "testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild")
     public void testDeleteFreestyleProject() {
         final String projName = NEW_FREESTYLE_NAME;
 
@@ -487,7 +487,7 @@ public class FreestyleProjectTest extends BaseTest {
         String actualTimePeriod = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
-                .checkThrottleBuilds()
+                .checkThrottleBuilds(true)
                 .selectTimePeriod("Minute")
                 .clickSaveButton()
                 .clickConfigure()
@@ -505,9 +505,28 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickCheckBoxExecuteConcurrentBuilds()
                 .clickSaveButton()
                 .clickConfigure()
-                .checkThrottleBuilds();
+                .checkThrottleBuilds(false);
 
         FreestyleProjectConfigPage actualResult = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
         Assert.assertEquals(actualResult.getTrueExecuteConcurrentBuilds().getAttribute("class"), checkExecuteConcurrentBuilds);
+    }
+
+    @Test(dependsOnMethods = "testAllowParallelBuilds")
+    public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() throws InterruptedException {
+        String expectedQuietPeriod = "10";
+
+        String actualQuietPeriod = new MainPage(getDriver())
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .checkThrottleBuilds(false)
+                .clickAdvancedDropdownMenu()
+                .clickQuietPeriod()
+                .inputQuietPeriod(expectedQuietPeriod)
+                .clickSaveButton()
+                .clickConfigure()
+                .checkThrottleBuilds(false)
+                .getQuietPeriod();
+
+        Assert.assertEquals(actualQuietPeriod, expectedQuietPeriod);
     }
 }

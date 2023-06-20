@@ -180,10 +180,12 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
         return TestUtils.getTexts(getDriver().findElements(By.xpath("//button[text()='Add build step']/../../..//a")));
     }
 
-    public Self checkThrottleBuilds() {
+    public Self checkThrottleBuilds(boolean check) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].scrollIntoView();", throttleBuilds);
-        js.executeScript("arguments[0].click();", throttleBuilds);
+        if (check) {
+            js.executeScript("arguments[0].click();", throttleBuilds);
+        }
         return (Self) this;
     }
 
