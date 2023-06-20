@@ -3,6 +3,7 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
@@ -11,21 +12,41 @@ import java.util.List;
 
 public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
+    @FindBy(xpath = "//span[@class='build-status-icon__outer']//*[local-name()='svg']")
+    private WebElement greenIconV;
+
+    @FindBy(xpath = "//h1")
+    private WebElement buildHeader;
+
+    @FindBy(xpath = "//label[@class='attach-previous ']")
+    private WebElement booleanParameterName;
+
+    @FindBy(xpath = "//input[@checked='true']")
+    private WebElement checkedParameter;
+
+    @FindBy(xpath = "//select[@name='value']/option")
+    private List<WebElement> choiceParametersList;
+
+    @FindBy(xpath = "//div[@class='jenkins-form-description']")
+    private WebElement description;
+
+    @FindBy(xpath = "//input[@name='value']")
+    private WebElement checkbox;
+
     public BuildPage(WebDriver driver) {
         super(driver);
     }
 
     private WebElement getBuildHeader() {
-        return getDriver().findElement(By.xpath("//h1"));
+        return buildHeader;
     }
     public boolean buildHeaderIsDisplayed() {
-        return getDriver().findElement(By.xpath("//h1")).isDisplayed();
+        return buildHeader.isDisplayed();
     }
 
     public boolean isDisplayedGreenIconV() {
 
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//span[@class='build-status-icon__outer']//*[local-name()='svg']"))).isDisplayed();
+        return getWait5().until(ExpectedConditions.visibilityOf(greenIconV)).isDisplayed();
     }
 
     public boolean isDisplayedBuildTitle() {
@@ -33,26 +54,16 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
         return getBuildHeader().getText().contains("Build #1");
     }
 
-    public EditBuildInformationPage clickEditBuildInformationButton(String projectName) {
-        getDriver().findElement(By.xpath("//*[@href = '/job/" + projectName + "/1/configure']")).click();
-        return new EditBuildInformationPage(getDriver());
-    }
-
-    public String getProjectDescription() {
-       return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='description']/div[1]")))
-               .getText();
-    }
-
     public String getBooleanParameterName() {
-        return getDriver().findElement(By.xpath("//label[@class='attach-previous ']")).getText();
+        return booleanParameterName.getText();
     }
 
     public String getBooleanParameterCheckbox() {
-        return getDriver().findElement(By.xpath("//input[@name='value']")).getAttribute("checked");
+        return checkbox.getAttribute("checked");
     }
 
     public String getParameterDescription() {
-        return getDriver().findElement(By.xpath("//div[@class='jenkins-form-description']")).getText();
+        return description.getText();
     }
 
     public boolean isParameterNameDisplayed(String parameterName) {
@@ -62,7 +73,7 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     }
 
     public List<WebElement> getChoiceParametersList() {
-        return getDriver().findElements(By.xpath("//select[@name='value']/option"));
+        return choiceParametersList;
     }
 
     public List<String> getChoiceParametersValuesList() {
@@ -78,7 +89,7 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     }
 
     public boolean checkedTrue() {
-       String checked = getDriver().findElement(By.xpath("//input[@checked='true']")).getAttribute("checked");
+       String checked = checkedParameter.getAttribute("checked");
         if(checked.equals("true")){
             return true;
         }
