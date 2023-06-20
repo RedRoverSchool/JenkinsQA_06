@@ -17,7 +17,7 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     private WebElement getOkButton() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
                 .xpath("//button[@id='ok-button']")));
     }
 
