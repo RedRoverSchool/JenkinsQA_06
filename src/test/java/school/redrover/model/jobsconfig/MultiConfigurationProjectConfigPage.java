@@ -1,8 +1,8 @@
-package school.redrover.model.JobsConfig;
+package school.redrover.model.jobsconfig;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import school.redrover.model.Jobs.MultiConfigurationProjectPage;
+import school.redrover.model.jobs.MultiConfigurationProjectPage;
 import school.redrover.model.base.BaseConfigProjectsPage;
 
 public class MultiConfigurationProjectConfigPage extends BaseConfigProjectsPage<MultiConfigurationProjectConfigPage, MultiConfigurationProjectPage> {

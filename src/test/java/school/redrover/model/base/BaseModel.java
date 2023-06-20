@@ -15,7 +15,7 @@ public abstract class BaseModel {
 
     public BaseModel(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(getDriver(), this);
+        PageFactory.initElements(driver, this);
     }
 
     public WebDriver getDriver() {

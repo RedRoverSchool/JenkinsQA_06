@@ -19,6 +19,9 @@ public class  LoginPage extends BaseModel {
     @FindBy (xpath = "//button[@name='Submit']")
     private WebElement signInButton;
 
+    @FindBy(xpath = "//h1")
+    private WebElement welcomeJenkins;
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -40,5 +43,9 @@ public class  LoginPage extends BaseModel {
 
     public String getTextAlertIncorrectUsernameOrPassword() {
        return incorrectUserNameOrPassword.getText();
+    }
+
+    public String  getWelcomeText() {
+        return welcomeJenkins.getText();
     }
 }

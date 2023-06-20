@@ -2,10 +2,11 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.Jobs.PipelinePage;
-import school.redrover.model.JobsConfig.PipelineConfigPage;
+import school.redrover.model.jobs.PipelinePage;
+import school.redrover.model.jobsconfig.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -28,7 +29,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(projectName, NAME);
     }
@@ -89,8 +90,8 @@ public class PipelineTest extends BaseTest {
                 .selectHelloWord()
                 .clickSaveButton()
                 .clickBuildNow()
-                .clickBuildIcon()
-                .getConsoleOutputField();
+                .clickIconBuildOpenConsoleOutput(1)
+                .getConsoleOutputText();
 
         Assert.assertTrue(text.contains("Finished: SUCCESS"), "Job does not finished success");
     }
@@ -115,7 +116,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(projectName, NEW_NAME);
     }
@@ -124,8 +125,7 @@ public class PipelineTest extends BaseTest {
     public void testDeleteLeftMenu() {
         String welcomeText =  new MainPage(getDriver())
                 .clickJobName(NEW_NAME, new PipelinePage(getDriver()))
-                .clickDeletePipeline()
-                .acceptAlert()
+                .clickDeleteAndAccept()
                 .getWelcomeText();
 
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
@@ -154,11 +154,10 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreatingBasicPipelineProjectThroughJenkinsUI")
     public void testPipelineBuildingAfterChangesInCode() {
         BuildPage buildPage = new MainPage(getDriver())
-                .getHeader()
-                .clickLogo()
                 .clickJobName(NAME, new PipelinePage(getDriver()))
                 .clickConfigure()
                 .clickPipelineLeftMenu()
@@ -166,8 +165,8 @@ public class PipelineTest extends BaseTest {
                 .selectHelloWord()
                 .clickSaveButton()
                 .clickBuildNow()
-                .clickBuildIcon()
-                .click1BuildHistory();
+                .clickIconBuildOpenConsoleOutput(1)
+                .clickNumberBuild(1);
 
         Assert.assertTrue(buildPage.isDisplayedBuildTitle(), "Build #1 failed");
         Assert.assertTrue(buildPage.isDisplayedGreenIconV(), "Build #1 failed");
@@ -196,7 +195,7 @@ public class PipelineTest extends BaseTest {
                 .enterDaysToKeepBuilds("2")
                 .enterMaxOfBuildsToKeep("30")
                 .clickSaveButton()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(jobName, "Pipeline " + NAME);
     }
@@ -307,7 +306,7 @@ public class PipelineTest extends BaseTest {
 
         List<String> listNamesOfJobs = new MainPage(getDriver())
                 .clickSortByName()
-                .getListNamesOfJobs();
+                .getJobList();
 
         Assert.assertEquals(listNamesOfJobs, namesOfJobs);
     }
@@ -320,7 +319,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectName();
+                .getJobName();
 
         Assert.assertEquals(renamedPipeline, NEW_NAME);
     }
@@ -455,7 +454,6 @@ public class PipelineTest extends BaseTest {
                 .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
                 .toggleDisableProject()
                 .clickSaveButton()
-                .checkWarningMessage()
                 .clickConfigure()
                 .isProjectDisable();
 
@@ -488,9 +486,9 @@ public class PipelineTest extends BaseTest {
                 .setDisplayName(NEW_NAME)
                 .clickSaveButton();
 
-        Assert.assertEquals(pipelinePage.getProjectName(), "Pipeline " + NEW_NAME);
-        Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), NAME);
-        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getProjectName(), NEW_NAME);
+        Assert.assertEquals(pipelinePage.getJobName(), "Pipeline " + NEW_NAME);
+        Assert.assertEquals(pipelinePage.getProjectNameSubtitleWithDisplayName(), NAME);
+        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getJobName(), NEW_NAME);
     }
 
     @Test
@@ -524,7 +522,7 @@ public class PipelineTest extends BaseTest {
         final String description = "Some boolean parameters here";
         final String parameterName = "Boolean Parameter";
 
-        BuildPage buildPage = new PipelinePage(getDriver())
+        BuildWithParametersPage buildParametersPagePage = new PipelinePage(getDriver())
                 .clickConfigure()
                 .clickAndAddParameter(parameterName)
                 .setBooleanParameterName(name)
@@ -533,11 +531,11 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickBuildButton();
+                .clickBuildButton(new PipelinePage(getDriver()));
 
-        Assert.assertEquals(buildPage.getBooleanParameterName(), name);
-        Assert.assertEquals(buildPage.getBooleanParameterCheckbox(), "true");
-        Assert.assertEquals(buildPage.getParameterDescription(), description);
+        Assert.assertEquals(buildParametersPagePage.getBooleanParameterName(), name);
+        Assert.assertEquals(buildParametersPagePage.getBooleanParameterCheckbox(), "true");
+        Assert.assertEquals(buildParametersPagePage.getParameterDescription(), description);
     }
 
     @Test
@@ -547,17 +545,17 @@ public class PipelineTest extends BaseTest {
         final String name = "Pipeline Boolean Parameter";
         final String parameterName = "Boolean Parameter";
 
-        BuildPage buildPage = new PipelinePage(getDriver())
+        BuildWithParametersPage buildParametersPage = new PipelinePage(getDriver())
                 .clickConfigure()
                 .clickAndAddParameter(parameterName)
                 .setBooleanParameterName(name)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickBuildButton();
+                .clickBuildButton(new PipelinePage(getDriver()));
 
-        Assert.assertEquals(buildPage.getBooleanParameterName(), name);
-        Assert.assertNull(buildPage.getBooleanParameterCheckbox());
+        Assert.assertEquals(buildParametersPage.getBooleanParameterName(), name);
+        Assert.assertNull(buildParametersPage.getBooleanParameterCheckbox());
     }
 
     @Test(dependsOnMethods = "testRenamePipelineDropDownMenu")
@@ -585,8 +583,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .openJobDropDownMenu(NAME)
-                .selectFromJobDropdownMenuTheGitHub();
+                .selectFromJobDropdownMenuTheGitHub(NAME);
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
     }

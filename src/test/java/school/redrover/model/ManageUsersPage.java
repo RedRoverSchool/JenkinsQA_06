@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
@@ -12,23 +13,38 @@ import java.util.List;
 
 public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
 
+    @FindBy(xpath = "//a[@href='addUser']")
+    private WebElement createUser;
+
+    @FindBy(xpath = "//span[contains(text(), 'Configure')]")
+    private WebElement configureInDropDownMenu;
+
+    @FindBy(xpath = "//a[@class ='jenkins-table__link model-link inside']")
+    private List<WebElement> users;
+
+    @FindBy(xpath = "//a[@class='jenkins-table__button'][1]")
+    private List<WebElement> configureUserButton;
+
+    @FindBy(xpath = "//a[@class='jenkins-table__button jenkins-!-destructive-color']")
+    private WebElement deleteButton;
+
+    @FindBy(name = "_.description")
+    private WebElement addEditDescriptionButton;
+
+    @FindBy(xpath = "//a[@class='jenkins-table__button'][1]")
+    private WebElement configureAdminUser;
+
     public ManageUsersPage(WebDriver driver) {
         super(driver);
     }
 
-    public ManageJenkinsPage navigateToManageJenkinsPage() {
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-
-        return new ManageJenkinsPage(getDriver());
-    }
-
     public CreateUserPage clickCreateUser() {
-        getDriver().findElement(By.xpath("//a[@href='addUser']")).click();
+        createUser.click();
 
         return new CreateUserPage(getDriver());
     }
     public String getButtonText() {
-        return getDriver().findElement(By.xpath("//a[@href='addUser']")).getText().trim();
+        return createUser.getText().trim();
     }
 
     public ManageUsersPage clickUserIDName(String userName) {
@@ -40,7 +56,7 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         return this;
     }
 
-    public ManageUsersPage clickUserIDDropDownMenu(String userName){
+    public ManageUsersPage openUserIDDropDownMenu(String userName){
         getDriver()
                 .findElement(By.xpath("//a[@href='user/" + userName + "/']/button[@class='jenkins-menu-dropdown-chevron']"))
                         .sendKeys(Keys.ENTER);
@@ -48,14 +64,12 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
     }
 
     public ManageUsersPage selectConfigureUserIDDropDownMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'Configure')]"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(configureInDropDownMenu)).click();
 
         return this;
     }
 
     public boolean isUserExist(String userName) {
-        List<WebElement> users = getDriver().findElements(By
-                .xpath("//a[@class ='jenkins-table__link model-link inside']"));
         for (WebElement el : users) {
             if (el.getText().equals(userName)) {
                 return true;
@@ -72,10 +86,9 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
     }
 
     public DeletePage<ManageUsersPage> clickDeleteUser() {
-        getDriver().findElement(
-                By.xpath("//a[@class='jenkins-table__button jenkins-!-destructive-color']")).click();
+        deleteButton.click();
 
-        return new DeletePage<>(getDriver(), this);
+        return new DeletePage<>(this);
     }
 
     public boolean getUserDeleted(String username) {
@@ -90,24 +103,16 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         return false;
     }
 
-    public ManageUsersPage clickUserEditButton() {
-        getDriver().findElement(By.xpath("//a[@class='jenkins-table__button'][1]")).click();
+    public UserConfigPage clickUserConfigureButton(String username) {
+        getDriver().findElement(By.xpath("//a[@href='user/" + username + "/']")).click();
 
-        return this;
+        return new UserConfigPage(new StatusUserPage(getDriver()));
     }
 
-    public ManageUsersPage enterDescriptionText() {
-        getDriver().findElement(By.name("_.description")).clear();
-        getDriver().findElement(By.name("_.description")).sendKeys("Description text");
+    public UserConfigPage clickUserEditButton() {
+        configureAdminUser.click();
 
-        return this;
+        return new UserConfigPage(new StatusUserPage(getDriver()));
     }
-
-    public String getDescriptionText() {
-
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@id='description']/div[1]"))).getText();
-    }
-
 }
 

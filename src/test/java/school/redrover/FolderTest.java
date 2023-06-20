@@ -4,9 +4,9 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.Jobs.*;
-import school.redrover.model.JobsConfig.FolderConfigPage;
-import school.redrover.model.JobsConfig.FreestyleProjectConfigPage;
+import school.redrover.model.jobs.*;
+import school.redrover.model.jobsconfig.FolderConfigPage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseJobPage;
 import school.redrover.runner.BaseTest;
@@ -25,7 +25,7 @@ public class FolderTest extends BaseTest {
     private void createdJobInFolder(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?,?> jobConfigPage){
         new MainPage(getDriver())
                 .clickJobName(folderName, new FolderPage(getDriver()))
-                .newItem()
+                .clickNewItem()
                 .enterItemName(jobName)
                 .selectJobType(jobType)
                 .clickOkButton(jobConfigPage)
@@ -155,7 +155,7 @@ public class FolderTest extends BaseTest {
 
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
-                .rename()
+                .clickRename()
                 .enterNewName(NAME_2)
                 .clickRenameButtonAndGoError();
 
@@ -168,15 +168,15 @@ public class FolderTest extends BaseTest {
 
         FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
-                .clickConfigureSideMenu()
+                .clickConfigure()
                 .enterDisplayName(DISPLAY_NAME)
                 .setHealthMetricsType()
                 .addDescription(DESCRIPTION)
                 .clickSaveButton();
 
-        Assert.assertEquals(folderPage.getFolderName(), DISPLAY_NAME);
+        Assert.assertEquals(folderPage.getJobName(), DISPLAY_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
-        Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
+        Assert.assertTrue(folderPage.clickConfigure().clickOnHealthMetricsType().isRecursive());
     }
 
     @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
@@ -184,7 +184,7 @@ public class FolderTest extends BaseTest {
 
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
-                .delete()
+                .clickDeleteJobThatIsMainPage()
                 .getHeader()
                 .clickLogo()
                 .jobIsDisplayed(NAME_2);
@@ -232,11 +232,13 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(welcomeIsDisplayed,"error was not show Welcome to Jenkins!");
     }
 
+
     @DataProvider(name = "create-folder")
     public Object[][] provideFoldersNames() {
         return new Object[][]
                 {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
     }
+
 
     @Test(dataProvider = "create-folder")
     public void testFoldersCreationWithProvider(String provideNames) {
@@ -300,5 +302,21 @@ public class FolderTest extends BaseTest {
         jobName.sort(String.CASE_INSENSITIVE_ORDER);
 
         Assert.assertEquals(createdJobList, jobName);
+    }
+
+    @Test
+    public void testCreateFolderGoingFromBuildHistoryPage() {
+    List<String> folderName = new MainPage(getDriver())
+            .clickBuildsHistoryButton()
+            .clickNewItem()
+            .enterItemName(NAME)
+            .selectJobType(TestUtils.JobType.Folder)
+            .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+            .clickSaveButton()
+            .getBreadcrumb()
+            .clickDashboardButton()
+            .getJobList();
+
+            Assert.assertTrue(folderName.contains(NAME));
     }
 }

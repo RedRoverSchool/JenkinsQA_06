@@ -1,7 +1,8 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseModel;
 
@@ -9,15 +10,21 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsT
 
 public class JenkinsVersionPage extends BaseModel {
 
+    @FindBy(xpath = "//a[text()='Jenkins 2.387.2']")
+    private WebElement jenkinsVersionLink;
+
+    @FindBy(xpath = "//h1")
+    private WebElement jenkinsPageTitle;
+
     public JenkinsVersionPage(WebDriver driver) {
         super(driver);
     }
 
-    public JenkinsVersionPage switchJenkinsDocPage () {
+    public JenkinsVersionPage switchJenkinsDocPage() {
         String originalWindow = getDriver().getWindowHandle();
         assert getDriver().getWindowHandles().size() == 1;
 
-        getDriver().findElement(By.xpath("//a[text()='Jenkins 2.387.2']")).click();
+        jenkinsVersionLink.click();
 
         getWait2().until(numberOfWindowsToBe(2));
 
@@ -31,6 +38,6 @@ public class JenkinsVersionPage extends BaseModel {
     }
 
     public String getJenkinsPageTitle() {
-       return getWait10().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//h1")))).getText();
+        return getWait10().until(ExpectedConditions.visibilityOf(jenkinsPageTitle)).getText();
     }
 }

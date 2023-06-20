@@ -1,9 +1,9 @@
-package school.redrover.model.JobsConfig;
+package school.redrover.model.jobsconfig;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import school.redrover.model.Jobs.MultibranchPipelinePage;
+import school.redrover.model.jobs.MultibranchPipelinePage;
 import school.redrover.model.base.BaseConfigFoldersPage;
 
 public class MultibranchPipelineConfigPage extends BaseConfigFoldersPage<MultibranchPipelineConfigPage, MultibranchPipelinePage> {
