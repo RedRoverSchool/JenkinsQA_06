@@ -487,7 +487,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(pipelinePage.getJobName(), "Pipeline " + NEW_NAME);
-        Assert.assertEquals(pipelinePage.getProjectNameSubtitle(), NAME);
+        Assert.assertEquals(pipelinePage.getProjectNameSubtitleWithDisplayName(), NAME);
         Assert.assertEquals(pipelinePage.getHeader().clickLogo().getJobName(), NEW_NAME);
     }
 

@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.DeletePage;
 import school.redrover.model.MainPage;
 import school.redrover.model.MovePage;
 import school.redrover.model.RenamePage;
@@ -39,6 +38,9 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
 
     @FindBy(xpath = "//button[text() = 'Save']")
     private WebElement saveButton;
+
+    @FindBy(xpath = "//div[@id='main-panel']")
+    private WebElement mainPanel;
 
     public BaseJobPage(WebDriver driver) {
         super(driver);
@@ -105,5 +107,11 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     public Self clickSaveButton() {
         saveButton.click();
         return (Self) this;
+    }
+
+    public String getProjectNameSubtitleWithDisplayName() {
+        String projectName = mainPanel.getText();
+        String subStr = projectName.substring(projectName.indexOf(':') + 2);
+        return subStr.substring(0, subStr.indexOf("\n")).trim();
     }
 }
