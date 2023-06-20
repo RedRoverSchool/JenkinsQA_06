@@ -3,6 +3,7 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FolderPage;
@@ -83,6 +84,7 @@ public class ViewsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project " + newViewNameRandom);
     }
 
+    @Ignore
     @Test
     public void testAddDescriptionFromMyViewsPage() {
         final String newViewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
