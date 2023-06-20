@@ -163,7 +163,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(checkboxesVisibleClickable);
     }
 
-    @Test(dependsOnMethods = "testConfigurePageEnable")
+    @Test(dependsOnMethods = "testEnabled")
     public void testBuildNowDropDownMenu() {
         Assert.assertEquals(new MainPage(getDriver()).getJobBuildStatus(NAME), "Not built");
 
@@ -175,7 +175,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(jobBuildStatus, "Success");
     }
 
-    @Test(dependsOnMethods = "testCheckGeneralParametersDisplayedAndClickable")
+    @Test(dependsOnMethods = "testBuildNowDropDownMenu")
     public void testAddDescription() {
         final String textDescription = "Text Description Test";
 
