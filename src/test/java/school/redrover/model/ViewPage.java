@@ -105,45 +105,10 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
         return new NewJobPage(getDriver());
     }
 
-    public ViewPage clickEditView(String nameProject) {
+    public ViewConfigPage clickEditView(String nameProject) {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(String.format("//*[@href='/view/%s/configure']", nameProject.replaceAll(" ","%20"))))).click();
-        return this;
-    }
-
-    public ViewPage enterDescription(String text) {
-        new Actions(getDriver())
-                .click(getDriver().findElement(By.xpath("//*[@name='description']")))
-                .sendKeys(text)
-                .perform();
-        return this;
-    }
-
-    public ViewPage clickPreview() {
-        getDriver().findElement(
-                By.xpath("//*[@previewendpoint='/markupFormatter/previewDescription']")).click();
-        return this;
-    }
-
-    public String getPreviewText() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//*[@class='textarea-preview']"))).getText();
-    }
-
-    public ViewPage clickViewConfigOkButton() {
-        getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
-        return this;
-    }
-
-    public ViewPage clickHelpFeatureDescription() {
-        getDriver().findElement(
-                By.xpath("//div/a[@helpurl='/help/view-config/description.html']")).click();
-        return this;
-    }
-
-    public String getTextHelpFeatureDescription() {
-        return getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//div[@class='help-area tr']/div/div"))).getText();
+        return new ViewConfigPage(new ViewPage(getDriver()));
     }
 
     public DeletePage<MainPage> clickDeleteView() {

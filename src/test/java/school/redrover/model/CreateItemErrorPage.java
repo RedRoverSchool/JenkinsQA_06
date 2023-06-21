@@ -21,7 +21,7 @@ public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage>
     }
 
     public String getErrorMessage() {
-        return errorMessage.getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(errorMessage)).getText();
     }
 
     public String getError() {
