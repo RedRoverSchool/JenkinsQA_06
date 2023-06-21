@@ -38,6 +38,9 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
     @FindBy(xpath = "//a[@href='delete']")
     private WebElement deleteView;
 
+    @FindBy(xpath = "//div[@class = 'tab active']")
+    private WebElement activeViewName;
+
     public ViewPage(WebDriver driver) {
         super(driver);
     }
@@ -105,14 +108,24 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
         return new NewJobPage(getDriver());
     }
 
-    public ViewConfigPage clickEditView(String nameProject) {
+    public ListViewConfigPage clickEditListView(String nameProject) {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(String.format("//*[@href='/view/%s/configure']", nameProject.replaceAll(" ","%20"))))).click();
-        return new ViewConfigPage(new ViewPage(getDriver()));
+        return new ListViewConfigPage(new ViewPage(getDriver()));
     }
 
+    public MyViewConfigPage clickEditMyView(String nameProject) {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//*[@href='/view/%s/configure']", nameProject.replaceAll(" ","%20"))))).click();
+        return new MyViewConfigPage(new ViewPage(getDriver()));
+    }
     public DeletePage<MainPage> clickDeleteView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(deleteView)).click();
         return new DeletePage<>(new MainPage(getDriver()));
+    }
+
+    public String getActiveViewName() {
+
+        return TestUtils.getText(this, activeViewName);
     }
 }
