@@ -176,7 +176,7 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(folderPage.getJobName(), DISPLAY_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
-        Assert.assertTrue(folderPage.clickConfigure().clickOnHealthMetricsType().isRecursive());
+        Assert.assertTrue(folderPage.clickConfigure().clickHealthMetrics().isRecursive());
     }
 
     @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
