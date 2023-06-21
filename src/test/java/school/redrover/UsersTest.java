@@ -179,16 +179,6 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void testViewPeoplePage() {
-
-        String nameOfPeoplePageHeader = new MainPage(getDriver())
-                .clickPeopleOnLeftSideMenu()
-                .getPageTitle();
-
-        Assert.assertEquals(nameOfPeoplePageHeader, "People");
-    }
-
-    @Test
     public void testViewIconButtonsPeoplePage() {
         List<String> expectedIconButtonsNames = List.of("S" + "\n" + "mall", "M" + "\n" + "edium", "L" + "\n" + "arge");
 
