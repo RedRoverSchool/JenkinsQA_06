@@ -16,10 +16,10 @@ public class UserPage extends BaseMainHeaderPage<UserPage> {
                 findElement(By.xpath("//a[@href='/user/" + newUserName + "/delete']")));
         return new UserDeletePage(getDriver());
     }
+    public String actualNameUser(){
 
-    public ViewPage clickMyViewsDropDownMenuUser() {
-        getDriver().findElement(By.xpath("//a[contains(@href, '/my-views')]")).click();
-        return new ViewPage(getDriver());
+        return getDriver().findElement(
+                By.xpath("//div[contains(text(), 'Jenkins User ID:')]")).getText();
     }
 }
 

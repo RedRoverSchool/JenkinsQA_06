@@ -219,15 +219,13 @@ public class UsersTest extends BaseTest {
 
     @Test(dependsOnMethods = "testErrorWhenCreateDuplicatedUser")
     public void testSearchPeople() {
-               WebElement searchField = getDriver().findElement(
-                By.xpath("//input[@name='q']"));
-        searchField.sendKeys(USER_NAME);
-        searchField.sendKeys(Keys.RETURN);
+        TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        WebElement actualUserName = getDriver().findElement(
-                By.xpath("//div[contains(text(), 'Jenkins User ID:')]"));
+        String actualUserName = new MainPage(getDriver())
+                .sendSearchboxUser(USER_NAME)
+                .actualNameUser();
 
-        Assert.assertEquals(actualUserName.getText(), "Jenkins User ID: " + USER_NAME);
+        Assert.assertEquals(actualUserName, "Jenkins User ID: " + USER_NAME);
     }
 
     @Test
