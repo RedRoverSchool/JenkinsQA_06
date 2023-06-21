@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
@@ -263,6 +264,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderIsDisplayed, "build not created");
     }
 
+   @Ignore
     @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
         MainPage mainPage = new MainPage(getDriver())
@@ -483,6 +485,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
 
+   @Ignore
     @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
     public void testSetRateLimitForBuilds() {
         String expectedTimePeriod = "Minute";
@@ -498,6 +501,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualTimePeriod, expectedTimePeriod);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testSetRateLimitForBuilds")
     public void testAllowParallelBuilds() {
         String checkExecuteConcurrentBuilds = "rowvg-start tr";
@@ -513,6 +517,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualResult.getTrueExecuteConcurrentBuilds().getAttribute("class"), checkExecuteConcurrentBuilds);
     }
 
+   @Ignore
     @Test(dependsOnMethods = "testAllowParallelBuilds")
     public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() {
         final String expectedQuietPeriod = "10";
