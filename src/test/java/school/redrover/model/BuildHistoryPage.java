@@ -63,11 +63,12 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
 
     public String getBubbleTitleOnTimeline() {
         getWait5().until(ExpectedConditions.visibilityOf(bubbleContainer));
+
         return bubbleTitle.getText();
     }
 
     public int getNumberOfLinesInBuildHistoryTable() {
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1")));
+        getWait5().until(ExpectedConditions.visibilityOf(pageHeader));
 
         return buildHistoryTable.size();
     }
@@ -80,6 +81,7 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
 
     public NewJobPage clickNewItem() {
         newItem.click();
+
         return new NewJobPage(getDriver());
     }
 }
