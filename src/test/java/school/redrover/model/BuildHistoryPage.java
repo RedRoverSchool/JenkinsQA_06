@@ -7,10 +7,27 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
+import java.util.List;
+
 public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
 
     @FindBy(xpath = "//table[@id='projectStatus']/tbody/tr/td[4]")
     private WebElement statusMessage;
+
+    @FindBy(xpath = "//div[@class='simileAjax-bubble-contentContainer simileAjax-bubble-contentContainer-pngTranslucent']")
+    private WebElement bubbleContainer;
+
+    @FindBy(xpath = "//div[@class='timeline-event-bubble-title']/a")
+    private WebElement bubbleTitle;
+
+    @FindBy(xpath = "//h1")
+    private WebElement pageHeader;
+
+    @FindBy(xpath = "//table[@id='projectStatus']/tbody/tr")
+    private List<WebElement> buildHistoryTable;
+
+    @FindBy(css = ".task-link-wrapper>a[href$='newJob']")
+    private WebElement newItem;
 
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
@@ -35,25 +52,23 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
     }
 
     public BuildHistoryPage clickBuildNameOnTimeline(String projectBuildName) {
-        getDriver().findElement(By.xpath("//div[contains(text(), '" + projectBuildName + "')]")).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(), '" + projectBuildName + "')]"))).click();
         return this;
     }
 
     public String getBubbleTitleOnTimeline() {
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//div[@class='simileAjax-bubble-contentContainer simileAjax-bubble-contentContainer-pngTranslucent']")));
-        return getDriver().findElement(By.xpath("//div[@class='timeline-event-bubble-title']/a")).getText();
+        getWait5().until(ExpectedConditions.visibilityOf(bubbleContainer));
+        return bubbleTitle.getText();
     }
 
     public int getNumberOfLinesInBuildHistoryTable() {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1")));
 
-        return getDriver().findElements(By.xpath("//table[@id='projectStatus']/tbody/tr")).size();
+        return buildHistoryTable.size();
     }
 
     public NewJobPage clickNewItem() {
-        getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
-
+        newItem.click();
         return new NewJobPage(getDriver());
     }
 }
