@@ -341,7 +341,6 @@ public class UsersTest extends BaseTest {
     public void testCreateUserFromManageUser() {
 
         final String expectedResultTitle = "Dashboard [Jenkins]";
-        final String expectedResultNameButton = USER_FULL_NAME;
 
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
@@ -360,10 +359,9 @@ public class UsersTest extends BaseTest {
                 .getCurrentUserName();
 
         Assert.assertEquals(actualResultTitle, expectedResultTitle);
-        Assert.assertEquals(actualResultNameButton, expectedResultNameButton);
+        Assert.assertEquals(actualResultNameButton, USER_FULL_NAME);
     }
 
-    @Ignore
     @Test
     public void testCreateUserCheckInPeople() {
 
