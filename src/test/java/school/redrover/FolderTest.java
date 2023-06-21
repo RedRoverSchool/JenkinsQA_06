@@ -170,8 +170,9 @@ public class FolderTest extends BaseTest {
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
                 .clickConfigure()
                 .enterDisplayName(DISPLAY_NAME)
-                .setHealthMetricsType()
                 .addDescription(DESCRIPTION)
+                .clickHealthMetrics()
+                .addHealthMetrics()
                 .clickSaveButton();
 
         Assert.assertEquals(folderPage.getJobName(), DISPLAY_NAME);

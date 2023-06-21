@@ -48,7 +48,7 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
         clickHealthMetrics();
 
         TestUtils.scrollToElementByJavaScript(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())), addHealthMetric);
-        addHealthMetric.click();
+        getWait5().until(ExpectedConditions.visibilityOf(addHealthMetric)).click();
         childItemWithWorstHealth.click();
 
         return (Self)this;
@@ -56,12 +56,6 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
 
     public Boolean healthMetricIsVisible(){
         return getWait5().until(ExpectedConditions.visibilityOf(addedHealthMetric)).isDisplayed();
-    }
-
-    public Self setHealthMetricsType(){
-        clickHealthMetrics();
-        addHealthMetrics();
-        return (Self)this;
     }
 
     public boolean isRecursive(){
