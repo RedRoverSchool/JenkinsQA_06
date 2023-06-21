@@ -376,4 +376,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
                 By.xpath(String.format("//*[@href='/view/%s/']", name.replaceAll(" ","%20"))))).click();
         return new ViewPage(getDriver());
     }
+
+    public BuiltInNodePage sendSearchbox(){
+        getDriver().findElement(By.id("search-box")).sendKeys(Keys.RETURN);
+
+        return new BuiltInNodePage(getDriver());
+    }
 }

@@ -151,12 +151,11 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testSearchField() {
 
-        WebElement searchBox = getDriver().findElement(By.id("search-box"));
-        searchBox.sendKeys("");
-        searchBox.sendKeys(Keys.RETURN);
+        String textPageFromSearchBox = new MainPage(getDriver())
+                .sendSearchbox()
+                .getTitle();
 
-        Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
-                (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
+        Assert.assertEquals(textPageFromSearchBox,"Built-In Node");
     }
 
     @Test
