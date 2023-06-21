@@ -32,22 +32,40 @@ public class ViewsTest extends BaseTest {
                 .clickLogo();
     }
 
-    private void createNewFreestyleProjectAndNewView(String name) {
+    private void createNewFreestyleProjectAndNewView(String nameProject) {
         new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(name)
+                .enterItemName(nameProject)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getBreadcrumb()
                 .clickDashboardButton()
                 .createNewView()
-                .setNewViewName(name)
+                .setNewViewName(nameProject)
                 .selectListViewAndClickCreate()
                 .getBreadcrumb()
                 .clickDashboardButton()
-                .clickOnView(name)
-                .clickEditListView(name);
+                .clickOnView(nameProject)
+                .clickEditListView(nameProject);
+    }
+
+    private void createNewFreestyleProjectAndNewView(String nameProject, String nameView) {
+        new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(nameProject)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSaveButton()
+                .getBreadcrumb()
+                .clickDashboardButton()
+                .createNewView()
+                .setNewViewName(nameView)
+                .selectListViewAndClickCreate()
+                .getBreadcrumb()
+                .clickDashboardButton()
+                .clickOnView(nameView)
+                .clickEditListView(nameView);
     }
 
     @Test
