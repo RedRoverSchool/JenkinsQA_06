@@ -370,4 +370,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         }
         return status;
     }
+
+    public BuiltInNodePage sendSearchbox(){
+         getDriver().findElement(By.id("search-box")).sendKeys(Keys.RETURN);
+
+        return new BuiltInNodePage(getDriver());
+    }
 }

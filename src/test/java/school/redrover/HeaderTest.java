@@ -1,5 +1,6 @@
 package school.redrover;
 
+import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -150,13 +151,11 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testSearchField() {
+        String textPageFromSearchBox = new MainPage(getDriver())
+                .sendSearchbox()
+                .getTitle();
 
-        WebElement searchBox = getDriver().findElement(By.id("search-box"));
-        searchBox.sendKeys("");
-        searchBox.sendKeys(Keys.RETURN);
-
-        Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
-                (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
+        Assert.assertEquals(textPageFromSearchBox,"Built-In Node");
     }
 
     @Test
