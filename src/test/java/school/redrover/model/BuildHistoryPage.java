@@ -14,6 +14,9 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
     @FindBy(xpath = "//table[@id='projectStatus']/tbody/tr/td[4]")
     private WebElement statusMessage;
 
+    @FindBy(xpath = "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']")
+    private WebElement nameOfBuildLink;
+
     @FindBy(xpath = "//div[@class='simileAjax-bubble-contentContainer simileAjax-bubble-contentContainer-pngTranslucent']")
     private WebElement bubbleContainer;
 
@@ -34,25 +37,27 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
     }
 
     public BuildPage clickPipelineProjectBuildNumber(String projectName) {
-
         getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + projectName + "/1/']")))
                 .click();
 
         return new BuildPage(getDriver());
     }
 
-    public ConsoleOutputPage clickProjectBuildConsole(String projectBuildName){
+    public ConsoleOutputPage clickProjectBuildConsole(String projectBuildName) {
         getDriver().findElement(By.xpath("//a[contains(@href, '" + projectBuildName + "')  and contains(@href, 'console') and not(contains(@href, 'default'))]")).click();
+
         return new ConsoleOutputPage(getDriver());
     }
 
     public String getStatusMessageText() {
         getDriver().navigate().refresh();
+
         return statusMessage.getText();
     }
 
     public BuildHistoryPage clickBuildNameOnTimeline(String projectBuildName) {
-        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(), '" + projectBuildName + "')]"))).click();
+        getDriver().findElement(By.xpath("//div[contains(text(), '" + projectBuildName + "')]")).click();
+
         return this;
     }
 
@@ -65,6 +70,12 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
         getWait5().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1")));
 
         return buildHistoryTable.size();
+    }
+
+    public BuildPage clickNameOfBuildLink() {
+        getWait10().until(ExpectedConditions.elementToBeClickable(nameOfBuildLink)).click();
+
+        return new BuildPage(getDriver());
     }
 
     public NewJobPage clickNewItem() {

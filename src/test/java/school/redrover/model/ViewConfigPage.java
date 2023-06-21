@@ -50,19 +50,25 @@ public class ViewConfigPage extends BaseConfigPage<ViewConfigPage, ViewPage> {
         return this;
     }
 
-    public ViewConfigPage clickViewConfigOkButton() {
-        getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
-        return this;
-    }
-    public ViewConfigPage clickDashboard() {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.linkText("Dashboard"))).click();
+    public ViewConfigPage clickPreview() {
+        getDriver().findElement(
+                By.xpath("//*[@previewendpoint='/markupFormatter/previewDescription']")).click();
         return this;
     }
 
-    public ViewPage clickViewJob(String name) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath(String.format("//*[@href='/view/%s/']", name.replaceAll(" ","%20"))))).click();
-        return new ViewPage(getDriver());
+    public String getPreviewText() {
+        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[@class='textarea-preview']"))).getText();
+    }
+
+    public ViewConfigPage clickHelpFeatureDescription() {
+        getDriver().findElement(
+                By.xpath("//div/a[@helpurl='/help/view-config/description.html']")).click();
+        return this;
+    }
+
+    public String getTextHelpFeatureDescription() {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[@class='help-area tr']/div/div"))).getText();
     }
 }

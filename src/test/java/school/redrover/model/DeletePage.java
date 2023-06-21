@@ -1,10 +1,14 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
 
 public class DeletePage<ParentPage extends BasePage<?,?>> extends BaseMainHeaderPage<DeletePage<ParentPage>> {
+
+    @FindBy(name = "Submit")
+    private WebElement deleteYesButton;
 
     private final ParentPage parentPage;
 
@@ -14,7 +18,7 @@ public class DeletePage<ParentPage extends BasePage<?,?>> extends BaseMainHeader
     }
 
     public ParentPage clickYesButton() {
-        getDriver().findElement(By.name("Submit")).click();
+        deleteYesButton.click();
         return parentPage;
     }
 }

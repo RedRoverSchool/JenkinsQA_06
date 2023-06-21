@@ -247,7 +247,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreatedNewBuild() {
-        boolean buildHeaderIsDisplayed = new  MainPage(getDriver())
+        boolean buildHeaderIsDisplayed = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName("Engineer")
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -514,8 +514,8 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAllowParallelBuilds")
-    public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() throws InterruptedException {
-        String expectedQuietPeriod = "10";
+    public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() {
+        final String expectedQuietPeriod = "10";
 
         String actualQuietPeriod = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
