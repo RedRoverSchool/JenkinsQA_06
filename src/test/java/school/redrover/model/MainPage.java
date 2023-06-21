@@ -98,6 +98,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     @FindBy(xpath = "//a[normalize-space(text())= 'Sign in']")
     private WebElement singInFromHubGitHub;
 
+    @FindBy(id = "search-box")
+    private WebElement searchbox;
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -371,15 +374,17 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return status;
     }
 
-    public ViewPage clickViewJob(String name) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath(String.format("//*[@href='/view/%s/']", name.replaceAll(" ","%20"))))).click();
-        return new ViewPage(getDriver());
-    }
-
     public BuiltInNodePage sendSearchbox(){
-        getDriver().findElement(By.id("search-box")).sendKeys(Keys.RETURN);
+        searchbox.sendKeys(Keys.RETURN);
 
         return new BuiltInNodePage(getDriver());
+    }
+
+    public UserPage sendSearchboxUser(String name){
+        WebElement searchField = searchbox;
+        searchField.sendKeys(name);
+        searchField.sendKeys(Keys.RETURN);
+
+        return new UserPage(getDriver());
     }
 }

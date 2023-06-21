@@ -221,15 +221,11 @@ public class UsersTest extends BaseTest {
     public void testSearchPeople() {
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        WebElement searchField = getDriver().findElement(
-                By.xpath("//input[@name='q']"));
-        searchField.sendKeys(USER_NAME);
-        searchField.sendKeys(Keys.RETURN);
+       String actualUserName = new MainPage(getDriver())
+               .sendSearchboxUser(USER_NAME)
+               .actualNameUser();
 
-        WebElement actualUserName = getDriver().findElement(
-                By.xpath("//div[contains(text(), 'Jenkins User ID:')]"));
-
-        Assert.assertEquals(actualUserName.getText(), "Jenkins User ID: " + USER_NAME);
+        Assert.assertEquals(actualUserName, "Jenkins User ID: " + USER_NAME);
     }
 
     @Test

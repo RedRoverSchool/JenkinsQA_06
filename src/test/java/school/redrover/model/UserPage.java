@@ -2,6 +2,7 @@ package school.redrover.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
@@ -17,9 +18,10 @@ public class UserPage extends BaseMainHeaderPage<UserPage> {
         return new UserDeletePage(getDriver());
     }
 
-    public ViewPage clickMyViewsDropDownMenuUser() {
-        getDriver().findElement(By.xpath("//a[contains(@href, '/my-views')]")).click();
-        return new ViewPage(getDriver());
+    public String actualNameUser(){
+
+        return getDriver().findElement(
+                By.xpath("//div[contains(text(), 'Jenkins User ID:')]")).getText();
     }
 }
 
