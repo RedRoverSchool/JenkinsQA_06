@@ -274,8 +274,6 @@ public class UsersTest extends BaseTest {
     public void testUserCanLoginToJenkinsWithCreatedAccount() {
         String nameProject = "Engineer";
 
-        TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
-
         new MainPage(getDriver())
                 .getHeader()
                 .clickLogoutButton()
@@ -338,8 +336,6 @@ public class UsersTest extends BaseTest {
 
         final String expectedResultTitle = "Dashboard [Jenkins]";
 
-        TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
-
         new MainPage(getDriver())
                 .getHeader()
                 .clickLogoutButton();
@@ -381,10 +377,7 @@ public class UsersTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateUserFromManageUser")
     public void testCreateUserCheckInManageUsers() {
-
         final String expectedResultTitle = "Users [Jenkins]";
-
-        TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         new MainPage(getDriver())
                 .clickManageJenkinsPage()
