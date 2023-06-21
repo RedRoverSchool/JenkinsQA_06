@@ -97,7 +97,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .addDescription("Description")
                 .clickSaveButton()
-                .getTextFromDescription();
+                .getAddedDescriptionFromConfig();
 
         Assert.assertEquals(textFromDescription, "Description");
     }
@@ -142,7 +142,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
-                .clickDeleteOrganizationFolderSideMenu()
+                .clickDeleteJobLocatedOnMainPage()
                 .clickYesButton()
                 .getWelcomeText();
 

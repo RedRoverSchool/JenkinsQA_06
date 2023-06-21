@@ -1,18 +1,14 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import school.redrover.model.ConfigureSystemPage;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.List;
-import java.util.Objects;
 
 import static school.redrover.runner.TestUtils.getRandomStr;
 
@@ -31,13 +27,14 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testSearchWithLetterConfigureSystem() {
+        String textConfigureSystem = "Configure System";
         String configurePage = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .inputToSearchField("m")
-                .selectOnTheFirstLineInDropdown()
+                .selectOnTheFirstLineInDropdown(textConfigureSystem)
                 .getConfigureSystemPage();
 
-        Assert.assertEquals(configurePage, "Configure System");
+        Assert.assertEquals(configurePage, textConfigureSystem);
     }
 
     @Test
@@ -53,6 +50,7 @@ public class ManageJenkinsTest extends BaseTest {
     @Test
     public void testNameNewNodeOnCreatePage() {
         final String nodeName = "NodeTest";
+
         String actualNodeName = new MainPage(getDriver())
                 .clickBuildExecutorStatus()
                 .clickNewNodeButton()
@@ -61,6 +59,7 @@ public class ManageJenkinsTest extends BaseTest {
                 .clickCreateButton()
                 .clickSaveButton()
                 .getNodeName(nodeName);
+
         Assert.assertEquals(actualNodeName, nodeName);
     }
 
@@ -230,4 +229,32 @@ public class ManageJenkinsTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, "No such agent: " + nonExistingNodeName);
     }
+
+    @Test
+    public void testFourTasksOnLeftsidePanel() {
+        final List<String> expectedListOfTasks = List.of(new String[]{"Updates", "Available plugins", "Installed plugins", "Advanced settings"});
+        List<String> actualListOfTasks = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickManagePlugins()
+                .checkFourTasksOnTheLeftsidePanel();
+
+        Assert.assertEquals(actualListOfTasks, expectedListOfTasks);
+    }
+
+    @Test
+    public void testServerHelpInfo(){
+        final String expectedServerHelpInfo = """
+                If your Jenkins server sits behind a firewall and does not have the direct access to the internet, and if your server JVM is not configured appropriately ( See JDK networking properties for more details ) to enable internet connection, you can specify the HTTP proxy server name in this field to allow Jenkins to install plugins on behalf of you. Note that Jenkins uses HTTPS to communicate with the update center to download plugins.
+                Leaving this field empty means Jenkins will try to connect to the internet directly.
+                If you are unsure about the value, check the browser proxy configuration.""";
+        String ServerHelpInfo = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickManagePlugins()
+                .clickAdvancedSettings()
+                .clickExtraInfoServerIcon()
+                .getExtraInfoServerTextBox();
+
+        Assert.assertEquals(ServerHelpInfo, expectedServerHelpInfo);
+    }
 }
+

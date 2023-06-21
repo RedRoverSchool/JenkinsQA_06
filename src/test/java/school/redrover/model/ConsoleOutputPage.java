@@ -1,5 +1,7 @@
 package school.redrover.model;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -50,5 +52,11 @@ public class ConsoleOutputPage extends BaseMainHeaderPage<ConsoleOutputPage> {
 
     public boolean isDisplayedBuildTitle() {
         return getWait2().until(ExpectedConditions.visibilityOf(buildTitle)).isDisplayed();
+    }
+
+    public BuildPage clickNumberBuild(int buildNumber) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text() ,'#" + buildNumber +  "')]"))).click();
+        return new BuildPage(getDriver());
     }
 }

@@ -184,7 +184,7 @@ public class FolderTest extends BaseTest {
 
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
-                .delete()
+                .clickDeleteJobThatIsMainPage()
                 .getHeader()
                 .clickLogo()
                 .jobIsDisplayed(NAME_2);

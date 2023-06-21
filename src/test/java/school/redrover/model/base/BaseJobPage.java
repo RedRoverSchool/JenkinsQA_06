@@ -39,6 +39,9 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     @FindBy(xpath = "//button[text() = 'Save']")
     private WebElement saveButton;
 
+    @FindBy(xpath = "//div[@id='main-panel']")
+    private WebElement mainPanel;
+
     public BaseJobPage(WebDriver driver) {
         super(driver);
     }
@@ -58,7 +61,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         return new RenamePage<>((Self) this);
     }
 
-    public MainPage clickDelete() {
+    public MainPage clickDeleteAndAlert() {
         deleteButton.click();
         getDriver().switchTo().alert().accept();
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
@@ -84,6 +87,10 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         return jobDescription.getText();
     }
 
+    public boolean isDescriptionEmpty(){
+        return jobDescription.getText().isEmpty();
+    }
+
     public MovePage<Self> clickMoveOnSideMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(moveButton)).click();
         return new MovePage<>((Self) this);
@@ -100,5 +107,11 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     public Self clickSaveButton() {
         saveButton.click();
         return (Self) this;
+    }
+
+    public String getProjectNameSubtitleWithDisplayName() {
+        String projectName = mainPanel.getText();
+        String subStr = projectName.substring(projectName.indexOf(':') + 2);
+        return subStr.substring(0, subStr.indexOf("\n")).trim();
     }
 }

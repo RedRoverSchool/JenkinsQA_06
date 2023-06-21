@@ -95,7 +95,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     public MainBreadcrumbComponent<Page> getDashboardDropdownMenu() {
         hoverOver(By.xpath("//a[text()='Dashboard']"));
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']/button")).sendKeys(Keys.RETURN);
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Dashboard']/button"))).sendKeys(Keys.RETURN);
 
         return this;
     }
@@ -134,6 +134,15 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
         getDashboardDropdownMenu();
         getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']/div/ul/li/a")).click();
         return new NewJobPage(getDriver());
+    }
+
+    public MainBreadcrumbComponent<?> moveToManageJenkinsLink() {
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.cssSelector("#breadcrumb-menu a[href='/manage'] span"))).perform();
+        return this;
+    }
+
+    public void clickManageJenkinsSubmenu(String locator) {
+        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(locator))).click();
     }
 }
 

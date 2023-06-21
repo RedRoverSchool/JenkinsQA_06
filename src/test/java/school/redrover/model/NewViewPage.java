@@ -1,44 +1,44 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
 public class NewViewPage extends BaseMainHeaderPage<NewViewPage> {
 
+    @FindBy(id = "name")
+    private WebElement nameInput;
+
+    @FindBy(xpath = "//label[@for='hudson.model.ListView']")
+    private WebElement listViewRadio;
+
+    @FindBy(xpath = "//label[@for='hudson.model.MyView']")
+    private WebElement myViewRadio;
+
+    @FindBy(name = "Submit")
+    private WebElement createButton;
+
     public NewViewPage(WebDriver driver) {
         super(driver);
     }
 
     public NewViewPage setNewViewName(String newViewName) {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(newViewName);
-
+        getWait2().until(ExpectedConditions.elementToBeClickable(nameInput)).sendKeys(newViewName);
         return this;
     }
 
-    public NewViewPage selectListView () {
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-
-        return this;
+    public ViewPage selectMyViewAndClickCreate() {
+        TestUtils.click(this, myViewRadio);
+        createButton.click();
+        return new ViewPage(getDriver());
     }
 
-    public NewViewPage selectMyView() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//label[@for='hudson.model.MyView']")));
-
-        return this;
-    }
-
-    public ViewConfigPage clickCreateButton () {
-        getDriver().findElement(By.name("Submit")).click();
-
-        return new ViewConfigPage(new ViewPage(getDriver()));
-    }
-
-    public ActiveViewPage clickCreateMyViewButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//button[@name = 'Submit']")));
-
-        return new ActiveViewPage(getDriver());
+    public ListViewConfigPage selectListViewAndClickCreate() {
+        TestUtils.click(this, listViewRadio);
+        createButton.click();
+        return new ListViewConfigPage(new ViewPage(getDriver()));
     }
 }

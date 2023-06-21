@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
+import school.redrover.model.base.BaseProjectPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.List;
@@ -172,7 +173,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
     public DeletePage<MainPage> dropDownMenuClickDeleteFolders(String jobName) {
         dropDownMenuClickDelete(jobName);
-        return new DeletePage<>(getDriver(), this);
+        return new DeletePage<>(this);
     }
 
     public MainPage acceptAlert() {
@@ -216,9 +217,9 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
         return new MainPage(getDriver());
     }
 
-    public BuildPage clickBuildButton() {
+    public <JobTypePage extends BaseProjectPage<?>> BuildWithParametersPage<JobTypePage> clickBuildButton(JobTypePage jobTypePage) {
         getWait2().until(ExpectedConditions.elementToBeClickable(buildButton)).click();
-        return new BuildPage(getDriver());
+        return new BuildWithParametersPage<>(jobTypePage);
     }
 
     public String getJobBuildStatus(String jobName) {
@@ -281,7 +282,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     }
 
     public String getJobName() {
-        return getWait5().until(ExpectedConditions.elementToBeClickable(onlyJob)).getText();
+        return getWait10().until(ExpectedConditions.elementToBeClickable(onlyJob)).getText();
     }
 
     public String getProjectNameMainPage(String projectName) {
@@ -344,7 +345,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
 
     public String getTitleValueOfBuildStatusIconElement() {
         WebElement buildStatusIcon
-                = getWait5().until(ExpectedConditions
+                = getWait10().until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("(//*[name()='svg'][@title='Success'])[1]")));
         return buildStatusIcon.getAttribute("title");
 
@@ -368,5 +369,11 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
             }
         }
         return status;
+    }
+
+    public ViewPage clickViewJob(String name) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath(String.format("//*[@href='/view/%s/']", name.replaceAll(" ","%20"))))).click();
+        return new ViewPage(getDriver());
     }
 }

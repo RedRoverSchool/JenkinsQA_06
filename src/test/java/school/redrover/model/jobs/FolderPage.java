@@ -20,6 +20,9 @@ public class FolderPage extends BaseJobPage<FolderPage> {
     @FindBy(xpath = "//div[@class='tab']")
     private WebElement buttonNewView;
 
+    @FindBy(partialLinkText = "Delete ")
+    private WebElement deleteButton;
+
     @FindBy(id = "view-message")
     private WebElement folderDescription;
 
@@ -46,9 +49,14 @@ public class FolderPage extends BaseJobPage<FolderPage> {
         return new NewViewFolderPage(getDriver());
     }
 
-    public DeletePage<MainPage> delete() {
-        getDriver().findElement(By.cssSelector("#tasks>:nth-child(4)")).click();
-        return new DeletePage<>(getDriver(), new MainPage(getDriver()));
+    public DeletePage<MainPage> clickDeleteJobThatIsMainPage() {
+        deleteButton.click();
+        return new DeletePage<>(new MainPage(getDriver()));
+    }
+
+    public DeletePage<FolderPage> clickDeleteJobThatIsFolderPage() {
+        deleteButton.click();
+        return new DeletePage<>(new FolderPage(getDriver()));
     }
 
     public String getFolderDescription() {

@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
@@ -13,34 +14,61 @@ import java.util.List;
 
 public class ViewPage extends BaseMainHeaderPage<ViewPage> {
 
+    @FindBy(xpath = "//tbody/tr/td/a/span")
+    private List<WebElement> jobList;
+
+    @FindBy(xpath = "//a[@id='description-link']")
+    private WebElement addDescriptionButton;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement descriptionTextarea;
+
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement saveDescriptionButton;
+
+    @FindBy(xpath = "//div[@id='description']/child::*")
+    private WebElement descriptionText;
+
+    @FindBy(xpath = "//div[@class = 'tab active']")
+    private WebElement activeViewTab;
+
+    @FindBy(xpath = "//a[@href='/newView']")
+    private WebElement createViewIcon;
+
+    @FindBy(xpath = "//a[@href='delete']")
+    private WebElement deleteView;
+
+    @FindBy(xpath = "//div[@class = 'tab active']")
+    private WebElement activeViewName;
+
     public ViewPage(WebDriver driver) {
         super(driver);
     }
 
     private List<WebElement> getJobList() {
-        return getDriver().findElements(By.xpath("//tbody/tr/td/a/span"));
+        return jobList;
     }
 
     public ViewPage clickAddDescription() {
-        getDriver().findElement(By.xpath("//a[@id='description-link']")).click();
+        addDescriptionButton.click();
         return this;
     }
 
     public ViewPage inputDescText(String desc) {
         new Actions(getDriver()).
-                click(getDriver().findElement(By.xpath("//textarea[@name='description']"))).
+                click(descriptionTextarea).
                 sendKeys(desc).
                 perform();
         return this;
     }
 
     public ViewPage saveDescription() {
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
+        saveDescriptionButton.click();
         return this;
     }
 
     public String getDescriptionText() {
-        return getDriver().findElement(By.xpath("//div[@id='description']/child::*")).getText();
+        return descriptionText.getText();
     }
 
     public String getJobName(String name) {
@@ -49,12 +77,11 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
     }
 
     public String getViewName() {
-
-        return TestUtils.getText(this, getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
+        return TestUtils.getText(this, activeViewTab);
     }
 
     public NewViewPage createNewView() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/newView']"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(createViewIcon)).click();
 
         return new NewViewPage(getDriver());
     }
@@ -81,53 +108,24 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
         return new NewJobPage(getDriver());
     }
 
-    public ViewPage clickEditView(String nameProject) {
+    public ListViewConfigPage clickEditListView(String nameProject) {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(String.format("//*[@href='/view/%s/configure']", nameProject.replaceAll(" ","%20"))))).click();
-        return this;
-    }
-    public ViewPage enterDescription(String text) {
-        new Actions(getDriver())
-                .click(getDriver().findElement(By.xpath("//*[@name='description']")))
-                .sendKeys(text)
-                .perform();
-        return this;
+        return new ListViewConfigPage(new ViewPage(getDriver()));
     }
 
-    public ViewPage clickPreview() {
-        getDriver().findElement(
-                By.xpath("//*[@previewendpoint='/markupFormatter/previewDescription']")).click();
-        return this;
+    public MyViewConfigPage clickEditMyView(String nameProject) {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//*[@href='/view/%s/configure']", nameProject.replaceAll(" ","%20"))))).click();
+        return new MyViewConfigPage(new ViewPage(getDriver()));
     }
-
-    public String getPreviewText() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//*[@class='textarea-preview']"))).getText();
-    }
-
-    public ViewPage clickViewConfigOkButton() {
-        getDriver().findElement(By.xpath("//*[@formnovalidate='formNoValidate']")).click();
-        return this;
-    }
-
-    public ViewPage clickHelpFeatureDescription() {
-        getDriver().findElement(
-                By.xpath("//div/a[@helpurl='/help/view-config/description.html']")).click();
-        return this;
-    }
-
-    public String getTextHelpFeatureDescription() {
-        return getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//div[@class='help-area tr']/div/div"))).getText();
-    }
-
     public DeletePage<MainPage> clickDeleteView() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='delete']"))).click();
-        return new DeletePage<>(getDriver(), new MainPage(getDriver()));
+        getWait5().until(ExpectedConditions.elementToBeClickable(deleteView)).click();
+        return new DeletePage<>(new MainPage(getDriver()));
     }
 
-    public NewViewPage clickPlusSign() {
-        getDriver().findElement(By.xpath("//div[@id='projectstatus-tabBar']/div/div[1]/div[2]/a")).click();
-        return new NewViewPage(getDriver());
+    public String getActiveViewName() {
+
+        return TestUtils.getText(this, activeViewName);
     }
 }

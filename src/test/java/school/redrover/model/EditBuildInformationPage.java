@@ -1,25 +1,32 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BaseMainHeaderPage;
 
-public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInformationPage>{
+public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInformationPage> {
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement buildDescriptionTextArea;
+
+    @FindBy(xpath = "//*[@name = 'Submit']")
+    private WebElement saveButton;
 
     public EditBuildInformationPage(WebDriver driver) {
         super(driver);
     }
 
     public EditBuildInformationPage editBuildDescription(String newDescription) {
-       WebElement description = getDriver().findElement(By.xpath("//textarea[@name='description']"));
-       description.clear();
-       description.sendKeys(newDescription);
+        buildDescriptionTextArea.clear();
+        buildDescriptionTextArea.sendKeys(newDescription);
+
         return this;
     }
 
     public BuildPage clickSaveButton() {
-     getDriver().findElement(By.xpath("//*[@name = 'Submit']")).click();
-     return new BuildPage(getDriver());
+        saveButton.click();
+
+        return new BuildPage(getDriver());
     }
 }
