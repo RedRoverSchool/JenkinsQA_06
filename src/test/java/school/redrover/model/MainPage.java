@@ -282,7 +282,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     }
 
     public String getJobName() {
-        return getWait5().until(ExpectedConditions.elementToBeClickable(onlyJob)).getText();
+        return getWait10().until(ExpectedConditions.elementToBeClickable(onlyJob)).getText();
     }
 
     public String getProjectNameMainPage(String projectName) {
@@ -375,5 +375,11 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
          getDriver().findElement(By.id("search-box")).sendKeys(Keys.RETURN);
 
         return new BuiltInNodePage(getDriver());
+    }
+  
+    public ViewPage clickViewJob(String name) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath(String.format("//*[@href='/view/%s/']", name.replaceAll(" ","%20"))))).click();
+        return new ViewPage(getDriver());
     }
 }
