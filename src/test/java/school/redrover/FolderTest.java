@@ -171,7 +171,6 @@ public class FolderTest extends BaseTest {
                 .clickConfigure()
                 .enterDisplayName(DISPLAY_NAME)
                 .addDescription(DESCRIPTION)
-                .clickHealthMetrics()
                 .addHealthMetrics()
                 .clickSaveButton();
 
