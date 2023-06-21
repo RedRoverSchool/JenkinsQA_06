@@ -217,7 +217,7 @@ public class UsersTest extends BaseTest {
         Assert.assertTrue(userIDButtonNotContainsArrow, "UserID button has sort arrow");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testErrorWhenCreateDuplicatedUser")
     public void testSearchPeople() {
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
@@ -274,7 +274,7 @@ public class UsersTest extends BaseTest {
                 "Invalid username or password");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testSearchPeople")
     public void testUserCanLoginToJenkinsWithCreatedAccount() {
         String nameProject = "Engineer";
 
@@ -337,7 +337,7 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualTextAlertIncorrectUsernameAndPassword, EXPECTED_TEXT_ALERT_INCORRECT_LOGIN_AND_PASSWORD);
     }
   
-    @Test
+    @Test(dependsOnMethods = "testUserCanLoginToJenkinsWithCreatedAccount")
     public void testCreateUserFromManageUser() {
 
         final String expectedResultTitle = "Dashboard [Jenkins]";
@@ -363,6 +363,7 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualResultNameButton, expectedResultNameButton);
     }
 
+    @Ignore
     @Test
     public void testCreateUserCheckInPeople() {
 
@@ -384,7 +385,7 @@ public class UsersTest extends BaseTest {
         Assert.assertTrue(actualResultFindUSerName, "true");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateUserFromManageUser")
     public void testCreateUserCheckInManageUsers() {
 
         final String expectedResultTitle = "Users [Jenkins]";

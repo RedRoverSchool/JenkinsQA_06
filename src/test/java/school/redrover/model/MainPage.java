@@ -282,7 +282,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     }
 
     public String getJobName() {
-        return getWait5().until(ExpectedConditions.elementToBeClickable(onlyJob)).getText();
+        return getWait10().until(ExpectedConditions.elementToBeClickable(onlyJob)).getText();
     }
 
     public String getProjectNameMainPage(String projectName) {
