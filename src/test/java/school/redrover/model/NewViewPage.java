@@ -27,41 +27,18 @@ public class NewViewPage extends BaseMainHeaderPage<NewViewPage> {
 
     public NewViewPage setNewViewName(String newViewName) {
         getWait2().until(ExpectedConditions.elementToBeClickable(nameInput)).sendKeys(newViewName);
-
-        return this;
-    }
-
-    public NewViewPage selectListView () {
-        listViewRadio.click();
-
-        return this;
-    }
-
-    public NewViewPage selectMyView() {
-        TestUtils.click(this, myViewRadio);
-
         return this;
     }
 
     public ViewPage selectMyViewAndClickCreate() {
         TestUtils.click(this, myViewRadio);
+        createButton.click();
         return new ViewPage(getDriver());
     }
 
     public ListViewConfigPage selectListViewAndClickCreate() {
-        TestUtils.click(this, myViewRadio);
-        return new ListViewConfigPage(new ViewPage(getDriver()));
-    }
-
-    public MyViewConfigPage clickCreateButton () {
+        TestUtils.click(this, listViewRadio);
         createButton.click();
-
-        return new MyViewConfigPage(new ViewPage(getDriver()));
-    }
-
-    public ActiveViewPage clickCreateMyViewButton() {
-        TestUtils.click(this, createButton);
-
-        return new ActiveViewPage(getDriver());
+        return new ListViewConfigPage(new ViewPage(getDriver()));
     }
 }

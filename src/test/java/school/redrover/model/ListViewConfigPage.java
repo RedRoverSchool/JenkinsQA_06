@@ -20,6 +20,12 @@ public class ListViewConfigPage extends BaseConfigPage <ListViewConfigPage, View
     @FindBy(id = "yui-gen1-button")
     private WebElement addJobFilter;
 
+    @FindBy(xpath = "//a[@tooltip='Help for feature: Description']")
+    private WebElement helpForFeatureDescription;
+
+    @FindBy(xpath = "//div[@class='help-area tr']/div/div")
+    private WebElement textHelpDescription;
+
     public ListViewConfigPage(ViewPage viewPage) {
         super(viewPage);
     }
@@ -42,5 +48,14 @@ public class ListViewConfigPage extends BaseConfigPage <ListViewConfigPage, View
     public ListViewConfigPage scrollToAddJobFilterDropDown() {
         new Actions(getDriver()).scrollToElement(addJobFilter).perform();
         return this;
+    }
+
+    public ListViewConfigPage clickHelpForFeatureDescription() {
+        helpForFeatureDescription.click();
+        return this;
+    }
+
+    public String getTextHelpFeatureDescription() {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(textHelpDescription)).getText();
     }
 }

@@ -43,13 +43,11 @@ public class ViewsTest extends BaseTest {
                 .clickDashboardButton()
                 .createNewView()
                 .setNewViewName(name)
-                .selectListView()
-                .clickCreateButton()
-                .clickSaveButton()
+                .selectListViewAndClickCreate()
                 .getBreadcrumb()
                 .clickDashboardButton()
                 .clickOnView(name)
-                .clickEditView(name);
+                .clickEditListView(name);
     }
 
     @Test
@@ -133,8 +131,7 @@ public class ViewsTest extends BaseTest {
                 .clickLogo()
                 .createNewView()
                 .setNewViewName(expectedName)
-                .selectListView()
-                .clickCreateButton()
+                .selectListViewAndClickCreate()
                 .clickSaveButton()
                 .getViewName();
 
@@ -150,8 +147,7 @@ public class ViewsTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickNewViewButton()
                 .setNewViewName(expectedViewName)
-                .selectMyView()
-                .clickCreateMyViewButton()
+                .selectMyViewAndClickCreate()
                 .getActiveViewName();
 
         Assert.assertEquals(actualViewName, expectedViewName);
@@ -202,12 +198,8 @@ public class ViewsTest extends BaseTest {
                 .clickDashboardButton()
                 .createNewView()
                 .setNewViewName(viewName)
-                .selectListView()
-                .clickCreateButton()
+                .selectListViewAndClickCreate()
                 .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .clickOnView(viewName)
                 .clickDeleteView()
                 .clickYesButton()
                 .verifyViewIsPresent(viewName);
@@ -292,10 +284,10 @@ public class ViewsTest extends BaseTest {
 
     @Test
     public void testHelpForFeatureDescription() {
-        this.createNewFreestyleProjectAndNewView("TestFreestyleName");
+        createNewFreestyleProjectAndNewView("TestFreestyleName");
 
-        String helpFeature = new ViewConfigPage(new ViewPage(getDriver()))
-                .clickHelpFeatureDescription()
+        String helpFeature = new ListViewConfigPage(new ViewPage(getDriver()))
+                .clickHelpForFeatureDescription()
                 .getTextHelpFeatureDescription();
 
         Assert.assertEquals(
@@ -312,16 +304,16 @@ public class ViewsTest extends BaseTest {
         final String projectName = "R_R";
         String randomText = "java test program";
 
-        this.createNewFreestyleProjectAndNewView(projectName);
+        createNewFreestyleProjectAndNewView(projectName);
 
         String previewText =
-                new ViewConfigPage(new ViewPage(getDriver()))
+                new ListViewConfigPage(new ViewPage(getDriver()))
                         .addDescription(randomText)
                         .clickPreview()
                         .getPreviewText();
 
         String textDescription =
-                new ViewConfigPage(new ViewPage(getDriver()))
+                new ListViewConfigPage(new ViewPage(getDriver()))
                         .clickSaveButton()
                         .getDescriptionText();
 
