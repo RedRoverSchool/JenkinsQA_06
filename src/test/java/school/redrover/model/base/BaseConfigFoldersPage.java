@@ -21,10 +21,10 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
     @FindBy(xpath = "//a[text()='Child item with worst health']")
     private WebElement childItemWithWorstHealth;
 
-    @FindBy(xpath = "//a[text()='Child item with worst health']")
+    @FindBy(xpath = "//div[@name='healthMetrics']")
     private WebElement addedHealthMetric;
 
-    @FindBy(xpath = "//a[text()='Child item with worst health']")
+    @FindBy(xpath = "//input[@name='_.recursive']")
     private WebElement recursiveCheckbox;
 
     public BaseConfigFoldersPage(FolderPage foldersPage) {
@@ -46,9 +46,8 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
     public Self addHealthMetrics(){
         clickHealthMetrics();
 
-        TestUtils.scrollToElementByJavaScript(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())), addHealthMetric);
-        getWait5().until(ExpectedConditions.visibilityOf(addHealthMetric)).click();
-        childItemWithWorstHealth.click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(addHealthMetric)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(childItemWithWorstHealth)).click();
 
         return (Self)this;
     }
