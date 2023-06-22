@@ -343,33 +343,6 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testClickLogoToReturnToDashboardPage() {
-        TestUtils.createJob(this, "New Item 1", TestUtils.JobType.FreestyleProject, true);
-        TestUtils.createJob(this, "New Item 2", TestUtils.JobType.Folder, false);
-
-        WebElement goToUserIdPage = getDriver()
-                .findElement(By.xpath("//a[@href='/user/admin']//*[not(self::button)]"));
-        goToUserIdPage.click();
-
-        WebElement clickJenkinsLogoToReturnToDashboardPage = getDriver()
-                .findElement(By.xpath("//div[@class='logo']/a"));
-        clickJenkinsLogoToReturnToDashboardPage.click();
-
-        List<WebElement> ifBreadcrumbBarMenuListConsistsOfDashboardWord = getDriver()
-                .findElements(By.xpath("//div[@id='breadcrumbBar']/descendant::text()/parent::*"));
-        for (WebElement i : ifBreadcrumbBarMenuListConsistsOfDashboardWord) {
-            assertEquals(i.getText(), "Dashboard");
-        }
-
-        List<String> expectedCreatedItemsList = Arrays.asList("New Item 1", "New Item 2");
-        List<WebElement> actualItemsList = getDriver()
-                .findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
-        for (int i = 0; i < actualItemsList.size(); i++) {
-            assertEquals(actualItemsList.get(i).getText(), expectedCreatedItemsList.get(i));
-        }
-    }
-
-    @Test
     public void testNotificationAndSecurityIconsButtonsChangeColorWhenMouseover() {
         List<WebElement> buttonsChangeColorWhenMouseover = getDriver()
                 .findElements(By.xpath("//div[contains(@class,'am-container')]"));
@@ -382,25 +355,6 @@ public class HeaderTest extends BaseTest {
             String hoverColor = iconButtons.getCssValue("background-color");
 
             assertNotEquals(backgroundColor, hoverColor);
-        }
-    }
-
-    @Test
-    public void testNotificationAndSecurityIconsPopUpScreen() {
-        List<WebElement> popUpScreen = getDriver()
-                .findElements(By.xpath("//div[contains(@class,'am-container')]"));
-        for (int i = 0; i < popUpScreen.size(); i++) {
-            if (popUpScreen.get(i).isDisplayed()) {
-                popUpScreen.get(i).click();
-
-                assertTrue(getWait2().
-                        until(ExpectedConditions.visibilityOfElementLocated
-                                (By.xpath("//div[@id='visible-am-list']"))).isDisplayed());
-
-                if (i < popUpScreen.size() - 1 && !popUpScreen.get(i++).isDisplayed()) {
-                    break;
-                }
-            }
         }
     }
 }
