@@ -1,8 +1,8 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
@@ -12,13 +12,33 @@ import java.util.List;
 
 public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
+    @FindBy(xpath = "//button[@id='ok-button']")
+    private WebElement okButton;
+
+    @FindBy(xpath = "//input[@id='name']")
+    private WebElement itemName;
+
+    @FindBy(id = "itemname-required")
+    private WebElement itemNameRequiredMessage;
+
+    @FindBy(id = "itemname-invalid")
+    private WebElement itemInvalidNameMessage;
+
+    @FindBy(xpath = "//label[@class = 'h3']")
+    private WebElement title;
+
+    @FindBy(css = "label > span")
+    private List<WebElement> listOfNewItems;
+
+    @FindBy(xpath = "//*[@id='from']")
+    private WebElement itemNameToPlaceHolder;
+
     public NewJobPage(WebDriver driver) {
         super(driver);
     }
 
     private WebElement getOkButton() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//button[@id='ok-button']")));
+        return getWait5().until(ExpectedConditions.visibilityOf(okButton));
     }
 
     public boolean okButtonDisabled() {
@@ -30,7 +50,7 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public NewJobPage enterItemName(String jobName) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='name']"))).sendKeys(jobName);
+        getWait5().until(ExpectedConditions.visibilityOf(itemName)).sendKeys(jobName);
         return this;
     }
 
@@ -59,24 +79,22 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public String getItemNameRequiredMessage() {
-        return getDriver().findElement(By.id("itemname-required")).getText();
+        return itemNameRequiredMessage.getText();
     }
 
     private WebElement getItemInvalidNameMessage() {
-        return getDriver().findElement(By.id("itemname-invalid"));
+        return itemInvalidNameMessage;
     }
 
     public String getItemNameRequiredErrorText() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-required"))).getText();
+        return getWait2().until(ExpectedConditions.visibilityOf(itemNameRequiredMessage)).getText();
     }
 
     public String getTitle() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//label[@class = 'h3']"))).getText();
+        return getWait2().until(ExpectedConditions.visibilityOf(title)).getText();
     }
 
     public List<String> getListOfNewItems() {
-        List<WebElement> listOfNewItems = getDriver().findElements(By.cssSelector("label > span"));
         List<String> newList = new java.util.ArrayList<>(List.of());
         for (int i = 0; i < listOfNewItems.size(); i++) {
             newList.add(listOfNewItems.get(i).getText());
@@ -85,7 +103,7 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public NewJobPage enterItemNameToPlaceHolder(String jobName) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='from']"))).sendKeys(jobName);
+        getWait5().until(ExpectedConditions.visibilityOf(itemNameToPlaceHolder)).sendKeys(jobName);
         return this;
     }
 }

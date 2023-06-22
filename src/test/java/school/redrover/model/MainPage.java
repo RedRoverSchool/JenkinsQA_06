@@ -98,6 +98,10 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     @FindBy(xpath = "//a[normalize-space(text())= 'Sign in']")
     private WebElement singInFromHubGitHub;
 
+    @FindBy(id = "search-box")
+    private WebElement searchbox;
+
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -282,7 +286,7 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
     }
 
     public String getJobName() {
-        return getWait5().until(ExpectedConditions.elementToBeClickable(onlyJob)).getText();
+        return getWait10().until(ExpectedConditions.elementToBeClickable(onlyJob)).getText();
     }
 
     public String getProjectNameMainPage(String projectName) {
@@ -369,5 +373,19 @@ public class MainPage extends BaseMainHeaderPage<MainPage>  {
             }
         }
         return status;
+    }
+
+    public BuiltInNodePage sendSearchbox(){
+        searchbox.sendKeys(Keys.RETURN);
+
+        return new BuiltInNodePage(getDriver());
+    }
+
+    public UserPage sendSearchboxUser(String name){
+        WebElement searchField = searchbox;
+        searchField.sendKeys(name);
+        searchField.sendKeys(Keys.RETURN);
+
+        return new UserPage(getDriver());
     }
 }

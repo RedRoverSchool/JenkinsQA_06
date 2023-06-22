@@ -17,6 +17,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     private static final String NAME = "MULTI_CONFIGURATION_NAME";
     private static final String NEW_NAME = "MULTI_CONFIGURATION_NEW_NAME";
+    private static final String DESCRIPTION = "Description";
 
     @Test
     public void testCreateProject() {
@@ -38,15 +39,38 @@ public class MultiConfigurationProjectTest extends BaseTest {
         String error = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
-                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
-                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
-                .getErrorPage()
+                .selectJobAndOkAndGoError(TestUtils.JobType.MultiConfigurationProject)
                 .getErrorMessage();
 
         Assert.assertEquals(error, errorMessageName);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithEqualName")
+    public void testCreateProjectWithSpaceInsteadName() {
+        final String expectedResult = "No name is specified";
+
+        String errorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(" ")
+                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
+                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
+                .getErrorPage()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, expectedResult);
+    }
+
+    @Test(dependsOnMethods = "testCreateProjectWithSpaceInsteadName")
+    public void testCheckExceptionOfNameToMultiConfiguration() {
+        String exceptionMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
+                .getItemNameRequiredMessage();
+
+        Assert.assertEquals(exceptionMessage, "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test(dependsOnMethods = "testCheckExceptionOfNameToMultiConfiguration")
     public void testRenameFromDropDownMenu() {
         String newNameProject = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new MultiConfigurationProjectPage(getDriver()))
@@ -147,7 +171,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testEnabled")
+    @Test
     public void testCheckGeneralParametersDisplayedAndClickable() {
         MultiConfigurationProjectConfigPage parameter = new MainPage(getDriver())
                 .clickConfigureDropDown(NAME, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())));
@@ -177,14 +201,13 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testBuildNowDropDownMenu")
     public void testAddDescription() {
-        final String textDescription = "Text Description Test";
 
         String getDescription = new MultiConfigurationProjectPage(getDriver())
-                .changeDescriptionWithoutSaving(textDescription)
+                .changeDescriptionWithoutSaving(DESCRIPTION)
                 .clickSaveButton()
                 .getDescription();
 
-        Assert.assertEquals(getDescription, textDescription);
+        Assert.assertEquals(getDescription, DESCRIPTION);
     }
 
     @Test(dependsOnMethods = "testAddDescription")
@@ -196,61 +219,27 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(deleteProject.size(), 0);
     }
-    @Test(dependsOnMethods = "testDeleteProjectFromDropDownMenu")
-    public void testCreateProjectWithSpaceInsteadName() {
-        final String expectedResult = "No name is specified";
+    @Test
+    public void testCreateFromCreateAJob() {
 
-        String errorMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(" ")
+        MainPage mainPage = new MainPage(getDriver())
+                .clickCreateAJob()
+                .enterItemName(NAME)
                 .selectJobType(TestUtils.JobType.MultiConfigurationProject)
                 .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
-                .getErrorPage()
-                .getErrorMessage();
+                .getHeader()
+                .clickLogo();
 
-        Assert.assertEquals(errorMessage, expectedResult);
+        Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "error was not show name project");
     }
 
-    @Test(dependsOnMethods = "testCreateProjectWithSpaceInsteadName")
-    public void testCheckExceptionOfNameToMultiConfiguration() {
-    String exceptionMessage = new MainPage(getDriver())
-            .clickNewItem()
-            .selectJobType(TestUtils.JobType.MultiConfigurationProject)
-            .getItemNameRequiredMessage();
-
-    Assert.assertEquals(exceptionMessage, "» This field cannot be empty, please enter a valid name");
-}
-
-    @Test
-    public void testCreateProjectWithDescription() {
-        final String multiConfigurationProjectName = "New project";
-        final String description = "Description text";
-
-        String descriptionOnProjectPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(multiConfigurationProjectName)
-                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
-                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
-                .clickSaveButton()
-                .changeDescriptionWithoutSaving(description)
-                .clickSaveButton()
-                .getDescription();
-
-        Assert.assertEquals(descriptionOnProjectPage, description);
-    }
-
-    @Test
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testConfigureOldBuildForProject() {
-        final String multiConfProjectName = "New project";
         final int displayedDaysToKeepBuilds = 5;
         final int displayedMaxNumOfBuildsToKeep = 7;
 
         MultiConfigurationProjectConfigPage multiConfigurationProjectConfigPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(multiConfProjectName)
-                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
-                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
-                .clickSaveButton()
+                .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
                 .clickConfigure()
                 .clickOldBuildCheckBox()
                 .enterDaysToKeepBuilds(displayedDaysToKeepBuilds)
@@ -264,24 +253,10 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 multiConfigurationProjectConfigPage.getMaxNumOfBuildsToKeep("value")), displayedMaxNumOfBuildsToKeep);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateProject")
-    public void testProjectPageDelete() {
-        MainPage deletedProjPage = new MainPage(getDriver())
-                .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
-                .clickDeleteAndAlert();
-
-        Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
-
-        Assert.assertEquals(deletedProjPage.getWelcomeText(), "Welcome to Jenkins!");
-    }
-
-    @Test
+    @Test(dependsOnMethods = "testConfigureOldBuildForProject")
     public void testAddingAProjectOnGithubToTheMultiConfigurationProject() {
         final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
-
-        TestUtils.createJob(this, NAME, TestUtils.JobType.MultiConfigurationProject, true);
 
         String actualNameRepo = new MainPage(getDriver())
                 .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
@@ -294,5 +269,15 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .selectFromJobDropdownMenuTheGitHub(NAME);
 
         Assert.assertEquals(actualNameRepo, expectedNameRepo);
+    }
+
+    @Test(dependsOnMethods = "testAddingAProjectOnGithubToTheMultiConfigurationProject")
+    public void testProjectPageDelete() {
+        MainPage deletedProjPage = new MainPage(getDriver())
+                .clickJobName(NAME, new MultiConfigurationProjectPage(getDriver()))
+                .clickDeleteAndAlert();
+
+        Assert.assertEquals(deletedProjPage.getTitle(), "Dashboard [Jenkins]");
+        Assert.assertEquals(deletedProjPage.getWelcomeText(), "Welcome to Jenkins!");
     }
 }

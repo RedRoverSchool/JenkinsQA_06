@@ -170,13 +170,13 @@ public class FolderTest extends BaseTest {
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
                 .clickConfigure()
                 .enterDisplayName(DISPLAY_NAME)
-                .setHealthMetricsType()
                 .addDescription(DESCRIPTION)
+                .addHealthMetrics()
                 .clickSaveButton();
 
         Assert.assertEquals(folderPage.getJobName(), DISPLAY_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
-        Assert.assertTrue(folderPage.clickConfigure().clickOnHealthMetricsType().isRecursive());
+        Assert.assertTrue(folderPage.clickConfigure().clickHealthMetrics().isRecursive());
     }
 
     @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
