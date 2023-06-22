@@ -40,12 +40,12 @@ public class ViewsTest extends BaseTest {
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getBreadcrumb()
-                .clickDashboardButton()
+                .clickLogo()
                 .createNewView()
                 .setNewViewName(name)
                 .selectListViewAndClickCreate()
                 .getBreadcrumb()
-                .clickDashboardButton()
+                .clickLogo()
                 .clickOnView(name)
                 .clickEditListView(name);
     }
@@ -299,7 +299,7 @@ public class ViewsTest extends BaseTest {
         );
     }
 
-    @Ignore
+
     @Test
     public void testAddViewDescriptionPreview() {
         final String projectName = "R_R";

@@ -47,6 +47,11 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
         return new MainPage(getDriver());
     }
 
+    public MainPage clickLogo() {
+        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("jenkins-head-icon"))).click();
+        return new MainPage(getDriver());
+    }
+
     private WebElement getListItemOfBreadcrumb(String listItemName) {
 
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
