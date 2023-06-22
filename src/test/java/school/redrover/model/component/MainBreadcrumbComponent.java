@@ -64,7 +64,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
     }
 
     public MainPage clickDashboardButton() {
-        getWait2().until(ExpectedConditions.visibilityOf(dashboardButton)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(dashboard)).click();
         return new MainPage(getDriver());
     }
 
