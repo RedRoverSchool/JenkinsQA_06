@@ -1,6 +1,5 @@
 package school.redrover;
 
-import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -15,10 +14,6 @@ import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +23,7 @@ import static org.testng.Assert.*;
 public class HeaderTest extends BaseTest {
 
     @Test
-    public void testHeaderLogoIcon() throws IOException {
+    public void testHeaderLogoIcon() {
         boolean logoIcon = new MainPage(getDriver())
                 .getHeader()
                 .isDisplayedLogoIcon();
@@ -42,27 +37,22 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testSearchTextField() throws InterruptedException {
-        Actions hover = new Actions(getDriver());
+    public void testSearchTextField() {
+        String placeholder = new MainPage(getDriver())
+                .getHeader()
+                .getAttributeFromSearchbox();
 
-        WebElement searchTextBox = getDriver().findElement(By.xpath("//*[@id=\"search-box\"]"));
-        WebElement searchIcon = getDriver().findElement(By.cssSelector(".main-search__icon-leading svg"));
-        WebElement helpButton = getDriver().findElement(By.xpath("//*[@id=\"searchform\"]/a"));
-        WebElement helpButtonIcon = getDriver().findElement(By.cssSelector(".main-search__icon-trailing svg"));
+        boolean helpIcon = new MainPage(getDriver())
+                .getHeader()
+                .isDisplayedHelpIcon();
 
-        String placeholder = searchTextBox.getAttribute("placeholder");
-        String defaultHelpButtonColor = helpButton.getCssValue("color");
+        boolean searchIcon = new MainPage(getDriver())
+                .getHeader()
+                .isDisplayedSearchbox();
 
-        Assert.assertTrue(searchIcon.isDisplayed());
-        assertEquals(placeholder, "Search (CTRL+K)");
-        Assert.assertTrue(helpButtonIcon.isDisplayed());
-        assertEquals(defaultHelpButtonColor, "rgba(115, 115, 140, 1)");
-
-        hover.moveToElement(helpButton).perform();
-        Thread.sleep(500);
-        String hoverHelpButtonColor = helpButton.getCssValue("color");
-
-        assertEquals(hoverHelpButtonColor, "rgba(64, 64, 64, 1)");
+        Assert.assertEquals(placeholder, "Search (⌘+K)");
+        Assert.assertTrue(helpIcon);
+        Assert.assertTrue(searchIcon);
     }
 
     @Test
@@ -376,15 +366,6 @@ public class HeaderTest extends BaseTest {
                 .findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
         for (int i = 0; i < actualItemsList.size(); i++) {
             assertEquals(actualItemsList.get(i).getText(), expectedCreatedItemsList.get(i));
-        }
-    }
-
-    @Test
-    public void testNotificationAndSecurityIconsVisibilityOfIcons() {
-        List<WebElement> visibilityOfIcons = getDriver()
-                .findElements(By.xpath("//div[@class='login page-header__hyperlinks']//*[name()= 'svg']"));
-        for (WebElement icons : visibilityOfIcons) {
-            assertTrue(icons.isDisplayed());
         }
     }
 

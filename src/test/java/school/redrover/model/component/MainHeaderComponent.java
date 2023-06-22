@@ -164,6 +164,18 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         return this;
     }
 
+    public String getAttributeFromSearchbox(){
+       return getDriver().findElement(By.id("search-box")).getAttribute("placeholder");
+    }
+
+    public boolean isDisplayedHelpIcon(){
+       return getDriver().findElement(By.cssSelector(".main-search__icon-trailing svg")).isDisplayed();
+    }
+
+    public boolean isDisplayedSearchbox(){
+        return getDriver().findElement(By.cssSelector(".main-search__icon-leading svg")).isDisplayed();
+    }
+
     public List<String> getListOfSearchResult(){
         List<String> searchResult = new ArrayList<>();
         List<WebElement> webElementList = getDriver().findElements(By.xpath("//div[@id='search-box-completion']//li"));
