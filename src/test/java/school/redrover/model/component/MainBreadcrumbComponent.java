@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
 import school.redrover.model.NewJobPage;
@@ -18,21 +19,43 @@ import java.util.List;
 
 public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseComponent<Page> {
 
+    @FindBy(xpath = "//div[@id='breadcrumbBar']")
+    private WebElement fullBreadcrumb;
+
+    @FindBy(xpath = "//a[contains(text(), 'Dashboard')]")
+    private WebElement dashboard;
+
+    @FindBy(xpath = "//div[@id='breadcrumb-menu']")
+    private WebElement dropdownMenu;
+
+    @FindBy(xpath = "//a[text()='Dashboard']/button")
+    private WebElement dashboardButton;
+
+    @FindBy(xpath = "//a[contains(span, 'Manage Jenkins')]")
+    private WebElement manageJenkinsSubmenu;
+
+    @FindBy(css = "#breadcrumb-menu>div:first-child>ul>li")
+    private List<WebElement> dropDownMenu;
+
+    @FindBy(xpath = "//li/a/span[contains(text(), 'People')]")
+    private WebElement people;
+
+    @FindBy(xpath = "//div[@id='breadcrumb-menu']/div/ul/li/a")
+    private WebElement newItem;
+
     public MainBreadcrumbComponent(Page page) {
         super(page);
     }
 
     public String getFullBreadcrumbText() {
         return getWait5()
-                .until(ExpectedConditions.visibilityOfElementLocated
-                        (By.xpath("//div[@id='breadcrumbBar']")))
+                .until(ExpectedConditions.visibilityOf(fullBreadcrumb))
                 .getText()
                 .replaceAll("\\n", " > ")
                 .trim();
     }
 
     public int countBreadcrumbItems()  {
-
         return this
                 .getFullBreadcrumbText()
                 .replaceAll("[^>]", "")
@@ -41,14 +64,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
     }
 
     public MainPage clickDashboardButton() {
-        getWait2().until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//a[contains(text(), 'Dashboard')]"))).click();
-
-        return new MainPage(getDriver());
-    }
-
-    public MainPage clickLogo() {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("jenkins-head-icon"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(dashboardButton)).click();
         return new MainPage(getDriver());
     }
 
@@ -83,10 +99,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     public <ReturnedPage extends BaseMainHeaderPage<?>> ReturnedPage clickDropdownOption(String optionText, ReturnedPage pageToReturn) {
 
-        WebElement dropdownMenu = getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']"));
-        WebElement option = dropdownMenu.findElement(By.xpath(".//span[contains(text(), '" + optionText + "')]"));
-
-        option.click();
+        dropdownMenu.findElement(By.xpath(".//span[contains(text(), '" + optionText + "')]")).click();
 
         return pageToReturn;
     }
@@ -100,7 +113,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     public MainBreadcrumbComponent<Page> getDashboardDropdownMenu() {
         hoverOver(By.xpath("//a[text()='Dashboard']"));
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Dashboard']/button"))).sendKeys(Keys.RETURN);
+        getWait2().until(ExpectedConditions.elementToBeClickable(dashboardButton)).sendKeys(Keys.RETURN);
 
         return this;
     }
@@ -111,7 +124,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
         getDashboardDropdownMenu();
 
         new Actions(getDriver())
-                .moveToElement(getDriver().findElement(By.xpath("//a[contains(span, 'Manage Jenkins')]")))
+                .moveToElement(manageJenkinsSubmenu)
                 .pause(500)
                 .moveToElement(getDriver().findElement(By.xpath("//span[contains(text(), '" + menuItem + "')]")))
                 .click()
@@ -121,7 +134,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
     }
 
     public List<String> getMenuList() {
-        List<WebElement> dropDownMenu = getDriver().findElements(By.cssSelector("#breadcrumb-menu>div:first-child>ul>li"));
+
         List<String> menuList = new ArrayList<>();
         for (WebElement el : dropDownMenu) {
             menuList.add(el.getAttribute("innerText"));
@@ -131,18 +144,18 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     public PeoplePage openPeoplePageFromDashboardDropdownMenu () {
         getDashboardDropdownMenu();
-        getDriver().findElement(By.xpath("//li/a/span[contains(text(), 'People')]")).click();
+        people.click();
         return new PeoplePage(getDriver());
     }
 
     public NewJobPage clickNewItemDashboardDropdownMenu(){
         getDashboardDropdownMenu();
-        getDriver().findElement(By.xpath("//div[@id='breadcrumb-menu']/div/ul/li/a")).click();
+        newItem.click();
         return new NewJobPage(getDriver());
     }
 
     public MainBreadcrumbComponent<?> moveToManageJenkinsLink() {
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.cssSelector("#breadcrumb-menu a[href='/manage'] span"))).perform();
+        new Actions(getDriver()).moveToElement(manageJenkinsSubmenu).perform();
         return this;
     }
 
