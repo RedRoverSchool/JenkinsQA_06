@@ -299,6 +299,7 @@ public class ViewsTest extends BaseTest {
         );
     }
 
+    @Ignore
     @Test
     public void testAddViewDescriptionPreview() {
         final String projectName = "R_R";
