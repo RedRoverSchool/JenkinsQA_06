@@ -64,7 +64,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
     }
 
     public MainPage clickDashboardButton() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(dashboardButton)).click();
+        getWait2().until(ExpectedConditions.visibilityOf(dashboardButton)).click();
         return new MainPage(getDriver());
     }
 
@@ -113,7 +113,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     public MainBreadcrumbComponent<Page> getDashboardDropdownMenu() {
         hoverOver(By.xpath("//a[text()='Dashboard']"));
-        getWait2().until(ExpectedConditions.elementToBeClickable(dashboardButton)).sendKeys(Keys.RETURN);
+        getWait2().until(ExpectedConditions.visibilityOf(dashboardButton)).sendKeys(Keys.RETURN);
 
         return this;
     }
