@@ -50,7 +50,7 @@ public class HeaderTest extends BaseTest {
                 .getHeader()
                 .isDisplayedSearchbox();
 
-        Assert.assertEquals(placeholder, "Search (⌘+K)");
+        Assert.assertEquals(placeholder, "Search (CTRL+K)");
         Assert.assertTrue(helpIcon);
         Assert.assertTrue(searchIcon);
     }
