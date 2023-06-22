@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -223,7 +222,7 @@ public class UsersTest extends BaseTest {
 
         String actualUserName = new MainPage(getDriver())
                 .sendSearchboxUser(USER_NAME)
-                .actualNameUser();
+                .getActualNameUser();
 
         Assert.assertEquals(actualUserName, "Jenkins User ID: " + USER_NAME);
     }
