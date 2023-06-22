@@ -26,6 +26,9 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
     @FindBy(xpath = "//textarea[@name='description']")
     private WebElement textFromDescription;
 
+    @FindBy(xpath = "//*[@id=\"description\"]/div[1]")
+    private WebElement descriptionText;
+
     @FindBy(css = ".task-link-wrapper>a[href$='newJob']")
     private WebElement newJobNewItem;
 
@@ -94,7 +97,7 @@ public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
 
     public String getTextFromDescription() {
 
-        return getWait5().until(ExpectedConditions.visibilityOf(textFromDescription)).getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(descriptionText)).getText();
     }
 
     public MyViewsPage clearTextFromDescription() {

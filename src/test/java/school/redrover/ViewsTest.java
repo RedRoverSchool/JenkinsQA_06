@@ -84,7 +84,7 @@ public class ViewsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project " + newViewNameRandom);
     }
 
-    @Ignore
+
     @Test
     public void testAddDescriptionFromMyViewsPage() {
         final String newViewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
@@ -100,7 +100,7 @@ public class ViewsTest extends BaseTest {
         Assert.assertEquals(description, newViewDescriptionRandom);
     }
 
-    @Ignore
+
     @Test(dependsOnMethods = "testAddDescriptionFromMyViewsPage")
     public void testEditDescription() {
 
