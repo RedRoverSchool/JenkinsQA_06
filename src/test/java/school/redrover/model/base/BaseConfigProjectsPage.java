@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.CreateItemErrorPage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.List;
@@ -79,6 +80,27 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
 
     @FindBy(xpath = "//select[@name='_.durationName']")
     private WebElement selectTimePeriod;
+
+    @FindBy(xpath = "//label[text()='Retry Count']")
+    private WebElement retryCount;
+
+    @FindBy(xpath = "//input[@name='scmCheckoutRetryCount']")
+    private WebElement checkoutRetryCountSCM;
+
+    @FindBy(xpath = "//label[text()='Quiet period']")
+    private WebElement quietPeriod;
+
+    @FindBy(xpath = "//input[@name='quiet_period']")
+    private WebElement inputQuietPeriod;
+
+    @FindBy(xpath = "//label[text()='Execute concurrent builds if necessary']")
+    private WebElement checkBoxExecuteConcurrentBuilds;
+
+    @FindBy(xpath = "//div[@ref='cb8']/following-sibling::div[2]")
+    private WebElement trueExecuteConcurrentBuilds;
+
+    @FindBy(xpath = "//label[text()='Block build when upstream project is building']")
+    private WebElement blockBuildWhenUpstreamProjectIsBuilding;
 
     public BaseConfigProjectsPage(ProjectPage projectPage) {
         super(projectPage);
@@ -226,5 +248,53 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
 
     public String getTimePeriodText() {
         return new Select(selectTimePeriod).getFirstSelectedOption().getText();
+    }
+
+    public Self clickQuietPeriod() {
+        quietPeriod.click();
+        return (Self) this;
+    }
+
+    public Self inputQuietPeriod(String number) {
+        inputQuietPeriod.clear();
+        inputQuietPeriod.sendKeys(number);
+        return (Self) this;
+    }
+
+    public String getQuietPeriod() {
+        return inputQuietPeriod.getAttribute("value");
+    }
+
+    public Self clickRetryCount() {
+        retryCount.click();
+        return (Self) this;
+    }
+
+    public Self inputSCMCheckoutRetryCount(String count) {
+        checkoutRetryCountSCM.clear();
+        checkoutRetryCountSCM.sendKeys(count);
+        return (Self) this;
+    }
+
+    public String getCheckoutRetryCountSCM() {
+        return checkoutRetryCountSCM.getAttribute("value");
+    }
+
+    public Self clickCheckBoxExecuteConcurrentBuilds() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", throttleBuilds);
+        checkBoxExecuteConcurrentBuilds.click();
+        return (Self) this;
+    }
+
+    public WebElement getTrueExecuteConcurrentBuilds() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", throttleBuilds);
+        return trueExecuteConcurrentBuilds;
+    }
+
+    public Self clickBlockBuildWhenUpstreamProjectIsBuilding() {
+        blockBuildWhenUpstreamProjectIsBuilding.click();
+        return (Self) this;
     }
 }
