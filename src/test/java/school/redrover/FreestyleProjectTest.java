@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
@@ -263,6 +264,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderIsDisplayed, "build not created");
     }
 
+
     @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
         MainPage mainPage = new MainPage(getDriver())
@@ -327,7 +329,8 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 
-    @Test(dependsOnMethods = "testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds")
+
+    @Test(dependsOnMethods = "testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding")
     public void testDeleteFreestyleProject() {
         final String projName = NEW_FREESTYLE_NAME;
 
@@ -482,6 +485,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
 
+
     @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
     public void testSetRateLimitForBuilds() {
         final String timePeriod = "Week";
@@ -498,20 +502,23 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualTimePeriod, timePeriod);
     }
 
+
     @Test(dependsOnMethods = "testSetRateLimitForBuilds")
     public void testAllowParallelBuilds() {
         final String checkExecuteConcurrentBuilds = "rowvg-start tr";
 
-        new MainPage(getDriver())
+        final String statusExecuteConcurrentBuilds = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .clickCheckBoxExecuteConcurrentBuilds()
                 .clickSaveButton()
-                .clickConfigure();
+                .clickConfigure()
+                .getTrueExecuteConcurrentBuilds()
+                .getAttribute("class");
 
-        FreestyleProjectConfigPage actualResult = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
-        Assert.assertEquals(actualResult.getTrueExecuteConcurrentBuilds().getAttribute("class"), checkExecuteConcurrentBuilds);
+        Assert.assertEquals(statusExecuteConcurrentBuilds, checkExecuteConcurrentBuilds);
     }
+
 
     @Test(dependsOnMethods = "testAllowParallelBuilds")
     public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() {
@@ -525,10 +532,12 @@ public class FreestyleProjectTest extends BaseTest {
                 .inputQuietPeriod(expectedQuietPeriod)
                 .clickSaveButton()
                 .clickConfigure()
+                .clickAdvancedDropdownMenu()
                 .getQuietPeriod();
 
         Assert.assertEquals(actualQuietPeriod, expectedQuietPeriod);
     }
+
 
     @Test(dependsOnMethods = "testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild")
     public void testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds() {
@@ -542,8 +551,27 @@ public class FreestyleProjectTest extends BaseTest {
                 .inputSCMCheckoutRetryCount(retryCount)
                 .clickSaveButton()
                 .clickConfigure()
+                .clickAdvancedDropdownMenu()
                 .getCheckoutRetryCountSCM();
 
         Assert.assertEquals(actualRetryCount, retryCount);
+    }
+
+    @Test(dependsOnMethods = "testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds")
+    public void testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding() {
+        final String checkBlockBuildWhenUpstreamProjectIsBuilding = "rowvg-start tr";
+
+        final String statusBlockBuildWhenUpstreamProjectIsBuilding = new MainPage(getDriver())
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickAdvancedDropdownMenu()
+                .clickBlockBuildWhenUpstreamProjectIsBuilding()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickAdvancedDropdownMenu()
+                .getTrueBlockBuildWhenUpstreamProjectIsBuilding()
+                .getAttribute("class");
+
+        Assert.assertEquals(statusBlockBuildWhenUpstreamProjectIsBuilding, checkBlockBuildWhenUpstreamProjectIsBuilding);
     }
 }

@@ -48,4 +48,8 @@ public class  LoginPage extends BaseModel {
     public String  getWelcomeText() {
         return welcomeJenkins.getText();
     }
+
+    public boolean isSignInButtonPresent() {
+        return signInButton.isDisplayed();
+    }
 }

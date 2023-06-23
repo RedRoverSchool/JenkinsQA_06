@@ -1,5 +1,6 @@
 package school.redrover.model.base;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -84,7 +85,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     }
 
     public String getDescription() {
-        return jobDescription.getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(jobDescription)).getText();
     }
 
     public boolean isDescriptionEmpty(){
