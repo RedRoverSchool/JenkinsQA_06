@@ -39,13 +39,13 @@ public class ViewsTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
-                .getBreadcrumb()
-                .clickDashboardButton()
+                .getHeader()
+                .clickLogo()
                 .createNewView()
                 .setNewViewName(name)
                 .selectListViewAndClickCreate()
-                .getBreadcrumb()
-                .clickDashboardButton()
+                .getHeader()
+                .clickLogo()
                 .clickOnView(name)
                 .clickEditListView(name);
     }
@@ -84,7 +84,7 @@ public class ViewsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project " + newViewNameRandom);
     }
 
-    @Ignore
+
     @Test
     public void testAddDescriptionFromMyViewsPage() {
         final String newViewDescriptionRandom = RandomStringUtils.randomAlphanumeric(7);
@@ -100,7 +100,7 @@ public class ViewsTest extends BaseTest {
         Assert.assertEquals(description, newViewDescriptionRandom);
     }
 
-    @Ignore
+
     @Test(dependsOnMethods = "testAddDescriptionFromMyViewsPage")
     public void testEditDescription() {
 
@@ -298,6 +298,7 @@ public class ViewsTest extends BaseTest {
                         " markup language is defined for the system."
         );
     }
+
 
     @Test
     public void testAddViewDescriptionPreview() {

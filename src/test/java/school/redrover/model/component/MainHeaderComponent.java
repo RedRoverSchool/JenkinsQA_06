@@ -1,7 +1,6 @@
 package school.redrover.model.component;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -38,6 +37,14 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     public MainPage clickLogo() {
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("jenkins-head-icon"))).click();
         return new MainPage(getDriver());
+    }
+
+    public boolean isDisplayedLogoIcon(){
+        return getDriver().findElement(By.id("jenkins-head-icon")).isDisplayed();
+    }
+
+    public boolean isDisplayedLogoText(){
+       return getDriver().findElement(By.id("jenkins-name-icon")).isDisplayed();
     }
 
     public MainHeaderComponent<Page> clickNotificationIcon() {
@@ -155,6 +162,18 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     public MainHeaderComponent<Page> typeToSearch(String search){
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("search-box"))).sendKeys(search);
         return this;
+    }
+
+    public String getAttributeFromSearchbox(){
+       return getDriver().findElement(By.id("search-box")).getAttribute("placeholder");
+    }
+
+    public boolean isDisplayedHelpIcon(){
+       return getDriver().findElement(By.cssSelector(".main-search__icon-trailing svg")).isDisplayed();
+    }
+
+    public boolean isDisplayedSearchbox(){
+        return getDriver().findElement(By.cssSelector(".main-search__icon-leading svg")).isDisplayed();
     }
 
     public List<String> getListOfSearchResult(){

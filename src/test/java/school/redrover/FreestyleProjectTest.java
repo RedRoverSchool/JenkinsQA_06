@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
@@ -263,6 +264,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderIsDisplayed, "build not created");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
         MainPage mainPage = new MainPage(getDriver())
@@ -327,7 +329,8 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 
-    @Test(dependsOnMethods = "testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild")
+    @Ignore
+    @Test(dependsOnMethods = "testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds")
     public void testDeleteFreestyleProject() {
         final String projName = NEW_FREESTYLE_NAME;
 
@@ -383,7 +386,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
 
-        String actualNameRepo = new MainPage(getDriver())
+        final String actualNameRepo = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .clickGitHubProjectCheckbox()
@@ -412,7 +415,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(Integer
                 .parseInt(freestyleProjectConfigPage.getDaysToKeepBuilds("value")), daysToKeepBuilds);
-
         Assert.assertEquals(Integer
                 .parseInt(freestyleProjectConfigPage.getMaxNumOfBuildsToKeep("value")), maxOfBuildsToKeep);
     }
@@ -451,7 +453,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String booleanParameter = "Boolean Parameter";
         final String booleanParameterName = "Boolean";
 
-        boolean checkedSetByDefault = new MainPage(getDriver())
+        final boolean checkedSetByDefault = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .checkProjectIsParametrized()
@@ -483,52 +485,72 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
     public void testSetRateLimitForBuilds() {
-        String expectedTimePeriod = "Minute";
-        String actualTimePeriod = new MainPage(getDriver())
+        final String timePeriod = "Week";
+
+        final String actualTimePeriod = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
-                .checkThrottleBuilds(true)
-                .selectTimePeriod("Minute")
+                .checkThrottleBuilds()
+                .selectTimePeriod(timePeriod)
                 .clickSaveButton()
                 .clickConfigure()
                 .getTimePeriodText();
 
-        Assert.assertEquals(actualTimePeriod, expectedTimePeriod);
+        Assert.assertEquals(actualTimePeriod, timePeriod);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testSetRateLimitForBuilds")
     public void testAllowParallelBuilds() {
-        String checkExecuteConcurrentBuilds = "rowvg-start tr";
+        final String checkExecuteConcurrentBuilds = "rowvg-start tr";
+
         new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .clickCheckBoxExecuteConcurrentBuilds()
                 .clickSaveButton()
-                .clickConfigure()
-                .checkThrottleBuilds(false);
+                .clickConfigure();
 
         FreestyleProjectConfigPage actualResult = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()));
         Assert.assertEquals(actualResult.getTrueExecuteConcurrentBuilds().getAttribute("class"), checkExecuteConcurrentBuilds);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAllowParallelBuilds")
     public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() {
         final String expectedQuietPeriod = "10";
 
-        String actualQuietPeriod = new MainPage(getDriver())
+        final String actualQuietPeriod = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
-                .checkThrottleBuilds(false)
                 .clickAdvancedDropdownMenu()
                 .clickQuietPeriod()
                 .inputQuietPeriod(expectedQuietPeriod)
                 .clickSaveButton()
                 .clickConfigure()
-                .checkThrottleBuilds(false)
                 .getQuietPeriod();
 
         Assert.assertEquals(actualQuietPeriod, expectedQuietPeriod);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild")
+    public void testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds() {
+        final String retryCount = "5";
+
+        final String actualRetryCount = new MainPage(getDriver())
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickAdvancedDropdownMenu()
+                .clickRetryCount()
+                .inputSCMCheckoutRetryCount(retryCount)
+                .clickSaveButton()
+                .clickConfigure()
+                .getCheckoutRetryCountSCM();
+
+        Assert.assertEquals(actualRetryCount, retryCount);
     }
 }

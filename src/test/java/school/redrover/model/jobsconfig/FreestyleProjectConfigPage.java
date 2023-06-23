@@ -44,6 +44,12 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//label[normalize-space(text())='Throttle builds']")
     private WebElement throttleBuildsCheckbox;
 
+    @FindBy(xpath = "//label[text()='Retry Count']")
+    private WebElement retryCount;
+
+    @FindBy(xpath = "//input[@name='scmCheckoutRetryCount']")
+    private WebElement checkoutRetryCountSCM;
+
 
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
@@ -79,6 +85,8 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     }
 
     public FreestyleProjectConfigPage clickAdvancedDropdownMenu() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", executeConcurrentBuildsIfNecessary);
         advancedDropdownMenu.click();
         return this;
     }
@@ -97,4 +105,21 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public String getQuietPeriod() {
         return inputQuietPeriod.getAttribute("value");
     }
+
+    public FreestyleProjectConfigPage clickRetryCount() {
+        retryCount.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage inputSCMCheckoutRetryCount(String count) {
+        checkoutRetryCountSCM.clear();
+        checkoutRetryCountSCM.sendKeys(count);
+        return this;
+    }
+
+    public String getCheckoutRetryCountSCM() {
+        return checkoutRetryCountSCM.getAttribute("value");
+    }
+
+
 }

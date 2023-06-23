@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -221,15 +220,11 @@ public class UsersTest extends BaseTest {
     public void testSearchPeople() {
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        WebElement searchField = getDriver().findElement(
-                By.xpath("//input[@name='q']"));
-        searchField.sendKeys(USER_NAME);
-        searchField.sendKeys(Keys.RETURN);
+        String actualUserName = new MainPage(getDriver())
+                .sendSearchboxUser(USER_NAME)
+                .getActualNameUser();
 
-        WebElement actualUserName = getDriver().findElement(
-                By.xpath("//div[contains(text(), 'Jenkins User ID:')]"));
-
-        Assert.assertEquals(actualUserName.getText(), "Jenkins User ID: " + USER_NAME);
+        Assert.assertEquals(actualUserName, "Jenkins User ID: " + USER_NAME);
     }
 
     @Test
@@ -277,8 +272,6 @@ public class UsersTest extends BaseTest {
     @Test(dependsOnMethods = "testSearchPeople")
     public void testUserCanLoginToJenkinsWithCreatedAccount() {
         String nameProject = "Engineer";
-
-        TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         new MainPage(getDriver())
                 .getHeader()
@@ -342,8 +335,6 @@ public class UsersTest extends BaseTest {
 
         final String expectedResultTitle = "Dashboard [Jenkins]";
 
-        TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
-
         new MainPage(getDriver())
                 .getHeader()
                 .clickLogoutButton();
@@ -385,10 +376,7 @@ public class UsersTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateUserFromManageUser")
     public void testCreateUserCheckInManageUsers() {
-
         final String expectedResultTitle = "Users [Jenkins]";
-
-        TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         new MainPage(getDriver())
                 .clickManageJenkinsPage()
