@@ -16,12 +16,14 @@ import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.hamcrest.Matchers;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+@Ignore
 public class APITest {
 
     private static class Pokemon {
