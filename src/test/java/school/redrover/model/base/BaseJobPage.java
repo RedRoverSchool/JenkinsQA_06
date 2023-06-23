@@ -85,7 +85,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     }
 
     public String getDescription() {
-        return getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(jobDescription)).getText();
     }
 
     public boolean isDescriptionEmpty(){
