@@ -126,8 +126,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testLogOutButtonTransfersBackToLoginPaged() {
-
-         boolean signInButtonPresence = new MainPage(getDriver())
+        boolean signInButtonPresence = new MainPage(getDriver())
                 .getHeader()
                 .clickLogOUTButton()
                 .isSignInButtonPresent();

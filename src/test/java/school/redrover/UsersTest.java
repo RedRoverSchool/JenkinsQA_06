@@ -256,17 +256,17 @@ public class UsersTest extends BaseTest {
         Assert.assertFalse(userNotFound);
     }
 
-    @Test(dependsOnMethods = "testDeleteUserViaManageUsersByDeleteButton")
+    @Test(dependsOnMethods = "testDeleteUserViaPeopleMenu")
     public void testLogInWithDeletedUserCredentials() {
+        String invalidMessage = new MainPage(getDriver())
+                .getHeader()
+                .clickLogoutButton()
+                .enterUsername(USER_NAME)
+                .enterPassword(PASSWORD)
+                .enterSignIn(new LoginPage(getDriver()))
+                .getTextAlertIncorrectUsernameOrPassword();
 
-        getDriver().findElement(By.xpath("//a[@href= '/logout']")).click();
-        getDriver().findElement(By.id("j_username")).sendKeys(USER_NAME);
-        getDriver().findElement(By.xpath("//input[@name='j_password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@name='Submit']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By
-                        .xpath("//div[contains(@class, 'alert-danger')]")).getText(),
-                "Invalid username or password");
+        Assert.assertEquals(invalidMessage, "Invalid username or password");
     }
 
     @Test(dependsOnMethods = "testSearchPeople")
@@ -316,7 +316,7 @@ public class UsersTest extends BaseTest {
     }
 
     @Test
-    public void  testInputtingAnIncorrectUsernameAndPassword() {
+    public void testInputtingAnIncorrectUsernameAndPassword() {
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         String actualTextAlertIncorrectUsernameAndPassword = new MainPage(getDriver())
@@ -329,10 +329,9 @@ public class UsersTest extends BaseTest {
 
         Assert.assertEquals(actualTextAlertIncorrectUsernameAndPassword, EXPECTED_TEXT_ALERT_INCORRECT_LOGIN_AND_PASSWORD);
     }
-  
+
     @Test(dependsOnMethods = "testUserCanLoginToJenkinsWithCreatedAccount")
     public void testCreateUserFromManageUser() {
-
         final String expectedResultTitle = "Dashboard [Jenkins]";
 
         new MainPage(getDriver())
@@ -355,7 +354,6 @@ public class UsersTest extends BaseTest {
 
     @Test
     public void testCreateUserCheckInPeople() {
-
         final String expectedResultTitle = "People - [Jenkins]";
 
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
@@ -390,15 +388,16 @@ public class UsersTest extends BaseTest {
         Assert.assertTrue(actualResultFindUserID, "true");
     }
 
-   @Test
+    @Test
     public void testVerifyCreateUserButton() {
         String buttonName = new MainPage(getDriver())
-        .clickManageJenkinsPage()
-        .clickManageUsers()
-        .getButtonText();
+                .clickManageJenkinsPage()
+                .clickManageUsers()
+                .getButtonText();
 
         Assert.assertEquals(buttonName, "Create User");
     }
+
     @Test
     public void testCreateUserButtonClickable() {
         String iconName = new MainPage(getDriver())
