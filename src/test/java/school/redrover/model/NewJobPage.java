@@ -33,8 +33,14 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     @FindBy(xpath = "//*[@id='from']")
     private WebElement itemNameToPlaceHolder;
 
+    private TestUtils.JobType jobType;
+
     public NewJobPage(WebDriver driver) {
         super(driver);
+    }
+
+    public TestUtils.JobType getJobType() {
+        return jobType;
     }
 
     private WebElement getOkButton() {
@@ -56,6 +62,7 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
     public NewJobPage selectJobType(TestUtils.JobType jobType) {
         getDriver().findElement(jobType.getLocator()).click();
+        this.jobType = jobType;
         return this;
     }
 

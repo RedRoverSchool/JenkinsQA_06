@@ -34,6 +34,10 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
         return getJobPage();
     }
 
+    public String getDescription() {
+        return descriptionTextBox.getText();
+    }
+
     public Self addDescription(String description) {
         descriptionTextBox.sendKeys(description);
         return (Self) this;

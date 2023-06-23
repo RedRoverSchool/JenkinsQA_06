@@ -88,7 +88,7 @@ public final class ProjectUtils {
         return new ChromeDriver(chromeOptions);
     }
 
-    static void get(WebDriver driver) {
+    public static void get(WebDriver driver) {
         driver.get(getUrl());
     }
 

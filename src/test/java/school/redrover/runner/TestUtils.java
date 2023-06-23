@@ -18,17 +18,53 @@ import java.util.List;
 public class TestUtils {
 
     public enum JobType {
-        FreestyleProject(By.xpath("//span[contains(text(),'Freestyle project')]")),
+        FreestyleProject(By.xpath("//span[contains(text(),'Freestyle project')]")) {
 
-        Pipeline(By.xpath("//span[contains(text(),'Pipeline')]")),
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new FreestyleProjectConfigPage(new FreestyleProjectPage(driver));
+            }
+        },
 
-        MultiConfigurationProject(By.xpath("//span[contains(text(),'Multi-configuration project')]")),
+        Pipeline(By.xpath("//span[contains(text(),'Pipeline')]")) {
 
-        Folder(By.xpath("//span[contains(text(),'Folder')]")),
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new PipelineConfigPage(new PipelinePage(driver));
+            }
+        },
 
-        MultibranchPipeline(By.xpath("//span[contains(text(),'Multibranch Pipeline')]")),
+        MultiConfigurationProject(By.xpath("//span[contains(text(),'Multi-configuration project')]")) {
 
-        OrganizationFolder(By.xpath("//span[contains(text(),'Organization Folder')]"));
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(driver));
+            }
+        },
+
+        Folder(By.xpath("//span[contains(text(),'Folder')]")) {
+
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new FolderConfigPage(new FolderPage(driver));
+            }
+        },
+
+        MultibranchPipeline(By.xpath("//span[contains(text(),'Multibranch Pipeline')]")) {
+
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new MultibranchPipelineConfigPage(new MultibranchPipelinePage(driver));
+            }
+        },
+
+        OrganizationFolder(By.xpath("//span[contains(text(),'Organization Folder')]")) {
+
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new OrganizationFolderConfigPage(new OrganizationFolderPage(driver));
+            }
+        };
 
         private final By locator;
 
@@ -39,28 +75,13 @@ public class TestUtils {
         public By getLocator() {
             return locator;
         }
+
+        public abstract BaseConfigPage<?, ?> createConfigPage(WebDriver driver);
     }
 
     public static void createJob(BaseTest baseTest, String name, JobType jobType, Boolean goToMainPage) {
         final WebDriver driver = baseTest.getDriver();
-        BaseConfigPage<?,?> configPage = null;
-
-        switch (jobType) {
-            case FreestyleProject ->
-                    configPage = new FreestyleProjectConfigPage(new FreestyleProjectPage(driver));
-            case Pipeline ->
-                    configPage = new PipelineConfigPage(new PipelinePage(driver));
-            case MultiConfigurationProject ->
-                    configPage = new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(driver));
-            case  Folder ->
-                    configPage = new FolderConfigPage(new FolderPage(driver));
-            case MultibranchPipeline ->
-                    configPage = new MultibranchPipelineConfigPage(new MultibranchPipelinePage(driver));
-            case OrganizationFolder ->
-                    configPage = new OrganizationFolderConfigPage(new OrganizationFolderPage(driver));
-            default -> {
-            }
-        }
+        BaseConfigPage<?, ?> configPage = jobType.createConfigPage(baseTest.getDriver());
 
         new MainPage(driver)
                 .clickNewItem()
