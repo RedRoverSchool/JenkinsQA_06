@@ -161,14 +161,12 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testLogOutButtonTransfersBackToLoginPaged() {
 
-        final String expectedHeader = "Welcome to Jenkins!";
-
-        String getTextFromActualHeader = new MainPage(getDriver())
+         boolean signInButtonPresence = new MainPage(getDriver())
                 .getHeader()
                 .clickLogOUTButton()
-                .getWelcomeText();
+                .isSignInButtonPresent();
 
-        Assert.assertEquals(getTextFromActualHeader, expectedHeader);
+        Assert.assertTrue(signInButtonPresence, "Sign In button is not displayed after logout");
     }
 
     @Test
