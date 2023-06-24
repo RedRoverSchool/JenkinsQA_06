@@ -22,14 +22,8 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
     @FindBy(xpath = "//a[@class ='jenkins-table__link model-link inside']")
     private List<WebElement> users;
 
-    @FindBy(xpath = "//a[@class='jenkins-table__button'][1]")
-    private List<WebElement> configureUserButton;
-
     @FindBy(xpath = "//a[@class='jenkins-table__button jenkins-!-destructive-color']")
     private WebElement deleteButton;
-
-    @FindBy(name = "_.description")
-    private WebElement addEditDescriptionButton;
 
     @FindBy(xpath = "//a[@class='jenkins-table__button'][1]")
     private WebElement configureAdminUser;
@@ -79,12 +73,6 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         return false;
     }
 
-    public ManageUsersPage clickYesButton() {
-        getDriver().findElement(By.name("Submit")).click();
-
-        return this;
-    }
-
     public DeletePage<ManageUsersPage> clickDeleteUser() {
         deleteButton.click();
 
@@ -101,12 +89,6 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         }
 
         return false;
-    }
-
-    public UserConfigPage clickUserConfigureButton(String username) {
-        getDriver().findElement(By.xpath("//a[@href='user/" + username + "/']")).click();
-
-        return new UserConfigPage(new StatusUserPage(getDriver()));
     }
 
     public UserConfigPage clickUserEditButton() {

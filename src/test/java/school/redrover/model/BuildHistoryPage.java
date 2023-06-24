@@ -36,13 +36,6 @@ public class BuildHistoryPage extends BaseMainHeaderPage<BuildHistoryPage> {
         super(driver);
     }
 
-    public BuildPage clickPipelineProjectBuildNumber(String projectName) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/job/" + projectName + "/1/']")))
-                .click();
-
-        return new BuildPage(getDriver());
-    }
-
     public ConsoleOutputPage clickProjectBuildConsole(String projectBuildName) {
         getDriver().findElement(By.xpath("//a[contains(@href, '" + projectBuildName + "')  and contains(@href, 'console') and not(contains(@href, 'default'))]")).click();
 

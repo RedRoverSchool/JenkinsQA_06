@@ -49,24 +49,6 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
         return jobList;
     }
 
-    public ViewPage clickAddDescription() {
-        addDescriptionButton.click();
-        return this;
-    }
-
-    public ViewPage inputDescText(String desc) {
-        new Actions(getDriver()).
-                click(descriptionTextarea).
-                sendKeys(desc).
-                perform();
-        return this;
-    }
-
-    public ViewPage saveDescription() {
-        saveDescriptionButton.click();
-        return this;
-    }
-
     public String getDescriptionText() {
         return descriptionText.getText();
     }
@@ -114,11 +96,6 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
         return new ListViewConfigPage(new ViewPage(getDriver()));
     }
 
-    public MyViewConfigPage clickEditMyView(String nameProject) {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath(String.format("//*[@href='/view/%s/configure']", nameProject.replaceAll(" ","%20"))))).click();
-        return new MyViewConfigPage(new ViewPage(getDriver()));
-    }
     public DeletePage<MainPage> clickDeleteView() {
         getWait5().until(ExpectedConditions.elementToBeClickable(deleteView)).click();
         return new DeletePage<>(new MainPage(getDriver()));
