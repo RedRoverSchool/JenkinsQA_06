@@ -28,6 +28,9 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
     @FindBy(xpath = "//a[@class='jenkins-table__button'][1]")
     private WebElement configureAdminUser;
 
+    @FindBy(className = "task")
+    private List<WebElement> tasks;
+
     public ManageUsersPage(WebDriver driver) {
         super(driver);
     }
@@ -95,6 +98,11 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
         configureAdminUser.click();
 
         return new UserConfigPage(new StatusUserPage(getDriver()));
+    }
+
+    public List<WebElement> getListMenu() {
+
+        return tasks;
     }
 }
 
