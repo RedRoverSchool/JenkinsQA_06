@@ -3,7 +3,6 @@ package school.redrover;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -15,7 +14,6 @@ import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.*;
@@ -40,7 +38,7 @@ public class HeaderTest extends BaseTest {
     public void testSearchTextField() {
         String placeholder = new MainPage(getDriver())
                 .getHeader()
-                .getAttributeFromSearchbox();
+                .getAttributeFromSearchBox();
 
         boolean helpIcon = new MainPage(getDriver())
                 .getHeader()
@@ -48,7 +46,7 @@ public class HeaderTest extends BaseTest {
 
         boolean searchIcon = new MainPage(getDriver())
                 .getHeader()
-                .isDisplayedSearchbox();
+                .isDisplayedSearchBoxIcon();
 
         Assert.assertEquals(placeholder, "Search (CTRL+K)");
         Assert.assertTrue(helpIcon);
