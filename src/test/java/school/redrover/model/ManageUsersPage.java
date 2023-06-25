@@ -22,6 +22,9 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
     @FindBy(xpath = "//a[@class ='jenkins-table__link model-link inside']")
     private List<WebElement> users;
 
+    @FindBy(id = "people")
+    private List<WebElement> people;
+
     @FindBy(xpath = "//a[@class='jenkins-table__button jenkins-!-destructive-color']")
     private WebElement deleteButton;
 
@@ -72,7 +75,6 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -83,14 +85,11 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
     }
 
     public boolean getUserDeleted(String username) {
-        List<WebElement> userList = getDriver().findElements(By.id("people"));
-
-        for (WebElement user : userList) {
+        for (WebElement user : people) {
             if (user.getText().equals(username)) {
                 break;
             }
         }
-
         return false;
     }
 
@@ -101,7 +100,6 @@ public class ManageUsersPage extends BaseMainHeaderPage<ManageUsersPage> {
     }
 
     public List<WebElement> getListMenu() {
-
         return tasks;
     }
 }
