@@ -21,6 +21,9 @@ public class StatusUserPage extends BaseMainHeaderPage<StatusUserPage> {
     @FindBy(name = "Submit")
     private WebElement saveButton;
 
+    @FindBy(css = "[href$='/configure']")
+    private WebElement configureSideMenu;
+
     public StatusUserPage(WebDriver driver) {
         super(driver);
     }
@@ -55,8 +58,7 @@ public class StatusUserPage extends BaseMainHeaderPage<StatusUserPage> {
     }
 
     public UserConfigPage clickConfigureSideMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                getDriver().findElement(By.cssSelector("[href$='/configure']")))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(configureSideMenu)).click();
 
         return new UserConfigPage(new StatusUserPage(getDriver()));
     }
