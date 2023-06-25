@@ -28,6 +28,9 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     @FindBy(id = "visible-am-list")
     private WebElement popUpScreenNotification;
 
+    @FindBy(id = "visible-am-button")
+    private WebElement notificationIcon;
+
     @FindBy(id = "breadcrumb-menu")
     private WebElement adminDropdownMenu;
 
@@ -89,14 +92,10 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     private WebElement logOutLink;
 
     @FindBy(xpath = "//a[@href='/logout']")
-    private WebElement logOUTButton;
+    private WebElement logOutButton;
 
     @FindBy(xpath = "//a[@href='/user/admin']")
     private WebElement adminButton;
-
-    private static final By NOTIFICATION_ICON = By.id("visible-am-button");
-    private static final By ADMIN_BUTTON = By.xpath("//a[@href='/user/admin']");
-    private static final By LOGOUT_BUTTON = By.xpath("//a[@href='/logout']");
 
     public MainHeaderComponent(Page page) {
         super(page);
@@ -128,7 +127,7 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     }
 
     public MainHeaderComponent<Page> clickNotificationIcon() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(NOTIFICATION_ICON)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(notificationIcon)).click();
 
         return this;
     }
@@ -148,43 +147,43 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     }
 
     public MainHeaderComponent<Page> hoverOverNotificationIcon() {
-        hoverOver(NOTIFICATION_ICON);
+        hoverOver(By.id("visible-am-button"));
 
         return this;
     }
 
     public MainHeaderComponent<Page> hoverOverAdminButton() {
-        hoverOver(ADMIN_BUTTON);
+        hoverOver(By.xpath("//a[@href='/user/admin']"));
 
         return this;
     }
 
     public MainHeaderComponent<Page> hoverOverLogOutButton() {
-        hoverOver(LOGOUT_BUTTON);
+        hoverOver(By.xpath("//a[@href='/logout']"));
 
         return this;
     }
 
     public String getNotificationIconBackgroundColor() {
-        return getIconBackgroundColor(NOTIFICATION_ICON);
+        return getIconBackgroundColor(By.id("visible-am-button"));
     }
 
     public String getAdminButtonBackgroundColor() {
-        return getIconBackgroundColor(ADMIN_BUTTON);
+        return getIconBackgroundColor(By.xpath("//a[@href='/user/admin']"));
     }
 
     public String getLogOutButtonBackgroundColor() {
-        return getIconBackgroundColor(LOGOUT_BUTTON);
+        return getIconBackgroundColor(By.xpath("//a[@href='/logout']"));
     }
 
     public String getAdminTextDecorationValue() {
-        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOfElementLocated(ADMIN_BUTTON));
+        WebElement adminLink = getWait5().until(ExpectedConditions.visibilityOf(adminButton));
 
         return adminLink.getCssValue("text-decoration");
     }
 
     public String getLogOutTextDecorationValue() {
-        WebElement logoutLink = getDriver().findElement(LOGOUT_BUTTON);
+        WebElement logoutLink = logOutButton;
         getWait5().until(ExpectedConditions.attributeToBeNotEmpty(logoutLink, "text-decoration"));
 
         return logoutLink.getCssValue("color");
@@ -225,7 +224,7 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     }
 
     public String getBackgroundColorNotificationIcon() {
-        return getDriver().findElement(NOTIFICATION_ICON).getCssValue("background-color");
+        return notificationIcon.getCssValue("background-color");
     }
 
     public String getLinkVersion() {
@@ -233,15 +232,9 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     }
 
     public LoginPage clickLogoutButton() {
-        getDriver().findElement(LOGOUT_BUTTON).click();
+        logOutButton.click();
 
         return new LoginPage(getDriver());
-    }
-
-    public UserPage clickUserName() {
-        getDriver().findElement(By.xpath("//div[3]/a[1]/span")).click();
-
-        return new UserPage(getDriver());
     }
 
     public MainHeaderComponent<Page> typeToSearch(String search) {
@@ -322,7 +315,7 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     }
 
     public LoginPage clickLogOUTButton() {
-        logOUTButton.click();
+        logOutButton.click();
 
         return new LoginPage(getDriver());
     }
