@@ -42,7 +42,7 @@ public class ViewsTest extends BaseTest {
                 .clickLogo()
                 .createNewView()
                 .setNewViewName(name)
-                .selectListViewAndClickCreate()
+                .selectTypeViewClickCreate(TestUtils.ViewType.ListView, ListViewConfigPage.class)
                 .getHeader()
                 .clickLogo()
                 .clickOnView(name)
@@ -130,7 +130,7 @@ public class ViewsTest extends BaseTest {
                 .clickLogo()
                 .createNewView()
                 .setNewViewName(expectedName)
-                .selectListViewAndClickCreate()
+                .selectTypeViewClickCreate(TestUtils.ViewType.ListView, ListViewConfigPage.class)
                 .clickSaveButton()
                 .getViewName();
 
@@ -146,7 +146,7 @@ public class ViewsTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickNewViewButton()
                 .setNewViewName(expectedViewName)
-                .selectMyViewAndClickCreate()
+                .selectTypeViewClickCreate(TestUtils.ViewType.MyView, ViewPage.class)
                 .getActiveViewName();
 
         Assert.assertEquals(actualViewName, expectedViewName);
@@ -197,7 +197,7 @@ public class ViewsTest extends BaseTest {
                 .clickDashboardButton()
                 .createNewView()
                 .setNewViewName(viewName)
-                .selectListViewAndClickCreate()
+                .selectTypeViewClickCreate(TestUtils.ViewType.ListView, ListViewConfigPage.class)
                 .clickSaveButton()
                 .clickDeleteView()
                 .clickYesButton()
@@ -218,7 +218,7 @@ public class ViewsTest extends BaseTest {
         ViewPage viewPage = new MainPage(getDriver())
                 .createNewView()
                 .setNewViewName(viewName)
-                .selectListViewAndClickCreate()
+                .selectTypeViewClickCreate(TestUtils.ViewType.ListView, ListViewConfigPage.class)
                 .selectJobsInJobFilters(folderName1)
                 .clickSaveButton();
 
@@ -246,7 +246,7 @@ public class ViewsTest extends BaseTest {
         ViewPage viewPage = new ViewPage(getDriver())
                 .createNewView()
                 .setNewViewName(viewName2)
-                .selectListViewAndClickCreate()
+                .selectTypeViewClickCreate(TestUtils.ViewType.ListView, ListViewConfigPage.class)
                 .selectRecurseCheckbox()
                 .scrollToAddJobFilterDropDown()
                 .selectJobsInJobFilters(folderName1 + " » " + jobName1)
@@ -272,9 +272,9 @@ public class ViewsTest extends BaseTest {
                 .clickLogo()
                 .clickJobName("TestFolder", new FolderPage(getDriver()))
                 .clickNewView()
-                .enterViewName("MyNewView")
-                .selectMyViewAndClickCreate()
-                .getMyView();
+                .setNewViewName("MyNewView")
+                .selectTypeViewClickCreate(TestUtils.ViewType.MyView, ViewPage.class)
+                .getViewName();
 
         assertEquals(newView, "MyNewView");
     }

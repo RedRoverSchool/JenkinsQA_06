@@ -128,9 +128,9 @@ public class FolderTest extends BaseTest {
         boolean viewIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickNewView()
-                .enterViewName(viewName)
-                .selectMyViewAndClickCreate()
-                .clickAll()
+                .setNewViewName(viewName)
+                .selectTypeViewClickCreate(TestUtils.ViewType.MyView, ViewPage.class)
+                .clickAllOnFolderView()
                 .viewIsDisplayed(viewName);
 
         Assert.assertTrue(viewIsDisplayed, "error was not shown created view");
