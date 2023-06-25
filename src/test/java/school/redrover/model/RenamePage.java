@@ -34,11 +34,6 @@ public class RenamePage <JobTypePage extends BasePage<?, ?>> extends BaseMainHea
         return jobTypePage;
     }
 
-    public String getErrorMessage() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(errorMessage)).click();
-        return getWait10().until(ExpectedConditions.visibilityOf(errorMessage)).getText();
-    }
-
     public CreateItemErrorPage clickRenameButtonAndGoError() {
         renameButton.click();
         return new CreateItemErrorPage(getDriver());

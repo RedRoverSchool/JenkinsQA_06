@@ -3,7 +3,6 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FolderPage;
@@ -207,7 +206,6 @@ public class ViewsTest extends BaseTest {
         Assert.assertFalse(isDeletedViewPresent);
     }
 
-    @Ignore
     @Test
     public void testMoveFolderToNewViewList() {
         final String folderName1 = "f1";
@@ -228,7 +226,6 @@ public class ViewsTest extends BaseTest {
         Assert.assertEquals(viewPage.getJobName(folderName1), folderName1);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testMoveFolderToNewViewList")
     public void testCreateNewViewWithJobFilters() {
         final String folderName1 = "f1";

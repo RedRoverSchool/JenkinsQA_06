@@ -51,10 +51,6 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return getOkButton().getAttribute("disabled").isEmpty();
     }
 
-    public boolean okButtonIsEnabled() {
-        return getOkButton().isEnabled();
-    }
-
     public NewJobPage enterItemName(String jobName) {
         getWait5().until(ExpectedConditions.visibilityOf(itemName)).sendKeys(jobName);
         return this;
@@ -99,18 +95,5 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
     public String getTitle() {
         return getWait2().until(ExpectedConditions.visibilityOf(title)).getText();
-    }
-
-    public List<String> getListOfNewItems() {
-        List<String> newList = new java.util.ArrayList<>(List.of());
-        for (int i = 0; i < listOfNewItems.size(); i++) {
-            newList.add(listOfNewItems.get(i).getText());
-        }
-        return newList;
-    }
-
-    public NewJobPage enterItemNameToPlaceHolder(String jobName) {
-        getWait5().until(ExpectedConditions.visibilityOf(itemNameToPlaceHolder)).sendKeys(jobName);
-        return this;
     }
 }

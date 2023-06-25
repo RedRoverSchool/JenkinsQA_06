@@ -2,9 +2,7 @@ package school.redrover;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.runner.BaseTest;
@@ -21,7 +19,6 @@ public class UsersTest extends BaseTest {
     protected static final String EMAIL = "test@test.com";
     protected static final String USER_FULL_NAME = "Test User";
     protected static final String USER_LINK = "//a[@href='user/" + USER_NAME + "/']";
-    private final By USER_NAME_LINK = By.xpath(USER_LINK);
     private static final String EXPECTED_TEXT_ALERT_INCORRECT_LOGIN_AND_PASSWORD = "Invalid username or password";
 
     public static List<String> listText(List<WebElement> elementList) {
@@ -160,17 +157,17 @@ public class UsersTest extends BaseTest {
         Assert.assertEquals(actualEmail, displayedEmail);
     }
 
-    @Ignore
     @Test
     public void testVerifyUserPageMenu() {
+        final List<String> listMenuExpected = Arrays.asList("People", "Status", "Builds", "Configure", "My Views", "Delete");
+
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
-        List<String> listMenuExpected = Arrays.asList("People", "Status", "Builds", "Configure", "My Views", "Delete");
-
-        getDriver().findElement(USER_NAME_LINK).click();
-
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("description")));
-        List<WebElement> listMenu = getDriver().findElements(By.className("task"));
+        List<WebElement> listMenu = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickManageUsers()
+                .clickUserIDName(USER_NAME)
+                .getListMenu();
 
         for (int i = 0; i < listMenu.size(); i++) {
             Assert.assertEquals(listMenu.get(i).getText(), listMenuExpected.get(i));

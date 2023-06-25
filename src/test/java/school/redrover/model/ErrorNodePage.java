@@ -15,9 +15,6 @@ public class ErrorNodePage extends BaseMainHeaderPage<ErrorNodePage> {
     @FindBy(xpath = "//p")
     private WebElement textError;
 
-    @FindBy(xpath = "//*[@id='main-panel']/h1")
-    private WebElement errorHeader;
-
     public ErrorNodePage(WebDriver driver){
         super(driver);
     }
@@ -30,9 +27,5 @@ public class ErrorNodePage extends BaseMainHeaderPage<ErrorNodePage> {
 
     public String getErrorMessage() {
         return errorMessage.getText();
-    }
-
-    public String getErrorHeader() {
-        return errorHeader.getText();
     }
 }

@@ -17,13 +17,6 @@ public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInform
         super(driver);
     }
 
-    public EditBuildInformationPage editBuildDescription(String newDescription) {
-        buildDescriptionTextArea.clear();
-        buildDescriptionTextArea.sendKeys(newDescription);
-
-        return this;
-    }
-
     public BuildPage clickSaveButton() {
         saveButton.click();
 

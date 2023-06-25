@@ -45,10 +45,6 @@ public class  LoginPage extends BaseModel {
        return incorrectUserNameOrPassword.getText();
     }
 
-    public String  getWelcomeText() {
-        return welcomeJenkins.getText();
-    }
-
     public boolean isSignInButtonPresent() {
         return signInButton.isDisplayed();
     }
