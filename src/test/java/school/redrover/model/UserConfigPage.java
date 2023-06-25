@@ -18,6 +18,9 @@ public class UserConfigPage extends BaseConfigPage<UserConfigPage,StatusUserPage
     @FindBy(xpath = "//input[@name='insensitiveSearch']")
     private WebElement insensitiveSearchCheckbox;
 
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement buttonSubmit;
+
     public UserConfigPage(StatusUserPage statusUserPage) {
         super(statusUserPage);
     }
@@ -49,7 +52,7 @@ public class UserConfigPage extends BaseConfigPage<UserConfigPage,StatusUserPage
     }
 
     public StatusUserPage saveConfig(){
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@name='Submit']"))).click();
+        getWait2().until(ExpectedConditions.visibilityOf(buttonSubmit)).click();
 
         return new StatusUserPage(getDriver());
     }
