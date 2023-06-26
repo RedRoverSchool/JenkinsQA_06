@@ -43,7 +43,7 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
     public Self clickHealthMetrics(){
         new Actions(getDriver())
                 .click(healthMetricsSideMenu)
-                .pause(Duration.ofMillis(500))
+                .pause(Duration.ofMillis(800))
                 .perform();
         healthMetric.click();
         return (Self)this;
