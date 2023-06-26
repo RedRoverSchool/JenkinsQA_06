@@ -1,6 +1,5 @@
 package school.redrover.model.component;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -101,15 +100,15 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         super(page);
     }
 
-    private void hoverOver(By locator) {
+    private void hoverOver(WebElement webElement) {
         new Actions(getDriver())
-                .moveToElement(getDriver().findElement(locator))
+                .moveToElement(webElement)
                 .pause(Duration.ofMillis(300))
                 .perform();
     }
 
-    private String getIconBackgroundColor(By locator) {
-        return getDriver().findElement(locator).getCssValue("background-color");
+    private String getIconBackgroundColor(WebElement webElement) {
+        return webElement.getCssValue("background-color");
     }
 
     public MainPage clickLogo() {
@@ -147,33 +146,33 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     }
 
     public MainHeaderComponent<Page> hoverOverNotificationIcon() {
-        hoverOver(By.id("visible-am-button"));
+        hoverOver(notificationIcon);
 
         return this;
     }
 
     public MainHeaderComponent<Page> hoverOverAdminButton() {
-        hoverOver(By.xpath("//a[@href='/user/admin']"));
+        hoverOver(adminButton);
 
         return this;
     }
 
     public MainHeaderComponent<Page> hoverOverLogOutButton() {
-        hoverOver(By.xpath("//a[@href='/logout']"));
+        hoverOver(logOutButton);
 
         return this;
     }
 
     public String getNotificationIconBackgroundColor() {
-        return getIconBackgroundColor(By.id("visible-am-button"));
+        return getIconBackgroundColor(notificationIcon);
     }
 
     public String getAdminButtonBackgroundColor() {
-        return getIconBackgroundColor(By.xpath("//a[@href='/user/admin']"));
+        return getIconBackgroundColor(adminButton);
     }
 
     public String getLogOutButtonBackgroundColor() {
-        return getIconBackgroundColor(By.xpath("//a[@href='/logout']"));
+        return getIconBackgroundColor(logOutButton);
     }
 
     public String getAdminTextDecorationValue() {
