@@ -180,7 +180,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
-    public void testEditDescription() {
+    public void testPreview() {
         final String newDescription = (DESCRIPTION + " new");
 
         String previewText = new MainPage(getDriver())
@@ -197,7 +197,7 @@ public class FolderTest extends BaseTest {
                 .clickSaveButton();
     }
 
-    @Test(dependsOnMethods = "testEditDescription")
+    @Test(dependsOnMethods = "testPreview")
     public void testCancelDeleting() {
 
         boolean folderIsDisplayed = new MainPage(getDriver())
