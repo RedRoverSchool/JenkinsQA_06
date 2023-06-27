@@ -92,7 +92,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
-    public void testErrorWhenCreateWithExistingName() {
+    public void testCreateWithExistingName() {
 
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
@@ -121,7 +121,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
-    @Test(dependsOnMethods = "testErrorWhenCreateWithExistingName")
+    @Test(dependsOnMethods = "testCreateWithExistingName")
     public void testCreateNewViewInFolder() {
         final String viewName = "Test View";
 
@@ -275,7 +275,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void moveJobsToFolderFromSideMenu() {
+    public void testMoveJobsToFolderFromSideMenu() {
         List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
                 "Folder", "Multibranch Pipeline", "Organization");
 
