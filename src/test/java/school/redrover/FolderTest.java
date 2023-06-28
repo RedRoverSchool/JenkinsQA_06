@@ -222,7 +222,6 @@ public class FolderTest extends BaseTest {
                 .getJobList();
 
         List<String> result = jobs.stream().map(el -> el.getValue0()).toList().stream().sorted().toList();
-
         Assert.assertEquals(createdJobList, result);
     }
 
