@@ -40,6 +40,11 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
         return (Self)this;
     }
 
+    public Self clearDisplayName() {
+        inputDisplayName.clear();
+        return (Self)this;
+    }
+
     public Self clickHealthMetrics(){
         new Actions(getDriver())
                 .click(healthMetricsSideMenu)
