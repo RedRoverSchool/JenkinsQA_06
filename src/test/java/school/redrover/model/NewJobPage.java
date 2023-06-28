@@ -60,7 +60,8 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public NewJobPage selectJobType(TestUtils.JobType jobType) {
-        getDriver().findElement(jobType.getLocator()).click();
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", getDriver().findElement(jobType.getLocator()));
         this.jobType = jobType;
         return this;
     }
