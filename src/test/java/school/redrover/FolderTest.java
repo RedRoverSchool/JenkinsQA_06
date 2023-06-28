@@ -150,7 +150,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(newNameIsDisplayed,"error was not show new name folder");
     }
 
-    @Test(dependsOnMethods = "testRename")
+    @Test(dependsOnMethods = "testRenameUsingDropDownMenu")
     public void testRenameToTheCurrentNameAndGetError() {
 
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
@@ -163,7 +163,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
     }
 
-    @Test(dependsOnMethods = "testRenameNegative")
+    @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testConfigureFolderNameDescriptionHealthMetrics() {
 
         FolderPage folderPage = new MainPage(getDriver())
