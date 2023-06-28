@@ -309,7 +309,7 @@ public class FolderTest extends BaseTest {
     public void testPreviewDescription() {
 
         String previewText = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickConfigure()
                 .clickPreview()
                 .getPreviewText();
