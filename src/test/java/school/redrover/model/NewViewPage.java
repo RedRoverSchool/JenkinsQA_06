@@ -25,20 +25,20 @@ public class NewViewPage extends BaseMainHeaderPage<NewViewPage> {
         super(driver);
     }
 
-    public NewViewPage setNewViewName(String newViewName) {
-        getWait2().until(ExpectedConditions.elementToBeClickable(nameInput)).sendKeys(newViewName);
+    public NewViewPage setNewViewName(String viewName) {
+        getWait2().until(ExpectedConditions.elementToBeClickable(nameInput)).sendKeys(viewName);
         return this;
     }
 
-    public ViewPage selectMyViewAndClickCreate() {
-        TestUtils.click(this, myViewRadio);
-        createButton.click();
-        return new ViewPage(getDriver());
+    private NewViewPage selectViewType(TestUtils.ViewType viewType) {
+        getDriver().findElement(viewType.getLocator()).click();
+        return this;
     }
 
-    public ListViewConfigPage selectListViewAndClickCreate() {
-        TestUtils.click(this, listViewRadio);
+    public <ViewConfigPage extends BaseMainHeaderPage<?>> ViewConfigPage selectTypeViewClickCreate(
+            TestUtils.ViewType viewType, Class<ViewConfigPage> clazz) {
+        selectViewType(viewType);
         createButton.click();
-        return new ListViewConfigPage(new ViewPage(getDriver()));
+        return (ViewConfigPage) viewType.createNextPage(getDriver());
     }
 }

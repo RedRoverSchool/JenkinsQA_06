@@ -162,6 +162,19 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
     public void clickManageJenkinsSubmenu(String locator) {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(locator))).click();
     }
+
+    public String getPageName () {
+        return  getDriver()
+                .findElement(By.xpath("//h1"))
+                .getText();
+    }
+
+    public void clickOkOnPopUp () {
+        getDriver()
+                .switchTo()
+                .alert()
+                .accept();
+    }
 }
 
 

@@ -13,6 +13,7 @@ import school.redrover.runner.TestUtils;
 import java.util.List;
 
 public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPage, PipelinePage> {
+
     @FindBy(xpath = "//div[@class='ace_content']")
     private WebElement scriptSection;
 
@@ -80,7 +81,7 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     private WebElement daysToKeep;
 
     @FindBy(name = "_.numToKeepStr")
-    private WebElement num;
+    private WebElement numToKeep;
 
     @FindBy(xpath = "//*[@name='strategy']//div[@class='error']")
     private WebElement error;
@@ -96,6 +97,9 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
 
     @FindBy(xpath = "//*[@name='strategy']//div[@class='error']")
     private WebElement errorMessage;
+
+    @FindBy(name = "Submit")
+    private WebElement saveButton;
 
     public PipelineConfigPage(PipelinePage pipelinePage) {
         super(pipelinePage);
@@ -184,7 +188,7 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
 
     public PipelinePage selectDiscardOldBuildsandSave() {
         discard.click();
-        getDriver().findElement(By.name("Submit")).click();
+        saveButton.click();
         return new PipelinePage(getDriver());
     }
 
@@ -203,7 +207,7 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     }
 
     public PipelineConfigPage enterMaxOfBuildsToKeep(String builds) {
-        num.sendKeys(builds);
+        numToKeep.sendKeys(builds);
         return this;
     }
 
@@ -226,7 +230,7 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     public PipelinePage selectScriptedPipelineAndSubmit() {
         Select selectPipelineScript = new Select(getWait2().until(ExpectedConditions.elementToBeClickable(samples)));
         selectPipelineScript.selectByVisibleText("Scripted Pipeline");
-        getDriver().findElement(By.name("Submit")).click();
+        saveButton.click();
         return new PipelinePage(getDriver());
     }
 
@@ -235,7 +239,7 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     }
 
     public String getMaxNumbersOfBuildsToKeep() {
-        return getDriver().findElement(By.name("_.numToKeepStr")).getAttribute("value");
+        return numToKeep.getAttribute("value");
     }
 
     public boolean isErrorMessageDisplayed() {

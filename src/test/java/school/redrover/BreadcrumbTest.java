@@ -1,9 +1,11 @@
 package school.redrover;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.BaseTest;
@@ -21,39 +23,60 @@ public class BreadcrumbTest extends BaseTest {
         Assert.assertEquals(manageJenkinsPage.getActualHeader(), "Manage Jenkins");
     }
 
-    @DataProvider(name = "subsections")
-    public Object[][] provideSubsections() {
-        return new Object[][] {
-                {"//a[@href='/manage/configure']/span", "Configure System [Jenkins]", "/manage/configure"},
-                {"//a[@href='/manage/configureTools']/span", "Global Tool Configuration [Jenkins]", "/manage/configureTools/"},
-                {"//a[@href='/manage/pluginManager']/span", "Updates - Plugin Manager [Jenkins]", "/manage/pluginManager/"},
-                {"//a[@href='/manage/computer']/span", "Nodes [Jenkins]", "/manage/computer/"},
-                {"//a[@href='/manage/configureSecurity']/span", "Configure Global Security [Jenkins]", "/manage/configureSecurity/"},
-                {"//a[@href='/manage/credentials']/span", "Jenkins » Credentials [Jenkins]", "/manage/credentials/"},
-                {"//a[@href='/manage/configureCredentials']/span", "Configure Credential Providers [Jenkins]", "/manage/configureCredentials/"},
-                {"//a[@href='/manage/securityRealm/']/span", "Users [Jenkins]", "/manage/securityRealm/"},
-                {"//a[@href='/manage/systemInfo']/span", "System Information [Jenkins]", "/manage/systemInfo"},
-                {"//a[@href='/manage/log']/span", "Log [Jenkins]", "/manage/log/"},
-                {"//a[@href='/manage/load-statistics']/span", "Jenkins Load Statistics [Jenkins]", "/manage/load-statistics"},
-                {"//a[@href='/manage/about']/span", "About Jenkins 2.387.2 [Jenkins]", "/manage/about/"},
-                {"//a[@href='/manage/administrativeMonitor/OldData/']/span", "Manage Old Data [Jenkins]", "/manage/administrativeMonitor/OldData/manage"},
-                {"//a[@href='/manage/cli']/span", "Jenkins", "/manage/cli/"},
-                {"//a[@href='/manage/script']/span", "Script Console [Jenkins]", "/manage/script"},
-                {"//a[@href='/manage/prepareShutdown']/span", "Prepare for Shutdown [Jenkins]", "/manage/prepareShutdown/"}
+    @DataProvider (name = "subsections")
+    public Object[][] provideSubsection() {
+        return new Object[][]{
+                {"Configure System", new ConfigureSystemPage(getDriver())},
+                {"Global Tool Configuration", new GlobalToolConfigurationPage(getDriver())},
+                {"Manage Plugins", new PluginsPage(getDriver())},
+                {"Manage Nodes and Clouds", new ManageNodesPage(getDriver())},
+                {"Configure Global Security", new ConfigureGlobalSecurityPage(getDriver())},
+                {"Manage Credentials", new CredentialsPage(getDriver())},
+                {"Configure Credential Providers", new ConfigureCredentialProvidersPage(getDriver())},
+                {"Manage Users", new UserPage(getDriver())},
+                {"System Information", new SystemInformationPage(getDriver())},
+                {"System Log", new LogRecordersPage(getDriver())},
+                {"Load Statistics", new LoadStatisticsPage(getDriver())},
+                {"About Jenkins", new AboutJenkinsPage(getDriver())},
+                {"Manage Old Data", new ManageOldDataPage(getDriver())},
+                {"Jenkins CLI", new JenkinsCLIPage(getDriver())},
+                {"Script Console", new ScriptConsolePage(getDriver())},
+                {"Prepare for Shutdown", new PrepareForShutdownPage(getDriver())}
         };
     }
 
     @Test(dataProvider = "subsections")
-    public void testNavigateToManageJenkinsSubsection(String locator, String subsectionName, String url) {
+    public <PageFromSubMenu extends BaseMainHeaderPage<PageFromSubMenu>> void testNavigateToManageJenkinsSubsection(String subsectionName, PageFromSubMenu pageFromSubMenu) {
+        new MainPage(getDriver())
+                .getBreadcrumb()
+                .getDashboardDropdownMenu()
+                .selectAnOptionFromDashboardManageJenkinsSubmenuList(subsectionName, pageFromSubMenu);
+
+        String pageName = getDriver().findElement(By.xpath("//h1")).getText();
+
+        switch (subsectionName) {
+            case "System Log" -> Assert.assertEquals(pageName, "Log Recorders");
+            case "Load Statistics" -> Assert.assertTrue(pageName.toLowerCase().contains(subsectionName.toLowerCase()));
+            case "About Jenkins" -> Assert.assertTrue(pageName.contains("Jenkins\n" + "Version"));
+            default -> Assert.assertTrue(subsectionName.toLowerCase().contains(pageName.toLowerCase()));
+        }
+    }
+
+    @Test
+    public void testReloadConfigurationFromDiskOfManageJenkinsSubmenu() {
+
+        String expectedLoadingText = "Please wait while Jenkins is getting ready to work ...";
 
         new MainPage(getDriver())
                 .getBreadcrumb()
                 .getDashboardDropdownMenu()
-                .moveToManageJenkinsLink()
-                .clickManageJenkinsSubmenu(locator);
+                .selectAnOptionFromDashboardManageJenkinsSubmenuList("Reload Configuration from Disk", new MainPage(getDriver()))
+                .getBreadcrumb()
+                .clickOkOnPopUp();
 
-        Assert.assertEquals(getDriver().getTitle(), subsectionName);
-        Assert.assertEquals(getDriver().getCurrentUrl().substring(21), url);
+        String loadingText = getDriver().findElement(By.xpath("//h1")).getText();
+
+        Assert.assertEquals(loadingText, expectedLoadingText);
     }
 
     @Test
@@ -84,6 +107,7 @@ public class BreadcrumbTest extends BaseTest {
 
         Assert.assertEquals(nameProjectOnMainPage, nameProject);
     }
+
 
     @Test
     public void testMoveFromPeoplePageToPluginsPageByDropDownMenu() {

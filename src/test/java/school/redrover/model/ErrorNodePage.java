@@ -15,13 +15,16 @@ public class ErrorNodePage extends BaseMainHeaderPage<ErrorNodePage> {
     @FindBy(xpath = "//p")
     private WebElement textError;
 
+    @FindBy(xpath = "//h1")
+    private WebElement error;
+
     public ErrorNodePage(WebDriver driver){
         super(driver);
     }
 
     public String getTextError() {
         getWait2().until(ExpectedConditions
-                .textToBePresentInElementLocated(By.xpath("//h1"), "Error"));
+                .textToBePresentInElement(error, "Error"));
         return textError.getText();
     }
 

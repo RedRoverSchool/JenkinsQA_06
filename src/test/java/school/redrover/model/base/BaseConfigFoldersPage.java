@@ -1,11 +1,11 @@
 package school.redrover.model.base;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.jobsconfig.MultibranchPipelineConfigPage;
-import school.redrover.model.jobs.MultibranchPipelinePage;
-import school.redrover.runner.TestUtils;
+
+import java.time.Duration;
 
 public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, FolderPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, FolderPage>{
 
@@ -14,6 +14,9 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
 
     @FindBy(xpath = "//button[contains(text(), 'Health metrics')]")
     private WebElement healthMetric;
+
+    @FindBy(xpath = "//button[@data-section-id='health-metrics']")
+    private WebElement healthMetricsSideMenu;
 
     @FindBy(xpath = "//button [text()='Add metric']")
     private WebElement addHealthMetric;
@@ -38,7 +41,10 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
     }
 
     public Self clickHealthMetrics(){
-        TestUtils.scrollToElementByJavaScript(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver())), healthMetric);
+        new Actions(getDriver())
+                .click(healthMetricsSideMenu)
+                .pause(Duration.ofMillis(800))
+                .perform();
         healthMetric.click();
         return (Self)this;
     }

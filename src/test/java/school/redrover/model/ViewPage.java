@@ -3,10 +3,10 @@ package school.redrover.model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.jobs.FolderPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
@@ -40,6 +40,9 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
 
     @FindBy(xpath = "//div[@class = 'tab active']")
     private WebElement activeViewName;
+
+    @FindBy(linkText = "All")
+    private WebElement allLink;
 
     public ViewPage(WebDriver driver) {
         super(driver);
@@ -102,7 +105,11 @@ public class ViewPage extends BaseMainHeaderPage<ViewPage> {
     }
 
     public String getActiveViewName() {
-
         return TestUtils.getText(this, activeViewName);
+    }
+
+    public FolderPage clickAllOnFolderView() {
+        allLink.click();
+        return new FolderPage(getDriver());
     }
 }

@@ -44,9 +44,9 @@ public class FolderPage extends BaseJobPage<FolderPage> {
         return new NewJobPage(getDriver());
     }
 
-    public NewViewFolderPage clickNewView() {
+    public NewViewPage clickNewView() {
         buttonNewView.click();
-        return new NewViewFolderPage(getDriver());
+        return new NewViewPage(getDriver());
     }
 
     public DeletePage<MainPage> clickDeleteJobThatIsMainPage() {

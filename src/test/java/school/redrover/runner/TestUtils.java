@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.jobs.*;
 import school.redrover.model.jobsconfig.*;
 import school.redrover.model.base.BaseConfigPage;
@@ -77,6 +78,44 @@ public class TestUtils {
         }
 
         public abstract BaseConfigPage<?, ?> createConfigPage(WebDriver driver);
+    }
+
+    public enum ViewType {
+        IncludeAGlobalView(By.xpath("//label[@for='hudson.model.ProxyView']")) {
+
+            @Override
+            public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
+                return new IncludeAGlobalViewConfigPage(new ViewPage(driver));
+            }
+        },
+
+        ListView(By.xpath("//label[@for='hudson.model.ListView']")) {
+
+            @Override
+            public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
+                return new ListViewConfigPage(new ViewPage(driver));
+            }
+        },
+
+        MyView(By.xpath("//label[@for='hudson.model.MyView']")) {
+
+            @Override
+            public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
+                return new ViewPage(driver);
+            }
+        };
+
+        private final By locator;
+
+        ViewType(By locator) {
+            this.locator = locator;
+        }
+
+        public By getLocator() {
+            return locator;
+        }
+
+        public abstract BaseMainHeaderPage<?> createNextPage(WebDriver driver);
     }
 
     public static void createJob(BaseTest baseTest, String name, JobType jobType, Boolean goToMainPage) {
