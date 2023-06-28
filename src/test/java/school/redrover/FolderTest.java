@@ -154,8 +154,8 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(newNameIsDisplayed, "error was not show new name folder");
     }
 
-    @Test(dependsOnMethods = "testRename")
-    public void testRenameNegative() {
+    @Test(dependsOnMethods = "testRenameUsingDropDownMenu")
+    public void testRenameToTheCurrentNameAndGetError() {
 
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
@@ -167,7 +167,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
     }
 
-    @Test(dependsOnMethods = "testRenameNegative")
+    @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testConfigureFolderNameDescriptionHealthMetrics() {
 
         FolderPage folderPage = new MainPage(getDriver())
@@ -181,6 +181,18 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getJobName(), DISPLAY_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
         Assert.assertTrue(folderPage.clickConfigure().clickHealthMetrics().isRecursive());
+    }
+
+    @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
+    public void testPreviewDescription() {
+
+        String previewText = new MainPage(getDriver())
+                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickConfigure()
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText, DESCRIPTION);
     }
 
     @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
@@ -229,21 +241,6 @@ public class FolderTest extends BaseTest {
                 .WelcomeIsDisplayed();
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
-    }
-
-
-    @DataProvider(name = "create-folder")
-    public Object[][] provideFoldersNames() {
-        return new Object[][]
-                {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
-    }
-
-
-    @Test(dataProvider = "create-folder")
-    public void testFoldersCreationWithProvider(String provideNames) {
-        TestUtils.createJob(this, provideNames, TestUtils.JobType.Folder, true);
-
-        Assert.assertEquals(new MainPage(getDriver()).getOnlyProjectName(), provideNames);
     }
 
     @Test(dependsOnMethods = {"testCreateFromDashboard", "testCreateFromNewItem"})
