@@ -81,7 +81,6 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateFromDashboard() {
-
         MainPage mainPage = new MainPage(getDriver())
                 .getBreadcrumb()
                 .clickNewItemDashboardDropdownMenu()
@@ -97,7 +96,6 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testCreateWithExistingName() {
-
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(NAME)
@@ -142,7 +140,6 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewViewInFolder")
     public void testRenameUsingDropDownMenu() {
-
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
                 .enterNewName(NAME_2)
@@ -156,7 +153,6 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameUsingDropDownMenu")
     public void testRenameToTheCurrentNameAndGetError() {
-
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
                 .clickRename()
@@ -169,7 +165,6 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testConfigureFolderNameDescriptionHealthMetrics() {
-
         FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
                 .clickConfigure()
@@ -183,7 +178,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(folderPage.clickConfigure().clickHealthMetrics().isRecursive());
     }
 
-    @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
+    @Test(dependsOnMethods = "testDeleteDisplayName")
     public void testPreviewDescription() {
 
         String previewText = new MainPage(getDriver())
@@ -197,7 +192,6 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testPreviewDescription")
     public void testCancelDeleting() {
-
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
                 .clickDeleteJobThatIsMainPage()
@@ -234,7 +228,6 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateJobsInFolder")
     public void testDeleteFolder() {
-
         boolean welcomeIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickDeleteFolders(NAME_2)
                 .clickYesButton()
@@ -314,5 +307,17 @@ public class FolderTest extends BaseTest {
                 .getJobList();
 
         Assert.assertTrue(folderName.contains(NAME));
+    }
+
+    @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
+    public void testDeleteDisplayName() {
+        String folderName = new MainPage(getDriver())
+                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickConfigure()
+                .clearDisplayName()
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(folderName, NAME_2);
     }
 }
