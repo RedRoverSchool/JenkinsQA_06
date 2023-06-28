@@ -60,6 +60,8 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public NewJobPage selectJobType(TestUtils.JobType jobType) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", itemName);
         getDriver().findElement(jobType.getLocator()).click();
         this.jobType = jobType;
         return this;
