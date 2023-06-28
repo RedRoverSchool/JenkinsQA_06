@@ -20,7 +20,6 @@ public class TestUtils {
 
     public enum JobType {
         FreestyleProject(By.xpath("//span[contains(text(),'Freestyle project')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new FreestyleProjectConfigPage(new FreestyleProjectPage(driver));
@@ -28,7 +27,6 @@ public class TestUtils {
         },
 
         Pipeline(By.xpath("//span[contains(text(),'Pipeline')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new PipelineConfigPage(new PipelinePage(driver));
@@ -36,15 +34,13 @@ public class TestUtils {
         },
 
         MultiConfigurationProject(By.xpath("//span[contains(text(),'Multi-configuration project')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(driver));
             }
         },
 
-        Folder(By.xpath("//span[contains(text(),'Folder')]")) {
-
+        Folder(By.xpath("//div[normalize-space()='Creates a container that stores nested items in it. Useful for grouping things together. Unlike view, which is just a filter, a folder creates a separate namespace, so you can have multiple things of the same name as long as they are in different folders.']")) {
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new FolderConfigPage(new FolderPage(driver));
@@ -52,7 +48,6 @@ public class TestUtils {
         },
 
         MultibranchPipeline(By.xpath("//span[contains(text(),'Multibranch Pipeline')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new MultibranchPipelineConfigPage(new MultibranchPipelinePage(driver));
@@ -60,7 +55,6 @@ public class TestUtils {
         },
 
         OrganizationFolder(By.xpath("//span[contains(text(),'Organization Folder')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new OrganizationFolderConfigPage(new OrganizationFolderPage(driver));
@@ -82,7 +76,6 @@ public class TestUtils {
 
     public enum ViewType {
         IncludeAGlobalView(By.xpath("//label[@for='hudson.model.ProxyView']")) {
-
             @Override
             public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
                 return new IncludeAGlobalViewConfigPage(new ViewPage(driver));
@@ -90,7 +83,6 @@ public class TestUtils {
         },
 
         ListView(By.xpath("//label[@for='hudson.model.ListView']")) {
-
             @Override
             public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
                 return new ListViewConfigPage(new ViewPage(driver));
@@ -98,7 +90,6 @@ public class TestUtils {
         },
 
         MyView(By.xpath("//label[@for='hudson.model.MyView']")) {
-
             @Override
             public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
                 return new ViewPage(driver);
@@ -210,7 +201,7 @@ public class TestUtils {
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
-       clickBreadcrumbLinkItem(baseTest, viewName);
+        clickBreadcrumbLinkItem(baseTest, viewName);
     }
 
     public static List<String> getListNames(List<WebElement> elements) {
