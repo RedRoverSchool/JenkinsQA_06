@@ -191,7 +191,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(previewText, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
+    @Test(dependsOnMethods = "testPreviewDescription")
     public void testCancelDeleting() {
 
         boolean folderIsDisplayed = new MainPage(getDriver())

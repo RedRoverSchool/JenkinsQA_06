@@ -27,6 +27,7 @@ public class MultiConfigurationProjectPage extends BaseProjectPage<MultiConfigur
     public String getJobBuildStatus() {
         WebElement buildStatus = getWait5().until(ExpectedConditions.visibilityOf(jobBuildStatus));
         new Actions(getDriver()).moveToElement(buildStatus).perform();
+        getWait5().until(ExpectedConditions.not(ExpectedConditions.attributeContains(buildStatus, "tooltip", "progress")));
 
         return buildStatus.getAttribute("tooltip");
     }

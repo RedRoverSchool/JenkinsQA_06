@@ -30,7 +30,7 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(xpath = "//div[@id='description']//div[not(@class)]")
     private WebElement descriptionText;
 
-    @FindBy(xpath = "//a[contains(@href, '/delete')]//span[contains(text(), 'Delete')]")
+    @FindBy(xpath = "//span[contains(text(), 'Delete') and not(contains(text(), 'View'))]")
     private WebElement deleteInDropDownMenu;
 
     @FindBy(xpath = "//li//span[contains(text(), 'Rename')]")
@@ -69,7 +69,7 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(xpath = "//span/a[@href='/view/all/builds']")
     private WebElement buildHistory;
 
-    @FindBy(xpath = "//a[@href='/newView']")
+    @FindBy(xpath = "//a[contains(@href,'/newView')]")
     private WebElement newView;
 
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']")
@@ -282,7 +282,7 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
 
     public boolean jobIsDisplayed(String jobName) {
         return getWait5().until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//a[@href='job/" + jobName + "/']")))).isDisplayed();
+                .findElement(By.xpath(String.format("//a[@href='job/%s/']", jobName.replaceAll(" ", "%20")))))).isDisplayed();
     }
 
     public boolean verifyViewIsPresent(String viewName) {

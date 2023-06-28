@@ -488,7 +488,7 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(pipelinePage.getJobName(), "Pipeline " + NEW_NAME);
         Assert.assertEquals(pipelinePage.getProjectNameSubtitleWithDisplayName(), NAME);
-        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getJobName(NEW_NAME), NEW_NAME);
+        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getJobName(NAME), NEW_NAME);
     }
 
     @Test
