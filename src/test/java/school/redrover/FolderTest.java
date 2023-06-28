@@ -141,7 +141,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateNewViewInFolder")
-    public void testRename() {
+    public void testRenameUsingDropDownMenu() {
 
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
