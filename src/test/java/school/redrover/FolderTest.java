@@ -137,7 +137,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateNewViewInFolder")
-    public void testRename() {
+    public void testRenameUsingDropDownMenu() {
 
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
@@ -151,7 +151,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testRename")
-    public void testRenameNegative() {
+    public void testRenameToTheCurrentNameAndGetError() {
 
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
