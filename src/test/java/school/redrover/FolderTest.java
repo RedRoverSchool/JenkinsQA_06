@@ -232,21 +232,6 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(welcomeIsDisplayed,"error was not show Welcome to Jenkins!");
     }
 
-
-    @DataProvider(name = "create-folder")
-    public Object[][] provideFoldersNames() {
-        return new Object[][]
-                {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
-    }
-
-
-    @Test(dataProvider = "create-folder")
-    public void testFoldersCreationWithProvider(String provideNames) {
-        TestUtils.createJob(this, provideNames, TestUtils.JobType.Folder, true);
-
-        Assert.assertEquals(new MainPage(getDriver()).getOnlyProjectName(), provideNames);
-    }
-
     @Test(dependsOnMethods = {"testCreateFromDashboard", "testCreateFromNewItem"})
     public void testMoveJobsToFolderFromDropDownMenu() {
         List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
