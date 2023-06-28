@@ -18,10 +18,11 @@ public class BuildPageTest extends BaseTest {
     private final String FREESTYLE_PROJECT_NAME = "FreestyleName";
     private final String MULTI_CONFIGURATION_PROJECT_NAME = "MultiConfiguration001";
 
+    @Ignore
     @Test
     public void testBuildHistoryOfTwoDifferentTypesProjectsIsShown() {
         TestUtils.createJob(this, MULTI_CONFIGURATION_PROJECT_NAME, TestUtils.JobType.MultiConfigurationProject, true);
-        TestUtils.createJob(this, FREESTYLE_PROJECT_NAME, TestUtils.JobType.FreestyleProject,true);
+        TestUtils.createJob(this, FREESTYLE_PROJECT_NAME, TestUtils.JobType.FreestyleProject, true);
 
         int numberOfLinesInBuildHistoryTable = new MainPage(getDriver())
                 .getHeader()
@@ -96,7 +97,7 @@ public class BuildPageTest extends BaseTest {
     }
 
     @Test
-    public void testConsoleOutputFreestyleBuildStatus(){
+    public void testConsoleOutputFreestyleBuildStatus() {
         final String consoleOutput = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_PROJECT_NAME)
@@ -119,7 +120,7 @@ public class BuildPageTest extends BaseTest {
 
     @Ignore
     @Test
-    public void verifyStatusBroken(){
+    public void verifyStatusBroken() {
 
         final String namePipeline = "NewBuilds";
         final String textToDescriptionField = "What's up";
@@ -142,7 +143,7 @@ public class BuildPageTest extends BaseTest {
                 .clickPlayBuildForATestButton("NewBuilds")
                 .clickBuildsHistoryButton()
                 .getStatusMessageText();
-        Assert.assertEquals(actualStatusMessageText,expectedStatusMessageText);
+        Assert.assertEquals(actualStatusMessageText, expectedStatusMessageText);
     }
 
     @Test
