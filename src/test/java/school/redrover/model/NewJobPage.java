@@ -1,7 +1,10 @@
 package school.redrover.model;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseConfigPage;
@@ -57,13 +60,15 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public NewJobPage selectJobType(TestUtils.JobType jobType) {
-        getDriver().findElement(jobType.getLocator()).click();
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", getDriver().findElement(jobType.getLocator()));
+//        getDriver().findElement(jobType.getLocator()).click();
         this.jobType = jobType;
         return this;
     }
 
     public <JobConfigPage extends BaseConfigPage<?, ?>> JobConfigPage clickOkButton(JobConfigPage jobConfigPage) {
-        getOkButton().click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getOkButton())).click();
         return jobConfigPage;
     }
 

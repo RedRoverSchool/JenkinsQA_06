@@ -1,9 +1,12 @@
 package school.redrover;
 
+import org.javatuples.Pair;
+import org.javatuples.Quartet;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.jobs.*;
 import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
@@ -12,6 +15,7 @@ import school.redrover.model.base.BaseJobPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,18 +26,18 @@ public class FolderTest extends BaseTest {
     private static final String DESCRIPTION = "Created new folder";
     private static final String DISPLAY_NAME = "NewFolder";
 
-    private void createdJobInFolder(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?,?> jobConfigPage){
+    private void createdJobInFolder(String folderName, Pair<String, TestUtils.JobType> pair) {
         new MainPage(getDriver())
                 .clickJobName(folderName, new FolderPage(getDriver()))
                 .clickNewItem()
-                .enterItemName(jobName)
-                .selectJobType(jobType)
-                .clickOkButton(jobConfigPage)
+                .enterItemName(pair.getValue0())
+                .selectJobType(pair.getValue1())
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .getHeader()
                 .clickLogo();
     }
 
-    private void moveJobToFolderFromDropDownMenu(String jobName, String folderName, BaseJobPage<?> jobPage){
+    private void moveJobToFolderFromDropDownMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
         new MainPage(getDriver())
                 .dropDownMenuClickMove(jobName, jobPage)
                 .selectDestinationFolder(folderName)
@@ -42,7 +46,7 @@ public class FolderTest extends BaseTest {
                 .clickLogo();
     }
 
-    private void moveJobToFolderFromSideMenu(String jobName, String folderName, BaseJobPage<?> jobPage){
+    private void moveJobToFolderFromSideMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
         new MainPage(getDriver())
                 .clickJobName(jobName, jobPage)
                 .clickMoveOnSideMenu()
@@ -147,7 +151,7 @@ public class FolderTest extends BaseTest {
                 .clickLogo()
                 .jobIsDisplayed(NAME_2);
 
-        Assert.assertTrue(newNameIsDisplayed,"error was not show new name folder");
+        Assert.assertTrue(newNameIsDisplayed, "error was not show new name folder");
     }
 
     @Test(dependsOnMethods = "testRename")
@@ -189,36 +193,30 @@ public class FolderTest extends BaseTest {
                 .clickLogo()
                 .jobIsDisplayed(NAME_2);
 
-        Assert.assertTrue(folderIsDisplayed,"error was not show name folder");
+        Assert.assertTrue(folderIsDisplayed, "error was not show name folder");
     }
 
 
     @Test(dependsOnMethods = "testCancelDeleting")
     public void testCreateJobsInFolder() {
 
-        List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
-                "Folder", "Multibranch Pipeline", "Organization");
+        List<Pair<String, TestUtils.JobType>> jobs = new ArrayList<>(List.of(
+                Pair.with("Freestyle_Project", TestUtils.JobType.FreestyleProject),
+                Pair.with("Pipeline project", TestUtils.JobType.Pipeline),
+                Pair.with("Multi Configuration Project", TestUtils.JobType.MultiConfigurationProject),
+                Pair.with("Folder", TestUtils.JobType.Folder),
+                Pair.with("Multibranch Pipeline", TestUtils.JobType.MultibranchPipeline),
+                Pair.with("Organization", TestUtils.JobType.OrganizationFolder)
+        ));
 
-        createdJobInFolder(jobName.get(0), NAME_2, TestUtils.JobType.FreestyleProject,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(1), NAME_2, TestUtils.JobType.Pipeline,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(2), NAME_2, TestUtils.JobType.MultiConfigurationProject,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(3), NAME_2, TestUtils.JobType.Folder,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(4), NAME_2, TestUtils.JobType.MultibranchPipeline,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(5), NAME_2, TestUtils.JobType.OrganizationFolder,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        jobs.forEach(el -> createdJobInFolder(NAME_2, el));
 
-        List<String> createdJobList= new MainPage(getDriver())
+        List<String> createdJobList = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
                 .getJobList();
+        List<String> result = jobs.stream().map(el -> el.getValue0()).toList().stream().sorted().toList();
 
-        jobName.sort(String.CASE_INSENSITIVE_ORDER);
-
-        Assert.assertEquals(createdJobList, jobName);
+        Assert.assertEquals(createdJobList, result);
     }
 
     @Test(dependsOnMethods = "testCreateJobsInFolder")
@@ -229,7 +227,7 @@ public class FolderTest extends BaseTest {
                 .clickYesButton()
                 .WelcomeIsDisplayed();
 
-        Assert.assertTrue(welcomeIsDisplayed,"error was not show Welcome to Jenkins!");
+        Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
 
 
@@ -265,7 +263,7 @@ public class FolderTest extends BaseTest {
         moveJobToFolderFromDropDownMenu(jobName.get(4), NAME, new MultibranchPipelinePage(getDriver()));
         moveJobToFolderFromDropDownMenu(jobName.get(5), NAME, new OrganizationFolderPage(getDriver()));
 
-        List<String> createdJobList= new MainPage(getDriver())
+        List<String> createdJobList = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
@@ -295,7 +293,7 @@ public class FolderTest extends BaseTest {
         moveJobToFolderFromSideMenu(jobName.get(4), NAME, new MultibranchPipelinePage(getDriver()));
         moveJobToFolderFromSideMenu(jobName.get(5), NAME, new OrganizationFolderPage(getDriver()));
 
-        List<String> createdJobList= new MainPage(getDriver())
+        List<String> createdJobList = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
@@ -306,17 +304,17 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateFolderGoingFromBuildHistoryPage() {
-    List<String> folderName = new MainPage(getDriver())
-            .clickBuildsHistoryButton()
-            .clickNewItem()
-            .enterItemName(NAME)
-            .selectJobType(TestUtils.JobType.Folder)
-            .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
-            .clickSaveButton()
-            .getBreadcrumb()
-            .clickDashboardButton()
-            .getJobList();
+        List<String> folderName = new MainPage(getDriver())
+                .clickBuildsHistoryButton()
+                .clickNewItem()
+                .enterItemName(NAME)
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                .clickSaveButton()
+                .getBreadcrumb()
+                .clickDashboardButton()
+                .getJobList();
 
-            Assert.assertTrue(folderName.contains(NAME));
+        Assert.assertTrue(folderName.contains(NAME));
     }
 }
