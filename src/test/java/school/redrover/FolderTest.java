@@ -316,4 +316,15 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(folderName.contains(NAME));
     }
+
+    @Test(dependsOnMethods = "testCreateFromDashboard")
+    public void testRenameFromLeftsidePanel() {
+        new MainPage(getDriver())
+                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickRename()
+                .enterNewName(NAME)
+                .clickRenameButton();
+
+        Assert.assertEquals(getDriver().getTitle(), "All [" + NAME + "] [Jenkins]");
+    }
 }
