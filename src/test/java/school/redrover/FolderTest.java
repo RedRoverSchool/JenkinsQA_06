@@ -180,6 +180,18 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
+    public void testPreviewDescription() {
+
+        String previewText = new MainPage(getDriver())
+                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickConfigure()
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText, DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
     public void testCancelDeleting() {
 
         boolean folderIsDisplayed = new MainPage(getDriver())
@@ -303,17 +315,5 @@ public class FolderTest extends BaseTest {
                 .getJobList();
 
         Assert.assertTrue(folderName.contains(NAME));
-    }
-
-    @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
-    public void testPreviewDescription() {
-
-        String previewText = new MainPage(getDriver())
-                .clickJobName(NAME, new FolderPage(getDriver()))
-                .clickConfigure()
-                .clickPreview()
-                .getPreviewText();
-
-        Assert.assertEquals(previewText, DESCRIPTION);
     }
 }
