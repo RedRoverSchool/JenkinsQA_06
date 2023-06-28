@@ -122,7 +122,22 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateWithExistingName")
-    public void testRename() {
+    public void testCreateNewViewInFolder() {
+        final String viewName = "Test View";
+
+        boolean viewIsDisplayed = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickNewView()
+                .setNewViewName(viewName)
+                .selectTypeViewClickCreate(TestUtils.ViewType.MyView, ViewPage.class)
+                .clickAllOnFolderView()
+                .viewIsDisplayed(viewName);
+
+        Assert.assertTrue(viewIsDisplayed, "error was not shown created view");
+    }
+
+    @Test(dependsOnMethods = "testCreateNewViewInFolder")
+    public void testRenameUsingDropDownMenu() {
 
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
@@ -135,8 +150,8 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(newNameIsDisplayed,"error was not show new name folder");
     }
 
-    @Test(dependsOnMethods = "testRename")
-    public void testRenameNegative() {
+    @Test(dependsOnMethods = "testRenameUsingDropDownMenu")
+    public void testRenameToTheCurrentNameAndGetError() {
 
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
@@ -148,7 +163,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
     }
 
-    @Test(dependsOnMethods = "testRenameNegative")
+    @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testConfigureFolderNameDescriptionHealthMetrics() {
 
         FolderPage folderPage = new MainPage(getDriver())
