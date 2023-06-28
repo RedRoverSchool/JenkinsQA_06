@@ -214,6 +214,7 @@ public class FolderTest extends BaseTest {
         List<String> createdJobList = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
                 .getJobList();
+
         List<String> result = jobs.stream().map(el -> el.getValue0()).toList().stream().sorted().toList();
 
         Assert.assertEquals(createdJobList, result);
