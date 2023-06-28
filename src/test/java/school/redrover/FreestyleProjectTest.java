@@ -336,7 +336,7 @@ public class FreestyleProjectTest extends BaseTest {
         boolean isProjectPresent = new MainPage(getDriver())
                 .clickJobName(projName, new FreestyleProjectPage(getDriver()))
                 .clickDeleteAndAccept()
-                .jobIsDisplayed(projName);
+                .verifyJobIsPresent(projName);
 
         Assert.assertFalse(isProjectPresent);
     }

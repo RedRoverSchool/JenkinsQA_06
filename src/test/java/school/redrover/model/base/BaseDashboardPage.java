@@ -285,6 +285,22 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
                 .findElement(By.xpath(String.format("//a[@href='job/%s/']", jobName.replaceAll(" ", "%20")))))).isDisplayed();
     }
 
+    public boolean verifyJobIsPresent(String jobName){
+        List<WebElement> jobs = jobList;
+        boolean status = false;
+        for (WebElement job : jobs){
+            if (!job.getText().equals(jobName)){
+                status = false;
+            }
+            else{
+                new Actions(getDriver()).moveToElement(job).build().perform();
+                status = true;
+            }
+            break;
+        }
+        return status;
+    }
+
     public boolean verifyViewIsPresent(String viewName) {
         boolean status = false;
 
