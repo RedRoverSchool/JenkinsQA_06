@@ -45,7 +45,7 @@ public class ViewsTest extends BaseTest {
                 .selectTypeViewClickCreate(TestUtils.ViewType.ListView, ListViewConfigPage.class)
                 .getHeader()
                 .clickLogo()
-                .clickOnView(name)
+                .clickOnView(name, new ViewPage(getDriver()))
                 .clickEditListView(name);
     }
 
@@ -62,7 +62,7 @@ public class ViewsTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .verifyJobIsPresent(newViewNameRandom);
+                .jobIsDisplayed(newViewNameRandom);
 
         Assert.assertTrue(isJobPresent);
     }
@@ -75,9 +75,9 @@ public class ViewsTest extends BaseTest {
         new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickCreateAJob()
-                .enterAnItemName(newViewNameRandom)
-                .clickFreestyleProject()
-                .clickOkButton()
+                .enterItemName(newViewNameRandom)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project " + newViewNameRandom);
@@ -94,7 +94,7 @@ public class ViewsTest extends BaseTest {
                 .clearTextFromDescription()
                 .enterDescription(newViewDescriptionRandom)
                 .clickSaveButtonDescription()
-                .getTextFromDescription();
+                .getDescriptionText();
 
         Assert.assertEquals(description, newViewDescriptionRandom);
     }
@@ -108,9 +108,9 @@ public class ViewsTest extends BaseTest {
         String description = new MyViewsPage(getDriver())
                 .clickOnDescription()
                 .clearTextFromDescription()
-                .enterNewDescription(newViewNewDescriptionRandom)
+                .enterDescription(newViewNewDescriptionRandom)
                 .clickSaveButtonDescription()
-                .getTextFromDescription();
+                .getDescriptionText();
 
         Assert.assertEquals(description, newViewNewDescriptionRandom);
     }
@@ -132,7 +132,7 @@ public class ViewsTest extends BaseTest {
                 .setNewViewName(expectedName)
                 .selectTypeViewClickCreate(TestUtils.ViewType.ListView, ListViewConfigPage.class)
                 .clickSaveButton()
-                .getViewName();
+                .getActiveViewName();
 
         assertEquals(actualName, expectedName);
     }
@@ -144,7 +144,7 @@ public class ViewsTest extends BaseTest {
         createNewFreestyleProjectFromMyViewsPage(newProjectName);
         String actualViewName = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
-                .clickNewViewButton()
+                .createNewView()
                 .setNewViewName(expectedViewName)
                 .selectTypeViewClickCreate(TestUtils.ViewType.MyView, ViewPage.class)
                 .getActiveViewName();
@@ -159,7 +159,7 @@ public class ViewsTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickInactiveLastCreatedMyView()
                 .editMyViewNameAndClickSubmitButton(expectedEditedMyViewText)
-                .getActiveView();
+                .getActiveViewName();
 
         assertEquals(actualViewName, expectedEditedMyViewText);
     }
@@ -222,7 +222,7 @@ public class ViewsTest extends BaseTest {
                 .selectJobsInJobFilters(folderName1)
                 .clickSaveButton();
 
-        Assert.assertEquals(viewPage.getViewName(), viewName);
+        Assert.assertEquals(viewPage.getActiveViewName(), viewName);
         Assert.assertEquals(viewPage.getJobName(folderName1), folderName1);
     }
 
@@ -237,7 +237,7 @@ public class ViewsTest extends BaseTest {
         final String jobName3 = "job3";
         final List<String> expectedViewJobs = Arrays.asList(folderName1 + " » " + jobName1, folderName1 + " » " + jobName3, folderName2);
 
-        new MainPage(getDriver()).clickOnView(viewName1);
+        new MainPage(getDriver()).clickOnView(viewName1, new ViewPage(getDriver()));
 
         TestUtils.createFreestyleProjectInsideFolderAndView(this, jobName1, viewName1, folderName1);
         TestUtils.createFreestyleProjectInsideFolderAndView(this, jobName2, viewName1, folderName1);
@@ -254,9 +254,9 @@ public class ViewsTest extends BaseTest {
                 .selectJobsInJobFilters(folderName2)
                 .clickSaveButton();
 
-        List<String> actualViewJobsTexts = viewPage.getJobNamesList();
+        List<String> actualViewJobsTexts = viewPage.getJobList();
 
-        Assert.assertEquals(viewPage.getViewName(), viewName2);
+        Assert.assertEquals(viewPage.getActiveViewName(), viewName2);
         Assert.assertEquals(actualViewJobsTexts.size(), 3);
         Assert.assertEquals(actualViewJobsTexts, expectedViewJobs);
     }
@@ -274,7 +274,7 @@ public class ViewsTest extends BaseTest {
                 .clickNewView()
                 .setNewViewName("MyNewView")
                 .selectTypeViewClickCreate(TestUtils.ViewType.MyView, ViewPage.class)
-                .getViewName();
+                .getActiveViewName();
 
         assertEquals(newView, "MyNewView");
     }

@@ -29,7 +29,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectNameMainPage(ORGANIZATION_FOLDER_NAME);
+                .getJobName(ORGANIZATION_FOLDER_NAME);
 
 
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);

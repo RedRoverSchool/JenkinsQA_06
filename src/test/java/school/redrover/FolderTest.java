@@ -244,7 +244,7 @@ public class FolderTest extends BaseTest {
     public void testFoldersCreationWithProvider(String provideNames) {
         TestUtils.createJob(this, provideNames, TestUtils.JobType.Folder, true);
 
-        Assert.assertEquals(new MainPage(getDriver()).getOnlyProjectName(), provideNames);
+        Assert.assertEquals(new MainPage(getDriver()).getJobName(provideNames), provideNames);
     }
 
     @Test(dependsOnMethods = {"testCreateFromDashboard", "testCreateFromNewItem"})
