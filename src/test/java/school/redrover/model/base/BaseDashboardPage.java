@@ -98,24 +98,24 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return descriptionText.getText();
     }
 
-    public MyViewsPage clickOnDescription() {
+    public Self clickOnDescription() {
         getWait5().until(ExpectedConditions.visibilityOf(onDescription)).click();
-        return new MyViewsPage(getDriver());
+        return (Self) this;
     }
 
-    public MyViewsPage enterDescription(String name) {
+    public Self enterDescription(String name) {
         getWait5().until(ExpectedConditions.visibilityOf(enterDescription)).sendKeys(name);
-        return new MyViewsPage(getDriver());
+        return (Self) this;
     }
 
-    public MyViewsPage clickSaveButtonDescription() {
+    public Self clickSaveButtonDescription() {
         getWait5().until(ExpectedConditions.visibilityOf(saveButtonDescription)).click();
-        return new MyViewsPage(getDriver());
+        return (Self) this;
     }
 
-    public MyViewsPage clearTextFromDescription() {
+    public Self clearTextFromDescription() {
         getWait10().until(ExpectedConditions.visibilityOf(enterDescription)).clear();
-        return new MyViewsPage(getDriver());
+        return (Self) this;
     }
 
     public Self openJobDropDownMenu(String jobName) {
@@ -242,10 +242,10 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return viewBasePage;
     }
 
-    public MainPage clickPlayBuildForATestButton(String projectName) {
+    public Self clickPlayBuildForATestButton(String projectName) {
         TestUtils.click(this, getDriver().findElement(
                 By.xpath("//a[@href='job/" + projectName + "/build?delay=0sec']")));
-        return new MainPage(getDriver());
+        return (Self) this;
     }
 
     public <JobTypePage extends BaseProjectPage<?>> BuildWithParametersPage<JobTypePage> clickBuildButton(JobTypePage jobTypePage) {
