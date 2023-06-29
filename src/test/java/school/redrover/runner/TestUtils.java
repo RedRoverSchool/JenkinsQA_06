@@ -203,8 +203,8 @@ public class TestUtils {
 
     public static void createFreestyleProjectInsideFolderAndView(BaseTest baseTest, String jobName, String viewName, String folderName) {
         new ViewPage((baseTest.getDriver()))
-                .clickDropDownMenuFolder(folderName)
-                .selectNewItemInDropDownMenu(viewName, folderName)
+                .openJobDropDownMenu(folderName)
+                .selectNewItemInJobDropDownMenu(folderName)
                 .enterItemName(jobName)
                 .selectJobType(JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
@@ -240,5 +240,33 @@ public class TestUtils {
                 .clickCreateUserButton()
                 .getHeader()
                 .clickLogo();
+    }
+
+    public static CreateItemErrorPage createJobWithExistingName(BaseTest baseTest, String jobName, JobType jobType){
+        return new MainPage(baseTest.getDriver())
+                .clickNewItem()
+                .enterItemName(jobName)
+                .selectJobAndOkAndGoError(jobType);
+    }
+
+    public static NewJobPage createJobWithExistingNameWithoutClickOk(BaseTest baseTest, String jobName, JobType jobType){
+        return new MainPage(baseTest.getDriver())
+                .clickNewItem()
+                .enterItemName(jobName)
+                .selectJobType(jobType);
+    }
+
+    public static NewJobPage createFolderUsingInvalidData(BaseTest baseTest, String invalidData, JobType jobType){
+        return new MainPage(baseTest.getDriver())
+                .clickCreateAJob()
+                .enterItemName(invalidData)
+                .selectJobType(jobType);
+    }
+
+    public static CreateItemErrorPage createJobWithSpaceInsteadName(BaseTest baseTest, JobType jobType){
+        return new MainPage(baseTest.getDriver())
+                .clickNewItem()
+                .enterItemName(" ")
+                .selectJobAndOkAndGoError(jobType);
     }
 }

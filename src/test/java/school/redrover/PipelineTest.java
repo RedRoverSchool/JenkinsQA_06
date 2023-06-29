@@ -29,7 +29,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getJobName();
+                .getJobName(NAME);
 
         Assert.assertEquals(projectName, NAME);
     }
@@ -116,7 +116,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getJobName();
+                .getJobName(NEW_NAME);
 
         Assert.assertEquals(projectName, NEW_NAME);
     }
@@ -254,7 +254,7 @@ public class PipelineTest extends BaseTest {
                 .selectScriptedPipelineAndSubmit()
                 .getHeader()
                 .clickLogo()
-                .verifyJobIsPresent(NAME);
+                .jobIsDisplayed(NAME);
 
         Assert.assertTrue(projectIsPresent);
     }
@@ -286,13 +286,11 @@ public class PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testEnablePipeline")
     public void testCreateDuplicatePipelineProject() {
 
-        String jobExists = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(NAME)
-                .selectJobType(TestUtils.JobType.Pipeline)
-                .getItemInvalidMessage();
+        NewJobPage newJobPage =
+                TestUtils.createJobWithExistingNameWithoutClickOk(this, NAME, TestUtils.JobType.Pipeline);
 
-        Assert.assertEquals(jobExists, "» A job already exists with the name " + "‘" + NAME + "’");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» A job already exists with the name " + "‘" + NAME + "’");
+        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is disabled");
     }
 
     @Test
@@ -319,7 +317,7 @@ public class PipelineTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getJobName();
+                .getJobName(NEW_NAME);
 
         Assert.assertEquals(renamedPipeline, NEW_NAME);
     }
@@ -336,7 +334,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getProjectNameMainPage(allowedChar);
+                .getJobName(allowedChar);
 
         Assert.assertEquals(projectNameDashboard, allowedChar);
     }
@@ -348,12 +346,11 @@ public class PipelineTest extends BaseTest {
 
     @Test(dataProvider = "wrong-characters")
     public void testPipelineNameUnsafeChar(String wrongCharacters) {
-        NewJobPage newJobPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(wrongCharacters);
+        NewJobPage newJobPage =
+                TestUtils.createFolderUsingInvalidData(this, wrongCharacters, TestUtils.JobType.Pipeline);
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacters + "’ is an unsafe character");
-        Assert.assertFalse(newJobPage.isOkButtonEnabled());
+        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
     }
 
     @Test
@@ -368,10 +365,8 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithSpaceInsteadOfName() {
-        CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName("  ")
-                .selectJobAndOkAndGoError(TestUtils.JobType.Pipeline);
+        CreateItemErrorPage createItemErrorPage =
+                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.Pipeline);
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), "No name is specified");
@@ -488,7 +483,7 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(pipelinePage.getJobName(), "Pipeline " + NEW_NAME);
         Assert.assertEquals(pipelinePage.getProjectNameSubtitleWithDisplayName(), NAME);
-        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getJobName(), NEW_NAME);
+        Assert.assertEquals(pipelinePage.getHeader().clickLogo().getJobName(NAME), NEW_NAME);
     }
 
     @Test
@@ -563,7 +558,7 @@ public class PipelineTest extends BaseTest {
         boolean projectIsPresent = new MainPage(getDriver())
                 .dropDownMenuClickDelete(NEW_NAME)
                 .dismissAlert()
-                .verifyJobIsPresent(NEW_NAME);
+                .jobIsDisplayed(NEW_NAME);
 
         Assert.assertTrue(projectIsPresent);
     }

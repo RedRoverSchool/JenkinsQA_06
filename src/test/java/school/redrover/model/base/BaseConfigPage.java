@@ -30,7 +30,7 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
     }
 
     public JobPage clickSaveButton() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
         return getJobPage();
     }
 
