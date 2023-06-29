@@ -323,7 +323,6 @@ public class ViewsTest extends BaseTest {
     public void testCreateNewViewInFolder() {
         final String viewName = "Test View";
         boolean viewIsDisplayed = new MainPage(getDriver())
-
                 .clickCreateAJob()
                 .enterItemName("FolderName")
                 .selectJobType(TestUtils.JobType.Folder)
@@ -333,14 +332,15 @@ public class ViewsTest extends BaseTest {
                 .clickNewItem()
                 .enterItemName("FolderName")
                 .selectJobAndOkAndGoError(TestUtils.JobType.Folder)
-                .goMainPage()
+                .getHeader()
+                .clickLogo()
                 .clickJobName("FolderName", new FolderPage(getDriver()))
                 .clickNewView()
                 .setNewViewName(viewName)
                 .selectTypeViewClickCreate(TestUtils.ViewType.MyView,ViewPage.class)
                 .clickAllOnFolderView()
                 .viewIsDisplayed(viewName);
-        Assert.assertTrue(viewIsDisplayed, "error was not shown created view");
 
+        Assert.assertTrue(viewIsDisplayed, "error was not shown created view");
     }
 }
