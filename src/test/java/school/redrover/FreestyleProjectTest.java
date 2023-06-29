@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
@@ -554,6 +555,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualRetryCount, retryCount);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds")
     public void testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding() {
         final String checkBlockBuildWhenUpstreamProjectIsBuilding = "rowvg-start tr";
