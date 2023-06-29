@@ -21,6 +21,9 @@ public class FolderTest extends BaseTest {
     private static final String NAME_2 = "Folder";
     private static final String DESCRIPTION = "Created new folder";
     private static final String DISPLAY_NAME = "NewFolder";
+    private static final String LONG_NAME = "qYIs65dT50nvjiognIil5l0c0MxH7PTQZ8enFOY4crE4sb60SPZMt1NgeKQ1nT6P4jgA6R" +
+            "Y4u8d91qwkQliruwIBX9zQKn31JqI7fekC3g8jzhIsSc8ZeNyL7zfIggCDhwooJvGVn2T3O0VuP0Ml2TfX3co6PCN6VvKamFUyad4xWh" +
+            "JvwNlXywdbgaMGmYqBDEhj4GvBxBaUCe8OO2qWDVkq0duYIbzAw57lCDhaEjk25ojxiZFEc8DUeWXeupkq";;
 
     private void createdJobInFolder(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?, ?> jobConfigPage) {
         new MainPage(getDriver())
@@ -354,5 +357,16 @@ public class FolderTest extends BaseTest {
                 .WelcomeIsDisplayed();
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testCreateFolderWithLongName() {
+        String errorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(LONG_NAME)
+                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.Folder)
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
 }
