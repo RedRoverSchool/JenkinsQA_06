@@ -178,6 +178,18 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
+    public void testAddDescriptionFromFolderPage() {
+        String folderDescription = new MainPage(getDriver())
+                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickAddDescription()
+                .addDescription(DESCRIPTION)
+                .clickSaveButton()
+                .getFolderDescriptionFromFolderPage();
+
+        Assert.assertEquals(folderDescription, DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testAddDescriptionFromFolderPage")
     public void testPreviewDescription() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -199,7 +211,6 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(folderIsDisplayed, "error was not show name folder");
     }
-
 
     @Test(dependsOnMethods = "testCancelDeleting")
     public void testCreateJobsInFolder() {

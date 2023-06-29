@@ -29,6 +29,18 @@ public class FolderPage extends BaseJobPage<FolderPage> {
     @FindBy(css = ".jenkins-table__link")
     private List<WebElement> jobList;
 
+    @FindBy(xpath = "//a[@id='description-link']")
+    private WebElement addDescriptionButton;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement descriptionField;
+
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement saveButton;
+
+    @FindBy(xpath = "//div[@id='description']/div[1]")
+    private WebElement folderDescriptionFromFolderPage;
+
     public FolderPage(WebDriver driver) {
         super(driver);
     }
@@ -83,5 +95,24 @@ public class FolderPage extends BaseJobPage<FolderPage> {
 
     public String getPageTitle() {
         return getDriver().getTitle();
+    }
+
+    public FolderPage clickAddDescription() {
+        addDescriptionButton.click();
+        return this;
+    }
+
+    public FolderPage addDescription(String description) {
+        descriptionField.sendKeys(description);
+        return this;
+    }
+
+    public FolderPage clickSaveButton() {
+        saveButton.click();
+        return this;
+    }
+
+    public String getFolderDescriptionFromFolderPage() {
+        return TestUtils.getText(this, folderDescriptionFromFolderPage);
     }
 }
