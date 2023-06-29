@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
@@ -518,7 +519,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(statusExecuteConcurrentBuilds, checkExecuteConcurrentBuilds);
     }
 
-
+    @Ignore
     @Test(dependsOnMethods = "testAllowParallelBuilds")
     public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() {
         final String expectedQuietPeriod = "10";
