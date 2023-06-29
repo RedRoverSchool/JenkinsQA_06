@@ -333,7 +333,7 @@ public class FolderTest extends BaseTest {
 
         boolean welcomeIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
-                .clickDeleteAndAlert()
+                .clickDeleteAndYes()
                 .WelcomeIsDisplayed();
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");

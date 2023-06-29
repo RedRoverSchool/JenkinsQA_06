@@ -115,4 +115,11 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         String subStr = projectName.substring(projectName.indexOf(':') + 2);
         return subStr.substring(0, subStr.indexOf("\n")).trim();
     }
+
+    public MainPage clickDeleteAndYes() {
+        deleteButton.click();
+        getDriver().findElement(By.name("Submit")).click();
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
+        return new MainPage(getDriver());
+    }
 }
