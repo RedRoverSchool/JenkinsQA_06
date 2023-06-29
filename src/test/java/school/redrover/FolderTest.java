@@ -113,7 +113,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), expectedErrorMessage);
     }
 
-    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    @Test(dependsOnMethods = "testCreateWithExistingName")
     public void testRenameUsingDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
