@@ -80,4 +80,8 @@ public class FolderPage extends BaseJobPage<FolderPage> {
                 .map(WebElement::getText)
                 .toList();
     }
+
+    public String getPageTitle() {
+        return getDriver().getTitle();
+    }
 }
