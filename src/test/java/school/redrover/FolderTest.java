@@ -321,12 +321,13 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFromDashboard")
     public void testRenameFromLeftsidePanel() {
-        new MainPage(getDriver())
+        FolderPage folderPage =  new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
                 .clickRename()
                 .enterNewName(NAME)
                 .clickRenameButton();
 
-        Assert.assertEquals(getDriver().getTitle(), "All [" + NAME + "] [Jenkins]");
+        Assert.assertEquals(folderPage.getJobName(), NAME);
+        Assert.assertEquals(folderPage.getDriver().getTitle(), "All [" + NAME + "] [Jenkins]");
     }
 }
