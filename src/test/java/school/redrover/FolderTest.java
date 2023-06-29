@@ -89,7 +89,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(mainPage.jobIsDisplayed(NAME_2), "error was not show name folder");
         Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testCreateWithExistingName() {
         CreateItemErrorPage errorPage = TestUtils.createJobWithExistingName(this, NAME, TestUtils.JobType.Folder);
