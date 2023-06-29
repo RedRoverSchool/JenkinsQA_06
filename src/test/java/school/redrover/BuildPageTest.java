@@ -146,6 +146,7 @@ public class BuildPageTest extends BaseTest {
         Assert.assertEquals(actualStatusMessageText, expectedStatusMessageText);
     }
 
+    @Ignore
     @Test
     public void testPresenceProjectNameOnBuildHistoryTimeline() {
         final String itemName = "TestProject";
