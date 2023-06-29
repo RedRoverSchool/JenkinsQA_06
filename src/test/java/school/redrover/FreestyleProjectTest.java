@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
@@ -83,7 +82,7 @@ public class FreestyleProjectTest extends BaseTest {
         boolean okButton = new MainPage(getDriver())
                 .clickCreateAJobArrow()
                 .selectJobType(TestUtils.JobType.FreestyleProject)
-                .okButtonDisabled();
+                .isOkButtonDisabled();
 
         Assert.assertFalse(okButton);
     }

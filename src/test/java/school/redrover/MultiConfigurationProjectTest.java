@@ -100,7 +100,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
         NewJobPage newJobPage = TestUtils.createFolderUsingInvalidData
                 (this, unsafeSymbol + "MyProject", TestUtils.JobType.MultiConfigurationProject);
 
-        Assert.assertTrue(newJobPage.okButtonDisabled(), "error OK button is enabled");
+        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + unsafeSymbol + "’" + " is an unsafe character");
     }
 

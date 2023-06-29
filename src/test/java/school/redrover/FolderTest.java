@@ -109,7 +109,7 @@ public class FolderTest extends BaseTest {
 
         NewJobPage newJobPage = TestUtils.createFolderUsingInvalidData(this, invalidData, TestUtils.JobType.Folder);
 
-        Assert.assertTrue(newJobPage.okButtonDisabled(), "error OK button is enabled");
+        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), expectedErrorMessage);
     }
 
