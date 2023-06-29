@@ -555,6 +555,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualRetryCount, retryCount);
     }
 
+
     @Ignore
     @Test
     public void testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding() {
