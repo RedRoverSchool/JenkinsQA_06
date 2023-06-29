@@ -55,7 +55,7 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public FreestyleProjectConfigPage clickAdvancedDropdownMenu() {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].scrollIntoView();", executeConcurrentBuildsIfNecessary);
-        advancedDropdownMenu.click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(advancedDropdownMenu)).click();
         return this;
     }
 
