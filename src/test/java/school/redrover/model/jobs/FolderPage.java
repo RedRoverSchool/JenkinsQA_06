@@ -93,6 +93,10 @@ public class FolderPage extends BaseJobPage<FolderPage> {
                 .toList();
     }
 
+    public String getPageTitle() {
+        return getDriver().getTitle();
+    }
+
     public FolderPage clickAddDescription() {
         addDescriptionButton.click();
         return this;
