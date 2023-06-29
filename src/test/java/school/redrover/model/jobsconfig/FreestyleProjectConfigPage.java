@@ -14,7 +14,7 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//label[text()='Execute concurrent builds if necessary']")
     private WebElement executeConcurrentBuildsIfNecessary;
 
-    @FindBy(xpath = "//div[5]/div[1]/button")
+    @FindBy(xpath = "(//button[contains(text(),'Advanced')])[3]")
     private WebElement advancedDropdownMenu;
 
     @FindBy(tagName = "footer")
@@ -29,7 +29,7 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//*[@name='description']")
     private WebElement descriptionField;
 
-    @FindBy(xpath = "//div[1]/div[6]/div[3]/div[3]")
+    @FindBy(xpath = "//input[@name='blockBuildWhenUpstreamBuilding']")
     private WebElement trueBlockBuildWhenUpstreamProjectIsBuilding;
 
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
@@ -55,11 +55,11 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public FreestyleProjectConfigPage clickAdvancedDropdownMenu() {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].scrollIntoView();", executeConcurrentBuildsIfNecessary);
-        advancedDropdownMenu.click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(advancedDropdownMenu)).click();
         return this;
     }
 
-    public WebElement getTrueBlockBuildWhenUpstreamProjectIsBuilding() {
-        return trueBlockBuildWhenUpstreamProjectIsBuilding;
+    public boolean getTrueBlockBuildWhenUpstreamProjectIsBuilding() {
+        return trueBlockBuildWhenUpstreamProjectIsBuilding.isSelected();
     }
 }
