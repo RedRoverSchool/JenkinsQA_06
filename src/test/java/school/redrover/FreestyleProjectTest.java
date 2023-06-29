@@ -328,7 +328,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
 
-    @Test(dependsOnMethods = "testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds")
+    @Test(dependsOnMethods = "testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding")
     public void testDeleteFreestyleProject() {
         final String projName = NEW_FREESTYLE_NAME;
 
@@ -555,13 +555,11 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualRetryCount, retryCount);
     }
 
-
-    @Ignore
-    @Test
+    @Test(dependsOnMethods = "testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds")
     public void testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding() {
         final String checkBlockBuildWhenUpstreamProjectIsBuilding = "rowvg-start tr";
 
-        final String statusBlockBuildWhenUpstreamProjectIsBuilding = new MainPage(getDriver())
+        final boolean statusBlockBuildWhenUpstreamProjectIsBuilding = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .clickAdvancedDropdownMenu()
@@ -569,9 +567,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickConfigure()
                 .clickAdvancedDropdownMenu()
-                .getTrueBlockBuildWhenUpstreamProjectIsBuilding()
-                .getAttribute("class");
+                .getTrueBlockBuildWhenUpstreamProjectIsBuilding();
 
-        Assert.assertEquals(statusBlockBuildWhenUpstreamProjectIsBuilding, checkBlockBuildWhenUpstreamProjectIsBuilding);
+        Assert.assertTrue(statusBlockBuildWhenUpstreamProjectIsBuilding, "error input is not selected");
     }
 }

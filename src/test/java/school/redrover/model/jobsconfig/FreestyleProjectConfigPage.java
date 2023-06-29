@@ -29,7 +29,7 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//*[@name='description']")
     private WebElement descriptionField;
 
-    @FindBy(xpath = "//div[1]/div[6]/div[3]/div[3]")
+    @FindBy(xpath = "//input[@name='blockBuildWhenUpstreamBuilding']")
     private WebElement trueBlockBuildWhenUpstreamProjectIsBuilding;
 
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
@@ -59,7 +59,7 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
         return this;
     }
 
-    public WebElement getTrueBlockBuildWhenUpstreamProjectIsBuilding() {
-        return trueBlockBuildWhenUpstreamProjectIsBuilding;
+    public boolean getTrueBlockBuildWhenUpstreamProjectIsBuilding() {
+        return trueBlockBuildWhenUpstreamProjectIsBuilding.isSelected();
     }
 }
