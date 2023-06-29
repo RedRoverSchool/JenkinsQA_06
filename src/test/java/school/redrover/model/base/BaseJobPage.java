@@ -1,6 +1,5 @@
 package school.redrover.model.base;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -114,12 +113,5 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         String projectName = mainPanel.getText();
         String subStr = projectName.substring(projectName.indexOf(':') + 2);
         return subStr.substring(0, subStr.indexOf("\n")).trim();
-    }
-
-    public MainPage clickDeleteAndYes() {
-        deleteButton.click();
-        getDriver().findElement(By.name("Submit")).click();
-        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
-        return new MainPage(getDriver());
     }
 }
