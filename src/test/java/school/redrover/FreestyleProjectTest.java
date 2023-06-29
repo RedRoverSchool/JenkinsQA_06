@@ -556,7 +556,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds")
+    @Test
     public void testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding() {
         final String checkBlockBuildWhenUpstreamProjectIsBuilding = "rowvg-start tr";
 
