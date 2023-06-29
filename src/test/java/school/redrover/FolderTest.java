@@ -180,7 +180,7 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testDeleteDisplayName")
     public void testAddDescriptionFromFolderPage() {
         String folderDescription = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickAddDescription()
                 .addDescription(DESCRIPTION)
                 .clickSaveButton()
