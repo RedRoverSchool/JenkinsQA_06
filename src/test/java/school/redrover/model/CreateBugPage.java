@@ -17,6 +17,4 @@ public class CreateBugPage extends BaseMainHeaderPage<CreateItemErrorPage> {
     public String getErrorMessage() {
         return getWait5().until(ExpectedConditions.visibilityOf(errorMessage)).getText();
     }
-
-
 }
