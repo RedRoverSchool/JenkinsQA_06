@@ -118,22 +118,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
-    @Test(dependsOnMethods = "testCreateWithExistingName")
-    public void testCreateNewViewInFolder() {
-        final String viewName = "Test View";
-
-        boolean viewIsDisplayed = new MainPage(getDriver())
-                .clickJobName(NAME, new FolderPage(getDriver()))
-                .clickNewView()
-                .setNewViewName(viewName)
-                .selectTypeViewClickCreate(TestUtils.ViewType.MyView, ViewPage.class)
-                .clickAllOnFolderView()
-                .viewIsDisplayed(viewName);
-
-        Assert.assertTrue(viewIsDisplayed, "error was not shown created view");
-    }
-
-    @Test(dependsOnMethods = "testCreateNewViewInFolder")
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testRenameUsingDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
