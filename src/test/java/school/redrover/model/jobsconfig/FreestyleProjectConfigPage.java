@@ -14,7 +14,7 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//label[text()='Execute concurrent builds if necessary']")
     private WebElement executeConcurrentBuildsIfNecessary;
 
-    @FindBy(xpath = "//div[5]/div[1]/button")
+    @FindBy(xpath = "(//button[contains(text(),'Advanced')])[3]")
     private WebElement advancedDropdownMenu;
 
     @FindBy(tagName = "footer")
