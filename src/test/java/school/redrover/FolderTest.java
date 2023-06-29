@@ -218,13 +218,14 @@ public class FolderTest extends BaseTest {
                 Pair.with("Organization", TestUtils.JobType.OrganizationFolder)
         ));
 
-        jobs.forEach(el -> createdJobInFolder(NAME_2, el));
+        jobs.forEach(el -> createdJobInFolder(NAME, el));
 
         List<String> createdJobList = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
         List<String> result = jobs.stream().map(el -> el.getValue0()).toList().stream().sorted().toList();
+
         Assert.assertEquals(createdJobList, result);
     }
 
