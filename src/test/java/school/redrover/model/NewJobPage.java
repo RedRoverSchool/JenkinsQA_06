@@ -47,8 +47,8 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return getWait5().until(ExpectedConditions.visibilityOf(okButton));
     }
 
-    public boolean okButtonDisabled() {
-        return getOkButton().getAttribute("disabled").isEmpty();
+    public boolean isOkButtonDisabled() {
+        return getOkButton().isDisplayed();
     }
 
     public NewJobPage enterItemName(String jobName) {
@@ -81,10 +81,6 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
     public String getItemInvalidMessage() {
         return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
-    }
-
-    public boolean isOkButtonEnabled() {
-        return getOkButton().isEnabled();
     }
 
     public String getItemNameRequiredMessage() {

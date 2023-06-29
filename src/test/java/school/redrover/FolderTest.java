@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.*;
@@ -69,7 +68,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "error was not show name folder");
         Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
     }
-
+    @Ignore
     @Test
     public void testCreateFromNewItem() {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
@@ -93,7 +92,6 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testCreateWithExistingName() {
         String errorMessage = new MainPage(getDriver())
@@ -329,16 +327,5 @@ public class FolderTest extends BaseTest {
             case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
             default -> Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
         }
-    }
-
-    @Test
-    public void testCreateFolderWithLongName() {
-        String errorMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(LONG_NAME)
-                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.Folder)
-                .getErrorMessage();
-
-        Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
 }

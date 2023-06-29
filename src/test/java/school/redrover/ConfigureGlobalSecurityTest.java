@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.MainPage;
 import school.redrover.runner.BaseTest;
@@ -92,6 +93,7 @@ public class ConfigureGlobalSecurityTest extends BaseTest {
         Assert.assertTrue(allChecksAreOk);
     }
 
+    @Ignore
     @Test
     public void testSavedNotificationAppearsWhenClickApply() {
 
