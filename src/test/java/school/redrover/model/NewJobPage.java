@@ -47,8 +47,8 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return getWait5().until(ExpectedConditions.visibilityOf(okButton));
     }
 
-    public boolean okButtonDisabled() {
-        return getOkButton().getAttribute("disabled").isEmpty();
+    public boolean isOkButtonDisabled() {
+        return getOkButton().isDisplayed();
     }
 
     public NewJobPage enterItemName(String jobName) {
