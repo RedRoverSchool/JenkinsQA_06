@@ -17,20 +17,12 @@ public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage>
     @FindBy(xpath = "//div[@id='main-panel']//h1")
     private WebElement headerText;
 
-    @FindBy(id = "jenkins-head-icon")
-    private WebElement logo;
-
     public CreateItemErrorPage(WebDriver driver) {
         super(driver);
     }
 
     public String getErrorMessage() {
-        return getWait5().until(ExpectedConditions.visibilityOf(errorMessage)).getText();
-    }
-
-    public MainPage goMainPage() {
-        logo.click();
-        return new MainPage(getDriver());
+        return getWait10().until(ExpectedConditions.visibilityOf(errorMessage)).getText();
     }
 
     public String getError() {

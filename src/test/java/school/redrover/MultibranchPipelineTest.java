@@ -122,7 +122,7 @@ public class MultibranchPipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultibranchPipelineWithDescription")
     public void testFindCreatedMultibranchPipelineOnMainPage(){
         boolean jobIsPresent = new MainPage(getDriver())
-                .verifyJobIsPresent(NAME);
+                .jobIsDisplayed(NAME);
 
         Assert.assertTrue(jobIsPresent);
     }

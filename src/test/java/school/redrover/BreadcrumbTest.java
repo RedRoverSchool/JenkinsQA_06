@@ -103,7 +103,7 @@ public class BreadcrumbTest extends BaseTest {
                 .clickSaveButton()
                 .getBreadcrumb()
                 .clickDashboardButton()
-                .getProjectNameMainPage(nameProject);
+                .getJobName(nameProject);
 
         Assert.assertEquals(nameProjectOnMainPage, nameProject);
     }
