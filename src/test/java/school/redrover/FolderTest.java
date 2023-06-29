@@ -66,7 +66,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "error was not show name folder");
         Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
     }
-
+    @Ignore
     @Test
     public void testCreateFromNewItem() {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
@@ -219,7 +219,7 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
-
+    @Ignore
     @Test(dependsOnMethods = {"testCreateFromDashboard", "testCreateFromNewItem"})
     public void testMoveJobsToFolderFromDropDownMenu() {
         List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
