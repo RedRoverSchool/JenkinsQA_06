@@ -295,8 +295,8 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
             else{
                 new Actions(getDriver()).moveToElement(job).build().perform();
                 status = true;
+                break;
             }
-            break;
         }
         return status;
     }
