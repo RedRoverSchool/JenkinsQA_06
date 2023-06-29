@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.*;
@@ -66,7 +65,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "error was not show name folder");
         Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
     }
-    @Ignore
+
     @Test
     public void testCreateFromNewItem() {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
@@ -89,7 +88,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(mainPage.jobIsDisplayed(NAME_2), "error was not show name folder");
         Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
     }
-    @Ignore
+
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testCreateWithExistingName() {
         CreateItemErrorPage errorPage = TestUtils.createJobWithExistingName(this, NAME, TestUtils.JobType.Folder);
@@ -123,7 +122,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 
-    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    @Test(dependsOnMethods = "testCreateWithExistingName")
     public void testRenameUsingDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
@@ -149,9 +148,21 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
+    public void testRenameFromLeftSidePanel() {
+        FolderPage folderPage =  new MainPage(getDriver())
+                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickRename()
+                .enterNewName(NAME)
+                .clickRenameButton();
+
+        Assert.assertEquals(folderPage.getJobName(), NAME);
+        Assert.assertEquals(folderPage.getPageTitle(), "All [" + NAME + "] [Jenkins]");
+    }
+
+    @Test(dependsOnMethods = "testRenameFromLeftSidePanel")
     public void testConfigureFolderNameDescriptionHealthMetrics() {
         FolderPage folderPage = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickConfigure()
                 .enterDisplayName(DISPLAY_NAME)
                 .addDescription(DESCRIPTION)
@@ -163,10 +174,22 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(folderPage.clickConfigure().clickHealthMetrics().isRecursive());
     }
 
+    @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
+    public void testDeleteDisplayName() {
+        String folderName = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .clearDisplayName()
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(folderName, NAME);
+    }
+
     @Test(dependsOnMethods = "testDeleteDisplayName")
     public void testPreviewDescription() {
         String previewText = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickConfigure()
                 .clickPreview()
                 .getPreviewText();
@@ -177,11 +200,11 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testPreviewDescription")
     public void testCancelDeleting() {
         boolean folderIsDisplayed = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickDeleteJobThatIsMainPage()
                 .getHeader()
                 .clickLogo()
-                .jobIsDisplayed(NAME_2);
+                .jobIsDisplayed(NAME);
 
         Assert.assertTrue(folderIsDisplayed, "error was not show name folder");
     }
@@ -192,21 +215,21 @@ public class FolderTest extends BaseTest {
         List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
                 "Folder", "Multibranch Pipeline", "Organization");
 
-        createdJobInFolder(jobName.get(0), NAME_2, TestUtils.JobType.FreestyleProject,
+        createdJobInFolder(jobName.get(0), NAME, TestUtils.JobType.FreestyleProject,
                 new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(1), NAME_2, TestUtils.JobType.Pipeline,
+        createdJobInFolder(jobName.get(1), NAME, TestUtils.JobType.Pipeline,
                 new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(2), NAME_2, TestUtils.JobType.MultiConfigurationProject,
+        createdJobInFolder(jobName.get(2), NAME, TestUtils.JobType.MultiConfigurationProject,
                 new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(3), NAME_2, TestUtils.JobType.Folder,
+        createdJobInFolder(jobName.get(3), NAME, TestUtils.JobType.Folder,
                 new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(4), NAME_2, TestUtils.JobType.MultibranchPipeline,
+        createdJobInFolder(jobName.get(4), NAME, TestUtils.JobType.MultibranchPipeline,
                 new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(5), NAME_2, TestUtils.JobType.OrganizationFolder,
+        createdJobInFolder(jobName.get(5), NAME, TestUtils.JobType.OrganizationFolder,
                 new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
 
         List<String> createdJobList = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
         jobName.sort(String.CASE_INSENSITIVE_ORDER);
@@ -217,13 +240,13 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateJobsInFolder")
     public void testDeleteFolder() {
         boolean welcomeIsDisplayed = new MainPage(getDriver())
-                .dropDownMenuClickDeleteFolders(NAME_2)
+                .dropDownMenuClickDeleteFolders(NAME)
                 .clickYesButton()
                 .WelcomeIsDisplayed();
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
-    @Ignore
+
     @Test(dependsOnMethods = {"testCreateFromDashboard", "testCreateFromNewItem"})
     public void testMoveJobsToFolderFromDropDownMenu() {
         List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
@@ -297,18 +320,6 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(folderName.contains(NAME));
     }
 
-    @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
-    public void testDeleteDisplayName() {
-        String folderName = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
-                .clickConfigure()
-                .clearDisplayName()
-                .clickSaveButton()
-                .getJobName();
-
-        Assert.assertEquals(folderName, NAME_2);
-    }
-
     @Test(dataProvider = "invalid-data")
     public void testRenameFolderWithInvalidData(String invalidData) {
 
@@ -329,17 +340,5 @@ public class FolderTest extends BaseTest {
             case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
             default -> Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
         }
-    }
-
-    @Test(dependsOnMethods = "testCreateFromDashboard")
-    public void testRenameFromLeftsidePanel() {
-        FolderPage folderPage =  new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
-                .clickRename()
-                .enterNewName(NAME)
-                .clickRenameButton();
-
-        Assert.assertEquals(folderPage.getJobName(), NAME);
-        Assert.assertEquals(folderPage.getPageTitle(), "All [" + NAME + "] [Jenkins]");
     }
 }
