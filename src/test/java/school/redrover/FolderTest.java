@@ -114,6 +114,15 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), expectedErrorMessage);
     }
 
+    @Test
+    public void testCreateFolderWithSpaceInsteadName() {
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.Folder);
+
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
+    }
+
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testRenameUsingDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
