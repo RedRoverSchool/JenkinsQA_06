@@ -29,7 +29,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .getHeader()
                 .clickLogo();
 
-        Assert.assertEquals(new MainPage(getDriver()).getJobName(), NAME);
+        Assert.assertEquals(new MainPage(getDriver()).getJobName(NAME), NAME);
     }
 
     @Test(dependsOnMethods = "testCreateProject")
@@ -78,7 +78,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .getJobName();
+                .getJobName(NEW_NAME);
 
         Assert.assertEquals(newNameProject, NEW_NAME);
     }
@@ -189,7 +189,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEnabled")
     public void testBuildNowDropDownMenu() {
-        Assert.assertEquals(new MainPage(getDriver()).getJobBuildStatus(NAME), "Not built");
+        Assert.assertEquals(new MainPage(getDriver()).getJobBuildStatusByWeatherIcon(NAME), "Not built");
 
         String jobBuildStatus = new MainPage(getDriver())
                 .clickJobDropdownMenuBuildNow(NAME)

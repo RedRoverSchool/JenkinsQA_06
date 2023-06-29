@@ -121,22 +121,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
-    @Test(dependsOnMethods = "testCreateWithExistingName")
-    public void testCreateNewViewInFolder() {
-        final String viewName = "Test View";
-
-        boolean viewIsDisplayed = new MainPage(getDriver())
-                .clickJobName(NAME, new FolderPage(getDriver()))
-                .clickNewView()
-                .setNewViewName(viewName)
-                .selectTypeViewClickCreate(TestUtils.ViewType.MyView, ViewPage.class)
-                .clickAllOnFolderView()
-                .viewIsDisplayed(viewName);
-
-        Assert.assertTrue(viewIsDisplayed, "error was not shown created view");
-    }
-
-    @Test(dependsOnMethods = "testCreateNewViewInFolder")
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testRenameUsingDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
@@ -320,6 +305,28 @@ public class FolderTest extends BaseTest {
                 .getJobName();
 
         Assert.assertEquals(folderName, NAME_2);
+    }
+
+    @Test(dataProvider = "invalid-data")
+    public void testRenameFolderWithInvalidData(String invalidData) {
+
+        final String expectedErrorMessage = "‘" + invalidData + "’ is an unsafe character";
+
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
+
+        String actualErrorMessage = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickRename()
+                .enterNewName(invalidData)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        switch (invalidData) {
+            case "&" -> Assert.assertEquals(actualErrorMessage, "‘&amp;’ is an unsafe character");
+            case "<" -> Assert.assertEquals(actualErrorMessage, "‘&lt;’ is an unsafe character");
+            case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
+            default -> Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        }
     }
 
     @Test

@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
@@ -32,7 +31,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .getJobName();
+                .getJobName(FREESTYLE_NAME);
 
         Assert.assertEquals(projectName, FREESTYLE_NAME);
     }
@@ -51,7 +50,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(mainPage.projectStatusTableIsDisplayed());
         Assert.assertEquals(mainPage.getProjectsList().size(), 1);
-        Assert.assertEquals(mainPage.getOnlyProjectName(), PROJECT_NAME);
+        Assert.assertEquals(mainPage.getJobName(PROJECT_NAME), PROJECT_NAME);
     }
 
     @Test
@@ -274,7 +273,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .getBreadcrumb()
                 .clickDashboardButton();
 
-        Assert.assertEquals(mainPage.getTitleValueOfBuildStatusIconElement(), "Success");
+        Assert.assertEquals(mainPage.getJobBuildStatusIcon(NEW_FREESTYLE_NAME), "Success");
 
         int sizeOfPermalinksList = mainPage
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -376,7 +375,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .dismissAlert()
                 .getHeader()
                 .clickLogo()
-                .verifyJobIsPresent(name);
+                .jobIsDisplayed(name);
 
         Assert.assertTrue(projectIsPresent);
     }

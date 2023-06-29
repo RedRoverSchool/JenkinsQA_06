@@ -203,8 +203,8 @@ public class TestUtils {
 
     public static void createFreestyleProjectInsideFolderAndView(BaseTest baseTest, String jobName, String viewName, String folderName) {
         new ViewPage((baseTest.getDriver()))
-                .clickDropDownMenuFolder(folderName)
-                .selectNewItemInDropDownMenu(viewName, folderName)
+                .openJobDropDownMenu(folderName)
+                .selectNewItemInJobDropDownMenu(folderName)
                 .enterItemName(jobName)
                 .selectJobType(JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
