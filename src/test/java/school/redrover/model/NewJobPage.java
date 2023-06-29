@@ -73,6 +73,12 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return new CreateItemErrorPage(getDriver());
     }
 
+    public CreateBugPage selectJobAndOkAndGoToBugPage(TestUtils.JobType jobType) {
+        selectJobType(jobType);
+        clickOkButton(null);
+        return new CreateBugPage(getDriver());
+    }
+
     public String getItemInvalidMessage() {
         return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
     }
