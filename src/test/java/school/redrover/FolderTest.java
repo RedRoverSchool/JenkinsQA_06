@@ -217,7 +217,6 @@ public class FolderTest extends BaseTest {
                 Pair.with("Multibranch Pipeline", TestUtils.JobType.MultibranchPipeline),
                 Pair.with("Organization", TestUtils.JobType.OrganizationFolder)
         ));
-
         jobs.forEach(el -> createdJobInFolder(NAME, el));
 
         List<String> createdJobList = new MainPage(getDriver())
