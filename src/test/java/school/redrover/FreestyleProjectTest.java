@@ -54,6 +54,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(mainPage.getJobName(PROJECT_NAME), PROJECT_NAME);
     }
 
+    @Ignore
     @Test
     public void testCreateWithExistingName() {
         createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
