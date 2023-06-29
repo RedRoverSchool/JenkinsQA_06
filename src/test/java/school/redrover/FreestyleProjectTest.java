@@ -84,7 +84,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .isOkButtonDisabled();
 
-        Assert.assertFalse(okButton);
+        Assert.assertTrue(okButton);
     }
 
     @Test
