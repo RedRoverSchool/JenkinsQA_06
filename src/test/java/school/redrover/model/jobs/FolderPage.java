@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.FolderTest;
 import school.redrover.model.*;
 import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.base.BaseJobPage;
@@ -26,8 +27,20 @@ public class FolderPage extends BaseJobPage<FolderPage> {
     @FindBy(id = "view-message")
     private WebElement folderDescription;
 
+    @FindBy(xpath = "//div[@id='description']/div[1]")
+    private WebElement folderDescriptionFromFolderPage;
+
     @FindBy(css = ".jenkins-table__link")
     private List<WebElement> jobList;
+
+    @FindBy(xpath = "//a[@id='description-link']")
+    private WebElement addDescriptionButton;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement descriptionField;
+
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement saveButton;
 
     public FolderPage(WebDriver driver) {
         super(driver);
@@ -79,5 +92,24 @@ public class FolderPage extends BaseJobPage<FolderPage> {
                 .stream()
                 .map(WebElement::getText)
                 .toList();
+    }
+
+    public FolderPage clickAddDescription() {
+        addDescriptionButton.click();
+        return this;
+    }
+
+    public FolderPage addDescription(String description) {
+        descriptionField.sendKeys(description);
+        return this;
+    }
+
+    public FolderPage clickSaveButton() {
+        saveButton.click();
+        return this;
+    }
+
+    public String getFolderDescriptionFromFolderPage() {
+        return TestUtils.getText(this, folderDescriptionFromFolderPage);
     }
 }
