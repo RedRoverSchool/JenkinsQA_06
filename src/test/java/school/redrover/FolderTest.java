@@ -114,7 +114,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), expectedErrorMessage);
     }
 
-    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    @Test(dependsOnMethods = "testCreateWithExistingName")
     public void testRenameUsingDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
@@ -154,7 +154,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(folderPage.clickConfigure().clickHealthMetrics().isRecursive());
     }
 
-    @Test(dependsOnMethods = "testDeleteDisplayName")
+    @Test(dependsOnMethods = "testAddDescriptionFromFolderPage")
     public void testPreviewDescription() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME_2, new FolderPage(getDriver()))
@@ -176,7 +176,6 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(folderIsDisplayed, "error was not show name folder");
     }
-
 
     @Test(dependsOnMethods = "testCancelDeleting")
     public void testCreateJobsInFolder() {
@@ -298,6 +297,18 @@ public class FolderTest extends BaseTest {
                 .getJobName();
 
         Assert.assertEquals(folderName, NAME_2);
+    }
+
+    @Test(dependsOnMethods = "testDeleteDisplayName")
+    public void testAddDescriptionFromFolderPage() {
+        String folderDescription = new MainPage(getDriver())
+                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickAddDescription()
+                .addDescription(DESCRIPTION)
+                .clickSaveButton()
+                .getFolderDescriptionFromFolderPage();
+
+        Assert.assertEquals(folderDescription, DESCRIPTION);
     }
 
     @Test(dataProvider = "invalid-data")
