@@ -538,9 +538,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualQuietPeriod, expectedQuietPeriod);
     }
 
-
-    @Ignore
-    @Test(dependsOnMethods = "testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild")
+    @Test(dependsOnMethods = "testAllowParallelBuilds")
     public void testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds() {
         final String retryCount = "5";
 
@@ -558,7 +556,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualRetryCount, retryCount);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds")
     public void testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding() {
         final String checkBlockBuildWhenUpstreamProjectIsBuilding = "rowvg-start tr";
