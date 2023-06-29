@@ -58,13 +58,11 @@ public class FreestyleProjectTest extends BaseTest {
     public void testCreateWithExistingName() {
         createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
-        String itemAlreadyExistsMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobAndOkAndGoError(TestUtils.JobType.FreestyleProject)
-                .getErrorMessage();
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithExistingName(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject);
 
-        Assert.assertEquals(itemAlreadyExistsMessage,
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(),
                 String.format("A job already exists with the name ‘%s’", FREESTYLE_NAME));
     }
 
@@ -85,9 +83,9 @@ public class FreestyleProjectTest extends BaseTest {
         boolean okButton = new MainPage(getDriver())
                 .clickCreateAJobArrow()
                 .selectJobType(TestUtils.JobType.FreestyleProject)
-                .okButtonDisabled();
+                .isOkButtonDisabled();
 
-        Assert.assertFalse(okButton);
+        Assert.assertTrue(okButton);
     }
 
     @Test
@@ -560,7 +558,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding() {
         final String checkBlockBuildWhenUpstreamProjectIsBuilding = "rowvg-start tr";
 
-        final String statusBlockBuildWhenUpstreamProjectIsBuilding = new MainPage(getDriver())
+        final boolean statusBlockBuildWhenUpstreamProjectIsBuilding = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .clickAdvancedDropdownMenu()
@@ -568,9 +566,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickConfigure()
                 .clickAdvancedDropdownMenu()
-                .getTrueBlockBuildWhenUpstreamProjectIsBuilding()
-                .getAttribute("class");
+                .getTrueBlockBuildWhenUpstreamProjectIsBuilding();
 
-        Assert.assertEquals(statusBlockBuildWhenUpstreamProjectIsBuilding, checkBlockBuildWhenUpstreamProjectIsBuilding);
+        Assert.assertTrue(statusBlockBuildWhenUpstreamProjectIsBuilding, "error input is not selected");
     }
 }
