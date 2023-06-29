@@ -56,7 +56,7 @@ public class FreestyleTest {
 
     @And("Job with name {string} is exists")
     public void checkJobName(String jobName) {
-        Assert.assertTrue(mainPage.verifyJobIsPresent(jobName));
+        Assert.assertTrue(mainPage.jobIsDisplayed(jobName));
     }
 
     @And("Save config and go to Freestyle job")
