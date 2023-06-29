@@ -331,6 +331,6 @@ public class FolderTest extends BaseTest {
                 .clickRenameButton();
 
         Assert.assertEquals(folderPage.getJobName(), NAME);
-        Assert.assertEquals(folderPage.getDriver().getTitle(), "All [" + NAME + "] [Jenkins]");
+        Assert.assertEquals(folderPage.getPageTitle(), "All [" + NAME + "] [Jenkins]");
     }
 }
