@@ -241,4 +241,32 @@ public class TestUtils {
                 .getHeader()
                 .clickLogo();
     }
+
+    public static CreateItemErrorPage createJobWithExistingName(BaseTest baseTest, String jobName, JobType jobType){
+        return new MainPage(baseTest.getDriver())
+                .clickNewItem()
+                .enterItemName(jobName)
+                .selectJobAndOkAndGoError(jobType);
+    }
+
+    public static NewJobPage createJobWithExistingNameWithoutClickOk(BaseTest baseTest, String jobName, JobType jobType){
+        return new MainPage(baseTest.getDriver())
+                .clickNewItem()
+                .enterItemName(jobName)
+                .selectJobType(jobType);
+    }
+
+    public static NewJobPage createFolderUsingInvalidData(BaseTest baseTest, String invalidData, JobType jobType){
+        return new MainPage(baseTest.getDriver())
+                .clickCreateAJob()
+                .enterItemName(invalidData)
+                .selectJobType(jobType);
+    }
+
+    public static CreateItemErrorPage createJobWithSpaceInsteadName(BaseTest baseTest, JobType jobType){
+        return new MainPage(baseTest.getDriver())
+                .clickNewItem()
+                .enterItemName(" ")
+                .selectJobAndOkAndGoError(jobType);
+    }
 }

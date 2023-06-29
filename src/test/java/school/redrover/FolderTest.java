@@ -91,13 +91,10 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testCreateWithExistingName() {
-        String errorMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(NAME)
-                .selectJobAndOkAndGoError(TestUtils.JobType.Folder)
-                .getErrorMessage();
+        CreateItemErrorPage errorPage = TestUtils.createJobWithExistingName(this, NAME, TestUtils.JobType.Folder);
 
-        Assert.assertEquals(errorMessage, "A job already exists with the name ‘" + NAME + "’");
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "A job already exists with the name ‘" + NAME + "’");
     }
 
     @DataProvider(name = "invalid-data")
@@ -110,12 +107,10 @@ public class FolderTest extends BaseTest {
     public void testCreateFolderUsingInvalidData(String invalidData) {
         final String expectedErrorMessage = "» ‘" + invalidData + "’ is an unsafe character";
 
-        String actualErrorMessage = new MainPage(getDriver())
-                .clickCreateAJob()
-                .enterItemName(invalidData)
-                .getItemInvalidMessage();
+        NewJobPage newJobPage = TestUtils.createFolderUsingInvalidData(this, invalidData, TestUtils.JobType.Folder);
 
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertTrue(newJobPage.okButtonDisabled(), "error OK button is enabled");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), expectedErrorMessage);
     }
 
     @Test(dependsOnMethods = "testCreateWithExistingName")

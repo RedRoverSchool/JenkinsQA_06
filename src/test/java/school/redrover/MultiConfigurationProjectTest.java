@@ -36,28 +36,21 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testCreateMultiConfigurationProjectWithEqualName() {
         final String errorMessageName = "A job already exists with the name " + "‘" + NAME + "’";
 
-        String error = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(NAME)
-                .selectJobAndOkAndGoError(TestUtils.JobType.MultiConfigurationProject)
-                .getErrorMessage();
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithExistingName(this, NAME, TestUtils.JobType.MultiConfigurationProject);
 
-        Assert.assertEquals(error, errorMessageName);
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), errorMessageName);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithEqualName")
     public void testCreateProjectWithSpaceInsteadName() {
-        final String expectedResult = "No name is specified";
 
-        String errorMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(" ")
-                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
-                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
-                .getErrorPage()
-                .getErrorMessage();
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.MultiConfigurationProject);
 
-        Assert.assertEquals(errorMessage, expectedResult);
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 
     @Test(dependsOnMethods = "testCreateProjectWithSpaceInsteadName")
@@ -104,12 +97,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dataProvider = "unsafeCharacter")
     public void testVerifyAnErrorIfCreatingMultiConfigurationProjectWithUnsafeCharacterInName(char unsafeSymbol) {
-        String invalidMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(unsafeSymbol + "MyProject")
-                .getItemInvalidMessage();
+        NewJobPage newJobPage = TestUtils.createFolderUsingInvalidData
+                (this, unsafeSymbol + "MyProject", TestUtils.JobType.MultiConfigurationProject);
 
-        Assert.assertEquals(invalidMessage, "» ‘" + unsafeSymbol + "’" + " is an unsafe character");
+        Assert.assertTrue(newJobPage.okButtonDisabled(), "error OK button is enabled");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + unsafeSymbol + "’" + " is an unsafe character");
     }
 
     @Test(dependsOnMethods = "testRename")

@@ -77,10 +77,6 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
     }
 
-    public boolean isOkButtonEnabled() {
-        return getOkButton().isEnabled();
-    }
-
     public String getItemNameRequiredMessage() {
         return itemNameRequiredMessage.getText();
     }

@@ -286,13 +286,11 @@ public class PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testEnablePipeline")
     public void testCreateDuplicatePipelineProject() {
 
-        String jobExists = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(NAME)
-                .selectJobType(TestUtils.JobType.Pipeline)
-                .getItemInvalidMessage();
+        NewJobPage newJobPage =
+                TestUtils.createJobWithExistingNameWithoutClickOk(this, NAME, TestUtils.JobType.Pipeline);
 
-        Assert.assertEquals(jobExists, "» A job already exists with the name " + "‘" + NAME + "’");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» A job already exists with the name " + "‘" + NAME + "’");
+        Assert.assertFalse(newJobPage.okButtonDisabled(), "error OK button is disabled");
     }
 
     @Test
@@ -348,12 +346,11 @@ public class PipelineTest extends BaseTest {
 
     @Test(dataProvider = "wrong-characters")
     public void testPipelineNameUnsafeChar(String wrongCharacters) {
-        NewJobPage newJobPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(wrongCharacters);
+        NewJobPage newJobPage =
+                TestUtils.createFolderUsingInvalidData(this, wrongCharacters, TestUtils.JobType.Pipeline);
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacters + "’ is an unsafe character");
-        Assert.assertFalse(newJobPage.isOkButtonEnabled());
+        Assert.assertTrue(newJobPage.okButtonDisabled(), "error OK button is enabled");
     }
 
     @Test
@@ -368,10 +365,8 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithSpaceInsteadOfName() {
-        CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName("  ")
-                .selectJobAndOkAndGoError(TestUtils.JobType.Pipeline);
+        CreateItemErrorPage createItemErrorPage =
+                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.Pipeline);
 
         Assert.assertEquals(createItemErrorPage.getHeaderText(), "Error");
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), "No name is specified");

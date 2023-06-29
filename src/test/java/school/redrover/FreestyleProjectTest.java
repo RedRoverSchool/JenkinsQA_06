@@ -58,13 +58,11 @@ public class FreestyleProjectTest extends BaseTest {
     public void testCreateWithExistingName() {
         createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
-        String itemAlreadyExistsMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobAndOkAndGoError(TestUtils.JobType.FreestyleProject)
-                .getErrorMessage();
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithExistingName(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject);
 
-        Assert.assertEquals(itemAlreadyExistsMessage,
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(),
                 String.format("A job already exists with the name ‘%s’", FREESTYLE_NAME));
     }
 
