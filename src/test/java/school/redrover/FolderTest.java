@@ -19,6 +19,7 @@ public class FolderTest extends BaseTest {
     private static final String NAME = "FolderName";
     private static final String NAME_2 = "Folder";
     private static final String DESCRIPTION = "Created new folder";
+    private static final String DESCRIPTION_2 = "Created new Description";
     private static final String DISPLAY_NAME = "NewFolder";
 
     private void createdJobInFolder(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?, ?> jobConfigPage) {
@@ -198,6 +199,17 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddDescriptionFromFolderPage")
+    public void testAddDescriptionPreview() {
+        String previewText = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickEditDescription()
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText, DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testAddDescriptionPreview")
     public void testPreviewDescription() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
