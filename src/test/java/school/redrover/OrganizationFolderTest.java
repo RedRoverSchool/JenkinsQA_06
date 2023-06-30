@@ -156,7 +156,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
-    public void testRenameNegative() {
+    public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
@@ -166,7 +166,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
     }
 
-    @Test(dependsOnMethods = {"testRenameNegative"} )
+    @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"} )
     public void testDeleteOrganizationFolder() {
         String welcomeText = new CreateItemErrorPage(getDriver())
                 .getHeader()
