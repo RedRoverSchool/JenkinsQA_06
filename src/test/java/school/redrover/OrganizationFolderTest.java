@@ -68,18 +68,30 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(movedOrgFolderVisibleAndClickable);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testDeleteOrganizationFolder")
     public void testCreateDisableOrganizationFolder() {
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
                 .selectJobType(TestUtils.JobType.OrganizationFolder)
                 .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickDisable()
+                .clickDisableEnable()
                 .clickSaveButton()
                 .getTextFromDisableMessage();
 
         Assert.assertEquals(disableFolder.trim().substring(0, 46), "This Organization Folder is currently disabled");
+    }
+
+    @Test(dependsOnMethods = "testCreateDisableOrganizationFolder")
+    public void testEnableOrgFolderFromConfig() {
+        String enableOrgFolder = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .clickDisableEnable()
+                .clickSaveButton()
+                .getDisableButtonText();
+
+        Assert.assertEquals(enableOrgFolder.trim(), "Disable Organization Folder");
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
