@@ -181,10 +181,10 @@ public class FolderTest extends BaseTest {
     public void testAddDescriptionFromFolderPage() {
         String folderDescription = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
-                .clickAddDescription()
-                .addDescription(DESCRIPTION)
+                .clickEditDescription()
+                .enterDescription(DESCRIPTION)
                 .clickSaveButton()
-                .getFolderDescriptionFromFolderPage();
+                .getDescription();
 
         Assert.assertEquals(folderDescription, DESCRIPTION);
     }
