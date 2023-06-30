@@ -17,6 +17,9 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
     @FindBy(xpath = "//div[@class='ace_content']")
     private WebElement scriptSection;
 
+    @FindBy(xpath = "//textarea[@class='ace_text-input']")
+    private WebElement scriptInputField;
+
     @FindBy(xpath = "//div[@class='jenkins-section']//button[@type='button'][normalize-space()='Advanced']")
     private WebElement advancedButton;
 
@@ -266,5 +269,10 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
 
     public String getErrorMessageStrategyDays() {
         return getWait2().until(ExpectedConditions.elementToBeClickable(errorMessage)).getText();
+    }
+
+    public PipelineConfigPage inputInScriptField(String scriptText){
+        scriptInputField.sendKeys(scriptText);
+        return this;
     }
 }

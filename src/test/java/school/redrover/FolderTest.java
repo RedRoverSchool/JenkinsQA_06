@@ -10,6 +10,7 @@ import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseJobPage;
+import school.redrover.model.jobsconfig.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -189,6 +190,37 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
+    public void testHealthMetricWithRecursive() {
+        String pipelineName = "BadPipe";
+
+        new MainPage(getDriver()).
+                clickJobName(NAME, new FolderPage(getDriver()));
+
+        TestUtils.createJob(this, NAME_2, TestUtils.JobType.Folder, false);
+
+        new FolderPage(getDriver())
+                .clickConfigure()
+                .addHealthMetrics()
+                .clickSaveButton();
+
+        String tooltipDescription = new FolderPage(getDriver())
+                .clickNewItem()
+                .selectJobType(TestUtils.JobType.Pipeline)
+                .enterItemName(pipelineName)
+                .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
+                .inputInScriptField("Broken")
+                .clickSaveButton()
+                .clickBuildNow()
+                .getHeader()
+                .clickLogo()
+                .hoverOverWeather(NAME)
+                .getTooltipDescription();
+
+        Assert.assertEquals(tooltipDescription,
+                "Worst health: " + NAME + " » " + NAME_2 + " » " + pipelineName + ": Build stability: All recent builds failed.");
+    }
+
+    @Test(dependsOnMethods = "testHealthMetricWithRecursive")
     public void testDeleteHealthMetrics(){
         boolean healthMetric = new MainPage(getDriver())
                 .clickJobName(NAME,new FolderPage(getDriver()))
@@ -406,4 +438,7 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
+
+
+
 }
