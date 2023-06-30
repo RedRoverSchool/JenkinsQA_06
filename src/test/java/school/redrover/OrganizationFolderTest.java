@@ -194,4 +194,13 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(organizationFolderName.contains(ORGANIZATION_FOLDER_NAME));
     }
+
+    @Test
+    public void testCreateOrganizationFolderWithSpaceName() {
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.OrganizationFolder);
+
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
+    }
 }
