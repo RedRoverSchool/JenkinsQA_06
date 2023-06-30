@@ -232,6 +232,6 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickPreview()
                 .getPreviewText();
 
-        Assert.assertEquals("Description",previewText);
+        Assert.assertEquals(previewText,"Description");
     }
 }
