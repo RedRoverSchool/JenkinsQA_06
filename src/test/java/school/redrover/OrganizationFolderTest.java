@@ -33,18 +33,13 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    @Test(dependsOnMethods = "testCreateOrganizationFolderGoingFromManageJenkinsPage")
     public void testCreateWithExistingName() {
-        NewJobPage jobPage = new MainPage(getDriver())
+        CreateItemErrorPage errorPage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME);
-
-        String warningMessage = jobPage.getItemInvalidMessage();
-
-        CreateItemErrorPage errorPage = jobPage
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
                 .selectJobAndOkAndGoError(TestUtils.JobType.OrganizationFolder);
 
-        Assert.assertEquals(warningMessage, "» A job already exists with the name ‘" + ORGANIZATION_FOLDER_NAME + "’");
         Assert.assertEquals(errorPage.getHeaderText(), "Error");
         Assert.assertEquals(errorPage.getErrorMessage(), "A job already exists with the name ‘" + ORGANIZATION_FOLDER_NAME + "’");
     }
