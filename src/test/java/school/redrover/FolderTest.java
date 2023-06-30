@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.*;
@@ -33,6 +34,7 @@ public class FolderTest extends BaseTest {
                 .clickLogo();
     }
 
+    @Ignore
     private void moveJobToFolderFromDropDownMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
         new MainPage(getDriver())
                 .dropDownMenuClickMove(jobName, jobPage)
@@ -236,6 +238,19 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testPreviewDescription")
+    public void testEditDescription() {
+        String newDescription = new FolderPage(getDriver())
+                .clickEditDescription()
+                .clearDescriptionField()
+                .enterDescription(DESCRIPTION_2)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(newDescription, DESCRIPTION_2);
+    }
+
+
+    @Test(dependsOnMethods = "testEditDescription")
     public void testCancelDeleting() {
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
