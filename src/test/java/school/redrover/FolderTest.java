@@ -363,4 +363,21 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
+
+    @Test
+    public void testAddHealthMetrics(){
+
+        TestUtils.createJob(this,NAME,TestUtils.JobType.Folder,true);
+
+        boolean healthMetrics = new MainPage(getDriver())
+                .clickJobName(NAME,new FolderPage(getDriver()))
+                .clickConfigure()
+                .addHealthMetrics()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(healthMetrics,"field 'Health metrics' is Displayed ");
+    }
 }
