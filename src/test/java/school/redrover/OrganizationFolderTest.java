@@ -225,10 +225,14 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
+    @Test
     public void testOrganizationFolderConfigPreviewDescription(){
         String previewText = new MainPage(getDriver())
-                .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME,new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .addDescription("Description")
                 .clickPreview()
                 .getPreviewText();
 
