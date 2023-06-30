@@ -17,6 +17,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
     private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
+    private static final String DESCRIPTION = "Description";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -109,11 +110,11 @@ public class OrganizationFolderTest extends BaseTest {
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
                 .selectJobType(TestUtils.JobType.OrganizationFolder)
                 .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .addDescription("Description")
+                .addDescription(DESCRIPTION)
                 .clickSaveButton()
                 .getAddedDescriptionFromConfig();
 
-        Assert.assertEquals(textFromDescription, "Description");
+        Assert.assertEquals(textFromDescription, DESCRIPTION);
     }
 
     @Ignore
@@ -185,6 +186,6 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickPreview()
                 .getPreviewText();
 
-        Assert.assertEquals("Description",previewText);
+        Assert.assertEquals(DESCRIPTION,previewText);
     }
 }
