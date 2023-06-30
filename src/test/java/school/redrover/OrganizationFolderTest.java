@@ -82,6 +82,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateDisableOrganizationFolder() {
+
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
