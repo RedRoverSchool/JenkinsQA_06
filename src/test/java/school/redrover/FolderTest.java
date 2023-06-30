@@ -187,6 +187,21 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
+    public void testDeleteHealthMetrics(){
+        boolean healthMetric = new MainPage(getDriver())
+                .clickJobName(NAME,new FolderPage(getDriver()))
+                .clickConfigure()
+                .clickHealthMetrics()
+                .removeHealthMetrics()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(healthMetric,"the deleted metric is no longer visible");
+    }
+
+    @Test(dependsOnMethods = "testDeleteHealthMetrics")
     public void testAddDescriptionFromFolderPage() {
         String folderDescription = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -362,22 +377,5 @@ public class FolderTest extends BaseTest {
                 .WelcomeIsDisplayed();
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
-    }
-
-    @Test
-    public void testAddHealthMetrics(){
-
-        TestUtils.createJob(this,NAME,TestUtils.JobType.Folder,true);
-
-        boolean healthMetrics = new MainPage(getDriver())
-                .clickJobName(NAME,new FolderPage(getDriver()))
-                .clickConfigure()
-                .addHealthMetrics()
-                .clickSaveButton()
-                .clickConfigure()
-                .clickHealthMetrics()
-                .healthMetricIsVisible();
-
-        Assert.assertTrue(healthMetrics,"field 'Health metrics' is Displayed ");
     }
 }
