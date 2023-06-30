@@ -37,11 +37,16 @@ public class OrganizationFolderTest extends BaseTest {
     public void testCreateWithExistingName() {
         NewJobPage jobPage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder);
+                .enterItemName(ORGANIZATION_FOLDER_NAME);
 
-        Assert.assertEquals(jobPage.getItemInvalidMessage(), "» A job already exists with the name ‘" + ORGANIZATION_FOLDER_NAME + "’");
-        Assert.assertTrue(jobPage.isOkButtonDisabled());
+        String warningMessage = jobPage.getItemInvalidMessage();
+
+        CreateItemErrorPage errorPage = jobPage
+                .selectJobAndOkAndGoError(TestUtils.JobType.OrganizationFolder);
+
+        Assert.assertEquals(warningMessage, "» A job already exists with the name ‘" + ORGANIZATION_FOLDER_NAME + "’");
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "A job already exists with the name ‘" + ORGANIZATION_FOLDER_NAME + "’");
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
