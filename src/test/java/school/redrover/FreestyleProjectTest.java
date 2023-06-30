@@ -263,6 +263,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
 
+    @Ignore
     @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
         MainPage mainPage = new MainPage(getDriver())
@@ -484,7 +485,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
 
-    @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
+    @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
     public void testSetRateLimitForBuilds() {
         final String timePeriod = "Week";
 

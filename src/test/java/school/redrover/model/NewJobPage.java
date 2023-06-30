@@ -92,4 +92,10 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     public String getTitle() {
         return getWait2().until(ExpectedConditions.visibilityOf(title)).getText();
     }
+
+    public CreateBugPage selectJobAndOkAndGoToBugPage(TestUtils.JobType jobType) {
+        selectJobType(jobType);
+        clickOkButton(null);
+        return new CreateBugPage(getDriver());
+    }
 }
