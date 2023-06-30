@@ -17,7 +17,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
     private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
-    private static final String DISPLAY_NAME = "OrgFolderDisplayName";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -90,15 +89,16 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testAddDisplayName() {
+        final String displayName = "This is Display Name of Folder";
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
 
         OrganizationFolderPage orgFolderPage = new OrganizationFolderPage(getDriver())
                 .clickConfigure()
-                .enterDisplayName(DISPLAY_NAME)
+                .enterDisplayName(displayName)
                 .clickSaveButton();
 
-        Assert.assertEquals(orgFolderPage.getJobName(), DISPLAY_NAME);
-        Assert.assertEquals(orgFolderPage.getHeader().clickLogo().getJobName(ORGANIZATION_FOLDER_NAME), DISPLAY_NAME);
+        Assert.assertEquals(orgFolderPage.getJobName(), displayName);
+        Assert.assertEquals(orgFolderPage.getHeader().clickLogo().getJobName(ORGANIZATION_FOLDER_NAME), displayName);
     }
 
     @Test
