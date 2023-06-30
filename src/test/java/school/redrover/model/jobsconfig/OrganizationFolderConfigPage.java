@@ -8,13 +8,13 @@ import school.redrover.model.base.BaseConfigFoldersPage;
 public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<OrganizationFolderConfigPage, OrganizationFolderPage> {
 
     @FindBy(xpath = "//label[@data-title='Disabled']")
-    private WebElement disableFromConfig;
+    private WebElement disableEnableFromConfig;
     public OrganizationFolderConfigPage(OrganizationFolderPage organizationFolderPage) {
         super(organizationFolderPage);
     }
 
-    public OrganizationFolderConfigPage clickDisable(){
-        disableFromConfig.click();
+    public OrganizationFolderConfigPage clickDisableEnable(){
+        disableEnableFromConfig.click();
 
         return this;
     }

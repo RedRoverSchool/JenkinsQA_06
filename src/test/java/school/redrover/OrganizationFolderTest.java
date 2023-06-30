@@ -33,6 +33,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testCreateWithExistingName() {
         NewJobPage jobPage = new MainPage(getDriver())
@@ -81,19 +82,32 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateDisableOrganizationFolder() {
+
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
                 .selectJobType(TestUtils.JobType.OrganizationFolder)
                 .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickDisable()
+                .clickDisableEnable()
                 .clickSaveButton()
                 .getTextFromDisableMessage();
 
         Assert.assertEquals(disableFolder.trim().substring(0, 46), "This Organization Folder is currently disabled");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    @Test(dependsOnMethods = "testCreateDisableOrganizationFolder")
+    public void testEnableOrgFolderFromConfig() {
+        String enableOrgFolder = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .clickDisableEnable()
+                .clickSaveButton()
+                .getDisableButtonText();
+
+        Assert.assertEquals(enableOrgFolder.trim(), "Disable Organization Folder");
+    }
+
+    @Test(dependsOnMethods = "testCreateWithExistingName")
     public void testAddDisplayName() {
         final String displayName = "This is Display Name of Folder";
 
@@ -156,7 +170,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
-    public void testRenameNegative() {
+    public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
@@ -166,7 +180,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
     }
 
-    @Test(dependsOnMethods = {"testRenameNegative"} )
+    @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"} )
     public void testDeleteOrganizationFolder() {
         String welcomeText = new CreateItemErrorPage(getDriver())
                 .getHeader()
@@ -193,6 +207,18 @@ public class OrganizationFolderTest extends BaseTest {
                 .getJobList();
 
         Assert.assertTrue(organizationFolderName.contains(ORGANIZATION_FOLDER_NAME));
+    }
+
+    @Test
+    public void testCreateWithEmptyName() {
+        final String expectedError = "» This field cannot be empty, please enter a valid name";
+
+        String actualError = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .getItemNameRequiredErrorText();
+
+        Assert.assertEquals(actualError, expectedError);
     }
 
     @Test

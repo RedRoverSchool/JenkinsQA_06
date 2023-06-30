@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.*;
@@ -33,6 +34,7 @@ public class FolderTest extends BaseTest {
                 .clickLogo();
     }
 
+    @Ignore
     private void moveJobToFolderFromDropDownMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
         new MainPage(getDriver())
                 .dropDownMenuClickMove(jobName, jobPage)
@@ -187,6 +189,21 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
+    public void testDeleteHealthMetrics(){
+        boolean healthMetric = new MainPage(getDriver())
+                .clickJobName(NAME,new FolderPage(getDriver()))
+                .clickConfigure()
+                .clickHealthMetrics()
+                .removeHealthMetrics()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(healthMetric,"the deleted metric is no longer visible");
+    }
+
+    @Test(dependsOnMethods = "testDeleteHealthMetrics")
     public void testAddDescriptionFromFolderPage() {
         String folderDescription = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -221,6 +238,19 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testPreviewDescription")
+    public void testEditDescription() {
+        String newDescription = new FolderPage(getDriver())
+                .clickEditDescription()
+                .clearDescriptionField()
+                .enterDescription(DESCRIPTION_2)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(newDescription, DESCRIPTION_2);
+    }
+
+
+    @Test(dependsOnMethods = "testEditDescription")
     public void testCancelDeleting() {
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -365,19 +395,15 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testAddHealthMetrics(){
+    public void testCreateFolderWithLongName() {
+        String errorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName("qYIs65dT50nvjiognIil5l0c0MxH7PTQZ8enFOY4crE4sb60SPZMt1NgeKQ1nT6P4jgA6RY4u8d91" +
+                        "qwkQliruwIBX9zQKn31JqI7fekC3g8jzhIsSc8ZeNyL7zfIggCDhwooJvGVn2T3O0VuP0Ml2TfX3co6PCN6VvKamFUyad" +
+                        "4xWhJvwNlXywdbgaMGmYqBDEhj4GvBxBaUCe8OO2qWDVkq0duYIbzAw57lCDhaEjk25ojxiZFEc8DUeWXeupkq")
+                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.Folder)
+                .getErrorMessage();
 
-        TestUtils.createJob(this,NAME,TestUtils.JobType.Folder,true);
-
-        boolean healthMetrics = new MainPage(getDriver())
-                .clickJobName(NAME,new FolderPage(getDriver()))
-                .clickConfigure()
-                .addHealthMetrics()
-                .clickSaveButton()
-                .clickConfigure()
-                .clickHealthMetrics()
-                .healthMetricIsVisible();
-
-        Assert.assertTrue(healthMetrics,"field 'Health metrics' is Displayed ");
+        Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
 }

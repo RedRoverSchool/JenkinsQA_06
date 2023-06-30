@@ -1,5 +1,6 @@
 package school.redrover.model.base;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -29,6 +30,9 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
 
     @FindBy(xpath = "//input[@name='_.recursive']")
     private WebElement recursiveCheckbox;
+
+    @FindBy(xpath = "//button[@tooltip='Remove']")
+    private WebElement removeHealthMetric;
 
     public BaseConfigFoldersPage(FolderPage foldersPage) {
         super(foldersPage);
@@ -69,5 +73,11 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
 
     public boolean isRecursive(){
         return getWait10().until(ExpectedConditions.visibilityOf(recursiveCheckbox)).isDisplayed();
+    }
+
+    public Self removeHealthMetrics(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(removeHealthMetric)).click();
+
+        return (Self) this;
     }
 }
