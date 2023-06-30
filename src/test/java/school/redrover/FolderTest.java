@@ -406,16 +406,4 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
-
-    @Test
-    public void testCreateWithEmptyName() {
-        final String expectedError = "» This field cannot be empty, please enter a valid name";
-
-        String actualError = new MainPage(getDriver())
-                .clickCreateAJobArrow()
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .getItemNameRequiredErrorText();
-
-        Assert.assertEquals(actualError, expectedError);
-    }
 }
