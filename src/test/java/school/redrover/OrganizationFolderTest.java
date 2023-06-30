@@ -33,6 +33,17 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
+    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    public void testCreateWithExistingName() {
+        NewJobPage jobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder);
+
+        Assert.assertEquals(jobPage.getItemInvalidMessage(), "» A job already exists with the name ‘" + ORGANIZATION_FOLDER_NAME + "’");
+        Assert.assertTrue(jobPage.isOkButtonDisabled());
+    }
+
     @Test(dependsOnMethods = "testDeleteDisplayName")
     public void testRenameOrganizationFolder() {
         String actualRenamedFolderName = new MainPage(getDriver())
@@ -194,5 +205,17 @@ public class OrganizationFolderTest extends BaseTest {
                 .getJobList();
 
         Assert.assertTrue(organizationFolderName.contains(ORGANIZATION_FOLDER_NAME));
+    }
+
+    @Test
+    public void testCreateWithEmptyName() {
+        final String expectedError = "» This field cannot be empty, please enter a valid name";
+
+        String actualError = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .getItemNameRequiredErrorText();
+
+        Assert.assertEquals(actualError, expectedError);
     }
 }

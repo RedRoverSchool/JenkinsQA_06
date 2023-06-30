@@ -275,7 +275,7 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
     }
 
     public String getTextFromHeaderManageJenkins() {
-        return getWait5().until(ExpectedConditions.visibilityOf(headerManageJenkins)).getText();
+        return getWait5().until(ExpectedConditions.elementToBeClickable(headerManageJenkins)).getText();
     }
 
     public boolean getSecurityButtonOnHeader() {
