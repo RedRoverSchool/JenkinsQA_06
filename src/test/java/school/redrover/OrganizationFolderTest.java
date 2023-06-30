@@ -33,7 +33,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testCreateWithExistingName() {
         NewJobPage jobPage = new MainPage(getDriver())
@@ -80,9 +79,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(movedOrgFolderVisibleAndClickable);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testDeleteOrgFolderFromSideMenu")
     public void testCreateDisableOrganizationFolder() {
-
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
@@ -181,10 +179,8 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"} )
-    public void testDeleteOrganizationFolder() {
-        String welcomeText = new CreateItemErrorPage(getDriver())
-                .getHeader()
-                .clickLogo()
+    public void testDeleteOrgFolderFromSideMenu() {
+        String welcomeText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .clickDeleteJobLocatedOnMainPage()
                 .clickYesButton()
