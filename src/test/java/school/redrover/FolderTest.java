@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -382,11 +383,10 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateFolderWithLongName() {
+        String longName = RandomStringUtils.randomAlphanumeric(256);
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName("qYIs65dT50nvjiognIil5l0c0MxH7PTQZ8enFOY4crE4sb60SPZMt1NgeKQ1nT6P4jgA6RY4u8d91" +
-                        "qwkQliruwIBX9zQKn31JqI7fekC3g8jzhIsSc8ZeNyL7zfIggCDhwooJvGVn2T3O0VuP0Ml2TfX3co6PCN6VvKamFUyad" +
-                        "4xWhJvwNlXywdbgaMGmYqBDEhj4GvBxBaUCe8OO2qWDVkq0duYIbzAw57lCDhaEjk25ojxiZFEc8DUeWXeupkq")
+                .enterItemName(longName)
                 .selectJobAndOkAndGoToBugPage(TestUtils.JobType.Folder)
                 .getErrorMessage();
 
