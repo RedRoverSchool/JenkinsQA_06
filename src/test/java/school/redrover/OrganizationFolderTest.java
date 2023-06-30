@@ -224,4 +224,14 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(errorPage.getHeaderText(), "Error");
         Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
+
+    @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
+    public void testOrganizationFolderConfigPreviewDescription(){
+        String previewText = new MainPage(getDriver())
+                .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME,new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals("Description",previewText);
+    }
 }
