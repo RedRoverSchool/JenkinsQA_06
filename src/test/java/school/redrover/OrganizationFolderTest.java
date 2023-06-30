@@ -20,7 +20,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizationFolder() {
-
         String actualNewFolderName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
@@ -31,13 +30,11 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickLogo()
                 .getJobName(ORGANIZATION_FOLDER_NAME);
 
-
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    @Test(dependsOnMethods = "testDeleteDisplayName")
     public void testRenameOrganizationFolder() {
-
         String actualRenamedFolderName = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickRename()
@@ -50,7 +47,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolder"})
     public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
-
         final String folderName = "TestFolder";
 
         boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
@@ -74,7 +70,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateDisableOrganizationFolder() {
-
         String disableFolder = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
@@ -87,12 +82,12 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(disableFolder.trim().substring(0, 46), "This Organization Folder is currently disabled");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testAddDisplayName() {
         final String displayName = "This is Display Name of Folder";
-        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
 
-        OrganizationFolderPage orgFolderPage = new OrganizationFolderPage(getDriver())
+        OrganizationFolderPage orgFolderPage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickConfigure()
                 .enterDisplayName(displayName)
                 .clickSaveButton();
@@ -101,9 +96,20 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(orgFolderPage.getHeader().clickLogo().getJobName(ORGANIZATION_FOLDER_NAME), displayName);
     }
 
+    @Test(dependsOnMethods = "testAddDisplayName")
+    public void testDeleteDisplayName() {
+        String orgFolderName = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .clearDisplayName()
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(orgFolderName, ORGANIZATION_FOLDER_NAME);
+    }
+
     @Test
     public void testCreateOrganizationFolderWithDescription() {
-
         String textFromDescription = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
@@ -119,7 +125,6 @@ public class OrganizationFolderTest extends BaseTest {
     @Ignore
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testDisabledOrganizationFolder() {
-
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableButton()
