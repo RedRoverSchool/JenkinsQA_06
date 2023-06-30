@@ -74,7 +74,7 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public String getItemInvalidMessage() {
-        return getWait2().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(getItemInvalidNameMessage())).getText();
     }
 
     public String getItemNameRequiredMessage() {

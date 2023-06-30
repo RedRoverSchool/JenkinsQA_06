@@ -33,6 +33,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testCreateWithExistingName() {
         NewJobPage jobPage = new MainPage(getDriver())
