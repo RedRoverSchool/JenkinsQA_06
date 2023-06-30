@@ -46,7 +46,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
-    public void testRenameOrganizationFolder() {
+    public void testRenameOrganizationFolderFromSideMenu() {
         String actualRenamedFolderName = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickRename()
@@ -57,7 +57,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolder"})
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolderFromSideMenu"})
     public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
         final String folderName = "TestFolder";
 
