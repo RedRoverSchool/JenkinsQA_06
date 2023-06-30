@@ -197,7 +197,6 @@ public class HeaderTest extends BaseTest {
 
         assertEquals(adminPageSign,"Jenkins User ID: admin");
     }
-
     @Ignore
     @Test
     public void testButtonNotificationsWorks() {

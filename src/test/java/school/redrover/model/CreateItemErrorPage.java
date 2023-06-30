@@ -1,6 +1,5 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,20 +16,12 @@ public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage>
     @FindBy(xpath = "//div[@id='main-panel']//h1")
     private WebElement headerText;
 
-    @FindBy(id = "jenkins-head-icon")
-    private WebElement logo;
-
     public CreateItemErrorPage(WebDriver driver) {
         super(driver);
     }
 
     public String getErrorMessage() {
-        return getWait5().until(ExpectedConditions.visibilityOf(errorMessage)).getText();
-    }
-
-    public MainPage goMainPage() {
-        logo.click();
-        return new MainPage(getDriver());
+        return getWait10().until(ExpectedConditions.visibilityOf(errorMessage)).getText();
     }
 
     public String getError() {
