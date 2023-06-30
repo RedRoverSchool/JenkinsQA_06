@@ -88,6 +88,20 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
+    public void testAddDisplayName() {
+        final String displayName = "This is Display Name of Folder";
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+
+        OrganizationFolderPage orgFolderPage = new OrganizationFolderPage(getDriver())
+                .clickConfigure()
+                .enterDisplayName(displayName)
+                .clickSaveButton();
+
+        Assert.assertEquals(orgFolderPage.getJobName(), displayName);
+        Assert.assertEquals(orgFolderPage.getHeader().clickLogo().getJobName(ORGANIZATION_FOLDER_NAME), displayName);
+    }
+
+    @Test
     public void testCreateOrganizationFolderWithDescription() {
 
         String textFromDescription = new MainPage(getDriver())
