@@ -33,7 +33,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
     public void testCreateWithExistingName() {
         NewJobPage jobPage = new MainPage(getDriver())
@@ -57,6 +56,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolderFromSideMenu"})
     public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
         final String folderName = "TestFolder";
