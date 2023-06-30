@@ -178,4 +178,13 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(organizationFolderName.contains(ORGANIZATION_FOLDER_NAME));
     }
+    @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
+    public void testOrganizationFolderConfigPreviewDescription(){
+        String previewText = new MainPage(getDriver())
+                .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME,new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals("Description",previewText);
+    }
 }
