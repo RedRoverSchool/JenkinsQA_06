@@ -105,7 +105,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(enableOrgFolder.trim(), "Disable Organization Folder");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    @Test(dependsOnMethods = "testCreateWithExistingName")
     public void testAddDisplayName() {
         final String displayName = "This is Display Name of Folder";
 
