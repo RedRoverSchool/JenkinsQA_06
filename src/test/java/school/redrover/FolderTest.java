@@ -199,7 +199,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddDescriptionFromFolderPage")
-    public void testPreviewEditDescription() {
+    public void testAddDescriptionPreview() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickEditDescription()
@@ -209,7 +209,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(previewText, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testPreviewEditDescription")
+    @Test(dependsOnMethods = "testAddDescriptionPreview")
     public void testPreviewDescription() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -260,19 +260,6 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateJobsInFolder")
-    public void testPreviewAddDescription() {
-        String previewText = new MainPage(getDriver())
-                .clickJobName(NAME, new FolderPage(getDriver()))
-                .clickAddDescription()
-                .clearDescriptionField()
-                .enterDescription(DESCRIPTION_2)
-                .clickPreview()
-                .getPreviewText();
-
-        Assert.assertEquals(previewText, DESCRIPTION_2);
-    }
-
-    @Test(dependsOnMethods = "testPreviewAddDescription")
     public void testDeleteFolder() {
         boolean welcomeIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickDeleteFolders(NAME)
