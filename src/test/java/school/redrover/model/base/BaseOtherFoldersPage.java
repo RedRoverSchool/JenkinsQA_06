@@ -62,4 +62,8 @@ public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends 
     public boolean isMetadataFolderIconDisplayed() {
         return getWait5().until(ExpectedConditions.visibilityOf(metadataFolderIcon)).isDisplayed();
     }
+
+    public String getDisableButtonText() {
+        return disableButton.getText();
+    }
 }
