@@ -194,4 +194,16 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(organizationFolderName.contains(ORGANIZATION_FOLDER_NAME));
     }
+
+    @Test
+    public void testCreateWithEmptyName() {
+        final String expectedError = "» This field cannot be empty, please enter a valid name";
+
+        String actualError = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .getItemNameRequiredErrorText();
+
+        Assert.assertEquals(actualError, expectedError);
+    }
 }
