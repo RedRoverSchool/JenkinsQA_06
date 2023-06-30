@@ -18,7 +18,7 @@ import java.util.*;
 public class FolderTest extends BaseTest {
 
     private static final String NAME = "FolderName";
-    private static final String NAME_2 = "Folder";
+    private static final String RENAME = "Folder";
     private static final String DESCRIPTION = "Created new folder";
     private static final String DESCRIPTION_2 = "Created new Description";
     private static final String DISPLAY_NAME = "NewFolder";
@@ -76,21 +76,6 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(new MainPage(getDriver()).iconFolderIsDisplayed(), "error was not shown icon folder");
     }
 
-    @Test
-    public void testCreateFromDashboard() {
-        MainPage mainPage = new MainPage(getDriver())
-                .getBreadcrumb()
-                .clickNewItemDashboardDropdownMenu()
-                .enterItemName(NAME_2)
-                .selectJobType(TestUtils.JobType.Folder)
-                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
-                .getHeader()
-                .clickLogo();
-
-        Assert.assertTrue(mainPage.jobIsDisplayed(NAME_2), "error was not show name folder");
-        Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
-    }
-
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testCreateWithExistingName() {
         CreateItemErrorPage errorPage = TestUtils.createJobWithExistingName(this, NAME, TestUtils.JobType.Folder);
@@ -128,11 +113,11 @@ public class FolderTest extends BaseTest {
     public void testRenameUsingDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
-                .enterNewName(NAME_2)
+                .enterNewName(RENAME)
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .jobIsDisplayed(NAME_2);
+                .jobIsDisplayed(RENAME);
 
         Assert.assertTrue(newNameIsDisplayed, "error was not show new name folder");
     }
@@ -140,9 +125,9 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testRenameUsingDropDownMenu")
     public void testRenameToTheCurrentNameAndGetError() {
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(RENAME, new FolderPage(getDriver()))
                 .clickRename()
-                .enterNewName(NAME_2)
+                .enterNewName(RENAME)
                 .clickRenameButtonAndGoError();
 
         Assert.assertEquals(createItemErrorPage.getError(), "Error");
@@ -152,7 +137,7 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testRenameFromLeftSidePanel() {
         FolderPage folderPage =  new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(RENAME, new FolderPage(getDriver()))
                 .clickRename()
                 .enterNewName(NAME)
                 .clickRenameButton();
@@ -299,7 +284,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
 
-    @Test(dependsOnMethods = {"testCreateFromDashboard", "testCreateFromNewItem"})
+    @Test(dependsOnMethods = "testCreateFromNewItem")
     public void testMoveJobsToFolderFromDropDownMenu() {
         List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
                 "Folder", "Multibranch Pipeline", "Organization");
@@ -307,6 +292,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createJob(this, jobName.get(0), TestUtils.JobType.FreestyleProject, true);
         TestUtils.createJob(this, jobName.get(1), TestUtils.JobType.Pipeline, true);
         TestUtils.createJob(this, jobName.get(2), TestUtils.JobType.MultiConfigurationProject, true);
+        TestUtils.createJob(this, jobName.get(3), TestUtils.JobType.Folder, true);
         TestUtils.createJob(this, jobName.get(4), TestUtils.JobType.MultibranchPipeline, true);
         TestUtils.createJob(this, jobName.get(5), TestUtils.JobType.OrganizationFolder, true);
 
