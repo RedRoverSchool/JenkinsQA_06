@@ -199,6 +199,17 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddDescriptionFromFolderPage")
+    public void testPreviewEditDescription() {
+        String previewText = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickEditDescription()
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText, DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testPreviewEditDescription")
     public void testPreviewDescription() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -251,8 +262,9 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateJobsInFolder")
     public void testPreviewAddDescription() {
         String previewText = new MainPage(getDriver())
-                .clickJobName(NAME_2, new FolderPage(getDriver()))
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickAddDescription()
+                .clearDescriptionField()
                 .enterDescription(DESCRIPTION_2)
                 .clickPreview()
                 .getPreviewText();
