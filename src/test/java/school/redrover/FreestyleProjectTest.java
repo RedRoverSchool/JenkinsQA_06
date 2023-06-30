@@ -532,6 +532,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickConfigure()
                 .clickAdvancedDropdownMenu()
                 .getQuietPeriod();
+
         Assert.assertEquals(actualQuietPeriod, expectedQuietPeriod);
     }
 
