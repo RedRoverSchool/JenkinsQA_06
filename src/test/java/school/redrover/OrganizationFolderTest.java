@@ -54,30 +54,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolderFromSideMenu"})
-    public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
-        final String folderName = "TestFolder";
-
-        boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(folderName)
-                .selectJobType(TestUtils.JobType.Folder)
-                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .dropDownMenuClickMove(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
-                .selectDestinationFolder(folderName)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
-                .clickJobName(folderName, new FolderPage(getDriver()))
-                .nestedFolderIsVisibleAndClickable(ORGANIZATION_FOLDER_RENAMED);
-
-        Assert.assertTrue(movedOrgFolderVisibleAndClickable);
-    }
-
     @Test(dependsOnMethods = "testDeleteOrgFolderFromSideMenu")
     public void testCreateDisableOrganizationFolder() {
         String disableFolder = new MainPage(getDriver())
