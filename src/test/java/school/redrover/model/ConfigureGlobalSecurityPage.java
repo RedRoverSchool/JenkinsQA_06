@@ -1,6 +1,5 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -109,7 +108,7 @@ public class ConfigureGlobalSecurityPage extends BaseMainHeaderPage<ConfigureGlo
 
     public String getSavedNotificationText() {
 
-        return getWait2().until(ExpectedConditions.visibilityOf(savedNotificationText)).getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(savedNotificationText)).getText();
     }
 
     public List<String> getSectionTitleList() {
