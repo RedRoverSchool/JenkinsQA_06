@@ -221,6 +221,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualError, expectedError);
     }
 
+
     @Test
     public void testCreateFromCreateAJob() {
         MainPage mainPage = new MainPage(getDriver())
