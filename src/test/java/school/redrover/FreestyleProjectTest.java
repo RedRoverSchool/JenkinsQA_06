@@ -517,7 +517,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(statusExecuteConcurrentBuilds, checkExecuteConcurrentBuilds);
     }
 
-    @Ignore
+
     @Test(dependsOnMethods = "testAllowParallelBuilds")
     public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() {
         final String expectedQuietPeriod = "10";

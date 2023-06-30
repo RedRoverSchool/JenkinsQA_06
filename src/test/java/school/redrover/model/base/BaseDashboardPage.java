@@ -214,7 +214,7 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     }
 
     public <JobPage extends BasePage<?, ?>> JobPage clickJobName(String jobName, JobPage jobPage) {
-        WebElement job = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+        WebElement job = getWait10().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(String.format("//a[@href='job/%s/']", jobName.replaceAll(" ","%20")))));
         new Actions(getDriver()).moveToElement(job).click(job).perform();
         return jobPage;
