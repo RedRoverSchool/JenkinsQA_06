@@ -12,8 +12,7 @@ import school.redrover.model.base.BaseJobPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class FolderTest extends BaseTest {
 
@@ -276,32 +275,18 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testMoveJobsToFolderFromSideMenu() {
-        List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
-                "Folder", "Multibranch Pipeline", "Organization");
-
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        TestUtils.createJob(this, jobName.get(0), TestUtils.JobType.FreestyleProject, true);
-        TestUtils.createJob(this, jobName.get(1), TestUtils.JobType.Pipeline, true);
-        TestUtils.createJob(this, jobName.get(2), TestUtils.JobType.MultiConfigurationProject, true);
-        TestUtils.createJob(this, jobName.get(3), TestUtils.JobType.Folder, true);
-        TestUtils.createJob(this, jobName.get(4), TestUtils.JobType.MultibranchPipeline, true);
-        TestUtils.createJob(this, jobName.get(5), TestUtils.JobType.OrganizationFolder, true);
-
-        moveJobToFolderFromSideMenu(jobName.get(0), NAME, new FreestyleProjectPage(getDriver()));
-        moveJobToFolderFromSideMenu(jobName.get(1), NAME, new PipelinePage(getDriver()));
-        moveJobToFolderFromSideMenu(jobName.get(2), NAME, new MultiConfigurationProjectPage(getDriver()));
-        moveJobToFolderFromSideMenu(jobName.get(3), NAME, new FolderPage(getDriver()));
-        moveJobToFolderFromSideMenu(jobName.get(4), NAME, new MultibranchPipelinePage(getDriver()));
-        moveJobToFolderFromSideMenu(jobName.get(5), NAME, new OrganizationFolderPage(getDriver()));
+        for(Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
+            TestUtils.createJob(this, entry.getKey(), TestUtils.JobType.valueOf(entry.getKey()), true);
+            moveJobToFolderFromSideMenu(entry.getKey(), NAME, entry.getValue());
+        }
 
         List<String> createdJobList = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
-        jobName.sort(String.CASE_INSENSITIVE_ORDER);
-
-        Assert.assertEquals(createdJobList, jobName);
+        Assert.assertEquals(createdJobList, TestUtils.getJobList(this));
     }
 
     @Test

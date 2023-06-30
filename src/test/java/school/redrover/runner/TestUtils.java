@@ -7,14 +7,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
-import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.base.*;
 import school.redrover.model.jobs.*;
 import school.redrover.model.jobsconfig.*;
-import school.redrover.model.base.BaseConfigPage;
-import school.redrover.model.base.BaseModel;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TestUtils {
 
@@ -268,5 +265,23 @@ public class TestUtils {
                 .clickNewItem()
                 .enterItemName(" ")
                 .selectJobAndOkAndGoError(jobType);
+    }
+
+    public static Map<String, BaseJobPage<?>> getJobMap(BaseTest baseTest) {
+        return Map.of(
+                "FreestyleProject", new FreestyleProjectPage(baseTest.getDriver()),
+                "Pipeline", new PipelinePage(baseTest.getDriver()),
+                "MultiConfigurationProject", new MultiConfigurationProjectPage(baseTest.getDriver()),
+                "Folder", new FolderPage(baseTest.getDriver()),
+                "MultibranchPipeline", new MultibranchPipelinePage(baseTest.getDriver()),
+                "OrganizationFolder", new OrganizationFolderPage(baseTest.getDriver())
+        );
+    }
+
+    public static List<String> getJobList(BaseTest baseTest) {
+        List<String> jobName = new ArrayList<>(TestUtils.getJobMap(baseTest).keySet());
+        jobName.sort(String.CASE_INSENSITIVE_ORDER);
+
+        return jobName;
     }
 }
