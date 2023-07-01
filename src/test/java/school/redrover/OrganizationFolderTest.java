@@ -103,11 +103,9 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizationFolderWithDescription() {
-        String textFromDescription = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+        String textFromDescription = new OrganizationFolderPage(getDriver())
+                .clickConfigure()
                 .addDescription("Description")
                 .clickSaveButton()
                 .getAddedDescriptionFromConfig();
