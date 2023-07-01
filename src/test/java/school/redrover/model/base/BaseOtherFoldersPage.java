@@ -1,5 +1,6 @@
 package school.redrover.model.base;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,7 +15,7 @@ public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends 
     private WebElement deleteButton;
 
     @FindBy(xpath = "//button[@class='jenkins-button jenkins-button--primary ']")
-    private WebElement disableButton;
+    private WebElement disableEnableButton;
 
     @FindBy(xpath = "//form[@method='post']")
     private WebElement disableMessage;
@@ -42,8 +43,8 @@ public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends 
         return new DeletePage<>(new FolderPage(getDriver()));
     }
 
-    public Self clickDisableButton() {
-        disableButton.click();
+    public Self clickDisableEnableButton() {
+        disableEnableButton.click();
         return (Self)this;
     }
 
@@ -61,5 +62,9 @@ public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends 
 
     public boolean isMetadataFolderIconDisplayed() {
         return getWait5().until(ExpectedConditions.visibilityOf(metadataFolderIcon)).isDisplayed();
+    }
+
+    public String getDisableButtonText() {
+        return disableEnableButton.getText();
     }
 }

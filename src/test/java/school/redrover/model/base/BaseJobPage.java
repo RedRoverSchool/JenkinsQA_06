@@ -1,6 +1,5 @@
 package school.redrover.model.base;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -42,6 +41,12 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
 
     @FindBy(xpath = "//div[@id='main-panel']")
     private WebElement mainPanel;
+
+    @FindBy(xpath = "//a[contains(@previewendpoint, 'previewDescription')]")
+    private WebElement preview;
+
+    @FindBy(xpath = "//div[@class='textarea-preview']")
+    private WebElement previewTextarea;
 
     public BaseJobPage(WebDriver driver) {
         super(driver);
@@ -114,5 +119,19 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
         String projectName = mainPanel.getText();
         String subStr = projectName.substring(projectName.indexOf(':') + 2);
         return subStr.substring(0, subStr.indexOf("\n")).trim();
+    }
+
+    public Self clickAddDescription() {
+        getWait5().until(ExpectedConditions.visibilityOf(editDescriptionButton)).click();
+        return (Self) this;
+    }
+
+    public Self clickPreview() {
+        preview.click();
+        return (Self) this;
+    }
+
+    public String getPreviewText() {
+        return previewTextarea.getText();
     }
 }
