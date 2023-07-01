@@ -184,12 +184,10 @@ public class FolderTest extends BaseTest {
 
         TestUtils.createJob(this, RENAME, TestUtils.JobType.Folder, false);
 
-        new FolderPage(getDriver())
+        String tooltipDescription = new FolderPage(getDriver())
                 .clickConfigure()
                 .addHealthMetrics()
-                .clickSaveButton();
-
-        String tooltipDescription = new FolderPage(getDriver())
+                .clickSaveButton()
                 .clickNewItem()
                 .selectJobType(TestUtils.JobType.Pipeline)
                 .enterItemName(pipelineName)
