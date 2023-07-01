@@ -75,6 +75,16 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(enableOrgFolder.trim(), "Disable Organization Folder");
     }
 
+    @Test(dependsOnMethods = "testEnableOrgFolderFromConfig")
+    public void testDisableOrgFolderFromProjectPage(){
+        String disabledText = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickDisableButton()
+                .getTextFromDisableMessage();
+
+        Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
+    }
+
     @Test(dependsOnMethods = "testCreateWithExistingName")
     public void testAddDisplayName() {
         final String displayName = "This is Display Name of Folder";
