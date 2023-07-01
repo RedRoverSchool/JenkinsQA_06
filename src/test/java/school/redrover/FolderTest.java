@@ -438,7 +438,4 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
-
-
-
 }
