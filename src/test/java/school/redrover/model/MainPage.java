@@ -120,4 +120,9 @@ public class MainPage extends BaseDashboardPage<MainPage> {
     public String getTooltipDescription(){
         return getWait10().until(ExpectedConditions.visibilityOf(tooltipDescription)).getText();
     }
+
+    public NodePage clickOnNodeName(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+        return new NodePage(getDriver());
+    }
 }

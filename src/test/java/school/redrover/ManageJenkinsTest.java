@@ -15,6 +15,7 @@ import static school.redrover.runner.TestUtils.getRandomStr;
 public class ManageJenkinsTest extends BaseTest {
 
     final String NAME_NEW_NODE = "testNameNewNode";
+    private static final String NODE_NAME = "NodeName";
 
     public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
         for (WebElement element : titleTexts) {
@@ -150,19 +151,18 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testCreateNewAgentNode() {
-        final String nodeName = getRandomStr(10);
 
         String manageNodesPage = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
-                .inputNodeNameField(nodeName)
+                .inputNodeNameField(NODE_NAME)
                 .clickPermanentAgentRadioButton()
                 .clickCreateButton()
                 .clickSaveButton()
-                .getNodeName(nodeName);
+                .getNodeName(NODE_NAME);
 
-        Assert.assertEquals(manageNodesPage, nodeName);
+        Assert.assertEquals(manageNodesPage, NODE_NAME);
     }
 
     @Test
@@ -256,5 +256,15 @@ public class ManageJenkinsTest extends BaseTest {
 
         Assert.assertEquals(ServerHelpInfo, expectedServerHelpInfo);
     }
-}
 
+    @Test(dependsOnMethods = "testCreateNewAgentNode")
+    public void testDeleteNodeBySideMenuOnNodePage() {
+        List<String> nodeNameList = new MainPage(getDriver())
+                .clickOnNodeName(NODE_NAME)
+                .clickOnDeleteAgent()
+                .clickYesButton()
+                .getNodesList();
+
+        Assert.assertFalse(nodeNameList.contains(NODE_NAME));
+    }
+}
