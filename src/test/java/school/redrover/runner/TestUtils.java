@@ -17,7 +17,6 @@ public class TestUtils {
 
     public enum JobType {
         FreestyleProject(By.xpath("//span[contains(text(),'Freestyle project')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new FreestyleProjectConfigPage(new FreestyleProjectPage(driver));
@@ -25,7 +24,6 @@ public class TestUtils {
         },
 
         Pipeline(By.xpath("//span[contains(text(),'Pipeline')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new PipelineConfigPage(new PipelinePage(driver));
@@ -33,15 +31,13 @@ public class TestUtils {
         },
 
         MultiConfigurationProject(By.xpath("//span[contains(text(),'Multi-configuration project')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(driver));
             }
         },
 
-        Folder(By.xpath("//span[contains(text(),'Folder')]")) {
-
+        Folder(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']")) {
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new FolderConfigPage(new FolderPage(driver));
@@ -49,7 +45,6 @@ public class TestUtils {
         },
 
         MultibranchPipeline(By.xpath("//span[contains(text(),'Multibranch Pipeline')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new MultibranchPipelineConfigPage(new MultibranchPipelinePage(driver));
@@ -57,7 +52,6 @@ public class TestUtils {
         },
 
         OrganizationFolder(By.xpath("//span[contains(text(),'Organization Folder')]")) {
-
             @Override
             public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
                 return new OrganizationFolderConfigPage(new OrganizationFolderPage(driver));
@@ -79,7 +73,6 @@ public class TestUtils {
 
     public enum ViewType {
         IncludeAGlobalView(By.xpath("//label[@for='hudson.model.ProxyView']")) {
-
             @Override
             public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
                 return new IncludeAGlobalViewConfigPage(new ViewPage(driver));
@@ -87,7 +80,6 @@ public class TestUtils {
         },
 
         ListView(By.xpath("//label[@for='hudson.model.ListView']")) {
-
             @Override
             public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
                 return new ListViewConfigPage(new ViewPage(driver));
@@ -95,7 +87,6 @@ public class TestUtils {
         },
 
         MyView(By.xpath("//label[@for='hudson.model.MyView']")) {
-
             @Override
             public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
                 return new ViewPage(driver);
@@ -207,7 +198,7 @@ public class TestUtils {
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
-       clickBreadcrumbLinkItem(baseTest, viewName);
+        clickBreadcrumbLinkItem(baseTest, viewName);
     }
 
     public static String getRandomStr(int length) {
@@ -230,28 +221,28 @@ public class TestUtils {
                 .clickLogo();
     }
 
-    public static CreateItemErrorPage createJobWithExistingName(BaseTest baseTest, String jobName, JobType jobType){
+    public static CreateItemErrorPage createJobWithExistingName(BaseTest baseTest, String jobName, JobType jobType) {
         return new MainPage(baseTest.getDriver())
                 .clickNewItem()
                 .enterItemName(jobName)
                 .selectJobAndOkAndGoError(jobType);
     }
 
-    public static NewJobPage createJobWithExistingNameWithoutClickOk(BaseTest baseTest, String jobName, JobType jobType){
+    public static NewJobPage createJobWithExistingNameWithoutClickOk(BaseTest baseTest, String jobName, JobType jobType) {
         return new MainPage(baseTest.getDriver())
                 .clickNewItem()
                 .enterItemName(jobName)
                 .selectJobType(jobType);
     }
 
-    public static NewJobPage createFolderUsingInvalidData(BaseTest baseTest, String invalidData, JobType jobType){
+    public static NewJobPage createFolderUsingInvalidData(BaseTest baseTest, String invalidData, JobType jobType) {
         return new MainPage(baseTest.getDriver())
                 .clickCreateAJob()
                 .enterItemName(invalidData)
                 .selectJobType(jobType);
     }
 
-    public static CreateItemErrorPage createJobWithSpaceInsteadName(BaseTest baseTest, JobType jobType){
+    public static CreateItemErrorPage createJobWithSpaceInsteadName(BaseTest baseTest, JobType jobType) {
         return new MainPage(baseTest.getDriver())
                 .clickNewItem()
                 .enterItemName(" ")
