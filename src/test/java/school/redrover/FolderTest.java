@@ -182,7 +182,7 @@ public class FolderTest extends BaseTest {
         new MainPage(getDriver()).
                 clickJobName(NAME, new FolderPage(getDriver()));
 
-        TestUtils.createJob(this, NAME_2, TestUtils.JobType.Folder, false);
+        TestUtils.createJob(this, RENAME, TestUtils.JobType.Folder, false);
 
         new FolderPage(getDriver())
                 .clickConfigure()
@@ -203,7 +203,7 @@ public class FolderTest extends BaseTest {
                 .getTooltipDescription();
 
         Assert.assertEquals(tooltipDescription,
-                "Worst health: " + NAME + " » " + NAME_2 + " » " + pipelineName + ": Build stability: All recent builds failed.");
+                "Worst health: " + NAME + " » " + RENAME + " » " + pipelineName + ": Build stability: All recent builds failed.");
     }
 
     @Test(dependsOnMethods = "testHealthMetricWithRecursive")
