@@ -80,10 +80,24 @@ public class OrganizationFolderTest extends BaseTest {
     public void testDisableOrgFolderFromProjectPage(){
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
-                .clickDisableButton()
+                .clickDisableEnableButton()
                 .getTextFromDisableMessage();
 
         Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
+    }
+
+    @Test(dependsOnMethods = "testDisableOrgFolderFromProjectPage")
+    public void testEnableOrgFolderFromProjectPage(){
+        String disableButton = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME,new OrganizationFolderPage(getDriver()))
+                .clickDisableEnableButton()
+                .getDisableButtonText();
+
+        boolean iconOrgFolder = new OrganizationFolderPage(getDriver())
+                .isMetadataFolderIconDisplayed();
+
+        Assert.assertEquals(disableButton,"Disable Organization Folder");
+        Assert.assertTrue(iconOrgFolder,"the dispayеd icon OrganizationFolder exists");
     }
 
     @Test(dependsOnMethods = "testCreateWithExistingName")
