@@ -1,5 +1,6 @@
 package school.redrover;
 
+import jdk.jfr.Description;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -126,11 +127,10 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(orgFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Test
-    public void testCreateOrganizationFolderWithDescription() {
-        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
-        String textFromDescription = new OrganizationFolderPage(getDriver())
-                .clickConfigure()
+    @Test(dependsOnMethods = "testEnableOrgFolderFromProjectPage")
+    public void testAddDescriptionToProject() {
+        String textFromDescription = new MainPage(getDriver())
+                .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .addDescription("Description")
                 .clickSaveButton()
                 .getAddedDescriptionFromConfig();
@@ -138,8 +138,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(textFromDescription, "Description");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
-    public void testRenameFromDropDownMenu() {
+    @Test(dependsOnMethods = "testAddDescriptionToProject")
+    public void testAddDescriptionToCreatedProject() {
         String actualRenamedName = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .enterNewName(ORGANIZATION_FOLDER_RENAMED)
@@ -149,7 +149,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
+    @Test(dependsOnMethods = {"testAddDescriptionToCreatedProject"} )
     public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
