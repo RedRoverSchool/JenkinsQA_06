@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.jobs.MultibranchPipelinePage;
 import school.redrover.model.jobs.OrganizationFolderPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
@@ -249,5 +250,18 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(mainPage.projectStatusTableIsDisplayed());
         Assert.assertEquals(mainPage.getJobName(ORGANIZATION_FOLDER_NAME), ORGANIZATION_FOLDER_NAME);
+    }
+
+    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    public void testAppearanceIconHasChanged() {
+        boolean defaultIconDisplayed = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .clickAppearance()
+                .selectDefaultIcon()
+                .clickSaveButton()
+                .isDefaultIconDisplayed();
+
+        Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
     }
 }
