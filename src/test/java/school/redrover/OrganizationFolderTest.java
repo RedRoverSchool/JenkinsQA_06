@@ -198,4 +198,18 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(previewText,"Description");
     }
+
+    @Test
+    public void testCreateFromCreateAJob() {
+        MainPage mainPage = new MainPage(getDriver())
+                .clickCreateAJob()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(mainPage.projectStatusTableIsDisplayed());
+        Assert.assertEquals(mainPage.getJobName(ORGANIZATION_FOLDER_NAME), ORGANIZATION_FOLDER_NAME);
+    }
 }
