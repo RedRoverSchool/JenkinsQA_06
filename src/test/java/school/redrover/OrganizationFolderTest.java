@@ -1,12 +1,9 @@
 package school.redrover;
 
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.jobs.FolderPage;
 import school.redrover.model.jobs.OrganizationFolderPage;
-import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -33,6 +30,18 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
+    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    public void testDisabledOrganizationFolder() {
+        String disabledText = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .clickDisableEnable()
+                .clickSaveButton()
+                .getTextFromDisableMessage();
+
+        Assert.assertTrue(disabledText.contains("This Organization Folder is currently disabled"));
+    }
+
     @Test(dependsOnMethods = "testCreateOrganizationFolderGoingFromManageJenkinsPage")
     public void testCreateWithExistingName() {
         CreateItemErrorPage errorPage =
@@ -54,21 +63,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = "testDeleteOrgFolderFromSideMenu")
-    public void testCreateDisableOrganizationFolder() {
-        String disableFolder = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickDisableEnable()
-                .clickSaveButton()
-                .getTextFromDisableMessage();
-
-        Assert.assertEquals(disableFolder.trim().substring(0, 46), "This Organization Folder is currently disabled");
-    }
-
-    @Test(dependsOnMethods = "testCreateDisableOrganizationFolder")
+    @Test(dependsOnMethods = "testDisabledOrganizationFolder")
     public void testEnableOrgFolderFromConfig() {
         String enableOrgFolder = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
@@ -118,17 +113,6 @@ public class OrganizationFolderTest extends BaseTest {
                 .getAddedDescriptionFromConfig();
 
         Assert.assertEquals(textFromDescription, "Description");
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
-    public void testDisabledOrganizationFolder() {
-        String disabledText = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
-                .clickDisableButton()
-                .getTextFromDisableMessage();
-
-        Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
