@@ -76,6 +76,16 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(enableOrgFolder.trim(), "Disable Organization Folder");
     }
 
+    @Test(dependsOnMethods = "testEnableOrgFolderFromConfig")
+    public void testDisableOrgFolderFromProjectPage(){
+        String disabledText = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickDisableButton()
+                .getTextFromDisableMessage();
+
+        Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
+    }
+
     @Test(dependsOnMethods = "testCreateWithExistingName")
     public void testAddDisplayName() {
         final String displayName = "This is Display Name of Folder";
@@ -212,5 +222,19 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(newJobPage.isOkButtonDisabled(), "Save button is enabled");
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+    }
+
+    @Test
+    public void testCreateFromCreateAJob() {
+        MainPage mainPage = new MainPage(getDriver())
+                .clickCreateAJob()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(mainPage.projectStatusTableIsDisplayed());
+        Assert.assertEquals(mainPage.getJobName(ORGANIZATION_FOLDER_NAME), ORGANIZATION_FOLDER_NAME);
     }
 }
