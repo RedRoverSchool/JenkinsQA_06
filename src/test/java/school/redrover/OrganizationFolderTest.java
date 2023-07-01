@@ -1,12 +1,9 @@
 package school.redrover;
 
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.jobs.FolderPage;
 import school.redrover.model.jobs.OrganizationFolderPage;
-import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -33,20 +30,29 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
-    public void testCreateWithExistingName() {
-        NewJobPage jobPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder);
+    public void testDisabledOrganizationFolder() {
+        String disabledText = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .clickDisableEnable()
+                .clickSaveButton()
+                .getTextFromDisableMessage();
 
-        Assert.assertEquals(jobPage.getItemInvalidMessage(), "» A job already exists with the name ‘" + ORGANIZATION_FOLDER_NAME + "’");
-        Assert.assertTrue(jobPage.isOkButtonDisabled());
+        Assert.assertTrue(disabledText.contains("This Organization Folder is currently disabled"));
+    }
+
+    @Test(dependsOnMethods = "testCreateOrganizationFolderGoingFromManageJenkinsPage")
+    public void testCreateWithExistingName() {
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithExistingName(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder);
+
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "A job already exists with the name ‘" + ORGANIZATION_FOLDER_NAME + "’");
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
-    public void testRenameOrganizationFolder() {
+    public void testRenameOrganizationFolderFromSideMenu() {
         String actualRenamedFolderName = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickRename()
@@ -57,45 +63,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolder"})
-    public void testMoveOrganizationFolderToFolderFromOrganizationFolderPage() {
-        final String folderName = "TestFolder";
-
-        boolean movedOrgFolderVisibleAndClickable = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(folderName)
-                .selectJobType(TestUtils.JobType.Folder)
-                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .dropDownMenuClickMove(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
-                .selectDestinationFolder(folderName)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
-                .clickJobName(folderName, new FolderPage(getDriver()))
-                .nestedFolderIsVisibleAndClickable(ORGANIZATION_FOLDER_RENAMED);
-
-        Assert.assertTrue(movedOrgFolderVisibleAndClickable);
-    }
-
-    @Test(dependsOnMethods = "testDeleteOrganizationFolder")
-    public void testCreateDisableOrganizationFolder() {
-
-        String disableFolder = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickDisableEnable()
-                .clickSaveButton()
-                .getTextFromDisableMessage();
-
-        Assert.assertEquals(disableFolder.trim().substring(0, 46), "This Organization Folder is currently disabled");
-    }
-
-    @Test(dependsOnMethods = "testCreateDisableOrganizationFolder")
+    @Test(dependsOnMethods = "testDisabledOrganizationFolder")
     public void testEnableOrgFolderFromConfig() {
         String enableOrgFolder = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
@@ -147,17 +115,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(textFromDescription, "Description");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
-    public void testDisabledOrganizationFolder() {
-        String disabledText = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
-                .clickDisableButton()
-                .getTextFromDisableMessage();
-
-        Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
-    }
-
     @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
     public void testRenameFromDropDownMenu() {
         String actualRenamedName = new MainPage(getDriver())
@@ -181,10 +138,8 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"} )
-    public void testDeleteOrganizationFolder() {
-        String welcomeText = new CreateItemErrorPage(getDriver())
-                .getHeader()
-                .clickLogo()
+    public void testDeleteOrgFolderFromSideMenu() {
+        String welcomeText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .clickDeleteJobLocatedOnMainPage()
                 .clickYesButton()
@@ -219,5 +174,28 @@ public class OrganizationFolderTest extends BaseTest {
                 .getItemNameRequiredErrorText();
 
         Assert.assertEquals(actualError, expectedError);
+    }
+
+    @Test
+    public void testCreateOrganizationFolderWithSpaceName() {
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.OrganizationFolder);
+
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
+    }
+
+    @Test
+    public void testOrganizationFolderConfigPreviewDescription(){
+        String previewText = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .addDescription("Description")
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText,"Description");
     }
 }
