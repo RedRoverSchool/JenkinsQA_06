@@ -129,87 +129,87 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
     }
 
-//    @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
-//    public void testRenameFromDropDownMenu() {
-//        String actualRenamedName = new MainPage(getDriver())
-//                .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
-//                .enterNewName(ORGANIZATION_FOLDER_RENAMED)
-//                .clickRenameButton()
-//                .getJobName();
-//
-//        Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
-//    }
-//
-//    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
-//    public void testRenameToTheCurrentNameAndGetError() {
-//        String errorMessage = new MainPage(getDriver())
-//                .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
-//                .enterNewName(ORGANIZATION_FOLDER_RENAMED)
-//                .clickRenameButtonAndGoError()
-//                .getErrorMessage();
-//
-//        Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
-//    }
-//
-//    @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"} )
-//    public void testDeleteOrgFolderFromSideMenu() {
-//        String welcomeText = new MainPage(getDriver())
-//                .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
-//                .clickDeleteJobLocatedOnMainPage()
-//                .clickYesButton()
-//                .getWelcomeText();
-//
-//        Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
-//    }
-//
-//    @Test
-//    public void testCreateOrganizationFolderGoingFromManageJenkinsPage() {
-//        List<String> organizationFolderName = new MainPage(getDriver())
-//                .clickManageJenkinsPage()
-//                .clickNewItem()
-//                .enterItemName(ORGANIZATION_FOLDER_NAME)
-//                .selectJobType(TestUtils.JobType.OrganizationFolder)
-//                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-//                .clickSaveButton()
-//                .getBreadcrumb()
-//                .clickDashboardButton()
-//                .getJobList();
-//
-//        Assert.assertTrue(organizationFolderName.contains(ORGANIZATION_FOLDER_NAME));
-//    }
-//
-//    @Test
-//    public void testCreateWithEmptyName() {
-//        final String expectedError = "» This field cannot be empty, please enter a valid name";
-//
-//        String actualError = new MainPage(getDriver())
-//                .clickCreateAJobArrow()
-//                .selectJobType(TestUtils.JobType.OrganizationFolder)
-//                .getItemNameRequiredErrorText();
-//
-//        Assert.assertEquals(actualError, expectedError);
-//    }
-//
-//    @Test
-//    public void testCreateOrganizationFolderWithSpaceName() {
-//        CreateItemErrorPage errorPage =
-//                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.OrganizationFolder);
-//
-//        Assert.assertEquals(errorPage.getHeaderText(), "Error");
-//        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
-//    }
-//
-//    @Test
-//    public void testOrganizationFolderConfigPreviewDescription(){
-//        String previewText = new MainPage(getDriver())
-//                .clickNewItem()
-//                .enterItemName(ORGANIZATION_FOLDER_NAME)
-//                .selectJobType(TestUtils.JobType.OrganizationFolder)
-//                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-//                .addDescription("Description")
-//                .clickPreview()
-//                .getPreviewText();
-//
-//        Assert.assertEquals(previewText,"Description");
-//    }
+    @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
+    public void testRenameFromDropDownMenu() {
+        String actualRenamedName = new MainPage(getDriver())
+                .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .enterNewName(ORGANIZATION_FOLDER_RENAMED)
+                .clickRenameButton()
+                .getJobName();
+
+        Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
+    }
+
+    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
+    public void testRenameToTheCurrentNameAndGetError() {
+        String errorMessage = new MainPage(getDriver())
+                .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
+                .enterNewName(ORGANIZATION_FOLDER_RENAMED)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
+    }
+
+    @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"} )
+    public void testDeleteOrgFolderFromSideMenu() {
+        String welcomeText = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
+                .clickDeleteJobLocatedOnMainPage()
+                .clickYesButton()
+                .getWelcomeText();
+
+        Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
+    }
+
+    @Test
+    public void testCreateOrganizationFolderGoingFromManageJenkinsPage() {
+        List<String> organizationFolderName = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickSaveButton()
+                .getBreadcrumb()
+                .clickDashboardButton()
+                .getJobList();
+
+        Assert.assertTrue(organizationFolderName.contains(ORGANIZATION_FOLDER_NAME));
+    }
+
+    @Test
+    public void testCreateWithEmptyName() {
+        final String expectedError = "» This field cannot be empty, please enter a valid name";
+
+        String actualError = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .getItemNameRequiredErrorText();
+
+        Assert.assertEquals(actualError, expectedError);
+    }
+
+    @Test
+    public void testCreateOrganizationFolderWithSpaceName() {
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.OrganizationFolder);
+
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
+    }
+
+    @Test
+    public void testOrganizationFolderConfigPreviewDescription(){
+        String previewText = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .addDescription("Description")
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText,"Description");
+    }
 }
