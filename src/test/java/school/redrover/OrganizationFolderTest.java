@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.OrganizationFolderPage;
@@ -205,6 +206,22 @@ public class OrganizationFolderTest extends BaseTest {
                 .getPreviewText();
 
         Assert.assertEquals(previewText,"Description");
+    }
+
+    @DataProvider(name = "wrong-character")
+    public Object[][] provideWrongCharacters(){
+        return new Object[][] {{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}, {"|"}, {">"}, {"["}, {"]"}};
+    }
+
+    @Test(dataProvider = "wrong-character")
+    public void testCreateUsingInvalidData(String wrongCharacter){
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(wrongCharacter)
+                .selectJobType(TestUtils.JobType.OrganizationFolder);
+
+        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "Save button is enabled");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
     }
 
     @Test
