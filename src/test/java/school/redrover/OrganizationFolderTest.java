@@ -76,7 +76,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEnableOrgFolderFromConfig")
-    public void DisableOrgFolderFromProjectPage(){
+    public void testDisableOrgFolderFromProjectPage(){
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableButton()
