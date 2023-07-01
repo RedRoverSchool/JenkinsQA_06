@@ -104,4 +104,9 @@ public class MainPage extends BaseDashboardPage<MainPage> {
 
         return new UserPage(getDriver());
     }
+
+    public NodePage clickOnNodeName(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+        return new NodePage(getDriver());
+    }
 }

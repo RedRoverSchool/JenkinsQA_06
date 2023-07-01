@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManageNodesPage extends BaseMainHeaderPage<ManageNodesPage> {
@@ -15,8 +16,8 @@ public class ManageNodesPage extends BaseMainHeaderPage<ManageNodesPage> {
     @FindBy(xpath = "//a[@href='new']")
     private WebElement newNodeButton;
 
-    @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
-    private List<WebElement> nodes;
+    @FindBy(xpath = "//td/a")
+    private List<WebElement> nodesList;
 
     public ManageNodesPage(WebDriver driver) {
         super(driver);
@@ -35,7 +36,7 @@ public class ManageNodesPage extends BaseMainHeaderPage<ManageNodesPage> {
 
     public NodePage clickOnNode(String nodeName) {
 
-        for (WebElement ele : nodes) {
+        for (WebElement ele : nodesList) {
             if (ele.getText().equals(nodeName)) {
                 new Actions(getDriver()).moveToElement(ele).click().perform();
                 break;
@@ -44,5 +45,13 @@ public class ManageNodesPage extends BaseMainHeaderPage<ManageNodesPage> {
         }
        return new NodePage(getDriver());
     }
-}
 
+    public List<String> getNodesList() {
+        List<String> nodeNameList = new ArrayList<>();
+
+        for (WebElement element : nodesList) {
+          nodeNameList.add(element.getText());
+        }
+        return nodeNameList;
+    }
+}
