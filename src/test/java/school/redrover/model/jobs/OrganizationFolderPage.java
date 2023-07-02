@@ -14,6 +14,9 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     @FindBy(xpath = "//a[contains(@href,'/computation/console')]")
     private WebElement scanButton;
 
+    @FindBy(xpath = "//a[@href='https://www.jenkins.io/doc/book/pipeline/multibranch/']")
+    private WebElement multibranchProject;
+
     public OrganizationFolderPage(WebDriver driver) {
         super(driver);
     }
@@ -28,5 +31,10 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
         getWait5().until(ExpectedConditions.elementToBeClickable(scanButton)).click();
 
         return new ScanOrganizationFolderLog(getDriver());
+    }
+
+    public OrganizationFolderConfigPage clickMultibranchProject() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(multibranchProject)).click();
+        return new OrganizationFolderConfigPage(this);
     }
 }

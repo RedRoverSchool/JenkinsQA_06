@@ -291,5 +291,17 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
     }
+
+    @Test
+    public void testCreateMultibranchProject() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+
+        String createMultibranchProject = new OrganizationFolderPage(getDriver())
+                .clickMultibranchProject()
+                .getBranchesAndPullRequestsTutorial();
+
+        Assert.assertEquals(createMultibranchProject, "Branches and Pull Requests");
+
+    }
 }
 
