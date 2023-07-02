@@ -251,6 +251,16 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(mainPage.getJobName(ORGANIZATION_FOLDER_NAME), ORGANIZATION_FOLDER_NAME);
     }
 
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testScanOrgFolderLog() {
+        String titleScanOrgFolderLogPage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickScanOrgFolderLog()
+                .getTextFromTitle();
+
+        Assert.assertEquals(titleScanOrgFolderLogPage, "Scan Organization Folder Log");
+    }
+
     @Test
     public void testAppearanceIconHasChanged() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
@@ -264,14 +274,14 @@ public class OrganizationFolderTest extends BaseTest {
                 .isDefaultIconDisplayed();
 
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
-   }
-  
-  @Test   
-  public void testAddHealthMetricsSideMenu(){
+    }
+
+    @Test
+    public void testAddHealthMetricsSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
         boolean isHealthMetricsAdded = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME,new OrganizationFolderPage(getDriver()))
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickConfigure()
                 .addHealthMetrics()
                 .clickSaveButton()
