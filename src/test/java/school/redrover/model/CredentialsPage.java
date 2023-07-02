@@ -11,11 +11,12 @@ public class CredentialsPage extends BaseMainHeaderPage<CredentialsPage> {
     @FindBy(xpath = "//h1")
     private WebElement pageHeader;
 
+    public CredentialsPage(WebDriver driver) {
+        super(driver);
+    }
+
     public String getTitleText() {
         return getWait2().until(ExpectedConditions.visibilityOf(pageHeader)).getText();
     }
 
-    public CredentialsPage(WebDriver driver) {
-        super(driver);
-    }
 }
