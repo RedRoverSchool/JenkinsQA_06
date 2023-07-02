@@ -38,6 +38,9 @@ public class MainPage extends BaseDashboardPage<MainPage> {
     @FindBy(id = "search-box")
     private WebElement searchbox;
 
+    @FindBy(xpath = "//div[@class='tippy-box']//td[@align='left' and not(contains(@class, 'jenkins-table__icon'))]")
+    private WebElement tooltipDescription;
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -103,5 +106,23 @@ public class MainPage extends BaseDashboardPage<MainPage> {
         searchField.sendKeys(Keys.RETURN);
 
         return new UserPage(getDriver());
+    }
+
+    public MainPage hoverOverWeather(String jobName){
+        WebElement weather = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//tr[@id = 'job_%s']/td[contains(@class,'healthReport')]", jobName))));
+        new Actions(getDriver())
+                .moveToElement(weather)
+                .perform();
+        return this;
+    }
+
+    public String getTooltipDescription(){
+        return getWait10().until(ExpectedConditions.visibilityOf(tooltipDescription)).getText();
+    }
+
+    public NodePage clickOnNodeName(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+        return new NodePage(getDriver());
     }
 }

@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.OrganizationFolderPage;
@@ -75,6 +76,30 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(enableOrgFolder.trim(), "Disable Organization Folder");
     }
 
+    @Test(dependsOnMethods = "testEnableOrgFolderFromConfig")
+    public void testDisableOrgFolderFromProjectPage(){
+        String disabledText = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickDisableEnableButton()
+                .getTextFromDisableMessage();
+
+        Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
+    }
+
+    @Test(dependsOnMethods = "testDisableOrgFolderFromProjectPage")
+    public void testEnableOrgFolderFromProjectPage(){
+        String disableButton = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME,new OrganizationFolderPage(getDriver()))
+                .clickDisableEnableButton()
+                .getDisableButtonText();
+
+        boolean iconOrgFolder = new OrganizationFolderPage(getDriver())
+                .isMetadataFolderIconDisplayed();
+
+        Assert.assertEquals(disableButton,"Disable Organization Folder");
+        Assert.assertTrue(iconOrgFolder,"the dispayеd icon OrganizationFolder exists");
+    }
+
     @Test(dependsOnMethods = "testCreateWithExistingName")
     public void testAddDisplayName() {
         final String displayName = "This is Display Name of Folder";
@@ -101,13 +126,10 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(orgFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Test
-    public void testCreateOrganizationFolderWithDescription() {
+    @Test(dependsOnMethods = "testEnableOrgFolderFromProjectPage")
+    public void testAddDescriptionToProject() {
         String textFromDescription = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .addDescription("Description")
                 .clickSaveButton()
                 .getAddedDescriptionFromConfig();
@@ -115,7 +137,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(textFromDescription, "Description");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolderWithDescription")
+    @Test(dependsOnMethods = "testAddDescriptionToProject")
     public void testRenameFromDropDownMenu() {
         String actualRenamedName = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
@@ -197,5 +219,51 @@ public class OrganizationFolderTest extends BaseTest {
                 .getPreviewText();
 
         Assert.assertEquals(previewText,"Description");
+    }
+
+    @DataProvider(name = "wrong-character")
+    public Object[][] provideWrongCharacters(){
+        return new Object[][] {{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}, {"|"}, {">"}, {"["}, {"]"}};
+    }
+
+    @Test(dataProvider = "wrong-character")
+    public void testCreateUsingInvalidData(String wrongCharacter){
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(wrongCharacter)
+                .selectJobType(TestUtils.JobType.OrganizationFolder);
+
+        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "Save button is enabled");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+    }
+
+    @Test
+    public void testCreateFromCreateAJob() {
+        MainPage mainPage = new MainPage(getDriver())
+                .clickCreateAJob()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(mainPage.projectStatusTableIsDisplayed());
+        Assert.assertEquals(mainPage.getJobName(ORGANIZATION_FOLDER_NAME), ORGANIZATION_FOLDER_NAME);
+    }
+
+    @Test
+    public void testAddHealthMetricsSideMenu(){
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        boolean isHealthMetricsAdded = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME,new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .addHealthMetrics()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
     }
 }
