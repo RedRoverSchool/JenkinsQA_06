@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.model.MultibranchProjectPage;
 import school.redrover.model.base.BaseOtherFoldersPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 
@@ -22,8 +23,8 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
         return new OrganizationFolderConfigPage(this);
     }
 
-    public OrganizationFolderConfigPage clickMultibranchProject() {
+    public MultibranchProjectPage clickMultibranchProject() {
         getWait2().until(ExpectedConditions.elementToBeClickable(multibranchProject)).click();
-        return new OrganizationFolderConfigPage(this);
+        return new MultibranchProjectPage(getDriver());
     }
 }
