@@ -7,6 +7,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MultibranchProjectPage;
 import school.redrover.model.CredentialsPage;
 import school.redrover.model.ScanOrganizationFolderLog;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseOtherFoldersPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 
@@ -24,6 +28,9 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     @FindBy(xpath = "//*[@href='https://www.jenkins.io/doc/book/pipeline/']")
     private WebElement linkBookCreatingJenkinsPipeline;
 
+    @FindBy(xpath = "//a[@href='./configure']")
+    private WebElement configureProject;
+
     public OrganizationFolderPage(WebDriver driver) {
         super(driver);
     }
@@ -31,6 +38,12 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     @Override
     public OrganizationFolderConfigPage clickConfigure() {
         setupClickConfigure();
+        return new OrganizationFolderConfigPage(this);
+    }
+
+    public OrganizationFolderConfigPage clickConfigureProject() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(configureProject)).click();
+
         return new OrganizationFolderConfigPage(this);
     }
 

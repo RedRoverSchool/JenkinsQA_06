@@ -303,6 +303,17 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(createMultibranchProject, "Branches and Pull Requests");
     }
 
+    @Test
+    public void testConfigureProject() throws InterruptedException {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+
+        String configurationHeaderText = new OrganizationFolderPage(getDriver())
+                .clickConfigureProject()
+                .getConfigurationHeaderText();
+
+        Assert.assertEquals(configurationHeaderText, "Configuration");
+    }
+
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testCredentials() {
         String titleCredentials = new MainPage(getDriver())
