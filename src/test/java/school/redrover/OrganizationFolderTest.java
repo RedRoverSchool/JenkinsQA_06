@@ -291,5 +291,18 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
     }
+
+    @Test
+    public void testCreatingJenkinsPipeline() {
+        String linkBookCreatingPipeline = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickSaveButton()
+                .getTextCreatingJenkinsPipeline();
+
+        Assert.assertEquals(linkBookCreatingPipeline,"Creating a Jenkins Pipeline");
+    }
 }
 
