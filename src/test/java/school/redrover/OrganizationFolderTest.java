@@ -264,14 +264,14 @@ public class OrganizationFolderTest extends BaseTest {
                 .isDefaultIconDisplayed();
 
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
-   }
-  
-  @Test   
-  public void testAddHealthMetricsSideMenu(){
+    }
+
+    @Test
+    public void testAddHealthMetricsSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
         boolean isHealthMetricsAdded = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME,new OrganizationFolderPage(getDriver()))
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickConfigure()
                 .addHealthMetrics()
                 .clickSaveButton()
@@ -280,6 +280,18 @@ public class OrganizationFolderTest extends BaseTest {
                 .healthMetricIsVisible();
 
         Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
+    }
+
+    @Test
+    public void testCreateMultibranchProject() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+
+        String createMultibranchProject = new OrganizationFolderPage(getDriver())
+                .clickMultibranchProject()
+                .getBranchesAndPullRequestsTutorial();
+
+        Assert.assertEquals(createMultibranchProject, "Branches and Pull Requests");
+
     }
 }
 
