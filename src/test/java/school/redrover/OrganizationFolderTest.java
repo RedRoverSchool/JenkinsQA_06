@@ -293,12 +293,12 @@ public class OrganizationFolderTest extends BaseTest {
     }
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testCredentials() {
-        String titleScanOrgFolderLogPage = new MainPage(getDriver())
+        String titleCredentials = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickCredentials()
                 .getTitleText();
 
-        Assert.assertEquals(titleScanOrgFolderLogPage, "Credentials");
+        Assert.assertEquals(titleCredentials, "Credentials");
     }
 }
 
