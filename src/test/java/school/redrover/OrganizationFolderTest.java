@@ -301,7 +301,6 @@ public class OrganizationFolderTest extends BaseTest {
                 .getBranchesAndPullRequestsTutorial();
 
         Assert.assertEquals(createMultibranchProject, "Branches and Pull Requests");
-
     }
 }
 
