@@ -483,7 +483,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
 
-    @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
+    @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
     public void testSetRateLimitForBuilds() {
         final String timePeriod = "Week";
 
