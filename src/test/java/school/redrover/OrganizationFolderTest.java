@@ -301,7 +301,16 @@ public class OrganizationFolderTest extends BaseTest {
                 .getBranchesAndPullRequestsTutorial();
 
         Assert.assertEquals(createMultibranchProject, "Branches and Pull Requests");
+    }
 
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testCredentials() {
+        String titleCredentials = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickCredentials()
+                .getTitleText();
+
+        Assert.assertEquals(titleCredentials, "Credentials");
     }
 }
 
