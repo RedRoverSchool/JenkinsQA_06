@@ -23,9 +23,8 @@ public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<Organiza
         super(organizationFolderPage);
     }
 
-    public OrganizationFolderConfigPage clickDisableEnable(){
+    public OrganizationFolderConfigPage clickDisableEnable() {
         disableEnableFromConfig.click();
-
         return this;
     }
 
