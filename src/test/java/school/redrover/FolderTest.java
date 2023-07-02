@@ -1,41 +1,63 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.jobs.*;
+import school.redrover.model.jobsconfig.FolderConfigPage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.base.BaseConfigPage;
+import school.redrover.model.base.BaseJobPage;
+import school.redrover.model.jobsconfig.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class FolderTest extends BaseTest {
 
     private static final String NAME = "FolderName";
-    private static final String NAME2 = "FolderName2";
-    private static final String NAME3 = "FolderName3";
-    private static final String NEW_NAME = "newTestName";
+    private static final String RENAME = "Folder";
     private static final String DESCRIPTION = "Created new folder";
+    private static final String DESCRIPTION_2 = "Created new Description";
     private static final String DISPLAY_NAME = "NewFolder";
 
-    private boolean createdJobInFolderIsDisplayed(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?,?> jobConfigPage){
-        return new MainPage(getDriver())
+    private void createdJobInFolder(String jobName, String folderName, TestUtils.JobType jobType, BaseConfigPage<?, ?> jobConfigPage) {
+        new MainPage(getDriver())
                 .clickJobName(folderName, new FolderPage(getDriver()))
-                .newItem()
+                .clickNewItem()
                 .enterItemName(jobName)
                 .selectJobType(jobType)
                 .clickOkButton(jobConfigPage)
                 .getHeader()
-                .clickLogo()
-                .clickJobName(folderName, new FolderPage(getDriver()))
-                .nestedProjectIsDisplayed(jobName);
+                .clickLogo();
+    }
+
+    @Ignore
+    private void moveJobToFolderFromDropDownMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
+        new MainPage(getDriver())
+                .dropDownMenuClickMove(jobName, jobPage)
+                .selectDestinationFolder(folderName)
+                .clickMoveButton()
+                .getHeader()
+                .clickLogo();
+    }
+
+    private void moveJobToFolderFromSideMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
+        new MainPage(getDriver())
+                .clickJobName(jobName, jobPage)
+                .clickMoveOnSideMenu()
+                .selectDestinationFolder(folderName)
+                .clickMoveButton()
+                .getHeader()
+                .clickLogo();
     }
 
     @Test
     public void testCreateFromCreateAJob() {
-
         MainPage mainPage = new MainPage(getDriver())
                 .clickCreateAJob()
                 .enterItemName(NAME)
@@ -50,38 +72,18 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateFromNewItem() {
-        TestUtils.createFolder(this, NAME2, true);
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        Assert.assertTrue(new MainPage(getDriver()).jobIsDisplayed(NAME2), "error was not show name folder");
+        Assert.assertTrue(new MainPage(getDriver()).jobIsDisplayed(NAME), "error was not show name folder");
         Assert.assertTrue(new MainPage(getDriver()).iconFolderIsDisplayed(), "error was not shown icon folder");
     }
 
-    @Test
-    public void testCreateFromDashboard() {
-
-        MainPage mainPage = new MainPage(getDriver())
-                .getHeader()
-                .clickNewItemDashboardDropdownMenu()
-                .enterItemName(NAME3)
-                .selectJobType(TestUtils.JobType.Folder)
-                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
-                .getHeader()
-                .clickLogo();
-
-        Assert.assertTrue(mainPage.jobIsDisplayed(NAME3), "error was not show name folder");
-        Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
-    }
-
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
-    public void testErrorWhenCreateWithExistingName() {
+    public void testCreateWithExistingName() {
+        CreateItemErrorPage errorPage = TestUtils.createJobWithExistingName(this, NAME, TestUtils.JobType.Folder);
 
-        String errorMessage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(NAME)
-                .selectJobAndOkAndGoError(TestUtils.JobType.Folder)
-                .getErrorMessage();
-
-        Assert.assertEquals(errorMessage, "A job already exists with the name ‘" + NAME + "’");
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "A job already exists with the name ‘" + NAME + "’");
     }
 
     @DataProvider(name = "invalid-data")
@@ -94,380 +96,330 @@ public class FolderTest extends BaseTest {
     public void testCreateFolderUsingInvalidData(String invalidData) {
         final String expectedErrorMessage = "» ‘" + invalidData + "’ is an unsafe character";
 
-        String actualErrorMessage = new MainPage(getDriver())
-                .clickCreateAJob()
-                .enterItemName(invalidData)
-                .getItemInvalidMessage();
+        NewJobPage newJobPage = TestUtils.createFolderUsingInvalidData(this, invalidData, TestUtils.JobType.Folder);
 
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), expectedErrorMessage);
     }
 
-    @Test(dependsOnMethods = "testErrorWhenCreateWithExistingName")
-    public void testCreateNewViewInFolder() {
-        final String viewName = "Test View";
+    @Test
+    public void testCreateFolderWithSpaceInsteadName() {
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.Folder);
 
-        boolean viewIsDisplayed = new MainPage(getDriver())
-                .clickJobName(NAME, new FolderPage(getDriver()))
-                .clickNewView()
-                .enterViewName(viewName)
-                .selectMyViewAndClickCreate()
-                .clickAll()
-                .viewIsDisplayed(viewName);
-
-        Assert.assertTrue(viewIsDisplayed, "error was not shown created view");
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 
-    @Test(dependsOnMethods = "testCreateNewViewInFolder")
-    public void testRename() {
-
+    @Test(dependsOnMethods = "testCreateWithExistingName")
+    public void testRenameUsingDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
-                .enterNewName(NEW_NAME)
+                .enterNewName(RENAME)
                 .clickRenameButton()
                 .getHeader()
                 .clickLogo()
-                .jobIsDisplayed(NEW_NAME);
+                .jobIsDisplayed(RENAME);
 
-        Assert.assertTrue(newNameIsDisplayed,"error was not show new name folder");
+        Assert.assertTrue(newNameIsDisplayed, "error was not show new name folder");
     }
 
-    @Test(dependsOnMethods = "testRename")
-    public void testRenameNegative() {
-
+    @Test(dependsOnMethods = "testRenameUsingDropDownMenu")
+    public void testRenameToTheCurrentNameAndGetError() {
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
-                .clickJobName(NEW_NAME, new FolderPage(getDriver()))
-                .rename()
-                .enterNewName(NEW_NAME)
+                .clickJobName(RENAME, new FolderPage(getDriver()))
+                .clickRename()
+                .enterNewName(RENAME)
                 .clickRenameButtonAndGoError();
 
         Assert.assertEquals(createItemErrorPage.getError(), "Error");
         Assert.assertEquals(createItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
     }
 
-    @Test(dependsOnMethods = {"testCreateFromDashboard", "testCreateFromNewItem"})
-    public void testMoveFolderToFolder() {
+    @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
+    public void testRenameFromLeftSidePanel() {
+        FolderPage folderPage =  new MainPage(getDriver())
+                .clickJobName(RENAME, new FolderPage(getDriver()))
+                .clickRename()
+                .enterNewName(NAME)
+                .clickRenameButton();
 
-        String folderName = new MainPage(getDriver())
-                .dropDownMenuClickMove(NAME3, new FolderPage(getDriver()))
-                .selectDestinationFolder(NAME2)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
-                .clickJobName(NAME2, new FolderPage(getDriver()))
-                .getNestedFolder(NAME3);
-
-        Assert.assertEquals(folderName, NAME3);
+        Assert.assertEquals(folderPage.getJobName(), NAME);
+        Assert.assertEquals(folderPage.getPageTitle(), "All [" + NAME + "] [Jenkins]");
     }
 
-    @Test(dependsOnMethods = "testRenameNegative")
+    @Test(dependsOnMethods = "testRenameFromLeftSidePanel")
     public void testConfigureFolderNameDescriptionHealthMetrics() {
-
         FolderPage folderPage = new MainPage(getDriver())
-                .clickJobName(NEW_NAME, new FolderPage(getDriver()))
-                .clickConfigureSideMenu()
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
                 .enterDisplayName(DISPLAY_NAME)
-                .setHealthMetricsType()
                 .addDescription(DESCRIPTION)
+                .addHealthMetrics()
                 .clickSaveButton();
 
-        Assert.assertEquals(folderPage.getFolderName(), DISPLAY_NAME);
+        Assert.assertEquals(folderPage.getJobName(), DISPLAY_NAME);
         Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
-        Assert.assertTrue(folderPage.clickConfigureSideMenu().clickOnHealthMetricsType().isRecursive());
+        Assert.assertTrue(folderPage.clickConfigure().clickHealthMetrics().isRecursive());
     }
 
     @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
-    public void testCancelDeleting() {
+    public void testDeleteDisplayName() {
+        String folderName = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .clearDisplayName()
+                .clickSaveButton()
+                .getJobName();
 
-        boolean folderIsDisplayed = new MainPage(getDriver())
-                .clickJobName(NEW_NAME, new FolderPage(getDriver()))
-                .delete()
+        Assert.assertEquals(folderName, NAME);
+    }
+
+    @Test(dependsOnMethods = "testDeleteDisplayName")
+    public void testHealthMetricWithRecursive() {
+        String pipelineName = "BadPipe";
+
+        new MainPage(getDriver()).
+                clickJobName(NAME, new FolderPage(getDriver()));
+
+        TestUtils.createJob(this, RENAME, TestUtils.JobType.Folder, false);
+
+        String tooltipDescription = new FolderPage(getDriver())
+                .clickConfigure()
+                .addHealthMetrics()
+                .clickSaveButton()
+                .clickNewItem()
+                .selectJobType(TestUtils.JobType.Pipeline)
+                .enterItemName(pipelineName)
+                .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
+                .inputInScriptField("Broken")
+                .clickSaveButton()
+                .clickBuildNow()
                 .getHeader()
                 .clickLogo()
-                .jobIsDisplayed(NEW_NAME);
+                .hoverOverWeather(NAME)
+                .getTooltipDescription();
 
-        Assert.assertTrue(folderIsDisplayed,"error was not show name folder");
+        Assert.assertEquals(tooltipDescription,
+                "Worst health: " + NAME + " » " + RENAME + " » " + pipelineName + ": Build stability: All recent builds failed.");
+    }
+
+    @Test(dependsOnMethods = "testHealthMetricWithRecursive")
+    public void testDeleteHealthMetrics(){
+        boolean healthMetric = new MainPage(getDriver())
+                .clickJobName(NAME,new FolderPage(getDriver()))
+                .clickConfigure()
+                .clickHealthMetrics()
+                .removeHealthMetrics()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(healthMetric,"the deleted metric is no longer visible");
+    }
+
+    @Test(dependsOnMethods = "testDeleteHealthMetrics")
+    public void testAddDescriptionFromFolderPage() {
+        String folderDescription = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickEditDescription()
+                .enterDescription(DESCRIPTION)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(folderDescription, DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testAddDescriptionFromFolderPage")
+    public void testAddDescriptionPreview() {
+        String previewText = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickEditDescription()
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText, DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testAddDescriptionPreview")
+    public void testPreviewDescription() {
+        String previewText = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText, DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testPreviewDescription")
+    public void testEditDescription() {
+        String newDescription = new FolderPage(getDriver())
+                .clickEditDescription()
+                .clearDescriptionField()
+                .enterDescription(DESCRIPTION_2)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(newDescription, DESCRIPTION_2);
+    }
+
+
+    @Test(dependsOnMethods = "testEditDescription")
+    public void testCancelDeleting() {
+        boolean folderIsDisplayed = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickDeleteJobThatIsMainPage()
+                .getHeader()
+                .clickLogo()
+                .jobIsDisplayed(NAME);
+
+        Assert.assertTrue(folderIsDisplayed, "error was not show name folder");
     }
 
     @Test(dependsOnMethods = "testCancelDeleting")
-    public void testDeleteFolder() {
+    public void testCreateJobsInFolder() {
+        List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
+                "Folder", "Multibranch Pipeline", "Organization");
 
+        createdJobInFolder(jobName.get(0), NAME, TestUtils.JobType.FreestyleProject,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(1), NAME, TestUtils.JobType.Pipeline,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(2), NAME, TestUtils.JobType.MultiConfigurationProject,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(3), NAME, TestUtils.JobType.Folder,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(4), NAME, TestUtils.JobType.MultibranchPipeline,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        createdJobInFolder(jobName.get(5), NAME, TestUtils.JobType.OrganizationFolder,
+                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+
+        List<String> createdJobList = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .getJobList();
+
+        jobName.sort(String.CASE_INSENSITIVE_ORDER);
+
+        Assert.assertEquals(createdJobList, jobName);
+    }
+
+    @Test(dependsOnMethods = "testCreateJobsInFolder")
+    public void testDeleteFolder() {
         boolean welcomeIsDisplayed = new MainPage(getDriver())
-                .dropDownMenuClickDeleteFolders(NEW_NAME)
+                .dropDownMenuClickDeleteFolders(NAME)
                 .clickYesButton()
                 .WelcomeIsDisplayed();
 
-        Assert.assertTrue(welcomeIsDisplayed,"error was not show Welcome to Jenkins!");
+        Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
 
-    @Test(dependsOnMethods = "testMoveFolderToFolder")
-    public void testCreateFreestyleProjectInFolder(){
-        final String freestyleProjectName = "new project";
+    @Test(dependsOnMethods = "testCreateFromNewItem")
+    public void testMoveJobsToFolderFromDropDownMenu() {
+        List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
+                "Folder", "Multibranch Pipeline", "Organization");
 
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                (freestyleProjectName, NAME2, TestUtils.JobType.FreestyleProject, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))),
-                "error was not show nested Freestyle Project");
-    }
+        TestUtils.createJob(this, jobName.get(0), TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, jobName.get(1), TestUtils.JobType.Pipeline, true);
+        TestUtils.createJob(this, jobName.get(2), TestUtils.JobType.MultiConfigurationProject, true);
+        TestUtils.createJob(this, jobName.get(3), TestUtils.JobType.Folder, true);
+        TestUtils.createJob(this, jobName.get(4), TestUtils.JobType.MultibranchPipeline, true);
+        TestUtils.createJob(this, jobName.get(5), TestUtils.JobType.OrganizationFolder, true);
 
-    @Test(dependsOnMethods = "testCreateFreestyleProjectInFolder")
-    public void testCreatePipelineInFolder(){
-        final String pipelineName = "pipeline project";
+        moveJobToFolderFromDropDownMenu(jobName.get(0), NAME, new FreestyleProjectPage(getDriver()));
+        moveJobToFolderFromDropDownMenu(jobName.get(1), NAME, new PipelinePage(getDriver()));
+        moveJobToFolderFromDropDownMenu(jobName.get(2), NAME, new MultiConfigurationProjectPage(getDriver()));
+        moveJobToFolderFromDropDownMenu(jobName.get(3), NAME, new FolderPage(getDriver()));
+        moveJobToFolderFromDropDownMenu(jobName.get(4), NAME, new MultibranchPipelinePage(getDriver()));
+        moveJobToFolderFromDropDownMenu(jobName.get(5), NAME, new OrganizationFolderPage(getDriver()));
 
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                        (pipelineName, NAME2, TestUtils.JobType.Pipeline, new PipelineConfigPage(new PipelinePage(getDriver()))),
-                "error was not show nested Pipeline");
-    }
-
-    @Test(dependsOnMethods = "testCreatePipelineInFolder")
-    public void testCreateMultibranchPipelineInFolder() {
-        final String multibranchPipelineName = "My Multibranch Pipeline";
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                        (multibranchPipelineName, NAME2, TestUtils.JobType.MultibranchPipeline, new MultibranchPipelineConfigPage(new MultibranchPipelinePage(getDriver()))),
-                "error was not show nested Multibranch Pipeline");
-    }
-
-    @Test(dependsOnMethods = "testCreateMultibranchPipelineInFolder")
-    public void testCreateMulticonfigurationProjectInFolder() {
-        final String multiconfigurationProjectName = "Mine Project";
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                (multiconfigurationProjectName, NAME2, TestUtils.JobType.MultiConfigurationProject, new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver()))),
-                "error was not show nested Multi-configurationProject");
-    }
-
-    @Test(dependsOnMethods = "testCreateMulticonfigurationProjectInFolder")
-    public void testCreateFolderFromExistingFolder() {
-        final String secondFolderName = "SecondFolder";
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                (secondFolderName, NAME2, TestUtils.JobType.Folder, new FolderConfigPage(new FolderPage(getDriver()))),
-                "error was not show nested second folder");
-    }
-
-    @Test(dependsOnMethods = "testCreateFolderFromExistingFolder")
-    public void testCreateOrganizationFolderInFolder() {
-        final String organizationFolderName = "Organization";
-
-
-        Assert.assertTrue(createdJobInFolderIsDisplayed
-                (organizationFolderName, NAME2, TestUtils.JobType.OrganizationFolder, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver()))),
-                "error was not show nested Organization folder");
-    }
-
-   @Test
-    public void testTwoFoldersCreation() {
-        final String FOLDER1_NAME = "My_folder";
-        final String FOLDER2_NAME = "MyFolder2";
-        List<String> expectedFoldersList = Arrays.asList(FOLDER1_NAME, FOLDER2_NAME);
-
-        TestUtils.createFolder(this, FOLDER1_NAME, true);
-        TestUtils.createFolder(this, FOLDER2_NAME, true);
-
-       List<String> actualFoldersList  = new MainPage(getDriver())
+        List<String> createdJobList = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
-        Assert.assertEquals(actualFoldersList, expectedFoldersList);
-    }
+        jobName.sort(String.CASE_INSENSITIVE_ORDER);
 
-    @DataProvider(name = "create-folder")
-    public Object[][] provideFoldersNames() {
-        return new Object[][]
-                {{"My_folder"}, {"MyFolder2"}, {"FOLDER"}};
-    }
-
-    @Test(dataProvider = "create-folder")
-    public void testFoldersCreationWithProvider(String provideNames) {
-        TestUtils.createFolder(this, provideNames, true);
-
-        Assert.assertEquals(new MainPage(getDriver()).getOnlyProjectName(), provideNames);
+        Assert.assertEquals(createdJobList, jobName);
     }
 
     @Test
-    public void testMoveFreestyleProjectToFolder() {
-        final String projectName = "FreestyleProject";
+    public void testMoveJobsToFolderFromSideMenu() {
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        boolean movedFreestyleProjectName = new MainPage(getDriver())
+        for(Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
+            TestUtils.createJob(this, entry.getKey(), TestUtils.JobType.valueOf(entry.getKey()), true);
+            moveJobToFolderFromSideMenu(entry.getKey(), NAME, entry.getValue());
+        }
+
+        List<String> createdJobList = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .getJobList();
+
+        Assert.assertEquals(createdJobList, TestUtils.getJobList(this));
+    }
+
+    @Test
+    public void testCreateFolderGoingFromBuildHistoryPage() {
+        List<String> folderName = new MainPage(getDriver())
+                .clickBuildsHistoryButton()
                 .clickNewItem()
                 .enterItemName(NAME)
                 .selectJobType(TestUtils.JobType.Folder)
                 .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
-                .getHeader()
-                .clickLogo()
+                .getBreadcrumb()
+                .clickDashboardButton()
+                .getJobList();
 
-                .clickNewItem()
-                .enterItemName(projectName)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
+        Assert.assertTrue(folderName.contains(NAME));
+    }
 
-                .clickMoveOnSideMenu()
-                .selectDestinationFolder(NAME)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
+    @Test(dataProvider = "invalid-data")
+    public void testRenameFolderWithInvalidData(String invalidData) {
+
+        final String expectedErrorMessage = "‘" + invalidData + "’ is an unsafe character";
+
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
+
+        String actualErrorMessage = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
-                .nestedProjectIsDisplayed(projectName);
+                .clickRename()
+                .enterNewName(invalidData)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
 
-        Assert.assertTrue(movedFreestyleProjectName, "error was not show moved Freestyle Project");
+        switch (invalidData) {
+            case "&" -> Assert.assertEquals(actualErrorMessage, "‘&amp;’ is an unsafe character");
+            case "<" -> Assert.assertEquals(actualErrorMessage, "‘&lt;’ is an unsafe character");
+            case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
+            default -> Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        }
     }
 
     @Test
-    public void testMoveMultibranchPipelineToFolderByDrop() {
-        final String nameMultibranchPipeline = "MultibranchPipeline1";
-        final String nameFolder = "Folder1";
+    public void testDeleteFolderFromSideMenu() {
 
-        TestUtils.createFolder(this, nameFolder, true);
-        TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        String projectNameDisplays = new MainPage(getDriver())
-                .dropDownMenuClickMove(nameMultibranchPipeline, new FolderPage(getDriver()))
-                .selectDestinationFolder(nameFolder)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
-                .clickJobName(nameFolder, new FolderPage(getDriver()))
-                .getNestedFolder(nameMultibranchPipeline);
-
-        Assert.assertEquals(projectNameDisplays, nameMultibranchPipeline);
-    }
-
-    @Test
-    public void testMoveFolderToFolderFromSideMenu() {
-        String folder1 = "Folder1";
-        String folder2 = "Folder2";
-
-        TestUtils.createFolder(this, folder1, true);
-        TestUtils.createFolder(this, folder2, true);
-
-        String nestedFolder = new MainPage(getDriver())
-                .clickJobName(folder2, new FolderPage(getDriver()))
-                .clickMoveOnSideMenu(folder2)
-                .selectDestinationFolder(folder1)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
-                .clickJobName(folder1, new FolderPage(getDriver()))
-                .getNestedFolder(folder2);
-
-        Assert.assertEquals(nestedFolder, folder2);
-    }
-
-    @Test
-    public void testMoveMultibranchPipelineToFolderFromSideMenu() {
-        final String nameMultibranchPipeline = "MultibranchPipeline1";
-        final String nameFolder = "Folder1";
-
-        TestUtils.createFolder(this, nameFolder, true);
-        TestUtils.createMultibranchPipeline(this, nameMultibranchPipeline, true);
-
-        String nameMultibranchPipelineDisplays = new MainPage(getDriver())
-                .dropDownMenuClickMove(nameMultibranchPipeline, new MultibranchPipelinePage(getDriver()))
-                .selectDestinationFolder(nameFolder)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
-                .clickJobName(nameFolder, new FolderPage(getDriver()))
-                .getMultibranchPipelineName().getText();
-
-        Assert.assertEquals(nameMultibranchPipelineDisplays, nameMultibranchPipeline);
-    }
-
-    @Test
-    public void testMoveMultiConfigurationProjectToFolderFromSideMenu() {
-
-        TestUtils.createFolder(this, NAME, true);
-
-        final String multiConfigurationProjectName = "MyMultiConfigurationProject";
-
-        String createdMultiConfigurationProjectName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(multiConfigurationProjectName)
-                .selectJobType(TestUtils.JobType.MultiConfigurationProject)
-                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(getDriver())))
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .clickJobName(multiConfigurationProjectName, new MultiConfigurationProjectPage(getDriver()))
-                .clickMoveOnSideMenu()
-                .selectDestinationFolder(NAME)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
+        boolean welcomeIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickDeleteJobThatIsMainPage()
+                .clickYesButton()
+                .WelcomeIsDisplayed();
 
-                .getNestedMultiConfigurationProjectName(multiConfigurationProjectName);
-
-        Assert.assertEquals(createdMultiConfigurationProjectName, multiConfigurationProjectName);
+        Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
 
     @Test
-    public void testCreatePipelineProjectWithoutDescriptionInFolder() {
-        final String folderName = "folderName";
-        final String pipelineName = "pipelineName";
-
-        String projectName = new MainPage(getDriver())
+    public void testCreateFolderWithLongName() {
+        String longName = RandomStringUtils.randomAlphanumeric(256);
+        String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(folderName)
-                .selectJobType(TestUtils.JobType.Folder)
-                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
-                .clickSaveButton()
+                .enterItemName(longName)
+                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.Folder)
+                .getErrorMessage();
 
-                .clickNewItem()
-                .enterItemName(pipelineName)
-                .selectJobType(TestUtils.JobType.Pipeline)
-                .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
-                .clickSaveButton()
-                .getProjectName();
-
-        FolderPage folderPage = new PipelinePage(getDriver())
-                .getHeader()
-                .clickLogo()
-                .clickJobName(folderName, new FolderPage(getDriver()));
-
-        Assert.assertTrue(folderPage.getNestedPipelineProjectName(pipelineName).contains(pipelineName));
-        Assert.assertEquals(projectName, "Pipeline " + pipelineName);
-    }
-
-    @Test
-    public void testMovePipelineToFolder() {
-        TestUtils.createFolder(this, "testFolder", true);
-        TestUtils.createPipeline(this, "testPipeline", true);
-
-        String actualBreadcrumbText =
-                new MainPage(getDriver())
-                        .dropDownMenuClickMove("testPipeline", new FolderPage(getDriver()))
-                        .selectDestinationFolder("testFolder")
-                        .clickMoveButton().
-                        getBreadcrumbText();
-
-        Assert.assertEquals(actualBreadcrumbText, "Dashboard > testFolder > testPipeline");
-    }
-
-    @Test
-    public void testMoveOrganizationFolderToFolderFromSideMenu() {
-        final String organizationFolderName = "organizationFolder";
-        TestUtils.createFolder(this, NAME, true);
-
-        String orgFolderName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(organizationFolderName)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-
-                .clickJobName(organizationFolderName, new OrganizationFolderPage(getDriver()))
-                .clickMoveOnSideMenu()
-                .selectDestinationFolder(NAME)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo()
-                .clickJobName(NAME, new FolderPage(getDriver()))
-
-                .getNestedOrganizationFolder(organizationFolderName);
-
-        Assert.assertEquals(orgFolderName, organizationFolderName);
+        Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
 }

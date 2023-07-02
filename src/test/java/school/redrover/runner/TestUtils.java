@@ -3,107 +3,125 @@ package school.redrover.runner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
-import school.redrover.model.base.BaseModel;
+import school.redrover.model.base.*;
+import school.redrover.model.jobs.*;
+import school.redrover.model.jobsconfig.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TestUtils {
 
     public enum JobType {
-        FreestyleProject(1),
+        FreestyleProject(By.xpath("//span[contains(text(),'Freestyle project')]")) {
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new FreestyleProjectConfigPage(new FreestyleProjectPage(driver));
+            }
+        },
 
-        Pipeline(2),
+        Pipeline(By.xpath("//span[contains(text(),'Pipeline')]")) {
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new PipelineConfigPage(new PipelinePage(driver));
+            }
+        },
 
-        MultiConfigurationProject(3),
+        MultiConfigurationProject(By.xpath("//span[contains(text(),'Multi-configuration project')]")) {
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(driver));
+            }
+        },
 
-        Folder(4),
+        Folder(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']")) {
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new FolderConfigPage(new FolderPage(driver));
+            }
+        },
 
-        MultibranchPipeline(5),
+        MultibranchPipeline(By.xpath("//span[contains(text(),'Multibranch Pipeline')]")) {
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new MultibranchPipelineConfigPage(new MultibranchPipelinePage(driver));
+            }
+        },
 
-        OrganizationFolder(6);
+        OrganizationFolder(By.xpath("//span[contains(text(),'Organization Folder')]")) {
+            @Override
+            public BaseConfigPage<?, ?> createConfigPage(WebDriver driver) {
+                return new OrganizationFolderConfigPage(new OrganizationFolderPage(driver));
+            }
+        };
 
-        private final int position;
+        private final By locator;
 
-        JobType(int position) {
-            this.position = position;
+        JobType(By locator) {
+            this.locator = locator;
         }
 
-        public int getPosition() {
-            return position;
+        public By getLocator() {
+            return locator;
         }
+
+        public abstract BaseConfigPage<?, ?> createConfigPage(WebDriver driver);
     }
 
-    private static void createProject(BaseTest baseTest, String name) {
-        new MainPage(baseTest.getDriver())
+    public enum ViewType {
+        IncludeAGlobalView(By.xpath("//label[@for='hudson.model.ProxyView']")) {
+            @Override
+            public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
+                return new IncludeAGlobalViewConfigPage(new ViewPage(driver));
+            }
+        },
+
+        ListView(By.xpath("//label[@for='hudson.model.ListView']")) {
+            @Override
+            public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
+                return new ListViewConfigPage(new ViewPage(driver));
+            }
+        },
+
+        MyView(By.xpath("//label[@for='hudson.model.MyView']")) {
+            @Override
+            public BaseMainHeaderPage<?> createNextPage(WebDriver driver) {
+                return new ViewPage(driver);
+            }
+        };
+
+        private final By locator;
+
+        ViewType(By locator) {
+            this.locator = locator;
+        }
+
+        public By getLocator() {
+            return locator;
+        }
+
+        public abstract BaseMainHeaderPage<?> createNextPage(WebDriver driver);
+    }
+
+    public static void createJob(BaseTest baseTest, String name, JobType jobType, Boolean goToMainPage) {
+        final WebDriver driver = baseTest.getDriver();
+        BaseConfigPage<?, ?> configPage = jobType.createConfigPage(baseTest.getDriver());
+
+        new MainPage(driver)
                 .clickNewItem()
-                .enterItemName(name);
-    }
+                .enterItemName(name)
+                .selectJobType(jobType)
+                .clickOkButton(configPage)
+                .clickSaveButton();
 
-    private static void goToMainPage(BaseTest baseTest, Boolean goToMainPage) {
         if (goToMainPage) {
-            new MainPage(baseTest.getDriver())
+            new MainPage(driver)
                     .getHeader()
                     .clickLogo();
         }
-    }
-
-    public static void createFreestyleProject(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
-    }
-
-    public static void createPipeline(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.Pipeline)
-                .clickOkButton(new PipelineConfigPage(new PipelinePage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
-    }
-
-    public static void createMultiConfigurationProject(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.MultiConfigurationProject)
-                .clickOkButton(new MultiConfigurationProjectConfigPage(new MultiConfigurationProjectPage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
-    }
-
-    public static void createFolder(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.Folder)
-                .clickOkButton(new FolderConfigPage(new FolderPage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
-    }
-
-    public static void createMultibranchPipeline(BaseTest baseTest, String name, Boolean goToHomePage) {
-        createProject(baseTest, name);
-
-        new NewJobPage(baseTest.getDriver())
-                .selectJobType(JobType.MultibranchPipeline)
-                .clickOkButton(new MultibranchPipelineConfigPage(new MultibranchPipelinePage(baseTest.getDriver())))
-                .clickSaveButton();
-
-        goToMainPage(baseTest, goToHomePage);
     }
 
     public static List<String> getTexts(List<WebElement> elements) {
@@ -173,27 +191,79 @@ public class TestUtils {
 
     public static void createFreestyleProjectInsideFolderAndView(BaseTest baseTest, String jobName, String viewName, String folderName) {
         new ViewPage((baseTest.getDriver()))
-                .clickDropDownMenuFolder(folderName)
-                .selectNewItemInDropDownMenu(viewName, folderName)
+                .openJobDropDownMenu(folderName)
+                .selectNewItemInJobDropDownMenu(folderName)
                 .enterItemName(jobName)
                 .selectJobType(JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(baseTest.getDriver())))
                 .clickSaveButton();
 
-       clickBreadcrumbLinkItem(baseTest, viewName);
-    }
-
-    public static List<String> getListNames(List<WebElement> elements) {
-        List<String> texts = new ArrayList<>();
-
-        for (WebElement element : elements) {
-            texts.add(element.getText().substring(0, element.getText().indexOf("\n")));
-        }
-        return texts;
+        clickBreadcrumbLinkItem(baseTest, viewName);
     }
 
     public static String getRandomStr(int length) {
         return RandomStringUtils.random(length,
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+    }
+
+    public static void createUserAndReturnToMainPage(BaseTest baseTest, String username, String password, String fullName, String email) {
+        new MainPage(baseTest.getDriver())
+                .clickManageJenkinsPage()
+                .clickManageUsers()
+                .clickCreateUser()
+                .enterUsername(username)
+                .enterPassword(password)
+                .enterConfirmPassword(password)
+                .enterFullName(fullName)
+                .enterEmail(email)
+                .clickCreateUserButton()
+                .getHeader()
+                .clickLogo();
+    }
+
+    public static CreateItemErrorPage createJobWithExistingName(BaseTest baseTest, String jobName, JobType jobType) {
+        return new MainPage(baseTest.getDriver())
+                .clickNewItem()
+                .enterItemName(jobName)
+                .selectJobAndOkAndGoError(jobType);
+    }
+
+    public static NewJobPage createJobWithExistingNameWithoutClickOk(BaseTest baseTest, String jobName, JobType jobType) {
+        return new MainPage(baseTest.getDriver())
+                .clickNewItem()
+                .enterItemName(jobName)
+                .selectJobType(jobType);
+    }
+
+    public static NewJobPage createFolderUsingInvalidData(BaseTest baseTest, String invalidData, JobType jobType) {
+        return new MainPage(baseTest.getDriver())
+                .clickCreateAJob()
+                .enterItemName(invalidData)
+                .selectJobType(jobType);
+    }
+
+    public static CreateItemErrorPage createJobWithSpaceInsteadName(BaseTest baseTest, JobType jobType) {
+        return new MainPage(baseTest.getDriver())
+                .clickNewItem()
+                .enterItemName(" ")
+                .selectJobAndOkAndGoError(jobType);
+    }
+
+    public static Map<String, BaseJobPage<?>> getJobMap(BaseTest baseTest) {
+        return Map.of(
+                "FreestyleProject", new FreestyleProjectPage(baseTest.getDriver()),
+                "Pipeline", new PipelinePage(baseTest.getDriver()),
+                "MultiConfigurationProject", new MultiConfigurationProjectPage(baseTest.getDriver()),
+                "Folder", new FolderPage(baseTest.getDriver()),
+                "MultibranchPipeline", new MultibranchPipelinePage(baseTest.getDriver()),
+                "OrganizationFolder", new OrganizationFolderPage(baseTest.getDriver())
+        );
+    }
+
+    public static List<String> getJobList(BaseTest baseTest) {
+        List<String> jobName = new ArrayList<>(TestUtils.getJobMap(baseTest).keySet());
+        jobName.sort(String.CASE_INSENSITIVE_ORDER);
+
+        return jobName;
     }
 }

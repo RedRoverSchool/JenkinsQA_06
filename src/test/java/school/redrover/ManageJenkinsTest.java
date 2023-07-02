@@ -1,8 +1,6 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -11,13 +9,13 @@ import school.redrover.model.ManageJenkinsPage;
 import school.redrover.runner.BaseTest;
 
 import java.util.List;
-import java.util.Objects;
 
 import static school.redrover.runner.TestUtils.getRandomStr;
 
 public class ManageJenkinsTest extends BaseTest {
 
     final String NAME_NEW_NODE = "testNameNewNode";
+    private static final String NODE_NAME = "NodeName";
 
     public boolean isTitleAppeared(List<WebElement> titleTexts, String title) {
         for (WebElement element : titleTexts) {
@@ -30,13 +28,14 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testSearchWithLetterConfigureSystem() {
+        String textConfigureSystem = "Configure System";
         String configurePage = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchField("m")
-                .selectOnTheFirstLineInDropdown()
+                .selectOnTheFirstLineInDropdown(textConfigureSystem)
                 .getConfigureSystemPage();
 
-        Assert.assertEquals(configurePage, "Configure System");
+        Assert.assertEquals(configurePage, textConfigureSystem);
     }
 
     @Test
@@ -52,6 +51,7 @@ public class ManageJenkinsTest extends BaseTest {
     @Test
     public void testNameNewNodeOnCreatePage() {
         final String nodeName = "NodeTest";
+
         String actualNodeName = new MainPage(getDriver())
                 .clickBuildExecutorStatus()
                 .clickNewNodeButton()
@@ -60,6 +60,7 @@ public class ManageJenkinsTest extends BaseTest {
                 .clickCreateButton()
                 .clickSaveButton()
                 .getNodeName(nodeName);
+
         Assert.assertEquals(actualNodeName, nodeName);
     }
 
@@ -67,7 +68,7 @@ public class ManageJenkinsTest extends BaseTest {
     public void testTextErrorWhenCreateNewNodeWithEmptyName() {
 
         String textError = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
                 .inputNodeNameField(NAME_NEW_NODE)
@@ -84,7 +85,7 @@ public class ManageJenkinsTest extends BaseTest {
     public void testSearchNumericSymbol() {
 
         String searchText = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchField("1")
                 .getNoResultTextInSearchField();
 
@@ -92,26 +93,16 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testSearchConfigureSystemByC() {
-        String oldUrl = getDriver().getCurrentUrl();
+    public void testNavigateToConfigureSystemPageBySearchField() {
 
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.id("settings-search-bar")).sendKeys("c");
-
-        getWait10().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[contains(@class, 'results-container')]")));
-
-        List<WebElement> titleTexts = getDriver()
-                .findElements(By.xpath("//div/a[contains(@href, 'manage')]"));
-
-        Assert.assertTrue(isTitleAppeared(titleTexts, "Configure System"));
-
-        getWait2()
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='jenkins-search__results-item--selected']")))
-                .click();
-        getWait10().until(t -> !Objects.equals(getDriver().getCurrentUrl(), oldUrl));
+        String configureSystemPageTitle = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .inputToSearchField("c")
+                .clickConfigureSystemFromSearchDropdown()
+                .getTitle();
 
         Assert.assertEquals(getDriver().getTitle(), "Configure System [Jenkins]");
+        Assert.assertEquals(configureSystemPageTitle, "Configure System");
     }
 
     @DataProvider(name = "keywords")
@@ -123,7 +114,7 @@ public class ManageJenkinsTest extends BaseTest {
     public void testSearchSettingsItemsByKeyword(String keyword) {
 
         boolean manageJenkinsPage = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchField(keyword)
                 .selectAllDropdownResultsFromSearchField()
                 .isDropdownResultsFromSearchFieldContainsTextToSearch(keyword);
@@ -139,7 +130,7 @@ public class ManageJenkinsTest extends BaseTest {
     @Test(dataProvider = "ToolsAndActions")
     public void testSearchToolsAndActions(String inputText) {
         String searchResult = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchField(inputText)
                 .getDropdownResultsInSearchField();
         Assert.assertEquals(searchResult, inputText);
@@ -150,7 +141,7 @@ public class ManageJenkinsTest extends BaseTest {
         final String partOfSettingsName = "manage";
 
         ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .inputToSearchFieldUsingKeyboardShortcut(partOfSettingsName)
                 .selectAllDropdownResultsFromSearchField();
 
@@ -160,19 +151,18 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testCreateNewAgentNode() {
-        final String nodeName = getRandomStr(10);
 
         String manageNodesPage = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
-                .inputNodeNameField(nodeName)
+                .inputNodeNameField(NODE_NAME)
                 .clickPermanentAgentRadioButton()
                 .clickCreateButton()
                 .clickSaveButton()
-                .getNodeName(nodeName);
+                .getNodeName(NODE_NAME);
 
-        Assert.assertEquals(manageNodesPage, nodeName);
+        Assert.assertEquals(manageNodesPage, NODE_NAME);
     }
 
     @Test
@@ -181,7 +171,7 @@ public class ManageJenkinsTest extends BaseTest {
         final String description = getRandomStr(50);
 
         String nodeDescription = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
                 .inputNodeNameField(nodeName)
@@ -203,7 +193,7 @@ public class ManageJenkinsTest extends BaseTest {
         final String description = getRandomStr(50);
 
         String newNodeDescription = new MainPage(getDriver())
-                .navigateToManageJenkinsPage()
+                .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
                 .inputNodeNameField(nodeName)
@@ -221,5 +211,60 @@ public class ManageJenkinsTest extends BaseTest {
                 .getNodeDescription();
 
         Assert.assertEquals(newNodeDescription, description);
+    }
+
+    @Test
+    public void testCreateNewAgentNodeByCopyingNonExistingNode() {
+        final String nonExistingNodeName = ".0";
+
+        String errorMessage = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickManageNodes()
+                .clickNewNodeButton()
+                .inputNodeNameField("NewNode")
+                .clickCopyExistingNode()
+                .inputExistingNode(nonExistingNodeName)
+                .clickCreateButtonAndGoError()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "No such agent: " + nonExistingNodeName);
+    }
+
+    @Test
+    public void testFourTasksOnLeftsidePanel() {
+        final List<String> expectedListOfTasks = List.of(new String[]{"Updates", "Available plugins", "Installed plugins", "Advanced settings"});
+        List<String> actualListOfTasks = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickManagePlugins()
+                .checkFourTasksOnTheLeftsidePanel();
+
+        Assert.assertEquals(actualListOfTasks, expectedListOfTasks);
+    }
+
+    @Test
+    public void testServerHelpInfo(){
+        final String expectedServerHelpInfo = """
+                If your Jenkins server sits behind a firewall and does not have the direct access to the internet, and if your server JVM is not configured appropriately ( See JDK networking properties for more details ) to enable internet connection, you can specify the HTTP proxy server name in this field to allow Jenkins to install plugins on behalf of you. Note that Jenkins uses HTTPS to communicate with the update center to download plugins.
+                Leaving this field empty means Jenkins will try to connect to the internet directly.
+                If you are unsure about the value, check the browser proxy configuration.""";
+        String ServerHelpInfo = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickManagePlugins()
+                .clickAdvancedSettings()
+                .clickExtraInfoServerIcon()
+                .getExtraInfoServerTextBox();
+
+        Assert.assertEquals(ServerHelpInfo, expectedServerHelpInfo);
+    }
+
+    @Test(dependsOnMethods = "testCreateNewAgentNode")
+    public void testDeleteNodeBySideMenuOnNodePage() {
+        List<String> nodeNameList = new MainPage(getDriver())
+                .clickOnNodeName(NODE_NAME)
+                .clickOnDeleteAgent()
+                .clickYesButton()
+                .getNodesList();
+
+        Assert.assertFalse(nodeNameList.contains(NODE_NAME));
     }
 }

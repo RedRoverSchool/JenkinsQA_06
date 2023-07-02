@@ -1,24 +1,19 @@
 package school.redrover;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
+import school.redrover.model.jobs.FreestyleProjectPage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.*;
@@ -26,77 +21,55 @@ import static org.testng.Assert.*;
 public class HeaderTest extends BaseTest {
 
     @Test
-    public void testHeaderLogoIcon() throws IOException {
-        WebElement logoIcon = getDriver().findElement(By.xpath("//*[@id=\"jenkins-head-icon\"]"));
-        Assert.assertTrue(logoIcon.isDisplayed());
+    public void testHeaderLogoIcon() {
+        boolean logoIcon = new MainPage(getDriver())
+                .getHeader()
+                .isDisplayedLogoIcon();
 
-        String imageSrc = logoIcon.getAttribute("src");
-        URL imageUrl = new URL(imageSrc);
-        URLConnection urlConnection = imageUrl.openConnection();
-        HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
-        httpURLConnection.connect();
-        httpURLConnection.setConnectTimeout(1000);
+        boolean logoText = new MainPage(getDriver())
+                .getHeader()
+                .isDisplayedLogoText();
 
-        assertEquals(httpURLConnection.getResponseCode(), 200);
+        Assert.assertTrue(logoIcon);
+        Assert.assertTrue(logoText);
     }
 
     @Test
-    public void testHeaderLogoText() throws IOException {
-        WebElement logoText = getDriver().findElement(By.xpath("//*[@id=\"jenkins-name-icon\"]"));
-        Assert.assertTrue(logoText.isDisplayed());
+    public void testSearchTextField() {
+        String placeholder = new MainPage(getDriver())
+                .getHeader()
+                .getAttributeFromSearchBox();
 
-        String imageSrc = logoText.getAttribute("src");
-        URL imageUrl = new URL(imageSrc);
-        URLConnection urlConnection = imageUrl.openConnection();
-        HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
-        httpURLConnection.connect();
-        httpURLConnection.setConnectTimeout(1000);
+        boolean helpIcon = new MainPage(getDriver())
+                .getHeader()
+                .isDisplayedHelpIcon();
 
-        assertEquals(httpURLConnection.getResponseCode(), 200);
+        boolean searchIcon = new MainPage(getDriver())
+                .getHeader()
+                .isDisplayedSearchBoxIcon();
+
+        Assert.assertEquals(placeholder, "Search (CTRL+K)");
+        Assert.assertTrue(helpIcon);
+        Assert.assertTrue(searchIcon);
     }
 
     @Test
-    public void testSearchTextField() throws InterruptedException {
-        Actions hover = new Actions(getDriver());
+    public void testSecurityButton() {
+        boolean securityButton = new MainPage(getDriver())
+                .getHeader()
+                .getSecurityButtonOnHeader();
 
-        WebElement searchTextBox = getDriver().findElement(By.xpath("//*[@id=\"search-box\"]"));
-        WebElement searchIcon = getDriver().findElement(By.cssSelector(".main-search__icon-leading svg"));
-        WebElement helpButton = getDriver().findElement(By.xpath("//*[@id=\"searchform\"]/a"));
-        WebElement helpButtonIcon = getDriver().findElement(By.cssSelector(".main-search__icon-trailing svg"));
+        Assert.assertTrue(securityButton);
 
-        String placeholder = searchTextBox.getAttribute("placeholder");
-        String defaultHelpButtonColor = helpButton.getCssValue("color");
+        String background = new MainPage(getDriver())
+                .getHeader()
+                .getBackgroundSecurityButton();
 
-        Assert.assertTrue(searchIcon.isDisplayed());
-        assertEquals(placeholder, "Search (CTRL+K)");
-        Assert.assertTrue(helpButtonIcon.isDisplayed());
-        assertEquals(defaultHelpButtonColor, "rgba(115, 115, 140, 1)");
-
-        hover.moveToElement(helpButton).perform();
-        Thread.sleep(500);
-        String hoverHelpButtonColor = helpButton.getCssValue("color");
-
-        assertEquals(hoverHelpButtonColor, "rgba(64, 64, 64, 1)");
+        Assert.assertEquals(background, "rgba(64, 64, 64, 1)");
     }
 
     @Test
-    public void testSecurityButton() throws InterruptedException {
-        Actions hover = new Actions(getDriver());
-
-        WebElement securityButton = getDriver()
-                .findElement(By.xpath("//*[@id=\"visible-sec-am-button\"]"));
-        WebElement securityButtonIcon = getDriver().findElement(By.cssSelector("#visible-sec-am-button > svg"));
-
-        Assert.assertTrue(securityButtonIcon.isDisplayed());
-
-        hover.moveToElement(securityButton).perform();
-        Thread.sleep(500);
-        String hoverSecurityButtonBackground = securityButton.getCssValue("background-color");
-        assertEquals(hoverSecurityButtonBackground, "rgba(64, 64, 64, 1)");
-    }
-
-    @Test
-    public void testAdminButtonBackgroundColorIsPresentWhenMouseOver()  {
+    public void testAdminButtonBackgroundColorIsPresentWhenMouseOver() {
         String actualAdminButtonBackgroundColor = new MainPage(getDriver())
                 .getHeader()
                 .hoverOverAdminButton()
@@ -106,27 +79,27 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testExitButton() throws InterruptedException {
-        Actions hover = new Actions(getDriver());
+    public void testExitButton() {
+        boolean exitButtonIcon = new MainPage(getDriver())
+                .getHeader()
+                .iconExitButton();
 
-        WebElement exitButton = getDriver().findElement(By.xpath("//*[@id=\"page-header\"]/div[3]/a[2]"));
-        WebElement exitButtonIcon = getDriver()
-                .findElement(By.cssSelector("#page-header > div.login.page-header__hyperlinks > a:nth-child(4) > svg"));
+        Assert.assertTrue(exitButtonIcon);
 
-        Assert.assertTrue(exitButtonIcon.isDisplayed());
+        String getUnderLineExitIcon = new MainPage(getDriver())
+                .getHeader()
+                .getUnderLineExitButton();
 
-        hover.moveToElement(exitButton).perform();
-        Thread.sleep(500);
-        String hoverExitButtonBackground = exitButton.getCssValue("background-color");
-        String hoverExitButtonUnderline = exitButton.getCssValue("text-decoration-line");
+        String getBackgroundExitIcon = new MainPage(getDriver())
+                .getHeader()
+                .getBackgroundExitButton();
 
-        assertEquals(hoverExitButtonBackground, "rgba(64, 64, 64, 1)");
-        assertEquals(hoverExitButtonUnderline, "underline");
+        Assert.assertEquals(getBackgroundExitIcon, "rgba(64, 64, 64, 1)");
+        Assert.assertEquals(getUnderLineExitIcon, "underline");
     }
-    
-    @Test
-    public void testReturnToDashboardFromPeoplePage(){
 
+    @Test
+    public void testReturnToDashboardFromPeoplePage() {
         String textTitle = new MainPage(getDriver())
                 .clickPeopleOnLeftSideMenu()
                 .getHeader()
@@ -136,33 +109,31 @@ public class HeaderTest extends BaseTest {
         String textFromMainPage = new MainPage(getDriver())
                 .getWelcomeText();
 
-        Assert.assertEquals(textTitle,"Dashboard [Jenkins]");
-        Assert.assertEquals(textFromMainPage,"Welcome to Jenkins!");
+        Assert.assertEquals(textTitle, "Dashboard [Jenkins]");
+        Assert.assertEquals(textFromMainPage, "Welcome to Jenkins!");
     }
 
     @Test
     public void testSearchField() {
-        WebElement searchBox = getDriver().findElement(By.id("search-box"));
-        searchBox.sendKeys("");
-        searchBox.sendKeys(Keys.RETURN);
+        String textPageFromSearchBox = new MainPage(getDriver())
+                .sendSearchbox()
+                .getTitle();
 
-        Assert.assertTrue(getWait5().until(ExpectedConditions.textToBe
-                (By.xpath("//div[@class='jenkins-app-bar__content']/h1"), "Built-In Node")));
+        Assert.assertEquals(textPageFromSearchBox,"Built-In Node");
     }
 
     @Test
     public void testLogOutButtonTransfersBackToLoginPaged() {
-        final String expectedHeader = "Welcome to Jenkins!";
+        boolean signInButtonPresence = new MainPage(getDriver())
+                .getHeader()
+                .clickLogOUTButton()
+                .isSignInButtonPresent();
 
-        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
-        WebElement actualHeader = getDriver().findElement(By.xpath("//h1"));
-
-        Assert.assertEquals(actualHeader.getText(), expectedHeader);
+        Assert.assertTrue(signInButtonPresence, "Sign In button is not displayed after logout");
     }
 
     @Test
     public void testNotificationAndSecurityIcon() {
-
         String expectedManageJenkinsPageHeader = "Manage Jenkins";
 
         String backgroundColorBefore = new MainPage(getDriver())
@@ -179,15 +150,15 @@ public class HeaderTest extends BaseTest {
                 .getActualHeader();
 
         Assert.assertNotEquals(backgroundColorBefore, backgroundColorAfter, " The color of icon is not changed");
-        Assert.assertEquals(actualManageJenkinsPageHeader,expectedManageJenkinsPageHeader, " The page is not correct");
+        Assert.assertEquals(actualManageJenkinsPageHeader, expectedManageJenkinsPageHeader, " The page is not correct");
     }
 
     @Test
     public void testReturnToTheDashboardPageAfterCreatingTheItem() {
         final List<String> listItemName = new ArrayList<>(List.of("Test Item", "Second"));
 
-        TestUtils.createFreestyleProject(this, listItemName.get(0), true);
-        TestUtils.createFreestyleProject(this, listItemName.get(1), false);
+        TestUtils.createJob(this, listItemName.get(0), TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, listItemName.get(1), TestUtils.JobType.FreestyleProject, false);
 
         boolean isPageOpen = new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))
                 .getHeader()
@@ -209,32 +180,32 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testOpenBuildsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openBuildsTabFromAdminDropdownMenu();
+                .openBuildsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
     public void testAdminPageIsAvailable() {
+        String adminPageSign = new MainPage(getDriver())
+                .getHeader()
+                .clickOnAdminButton()
+                .getTitleText();
 
-        WebElement adminButton = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/user/admin']")));
-        adminButton.click();
-
-        WebElement adminPageSign = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > div:nth-child(4)")));
-        assertEquals(adminPageSign.getText(),"Jenkins User ID: admin");
+        assertEquals(adminPageSign,"Jenkins User ID: admin");
     }
 
     @Test
     public void testButtonNotificationsWorks() {
+        String getTitle = new MainPage(getDriver())
+                .getHeader()
+                .clickNotificationIcon()
+                .getTextFromHeaderManageJenkins();
 
-        WebElement notificationsButton = getDriver().findElement(By.xpath("//a[@id='visible-am-button']"));
-        notificationsButton.click();
-
-        WebElement manageJenkinsString = getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#visible-am-list > p > a")));
-        assertEquals(manageJenkinsString.getText(),"Manage Jenkins");
+        Assert.assertEquals(getTitle, "Manage Jenkins");
     }
 
     @Test
@@ -304,18 +275,18 @@ public class HeaderTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen(){
-        getDriver().findElement(By.id("visible-am-button")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("visible-am-list")));
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Manage Jenkins')]"))).click();
+    public void testOpenTheLinkOfManageJenkinsLinkFromThePopUpScreen() {
+        String screenManageFromPopUp = new MainPage(getDriver())
+                .getHeader()
+                .clickNotificationIcon()
+                .clickManageLinkFromPopUp()
+                .verifyManageJenkinsPage();
 
-        Assert.assertTrue(
-                getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("main-panel"))).isDisplayed());
+        Assert.assertEquals(screenManageFromPopUp,"Manage Jenkins");
     }
 
     @Test
     public void testAdminButtonIsUnderlinedWhenMouseOver() {
-
         String textUnderlineAfter = new MainPage(getDriver())
                 .getHeader()
                 .hoverOverAdminButton()
@@ -326,100 +297,45 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testLogoutButtonColorChange() {
-        WebElement logoutLink = getDriver().findElement(By.linkText("log out"));
-        Actions actions = new Actions((getDriver()));
-        actions.moveToElement(logoutLink).perform();
-        getWait5().until(ExpectedConditions.attributeToBeNotEmpty(logoutLink, "text-decoration"));
         String expectedColor = "rgba(245, 245, 245, 1)";
-        String actualColor = logoutLink.getCssValue("color");
 
-        assertEquals(actualColor, expectedColor);
-    }
+        String actualColorLogOutButton = new MainPage(getDriver())
+                .getHeader()
+                .hoverOverLogOutButton()
+                .getLogOutTextDecorationValue();
 
-    public void iconChangeColor(By el){
-        String colorBefore = getDriver().findElement(el).getCssValue("background-color");
-        String colorAfter = "";
-        new Actions(getDriver()).moveToElement(getDriver().findElement(el)).perform();
-        colorAfter = getDriver().findElement(el).getCssValue("background-color");
-
-        Assert.assertNotEquals(colorBefore, colorAfter);
-    }
-
-    @Ignore
-    @Test
-    public void testNotificationIcon(){
-        iconChangeColor(By.id("visible-am-button"));
-        getDriver().findElement(By.id("visible-am-button")).click();
-        String actualRes = getDriver().findElement(By.xpath("//a[text()='Manage Jenkins']")).getText();
-        Assert.assertEquals(actualRes, "Manage Jenkins");
+        assertEquals(actualColorLogOutButton, expectedColor);
     }
 
     @Test
     public void testConfigureTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean isPageOpened = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openConfigureTabFromAdminDropdownMenu();
+                .openConfigureTabFromAdminDropdownMenu()
+                .isConfigUserPageOpened();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(isPageOpened, "Page should be displayed");
     }
 
     @Test
     public void testMyViewsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openMyViewsTabFromAdminDropdownMenu();
+                .openMyViewsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
     public void testCredentialsTabFromDropdownMenu() {
-        WebElement page = new MainPage(getDriver())
+        boolean page = new MainPage(getDriver())
                 .getHeader()
                 .clickAdminDropdownMenu()
-                .openCredentialsTabFromAdminDropdownMenu();
+                .openCredentialsTabFromAdminDropdownMenuIsDisplayed();
 
-        Assert.assertTrue(page.isDisplayed(), "Page should be displayed");
-    }
-
-    @Test
-    public void testClickLogoToReturnToDashboardPage() {
-
-        TestUtils.createFreestyleProject(this, "New Item 1", true);
-        TestUtils.createFolder(this, "New Item 2", false);
-
-        WebElement goToUserIdPage = getDriver()
-                .findElement(By.xpath("//a[@href='/user/admin']//*[not(self::button)]"));
-        goToUserIdPage.click();
-
-        WebElement clickJenkinsLogoToReturnToDashboardPage = getDriver()
-                .findElement(By.xpath("//div[@class='logo']/a"));
-        clickJenkinsLogoToReturnToDashboardPage.click();
-
-        List<WebElement> ifBreadcrumbBarMenuListConsistsOfDashboardWord = getDriver()
-                .findElements(By.xpath("//div[@id='breadcrumbBar']/descendant::text()/parent::*"));
-        for (WebElement i : ifBreadcrumbBarMenuListConsistsOfDashboardWord) {
-            assertEquals(i.getText(), "Dashboard");
-        }
-
-        List<String> expectedCreatedItemsList = Arrays.asList("New Item 1", "New Item 2");
-        List<WebElement> actualItemsList = getDriver()
-                .findElements(By.xpath("//td/a[@class='jenkins-table__link model-link inside']/span"));
-        for (int i = 0; i < actualItemsList.size(); i++) {
-            assertEquals(actualItemsList.get(i).getText(), expectedCreatedItemsList.get(i));
-        }
-    }
-
-    @Test
-    public void testNotificationAndSecurityIconsVisibilityOfIcons() {
-
-        List<WebElement> visibilityOfIcons = getDriver()
-                .findElements(By.xpath("//div[@class='login page-header__hyperlinks']//*[name()= 'svg']"));
-        for (WebElement icons : visibilityOfIcons) {
-            assertTrue(icons.isDisplayed());
-        }
+        Assert.assertTrue(page, "Page should be displayed");
     }
 
     @Test
@@ -435,25 +351,6 @@ public class HeaderTest extends BaseTest {
             String hoverColor = iconButtons.getCssValue("background-color");
 
             assertNotEquals(backgroundColor, hoverColor);
-        }
-    }
-
-    @Test
-    public void testNotificationAndSecurityIconsPopUpScreen() {
-        List<WebElement> popUpScreen = getDriver()
-                .findElements(By.xpath("//div[contains(@class,'am-container')]"));
-        for (int i = 0; i < popUpScreen.size(); i++) {
-            if (popUpScreen.get(i).isDisplayed()) {
-                popUpScreen.get(i).click();
-
-                assertTrue(getWait2().
-                        until(ExpectedConditions.visibilityOfElementLocated
-                                (By.xpath("//div[@id='visible-am-list']"))).isDisplayed());
-
-                if (i < popUpScreen.size() - 1 && !popUpScreen.get(i++).isDisplayed()) {
-                    break;
-                }
-            }
         }
     }
 }

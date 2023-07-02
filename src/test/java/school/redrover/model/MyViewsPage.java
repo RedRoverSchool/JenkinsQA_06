@@ -1,144 +1,74 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.base.BaseMainHeaderPage;
+import school.redrover.model.base.BaseDashboardPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyViewsPage extends BaseMainHeaderPage<MyViewsPage> {
+public class MyViewsPage extends BaseDashboardPage<MyViewsPage> {
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
 
-    public MyViewsPage clickCreateAJob() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='newJob']"))).click();
-        return new MyViewsPage(getDriver());
-    }
+    @FindBy(xpath = "//a[contains(@href, '/configure')]")
+    private WebElement configureView;
 
-    public MyViewsPage enterAnItemName(String name) {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("name"))).sendKeys(name);
-        return this;
-    }
+    @FindBy(xpath = "//input[@name = 'name']")
+    private WebElement nameView;
 
-    public MyViewsPage clickFreestyleProject() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hudson_model_FreeStyleProject"))).click();
-        return this;
-    }
+    @FindBy(xpath = "//button[@name = 'Submit']")
+    private WebElement submitView;
 
-    public MyViewsPage clickOkButton() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#ok-button"))).click();
-        return this;
-    }
+    @FindBy(xpath = "//h2")
+    private WebElement statusMessage;
 
-    public MyViewsPage clickSaveButton() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@formnovalidate = 'formNoValidate']"))).click();
-        return this;
-    }
+    @FindBy(xpath = "//div[@class = 'tab'][last()-1]")
+    private WebElement inactiveLastCreatedMyView;
 
-    public MyViewsPage clickOnDashboardPage() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Dashboard"))).click();
-        return this;
-    }
+    @FindBy(xpath = "//a[@href = 'delete']")
+    private WebElement deleteViewButton;
 
-    public MyViewsPage clickOnNewJob() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href, '/view/all/newJob')]"))).click();
-        return new MyViewsPage(getDriver());
-    }
-
-    public MyViewsPage clickOnDescription() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("description-link"))).click();
-        return new MyViewsPage(getDriver());
-    }
-
-    public MyViewsPage enterDescription (String name){
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//textarea[@name='description']"))).sendKeys(name);
-        return new MyViewsPage(getDriver());
-    }
-
-    public MyViewsPage clickSaveButtonDescription(){
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='jenkins-button jenkins-button--primary ']"))).click();
-        return new MyViewsPage(getDriver());
-    }
-
-    public String getTextFromDescription(){
-
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[@id='description']/div[not(@class)]"))).getText();
-    }
-
-    public MyViewsPage clearTextFromDescription() {
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//textarea[@name='description']"))).clear();
-        return new MyViewsPage(getDriver());
-    }
-
-    public MyViewsPage enterNewDescription (String name){
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//textarea[@name='description']"))).sendKeys(name);
-        return new MyViewsPage(getDriver());
-    }
-
-    public NewJobPage clickNewItem() {
-        getDriver().findElement(By.cssSelector(".task-link-wrapper>a[href$='newJob']")).click();
-        return new NewJobPage(getDriver());
-    }
+    @FindBy(xpath = "//div[@class='tabBar']//div[starts-with(@class, 'tab')]")
+    private List<WebElement> allViews;
 
     public String getStatusMessageText() {
 
-        return getDriver().findElement(By.xpath("//h2")).getText();
-    }
-
-    public NewViewPage clickNewViewButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@class='addTab']")));
-
-        return new NewViewPage(getDriver());
-    }
-
-    public String getActiveView() {
-
-        return TestUtils.getText(this, getDriver().findElement(By.xpath("//div[@class = 'tab active']")));
+        return statusMessage.getText();
     }
 
     public MyViewsPage clickInactiveLastCreatedMyView() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//div[@class = 'tab'][last()-1]")));
+        TestUtils.click(this, inactiveLastCreatedMyView);
 
         return this;
     }
 
     public MyViewsPage editMyViewNameAndClickSubmitButton(String editedMyViewName) {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//a[contains(@href, '/configure')]")));
-        TestUtils.sendTextToInput(this, getDriver().findElement(By.xpath("//input[@name = 'name']")), editedMyViewName);
-        TestUtils.click(this, getDriver().findElement(By.xpath("//button[@name = 'Submit']")));
+        TestUtils.click(this, configureView);
+        TestUtils.sendTextToInput(this, nameView, editedMyViewName);
+        TestUtils.click(this, submitView);
 
         return this;
     }
 
     public DeletePage<MyViewsPage> clickDeleteViewButton() {
-        TestUtils.click(this, getDriver().findElement(By.xpath("//a[@href = 'delete']")));
+        TestUtils.click(this, deleteViewButton);
 
-        return new DeletePage<>(getDriver(), this);
+        return new DeletePage<>(this);
     }
 
     public List<String> getListOfAllViews() {
         List<String> list = new ArrayList<>();
-        List<WebElement> views = getDriver().findElements(By.xpath("//div[@class='tabBar']//div[starts-with(@class, 'tab')]"));
+        List<WebElement> views = allViews;
         for (WebElement view : views) {
             list.add(view.getText());
         }
 
         return list;
-    }
-
-    public NewJobPage clickCreateAJobArrow() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='newJob']/span[@class = 'trailing-icon']"))).click();
-
-        return new NewJobPage(getDriver());
     }
 }

@@ -4,32 +4,116 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.CreateItemErrorPage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.List;
 
 public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, ProjectPage extends BaseMainHeaderPage<?>> extends BaseConfigPage<Self, ProjectPage> {
 
+    @FindBy(xpath = "//label[normalize-space(text())='Throttle builds']")
+    private WebElement throttleBuilds;
+
+    @FindBy(xpath = "//select[@name='_.durationName']")
+    private WebElement getTimePeriod;
+
+    @FindBy(xpath = "//button[contains(text(), 'Add build step')]")
+    private WebElement addBuildStepButton;
+
+    @FindBy(xpath = "//button[contains(text(), 'Add post-build action')]")
+    private WebElement addPostBuildAction;
+
+    @FindBy(xpath = "//a[contains(text(), 'Execute shell')]")
+    private WebElement executeShell;
+
+    @FindBy(xpath = "//span[@class='jenkins-checkbox']//input[@id='cb4']")
+    private WebElement oldBuildCheckBox;
+
+    @FindBy(xpath = "//input[@name='_.daysToKeepStr']")
+    private WebElement daysToKeepBuilds;
+
+    @FindBy(xpath = "//div[text()='Days to keep builds']")
+    private WebElement nameFieldDaysToKeepBuilds;
+
+    @FindBy(xpath = "//input[@name='_.numToKeepStr']")
+    private WebElement maxNumOfBuildsToKeepNumber;
+
+    @FindBy(xpath = "//span[text() = 'Enabled']")
+    private WebElement enabled;
+
+    @FindBy(xpath = "//label[@for='enable-disable-project']")
+    private WebElement disabled;
+
+    @FindBy(xpath = "//span[text() = 'Disabled']")
+    private WebElement nameDisabledSwitch;
+
+    @FindBy(xpath = "//span[text() = 'Enabled']")
+    private WebElement nameEnabledSwitch;
+
+    @FindBy(xpath = "//label[text()='GitHub project']")
+    private WebElement checkBoxGitHubProject;
+
+    @FindBy(css = "[name='_.projectUrlStr']")
+    private WebElement inputLineProjectUrl;
+
+    @FindBy(xpath = "//label[text()='This project is parameterized']")
+    private WebElement projectIsParametrized;
+
+    @FindBy(xpath = "//button[@class='hetero-list-add']")
+    private WebElement addParameter;
+
+    @FindBy(xpath = "//input[@name='parameter.name']")
+    private WebElement inputParameterName;
+
+    @FindBy(xpath = "//textarea[@name='parameter.choices']")
+    private WebElement inputParameterChoices;
+
+    @FindBy(xpath = "//textarea[@name='parameter.description']")
+    private WebElement inputParameterDescription;
+
+    @FindBy(xpath = "//label[normalize-space(text())='Set by Default']")
+    private WebElement checkboxSetByDefault;
+
+    @FindBy(xpath = "//select[@name='_.durationName']")
+    private WebElement selectTimePeriod;
+
+    @FindBy(xpath = "//label[text()='Retry Count']")
+    private WebElement retryCount;
+
+    @FindBy(xpath = "//input[@name='scmCheckoutRetryCount']")
+    private WebElement checkoutRetryCountSCM;
+
+    @FindBy(xpath = "//label[text()='Quiet period']")
+    private WebElement quietPeriod;
+
+    @FindBy(xpath = "//input[@name='quiet_period']")
+    private WebElement inputQuietPeriod;
+
+    @FindBy(xpath = "//label[text()='Execute concurrent builds if necessary']")
+    private WebElement checkBoxExecuteConcurrentBuilds;
+
+    @FindBy(xpath = "//div[@ref='cb8']/following-sibling::div[2]")
+    private WebElement trueExecuteConcurrentBuilds;
+
+    @FindBy(xpath = "//label[text()='Block build when upstream project is building']")
+    private WebElement blockBuildWhenUpstreamProjectIsBuilding;
+
     public BaseConfigProjectsPage(ProjectPage projectPage) {
         super(projectPage);
     }
 
     public Self addExecuteShellBuildStep(String command) {
-        WebElement buildStep = getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//button[contains(text(), 'Add build step')]")));
-
+        getWait5().until(ExpectedConditions.elementToBeClickable(addBuildStepButton));
         Actions actions = new Actions(getDriver());
-        actions.scrollToElement(getDriver().findElement(By.xpath("//button[contains(text(), 'Add post-build action')]"))).click().perform();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(buildStep)).click();
-
-        WebElement executeShell = getDriver().findElement(By.xpath("//a[contains(text(), 'Execute shell')]"));
+        actions.scrollToElement(addPostBuildAction).click().perform();
+        getWait2().until(ExpectedConditions.elementToBeClickable(addBuildStepButton)).click();
         executeShell.click();
-
         WebElement codeMirror = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("CodeMirror")));
-        actions.scrollToElement(getDriver().findElement(By.xpath("//button[contains(text(), 'Add post-build action')]"))).click().perform();
+        actions.scrollToElement(addPostBuildAction).click().perform();
         WebElement codeLine = codeMirror.findElements(By.className("CodeMirror-lines")).get(0);
         codeLine.click();
         WebElement commandField = codeMirror.findElement(By.cssSelector("textarea"));
@@ -39,16 +123,11 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     }
 
     public Self clickOldBuildCheckBox() {
-        TestUtils.clickByJavaScript(this, getDriver()
-                .findElement(By.xpath("//span[@class='jenkins-checkbox']//input[@id='cb4']")));
-
+        TestUtils.clickByJavaScript(this, oldBuildCheckBox);
         return (Self) this;
     }
 
     public Self enterDaysToKeepBuilds(int number) {
-        WebElement daysToKeepBuilds = getDriver()
-                .findElement(By.xpath("//input[@name='_.daysToKeepStr']"));
-        WebElement nameFieldDaysToKeepBuilds = getDriver().findElement(By.xpath("//div[text()='Days to keep builds']"));
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].scrollIntoView();", nameFieldDaysToKeepBuilds);
         TestUtils.sendTextToInput(this, daysToKeepBuilds, String.valueOf(number));
@@ -57,56 +136,44 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     }
 
     public Self enterMaxNumOfBuildsToKeep(int number) {
-        WebElement maxNumOfBuildsToKeepNumber = getDriver()
-                .findElement(By.xpath("//input[@name='_.numToKeepStr']"));
         TestUtils.sendTextToInput(this, maxNumOfBuildsToKeepNumber, String.valueOf(number));
 
         return (Self) this;
     }
 
     public Self switchCheckboxDisable() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//span[text() = 'Enabled']")))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(enabled)).click();
         return (Self) this;
     }
 
     public Self switchCheckboxEnabled() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.xpath("//label[@for='enable-disable-project']")))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(disabled)).click();
         return (Self) this;
     }
 
-    public WebElement getTextDisable() {
-
-        return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Disabled']"))));
+    public String getTextDisable() {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(nameDisabledSwitch)).getText();
     }
 
-    public WebElement getTextEnabled() {
-
-        return getWait5().until(ExpectedConditions.elementToBeClickable
-                (getDriver().findElement(By.xpath("//span[text() = 'Enabled']"))));
+    public String getTextEnabled() {
+        return getWait5().until(ExpectedConditions.elementToBeClickable(nameEnabledSwitch)).getText();
     }
 
     public String getDaysToKeepBuilds(String attribute) {
-        WebElement daysToKeepBuilds = getDriver()
-                .findElement(By.xpath("//input[@name='_.daysToKeepStr']"));
-
         return daysToKeepBuilds.getAttribute(attribute);
     }
 
     public String getMaxNumOfBuildsToKeep(String attribute) {
-        WebElement maxNumOfBuildsToKeepNumber = getDriver()
-                .findElement(By.xpath("//input[@name='_.numToKeepStr']"));
-
         return maxNumOfBuildsToKeepNumber.getAttribute(attribute);
     }
 
     public Self clickGitHubProjectCheckbox() {
-        getDriver().findElement(By.xpath("//label[text()='GitHub project']")).click();
+        checkBoxGitHubProject.click();
         return (Self) this;
     }
 
     public Self inputTextTheInputAreaProjectUrlInGitHubProject(String text) {
-        getDriver().findElement(By.cssSelector("[name='_.projectUrlStr']")).sendKeys(text);
+        inputLineProjectUrl.sendKeys(text);
         return (Self) this;
     }
 
@@ -115,8 +182,8 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     }
 
     public Self checkProjectIsParametrized() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//label[text()='This project is parameterized']"))).click();
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", projectIsParametrized);
         return (Self) this;
     }
 
@@ -126,24 +193,108 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     }
 
     public Self openAddParameterDropDown() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='hetero-list-add']"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(addParameter));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        getWait5().until(ExpectedConditions.elementToBeClickable(projectIsParametrized));
+        js.executeScript("arguments[0].scrollIntoView();", projectIsParametrized);
+        addParameter.click();
         return (Self) this;
     }
 
     public Self inputParameterName(String name) {
-        getDriver().findElement(By.xpath("//input[@name='parameter.name']")).sendKeys(name);
+        inputParameterName.sendKeys(name);
         return (Self) this;
     }
 
     public Self inputParameterChoices(List<String> parameterChoices) {
         for (String element : parameterChoices) {
-            getDriver().findElement(By.xpath("//textarea[@name='parameter.choices']")).sendKeys(element + "\n");
+            inputParameterChoices.sendKeys(element + "\n");
         }
         return (Self) this;
     }
 
     public Self inputParameterDesc(String description) {
-        getDriver().findElement(By.xpath("//textarea[@name='parameter.description']")).sendKeys(description);
+        inputParameterDescription.sendKeys(description);
+        return (Self) this;
+    }
+
+    public Self selectCheckboxSetByDefault() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", checkboxSetByDefault);
+        return (Self) this;
+    }
+
+    public Self openBuildStepOptionsDropdown() {
+        TestUtils.scrollToElementByJavaScript(this, addBuildStepButton);
+        getWait5().until(ExpectedConditions.elementToBeClickable(addBuildStepButton)).click();
+        return (Self) this;
+    }
+
+    public List<String> getOptionsInBuildStepDropdown() {
+        return TestUtils.getTexts(getDriver().findElements(By.xpath("//button[text()='Add build step']/../../..//a")));
+    }
+
+    public Self checkThrottleBuilds() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", throttleBuilds);
+        js.executeScript("arguments[0].click();", throttleBuilds);
+        return (Self) this;
+    }
+
+    public Self selectTimePeriod(String timePeriod) {
+        new Select(selectTimePeriod).selectByValue(timePeriod.toLowerCase());
+        return (Self) this;
+    }
+
+    public String getTimePeriodText() {
+        return new Select(selectTimePeriod).getFirstSelectedOption().getText();
+    }
+
+    public Self clickQuietPeriod() {
+        quietPeriod.click();
+        return (Self) this;
+    }
+
+    public Self inputQuietPeriod(String number) {
+        inputQuietPeriod.clear();
+        inputQuietPeriod.sendKeys(number);
+        return (Self) this;
+    }
+
+    public String getQuietPeriod() {
+        return inputQuietPeriod.getAttribute("value");
+    }
+
+    public Self clickRetryCount() {
+        retryCount.click();
+        return (Self) this;
+    }
+
+    public Self inputSCMCheckoutRetryCount(String count) {
+        checkoutRetryCountSCM.clear();
+        checkoutRetryCountSCM.sendKeys(count);
+        return (Self) this;
+    }
+
+    public String getCheckoutRetryCountSCM() {
+        return checkoutRetryCountSCM.getAttribute("value");
+    }
+
+    public Self clickCheckBoxExecuteConcurrentBuilds() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", throttleBuilds);
+        checkBoxExecuteConcurrentBuilds.click();
+        return (Self) this;
+    }
+
+    public WebElement getTrueExecuteConcurrentBuilds() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", throttleBuilds);
+        return trueExecuteConcurrentBuilds;
+    }
+
+    public Self clickBlockBuildWhenUpstreamProjectIsBuilding() {
+        blockBuildWhenUpstreamProjectIsBuilding.click();
         return (Self) this;
     }
 }

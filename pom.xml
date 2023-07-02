@@ -13,7 +13,16 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mercury.version>0.1.5</mercury.version>
+        <cucumber.version>7.12.1</cucumber.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -30,6 +39,37 @@
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>5.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.3.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.RedRoverCommunity.MercuryIT</groupId>
+            <artifactId>mercuryit-core</artifactId>
+            <version>${mercury.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.RedRoverCommunity.MercuryIT</groupId>
+            <artifactId>mercuryit-http</artifactId>
+            <version>${mercury.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

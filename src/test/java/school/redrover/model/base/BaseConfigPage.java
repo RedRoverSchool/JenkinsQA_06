@@ -1,11 +1,22 @@
 package school.redrover.model.base;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.model.PipelineConfigPage;
 
 public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage extends BaseMainHeaderPage<?>> extends BaseMainHeaderPage<Self> {
+
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement saveButton;
+
+    @FindBy(xpath = "//textarea[contains(@name, 'description')]")
+    private WebElement descriptionTextBox;
+
+    @FindBy(xpath = "//a[contains(@previewendpoint, 'previewDescription')]")
+    private WebElement preview;
+
+    @FindBy(xpath = "//div[@class='textarea-preview']")
+    private WebElement previewTextarea;
 
     private final JobPage jobPage;
 
@@ -19,26 +30,30 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
     }
 
     public JobPage clickSaveButton() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Submit']"))).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
         return getJobPage();
     }
 
+    public String getDescription() {
+        return descriptionTextBox.getText();
+    }
+
     public Self addDescription(String description) {
-        getDriver().findElement(By.xpath("//textarea[contains(@name, 'description')]")).sendKeys(description);
+        descriptionTextBox.sendKeys(description);
         return (Self) this;
     }
 
     public Self clickPreview() {
-        getDriver().findElement(By.xpath("//a[contains(@previewendpoint, 'previewDescription')]")).click();
+        preview.click();
         return (Self) this;
     }
 
     public String getPreviewText() {
-        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).getText();
+        return previewTextarea.getText();
     }
 
     public Self clearDescriptionArea() {
-        getDriver().findElement(By.xpath("//textarea[contains(@name, 'description')]")).clear();
+        descriptionTextBox.clear();
         return (Self) this;
     }
 }
