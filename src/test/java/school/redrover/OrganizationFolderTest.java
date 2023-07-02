@@ -266,4 +266,15 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
     }
+
+    @Test
+    public void testConfigureProject() throws InterruptedException {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+
+        String configurationHeaderText = new OrganizationFolderPage(getDriver())
+                .clickConfigureProject()
+                .getConfigurationHeaderText();
+
+        Assert.assertEquals(configurationHeaderText, "Configuration");
+    }
 }

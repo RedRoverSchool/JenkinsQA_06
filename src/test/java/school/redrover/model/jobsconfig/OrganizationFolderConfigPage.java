@@ -9,6 +9,10 @@ public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<Organiza
 
     @FindBy(xpath = "//label[@data-title='Disabled']")
     private WebElement disableEnableFromConfig;
+
+    @FindBy(tagName = "h1")
+    private WebElement header;
+
     public OrganizationFolderConfigPage(OrganizationFolderPage organizationFolderPage) {
         super(organizationFolderPage);
     }
@@ -17,5 +21,9 @@ public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<Organiza
         disableEnableFromConfig.click();
 
         return this;
+    }
+
+    public String getConfigurationHeaderText() {
+        return header.getText();
     }
 }
