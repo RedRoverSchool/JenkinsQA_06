@@ -11,6 +11,7 @@ import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseJobPage;
+import school.redrover.model.jobsconfig.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -175,6 +176,35 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
+    public void testHealthMetricWithRecursive() {
+        String pipelineName = "BadPipe";
+
+        new MainPage(getDriver()).
+                clickJobName(NAME, new FolderPage(getDriver()));
+
+        TestUtils.createJob(this, RENAME, TestUtils.JobType.Folder, false);
+
+        String tooltipDescription = new FolderPage(getDriver())
+                .clickConfigure()
+                .addHealthMetrics()
+                .clickSaveButton()
+                .clickNewItem()
+                .selectJobType(TestUtils.JobType.Pipeline)
+                .enterItemName(pipelineName)
+                .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
+                .inputInScriptField("Broken")
+                .clickSaveButton()
+                .clickBuildNow()
+                .getHeader()
+                .clickLogo()
+                .hoverOverWeather(NAME)
+                .getTooltipDescription();
+
+        Assert.assertEquals(tooltipDescription,
+                "Worst health: " + NAME + " » " + RENAME + " » " + pipelineName + ": Build stability: All recent builds failed.");
+    }
+
+    @Test(dependsOnMethods = "testHealthMetricWithRecursive")
     public void testDeleteHealthMetrics(){
         boolean healthMetric = new MainPage(getDriver())
                 .clickJobName(NAME,new FolderPage(getDriver()))

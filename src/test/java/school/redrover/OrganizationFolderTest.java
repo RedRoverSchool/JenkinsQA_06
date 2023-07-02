@@ -264,6 +264,22 @@ public class OrganizationFolderTest extends BaseTest {
                 .isDefaultIconDisplayed();
 
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
+   }
+  
+  @Test   
+  public void testAddHealthMetricsSideMenu(){
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        boolean isHealthMetricsAdded = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME,new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .addHealthMetrics()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
     }
 }
 
