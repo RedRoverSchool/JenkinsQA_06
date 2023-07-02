@@ -292,7 +292,17 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testCredentials() {
+        String titleCredentials = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickCredentials()
+                .getTitleText();
+
+        Assert.assertEquals(titleCredentials, "Credentials");
+    }
+  
+   @Test
     public void testCreatingJenkinsPipeline() {
         String linkBookCreatingPipeline = new MainPage(getDriver())
                 .clickNewItem()
