@@ -240,7 +240,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickIconBuildOpenConsoleOutput(1)
                 .getConsoleOutputText();
 
-        Assert.assertTrue(consoleOutput.contains("echo Hello"), "Command wasn't run");
+        Assert.assertTrue(consoleOutput.contains("echo Hello"), "Command wasn't run OR test was run on the Windows");
         Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build wasn't finished successfully");
     }
 
@@ -262,8 +262,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderIsDisplayed, "build not created");
     }
 
-
-    @Ignore
     @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
     public void testPresenceOfBuildLinksAfterBuild() {
         MainPage mainPage = new MainPage(getDriver())
