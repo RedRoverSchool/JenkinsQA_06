@@ -251,8 +251,10 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(mainPage.getJobName(ORGANIZATION_FOLDER_NAME), ORGANIZATION_FOLDER_NAME);
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    @Test
     public void testAppearanceIconHasChanged() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
         boolean defaultIconDisplayed = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickConfigure()
