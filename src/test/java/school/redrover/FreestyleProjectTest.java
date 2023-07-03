@@ -23,18 +23,17 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String NEW_DESCRIPTION_TEXT = "NEW_DESCRIPTION_TEXT";
 
     @Test
-    public void testCreateFreestyleProject() {
-        String projectName = new MainPage(getDriver())
+    public void testCreateFreestyleProjectFromNewItem() {
+        MainPage projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
                 .getHeader()
-                .clickLogo()
-                .getJobName(FREESTYLE_NAME);
+                .clickLogo();
 
-        Assert.assertEquals(projectName, FREESTYLE_NAME);
+        Assert.assertTrue(projectName.jobIsDisplayed(FREESTYLE_NAME));
     }
 
     @Test
