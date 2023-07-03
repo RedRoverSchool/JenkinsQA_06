@@ -265,8 +265,18 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(newDescription, DESCRIPTION_2);
     }
 
-
     @Test(dependsOnMethods = "testEditDescription")
+    public void testDeleteDescriptionUsingConfigPage() {
+        String actualDescription = new MainPage(getDriver())
+                .clickConfigureDropDown(NAME, new FolderConfigPage(new FolderPage(getDriver())))
+                .clearDescriptionArea()
+                .clickSaveButton()
+                .getFolderDescription();
+
+        Assert.assertTrue(actualDescription.isEmpty());
+    }
+
+    @Test(dependsOnMethods = "testDeleteDescriptionUsingConfigPage")
     public void testCancelDeleting() {
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
