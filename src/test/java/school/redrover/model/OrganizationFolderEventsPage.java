@@ -18,3 +18,5 @@ public class OrganizationFolderEventsPage extends BaseMainHeaderPage<ScanOrganiz
         return title.getText();
     }
 }
+
+

@@ -19,7 +19,6 @@ public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<Organiza
     @FindBy(xpath = "//div[@class='jenkins-form-item has-help']/div/select")
     private WebElement defaultIcon;
 
-
     @FindBy(tagName = "h1")
     private WebElement header;
 
