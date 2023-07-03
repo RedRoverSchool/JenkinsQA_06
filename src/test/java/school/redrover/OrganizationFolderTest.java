@@ -325,7 +325,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(titleCredentials, "Credentials");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testOrganizationFolderConfigPipelineSyntax() {
         final String expectedText = "echo '" + PRINT_MESSAGE_PIPELINE_SYNTAX + "'";
 
