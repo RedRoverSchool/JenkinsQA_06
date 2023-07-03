@@ -55,21 +55,17 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
     }
 
     private void  openDropDownMenuDashboard() {
-        new Actions(getDriver())
-                .moveToElement(dashboard)
-                .moveToElement(sliderDashboard)
-                .click(sliderDashboard)
-                .perform();
+        Actions actions = new Actions(getDriver());
+
+        actions.moveToElement(dashboard).perform();
+        actions.moveToElement(sliderDashboard).perform();
+        sliderDashboard.sendKeys(Keys.RETURN);
     }
 
     public ManageJenkinsPage clickManageJenkinsOnDropDownMenu() {
         openDropDownMenuDashboard();
 
-        WebElement manageJenkins = getWait10().until(ExpectedConditions.elementToBeClickable(manageJenkinsInSliderDashboard));
-        new Actions(getDriver())
-                .moveToElement(manageJenkins)
-                .click(manageJenkins)
-                .perform();
+        getWait5().until(ExpectedConditions.elementToBeClickable(manageJenkinsInSliderDashboard)).click();
 
         return new ManageJenkinsPage(getDriver());
     }
