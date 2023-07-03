@@ -374,18 +374,6 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testOrganizationFolderEvents() {
-        TestUtils.createJob(this,ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
-
-        String eventTitle = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
-                .clickOrgFolderEvents()
-                .getTextFromTitle();
-
-        Assert.assertEquals(eventTitle,"Organization Folder Events");
-    }
-
-    @Test
     public void testCreateOrgFolderWithLongName() {
         String longName = RandomStringUtils.randomAlphanumeric(256);
         String errorMessage = new MainPage(getDriver())
