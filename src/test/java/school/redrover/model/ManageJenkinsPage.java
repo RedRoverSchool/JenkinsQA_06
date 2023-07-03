@@ -170,11 +170,6 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
         return configureSystem.getText();
     }
 
-    public String verifyManageJenkinsPage() {
-        getWait5().until(ExpectedConditions.visibilityOf(manageJenkins));
-        return manageJenkins.getText();
-    }
-
     public ConfigureSystemPage clickConfigureSystemFromSearchDropdown() {
         getWait5().until(ExpectedConditions.visibilityOfAllElements(searchResults));
         configureSystemLinkInSearchResult.click();

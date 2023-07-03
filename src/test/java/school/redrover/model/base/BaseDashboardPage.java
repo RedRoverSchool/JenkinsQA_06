@@ -90,6 +90,15 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(linkText = "All")
     private WebElement allLink;
 
+    @FindBy(css = "svg[title='Folder']")
+    private WebElement iconFolder;
+
+    @FindBy(xpath = "//h1[text()='Welcome to Jenkins!']")
+    private WebElement welcomeToJenkins;
+
+    @FindBy(xpath = "//div[@class='empty-state-block']/h1")
+    private WebElement welcomeJenkins;
+
     public BaseDashboardPage(WebDriver driver) {
         super(driver);
     }
@@ -172,6 +181,7 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
                         By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']"))
                 .getAttribute("tooltip");
     }
+
     public List<String> getListOfProjectMenuItems(String jobName) {
         openJobDropDownMenu(jobName);
         return TestUtils.getTexts(listOfJobMenuItems);
@@ -185,7 +195,7 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
 
     public DeletePage<Self> dropDownMenuClickDeleteFolders(String jobName) {
         dropDownMenuClickDelete(jobName);
-        return new DeletePage<>((Self)this);
+        return new DeletePage<>((Self) this);
     }
 
     public NewJobPage clickCreateAJob() {
@@ -215,7 +225,7 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
 
     public <JobPage extends BasePage<?, ?>> JobPage clickJobName(String jobName, JobPage jobPage) {
         WebElement job = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath(String.format("//a[@href='job/%s/']", jobName.replaceAll(" ","%20")))));
+                By.xpath(String.format("//a[@href='job/%s/']", jobName.replaceAll(" ", "%20")))));
         new Actions(getDriver()).moveToElement(job).click(job).perform();
         return jobPage;
     }
@@ -285,14 +295,13 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
                 .findElement(By.xpath(String.format("//a[@href='job/%s/']", jobName.replaceAll(" ", "%20")))))).isDisplayed();
     }
 
-    public boolean verifyJobIsPresent(String jobName){
+    public boolean verifyJobIsPresent(String jobName) {
         List<WebElement> jobs = jobList;
         boolean status = false;
-        for (WebElement job : jobs){
-            if (!job.getText().equals(jobName)){
+        for (WebElement job : jobs) {
+            if (!job.getText().equals(jobName)) {
                 status = false;
-            }
-            else{
+            } else {
                 new Actions(getDriver()).moveToElement(job).build().perform();
                 status = true;
                 break;
@@ -334,4 +343,24 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return new FolderPage(getDriver());
     }
 
+    public boolean isIconFolderDisplayed() {
+        return iconFolder.isDisplayed();
+    }
+
+    public boolean WelcomeIsDisplayed() {
+        return welcomeToJenkins.isDisplayed();
+    }
+
+    public String getWelcomeText() {
+        return welcomeJenkins.getText();
+    }
+
+    public Self hoverOverWeather(String jobName){
+        WebElement weather = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//tr[@id = 'job_%s']/td[contains(@class,'healthReport')]", jobName))));
+        new Actions(getDriver())
+                .moveToElement(weather)
+                .perform();
+        return (Self)this;
+    }
 }

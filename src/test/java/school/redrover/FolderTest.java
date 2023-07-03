@@ -67,7 +67,7 @@ public class FolderTest extends BaseTest {
                 .clickLogo();
 
         Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "error was not show name folder");
-        Assert.assertTrue(mainPage.iconFolderIsDisplayed(), "error was not shown icon folder");
+        Assert.assertTrue(mainPage.isIconFolderDisplayed(), "error was not shown icon folder");
     }
 
     @Test
@@ -75,7 +75,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
         Assert.assertTrue(new MainPage(getDriver()).jobIsDisplayed(NAME), "error was not show name folder");
-        Assert.assertTrue(new MainPage(getDriver()).iconFolderIsDisplayed(), "error was not shown icon folder");
+        Assert.assertTrue(new MainPage(getDriver()).isIconFolderDisplayed(), "error was not shown icon folder");
     }
 
     @Test(dependsOnMethods = "testCreateFromCreateAJob")

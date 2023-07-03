@@ -29,6 +29,7 @@ public class FooterTest extends BaseTest {
     @Test
     public void testLinkRestApi() {
         String mainPage = new MainPage(getDriver())
+                .getHeader()
                 .clickOnRestApiLink()
                 .getRestApiPageTitle();
 
