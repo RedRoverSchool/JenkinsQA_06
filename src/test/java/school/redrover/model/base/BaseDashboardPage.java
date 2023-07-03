@@ -93,12 +93,6 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(css = "svg[title='Folder']")
     private WebElement iconFolder;
 
-    @FindBy(xpath = "//h1[text()='Welcome to Jenkins!']")
-    private WebElement welcomeToJenkins;
-
-    @FindBy(xpath = "//div[@class='empty-state-block']/h1")
-    private WebElement welcomeJenkins;
-
     public BaseDashboardPage(WebDriver driver) {
         super(driver);
     }
@@ -345,14 +339,6 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
 
     public boolean isIconFolderDisplayed() {
         return iconFolder.isDisplayed();
-    }
-
-    public boolean WelcomeIsDisplayed() {
-        return welcomeToJenkins.isDisplayed();
-    }
-
-    public String getWelcomeText() {
-        return welcomeJenkins.getText();
     }
 
     public Self hoverOverWeather(String jobName){
