@@ -384,4 +384,16 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
+
+    @Test
+    public void testOrganizationFolderEvents() {
+        TestUtils.createJob(this,ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String eventTitle = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickOrgFolderEvents()
+                .getTextFromTitle();
+
+        Assert.assertEquals(eventTitle,"Organization Folder Events");
+    }
 }
