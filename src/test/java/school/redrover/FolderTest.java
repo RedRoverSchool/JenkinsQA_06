@@ -3,7 +3,6 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.*;
@@ -36,7 +35,6 @@ public class FolderTest extends BaseTest {
                 .clickLogo();
     }
 
-    @Ignore
     private void moveJobToFolderFromDropDownMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
         new MainPage(getDriver())
                 .dropDownMenuClickMove(jobName, jobPage)
@@ -205,9 +203,9 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testHealthMetricWithRecursive")
-    public void testDeleteHealthMetrics(){
+    public void testDeleteHealthMetrics() {
         boolean healthMetric = new MainPage(getDriver())
-                .clickJobName(NAME,new FolderPage(getDriver()))
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickConfigure()
                 .clickHealthMetrics()
                 .removeHealthMetrics()
@@ -325,32 +323,20 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
 
-    @Test(dependsOnMethods = "testCreateFromNewItem")
+    @Test
     public void testMoveJobsToFolderFromDropDownMenu() {
-        List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
-                "Folder", "Multibranch Pipeline", "Organization");
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        TestUtils.createJob(this, jobName.get(0), TestUtils.JobType.FreestyleProject, true);
-        TestUtils.createJob(this, jobName.get(1), TestUtils.JobType.Pipeline, true);
-        TestUtils.createJob(this, jobName.get(2), TestUtils.JobType.MultiConfigurationProject, true);
-        TestUtils.createJob(this, jobName.get(3), TestUtils.JobType.Folder, true);
-        TestUtils.createJob(this, jobName.get(4), TestUtils.JobType.MultibranchPipeline, true);
-        TestUtils.createJob(this, jobName.get(5), TestUtils.JobType.OrganizationFolder, true);
-
-        moveJobToFolderFromDropDownMenu(jobName.get(0), NAME, new FreestyleProjectPage(getDriver()));
-        moveJobToFolderFromDropDownMenu(jobName.get(1), NAME, new PipelinePage(getDriver()));
-        moveJobToFolderFromDropDownMenu(jobName.get(2), NAME, new MultiConfigurationProjectPage(getDriver()));
-        moveJobToFolderFromDropDownMenu(jobName.get(3), NAME, new FolderPage(getDriver()));
-        moveJobToFolderFromDropDownMenu(jobName.get(4), NAME, new MultibranchPipelinePage(getDriver()));
-        moveJobToFolderFromDropDownMenu(jobName.get(5), NAME, new OrganizationFolderPage(getDriver()));
+        for (Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
+            TestUtils.createJob(this, entry.getKey(), TestUtils.JobType.valueOf(entry.getKey()), true);
+            moveJobToFolderFromDropDownMenu(entry.getKey(), NAME, entry.getValue());
+        }
 
         List<String> createdJobList = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
-        jobName.sort(String.CASE_INSENSITIVE_ORDER);
-
-        Assert.assertEquals(createdJobList, jobName);
+        Assert.assertEquals(createdJobList, TestUtils.getJobList(this));
     }
 
     @Test
