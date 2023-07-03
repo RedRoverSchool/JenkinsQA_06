@@ -371,4 +371,16 @@ public class OrganizationFolderTest extends BaseTest {
             default -> Assert.assertEquals(actualErrorMessage, "‘" + wrongCharacter + "’ is an unsafe character");
         }
     }
+
+    @Test
+    public void testOrganizationFolderEvents() {
+        TestUtils.createJob(this,ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String eventTitle = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickOrgFolderEvents()
+                .getTextFromTitle();
+
+        Assert.assertEquals(eventTitle,"Organization Folder Events");
+    }
 }
