@@ -286,31 +286,20 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(folderIsDisplayed, "error was not show name folder");
     }
 
-    @Test(dependsOnMethods = "testCancelDeleting")
+    @Test
     public void testCreateJobsInFolder() {
-        List<String> jobName = Arrays.asList("Freestyle_Project", "Pipeline project", "Multi Configuration Project",
-                "Folder", "Multibranch Pipeline", "Organization");
+            TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        createdJobInFolder(jobName.get(0), NAME, TestUtils.JobType.FreestyleProject,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(1), NAME, TestUtils.JobType.Pipeline,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(2), NAME, TestUtils.JobType.MultiConfigurationProject,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(3), NAME, TestUtils.JobType.Folder,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(4), NAME, TestUtils.JobType.MultibranchPipeline,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-        createdJobInFolder(jobName.get(5), NAME, TestUtils.JobType.OrganizationFolder,
-                new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+            for(Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
+                createdJobInFolder(entry.getKey(), NAME, TestUtils.JobType.valueOf(entry.getKey()),
+                        new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+            }
 
-        List<String> createdJobList = new MainPage(getDriver())
-                .clickJobName(NAME, new FolderPage(getDriver()))
-                .getJobList();
+            List<String> createdJobList = new MainPage(getDriver())
+                    .clickJobName(NAME, new FolderPage(getDriver()))
+                    .getJobList();
 
-        jobName.sort(String.CASE_INSENSITIVE_ORDER);
-
-        Assert.assertEquals(createdJobList, jobName);
+            Assert.assertEquals(createdJobList, TestUtils.getJobList(this));
     }
 
     @Test(dependsOnMethods = "testCreateJobsInFolder")
