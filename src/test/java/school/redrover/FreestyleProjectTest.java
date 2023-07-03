@@ -208,6 +208,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testVisibleProjectNameOnProjectPage() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
         String projectNameOnProjectPage = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .getJobName();
