@@ -80,4 +80,9 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
 
         return (Self) this;
     }
+
+    public boolean childItemWithWorthHealthIsEnabled(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(addHealthMetric)).click();
+        return getWait5().until(ExpectedConditions.elementToBeClickable(childItemWithWorstHealth)).isEnabled();
+    }
 }

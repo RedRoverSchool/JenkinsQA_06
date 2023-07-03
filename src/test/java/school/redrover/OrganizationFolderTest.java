@@ -16,6 +16,14 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
     private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
 
+    private OrganizationFolderPage addHealthMetrics() {
+        return new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .addHealthMetrics()
+                .clickSaveButton();
+    }
+
     @Test
     public void testCreateOrganizationFolder() {
         String actualNewFolderName = new MainPage(getDriver())
@@ -280,11 +288,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testAddHealthMetricsSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
-        boolean isHealthMetricsAdded = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
-                .clickConfigure()
-                .addHealthMetrics()
-                .clickSaveButton()
+        boolean isHealthMetricsAdded = addHealthMetrics()
                 .clickConfigure()
                 .clickHealthMetrics()
                 .healthMetricIsVisible();
@@ -334,6 +338,22 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickSaveButton()
                 .getTextCreatingJenkinsPipeline();
 
-        Assert.assertEquals(linkBookCreatingPipeline,"Creating a Jenkins Pipeline");
+        Assert.assertEquals(linkBookCreatingPipeline, "Creating a Jenkins Pipeline");
+    }
+
+    @Test
+    public void testDeleteHealthMetricsSideMenu() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        boolean healthMetricIsNotVisible = addHealthMetrics()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .removeHealthMetrics()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .childItemWithWorthHealthIsEnabled();
+
+        Assert.assertTrue(healthMetricIsNotVisible, "Health metrics is disabled");
     }
 }
