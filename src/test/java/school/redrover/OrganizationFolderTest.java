@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -370,5 +371,17 @@ public class OrganizationFolderTest extends BaseTest {
             case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
             default -> Assert.assertEquals(actualErrorMessage, "‘" + wrongCharacter + "’ is an unsafe character");
         }
+    }
+
+    @Test
+    public void testCreateOrgFolderWithLongName() {
+        String longName = RandomStringUtils.randomAlphanumeric(256);
+        String errorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(longName)
+                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.OrganizationFolder)
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
 }
