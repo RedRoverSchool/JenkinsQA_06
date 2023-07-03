@@ -41,11 +41,12 @@ public class ManageJenkinsTest extends BaseTest {
     @Test
     public void testNavigateToManageJenkinsFromMainPageUsingDashboard() {
 
-        String page = new MainPage(getDriver())
-                .clickManageJenkinsOnDropDown()
-                .verifyManageJenkinsPage();
+        String actualResult = new MainPage(getDriver())
+                .getBreadcrumb()
+                .clickManageJenkinsOnDropDownMenu()
+                .getActualHeader();
 
-        Assert.assertEquals(page, "Manage Jenkins");
+        Assert.assertEquals(actualResult, "Manage Jenkins");
     }
 
     @Test

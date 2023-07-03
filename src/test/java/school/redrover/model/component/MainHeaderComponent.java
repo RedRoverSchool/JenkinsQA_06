@@ -1,5 +1,6 @@
 package school.redrover.model.component;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -13,7 +14,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseComponent<Page> {
+public class MainHeaderComponent <Page extends BasePage<?, ?>> extends BaseComponent<Page> {
 
     @FindBy(id = "jenkins-head-icon")
     private WebElement logoIcon;
@@ -95,6 +96,9 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
 
     @FindBy(xpath = "//a[@href='/user/admin']")
     private WebElement adminButton;
+
+    @FindBy(xpath = "//a[contains(@href,'api')]")
+    private WebElement restApi;
 
     public MainHeaderComponent(Page page) {
         super(page);
@@ -242,6 +246,18 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         return this;
     }
 
+    public BuiltInNodePage sendSearchBox(){
+        searchBox.sendKeys(Keys.RETURN);
+
+        return new BuiltInNodePage(getDriver());
+    }
+
+    public UserPage sendSearchBoxUser(String name){
+        searchBox.sendKeys(name);
+        searchBox.sendKeys(Keys.RETURN);
+        return new UserPage(getDriver());
+    }
+
     public String getAttributeFromSearchBox() {
        return searchBox.getAttribute("placeholder");
     }
@@ -323,5 +339,10 @@ public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseCompon
         getWait2().until(ExpectedConditions.visibilityOf(adminButton)).click();
 
         return new AdminPage(getDriver());
+    }
+
+    public RestApiPage clickOnRestApiLink() {
+        restApi.click();
+        return new RestApiPage(getDriver());
     }
 }
