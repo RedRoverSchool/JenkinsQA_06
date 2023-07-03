@@ -64,7 +64,7 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     public ManageJenkinsPage clickManageJenkinsOnDropDownMenu() {
         openDropDownMenuDashboard();
-        getWait5().until(ExpectedConditions.elementToBeClickable(manageJenkinsInSliderDashboard)).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(manageJenkinsInSliderDashboard)).click();
         return new ManageJenkinsPage(getDriver());
     }
 
