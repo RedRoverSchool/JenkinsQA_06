@@ -334,6 +334,25 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickSaveButton()
                 .getTextCreatingJenkinsPipeline();
 
-        Assert.assertEquals(linkBookCreatingPipeline,"Creating a Jenkins Pipeline");
+        Assert.assertEquals(linkBookCreatingPipeline, "Creating a Jenkins Pipeline");
+    }
+
+    @Test(dataProvider = "wrong-character")
+    public void testRenameWithInvalidData(String wrongCharacter) {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String actualErrorMessage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickRename()
+                .enterNewName(wrongCharacter)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        switch (wrongCharacter) {
+            case "&" -> Assert.assertEquals(actualErrorMessage, "‘&amp;’ is an unsafe character");
+            case "<" -> Assert.assertEquals(actualErrorMessage, "‘&lt;’ is an unsafe character");
+            case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
+            default -> Assert.assertEquals(actualErrorMessage, "‘" + wrongCharacter + "’ is an unsafe character");
+        }
     }
 }
