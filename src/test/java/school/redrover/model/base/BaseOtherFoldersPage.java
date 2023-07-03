@@ -7,7 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.DeletePage;
 import school.redrover.model.MainPage;
+import school.redrover.model.PipelineSyntaxPage;
 import school.redrover.model.jobs.FolderPage;
+import school.redrover.model.jobs.OrganizationFolderPage;
 
 public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends BaseJobPage<Self> {
 
@@ -28,6 +30,9 @@ public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends 
 
     @FindBy(xpath = "//h1/img")
     private WebElement metadataFolderIcon;
+
+    @FindBy(xpath = "//div/span/a[contains(@href, 'pipeline-syntax')]")
+    private WebElement pipelineSyntax;
 
     public BaseOtherFoldersPage(WebDriver driver) {
         super(driver);
@@ -66,5 +71,11 @@ public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends 
 
     public String getDisableButtonText() {
         return disableEnableButton.getText();
+    }
+
+    public PipelineSyntaxPage clickPipelineSyntax() {
+        pipelineSyntax.click();
+
+        return new PipelineSyntaxPage(getDriver());
     }
 }

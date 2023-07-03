@@ -19,8 +19,9 @@ public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<Organiza
     @FindBy(xpath = "//div[@class='jenkins-form-item has-help']/div/select")
     private WebElement defaultIcon;
 
-    @FindBy(xpath = "//h1[@id='branches-and-pull-requests']")
-    private WebElement branchesAndPullRequestsTutorial;
+
+    @FindBy(tagName = "h1")
+    private WebElement header;
 
     public OrganizationFolderConfigPage(OrganizationFolderPage organizationFolderPage) {
         super(organizationFolderPage);
@@ -42,7 +43,7 @@ public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<Organiza
         return this;
     }
 
-    public String getBranchesAndPullRequestsTutorial() {
-        return branchesAndPullRequestsTutorial.getText();
+    public String getConfigurationHeaderText() {
+        return header.getText();
     }
 }

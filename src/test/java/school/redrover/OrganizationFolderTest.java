@@ -15,6 +15,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
     private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
+    private static final String PRINT_MESSAGE_PIPELINE_SYNTAX = "TEXT";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -303,6 +304,17 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(createMultibranchProject, "Branches and Pull Requests");
     }
 
+    @Test
+    public void testConfigureProject() throws InterruptedException {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+
+        String configurationHeaderText = new OrganizationFolderPage(getDriver())
+                .clickConfigureProject()
+                .getConfigurationHeaderText();
+
+        Assert.assertEquals(configurationHeaderText, "Configuration");
+    }
+
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
     public void testCredentials() {
         String titleCredentials = new MainPage(getDriver())
@@ -312,5 +324,51 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(titleCredentials, "Credentials");
     }
-}
 
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testOrganizationFolderConfigPipelineSyntax() {
+        final String expectedText = "echo '" + PRINT_MESSAGE_PIPELINE_SYNTAX + "'";
+
+        String pipelineSyntax = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickPipelineSyntax()
+                .clickPrintMessageOption()
+                .enterMessage(PRINT_MESSAGE_PIPELINE_SYNTAX)
+                .clickGeneratePipelineScriptButton()
+                .getTextPipelineScript();
+
+        Assert.assertEquals(pipelineSyntax, expectedText );
+    }
+
+    @Test
+    public void testCreatingJenkinsPipeline() {
+        String linkBookCreatingPipeline = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickSaveButton()
+                .getTextCreatingJenkinsPipeline();
+
+        Assert.assertEquals(linkBookCreatingPipeline, "Creating a Jenkins Pipeline");
+    }
+
+    @Test(dataProvider = "wrong-character")
+    public void testRenameWithInvalidData(String wrongCharacter) {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String actualErrorMessage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickRename()
+                .enterNewName(wrongCharacter)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        switch (wrongCharacter) {
+            case "&" -> Assert.assertEquals(actualErrorMessage, "‘&amp;’ is an unsafe character");
+            case "<" -> Assert.assertEquals(actualErrorMessage, "‘&lt;’ is an unsafe character");
+            case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
+            default -> Assert.assertEquals(actualErrorMessage, "‘" + wrongCharacter + "’ is an unsafe character");
+        }
+    }
+}
