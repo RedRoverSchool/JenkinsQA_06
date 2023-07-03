@@ -15,6 +15,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
     private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
+    private static final String PRINT_MESSAGE_PIPELINE_SYNTAX = "TEXT";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -322,6 +323,21 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTitleText();
 
         Assert.assertEquals(titleCredentials, "Credentials");
+    }
+
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testOrganizationFolderConfigPipelineSyntax() {
+        final String expectedText = "echo '" + PRINT_MESSAGE_PIPELINE_SYNTAX + "'";
+
+        String pipelineSyntax = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickPipelineSyntax()
+                .clickPrintMessageOption()
+                .enterMessage(PRINT_MESSAGE_PIPELINE_SYNTAX)
+                .clickGeneratePipelineScriptButton()
+                .getTextPipelineScript();
+
+        Assert.assertEquals(pipelineSyntax, expectedText );
     }
 
     @Test
