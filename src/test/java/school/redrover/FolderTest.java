@@ -416,12 +416,11 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testErrorCreateWithDotNameFromCreateAJob() {
-        String errorMessage = new MainPage(getDriver())
+        NewJobPage newJobPage = new MainPage(getDriver())
                 .clickCreateAJob()
                 .enterItemName(".")
-                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.Folder)
-                .getErrorMessage();
+                .selectJobType(TestUtils.JobType.Folder);
 
-        Assert.assertEquals(errorMessage, "» “.” is not an allowed name");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
     }
 }
