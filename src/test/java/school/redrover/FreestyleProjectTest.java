@@ -5,6 +5,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
+import school.redrover.model.jobs.OrganizationFolderPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -133,6 +134,17 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddDescription")
+    public void testRenameToTheCurrentNameAndGetError() {
+        String errorMessage = new MainPage(getDriver())
+                .dropDownMenuClickRename(FREESTYLE_NAME, new OrganizationFolderPage(getDriver()))
+                .enterNewName(FREESTYLE_NAME)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
+    }
+
+    @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testRenameFreestyleProject() {
         FreestyleProjectPage projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
