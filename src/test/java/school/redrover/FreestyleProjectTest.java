@@ -100,15 +100,20 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFromNewItem")
-    public void testDisableProject() {
+    public void testDisableFromProjectPage() {
         FreestyleProjectPage projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickDisable();
 
+        List<String> DropDownMenu = new MainPage(getDriver())
+                .getListOfProjectMenuItems(FREESTYLE_NAME);
+
+        Assert.assertFalse(DropDownMenu.contains("Build Now"), "'Build Now' option is present in drop-down menu");
         Assert.assertEquals(projectName.getDisabledMessageText(), "This project is currently disabled");
+        Assert.assertEquals(projectName.getEnableButtonText(), "Enable");
     }
 
-    @Test(dependsOnMethods = "testDisableProject")
+    @Test(dependsOnMethods = "testDisableFromProjectPage")
     public void testEnableProject() {
         MainPage projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
