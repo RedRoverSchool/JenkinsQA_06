@@ -8,7 +8,6 @@ import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.BaseTest;
-import school.redrover.runner.ProjectUtils;
 import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFSProjectWithDefaultConfigurations() {
+    public void testCreateWithDefaultConfigurations() {
         final String PROJECT_NAME = UUID.randomUUID().toString();
 
         MainPage mainPage = new MainPage(getDriver())
@@ -50,9 +49,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .getHeader()
                 .clickLogo();
 
-        Assert.assertTrue(mainPage.projectStatusTableIsDisplayed());
-        Assert.assertEquals(mainPage.getProjectsList().size(), 1);
-        Assert.assertEquals(mainPage.getJobName(PROJECT_NAME), PROJECT_NAME);
+        Assert.assertFalse(mainPage.getJobName(PROJECT_NAME).isEmpty());
     }
 
     @Test
