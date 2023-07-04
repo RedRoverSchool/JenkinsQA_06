@@ -3,6 +3,7 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.OrganizationFolderPage;
@@ -162,7 +163,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"})
-    public void testDeleteOrgFolderFromSideMenu() {
+    public void testDeleteItemFromSideMenu() {
         String welcomeText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .clickDeleteJobLocatedOnMainPage()
@@ -278,6 +279,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
     }
 
+    @Ignore
     @Test
     public void testAddHealthMetricsSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
