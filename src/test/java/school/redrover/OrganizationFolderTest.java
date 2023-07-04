@@ -408,4 +408,14 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(titleScanOrganizationFolder, "Scan Organization Folder");
     }
+
+    @Test
+    public void testCreateOrgFolderWithDotInsteadOfName() {
+        String errorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(".")
+                .getItemInvalidMessage();
+
+        Assert.assertEquals(errorMessage, "» “.” is not an allowed name");
+    }
 }
