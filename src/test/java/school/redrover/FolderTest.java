@@ -135,7 +135,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
-    public void testRenameFromLeftSidePanel() {
+    public void testRenameFromSideMenu() {
         FolderPage folderPage =  new MainPage(getDriver())
                 .clickJobName(RENAME, new FolderPage(getDriver()))
                 .clickRename()
@@ -146,7 +146,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getPageTitle(), "All [" + NAME + "] [Jenkins]");
     }
 
-    @Test(dependsOnMethods = "testRenameFromLeftSidePanel")
+    @Test(dependsOnMethods = "testRenameFromSideMenu")
     public void testConfigureFolderNameDescriptionHealthMetrics() {
         FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
