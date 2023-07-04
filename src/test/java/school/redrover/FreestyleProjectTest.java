@@ -355,22 +355,18 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteProjectWithoutConfirmation() {
-        final String name = "projectToDeleteWithoutConfirmation";
+    public void testCancelDeleting() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         boolean projectIsPresent = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(name)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickDeleteProjectOnDropDown()
                 .dismissAlert()
                 .getHeader()
                 .clickLogo()
-                .jobIsDisplayed(name);
+                .jobIsDisplayed(FREESTYLE_NAME);
 
-        Assert.assertTrue(projectIsPresent);
+        Assert.assertTrue(projectIsPresent, "Error: the name of the Freestyle project is not shown");
     }
 
     @Test(dependsOnMethods = "testRenameFreestyleProjectUsingDropDownMenu")
