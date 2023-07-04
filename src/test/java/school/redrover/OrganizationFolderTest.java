@@ -246,14 +246,14 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dataProvider = "wrong-character")
-    public void testCreateUsingInvalidData(String wrongCharacter) {
+    public void testCreateUsingInvalidData(String invalidData) {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(wrongCharacter)
+                .enterItemName(invalidData)
                 .selectJobType(TestUtils.JobType.OrganizationFolder);
 
         Assert.assertTrue(newJobPage.isOkButtonDisabled(), "Save button is enabled");
-        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + invalidData + "’ is an unsafe character");
     }
 
     @Test
