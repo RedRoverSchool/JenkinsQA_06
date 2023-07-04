@@ -88,10 +88,8 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     }
 
     public FreestyleProjectConfigPage clickAddPostBuildActionDropDown() {
-        if (!getWait5().until(ExpectedConditions.elementToBeClickable(addPostBuildActionDropDown)).isDisplayed()) {
-            scrollToFooter();
-        }
-        addPostBuildActionDropDown.click();
+        scrollToFooter();
+        getWait2().until(ExpectedConditions.elementToBeClickable(addPostBuildActionDropDown)).click();
         return this;
     }
 
