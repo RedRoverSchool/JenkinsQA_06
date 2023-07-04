@@ -116,7 +116,8 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testSearchField() {
         String textPageFromSearchBox = new MainPage(getDriver())
-                .sendSearchbox()
+                .getHeader()
+                .sendSearchBox()
                 .getTitle();
 
         Assert.assertEquals(textPageFromSearchBox,"Built-In Node");
@@ -280,7 +281,7 @@ public class HeaderTest extends BaseTest {
                 .getHeader()
                 .clickNotificationIcon()
                 .clickManageLinkFromPopUp()
-                .verifyManageJenkinsPage();
+                .getActualHeader();
 
         Assert.assertEquals(screenManageFromPopUp,"Manage Jenkins");
     }

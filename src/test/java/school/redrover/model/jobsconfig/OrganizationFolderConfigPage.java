@@ -19,6 +19,10 @@ public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<Organiza
     @FindBy(xpath = "//div[@class='jenkins-form-item has-help']/div/select")
     private WebElement defaultIcon;
 
+
+    @FindBy(tagName = "h1")
+    private WebElement header;
+
     public OrganizationFolderConfigPage(OrganizationFolderPage organizationFolderPage) {
         super(organizationFolderPage);
     }
@@ -37,5 +41,9 @@ public class OrganizationFolderConfigPage extends BaseConfigFoldersPage<Organiza
         new Select(getWait5().until(ExpectedConditions.elementToBeClickable(defaultIcon)))
                 .selectByVisibleText("Default Icon");
         return this;
+    }
+
+    public String getConfigurationHeaderText() {
+        return header.getText();
     }
 }
