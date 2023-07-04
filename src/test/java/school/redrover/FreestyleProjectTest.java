@@ -119,6 +119,27 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
+    @Test
+    public void testDisableFromConfigurationPage() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        FreestyleProjectConfigPage configPage = new MainPage(getDriver())
+                .clickConfigureDropDown(FREESTYLE_NAME, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .switchCheckboxDisable();
+
+        String availableMode = configPage
+                .getTextEnabled();
+
+        MainPage mainPage = configPage
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertEquals(availableMode, "Enabled");
+        Assert.assertEquals(mainPage.getJobBuildStatusIcon(FREESTYLE_NAME), "Disabled");
+        Assert.assertFalse(mainPage.isScheduleBuildOnDashboardAvailable(FREESTYLE_NAME), "Error: disabled project cannot be built");
+    }
+
     @Test(dependsOnMethods = "testAddEmailNotificationToPostBuildActions")
     public void testAddDescription() {
         String actualDescription = new MainPage(getDriver())

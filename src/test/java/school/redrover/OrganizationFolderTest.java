@@ -130,7 +130,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEnableFromProjectPage")
-    public void testAddDescriptionToProject() {
+    public void testAddDescriptionFromConfigurationPage() {
         String textFromDescription = new MainPage(getDriver())
                 .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .addDescription("Description")
@@ -140,7 +140,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(textFromDescription, "Description");
     }
 
-    @Test(dependsOnMethods = "testAddDescriptionToProject")
+    @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
     public void testRenameFromDropDownMenu() {
         String actualRenamedName = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
@@ -202,7 +202,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrganizationFolderWithSpaceName() {
+    public void testCreateWithSpaceInsteadName() {
         CreateItemErrorPage errorPage =
                 TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.OrganizationFolder);
 
@@ -308,7 +308,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testConfigureProject() throws InterruptedException {
+    public void testConfigureProject() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
 
         String configurationHeaderText = new OrganizationFolderPage(getDriver())
