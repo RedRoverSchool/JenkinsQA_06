@@ -33,6 +33,9 @@ public class BuildWithParametersPage<JobTypePage extends BaseProjectPage<?>> ext
     @FindBy(xpath = "//input[@checked='true']")
     private WebElement checkedTrue;
 
+    @FindBy(xpath = "//table[contains(@class, 'jenkins-pane')]//tr")
+    private List<WebElement> buildList;
+
     private final JobTypePage jobTypePage;
 
     public BuildWithParametersPage(JobTypePage jobTypePage) {
@@ -42,7 +45,11 @@ public class BuildWithParametersPage<JobTypePage extends BaseProjectPage<?>> ext
 
     public JobTypePage clickBuild(){
         buildButton.click();
-        getWait5().until(ExpectedConditions.visibilityOf(buildRowCell));
+        if (buildList.size() < 2) {
+            getDriver().navigate().refresh();
+            getWait5().until(ExpectedConditions.visibilityOf(buildRowCell));
+        }
+
         return jobTypePage;
     }
 

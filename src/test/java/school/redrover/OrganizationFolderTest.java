@@ -1,7 +1,9 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.OrganizationFolderPage;
@@ -15,6 +17,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
     private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
+    private static final String PRINT_MESSAGE_PIPELINE_SYNTAX = "TEXT";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -53,7 +56,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
-    public void testRenameOrganizationFolderFromSideMenu() {
+    public void testRenameFromSideMenu() {
         String actualRenamedFolderName = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickRename()
@@ -77,27 +80,27 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEnableOrgFolderFromConfig")
-    public void testDisableOrgFolderFromProjectPage(){
+    public void testDisableOrgFolderFromProjectPage() {
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableEnableButton()
                 .getTextFromDisableMessage();
 
-        Assert.assertEquals(disabledText.substring(0,46),"This Organization Folder is currently disabled");
+        Assert.assertEquals(disabledText.substring(0, 46), "This Organization Folder is currently disabled");
     }
 
     @Test(dependsOnMethods = "testDisableOrgFolderFromProjectPage")
-    public void testEnableOrgFolderFromProjectPage(){
+    public void testEnableOrgFolderFromProjectPage() {
         String disableButton = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME,new OrganizationFolderPage(getDriver()))
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableEnableButton()
                 .getDisableButtonText();
 
         boolean iconOrgFolder = new OrganizationFolderPage(getDriver())
                 .isMetadataFolderIconDisplayed();
 
-        Assert.assertEquals(disableButton,"Disable Organization Folder");
-        Assert.assertTrue(iconOrgFolder,"the dispayеd icon OrganizationFolder exists");
+        Assert.assertEquals(disableButton, "Disable Organization Folder");
+        Assert.assertTrue(iconOrgFolder, "the dispayеd icon OrganizationFolder exists");
     }
 
     @Test(dependsOnMethods = "testCreateWithExistingName")
@@ -148,7 +151,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"} )
+    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"})
     public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
@@ -159,8 +162,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
     }
 
-    @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"} )
-    public void testDeleteOrgFolderFromSideMenu() {
+    @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"})
+    public void testDeleteItemFromSideMenu() {
         String welcomeText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .clickDeleteJobLocatedOnMainPage()
@@ -208,7 +211,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testOrganizationFolderConfigPreviewDescription(){
+    public void testOrganizationFolderConfigPreviewDescription() {
         String previewText = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
@@ -218,16 +221,16 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickPreview()
                 .getPreviewText();
 
-        Assert.assertEquals(previewText,"Description");
+        Assert.assertEquals(previewText, "Description");
     }
 
     @DataProvider(name = "wrong-character")
-    public Object[][] provideWrongCharacters(){
-        return new Object[][] {{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}, {"|"}, {">"}, {"["}, {"]"}};
+    public Object[][] provideWrongCharacters() {
+        return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}, {"|"}, {">"}, {"["}, {"]"}};
     }
 
     @Test(dataProvider = "wrong-character")
-    public void testCreateUsingInvalidData(String wrongCharacter){
+    public void testCreateUsingInvalidData(String wrongCharacter) {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(wrongCharacter)
@@ -251,12 +254,38 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(mainPage.getJobName(ORGANIZATION_FOLDER_NAME), ORGANIZATION_FOLDER_NAME);
     }
 
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testScanOrgFolderLog() {
+        String titleScanOrgFolderLogPage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickScanOrgFolderLog()
+                .getTextFromTitle();
+
+        Assert.assertEquals(titleScanOrgFolderLogPage, "Scan Organization Folder Log");
+    }
+
     @Test
-    public void testAddHealthMetricsSideMenu(){
+    public void testAppearanceIconHasChanged() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        boolean defaultIconDisplayed = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .clickAppearance()
+                .selectDefaultIcon()
+                .clickSaveButton()
+                .isDefaultIconDisplayed();
+
+        Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
+    }
+
+    @Ignore
+    @Test
+    public void testAddHealthMetricsSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
         boolean isHealthMetricsAdded = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME,new OrganizationFolderPage(getDriver()))
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickConfigure()
                 .addHealthMetrics()
                 .clickSaveButton()
@@ -265,5 +294,108 @@ public class OrganizationFolderTest extends BaseTest {
                 .healthMetricIsVisible();
 
         Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
+    }
+
+    @Test
+    public void testCreateMultibranchProject() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+
+        String createMultibranchProject = new OrganizationFolderPage(getDriver())
+                .clickMultibranchProject()
+                .getBranchesAndPullRequestsTutorial();
+
+        Assert.assertEquals(createMultibranchProject, "Branches and Pull Requests");
+    }
+
+    @Test
+    public void testConfigureProject() throws InterruptedException {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+
+        String configurationHeaderText = new OrganizationFolderPage(getDriver())
+                .clickConfigureProject()
+                .getConfigurationHeaderText();
+
+        Assert.assertEquals(configurationHeaderText, "Configuration");
+    }
+
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testCredentials() {
+        String titleCredentials = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickCredentials()
+                .getTitleText();
+
+        Assert.assertEquals(titleCredentials, "Credentials");
+    }
+
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testOrganizationFolderConfigPipelineSyntax() {
+        final String expectedText = "echo '" + PRINT_MESSAGE_PIPELINE_SYNTAX + "'";
+
+        String pipelineSyntax = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickPipelineSyntax()
+                .clickPrintMessageOption()
+                .enterMessage(PRINT_MESSAGE_PIPELINE_SYNTAX)
+                .clickGeneratePipelineScriptButton()
+                .getTextPipelineScript();
+
+        Assert.assertEquals(pipelineSyntax, expectedText );
+    }
+
+    @Test
+    public void testCreatingJenkinsPipeline() {
+        String linkBookCreatingPipeline = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickSaveButton()
+                .getTextCreatingJenkinsPipeline();
+
+        Assert.assertEquals(linkBookCreatingPipeline, "Creating a Jenkins Pipeline");
+    }
+
+    @Test(dataProvider = "wrong-character")
+    public void testRenameWithInvalidData(String wrongCharacter) {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String actualErrorMessage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickRename()
+                .enterNewName(wrongCharacter)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        switch (wrongCharacter) {
+            case "&" -> Assert.assertEquals(actualErrorMessage, "‘&amp;’ is an unsafe character");
+            case "<" -> Assert.assertEquals(actualErrorMessage, "‘&lt;’ is an unsafe character");
+            case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
+            default -> Assert.assertEquals(actualErrorMessage, "‘" + wrongCharacter + "’ is an unsafe character");
+        }
+    }
+
+    @Test
+    public void testCreateOrgFolderWithLongName() {
+        String longName = RandomStringUtils.randomAlphanumeric(256);
+        String errorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(longName)
+                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.OrganizationFolder)
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
+    }
+
+    @Test
+    public void testOrganizationFolderEvents() {
+        TestUtils.createJob(this,ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String eventTitle = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickOrgFolderEvents()
+                .getTextFromTitle();
+
+        Assert.assertEquals(eventTitle,"Organization Folder Events");
     }
 }

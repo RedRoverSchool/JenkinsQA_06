@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
+import school.redrover.model.ManageJenkinsPage;
 import school.redrover.model.NewJobPage;
 import school.redrover.model.PeoplePage;
 import school.redrover.model.base.BaseComponent;
@@ -19,11 +20,17 @@ import java.util.List;
 
 public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseComponent<Page> {
 
-    @FindBy(xpath = "//div[@id='breadcrumbBar']")
-    private WebElement fullBreadcrumb;
-
     @FindBy(xpath = "//a[contains(text(), 'Dashboard')]")
     private WebElement dashboard;
+
+    @FindBy(xpath = "//div[@id = 'breadcrumbBar']//a[@href='/']//button")
+    private WebElement sliderDashboard;
+
+    @FindBy(xpath = "//*[@id='yui-gen4']/a/span")
+    private WebElement manageJenkinsInSliderDashboard;
+
+    @FindBy(xpath = "//div[@id='breadcrumbBar']")
+    private WebElement fullBreadcrumb;
 
     @FindBy(xpath = "//div[@id='breadcrumb-menu']")
     private WebElement dropdownMenu;
@@ -45,6 +52,22 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     public MainBreadcrumbComponent(Page page) {
         super(page);
+    }
+
+    private void  openDropDownMenuDashboard() {
+        Actions actions = new Actions(getDriver());
+
+        actions.moveToElement(dashboard).perform();
+        actions.moveToElement(sliderDashboard).perform();
+        sliderDashboard.sendKeys(Keys.RETURN);
+    }
+
+    public ManageJenkinsPage clickManageJenkinsOnDropDownMenu() {
+        openDropDownMenuDashboard();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(manageJenkinsInSliderDashboard)).click();
+
+        return new ManageJenkinsPage(getDriver());
     }
 
     public String getFullBreadcrumbText() {
@@ -175,6 +198,8 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
                 .alert()
                 .accept();
     }
+
+
 }
 
 
