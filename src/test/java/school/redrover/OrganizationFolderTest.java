@@ -151,6 +151,19 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }
 
+    @Test(dependsOnMethods = "testAddDescriptionToProject")
+    public void testPreviewDescriptionFromProjectPage() {
+        String previewText = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickAddDescription()
+                .enterDescription("Description")
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText, "Description");
+    }
+
+
     @Test(dependsOnMethods = {"testRenameFromDropDownMenu"})
     public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
