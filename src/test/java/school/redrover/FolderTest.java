@@ -91,7 +91,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dataProvider = "invalid-data")
-    public void testCreateFolderUsingInvalidData(String invalidData) {
+    public void testCreateUsingInvalidData(String invalidData) {
         final String expectedErrorMessage = "» ‘" + invalidData + "’ is an unsafe character";
 
         NewJobPage newJobPage = TestUtils.createFolderUsingInvalidData(this, invalidData, TestUtils.JobType.Folder);
@@ -101,7 +101,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFolderWithSpaceInsteadName() {
+    public void testCreateWithSpaceInsteadName() {
         CreateItemErrorPage errorPage =
                 TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.Folder);
 
@@ -110,7 +110,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateWithExistingName")
-    public void testRenameUsingDropDownMenu() {
+    public void testRenameFromDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
                 .enterNewName(RENAME)
@@ -122,7 +122,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(newNameIsDisplayed, "error was not show new name folder");
     }
 
-    @Test(dependsOnMethods = "testRenameUsingDropDownMenu")
+    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
     public void testRenameToTheCurrentNameAndGetError() {
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickJobName(RENAME, new FolderPage(getDriver()))
@@ -135,7 +135,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
-    public void testRenameFromLeftSidePanel() {
+    public void testRenameFromSideMenu() {
         FolderPage folderPage =  new MainPage(getDriver())
                 .clickJobName(RENAME, new FolderPage(getDriver()))
                 .clickRename()
@@ -146,7 +146,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getPageTitle(), "All [" + NAME + "] [Jenkins]");
     }
 
-    @Test(dependsOnMethods = "testRenameFromLeftSidePanel")
+    @Test(dependsOnMethods = "testRenameFromSideMenu")
     public void testConfigureFolderNameDescriptionHealthMetrics() {
         FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -241,7 +241,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddDescriptionPreview")
-    public void testPreviewDescription() {
+    public void testPreviewDescriptionFromConfigurationPage() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickConfigure()
@@ -251,7 +251,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(previewText, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testPreviewDescription")
+    @Test(dependsOnMethods = "testPreviewDescriptionFromConfigurationPage")
     public void testEditDescription() {
         String newDescription = new FolderPage(getDriver())
                 .clickEditDescription()
@@ -303,13 +303,14 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateJobsInFolder")
-    public void testDeleteFolder() {
-        boolean welcomeIsDisplayed = new MainPage(getDriver())
-                .dropDownMenuClickDeleteFolders(NAME)
-                .clickYesButton()
-                .WelcomeIsDisplayed();
+    public void testDeleteItemFromDropDown() {
 
-        Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
+        MainPage welcomeIsDisplayed = new MainPage(getDriver())
+                .dropDownMenuClickDeleteFolders(NAME)
+                .clickYesButton();
+
+        Assert.assertTrue(welcomeIsDisplayed.WelcomeIsDisplayed());
+        Assert.assertEquals(welcomeIsDisplayed.clickMyViewsSideMenuLink().getStatusMessageText(), "This folder is empty");
     }
 
     @Test
@@ -330,9 +331,11 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testMoveJobsToFolderFromSideMenu() {
+        Map<String, BaseJobPage<?>> jobMap = TestUtils.getJobMap(this);
+
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        for(Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
+        for(Map.Entry<String, BaseJobPage<?>> entry : jobMap.entrySet()) {
             TestUtils.createJob(this, entry.getKey(), TestUtils.JobType.valueOf(entry.getKey()), true);
             moveJobToFolderFromSideMenu(entry.getKey(), NAME, entry.getValue());
         }
@@ -341,7 +344,10 @@ public class FolderTest extends BaseTest {
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
-        Assert.assertEquals(createdJobList, TestUtils.getJobList(this));
+        List<String> jobNameList = new ArrayList<>(jobMap.keySet());
+
+        Assert.assertEquals(jobNameList.size(), createdJobList.size());
+        Assert.assertTrue(createdJobList.containsAll(jobNameList));
     }
 
     @Test
@@ -361,7 +367,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dataProvider = "invalid-data")
-    public void testRenameFolderWithInvalidData(String invalidData) {
+    public void testRenameWithInvalidData(String invalidData) {
 
         final String expectedErrorMessage = "‘" + invalidData + "’ is an unsafe character";
 
@@ -383,7 +389,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteFolderFromSideMenu() {
+    public void testDeleteItemFromSideMenu() {
 
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
@@ -395,10 +401,10 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
-
     @Test
-    public void testCreateFolderWithLongName() {
+    public void testCreateWithLongName() {
         String longName = RandomStringUtils.randomAlphanumeric(256);
+
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(longName)

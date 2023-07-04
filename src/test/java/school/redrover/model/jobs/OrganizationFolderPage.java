@@ -35,6 +35,9 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     @FindBy(xpath = "//a[@href='./configure']")
     private WebElement configureProject;
 
+    @FindBy(xpath = "//div/a[@id='description-link']")
+    private WebElement addDescription;
+
     @FindBy(xpath = "//span[(text() = 'Re-run the Folder Computation')]")
     private WebElement reRunFolderComputationLink;
 
@@ -78,6 +81,11 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     public String getTextCreatingJenkinsPipeline() {
 
         return getWait5().until(ExpectedConditions.elementToBeClickable(linkBookCreatingJenkinsPipeline)).getText();
+    }
+
+    public OrganizationFolderPage clickAddDescription(){
+        addDescription.click();
+        return this;
     }
 
     public ScanOrganizationFolderLog clickRerunTheFolderComputation() {
