@@ -32,8 +32,27 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//input[@name='blockBuildWhenUpstreamBuilding']")
     private WebElement trueBlockBuildWhenUpstreamProjectIsBuilding;
 
+    @FindBy(xpath = "(//button[@class='task-link'])[5]")
+    private WebElement postBuildActionsButton;
+
+    @FindBy(xpath = "//button[text()='Add post-build action']")
+    private WebElement addPostBuildActionDropDown;
+
+    @FindBy(xpath = "//a[text()='E-mail Notification']")
+    private WebElement emailNotificationType;
+
+    @FindBy(xpath = "//input[@name='_.recipients']")
+    private WebElement emailNotificationInputField;
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
+    }
+
+    private FreestyleProjectConfigPage scrollToFooter() {
+        new Actions(getDriver())
+                .scrollToElement(footer)
+                .perform();
+        return this;
     }
 
     public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
@@ -61,5 +80,31 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     public boolean getTrueBlockBuildWhenUpstreamProjectIsBuilding() {
         return trueBlockBuildWhenUpstreamProjectIsBuilding.isSelected();
+    }
+
+    public FreestyleProjectConfigPage clickPostBuildActionsButton() {
+        postBuildActionsButton.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickAddPostBuildActionDropDown() {
+        scrollToFooter();
+        getWait2().until(ExpectedConditions.elementToBeClickable(addPostBuildActionDropDown)).click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickEmailNotification() {
+        emailNotificationType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage setEmailNotification(String email) {
+        scrollToFooter();
+        getWait2().until(ExpectedConditions.elementToBeClickable(emailNotificationInputField)).sendKeys(email);
+        return this;
+    }
+
+    public String getEmailNotificationFieldText() {
+        return getWait2().until(ExpectedConditions.visibilityOf(emailNotificationInputField)).getAttribute("value");
     }
 }
