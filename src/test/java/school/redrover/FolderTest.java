@@ -402,8 +402,9 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
     @Test
-    public void testCreateFolderWithLongName() {
+    public void testCreateWithLongName() {
         String longName = RandomStringUtils.randomAlphanumeric(256);
+
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(longName)
