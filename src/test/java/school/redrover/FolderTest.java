@@ -110,7 +110,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateWithExistingName")
-    public void testRenameUsingDropDownMenu() {
+    public void testRenameFromDropDownMenu() {
         boolean newNameIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickRename(NAME, new FolderPage(getDriver()))
                 .enterNewName(RENAME)
@@ -122,7 +122,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(newNameIsDisplayed, "error was not show new name folder");
     }
 
-    @Test(dependsOnMethods = "testRenameUsingDropDownMenu")
+    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
     public void testRenameToTheCurrentNameAndGetError() {
         CreateItemErrorPage createItemErrorPage = new MainPage(getDriver())
                 .clickJobName(RENAME, new FolderPage(getDriver()))
