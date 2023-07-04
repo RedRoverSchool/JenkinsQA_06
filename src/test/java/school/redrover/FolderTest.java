@@ -339,14 +339,14 @@ public class FolderTest extends BaseTest {
             moveJobToFolderFromSideMenu(entry.getKey(), NAME, entry.getValue());
         }
 
-        List<String> createdJobSet = new MainPage(getDriver())
+        List<String> createdJobList = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
         Set<String> jobNameList = jobMap.keySet();
 
-        Assert.assertEquals(jobNameList.size(), createdJobSet.size());
-        Assert.assertTrue(createdJobSet.containsAll(jobNameList));
+        Assert.assertEquals(jobNameList.size(), createdJobList.size());
+        Assert.assertTrue(createdJobList.containsAll(jobNameList));
     }
 
     @Test
