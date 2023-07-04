@@ -413,4 +413,15 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
+
+    @Test
+    public void testErrorCreateWithDotNameFromCreateAJob() {
+        String errorMessage = new MainPage(getDriver())
+                .clickCreateAJob()
+                .enterItemName(".")
+                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.Folder)
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "» “.” is not an allowed name");
+    }
 }
