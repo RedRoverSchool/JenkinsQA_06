@@ -330,22 +330,23 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testMoveJobsToFolderFromSideMenu() {
-        Map<String, BaseJobPage<?>> map = TestUtils.getJobMap(this);
-        Set<String> jobName = map.keySet();
+        Map<String, BaseJobPage<?>> jobMap = TestUtils.getJobMap(this);
 
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        for(Map.Entry<String, BaseJobPage<?>> entry : map.entrySet()) {
+        for(Map.Entry<String, BaseJobPage<?>> entry : jobMap.entrySet()) {
             TestUtils.createJob(this, entry.getKey(), TestUtils.JobType.valueOf(entry.getKey()), true);
             moveJobToFolderFromSideMenu(entry.getKey(), NAME, entry.getValue());
         }
 
-        Set<String> createdJobSet = new MainPage(getDriver())
+        List<String> createdJobSet = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
-                .getJobSet();
+                .getJobList();
 
-        Assert.assertEquals(jobName.size(), createdJobSet.size());
-        Assert.assertTrue(createdJobSet.containsAll(jobName) && jobName.containsAll(createdJobSet));
+        Set<String> jobNameList = jobMap.keySet();
+
+        Assert.assertEquals(jobNameList.size(), createdJobSet.size());
+        Assert.assertTrue(createdJobSet.containsAll(jobNameList));
     }
 
     @Test

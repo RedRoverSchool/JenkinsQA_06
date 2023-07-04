@@ -83,13 +83,6 @@ public class FolderPage extends BaseJobPage<FolderPage> {
                 .toList();
     }
 
-    public Set<String> getJobSet() {
-        return jobList
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toSet());
-    }
-
     public String getPageTitle() {
         return getDriver().getTitle();
     }
