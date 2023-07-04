@@ -67,7 +67,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testEmptyNameError() {
+    public void testCreateWithEmptyName() {
         final String expectedError = "» This field cannot be empty, please enter a valid name";
 
         String actualError = new MainPage(getDriver())
