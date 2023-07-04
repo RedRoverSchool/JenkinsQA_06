@@ -36,7 +36,7 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     private WebElement configureProject;
 
     @FindBy(xpath = "//span[(text() = 'Re-run the Folder Computation')]")
-    private WebElement reRuneFolderComputationLink;
+    private WebElement reRunFolderComputationLink;
 
     public OrganizationFolderPage(WebDriver driver) {
         super(driver);
@@ -81,7 +81,7 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     }
 
     public ScanOrganizationFolderLog clickRerunTheFolderComputation() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(reRuneFolderComputationLink)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(reRunFolderComputationLink)).click();
         return new ScanOrganizationFolderLog(getDriver());
     }
 }
