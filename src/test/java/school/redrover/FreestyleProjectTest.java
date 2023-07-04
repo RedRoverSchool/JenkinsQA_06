@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -551,5 +552,18 @@ public class FreestyleProjectTest extends BaseTest {
                 .getTrueBlockBuildWhenUpstreamProjectIsBuilding();
 
         Assert.assertTrue(statusBlockBuildWhenUpstreamProjectIsBuilding, "error input is not selected");
+    }
+
+    @Test
+    public void testCreateWithLongName() {
+        String longName = RandomStringUtils.randomAlphanumeric(256);
+
+        String errorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(longName)
+                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.FreestyleProject)
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
     }
 }
