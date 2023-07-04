@@ -23,7 +23,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String NEW_DESCRIPTION_TEXT = "NEW_DESCRIPTION_TEXT";
 
     @Test
-    public void testCreateFSProjectFromNewItem() {
+    public void testCreateFromNewItem() {
         MainPage projectName = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
@@ -100,7 +100,7 @@ public class FreestyleProjectTest extends BaseTest {
                 "In the Freestyle project Changes chapter, not displayed status of the latest build.");
     }
 
-    @Test(dependsOnMethods = "testCreateFSProjectFromNewItem")
+    @Test(dependsOnMethods = "testCreateFromNewItem")
     public void testDisableProject() {
         FreestyleProjectPage projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
