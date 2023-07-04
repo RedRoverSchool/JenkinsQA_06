@@ -68,7 +68,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testEmptyNameError() {
+    public void testCreateWithEmptyName() {
         final String expectedError = "» This field cannot be empty, please enter a valid name";
 
         String actualError = new MainPage(getDriver())
@@ -135,6 +135,17 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddDescription")
+    public void testRenameToTheCurrentNameAndGetError() {
+        String errorMessage = new MainPage(getDriver())
+                .dropDownMenuClickRename(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .enterNewName(FREESTYLE_NAME)
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
+    }
+
+    @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testRenameFromSideMenu() {
         String projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -158,6 +169,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+
     public void testAddDescriptionFromConfigurationPage() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
 
@@ -248,22 +260,23 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderIsDisplayed, "build not created");
     }
 
-    @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
+    @Test
     public void testPresenceOfBuildLinksAfterBuild() {
-        MainPage mainPage = new MainPage(getDriver())
+        TestUtils.createJob(this, NEW_FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String statusIcon = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickBuildWithParameters()
-                .clickBuild()
+                .clickBuildNow()
                 .getBreadcrumb()
-                .clickDashboardButton();
+                .clickDashboardButton()
+                .getJobBuildStatusIcon(NEW_FREESTYLE_NAME);
 
-        Assert.assertEquals(mainPage.getJobBuildStatusIcon(NEW_FREESTYLE_NAME), "Success");
-
-        int sizeOfPermalinksList = mainPage
+        int sizeOfPermalinksList = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .getSizeOfPermalinksList();
 
-        Assert.assertTrue(sizeOfPermalinksList == 4);
+        Assert.assertEquals(statusIcon, "Success");
+        Assert.assertEquals(sizeOfPermalinksList, 4);
     }
 
     @Test
@@ -564,5 +577,14 @@ public class FreestyleProjectTest extends BaseTest {
                 .getErrorMessage();
 
         Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
+    }
+
+    @Test
+    public void testCreateWithSpaceInsteadName() {
+        CreateItemErrorPage errorPage =
+                TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.FreestyleProject);
+
+        Assert.assertEquals(errorPage.getHeaderText(), "Error");
+        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 }
