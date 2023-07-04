@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MultibranchProjectPage;
 import school.redrover.model.CredentialsPage;
+import school.redrover.model.OrganizationFolderEventsPage;
 import school.redrover.model.ScanOrganizationFolderLog;
 
 import org.openqa.selenium.WebElement;
@@ -21,6 +22,9 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
 
     @FindBy(xpath = "//a[contains(@href,'/computation/console')]")
     private WebElement scanButton;
+
+    @FindBy(xpath = "//a[contains(@href, '/events')]")
+    private WebElement eventButton;
 
     @FindBy(xpath = "//a[contains(@href,'/credentials')]")
     private WebElement credentialsButton;
@@ -55,6 +59,11 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     public ScanOrganizationFolderLog clickScanOrgFolderLog() {
         getWait5().until(ExpectedConditions.elementToBeClickable(scanButton)).click();
         return new ScanOrganizationFolderLog(getDriver());
+    }
+
+    public OrganizationFolderEventsPage clickOrgFolderEvents() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(eventButton)).click();
+        return new OrganizationFolderEventsPage(getDriver());
     }
 
     public CredentialsPage clickCredentials(){
