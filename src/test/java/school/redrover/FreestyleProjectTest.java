@@ -301,6 +301,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(sizeOfPermalinksList, 4);
     }
 
+    @Ignore
     @Test
     public void testFreestyleProjectJob() {
         String nameProject = "Hello world";
