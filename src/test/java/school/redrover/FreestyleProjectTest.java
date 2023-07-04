@@ -155,7 +155,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testRenameFromSideMenu")
-    public void testRenameFreestyleProjectUsingDropDownMenu() {
+    public void testRenameFromDropDownMenu() {
         String actualFreestyleProjectName = new MainPage(getDriver())
                 .dropDownMenuClickRename(FREESTYLE_NAME + " New", new FreestyleProjectPage(getDriver()))
                 .enterNewName(NEW_FREESTYLE_NAME)
