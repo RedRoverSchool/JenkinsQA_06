@@ -140,7 +140,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertFalse(mainPage.isScheduleBuildOnDashboardAvailable(FREESTYLE_NAME), "Error: disabled project cannot be built");
     }
 
-    @Test(dependsOnMethods = "testEnableProject")
+    @Test(dependsOnMethods = "testAddEmailNotificationToPostBuildActions")
     public void testAddDescription() {
         String actualDescription = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -342,7 +342,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 
-
     @Test(dependsOnMethods = "testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding")
     public void testDeleteItemFromSideMenu() {
 
@@ -493,7 +492,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
 
-
     @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
     public void testSetRateLimitForBuilds() {
         final String timePeriod = "Week";
@@ -509,7 +507,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualTimePeriod, timePeriod);
     }
-
 
     @Test(dependsOnMethods = "testSetRateLimitForBuilds")
     public void testAllowParallelBuilds() {
@@ -545,7 +542,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualQuietPeriod, expectedQuietPeriod);
     }
-
 
     @Test(dependsOnMethods = "testAllowParallelBuilds")
     public void testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds() {
@@ -602,5 +598,24 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(errorPage.getHeaderText(), "Error");
         Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
+    }
+
+    @Test(dependsOnMethods = "testEnableProject")
+    public void testAddEmailNotificationToPostBuildActions() {
+        final String email = "email@email.com";
+
+        String currentEmail = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .clickAddPostBuildActionDropDown()
+                .clickEmailNotification()
+                .setEmailNotification(email)
+                .clickSaveButton()
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .getEmailNotificationFieldText();
+
+        Assert.assertEquals(currentEmail, email);
     }
 }
