@@ -343,7 +343,7 @@ public class FolderTest extends BaseTest {
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
-        Set<String> jobNameList = jobMap.keySet();
+        List<String> jobNameList = new ArrayList<>(jobMap.keySet());
 
         Assert.assertEquals(jobNameList.size(), createdJobList.size());
         Assert.assertTrue(createdJobList.containsAll(jobNameList));
