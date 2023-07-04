@@ -80,7 +80,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEnableOrgFolderFromConfig")
-    public void testDisableOrgFolderFromProjectPage() {
+    public void testDisableFromProjectPage() {
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableEnableButton()
@@ -89,7 +89,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(disabledText.substring(0, 46), "This Organization Folder is currently disabled");
     }
 
-    @Test(dependsOnMethods = "testDisableOrgFolderFromProjectPage")
+    @Test(dependsOnMethods = "testDisableFromProjectPage")
     public void testEnableFromProjectPage() {
         String disableButton = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
