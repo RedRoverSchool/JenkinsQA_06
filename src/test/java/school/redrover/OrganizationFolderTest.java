@@ -55,7 +55,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
-    public void testRenameOrganizationFolderFromSideMenu() {
+    public void testRenameFromSideMenu() {
         String actualRenamedFolderName = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickRename()
