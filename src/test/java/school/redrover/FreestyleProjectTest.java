@@ -6,9 +6,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
-import school.redrover.model.jobs.OrganizationFolderPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
-import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -171,7 +169,6 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProjectWithDescription() {
-
         FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
@@ -262,22 +259,23 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderIsDisplayed, "build not created");
     }
 
-    @Test(dependsOnMethods = "testAddBooleanParameterTheFreestyleProject")
+    @Test
     public void testPresenceOfBuildLinksAfterBuild() {
-        MainPage mainPage = new MainPage(getDriver())
+        TestUtils.createJob(this, NEW_FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String statusIcon = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickBuildWithParameters()
-                .clickBuild()
+                .clickBuildNow()
                 .getBreadcrumb()
-                .clickDashboardButton();
+                .clickDashboardButton()
+                .getJobBuildStatusIcon(NEW_FREESTYLE_NAME);
 
-        Assert.assertEquals(mainPage.getJobBuildStatusIcon(NEW_FREESTYLE_NAME), "Success");
-
-        int sizeOfPermalinksList = mainPage
+        int sizeOfPermalinksList = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .getSizeOfPermalinksList();
 
-        Assert.assertTrue(sizeOfPermalinksList == 4);
+        Assert.assertEquals(statusIcon, "Success");
+        Assert.assertEquals(sizeOfPermalinksList, 4);
     }
 
     @Test
