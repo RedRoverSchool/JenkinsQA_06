@@ -5,9 +5,12 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import org.testng.reporters.jq.Main;
 import school.redrover.model.*;
 import school.redrover.model.jobs.OrganizationFolderPage;
+import school.redrover.model.jobs.PipelinePage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
+import school.redrover.model.jobsconfig.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -410,5 +413,31 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTextFromTitle();
 
         Assert.assertEquals(eventTitle,"Organization Folder Events");
+    }
+
+    @Test
+    public void testHealthMetricsRecursive() {
+        String pipelineName = "pipeline Test";
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME,TestUtils.JobType.OrganizationFolder, true);
+
+        String weatherReport = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .clickHealthMetrics()
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .clickNewItem()
+                .enterItemName(pipelineName)
+                .selectJobType(TestUtils.JobType.Pipeline)
+                .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
+                .clickSaveButton()
+                .clickBuildNow()
+                .getHeader()
+                .clickLogo()
+                .hoverOverWeather(pipelineName)
+                .getTooltipDescription();
+
+        Assert.assertEquals(weatherReport, "Build stability: No recent builds failed.");
     }
 }
