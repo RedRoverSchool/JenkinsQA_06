@@ -159,16 +159,15 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testAddDescriptionFromConfigurationPage() {
-
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
 
-        FreestyleProjectPage freestyleProjectPage = new FreestyleProjectPage(getDriver())
-                .clickAddDescription()
+        String description = new FreestyleProjectPage(getDriver())
+                .clickConfigure()
                 .addDescription(DESCRIPTION_TEXT)
-                .clickSaveButton();
+                .clickSaveButton()
+                .getDescription();
 
-        Assert.assertEquals(freestyleProjectPage.getJobName(), "Project " + FREESTYLE_NAME);
-        Assert.assertEquals(freestyleProjectPage.getDescription(), DESCRIPTION_TEXT);
+        Assert.assertEquals(description, DESCRIPTION_TEXT);
     }
 
     @Test
