@@ -84,14 +84,14 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), "A job already exists with the name ‘" + NAME + "’");
     }
 
-    @DataProvider(name = "invalid-data")
+    @DataProvider(name = "testCreateUsingInvalidData")
     public Object[][] provideInvalidData() {
         return new Object[][]{{"!"}, {"#"}, {"$"}, {"%"}, {"&"}, {"*"}, {"/"}, {":"},
                 {";"}, {"<"}, {">"}, {"?"}, {"@"}, {"["}, {"]"}, {"|"}, {"\\"}, {"^"}};
     }
 
     @Test(dataProvider = "invalid-data")
-    public void testCreateFolderUsingInvalidData(String invalidData) {
+    public void testCreateUsingInvalidData(String invalidData) {
         final String expectedErrorMessage = "» ‘" + invalidData + "’ is an unsafe character";
 
         NewJobPage newJobPage = TestUtils.createFolderUsingInvalidData(this, invalidData, TestUtils.JobType.Folder);
