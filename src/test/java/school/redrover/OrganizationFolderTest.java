@@ -162,7 +162,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"})
-    public void testDeleteOrgFolderFromSideMenu() {
+    public void testDeleteItemFromSideMenu() {
         String welcomeText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .clickDeleteJobLocatedOnMainPage()
