@@ -304,6 +304,7 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateJobsInFolder")
     public void testDeleteItemFromDropDown() {
+
         MainPage welcomeIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickDeleteFolders(NAME)
                 .clickYesButton();
