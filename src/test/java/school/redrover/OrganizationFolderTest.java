@@ -398,4 +398,14 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(eventTitle,"Organization Folder Events");
     }
+
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testReRunFolderComputation() {
+        String titleScanOrganizationFolder = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickRerunTheFolderComputation()
+                .getTextFromTitle();
+
+        Assert.assertEquals(titleScanOrganizationFolder, "Scan Organization Folder");
+    }
 }
