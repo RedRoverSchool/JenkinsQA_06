@@ -389,7 +389,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteFolderFromSideMenu() {
+    public void testDeleteItemFromSideMenu() {
 
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
