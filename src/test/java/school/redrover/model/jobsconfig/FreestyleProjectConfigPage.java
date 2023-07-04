@@ -48,6 +48,13 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
         super(freestyleProjectPage);
     }
 
+    private FreestyleProjectConfigPage scrollToFooter() {
+        new Actions(getDriver())
+                .scrollToElement(footer)
+                .perform();
+        return this;
+    }
+
     public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
         int deltaY = footer.getRect().y;
         new Actions(getDriver())
@@ -81,7 +88,10 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     }
 
     public FreestyleProjectConfigPage clickAddPostBuildActionDropDown() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(addPostBuildActionDropDown)).click();
+        if (!getWait5().until(ExpectedConditions.elementToBeClickable(addPostBuildActionDropDown)).isDisplayed()) {
+            scrollToFooter();
+        }
+        addPostBuildActionDropDown.click();
         return this;
     }
 
@@ -91,11 +101,8 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     }
 
     public FreestyleProjectConfigPage setEmailNotification(String email) {
-        new Actions(getDriver())
-                .scrollToElement(footer)
-                .perform();
-
-        emailNotificationInputField.sendKeys(email);
+        scrollToFooter();
+        getWait2().until(ExpectedConditions.elementToBeClickable(emailNotificationInputField)).sendKeys(email);
         return this;
     }
 

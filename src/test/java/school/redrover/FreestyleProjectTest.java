@@ -342,7 +342,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 
-
     @Test(dependsOnMethods = "testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding")
     public void testDeleteItemFromSideMenu() {
 
@@ -493,7 +492,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
 
-
     @Test(dependsOnMethods = "testPresenceOfBuildLinksAfterBuild")
     public void testSetRateLimitForBuilds() {
         final String timePeriod = "Week";
@@ -509,7 +507,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualTimePeriod, timePeriod);
     }
-
 
     @Test(dependsOnMethods = "testSetRateLimitForBuilds")
     public void testAllowParallelBuilds() {
