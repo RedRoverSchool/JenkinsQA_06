@@ -8,6 +8,7 @@ import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.BaseTest;
+import school.redrover.runner.ProjectUtils;
 import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
@@ -157,18 +158,18 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFreestyleProjectWithDescription() {
+    public void testAddDescriptionFromConfigurationPage() {
+        String description = "Description";
 
-        FreestyleProjectPage freestyleProjectPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .addDescription("Description")
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+
+        FreestyleProjectPage freestyleProjectPage = new FreestyleProjectPage(getDriver())
+                .clickAddDescription()
+                .addDescription(description)
                 .clickSaveButton();
 
         Assert.assertEquals(freestyleProjectPage.getJobName(), "Project " + FREESTYLE_NAME);
-        Assert.assertEquals(freestyleProjectPage.getDescription(), "Description");
+        Assert.assertEquals(freestyleProjectPage.getDescription(), description);
     }
 
     @Test
