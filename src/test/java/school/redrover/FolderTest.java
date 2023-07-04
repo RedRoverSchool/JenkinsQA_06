@@ -423,4 +423,14 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
     }
+
+    @Test
+    public void testOkButtonCreateWithDotNameFromCreateAJob() {
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickCreateAJob()
+                .enterItemName(".")
+                .selectJobType(TestUtils.JobType.Folder);
+
+        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
+    }
 }
