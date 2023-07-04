@@ -369,7 +369,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(projectIsPresent, "Error: the name of the Freestyle project is not shown");
     }
 
-    @Test(dependsOnMethods = "testRenameFreestyleProjectUsingDropDownMenu")
+    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
     public void testAddingAProjectOnGitHubToTheFreestyleProject() {
         final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
