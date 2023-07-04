@@ -101,7 +101,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFolderWithSpaceInsteadName() {
+    public void testCreateWithSpaceInsteadName() {
         CreateItemErrorPage errorPage =
                 TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.Folder);
 
@@ -389,7 +389,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteFolderFromSideMenu() {
+    public void testDeleteItemFromSideMenu() {
 
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 

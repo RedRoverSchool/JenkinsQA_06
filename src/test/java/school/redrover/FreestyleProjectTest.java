@@ -323,15 +323,14 @@ public class FreestyleProjectTest extends BaseTest {
 
 
     @Test(dependsOnMethods = "testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding")
-    public void testDeleteFreestyleProject() {
-        final String projName = NEW_FREESTYLE_NAME;
+    public void testDeleteItemFromSideMenu() {
 
         boolean isProjectPresent = new MainPage(getDriver())
-                .clickJobName(projName, new FreestyleProjectPage(getDriver()))
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickDeleteAndAccept()
-                .verifyJobIsPresent(projName);
+                .WelcomeIsDisplayed();
 
-        Assert.assertFalse(isProjectPresent);
+        Assert.assertTrue(isProjectPresent, "error was not show Welcome to Jenkins!");
     }
 
     @Test
