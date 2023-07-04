@@ -133,17 +133,18 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddDescription")
-    public void testRenameFreestyleProject() {
-        FreestyleProjectPage projectName = new MainPage(getDriver())
+    public void testRenameFromSideMenu() {
+        String projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickRename()
                 .enterNewName(FREESTYLE_NAME + " New")
-                .clickRenameButton();
+                .clickRenameButton()
+                .getJobName();
 
-        Assert.assertEquals(projectName.getJobName(), "Project " + FREESTYLE_NAME + " New");
+        Assert.assertEquals(projectName, "Project " + FREESTYLE_NAME + " New");
     }
 
-    @Test(dependsOnMethods = "testRenameFreestyleProject")
+    @Test(dependsOnMethods = "testRenameFromSideMenu")
     public void testRenameFreestyleProjectUsingDropDownMenu() {
         String actualFreestyleProjectName = new MainPage(getDriver())
                 .dropDownMenuClickRename(FREESTYLE_NAME + " New", new FreestyleProjectPage(getDriver()))
