@@ -90,7 +90,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDisableOrgFolderFromProjectPage")
-    public void testEnableOrgFolderFromProjectPage() {
+    public void testEnableFromProjectPage() {
         String disableButton = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableEnableButton()
@@ -129,7 +129,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(orgFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Test(dependsOnMethods = "testEnableOrgFolderFromProjectPage")
+    @Test(dependsOnMethods = "testEnableFromProjectPage")
     public void testAddDescriptionToProject() {
         String textFromDescription = new MainPage(getDriver())
                 .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
