@@ -35,7 +35,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
-    public void testDisabledOrganizationFolder() {
+    public void testDisableFromConfigurationPage() {
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickConfigure()
@@ -67,7 +67,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = "testDisabledOrganizationFolder")
+    @Test(dependsOnMethods = "testDisableFromConfigurationPage")
     public void testEnableOrgFolderFromConfig() {
         String enableOrgFolder = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
@@ -80,7 +80,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEnableOrgFolderFromConfig")
-    public void testDisableOrgFolderFromProjectPage() {
+    public void testDisableFromProjectPage() {
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableEnableButton()
@@ -89,8 +89,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(disabledText.substring(0, 46), "This Organization Folder is currently disabled");
     }
 
-    @Test(dependsOnMethods = "testDisableOrgFolderFromProjectPage")
-    public void testEnableOrgFolderFromProjectPage() {
+    @Test(dependsOnMethods = "testDisableFromProjectPage")
+    public void testEnableFromProjectPage() {
         String disableButton = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableEnableButton()
@@ -129,7 +129,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(orgFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Test(dependsOnMethods = "testEnableOrgFolderFromProjectPage")
+    @Test(dependsOnMethods = "testEnableFromProjectPage")
     public void testAddDescriptionToProject() {
         String textFromDescription = new MainPage(getDriver())
                 .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
