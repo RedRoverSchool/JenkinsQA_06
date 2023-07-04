@@ -344,7 +344,7 @@ public class FolderTest extends BaseTest {
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobSet();
 
-        Assert.assertTrue(createdJobSet.size() == jobName.size());
+        Assert.assertEquals(jobName.size(), createdJobSet.size());
         Assert.assertTrue(createdJobSet.containsAll(jobName) && jobName.containsAll(createdJobSet));
     }
 
