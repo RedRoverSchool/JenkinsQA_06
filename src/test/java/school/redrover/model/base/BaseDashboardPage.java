@@ -75,6 +75,9 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']")
     private WebElement buildButton;
 
+    @FindBy(xpath = "//a[contains(@tooltip,'Schedule a Build for ')]")
+    private List<WebElement> jobsBuildLinks;
+
     @FindBy(css = ".jenkins-table__link")
     private List<WebElement> jobList;
 
@@ -311,6 +314,20 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
                 .findElements(By.xpath("//div[@class='tabBar']/div"));
         for (WebElement view : views) {
             if (view.getText().equals(viewName)) {
+                status = true;
+                break;
+            }
+        }
+        return status;
+    }
+
+    public boolean isScheduleBuildOnDashboardAvailable(String jobName) {
+        boolean status = false;
+
+        List<WebElement> scheduleBuildLinks = jobsBuildLinks;
+        for (WebElement link : scheduleBuildLinks) {
+            String tooltip = link.getAttribute("tooltip");
+            if (jobName.equals(tooltip.substring(tooltip.length() - jobName.length()))) {
                 status = true;
                 break;
             }
