@@ -137,7 +137,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testAddDescription")
     public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
-                .dropDownMenuClickRename(FREESTYLE_NAME, new OrganizationFolderPage(getDriver()))
+                .dropDownMenuClickRename(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .enterNewName(FREESTYLE_NAME)
                 .clickRenameButtonAndGoError()
                 .getErrorMessage();
