@@ -217,18 +217,20 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testBuildFreestyleProject() {
+        final String commandFieldText = "echo Hello";
+
         String consoleOutput = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName("MyFreestyleProject")
+                .enterItemName(FREESTYLE_NAME)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .addExecuteShellBuildStep("echo Hello")
+                .addExecuteShellBuildStep(commandFieldText)
                 .clickSaveButton()
                 .clickBuildNow()
                 .clickIconBuildOpenConsoleOutput(1)
                 .getConsoleOutputText();
 
-        Assert.assertTrue(consoleOutput.contains("echo Hello"), "Command wasn't run OR test was run on the Windows");
+        Assert.assertTrue(consoleOutput.contains(commandFieldText), "Command wasn't run OR test was run on the Windows");
         Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build wasn't finished successfully");
     }
 
