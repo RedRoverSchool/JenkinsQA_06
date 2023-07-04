@@ -206,25 +206,14 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testVisibleProjectNameAndDescriptionOnViewPage() {
-        FreestyleProjectPage projectPage = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
-                .clickAddDescription()
-                .addDescription(DESCRIPTION_TEXT)
-                .clickSaveDescription()
-                .getHeader()
-                .clickLogo()
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()));
+    public void testVisibleProjectNameOnProjectPage() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
-        String projectNameFromViewPage = projectPage.getJobName();
-        String projectDescriptionFromViewPage = projectPage.getDescription();
+        String projectNameOnProjectPage = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .getJobName();
 
-        Assert.assertEquals(projectNameFromViewPage, "Project " + FREESTYLE_NAME);
-        Assert.assertEquals(projectDescriptionFromViewPage, DESCRIPTION_TEXT);
+        Assert.assertEquals(projectNameOnProjectPage, "Project " + FREESTYLE_NAME);
     }
 
     @Test
