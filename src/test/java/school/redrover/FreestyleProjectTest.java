@@ -169,7 +169,6 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-
     public void testAddDescriptionFromConfigurationPage() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
 
