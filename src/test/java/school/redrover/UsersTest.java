@@ -218,7 +218,8 @@ public class UsersTest extends BaseTest {
         TestUtils.createUserAndReturnToMainPage(this, USER_NAME, PASSWORD, USER_FULL_NAME, EMAIL);
 
         String actualUserName = new MainPage(getDriver())
-                .sendSearchboxUser(USER_NAME)
+                .getHeader()
+                .sendSearchBoxUser(USER_NAME)
                 .getActualNameUser();
 
         Assert.assertEquals(actualUserName, "Jenkins User ID: " + USER_NAME);

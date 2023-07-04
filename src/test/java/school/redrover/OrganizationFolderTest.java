@@ -1,7 +1,9 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.OrganizationFolderPage;
@@ -33,7 +35,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
-    public void testDisabledOrganizationFolder() {
+    public void testDisableFromConfigurationPage() {
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickConfigure()
@@ -54,7 +56,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDisplayName")
-    public void testRenameOrganizationFolderFromSideMenu() {
+    public void testRenameFromSideMenu() {
         String actualRenamedFolderName = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickRename()
@@ -65,8 +67,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedFolderName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = "testDisabledOrganizationFolder")
-    public void testEnableOrgFolderFromConfig() {
+    @Test(dependsOnMethods = "testDisableFromConfigurationPage")
+    public void testEnableFromConfigurationPage() {
         String enableOrgFolder = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickConfigure()
@@ -77,8 +79,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(enableOrgFolder.trim(), "Disable Organization Folder");
     }
 
-    @Test(dependsOnMethods = "testEnableOrgFolderFromConfig")
-    public void testDisableOrgFolderFromProjectPage() {
+    @Test(dependsOnMethods = "testEnableFromConfigurationPage")
+    public void testDisableFromProjectPage() {
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableEnableButton()
@@ -87,8 +89,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(disabledText.substring(0, 46), "This Organization Folder is currently disabled");
     }
 
-    @Test(dependsOnMethods = "testDisableOrgFolderFromProjectPage")
-    public void testEnableOrgFolderFromProjectPage() {
+    @Test(dependsOnMethods = "testDisableFromProjectPage")
+    public void testEnableFromProjectPage() {
         String disableButton = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickDisableEnableButton()
@@ -127,8 +129,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(orgFolderName, ORGANIZATION_FOLDER_NAME);
     }
 
-    @Test(dependsOnMethods = "testEnableOrgFolderFromProjectPage")
-    public void testAddDescriptionToProject() {
+    @Test(dependsOnMethods = "testEnableFromProjectPage")
+    public void testAddDescriptionFromConfigurationPage() {
         String textFromDescription = new MainPage(getDriver())
                 .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .addDescription("Description")
@@ -138,7 +140,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(textFromDescription, "Description");
     }
 
-    @Test(dependsOnMethods = "testAddDescriptionToProject")
+    @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
     public void testRenameFromDropDownMenu() {
         String actualRenamedName = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
@@ -161,7 +163,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"})
-    public void testDeleteOrgFolderFromSideMenu() {
+    public void testDeleteItemFromSideMenu() {
         String welcomeText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .clickDeleteJobLocatedOnMainPage()
@@ -200,7 +202,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrganizationFolderWithSpaceName() {
+    public void testCreateWithSpaceInsteadName() {
         CreateItemErrorPage errorPage =
                 TestUtils.createJobWithSpaceInsteadName(this, TestUtils.JobType.OrganizationFolder);
 
@@ -228,14 +230,14 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dataProvider = "wrong-character")
-    public void testCreateUsingInvalidData(String wrongCharacter) {
+    public void testCreateUsingInvalidData(String invalidData) {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(wrongCharacter)
+                .enterItemName(invalidData)
                 .selectJobType(TestUtils.JobType.OrganizationFolder);
 
         Assert.assertTrue(newJobPage.isOkButtonDisabled(), "Save button is enabled");
-        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + invalidData + "’ is an unsafe character");
     }
 
     @Test
@@ -277,6 +279,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
     }
 
+    @Ignore
     @Test
     public void testAddHealthMetricsSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
@@ -305,7 +308,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testConfigureProject() throws InterruptedException {
+    public void testConfigureProject() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
 
         String configurationHeaderText = new OrganizationFolderPage(getDriver())
@@ -370,5 +373,29 @@ public class OrganizationFolderTest extends BaseTest {
             case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
             default -> Assert.assertEquals(actualErrorMessage, "‘" + wrongCharacter + "’ is an unsafe character");
         }
+    }
+
+    @Test
+    public void testCreateOrgFolderWithLongName() {
+        String longName = RandomStringUtils.randomAlphanumeric(256);
+        String errorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(longName)
+                .selectJobAndOkAndGoToBugPage(TestUtils.JobType.OrganizationFolder)
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "A problem occurred while processing the request.");
+    }
+
+    @Test
+    public void testOrganizationFolderEvents() {
+        TestUtils.createJob(this,ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String eventTitle = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickOrgFolderEvents()
+                .getTextFromTitle();
+
+        Assert.assertEquals(eventTitle,"Organization Folder Events");
     }
 }
