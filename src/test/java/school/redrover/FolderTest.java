@@ -367,7 +367,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dataProvider = "invalid-data")
-    public void testRenameFolderWithInvalidData(String invalidData) {
+    public void testRenameWithInvalidData(String invalidData) {
 
         final String expectedErrorMessage = "‘" + invalidData + "’ is an unsafe character";
 
