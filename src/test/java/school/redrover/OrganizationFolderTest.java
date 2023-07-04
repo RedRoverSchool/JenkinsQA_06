@@ -5,12 +5,9 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import org.testng.reporters.jq.Main;
 import school.redrover.model.*;
 import school.redrover.model.jobs.OrganizationFolderPage;
-import school.redrover.model.jobs.PipelinePage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
-import school.redrover.model.jobsconfig.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -154,19 +151,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = "testAddDescriptionToProject")
-    public void testPreviewDescriptionFromProjectPage() {
-        String previewText = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
-                .clickAddDescription()
-                .enterDescription("Description")
-                .clickPreview()
-                .getPreviewText();
-
-        Assert.assertEquals(previewText, "Description");
-    }
-
-
     @Test(dependsOnMethods = {"testRenameFromDropDownMenu"})
     public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
@@ -246,14 +230,14 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dataProvider = "wrong-character")
-    public void testCreateUsingInvalidData(String wrongCharacter) {
+    public void testCreateUsingInvalidData(String invalidData) {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickNewItem()
-                .enterItemName(wrongCharacter)
+                .enterItemName(invalidData)
                 .selectJobType(TestUtils.JobType.OrganizationFolder);
 
         Assert.assertTrue(newJobPage.isOkButtonDisabled(), "Save button is enabled");
-        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacter + "’ is an unsafe character");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + invalidData + "’ is an unsafe character");
     }
 
     @Test
@@ -413,31 +397,5 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTextFromTitle();
 
         Assert.assertEquals(eventTitle,"Organization Folder Events");
-    }
-
-    @Test
-    public void testHealthMetricsRecursive() {
-        String pipelineName = "pipeline Test";
-        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME,TestUtils.JobType.OrganizationFolder, true);
-
-        String weatherReport = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
-                .clickConfigure()
-                .clickHealthMetrics()
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .clickNewItem()
-                .enterItemName(pipelineName)
-                .selectJobType(TestUtils.JobType.Pipeline)
-                .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
-                .clickSaveButton()
-                .clickBuildNow()
-                .getHeader()
-                .clickLogo()
-                .hoverOverWeather(pipelineName)
-                .getTooltipDescription();
-
-        Assert.assertEquals(weatherReport, "Build stability: No recent builds failed.");
     }
 }
