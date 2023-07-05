@@ -102,6 +102,19 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testAccessConfigurationPageFromDashboard() {
+        final String breadcrumb = "Dashboard > " + FREESTYLE_NAME + " > Configuration";
+
+        FreestyleProjectConfigPage freestyleConfigPage = new MainPage(getDriver())
+                .clickConfigureDropDown(
+                        FREESTYLE_NAME, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))
+                );
+
+        Assert.assertEquals(freestyleConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
+        Assert.assertTrue(freestyleConfigPage.isConfigurationDisplayed(), "error: 'Configure' was not displayed");
+    }
+
+    @Test(dependsOnMethods = "testAccessConfigurationPageFromDashboard")
     public void testDisableProject() {
         FreestyleProjectPage projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
