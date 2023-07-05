@@ -229,22 +229,14 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(description, DESCRIPTION_TEXT);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
     public void testEditDescription() {
         String editDescription = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
-                .clickAddDescription()
-                .addDescription(DESCRIPTION_TEXT)
-                .clickSaveDescription()
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickEditDescription()
                 .removeOldDescriptionAndAddNew(NEW_DESCRIPTION_TEXT)
                 .clickSaveDescription()
                 .getDescription();
-
         Assert.assertEquals(editDescription, NEW_DESCRIPTION_TEXT);
     }
 
