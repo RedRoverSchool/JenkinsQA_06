@@ -1,5 +1,6 @@
 package school.redrover;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -348,29 +349,22 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionFromConfigureDropDownAndPreview() {
+    public void testPreviewDescriptionFromConfigurationPage() {
         final String descriptionText = "In publishing and graphic design, Lorem ipsum is a placeholder " +
-                                       "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
+                "text commonly used to demonstrate the visual form of a document or a typeface without relying .";
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         String previewText = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
                 .clickConfigureDropDown(FREESTYLE_NAME, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .addDescription(descriptionText)
                 .clickPreview()
                 .getPreviewText();
 
-        Assert.assertEquals(previewText, descriptionText);
-
         String actualDescriptionText = new FreestyleProjectPage(getDriver())
                 .clickSaveButton()
                 .getDescription();
 
+        Assert.assertEquals(previewText, descriptionText);
         Assert.assertEquals(actualDescriptionText, descriptionText);
     }
 
