@@ -17,10 +17,12 @@ import java.util.List;
 public class BreadcrumbTest extends BaseTest {
     @Test
     public void testNavigateToManageJenkinsSection() {
-        ManageJenkinsPage manageJenkinsPage = new MainPage(getDriver())
-                .clickManageJenkinsOnDropDown();
+        String actualResult = new MainPage(getDriver())
+                .getBreadcrumb()
+                .clickManageJenkinsOnDropDownMenu()
+                .getActualHeader();
 
-        Assert.assertEquals(manageJenkinsPage.getActualHeader(), "Manage Jenkins");
+        Assert.assertEquals(actualResult, "Manage Jenkins");
     }
 
     @DataProvider (name = "subsections")
