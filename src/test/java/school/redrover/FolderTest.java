@@ -192,7 +192,7 @@ public class FolderTest extends BaseTest {
                 .clickOkButton(new PipelineConfigPage(new PipelinePage(getDriver())))
                 .inputInScriptField("Broken")
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .getHeader()
                 .clickLogo()
                 .hoverOverWeather(NAME)

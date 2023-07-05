@@ -73,7 +73,7 @@ public class PipelineTest extends BaseTest {
                 .clickScriptDropDownMenu()
                 .selectHelloWord()
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .getStage();
 
         Assert.assertEquals(stageName, "Hello");
@@ -89,7 +89,7 @@ public class PipelineTest extends BaseTest {
                 .clickScriptDropDownMenu()
                 .selectHelloWord()
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .clickIconBuildOpenConsoleOutput(1)
                 .getConsoleOutputText();
 
@@ -164,7 +164,7 @@ public class PipelineTest extends BaseTest {
                 .clickScriptDropDownMenu()
                 .selectHelloWord()
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .clickIconBuildOpenConsoleOutput(1)
                 .clickNumberBuild(1);
 
@@ -206,7 +206,7 @@ public class PipelineTest extends BaseTest {
 
         ConsoleOutputPage consoleOutputPage = new MainPage(getDriver())
                 .clickJobName(NAME, new PipelinePage(getDriver()))
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .clickTrend()
                 .clickBuildIcon();
 
@@ -221,7 +221,7 @@ public class PipelineTest extends BaseTest {
 
         String text = new MainPage(getDriver())
                 .clickJobName("Engineer", new PipelinePage(getDriver()))
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .clickChangeOnLeftSideMenu()
                 .getTextOfPage();
 
@@ -235,9 +235,9 @@ public class PipelineTest extends BaseTest {
 
         List buildNumber = new MainPage(getDriver())
                 .clickJobName(NAME, new PipelinePage(getDriver()))
-                .clickBuildNow()
-                .clickBuildNow()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
+                .clickBuildNowFromSideMenu()
+                .clickBuildNowFromSideMenu()
                 .clickTrend()
                 .getBuildNumbers(4);
 

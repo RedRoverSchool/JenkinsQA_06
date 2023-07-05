@@ -78,7 +78,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         return disabledMessage.getText().trim().substring(0, 34);
     }
 
-    public Self clickBuildNow() {
+    public Self clickBuildNowFromSideMenu() {
         buildNowButton.click();
         getWait5().until(ExpectedConditions.visibilityOf(buildRowCell));
         return (Self)this;
