@@ -357,21 +357,21 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dataProvider = "wrong-character")
-    public void testRenameWithInvalidData(String wrongCharacter) {
+    public void testRenameWithInvalidData(String invalidData) {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
         String actualErrorMessage = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickRename()
-                .enterNewName(wrongCharacter)
+                .enterNewName(invalidData)
                 .clickRenameButtonAndGoError()
                 .getErrorMessage();
 
-        switch (wrongCharacter) {
+        switch (invalidData) {
             case "&" -> Assert.assertEquals(actualErrorMessage, "‘&amp;’ is an unsafe character");
             case "<" -> Assert.assertEquals(actualErrorMessage, "‘&lt;’ is an unsafe character");
             case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
-            default -> Assert.assertEquals(actualErrorMessage, "‘" + wrongCharacter + "’ is an unsafe character");
+            default -> Assert.assertEquals(actualErrorMessage, "‘" + invalidData + "’ is an unsafe character");
         }
     }
 
@@ -397,5 +397,25 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTextFromTitle();
 
         Assert.assertEquals(eventTitle,"Organization Folder Events");
+    }
+
+    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    public void testReRunFolderComputation() {
+        String titleScanOrganizationFolder = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickRerunTheFolderComputation()
+                .getTextFromTitle();
+
+        Assert.assertEquals(titleScanOrganizationFolder, "Scan Organization Folder");
+    }
+
+    @Test
+    public void testCreateOrgFolderWithDotInsteadOfName() {
+        String errorMessage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(".")
+                .getItemInvalidMessage();
+
+        Assert.assertEquals(errorMessage, "» “.” is not an allowed name");
     }
 }
