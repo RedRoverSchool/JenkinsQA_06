@@ -1,6 +1,6 @@
 package school.redrover;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -101,6 +101,19 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFromNewItem")
+    public void testAccessConfigurationPageFromDashboard() {
+        final String breadcrumb = "Dashboard > " + FREESTYLE_NAME + " > Configuration";
+
+        FreestyleProjectConfigPage freestyleConfigPage = new MainPage(getDriver())
+                .clickConfigureDropDown(
+                        FREESTYLE_NAME, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver()))
+                );
+
+        Assert.assertEquals(freestyleConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
+        Assert.assertEquals(freestyleConfigPage.getTitle(), "Configure");
+    }
+
+    @Test(dependsOnMethods = "testAccessConfigurationPageFromDashboard")
     public void testDisableFromProjectPage() {
         FreestyleProjectPage projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
