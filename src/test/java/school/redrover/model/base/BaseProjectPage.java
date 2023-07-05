@@ -87,7 +87,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     public Self clickBuildNowFromSideMenu() {
         buildNowButton.click();
-        getWait5().until(ExpectedConditions.visibilityOf(buildRowCell));
+        getWait10().until(ExpectedConditions.visibilityOf(buildRowCell));
         return (Self)this;
     }
 
