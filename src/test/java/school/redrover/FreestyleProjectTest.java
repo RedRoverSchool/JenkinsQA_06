@@ -114,15 +114,16 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDisableFromProjectPage")
-    public void testEnableProject() {
-        MainPage projectName = new MainPage(getDriver())
+    public void testEnableFromProjectPage() {
+        FreestyleProjectPage projectName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickEnable()
-                .getHeader()
-                .clickLogo();
+                .clickEnable();
 
-        Assert.assertEquals(projectName.getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
+        Assert.assertEquals(projectName.getDisableButtonText(),"Disable Project");
+        Assert.assertEquals(projectName.clickConfigure().getTextEnabled(), "Enabled");
+        Assert.assertEquals(projectName.getHeader().clickLogo().getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
+
 
     @Test
     public void testDisableFromConfigurationPage() {
@@ -602,7 +603,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 
-    @Test(dependsOnMethods = "testEnableProject")
+    @Test(dependsOnMethods = "testEnableFromProjectPage")
     public void testAddEmailNotificationToPostBuildActions() {
         final String email = "email@email.com";
 
