@@ -376,10 +376,10 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteProjectFromDropdown() {
+    public void testDeleteItemFromDropDown() {
         final String projectName = "Name";
 
-        String h2text = new MainPage(getDriver())
+        MyViewsPage h2text = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(projectName)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -389,10 +389,10 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickLogo()
                 .dropDownMenuClickDelete(projectName)
                 .acceptAlert()
-                .clickMyViewsSideMenuLink()
-                .getStatusMessageText();
+                .clickMyViewsSideMenuLink();
 
-        Assert.assertEquals(h2text, "This folder is empty");
+        Assert.assertEquals(h2text.getStatusMessageText(), "This folder is empty");
+        Assert.assertTrue(h2text.getHeader().clickLogo().WelcomeIsDisplayed());
     }
 
     @Test
