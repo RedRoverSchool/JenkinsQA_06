@@ -284,7 +284,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .addExecuteShellBuildStep(commandFieldText)
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .clickIconBuildOpenConsoleOutput(1)
                 .getConsoleOutputText();
 
@@ -298,7 +298,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         boolean buildHeaderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .clickIconBuildOpenConsoleOutput(1)
                 .isDisplayedBuildTitle();
 
@@ -311,7 +311,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         String statusIcon = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .getBreadcrumb()
                 .clickDashboardButton()
                 .getJobBuildStatusIcon(NEW_FREESTYLE_NAME);
@@ -337,7 +337,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .addBuildStepsExecuteShell(steps)
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .clickIconBuildOpenConsoleOutput(1)
                 .getConsoleOutputText();
 
