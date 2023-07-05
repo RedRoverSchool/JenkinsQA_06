@@ -415,7 +415,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testErrorCreateWithDotNameFromCreateAJob() {
+    public void testCreateWithDotInsteadOfName() {
         NewJobPage newJobPage = new MainPage(getDriver())
                 .clickCreateAJob()
                 .enterItemName(".")
