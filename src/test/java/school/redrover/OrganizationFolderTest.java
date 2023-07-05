@@ -18,6 +18,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
     private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
     private static final String PRINT_MESSAGE_PIPELINE_SYNTAX = "TEXT";
+    private static final String DESCRIPTION_TEXT = "DESCRIPTION_TEXT";
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -133,11 +134,11 @@ public class OrganizationFolderTest extends BaseTest {
     public void testAddDescriptionFromConfigurationPage() {
         String textFromDescription = new MainPage(getDriver())
                 .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .addDescription("Description")
+                .addDescription(DESCRIPTION_TEXT)
                 .clickSaveButton()
                 .getAddedDescriptionFromConfig();
 
-        Assert.assertEquals(textFromDescription, "Description");
+        Assert.assertEquals(textFromDescription, DESCRIPTION_TEXT);
     }
 
     @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
@@ -212,16 +213,16 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testOrganizationFolderConfigPreviewDescription() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
         String previewText = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .addDescription("Description")
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .addDescription(DESCRIPTION_TEXT)
                 .clickPreview()
                 .getPreviewText();
 
-        Assert.assertEquals(previewText, "Description");
+        Assert.assertEquals(previewText, DESCRIPTION_TEXT);
     }
 
     @DataProvider(name = "wrong-character")
