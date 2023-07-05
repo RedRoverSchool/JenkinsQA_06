@@ -110,7 +110,7 @@ public class FreestyleProjectTest extends BaseTest {
                 );
 
         Assert.assertEquals(freestyleConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
-        Assert.assertTrue(freestyleConfigPage.isConfigurationDisplayed(), "error: 'Configure' was not displayed");
+        Assert.assertEquals(freestyleConfigPage.getTitle(), "Configure");
     }
 
     @Test(dependsOnMethods = "testAccessConfigurationPageFromDashboard")

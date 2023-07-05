@@ -18,8 +18,8 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
     @FindBy(xpath = "//div[@class='textarea-preview']")
     private WebElement previewTextarea;
 
-    @FindBy(xpath = "//h1[contains(text(), 'Configur')]")
-    private WebElement configure;
+    @FindBy(xpath = "//h1")
+    private WebElement title;
 
     private final JobPage jobPage;
 
@@ -60,7 +60,7 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
         return (Self) this;
     }
 
-    public boolean isConfigurationDisplayed(){
-        return configure.isDisplayed();
+    public String getTitle(){
+        return title.getText();
     }
 }
