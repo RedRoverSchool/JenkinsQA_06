@@ -1,6 +1,6 @@
 package school.redrover;
 
-import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -174,10 +174,12 @@ public class FreestyleProjectTest extends BaseTest {
 
     @DataProvider(name = "wrong-character")
     public Object[][] provideWrongCharacters() {
-        return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}, {"|"}, {">"}, {"["}, {"]"}};
+        return new Object[][]{{"!","!"}, {"@","@"}, {"#","#"}, {"$","$"}, {"%","%"}, {"^","^"}, {"&","&amp;"}, {"*","*"},
+                {"?","?"}, {"|","|"}, {">","&gt;"}, {"<","&lt;"}, {"[","["}, {"]","]"}};
     }
+
     @Test(dataProvider = "wrong-character")
-    public void testRenameWithInvalidData(String invalidData) {
+    public void testRenameWithInvalidData(String invalidData, String expectedResult) {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         String actualErrorMessage = new MainPage(getDriver())
@@ -187,12 +189,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickRenameButtonAndGoError()
                 .getErrorMessage();
 
-        switch (invalidData) {
-            case "&" -> Assert.assertEquals(actualErrorMessage, "‘&amp;’ is an unsafe character");
-            case "<" -> Assert.assertEquals(actualErrorMessage, "‘&lt;’ is an unsafe character");
-            case ">" -> Assert.assertEquals(actualErrorMessage, "‘&gt;’ is an unsafe character");
-            default -> Assert.assertEquals(actualErrorMessage, "‘" + invalidData + "’ is an unsafe character");
-        }
+        Assert.assertEquals(actualErrorMessage,"‘" + expectedResult + "’ is an unsafe character");
     }
 
     @Test(dependsOnMethods = "testAddDescription")
