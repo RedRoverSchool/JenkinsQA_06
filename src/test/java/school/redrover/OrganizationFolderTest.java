@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.bouncycastle.crypto.io.MacInputStream;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -45,6 +46,20 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTextFromDisableMessage();
 
         Assert.assertTrue(disabledText.contains("This Organization Folder is currently disabled"));
+    }
+
+    @Test
+    public void testDeleteOrganizationFolderFromTheDropdownMenu() {
+
+        TestUtils.createJob(this, "OrgFolder", TestUtils.JobType.OrganizationFolder, true);
+
+        boolean welcomeToJenkinsIsDisplayed = new MainPage(getDriver())
+                .openJobDropDownMenu("OrgFolder")
+                .dropDownMenuClickDeleteFolders("OrgFolder")
+                .clickYesButton()
+                .WelcomeIsDisplayed();
+
+        Assert.assertTrue(welcomeToJenkinsIsDisplayed, "error, Welcome to Jenkins! is not displayed");
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolderGoingFromManageJenkinsPage")
