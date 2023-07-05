@@ -212,7 +212,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testOrganizationFolderConfigPreviewDescription() {
+    public void testPreviewDescriptionFromConfigurationPage() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
         String previewText = new MainPage(getDriver())
