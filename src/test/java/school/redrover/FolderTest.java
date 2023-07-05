@@ -315,6 +315,8 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testMoveJobsToFolderFromDropDownMenu() {
+        Map<String, BaseJobPage<?>> jobMap = TestUtils.getJobMap(this);
+
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
         for (Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
@@ -326,7 +328,10 @@ public class FolderTest extends BaseTest {
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .getJobList();
 
-        Assert.assertEquals(createdJobList, TestUtils.getJobList(this));
+        List<String> jobNameList = new ArrayList<>(jobMap.keySet());
+
+        Assert.assertEquals(jobNameList.size(), createdJobList.size());
+        Assert.assertTrue(createdJobList.containsAll(jobNameList));
     }
 
     @Test
