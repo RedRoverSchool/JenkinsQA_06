@@ -223,7 +223,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(editDescription, NEW_DESCRIPTION_TEXT);
     }
 
-    @Test(dependsOnMethods = "testAddEmailNotificationToPostBuildActions ")
+    @Test(dependsOnMethods = "testAddEmailNotificationToPostBuildActions")
     public void testPreviewDescriptionFromProjectPage() {
         String previewDescription = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
