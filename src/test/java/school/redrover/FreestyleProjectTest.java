@@ -145,7 +145,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertFalse(mainPage.isScheduleBuildOnDashboardAvailable(FREESTYLE_NAME), "Error: disabled project cannot be built");
     }
 
-    @Test(dependsOnMethods = "testAddEmailNotificationToPostBuildActions")
+    @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
     public void testAddDescription() {
         String actualDescription = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -223,14 +223,10 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(editDescription, NEW_DESCRIPTION_TEXT);
     }
 
-    @Test
-    public void testPreviewDescription() {
+    @Test(dependsOnMethods = "testAddEmailNotificationToPostBuildActions")
+    public void testPreviewDescriptionFromProjectPage() {
         String previewDescription = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(FREESTYLE_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickAddDescription()
                 .addDescription(DESCRIPTION_TEXT)
                 .clickPreviewButton()
