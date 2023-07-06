@@ -259,11 +259,4 @@ public class TestUtils {
                 "OrganizationFolder", new OrganizationFolderPage(baseTest.getDriver())
         );
     }
-
-    public static List<String> getJobList(BaseTest baseTest) {
-        List<String> jobName = new ArrayList<>(TestUtils.getJobMap(baseTest).keySet());
-        jobName.sort(String.CASE_INSENSITIVE_ORDER);
-
-        return jobName;
-    }
 }
