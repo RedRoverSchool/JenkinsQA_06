@@ -20,7 +20,7 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(tagName = "footer")
     private WebElement footer;
 
-    @FindBy(xpath = "//*[@id='yui-gen9-button']")
+    @FindBy(id = "yui-gen9")
     private WebElement executeShellButton;
 
     @FindBy(xpath = "//*[@id='yui-gen24']")
@@ -61,7 +61,7 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
                 .scrollByAmount(0, deltaY)
                 .perform();
 
-        getWait5().until(ExpectedConditions.visibilityOf(executeShellButton)).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(executeShellButton)).click();
         generalButton.click();
 
         new Actions(getDriver())
