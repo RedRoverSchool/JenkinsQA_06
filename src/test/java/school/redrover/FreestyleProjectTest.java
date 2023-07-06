@@ -640,6 +640,22 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(currentEmail, email);
     }
 
+    @DataProvider(name = "invalid-characters")
+    public Object[][] getInvalidCharacters() {
+        return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}, {"|"}, {">"}, {"["}, {"]"}};
+    }
+
+    @Test(dataProvider = "invalid-characters")
+    public void testCreateUsingInvalidData(String character) {
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(character)
+                .selectJobType(TestUtils.JobType.FreestyleProject);
+
+        Assert.assertTrue(newJobPage.isOkButtonClickable(), "The button is disabled");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + character + "’ is an unsafe character");
+    }
+
     @Test(dependsOnMethods = "testEditDescription")
     public void testDeleteBuildNowFromSideMenu() {
         boolean message = new MainPage(getDriver())
