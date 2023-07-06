@@ -210,14 +210,14 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
     public void testAddDescriptionFromProjectPage() {
-        String folderDescription = new MainPage(getDriver())
+        FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickAddDescription()
                 .enterDescription(DESCRIPTION)
-                .clickSaveButton()
-                .getDescription();
+                .clickSaveButton();
 
-        Assert.assertEquals(folderDescription, DESCRIPTION);
+        Assert.assertEquals(folderPage.getDescription(), DESCRIPTION);
+        Assert.assertEquals(folderPage.getDescriptionButton(), "Edit description");
     }
 
     @Test(dependsOnMethods = "testAddDescriptionFromProjectPage")
@@ -266,7 +266,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDescriptionUsingConfigPage")
-    public void testCancelDeleting() {
+    public void testCancelDeletingFromSideMenu() {
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickDeleteJobThatIsMainPage()
@@ -423,4 +423,20 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
         Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
     }
+
+    @Test
+    public void testCreateFromPeoplePage() {
+       MainPage  folder = new MainPage(getDriver())
+                 .clickPeopleOnLeftSideMenu()
+                 .clickNewItem()
+                 .enterItemName(NAME)
+                 .selectJobType(TestUtils.JobType.Folder)
+                 .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                 .getHeader()
+                 .clickLogo();
+
+        Assert.assertTrue(folder.jobIsDisplayed(NAME), "Error: the folder name is not displayed");
+        Assert.assertTrue(folder.isIconFolderDisplayed(), "Error: the folder icon is not displayed");
+    }
+
 }

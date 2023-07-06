@@ -25,7 +25,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     private WebElement deleteButton;
 
     @FindBy(xpath = "//a[@id='description-link']")
-    private WebElement editDescriptionButton;
+    private WebElement addEditDescriptionButton;
 
     @FindBy(xpath = "//textarea[@name='description']")
     private WebElement descriptionField;
@@ -75,7 +75,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     }
 
     public Self clickEditDescription() {
-        getWait5().until(ExpectedConditions.visibilityOf(editDescriptionButton)).click();
+        getWait5().until(ExpectedConditions.visibilityOf(addEditDescriptionButton)).click();
         return (Self) this;
     }
 
@@ -103,7 +103,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     }
 
     public Self changeDescriptionWithoutSaving(String newDescription) {
-        editDescriptionButton.click();
+        addEditDescriptionButton.click();
         getWait2().until(ExpectedConditions.elementToBeClickable(descriptionField));
         descriptionField.clear();
         descriptionField.sendKeys(newDescription);
@@ -122,7 +122,7 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     }
 
     public Self clickAddDescription() {
-        getWait5().until(ExpectedConditions.visibilityOf(editDescriptionButton)).click();
+        getWait5().until(ExpectedConditions.visibilityOf(addEditDescriptionButton)).click();
         return (Self) this;
     }
 
@@ -133,5 +133,9 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
 
     public String getPreviewText() {
         return previewTextarea.getText();
+    }
+
+    public String getDescriptionButton() {
+        return addEditDescriptionButton.getText();
     }
 }

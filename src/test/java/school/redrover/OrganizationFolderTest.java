@@ -56,7 +56,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(welcomeToJenkinsIsDisplayed, "error, Welcome to Jenkins! is not displayed");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolderGoingFromManageJenkinsPage")
+    @Test(dependsOnMethods = "testCreateFromManageJenkinsPage")
     public void testCreateWithExistingName() {
         CreateItemErrorPage errorPage =
                 TestUtils.createJobWithExistingName(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder);
@@ -184,7 +184,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrganizationFolderGoingFromManageJenkinsPage() {
+    public void testCreateFromManageJenkinsPage() {
         List<String> organizationFolderName = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .clickNewItem()
@@ -355,15 +355,17 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreatingJenkinsPipeline() {
-        String linkBookCreatingPipeline = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickSaveButton()
+
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+        String linkBookCreatingPipeline = new OrganizationFolderPage(getDriver())
                 .getTextCreatingJenkinsPipeline();
 
+        String pipelineOneTutorial = new OrganizationFolderPage(getDriver())
+                .clickPipelineOneTutorial()
+                .getTextPipelineTitle();
+
         Assert.assertEquals(linkBookCreatingPipeline, "Creating a Jenkins Pipeline");
+        Assert.assertEquals(pipelineOneTutorial,"Pipeline");
     }
 
     @Test(dataProvider = "wrong-character")
@@ -427,5 +429,19 @@ public class OrganizationFolderTest extends BaseTest {
                 .getItemInvalidMessage();
 
         Assert.assertEquals(errorMessage, "» “.” is not an allowed name");
+    }
+
+    @Test
+    public void testCreateFromMyViewsNewItem() {
+        String newOrganizationFolderName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(newOrganizationFolderName, ORGANIZATION_FOLDER_NAME);
     }
 }

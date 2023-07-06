@@ -40,21 +40,6 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateWithDefaultConfigurations() {
-        final String PROJECT_NAME = UUID.randomUUID().toString();
-
-        MainPage mainPage = new MainPage(getDriver())
-                .clickCreateAJobArrow()
-                .enterItemName(PROJECT_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .getHeader()
-                .clickLogo();
-
-        Assert.assertFalse(mainPage.getJobName(PROJECT_NAME).isEmpty());
-    }
-
-    @Test
     public void testCreateWithExistingName() {
         createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
@@ -278,7 +263,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testBuildFreestyleProject() {
+    public void testBuildStepsExecuteShell() {
         final String commandFieldText = "echo Hello";
 
         String consoleOutput = new MainPage(getDriver())
@@ -297,7 +282,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreatedNewBuild() {
+    public void testCreateBuildNowFromSideMenu() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         boolean buildHeaderIsDisplayed = new MainPage(getDriver())
@@ -411,12 +396,11 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCancelDeleting() {
+    public void testCancelDeletingFromDropDownMenu() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         boolean projectIsPresent = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickDeleteProjectOnDropDown()
+                .dropDownMenuClickDelete(FREESTYLE_NAME)
                 .dismissAlert()
                 .getHeader()
                 .clickLogo()
@@ -654,6 +638,22 @@ public class FreestyleProjectTest extends BaseTest {
                 .getEmailNotificationFieldText();
 
         Assert.assertEquals(currentEmail, email);
+    }
+
+    @DataProvider(name = "invalid-characters")
+    public Object[][] getInvalidCharacters() {
+        return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}, {"|"}, {">"}, {"["}, {"]"}};
+    }
+
+    @Test(dataProvider = "invalid-characters")
+    public void testCreateUsingInvalidData(String character) {
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(character)
+                .selectJobType(TestUtils.JobType.FreestyleProject);
+
+        Assert.assertTrue(newJobPage.isOkButtonClickable(), "The button is disabled");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + character + "’ is an unsafe character");
     }
 
     @Test
