@@ -290,7 +290,7 @@ public class PipelineTest extends BaseTest {
                 TestUtils.createJobWithExistingNameWithoutClickOk(this, NAME, TestUtils.JobType.Pipeline);
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» A job already exists with the name " + "‘" + NAME + "’");
-        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is disabled");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled(), "error OK button is disabled");
     }
 
     @Test
@@ -350,7 +350,7 @@ public class PipelineTest extends BaseTest {
                 TestUtils.createFolderUsingInvalidData(this, wrongCharacters, TestUtils.JobType.Pipeline);
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + wrongCharacters + "’ is an unsafe character");
-        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled(), "error OK button is enabled");
     }
 
     @Test

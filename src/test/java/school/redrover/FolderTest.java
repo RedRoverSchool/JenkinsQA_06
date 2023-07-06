@@ -93,7 +93,7 @@ public class FolderTest extends BaseTest {
 
         NewJobPage newJobPage = TestUtils.createFolderUsingInvalidData(this, invalidData, TestUtils.JobType.Folder);
 
-        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled(), "error OK button is enabled");
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), expectedErrorMessage);
     }
 
@@ -427,7 +427,7 @@ public class FolderTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.Folder);
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
-        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled(), "error OK button is enabled");
     }
 
     @Test

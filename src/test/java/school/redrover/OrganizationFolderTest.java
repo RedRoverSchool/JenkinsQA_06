@@ -246,7 +246,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .enterItemName(invalidData)
                 .selectJobType(TestUtils.JobType.OrganizationFolder);
 
-        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "Save button is enabled");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled(), "Save button is enabled");
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + invalidData + "’ is an unsafe character");
     }
 

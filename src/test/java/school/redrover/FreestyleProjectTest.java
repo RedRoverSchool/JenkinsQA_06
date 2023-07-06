@@ -68,9 +68,9 @@ public class FreestyleProjectTest extends BaseTest {
         boolean okButton = new MainPage(getDriver())
                 .clickCreateAJobArrow()
                 .selectJobType(TestUtils.JobType.FreestyleProject)
-                .isOkButtonDisabled();
+                .isOkButtonEnabled();
 
-        Assert.assertTrue(okButton);
+        Assert.assertFalse(okButton);
     }
 
     @Test
