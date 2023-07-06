@@ -321,7 +321,8 @@ public class FolderTest extends BaseTest {
                 {TestUtils.JobType.MultiConfigurationProject},
                 {TestUtils.JobType.Folder},
                 {TestUtils.JobType.MultibranchPipeline},
-                {TestUtils.JobType.OrganizationFolder}};}
+                {TestUtils.JobType.OrganizationFolder}};
+    }
     @Test(dataProvider = "jobType")
     public void testMoveJobToFolderFromDropDownMenu(TestUtils.JobType jobType) {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
