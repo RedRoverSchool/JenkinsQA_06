@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
@@ -122,9 +123,11 @@ public class FreestyleProjectTest extends BaseTest {
         List<String> DropDownMenu = new MainPage(getDriver())
                 .getListOfProjectMenuItems(FREESTYLE_NAME);
 
-        Assert.assertFalse(DropDownMenu.contains("Build Now"), "'Build Now' option is present in drop-down menu");
-        Assert.assertEquals(projectName.getDisabledMessageText(), "This project is currently disabled");
-        Assert.assertEquals(projectName.getEnableButtonText(), "Enable");
+        SoftAssert soft = new SoftAssert();
+        soft.assertFalse(DropDownMenu.contains("Build Now"), "'Build Now' option is present in drop-down menu");
+        soft.assertEquals(projectName.getDisabledMessageText(), "This project is currently disabled");
+        soft.assertEquals(projectName.getEnableButtonText(), "Enable");
+        soft.assertAll();
     }
 
     @Test(dependsOnMethods = "testDisableFromProjectPage")
