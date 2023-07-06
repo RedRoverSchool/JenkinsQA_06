@@ -48,9 +48,6 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "(//a[@class='model-link inside build-link display-name']//button[@class='jenkins-menu-dropdown-chevron'])[1]")
     private WebElement buildsDropDownMenu;
 
-    @FindBy(xpath = "//div[@class='ft bottomscrollbar']")
-    private WebElement scrollForBuildsDropDownMenu;
-
     @FindBy(xpath = "//span[contains(text(),'Delete build ‘#1’')]")
     private WebElement deleteBuildButtonDropDownMenu;
 
@@ -143,12 +140,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     }
 
     public DeletePage<Self> clickDeleteBuildFromDropDownMenu() {
-        if (!deleteBuildButtonDropDownMenu.isDisplayed()) {
-            scrollForBuildsDropDownMenu.click();
-        } else {
-            deleteBuildButtonDropDownMenu.click();
-        }
-
+        deleteBuildButtonDropDownMenu.click();
         return new DeletePage<>((Self)this);
     }
 
