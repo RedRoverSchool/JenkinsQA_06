@@ -428,4 +428,18 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(errorMessage, "» “.” is not an allowed name");
     }
+
+    @Test
+    public void testCreateFromMyViewsNewItem() {
+        String newOrganizationFolderName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(newOrganizationFolderName, ORGANIZATION_FOLDER_NAME);
+    }
 }
