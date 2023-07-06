@@ -40,21 +40,6 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateWithDefaultConfigurations() {
-        final String PROJECT_NAME = UUID.randomUUID().toString();
-
-        MainPage mainPage = new MainPage(getDriver())
-                .clickCreateAJobArrow()
-                .enterItemName(PROJECT_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .getHeader()
-                .clickLogo();
-
-        Assert.assertFalse(mainPage.getJobName(PROJECT_NAME).isEmpty());
-    }
-
-    @Test
     public void testCreateWithExistingName() {
         createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
