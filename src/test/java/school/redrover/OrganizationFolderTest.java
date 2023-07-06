@@ -56,7 +56,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(welcomeToJenkinsIsDisplayed, "error, Welcome to Jenkins! is not displayed");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolderGoingFromManageJenkinsPage")
+    @Test(dependsOnMethods = "testCreateFromManageJenkinsPage")
     public void testCreateWithExistingName() {
         CreateItemErrorPage errorPage =
                 TestUtils.createJobWithExistingName(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder);
@@ -184,7 +184,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrganizationFolderGoingFromManageJenkinsPage() {
+    public void testCreateFromManageJenkinsPage() {
         List<String> organizationFolderName = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .clickNewItem()
