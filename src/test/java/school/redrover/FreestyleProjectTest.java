@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
@@ -36,21 +37,6 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickLogo();
 
         Assert.assertTrue(projectName.jobIsDisplayed(FREESTYLE_NAME));
-    }
-
-    @Test
-    public void testCreateWithDefaultConfigurations() {
-        final String PROJECT_NAME = UUID.randomUUID().toString();
-
-        MainPage mainPage = new MainPage(getDriver())
-                .clickCreateAJobArrow()
-                .enterItemName(PROJECT_NAME)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .getHeader()
-                .clickLogo();
-
-        Assert.assertFalse(mainPage.getJobName(PROJECT_NAME).isEmpty());
     }
 
     @Test
@@ -122,9 +108,11 @@ public class FreestyleProjectTest extends BaseTest {
         List<String> DropDownMenu = new MainPage(getDriver())
                 .getListOfProjectMenuItems(FREESTYLE_NAME);
 
-        Assert.assertFalse(DropDownMenu.contains("Build Now"), "'Build Now' option is present in drop-down menu");
-        Assert.assertEquals(projectName.getDisabledMessageText(), "This project is currently disabled");
-        Assert.assertEquals(projectName.getEnableButtonText(), "Enable");
+        SoftAssert soft = new SoftAssert();
+        soft.assertFalse(DropDownMenu.contains("Build Now"), "'Build Now' option is present in drop-down menu");
+        soft.assertEquals(projectName.getDisabledMessageText(), "This project is currently disabled");
+        soft.assertEquals(projectName.getEnableButtonText(), "Enable");
+        soft.assertAll();
     }
 
     @Test(dependsOnMethods = "testDisableFromProjectPage")
@@ -133,11 +121,12 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickEnable();
 
-        Assert.assertEquals(projectName.getDisableButtonText(),"Disable Project");
-        Assert.assertEquals(projectName.clickConfigure().getTextEnabled(), "Enabled");
-        Assert.assertEquals(projectName.getHeader().clickLogo().getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
+        SoftAssert soft = new SoftAssert();
+        soft.assertEquals(projectName.getDisableButtonText(),"Disable Project");
+        soft.assertEquals(projectName.clickConfigure().getTextEnabled(), "Enabled");
+        soft.assertEquals(projectName.getHeader().clickLogo().getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
+        soft.assertAll();
     }
-
 
     @Test
     public void testDisableFromConfigurationPage() {
@@ -274,7 +263,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testBuildFreestyleProject() {
+    public void testBuildStepsExecuteShell() {
         final String commandFieldText = "echo Hello";
 
         String consoleOutput = new MainPage(getDriver())
@@ -365,8 +354,19 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding")
-    public void testDeleteItemFromSideMenu() {
+    public void testCancelDeletingFromSideMenu() {
+        boolean isProjectPresent = new MainPage(getDriver())
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickDeleteAndCancel()
+                .getHeader()
+                .clickLogo()
+                .verifyJobIsPresent(NEW_FREESTYLE_NAME);
 
+        Assert.assertTrue(isProjectPresent, "error! project is not displayed!");
+    }
+
+    @Test(dependsOnMethods = "testCancelDeletingFromSideMenu")
+    public void testDeleteItemFromSideMenu() {
         boolean isProjectPresent = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickDeleteAndAccept()
@@ -396,12 +396,11 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCancelDeleting() {
+    public void testCancelDeletingFromDropDownMenu() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         boolean projectIsPresent = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickDeleteProjectOnDropDown()
+                .dropDownMenuClickDelete(FREESTYLE_NAME)
                 .dismissAlert()
                 .getHeader()
                 .clickLogo()
@@ -639,5 +638,21 @@ public class FreestyleProjectTest extends BaseTest {
                 .getEmailNotificationFieldText();
 
         Assert.assertEquals(currentEmail, email);
+    }
+
+    @DataProvider(name = "invalid-characters")
+    public Object[][] getInvalidCharacters() {
+        return new Object[][]{{"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"?"}, {"|"}, {">"}, {"["}, {"]"}};
+    }
+
+    @Test(dataProvider = "invalid-characters")
+    public void testCreateUsingInvalidData(String character) {
+        NewJobPage newJobPage = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(character)
+                .selectJobType(TestUtils.JobType.FreestyleProject);
+
+        Assert.assertTrue(newJobPage.isOkButtonClickable(), "The button is disabled");
+        Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + character + "’ is an unsafe character");
     }
 }

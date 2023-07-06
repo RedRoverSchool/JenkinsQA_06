@@ -35,15 +35,6 @@ public class FolderTest extends BaseTest {
                 .clickLogo();
     }
 
-    private void moveJobToFolderFromDropDownMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
-        new MainPage(getDriver())
-                .dropDownMenuClickMove(jobName, jobPage)
-                .selectDestinationFolder(folderName)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo();
-    }
-
     private void moveJobToFolderFromSideMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
         new MainPage(getDriver())
                 .clickJobName(jobName, jobPage)
@@ -224,19 +215,19 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
-    public void testAddDescriptionFromFolderPage() {
-        String folderDescription = new MainPage(getDriver())
+    public void testAddDescriptionFromProjectPage() {
+        FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
-                .clickEditDescription()
+                .clickAddDescription()
                 .enterDescription(DESCRIPTION)
-                .clickSaveButton()
-                .getDescription();
+                .clickSaveButton();
 
-        Assert.assertEquals(folderDescription, DESCRIPTION);
+        Assert.assertEquals(folderPage.getDescription(), DESCRIPTION);
+        Assert.assertEquals(folderPage.getDescriptionButton(), "Edit description");
     }
 
-    @Test(dependsOnMethods = "testAddDescriptionFromFolderPage")
-    public void testAddDescriptionPreview() {
+    @Test(dependsOnMethods = "testAddDescriptionFromProjectPage")
+    public void testPreviewDescriptionFromProjectPage() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickEditDescription()
@@ -246,7 +237,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(previewText, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testAddDescriptionPreview")
+    @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
     public void testPreviewDescriptionFromConfigurationPage() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -281,7 +272,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDescriptionUsingConfigPage")
-    public void testCancelDeleting() {
+    public void testCancelDeletingFromSideMenu() {
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickDeleteJobThatIsMainPage()
@@ -321,22 +312,30 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(welcomeIsDisplayed.clickMyViewsSideMenuLink().getStatusMessageText(), "This folder is empty");
     }
 
-    @Test
-    public void testMoveJobsToFolderFromDropDownMenu() {
-        Map<String, BaseJobPage<?>> jobMap = TestUtils.getJobMap(this);
-
+    @DataProvider(name = "jobType")
+    public Object[][] JobTypes() {
+        return new Object[][]{
+                {TestUtils.JobType.FreestyleProject},
+                {TestUtils.JobType.Pipeline},
+                {TestUtils.JobType.MultiConfigurationProject},
+                {TestUtils.JobType.Folder},
+                {TestUtils.JobType.MultibranchPipeline},
+                {TestUtils.JobType.OrganizationFolder}};
+    }
+    @Test(dataProvider = "jobType")
+    public void testMoveJobToFolderFromDropDownMenu(TestUtils.JobType jobType) {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
+        TestUtils.createJob(this, jobType.name(), jobType, true);
 
-        for (Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
-            TestUtils.createJob(this, entry.getKey(), TestUtils.JobType.valueOf(entry.getKey()), true);
-            moveJobToFolderFromDropDownMenu(entry.getKey(), NAME, entry.getValue());
-        }
+        FolderPage folder = new MainPage(getDriver())
+                .dropDownMenuClickMove(jobType.name(), new FolderPage(getDriver()))
+                .selectDestinationFolder(NAME)
+                .clickMoveButton()
+                .getHeader()
+                .clickLogo()
+                .clickJobName(NAME, new FolderPage(getDriver()));
 
-        List<String> createdJobList = createdJobList(NAME);
-        List<String> jobNameList = new ArrayList<>(jobMap.keySet());
-
-        Assert.assertEquals(jobNameList.size(), createdJobList.size());
-        Assert.assertTrue(createdJobList.containsAll(jobNameList));
+        Assert.assertTrue(folder.jobIsDisplayed(jobType.name()), "Job is not present in Folder");
     }
 
     @Test
@@ -375,7 +374,6 @@ public class FolderTest extends BaseTest {
 
     @Test(dataProvider = "invalid-data")
     public void testRenameWithInvalidData(String invalidData) {
-
         final String expectedErrorMessage = "‘" + invalidData + "’ is an unsafe character";
 
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
@@ -397,7 +395,6 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testDeleteItemFromSideMenu() {
-
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
         boolean welcomeIsDisplayed = new MainPage(getDriver())
@@ -432,4 +429,20 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
         Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
     }
+
+    @Test
+    public void testCreateFromPeoplePage() {
+       MainPage  folder = new MainPage(getDriver())
+                 .clickPeopleOnLeftSideMenu()
+                 .clickNewItem()
+                 .enterItemName(NAME)
+                 .selectJobType(TestUtils.JobType.Folder)
+                 .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                 .getHeader()
+                 .clickLogo();
+
+        Assert.assertTrue(folder.jobIsDisplayed(NAME), "Error: the folder name is not displayed");
+        Assert.assertTrue(folder.isIconFolderDisplayed(), "Error: the folder icon is not displayed");
+    }
+
 }

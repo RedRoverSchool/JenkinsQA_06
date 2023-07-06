@@ -1,5 +1,6 @@
 package school.redrover.model.base;
 
+import io.cucumber.java.eo.Se;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -54,6 +55,12 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         getWait2().until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
         getDriver().switchTo().alert().accept();
         return new MainPage(getDriver());
+    }
+
+    public Self clickDeleteAndCancel() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
+        getDriver().switchTo().alert().dismiss();
+        return (Self)this;
     }
 
     public Self clickDisable() {
