@@ -406,7 +406,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCancelDeleting() {
+    public void testCancelDeletingFromDropDownMenu() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         boolean projectIsPresent = new MainPage(getDriver())
