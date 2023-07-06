@@ -56,7 +56,7 @@ public class FolderTest extends BaseTest {
 
     public List<String> createdJobList(String name) {
         return new MainPage(getDriver())
-                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickJobName(name, new FolderPage(getDriver()))
                 .getJobList();
     }
 
