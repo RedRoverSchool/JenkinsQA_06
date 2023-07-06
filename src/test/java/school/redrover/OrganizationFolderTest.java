@@ -23,17 +23,12 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizationFolder() {
-        String actualNewFolderName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .getJobName(ORGANIZATION_FOLDER_NAME);
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
-        Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
+        boolean actualNewFolderName = new MainPage(getDriver())
+                .jobIsDisplayed(ORGANIZATION_FOLDER_NAME);
+
+        Assert.assertTrue(actualNewFolderName, "error was not show name folder");
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolder")
