@@ -138,7 +138,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(projectName.getHeader().clickLogo().getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
     }
 
-
     @Test
     public void testDisableFromConfigurationPage() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
@@ -365,8 +364,19 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEnableJenkinsToBlockBuildsWhenUpstreamProjectIsBuilding")
-    public void testDeleteItemFromSideMenu() {
+    public void testCancelDeletingFromSideMenu() {
+        boolean isProjectPresent = new MainPage(getDriver())
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickDeleteAndCancel()
+                .getHeader()
+                .clickLogo()
+                .verifyJobIsPresent(NEW_FREESTYLE_NAME);
 
+        Assert.assertTrue(isProjectPresent, "error! project is not displayed!");
+    }
+
+    @Test(dependsOnMethods = "testCancelDeletingFromSideMenu")
+    public void testDeleteItemFromSideMenu() {
         boolean isProjectPresent = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickDeleteAndAccept()
