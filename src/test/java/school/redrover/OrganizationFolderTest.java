@@ -361,15 +361,17 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreatingJenkinsPipeline() {
-        String linkBookCreatingPipeline = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickSaveButton()
+
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+        String linkBookCreatingPipeline = new OrganizationFolderPage(getDriver())
                 .getTextCreatingJenkinsPipeline();
 
+        String pipelineOneTutorial = new OrganizationFolderPage(getDriver())
+                .clickPipelineOneTutorial()
+                .getTextPipelineTitle();
+
         Assert.assertEquals(linkBookCreatingPipeline, "Creating a Jenkins Pipeline");
+        Assert.assertEquals(pipelineOneTutorial,"Pipeline");
     }
 
     @Test(dataProvider = "wrong-character")
