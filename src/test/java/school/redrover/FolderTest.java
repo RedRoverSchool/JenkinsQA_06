@@ -231,7 +231,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(previewText, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
+    @Test(dependsOnMethods = "testCreateFolderGoingFromBuildHistoryPage")
     public void testAddDescriptionFromConfigurationPage() {
         String description = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -243,7 +243,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(description, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
+    @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
     public void testPreviewDescriptionFromConfigurationPage() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
