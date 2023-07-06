@@ -127,7 +127,7 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testRenameFromSideMenu() {
-        FolderPage folderPage =  new MainPage(getDriver())
+        FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(RENAME, new FolderPage(getDriver()))
                 .clickRename()
                 .enterNewName(NAME)
@@ -205,7 +205,7 @@ public class FolderTest extends BaseTest {
                 .clickHealthMetrics()
                 .healthMetricIsVisible();
 
-        Assert.assertTrue(healthMetric,"the deleted metric is no longer visible");
+        Assert.assertTrue(healthMetric, "the deleted metric is no longer visible");
     }
 
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
@@ -232,6 +232,18 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
+    public void testAddDescriptionFromConfigurationPage() {
+        String description = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .addDescription(DESCRIPTION)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(description, DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
     public void testPreviewDescriptionFromConfigurationPage() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -279,18 +291,18 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateJobsInFolder() {
-            TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-            for(Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
-                createdJobInFolder(entry.getKey(), NAME, TestUtils.JobType.valueOf(entry.getKey()),
-                        new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-            }
+        for (Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
+            createdJobInFolder(entry.getKey(), NAME, TestUtils.JobType.valueOf(entry.getKey()),
+                    new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        }
 
-            List<String> createdJobList = new MainPage(getDriver())
-                    .clickJobName(NAME, new FolderPage(getDriver()))
-                    .getJobList();
+        List<String> createdJobList = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .getJobList();
 
-            Assert.assertEquals(createdJobList, TestUtils.getJobList(this));
+        Assert.assertEquals(createdJobList, TestUtils.getJobList(this));
     }
 
     @Test(dependsOnMethods = "testCreateJobsInFolder")
@@ -314,6 +326,7 @@ public class FolderTest extends BaseTest {
                 {TestUtils.JobType.MultibranchPipeline},
                 {TestUtils.JobType.OrganizationFolder}};
     }
+
     @Test(dataProvider = "jobType")
     public void testMoveJobToFolderFromDropDownMenu(TestUtils.JobType jobType) {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
@@ -336,7 +349,7 @@ public class FolderTest extends BaseTest {
 
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        for(Map.Entry<String, BaseJobPage<?>> entry : jobMap.entrySet()) {
+        for (Map.Entry<String, BaseJobPage<?>> entry : jobMap.entrySet()) {
             TestUtils.createJob(this, entry.getKey(), TestUtils.JobType.valueOf(entry.getKey()), true);
             moveJobToFolderFromSideMenu(entry.getKey(), NAME, entry.getValue());
         }
@@ -400,6 +413,7 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
+
     @Test
     public void testCreateWithLongName() {
         String longName = RandomStringUtils.randomAlphanumeric(256);
