@@ -98,4 +98,9 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         clickOkButton(null);
         return new CreateBugPage(getDriver());
     }
+
+    public boolean isOkButtonClickable() {
+        return  getWait2().until((ExpectedConditions.not(
+                ExpectedConditions.elementToBeClickable(okButton))));
+    }
 }
