@@ -655,4 +655,27 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(newJobPage.isOkButtonClickable(), "The button is disabled");
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + character + "’ is an unsafe character");
     }
+
+    @Test
+    public void testConfigurePostBuildActionBuildOtherProjects() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, NEW_FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String lastBuildInfo = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .clickAddPostBuildActionDropDown()
+                .clickBuildOtherProjects()
+                .setBuildOtherProjects(NEW_FREESTYLE_NAME)
+                .clickSaveButton()
+                .clickBuildNowFromSideMenu()
+                .getHeader()
+                .clickLogo()
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickLastBuildLink()
+                .getBuildInfo();
+
+        Assert.assertEquals(lastBuildInfo, "Started by upstream project " + FREESTYLE_NAME);
+    }
 }
