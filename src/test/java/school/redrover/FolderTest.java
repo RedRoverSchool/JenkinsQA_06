@@ -219,14 +219,14 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
     public void testAddDescriptionFromProjectPage() {
-        String folderDescription = new MainPage(getDriver())
+        FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickAddDescription()
                 .enterDescription(DESCRIPTION)
-                .clickSaveButton()
-                .getDescription();
+                .clickSaveButton();
 
-        Assert.assertEquals(folderDescription, DESCRIPTION);
+        Assert.assertEquals(folderPage.getDescription(), DESCRIPTION);
+        Assert.assertEquals(folderPage.getDescriptionButton(), "Edit description");
     }
 
     @Test(dependsOnMethods = "testAddDescriptionFromProjectPage")
