@@ -329,8 +329,7 @@ public class FolderTest extends BaseTest {
         TestUtils.createJob(this, jobType.name(), jobType, true);
 
         FolderPage folder = new MainPage(getDriver())
-                .clickJobName(jobType.name(), new FolderPage(getDriver()))
-                .clickMoveOnSideMenu()
+                .dropDownMenuClickMove(jobType.name(), new FolderPage(getDriver()))
                 .selectDestinationFolder(NAME)
                 .clickMoveButton()
                 .getHeader()
