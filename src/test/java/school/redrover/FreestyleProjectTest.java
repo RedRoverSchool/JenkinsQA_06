@@ -136,9 +136,11 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickEnable();
 
-        Assert.assertEquals(projectName.getDisableButtonText(),"Disable Project");
-        Assert.assertEquals(projectName.clickConfigure().getTextEnabled(), "Enabled");
-        Assert.assertEquals(projectName.getHeader().clickLogo().getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
+        SoftAssert soft = new SoftAssert();
+        soft.assertEquals(projectName.getDisableButtonText(),"Disable Project");
+        soft.assertEquals(projectName.clickConfigure().getTextEnabled(), "Enabled");
+        soft.assertEquals(projectName.getHeader().clickLogo().getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
+        soft.assertAll();
     }
 
     @Test
