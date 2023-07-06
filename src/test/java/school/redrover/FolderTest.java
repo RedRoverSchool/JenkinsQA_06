@@ -230,7 +230,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddDescriptionFromFolderPage")
-    public void testAddDescriptionPreview() {
+    public void testPreviewDescriptionFromProjectPage() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickEditDescription()
@@ -240,7 +240,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(previewText, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testAddDescriptionPreview")
+    @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
     public void testPreviewDescriptionFromConfigurationPage() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -373,7 +373,6 @@ public class FolderTest extends BaseTest {
 
     @Test(dataProvider = "invalid-data")
     public void testRenameWithInvalidData(String invalidData) {
-
         final String expectedErrorMessage = "‘" + invalidData + "’ is an unsafe character";
 
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
@@ -395,7 +394,6 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testDeleteItemFromSideMenu() {
-
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
         boolean welcomeIsDisplayed = new MainPage(getDriver())
