@@ -35,15 +35,6 @@ public class FolderTest extends BaseTest {
                 .clickLogo();
     }
 
-    private void moveJobToFolderFromDropDownMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
-        new MainPage(getDriver())
-                .dropDownMenuClickMove(jobName, jobPage)
-                .selectDestinationFolder(folderName)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo();
-    }
-
     private void moveJobToFolderFromSideMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
         new MainPage(getDriver())
                 .clickJobName(jobName, jobPage)
@@ -314,7 +305,7 @@ public class FolderTest extends BaseTest {
     }
 
     @DataProvider(name = "jobType")
-    public Object[][] JobTypes(){
+    public Object[][] JobTypes() {
         return new Object[][]{
                 {TestUtils.JobType.FreestyleProject},
                 {TestUtils.JobType.Pipeline},
