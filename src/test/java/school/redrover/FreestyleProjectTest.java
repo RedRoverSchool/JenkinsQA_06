@@ -669,7 +669,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickBuildOtherProjects()
                 .setBuildOtherProjects(NEW_FREESTYLE_NAME)
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .getHeader()
                 .clickLogo()
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
