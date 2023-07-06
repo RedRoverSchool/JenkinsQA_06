@@ -133,6 +133,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     public Self openBuildsDropDownMenu() {
         new Actions(getDriver())
                 .moveToElement(firstBuildIcon)
+                .moveToElement(buildsDropDownMenu)
                 .click(buildsDropDownMenu)
                 .perform();
 
