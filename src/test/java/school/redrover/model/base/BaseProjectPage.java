@@ -143,8 +143,11 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     }
 
     public DeletePage<Self> clickDeleteBuildFromDropDownMenu() {
-        scrollForBuildsDropDownMenu.click();
-        deleteBuildButtonDropDownMenu.click();
+        if (!deleteBuildButtonDropDownMenu.isDisplayed()) {
+            scrollForBuildsDropDownMenu.click();
+        } else {
+            deleteBuildButtonDropDownMenu.click();
+        }
 
         return new DeletePage<>((Self)this);
     }
