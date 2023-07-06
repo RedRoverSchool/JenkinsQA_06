@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.bouncycastle.crypto.io.MacInputStream;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -22,7 +21,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String DESCRIPTION_TEXT = "DESCRIPTION_TEXT";
 
     @Test
-    public void testCreateOrganizationFolder() {
+    public void testCreateFromNewItem() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
         boolean actualNewFolderName = new MainPage(getDriver())
@@ -31,7 +30,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(actualNewFolderName, "error was not show name folder");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    @Test(dependsOnMethods = "testCreateFromNewItem")
     public void testDisableFromConfigurationPage() {
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
