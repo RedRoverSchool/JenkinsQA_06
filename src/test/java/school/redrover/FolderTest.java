@@ -218,10 +218,10 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
-    public void testAddDescriptionFromFolderPage() {
+    public void testAddDescriptionFromProjectPage() {
         String folderDescription = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
-                .clickEditDescription()
+                .clickAddDescription()
                 .enterDescription(DESCRIPTION)
                 .clickSaveButton()
                 .getDescription();
@@ -229,7 +229,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderDescription, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testAddDescriptionFromFolderPage")
+    @Test(dependsOnMethods = "testAddDescriptionFromProjectPage")
     public void testPreviewDescriptionFromProjectPage() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
