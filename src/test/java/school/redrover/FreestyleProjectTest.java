@@ -282,7 +282,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreatedNewBuild() {
+    public void testCreateBuildNowFromSideMenu() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         boolean buildHeaderIsDisplayed = new MainPage(getDriver())
