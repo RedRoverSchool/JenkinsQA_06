@@ -263,7 +263,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testBuildFreestyleProject() {
+    public void testBuildStepsExecuteShell() {
         final String commandFieldText = "echo Hello";
 
         String consoleOutput = new MainPage(getDriver())
