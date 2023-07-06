@@ -660,15 +660,8 @@ public class FreestyleProjectTest extends BaseTest {
     public void testConfigurePostBuildActionBuildOtherProjects() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
         TestUtils.createJob(this, NEW_FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
-        MainPage mainPage = new MainPage(getDriver());
 
-        String statusOneBefore = mainPage
-                .getJobBuildStatusIcon(FREESTYLE_NAME);
-
-        String statusTwoBefore = mainPage
-                .getJobBuildStatusIcon(NEW_FREESTYLE_NAME);
-
-        String statusOneAfter = mainPage
+        String lastBuildInfo = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .clickPostBuildActionsButton()
@@ -679,15 +672,10 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickBuildNow()
                 .getHeader()
                 .clickLogo()
-                .getJobBuildStatusIcon(FREESTYLE_NAME);
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickLastBuildLink()
+                .getBuildInfo();
 
-        String statusTwoAfter = mainPage
-                .getJobBuildStatusIcon(NEW_FREESTYLE_NAME);
-
-        Assert.assertEquals(statusOneBefore, "Not built");
-        Assert.assertEquals(statusTwoBefore, "Not built");
-
-        Assert.assertEquals(statusOneAfter, "Success");
-        Assert.assertEquals(statusTwoAfter, "Success");
+        Assert.assertEquals(lastBuildInfo, "Started by upstream project " + FREESTYLE_NAME);
     }
 }
