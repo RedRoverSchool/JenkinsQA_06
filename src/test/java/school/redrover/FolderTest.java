@@ -423,4 +423,20 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
         Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
     }
+
+    @Test
+    public void testCreateFromPeoplePage() {
+       MainPage  folder = new MainPage(getDriver())
+                 .clickPeopleOnLeftSideMenu()
+                 .clickNewItem()
+                 .enterItemName(NAME)
+                 .selectJobType(TestUtils.JobType.Folder)
+                 .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                 .getHeader()
+                 .clickLogo();
+
+        Assert.assertTrue(folder.jobIsDisplayed(NAME), "Error: the folder name is not displayed");
+        Assert.assertTrue(folder.isIconFolderDisplayed(), "Error: the folder icon is not displayed");
+    }
+
 }
