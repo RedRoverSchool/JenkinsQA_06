@@ -266,7 +266,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeleteDescriptionUsingConfigPage")
-    public void testCancelDeleting() {
+    public void testCancelDeletingFromSideMenu() {
         boolean folderIsDisplayed = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickDeleteJobThatIsMainPage()
