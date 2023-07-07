@@ -49,6 +49,12 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//input[@name='buildTrigger.childProjects']")
     private WebElement buildOtherProjectsInputField;
 
+    @FindBy(xpath = "//a[text()='Archive the artifacts']")
+    private WebElement archiveTheArtifacts;
+
+    @FindBy(xpath = "//div[@descriptorid = 'hudson.tasks.ArtifactArchiver']")
+    private WebElement archiveArtifacts;
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
@@ -122,5 +128,14 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
         scrollToFooter();
         getWait2().until(ExpectedConditions.elementToBeClickable(buildOtherProjectsInputField)).sendKeys(projectName);
         return this;
+    }
+
+    public FreestyleProjectConfigPage clickArchiveTheArtifacts() {
+        archiveTheArtifacts.click();
+        return  this;
+    }
+
+    public String getTextArchiveArtifacts() {
+       return archiveArtifacts.getText();
     }
 }
