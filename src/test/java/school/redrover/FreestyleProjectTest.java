@@ -756,15 +756,16 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFromManageJenkinsPage() {
-        MainPage projectName = new MainPage(getDriver())
+        boolean jobIsDisplayed = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .getHeader()
-                .clickLogo();
+                .clickLogo()
+                .jobIsDisplayed(FREESTYLE_NAME);
 
-        Assert.assertTrue(projectName.jobIsDisplayed(FREESTYLE_NAME), "Error: the Freestyle Project's name is not displayed on Dashboard");
+        Assert.assertTrue(jobIsDisplayed, "Error: the Freestyle Project's name is not displayed on Dashboard");
     }
 }
