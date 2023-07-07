@@ -450,6 +450,19 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
+    public void testCancelDeletingFromDropDownMenu() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        boolean isOrganisationFolderDisplayed = new MainPage(getDriver())
+                .dropDownMenuClickDeleteFolders(ORGANIZATION_FOLDER_NAME)
+                .getHeader()
+                .clickLogo()
+                .jobIsDisplayed(ORGANIZATION_FOLDER_NAME);
+
+        Assert.assertTrue(isOrganisationFolderDisplayed, "Organisation Folder`s name is not displayed");
+    }
+
+    @Test
     public void testCancelDeletingFromSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
