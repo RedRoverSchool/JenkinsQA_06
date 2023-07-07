@@ -348,7 +348,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickGeneratePipelineScriptButton()
                 .getTextPipelineScript();
 
-        Assert.assertEquals(pipelineSyntax, expectedText);
+        Assert.assertEquals(pipelineSyntax, expectedText );
     }
 
     @Test
@@ -363,7 +363,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTextPipelineTitle();
 
         Assert.assertEquals(linkBookCreatingPipeline, "Creating a Jenkins Pipeline");
-        Assert.assertEquals(pipelineOneTutorial, "Pipeline");
+        Assert.assertEquals(pipelineOneTutorial,"Pipeline");
     }
 
     @Test(dataProvider = "wrong-character")
@@ -399,14 +399,14 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testOrganizationFolderEvents() {
-        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+        TestUtils.createJob(this,ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
         String eventTitle = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickOrgFolderEvents()
                 .getTextFromTitle();
 
-        Assert.assertEquals(eventTitle, "Organization Folder Events");
+        Assert.assertEquals(eventTitle,"Organization Folder Events");
     }
 
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
@@ -447,6 +447,19 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(newOrganizationFolderName, ORGANIZATION_FOLDER_NAME);
         Assert.assertTrue(newOrganizationFolderNameIsDisplayed);
+    }
+
+    @Test
+    public void testCancelDeletingFromDropDownMenu() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        boolean isOrganisationFolderDisplayed = new MainPage(getDriver())
+                .dropDownMenuClickDeleteFolders(ORGANIZATION_FOLDER_NAME)
+                .getHeader()
+                .clickLogo()
+                .jobIsDisplayed(ORGANIZATION_FOLDER_NAME);
+
+        Assert.assertTrue(isOrganisationFolderDisplayed, "Organisation Folder`s name is not displayed");
     }
 
     @Test
