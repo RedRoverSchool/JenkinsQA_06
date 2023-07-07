@@ -14,7 +14,6 @@ import school.redrover.runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static school.redrover.runner.TestUtils.createJob;
 
@@ -677,5 +676,17 @@ public class FreestyleProjectTest extends BaseTest {
                 .getBuildInfo();
 
         Assert.assertEquals(lastBuildInfo, "Started by upstream project " + FREESTYLE_NAME);
+    }
+
+    @Test(dependsOnMethods = "testEditDescription")
+    public void testDeleteBuildNowFromSideMenu() {
+        boolean message = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickDeleteBuildFromDropDownMenu()
+                .clickYesButton()
+                .isNoBuildsDisplayed();
+
+        Assert.assertTrue(message, "error! No builds message is not display");
     }
 }
