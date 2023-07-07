@@ -48,6 +48,9 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
     @FindBy(xpath = "//div[@class='textarea-preview']")
     private WebElement previewTextarea;
 
+    @FindBy(xpath = "//div[@id='view-message']")
+    private WebElement textDescriptionFromConfig;
+
     public BaseJobPage(WebDriver driver) {
         super(driver);
     }
@@ -91,6 +94,10 @@ public abstract class BaseJobPage<Self extends BaseJobPage<?>> extends BaseMainH
 
     public String getDescription() {
         return getWait5().until(ExpectedConditions.visibilityOf(jobDescription)).getText();
+    }
+
+    public String getDescriptionFromConfigure(){
+        return getWait5().until(ExpectedConditions.visibilityOf(textDescriptionFromConfig)).getText();
     }
 
     public boolean isDescriptionEmpty(){

@@ -456,4 +456,15 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(projectName.isIconFolderDisplayed(), "Error: the folder icon is not displayed");
     }
 
+    @Test(dependsOnMethods = "testCreateFolderGoingFromBuildHistoryPage")
+    public void testAddDescriptionFromConfigurationPage(){
+        String descriptionText = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .addDescription(DESCRIPTION)
+                .clickSaveButton()
+                .getDescriptionFromConfigure();
+
+        Assert.assertEquals(descriptionText,DESCRIPTION);
+    }
 }
