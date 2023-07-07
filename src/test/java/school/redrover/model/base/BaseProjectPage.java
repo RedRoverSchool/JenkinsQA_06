@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
 
+import java.time.Duration;
 import java.util.List;
 
 public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends BaseJobPage<Self> {
@@ -53,9 +54,6 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     @FindBy(xpath = "(//a[@class='model-link inside build-link display-name']//button[@class='jenkins-menu-dropdown-chevron'])[1]")
     private WebElement buildsDropDownMenu;
-
-    @FindBy(xpath = "//div[@class='ft bottomscrollbar']")
-    private WebElement scrollForBuildsDropDownMenu;
 
     @FindBy(xpath = "//span[contains(text(),'Delete build ‘#1’')]")
     private WebElement deleteBuildButtonDropDownMenu;
@@ -149,6 +147,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     public Self openBuildsDropDownMenu() {
         new Actions(getDriver())
                 .moveToElement(firstBuildIcon)
+                .pause(Duration.ofMillis(300))
                 .click(buildsDropDownMenu)
                 .perform();
 
@@ -156,7 +155,6 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     }
 
     public DeletePage<Self> clickDeleteBuildFromDropDownMenu() {
-        scrollForBuildsDropDownMenu.click();
         deleteBuildButtonDropDownMenu.click();
 
         return new DeletePage<>((Self)this);
