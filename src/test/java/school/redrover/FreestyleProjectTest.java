@@ -683,7 +683,6 @@ public class FreestyleProjectTest extends BaseTest {
         boolean message = new MainPage(getDriver())
                 .clickPlayBuildForATestButton(FREESTYLE_NAME)
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .openBuildsDropDownMenu()
                 .clickDeleteBuildFromDropDownMenu()
                 .clickYesButton()
                 .isNoBuildsDisplayed();

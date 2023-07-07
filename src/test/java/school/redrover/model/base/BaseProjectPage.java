@@ -4,12 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
 
-import java.time.Duration;
 import java.util.List;
 
 public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends BaseJobPage<Self> {
@@ -53,7 +51,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//a[@class='model-link inside build-link display-name']")
     private WebElement firstBuildIcon;
 
-    @FindBy(xpath = "(//a[@class='model-link inside build-link display-name']//button[@class='jenkins-menu-dropdown-chevron'])[1]")
+    @FindBy(xpath = "//a[@class='model-link inside build-link display-name']//button[@class='jenkins-menu-dropdown-chevron']")
     private WebElement buildsDropDownMenu;
 
     @FindBy(xpath = "//span[contains(text(),'Delete build ‘#1’')]")
@@ -146,16 +144,13 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     }
 
     public Self openBuildsDropDownMenu() {
-        Actions actions = new Actions(getDriver());
-
-        actions.moveToElement(firstBuildIcon).perform();
-        actions.moveToElement(buildsDropDownMenu).perform();
-        buildNowButton.sendKeys(Keys.RETURN);
+        getWait10().until(ExpectedConditions.visibilityOf(buildsDropDownMenu)).sendKeys(Keys.RETURN);
 
         return (Self)this;
     }
 
     public DeletePage<Self> clickDeleteBuildFromDropDownMenu() {
+        openBuildsDropDownMenu();
         deleteBuildButtonDropDownMenu.click();
 
         return new DeletePage<>((Self)this);
