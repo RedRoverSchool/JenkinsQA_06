@@ -1,6 +1,7 @@
 package school.redrover.model.base;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -147,8 +148,8 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     public Self openBuildsDropDownMenu() {
         new Actions(getDriver())
                 .moveToElement(firstBuildIcon)
-                .pause(Duration.ofMillis(300))
-                .click(buildsDropDownMenu)
+                .moveToElement(buildsDropDownMenu)
+                .sendKeys(Keys.RETURN)
                 .perform();
 
         return (Self)this;
