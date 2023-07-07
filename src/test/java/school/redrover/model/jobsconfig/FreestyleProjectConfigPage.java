@@ -19,15 +19,17 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(tagName = "footer")
     private WebElement footer;
 
-    @FindBy(xpath = "//*[@id='yui-gen9-button']")
+    @FindBy(xpath = "//*[text()='Execute shell']")
     private WebElement executeShellButton;
 
-    @FindBy(xpath = "//*[@id='yui-gen24']")
-    private WebElement generalButton;
+    @FindBy(xpath = "//*[text()='Invoke top-level Maven targets']")
+    private WebElement invokeMavenTargetsButton;
 
     @FindBy(xpath = "//*[@name='description']")
     private WebElement descriptionField;
 
+    @FindBy(xpath = "//*[@id='textarea._.targets']")
+    private WebElement goalsField;
     @FindBy(xpath = "//input[@name='blockBuildWhenUpstreamBuilding']")
     private WebElement trueBlockBuildWhenUpstreamProjectIsBuilding;
 
@@ -66,18 +68,17 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
         return this;
     }
 
-    public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
+    public FreestyleProjectConfigPage addBuildInvokeMavenTargets(String step) { //addBuildInvokeMavenTargets(String steps)
         int deltaY = footer.getRect().y;
         new Actions(getDriver())
                 .scrollByAmount(0, deltaY)
                 .perform();
 
-        getWait5().until(ExpectedConditions.visibilityOf(executeShellButton)).click();
-        generalButton.click();
+        getWait5().until(ExpectedConditions.visibilityOf(invokeMavenTargetsButton)).click();
 
         new Actions(getDriver())
-                .click(descriptionField)
-                .sendKeys(buildSteps)
+                .click(goalsField)
+                .sendKeys(step)
                 .perform();
         return this;
     }

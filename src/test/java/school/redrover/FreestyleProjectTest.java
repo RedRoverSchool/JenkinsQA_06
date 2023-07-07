@@ -312,24 +312,26 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(sizeOfPermalinksList, 4);
     }
 
-    @Ignore
+   // @Ignore
     @Test
-    public void testFreestyleProjectJob() {
+    public void testCreateBuildInvokeMavenTargets() {
         String nameProject = "Hello world";
-        String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
+        String steps1 = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
+        String step="-version";
+        TestUtils.createJob(this, FREESTYLE_NAME,TestUtils.JobType.FreestyleProject,true);
 
         String consoleOutput = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(nameProject)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .addBuildStepsExecuteShell(steps)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .openBuildStepOptionsDropdown()
+                .addBuildInvokeMavenTargets(step)  //addBuildInvokeMavenTargets(steps)
                 .clickSaveButton()
                 .clickBuildNowFromSideMenu()
                 .clickIconBuildOpenConsoleOutput(1)
                 .getConsoleOutputText();
 
-        Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
+        Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build wasn't finished successfully");
+       // Assert.assertTrue(consoleOutput.isDisplayedBuildTitle(), "build not created");
     }
 
     @Test
