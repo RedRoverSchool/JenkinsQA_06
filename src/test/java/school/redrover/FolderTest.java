@@ -61,16 +61,16 @@ public class FolderTest extends BaseTest {
                 .getHeader()
                 .clickLogo();
 
-        Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "error was not show name folder");
-        Assert.assertTrue(mainPage.isIconFolderDisplayed(), "error was not shown icon folder");
+        Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "Error: was not show name folder");
+        Assert.assertTrue(mainPage.isIconFolderDisplayed(), "Error: was not shown icon folder");
     }
 
     @Test
     public void testCreateFromNewItem() {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        Assert.assertTrue(new MainPage(getDriver()).jobIsDisplayed(NAME), "error was not show name folder");
-        Assert.assertTrue(new MainPage(getDriver()).isIconFolderDisplayed(), "error was not shown icon folder");
+        Assert.assertTrue(new MainPage(getDriver()).jobIsDisplayed(NAME), "Error: was not show name folder");
+        Assert.assertTrue(new MainPage(getDriver()).isIconFolderDisplayed(), "Error: was not shown icon folder");
     }
 
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
@@ -116,7 +116,7 @@ public class FolderTest extends BaseTest {
                 .clickLogo()
                 .jobIsDisplayed(RENAME);
 
-        Assert.assertTrue(newNameIsDisplayed, "error was not show new name folder");
+        Assert.assertTrue(newNameIsDisplayed, "Error: was not show new name folder");
     }
 
     @Test(dependsOnMethods = "testRenameFromDropDownMenu")
@@ -368,8 +368,8 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFolderGoingFromBuildHistoryPage() {
-        List<String> folderName = new MainPage(getDriver())
+    public void testCreateFromBuildHistoryPage() {
+        MainPage mainPage = new MainPage(getDriver())
                 .clickBuildsHistoryButton()
                 .clickNewItem()
                 .enterItemName(NAME)
@@ -377,10 +377,10 @@ public class FolderTest extends BaseTest {
                 .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
                 .clickSaveButton()
                 .getBreadcrumb()
-                .clickDashboardButton()
-                .getJobList();
+                .clickDashboardButton();
 
-        Assert.assertTrue(folderName.contains(NAME));
+        Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "Error: was not show name folder");
+        Assert.assertTrue(mainPage.isIconFolderDisplayed(), "Error: was not shown icon folder");
     }
 
     @Test(dataProvider = "invalid-data")
@@ -456,7 +456,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(projectName.isIconFolderDisplayed(), "Error: the folder icon is not displayed");
     }
 
-    @Test(dependsOnMethods = "testCreateFolderGoingFromBuildHistoryPage")
+    @Test(dependsOnMethods = "testCreateFromBuildHistoryPage")
     public void testAddDescriptionFromConfigurationPage(){
         String descriptionText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
