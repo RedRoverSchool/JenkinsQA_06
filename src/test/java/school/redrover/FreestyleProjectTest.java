@@ -313,17 +313,17 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(sizeOfPermalinksList, 4);
     }
 
-    @Ignore
     @Test
-    public void testFreestyleProjectJob() {
+    public void testCreateBuildNow() {
         String nameProject = "Hello world";
         String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
 
+        TestUtils.createJob(this, FREESTYLE_NAME,TestUtils.JobType.FreestyleProject,true);
+
         String consoleOutput = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(nameProject)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .openBuildStepOptionsDropdown()
                 .addBuildStepsExecuteShell(steps)
                 .clickSaveButton()
                 .clickBuildNowFromSideMenu()
