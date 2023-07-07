@@ -45,6 +45,12 @@ public class FolderTest extends BaseTest {
                 .clickLogo();
     }
 
+    public List<String> createdJobList(String name) {
+        return new MainPage(getDriver())
+                .clickJobName(name, new FolderPage(getDriver()))
+                .getJobList();
+    }
+
     @Test
     public void testCreateFromCreateAJob() {
         MainPage mainPage = new MainPage(getDriver())
@@ -87,7 +93,7 @@ public class FolderTest extends BaseTest {
 
         NewJobPage newJobPage = TestUtils.createFolderUsingInvalidData(this, invalidData, TestUtils.JobType.Folder);
 
-        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled(), "error OK button is enabled");
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), expectedErrorMessage);
     }
 
@@ -127,7 +133,7 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testRenameFromSideMenu() {
-        FolderPage folderPage =  new MainPage(getDriver())
+        FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(RENAME, new FolderPage(getDriver()))
                 .clickRename()
                 .enterNewName(NAME)
@@ -205,7 +211,7 @@ public class FolderTest extends BaseTest {
                 .clickHealthMetrics()
                 .healthMetricIsVisible();
 
-        Assert.assertTrue(healthMetric,"the deleted metric is no longer visible");
+        Assert.assertTrue(healthMetric, "the deleted metric is no longer visible");
     }
 
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
@@ -279,18 +285,20 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateJobsInFolder() {
-            TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
+        Map<String, BaseJobPage<?>> jobMap = TestUtils.getJobMap(this);
 
-            for(Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
-                createdJobInFolder(entry.getKey(), NAME, TestUtils.JobType.valueOf(entry.getKey()),
-                        new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
-            }
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-            List<String> createdJobList = new MainPage(getDriver())
-                    .clickJobName(NAME, new FolderPage(getDriver()))
-                    .getJobList();
+        for (Map.Entry<String, BaseJobPage<?>> entry : TestUtils.getJobMap(this).entrySet()) {
+            createdJobInFolder(entry.getKey(), NAME, TestUtils.JobType.valueOf(entry.getKey()),
+                    new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
+        }
 
-            Assert.assertEquals(createdJobList, TestUtils.getJobList(this));
+        List<String> createdJobList = createdJobList(NAME);
+        List<String> jobNameList = new ArrayList<>(jobMap.keySet());
+
+        Assert.assertEquals(jobNameList.size(), createdJobList.size());
+        Assert.assertTrue(createdJobList.containsAll(jobNameList));
     }
 
     @Test(dependsOnMethods = "testCreateJobsInFolder")
@@ -336,15 +344,12 @@ public class FolderTest extends BaseTest {
 
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
-        for(Map.Entry<String, BaseJobPage<?>> entry : jobMap.entrySet()) {
+        for (Map.Entry<String, BaseJobPage<?>> entry : jobMap.entrySet()) {
             TestUtils.createJob(this, entry.getKey(), TestUtils.JobType.valueOf(entry.getKey()), true);
             moveJobToFolderFromSideMenu(entry.getKey(), NAME, entry.getValue());
         }
 
-        List<String> createdJobList = new MainPage(getDriver())
-                .clickJobName(NAME, new FolderPage(getDriver()))
-                .getJobList();
-
+        List<String> createdJobList = createdJobList(NAME);
         List<String> jobNameList = new ArrayList<>(jobMap.keySet());
 
         Assert.assertEquals(jobNameList.size(), createdJobList.size());
@@ -400,6 +405,7 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(welcomeIsDisplayed, "error was not show Welcome to Jenkins!");
     }
+
     @Test
     public void testCreateWithLongName() {
         String longName = RandomStringUtils.randomAlphanumeric(256);
@@ -421,7 +427,7 @@ public class FolderTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.Folder);
 
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» “.” is not an allowed name");
-        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "error OK button is enabled");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled(), "error OK button is enabled");
     }
 
     @Test
