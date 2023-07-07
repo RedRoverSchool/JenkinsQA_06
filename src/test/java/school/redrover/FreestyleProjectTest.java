@@ -689,4 +689,18 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(message, "error! No builds message is not display");
     }
+
+    @Test
+    public void testCreateFromMyViewsNewItem() {
+        MainPage projectName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(projectName.jobIsDisplayed(FREESTYLE_NAME), "Error: the folder name is not displayed");
+    }
 }
