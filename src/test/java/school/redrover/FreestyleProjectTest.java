@@ -314,7 +314,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateBuildNow() {
+    public void testBuildExecuteShell() {
         String nameProject = "Hello world";
         String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
 
