@@ -753,4 +753,18 @@ public class FreestyleProjectTest extends BaseTest {
                 "?\n" +
                 "Advanced");
     }
+
+    @Test
+    public void testCreateFromManageJenkinsPage() {
+        MainPage projectName = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(projectName.jobIsDisplayed(FREESTYLE_NAME), "Error: the Freestyle Project's name is not displayed on Dashboard");
+    }
 }
