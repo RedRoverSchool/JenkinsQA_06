@@ -39,6 +39,12 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//ul[@class='permalinks-list']//li")
     private List<WebElement> permalinksList;
 
+    @FindBy(xpath = "//a[@href='lastBuild/']")
+    private WebElement lastBuildLink;
+
+    @FindBy(xpath = "(//a[@update-parent-class='.build-row'])[1]")
+    private WebElement lastBuildCompletedLink;
+
     @FindBy(xpath = "//a[text()='trend']")
     private WebElement trend;
 
@@ -63,7 +69,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     public ChangesPage<Self> clickChangeOnLeftSideMenu() {
         getWait10().until(ExpectedConditions.visibilityOf(changesButton)).click();
-        return new ChangesPage<>((Self)this);
+        return new ChangesPage<>((Self) this);
     }
 
     public MainPage clickDeleteAndAccept() {
@@ -80,12 +86,12 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     public Self clickDisable() {
         disableButton.click();
-        return (Self)this;
+        return (Self) this;
     }
 
     public Self clickEnable() {
         getWait5().until(ExpectedConditions.elementToBeClickable(enableButton)).click();
-        return (Self)this;
+        return (Self) this;
     }
 
     public String getDisableButtonText() {
@@ -96,14 +102,14 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         return enableButton.getText();
     }
 
-    public String getDisabledMessageText(){
+    public String getDisabledMessageText() {
         return disabledMessage.getText().trim().substring(0, 34);
     }
 
     public Self clickBuildNowFromSideMenu() {
         buildNowButton.click();
-        getWait5().until(ExpectedConditions.visibilityOf(buildRowCell));
-        return (Self)this;
+        getWait10().until(ExpectedConditions.visibilityOf(buildRowCell));
+        return (Self) this;
     }
 
     public BuildWithParametersPage<Self> clickBuildWithParameters() {
@@ -113,19 +119,26 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     public ConsoleOutputPage clickIconBuildOpenConsoleOutput(int buildNumber) {
         getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(@href,'/" + buildNumber +  "/console')]"))).click();
+                By.xpath("//a[contains(@href,'/" + buildNumber + "/console')]"))).click();
         return new ConsoleOutputPage(getDriver());
     }
 
     public BuildPage clickNumberBuild(int buildNumber) {
         getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text() ,'#" + buildNumber +  "')]"))).click();
+                By.xpath("//a[contains(text() ,'#" + buildNumber + "')]"))).click();
         return new BuildPage(getDriver());
     }
 
     public int getSizeOfPermalinksList() {
         getWait2().until(ExpectedConditions.visibilityOf(permalinks));
         return permalinksList.size();
+    }
+
+    public BuildPage clickLastBuildLink() {
+        getWait10().until(ExpectedConditions.visibilityOf(lastBuildCompletedLink));
+        getDriver().navigate().refresh();
+        getWait10().until(ExpectedConditions.visibilityOf(lastBuildLink)).click();
+        return new BuildPage(getDriver());
     }
 
     public TimelinePage clickTrend() {

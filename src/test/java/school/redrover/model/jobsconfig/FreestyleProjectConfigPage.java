@@ -1,6 +1,5 @@
 package school.redrover.model.jobsconfig;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -43,6 +42,12 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     @FindBy(xpath = "//input[@name='_.recipients']")
     private WebElement emailNotificationInputField;
+
+    @FindBy(xpath = "//a[text()= 'Build other projects']")
+    private WebElement buildOtherProjectsType;
+
+    @FindBy(xpath = "//input[@name='buildTrigger.childProjects']")
+    private WebElement buildOtherProjectsInputField;
 
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
@@ -106,5 +111,16 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     public String getEmailNotificationFieldText() {
         return getWait2().until(ExpectedConditions.visibilityOf(emailNotificationInputField)).getAttribute("value");
+    }
+
+    public FreestyleProjectConfigPage clickBuildOtherProjects() {
+        buildOtherProjectsType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage setBuildOtherProjects(String projectName) {
+        scrollToFooter();
+        getWait2().until(ExpectedConditions.elementToBeClickable(buildOtherProjectsInputField)).sendKeys(projectName);
+        return this;
     }
 }
