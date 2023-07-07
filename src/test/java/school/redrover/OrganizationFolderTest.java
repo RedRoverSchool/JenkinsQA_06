@@ -420,7 +420,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrgFolderWithDotInsteadOfName() {
+    public void testCreateWithDotInsteadOfName() {
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
                 .enterItemName(".")
