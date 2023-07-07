@@ -283,6 +283,17 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(folderIsDisplayed, "error was not show name folder");
     }
 
+    @Test(dependsOnMethods = "testCancelDeletingFromSideMenu")
+    public void testCancelDeletingFromFromDropDownMenu() {
+        boolean folderIsDisplayed = new MainPage(getDriver())
+                .dropDownMenuClickDeleteFolders(NAME)
+                .getBreadcrumb()
+                .clickDashboardButton()
+                .jobIsDisplayed(NAME);
+
+        Assert.assertTrue(folderIsDisplayed, "error was not show name folder");
+    }
+
     @Test
     public void testCreateJobsInFolder() {
         Map<String, BaseJobPage<?>> jobMap = TestUtils.getJobMap(this);
