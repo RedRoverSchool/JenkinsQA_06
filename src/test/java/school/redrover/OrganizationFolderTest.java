@@ -442,6 +442,12 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickSaveButton()
                 .getJobName();
 
+        boolean newOrganizationFolderNameIsDisplayed = new OrganizationFolderPage(getDriver())
+                .getBreadcrumb()
+                .openMyViewsPageFromDashboardDropdownMenu()
+                .jobIsDisplayed(newOrganizationFolderName);
+
         Assert.assertEquals(newOrganizationFolderName, ORGANIZATION_FOLDER_NAME);
+        Assert.assertTrue(newOrganizationFolderNameIsDisplayed);
     }
 }
