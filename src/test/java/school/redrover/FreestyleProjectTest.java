@@ -678,10 +678,8 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(lastBuildInfo, "Started by upstream project " + FREESTYLE_NAME);
     }
 
-    @Test//(dependsOnMethods = "testEditDescription")
+    @Test(dependsOnMethods = "testEditDescription")
     public void testDeleteBuildNowFromSideMenu() {
-        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
-
         boolean message = new MainPage(getDriver())
                 .clickPlayBuildForATestButton(FREESTYLE_NAME)
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
