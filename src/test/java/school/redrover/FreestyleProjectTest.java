@@ -680,14 +680,27 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEditDescription")
     public void testDeleteBuildNowFromSideMenu() {
-        boolean message = new MainPage(getDriver())
+        boolean noBuildsMessage = new MainPage(getDriver())
                 .clickPlayBuildForATestButton(FREESTYLE_NAME)
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickDeleteBuildFromDropDownMenu()
                 .clickYesButton()
                 .isNoBuildsDisplayed();
 
-        Assert.assertTrue(message, "error! No builds message is not display");
+        Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
+    }
+
+    @Test(dependsOnMethods = "testDeleteBuildNowFromSideMenu")
+    public void testDeleteBuildNowFromBuildPage() {
+        boolean noBuildsMessage = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickLastBuildLink()
+                .clickDeleteBuild(new FreestyleProjectPage(getDriver()))
+                .clickYesButton()
+                .isNoBuildsDisplayed();
+
+        Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
     }
 
     @Test
