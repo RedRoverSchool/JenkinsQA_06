@@ -651,7 +651,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .enterItemName(character)
                 .selectJobType(TestUtils.JobType.FreestyleProject);
 
-        Assert.assertTrue(newJobPage.isOkButtonClickable(), "The button is disabled");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled(), "The button is enabled");
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + character + "’ is an unsafe character");
     }
 
@@ -715,5 +715,26 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickLogo();
 
         Assert.assertTrue(projectName.jobIsDisplayed(FREESTYLE_NAME), "Error: the folder name is not displayed");
+    }
+
+    @Test
+    public void testConfigurePostBuildActionArchiveArtifacts() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        String archiveTheArtifacts = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .clickAddPostBuildActionDropDown()
+                .clickArchiveTheArtifacts()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .getTextArchiveArtifacts();
+
+        Assert.assertEquals(archiveTheArtifacts, "Archive the artifacts\n" +
+                "?\n" +
+                "Files to archive\n" +
+                "?\n" +
+                "Advanced");
     }
 }
