@@ -443,7 +443,7 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateFromPeoplePage() {
-       MainPage  folder = new MainPage(getDriver())
+       MainPage projectName = new MainPage(getDriver())
                  .clickPeopleOnLeftSideMenu()
                  .clickNewItem()
                  .enterItemName(NAME)
@@ -452,8 +452,8 @@ public class FolderTest extends BaseTest {
                  .getHeader()
                  .clickLogo();
 
-        Assert.assertTrue(folder.jobIsDisplayed(NAME), "Error: the folder name is not displayed");
-        Assert.assertTrue(folder.isIconFolderDisplayed(), "Error: the folder icon is not displayed");
+        Assert.assertTrue(projectName.jobIsDisplayed(NAME), "Error: the folder name is not displayed");
+        Assert.assertTrue(projectName.isIconFolderDisplayed(), "Error: the folder icon is not displayed");
     }
 
 }

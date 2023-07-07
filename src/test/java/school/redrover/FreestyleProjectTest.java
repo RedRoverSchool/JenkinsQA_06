@@ -7,7 +7,9 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
+import school.redrover.model.jobs.FolderPage;
 import school.redrover.model.jobs.FreestyleProjectPage;
+import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -688,5 +690,19 @@ public class FreestyleProjectTest extends BaseTest {
                 .isNoBuildsDisplayed();
 
         Assert.assertTrue(message, "error! No builds message is not display");
+    }
+
+    @Test
+    public void testCreateFromMyViewsNewItem() {
+        MainPage projectName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(projectName.jobIsDisplayed(FREESTYLE_NAME), "Error: the folder name is not displayed");
     }
 }
