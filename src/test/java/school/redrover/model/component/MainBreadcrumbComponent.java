@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
+import school.redrover.model.MyViewsPage;
 import school.redrover.model.NewJobPage;
 import school.redrover.model.PeoplePage;
 import school.redrover.model.base.BaseComponent;
@@ -49,6 +50,9 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
 
     @FindBy(xpath = "//div[@id='breadcrumb-menu']/div/ul/li/a")
     private WebElement newItem;
+
+    @FindBy(xpath = "//li/a/span[contains(text(), 'My Views')]")
+    private WebElement myViews;
 
     public MainBreadcrumbComponent(Page page) {
         super(page);
@@ -175,6 +179,12 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
         getDashboardDropdownMenu();
         newItem.click();
         return new NewJobPage(getDriver());
+    }
+
+    public MyViewsPage openMyViewsPageFromDashboardDropdownMenu () {
+        getDashboardDropdownMenu();
+        myViews.click();
+        return new MyViewsPage(getDriver());
     }
 
     public MainBreadcrumbComponent<?> moveToManageJenkinsLink() {
