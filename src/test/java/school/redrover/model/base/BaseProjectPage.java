@@ -48,9 +48,6 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//a[text()='trend']")
     private WebElement trend;
 
-    @FindBy(xpath = "//a[@class='model-link inside build-link display-name']")
-    private WebElement firstBuildIcon;
-
     @FindBy(xpath = "//a[@class='model-link inside build-link display-name']//button[@class='jenkins-menu-dropdown-chevron']")
     private WebElement buildsDropDownMenu;
 
