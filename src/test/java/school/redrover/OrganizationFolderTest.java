@@ -3,7 +3,6 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.OrganizationFolderPage;
@@ -18,23 +17,19 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String ORGANIZATION_FOLDER_NAME = "OrgFolder";
     private static final String ORGANIZATION_FOLDER_RENAMED = "OrgFolderNew";
     private static final String PRINT_MESSAGE_PIPELINE_SYNTAX = "TEXT";
+    private static final String DESCRIPTION_TEXT = "DESCRIPTION_TEXT";
 
     @Test
-    public void testCreateOrganizationFolder() {
-        String actualNewFolderName = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickSaveButton()
-                .getHeader()
-                .clickLogo()
-                .getJobName(ORGANIZATION_FOLDER_NAME);
+    public void testCreateFromNewItem() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
-        Assert.assertEquals(actualNewFolderName, ORGANIZATION_FOLDER_NAME);
+        boolean actualNewFolderName = new MainPage(getDriver())
+                .jobIsDisplayed(ORGANIZATION_FOLDER_NAME);
+
+        Assert.assertTrue(actualNewFolderName, "error was not show name folder");
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    @Test(dependsOnMethods = "testCreateFromNewItem")
     public void testDisableFromConfigurationPage() {
         String disabledText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
@@ -46,7 +41,21 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(disabledText.contains("This Organization Folder is currently disabled"));
     }
 
-    @Test(dependsOnMethods = "testCreateOrganizationFolderGoingFromManageJenkinsPage")
+    @Test
+    public void testDeleteOrganizationFolderFromTheDropdownMenu() {
+
+        TestUtils.createJob(this, "OrgFolder", TestUtils.JobType.OrganizationFolder, true);
+
+        boolean welcomeToJenkinsIsDisplayed = new MainPage(getDriver())
+                .openJobDropDownMenu("OrgFolder")
+                .dropDownMenuClickDeleteFolders("OrgFolder")
+                .clickYesButton()
+                .WelcomeIsDisplayed();
+
+        Assert.assertTrue(welcomeToJenkinsIsDisplayed, "error, Welcome to Jenkins! is not displayed");
+    }
+
+    @Test(dependsOnMethods = "testCreateFromManageJenkinsPage")
     public void testCreateWithExistingName() {
         CreateItemErrorPage errorPage =
                 TestUtils.createJobWithExistingName(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder);
@@ -133,11 +142,11 @@ public class OrganizationFolderTest extends BaseTest {
     public void testAddDescriptionFromConfigurationPage() {
         String textFromDescription = new MainPage(getDriver())
                 .clickConfigureDropDown(ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .addDescription("Description")
+                .addDescription(DESCRIPTION_TEXT)
                 .clickSaveButton()
                 .getAddedDescriptionFromConfig();
 
-        Assert.assertEquals(textFromDescription, "Description");
+        Assert.assertEquals(textFromDescription, DESCRIPTION_TEXT);
     }
 
     @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
@@ -174,7 +183,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrganizationFolderGoingFromManageJenkinsPage() {
+    public void testCreateFromManageJenkinsPage() {
         List<String> organizationFolderName = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .clickNewItem()
@@ -211,17 +220,17 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testOrganizationFolderConfigPreviewDescription() {
+    public void testPreviewDescriptionFromConfigurationPage() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
         String previewText = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .addDescription("Description")
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .addDescription(DESCRIPTION_TEXT)
                 .clickPreview()
                 .getPreviewText();
 
-        Assert.assertEquals(previewText, "Description");
+        Assert.assertEquals(previewText, DESCRIPTION_TEXT);
     }
 
     @DataProvider(name = "wrong-character")
@@ -236,7 +245,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .enterItemName(invalidData)
                 .selectJobType(TestUtils.JobType.OrganizationFolder);
 
-        Assert.assertTrue(newJobPage.isOkButtonDisabled(), "Save button is enabled");
+        Assert.assertFalse(newJobPage.isOkButtonEnabled(), "Save button is enabled");
         Assert.assertEquals(newJobPage.getItemInvalidMessage(), "» ‘" + invalidData + "’ is an unsafe character");
     }
 
@@ -279,9 +288,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
     }
 
-    @Ignore
     @Test
-    public void testAddHealthMetricsSideMenu() {
+    public void testAddHealthMetricsFromSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
         boolean isHealthMetricsAdded = new MainPage(getDriver())
@@ -345,15 +353,17 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreatingJenkinsPipeline() {
-        String linkBookCreatingPipeline = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .clickSaveButton()
+
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
+        String linkBookCreatingPipeline = new OrganizationFolderPage(getDriver())
                 .getTextCreatingJenkinsPipeline();
 
+        String pipelineOneTutorial = new OrganizationFolderPage(getDriver())
+                .clickPipelineOneTutorial()
+                .getTextPipelineTitle();
+
         Assert.assertEquals(linkBookCreatingPipeline, "Creating a Jenkins Pipeline");
+        Assert.assertEquals(pipelineOneTutorial,"Pipeline");
     }
 
     @Test(dataProvider = "wrong-character")
@@ -417,5 +427,25 @@ public class OrganizationFolderTest extends BaseTest {
                 .getItemInvalidMessage();
 
         Assert.assertEquals(errorMessage, "» “.” is not an allowed name");
+    }
+
+    @Test
+    public void testCreateFromMyViewsNewItem() {
+        String newOrganizationFolderName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .clickSaveButton()
+                .getJobName();
+
+        boolean newOrganizationFolderNameIsDisplayed = new OrganizationFolderPage(getDriver())
+                .getBreadcrumb()
+                .openMyViewsPageFromDashboardDropdownMenu()
+                .jobIsDisplayed(newOrganizationFolderName);
+
+        Assert.assertEquals(newOrganizationFolderName, ORGANIZATION_FOLDER_NAME);
+        Assert.assertTrue(newOrganizationFolderNameIsDisplayed);
     }
 }

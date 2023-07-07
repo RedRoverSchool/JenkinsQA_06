@@ -18,6 +18,9 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(xpath = "//div[@class='jenkins-form-description']")
     private WebElement description;
 
+    @FindBy(xpath = "(//tr[@class='app-summary']/td//span)[1]")
+    private WebElement buildInfo;
+
     @FindBy(xpath = "//span[contains(text(), 'Delete build')]/..")
     private WebElement deleteBuildButton;
 
@@ -37,6 +40,10 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     public boolean isDisplayedBuildTitle() {
 
         return getBuildHeader().getText().contains("Build #1");
+    }
+
+    public String getBuildInfo() {
+        return buildInfo.getText().substring(0, buildInfo.getText().length() - 38);
     }
 
     public <JobTypePage extends BasePage<?, ?>> DeletePage<JobTypePage> clickDeleteBuild(JobTypePage jobTypePage) {
