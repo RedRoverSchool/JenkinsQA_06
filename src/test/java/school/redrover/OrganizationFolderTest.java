@@ -475,5 +475,4 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(isOrganisationFolderDisplayed, "Organisation Folder`s name is not displayed");
     }
-
 }
