@@ -144,21 +144,17 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testRenameFromSideMenu")
-    public void testConfigureFolderNameDescriptionHealthMetrics() {
+    public void testAddDisplayName() {
         FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickConfigure()
                 .enterDisplayName(DISPLAY_NAME)
-                .addDescription(DESCRIPTION)
-                .addHealthMetrics()
                 .clickSaveButton();
 
         Assert.assertEquals(folderPage.getJobName(), DISPLAY_NAME);
-        Assert.assertEquals(folderPage.getFolderDescription(), DESCRIPTION);
-        Assert.assertTrue(folderPage.clickConfigure().clickHealthMetrics().isRecursive());
     }
 
-    @Test(dependsOnMethods = "testConfigureFolderNameDescriptionHealthMetrics")
+    @Test(dependsOnMethods = "testAddDisplayName")
     public void testDeleteDisplayName() {
         String folderName = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -170,7 +166,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderName, NAME);
     }
 
-    @Test(dependsOnMethods = "testDeleteDisplayName")
+    @Test(dependsOnMethods = "testAddHealthMetricsFromSideMenu")
     public void testHealthMetricWithRecursive() {
         String pipelineName = "BadPipe";
 
@@ -237,7 +233,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(previewText, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
+    @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
     public void testPreviewDescriptionFromConfigurationPage() {
         String previewText = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -260,7 +256,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(newDescription, DESCRIPTION_2);
     }
 
-    @Test(dependsOnMethods = "testEditDescription")
+    @Test(dependsOnMethods = "testPreviewDescriptionFromConfigurationPage")
     public void testDeleteDescriptionUsingConfigPage() {
         String actualDescription = new MainPage(getDriver())
                 .clickConfigureDropDown(NAME, new FolderConfigPage(new FolderPage(getDriver())))
@@ -466,5 +462,19 @@ public class FolderTest extends BaseTest {
                 .getDescriptionFromConfigure();
 
         Assert.assertEquals(descriptionText,DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
+    public void testAddHealthMetricsFromSideMenu() {
+        boolean isHealthMetricsAdded =  new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .addHealthMetrics()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
     }
 }
