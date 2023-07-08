@@ -47,14 +47,14 @@ public class ManageNodesPage extends BaseMainHeaderPage<ManageNodesPage> {
                 //return new NodePage(getDriver());
             }
         }
-        return new NodePage(getDriver());
+       return new NodePage(getDriver());
     }
 
     public List<String> getNodesList() {
         List<String> nodeNameList = new ArrayList<>();
 
         for (WebElement element : nodesList) {
-            nodeNameList.add(element.getText());
+          nodeNameList.add(element.getText());
         }
         return nodeNameList;
     }
