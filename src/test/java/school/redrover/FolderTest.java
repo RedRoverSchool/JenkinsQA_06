@@ -467,4 +467,18 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(descriptionText,DESCRIPTION);
     }
+
+    @Test(dependsOnMethods = "testAddDescriptionFromConfigurationPage")
+    public void testAddHealthMetricsFromSideMenu() {
+        boolean isHealthMetricsAdded =  new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .addHealthMetrics()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickHealthMetrics()
+                .healthMetricIsVisible();
+
+        Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
+    }
 }
