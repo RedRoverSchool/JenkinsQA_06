@@ -64,6 +64,9 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     @FindBy(xpath = "//h1[normalize-space(.)= 'Manage Jenkins']")
     private WebElement manageJenkins;
 
+    @FindBy(xpath = "//a[@href='configureTools']")
+    private WebElement manageToolsLink;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -174,5 +177,10 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
         getWait5().until(ExpectedConditions.visibilityOfAllElements(searchResults));
         configureSystemLinkInSearchResult.click();
         return new ConfigureSystemPage(getDriver());
+    }
+
+    public ManageToolsPage clickManageTools() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(manageToolsLink)).click();
+        return new ManageToolsPage(this);
     }
 }

@@ -312,26 +312,28 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(sizeOfPermalinksList, 4);
     }
 
-   // @Ignore
     @Test
     public void testCreateBuildInvokeMavenTargets() {
-        String nameProject = "Hello world";
-        String steps1 = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
-        String step="-version";
+        String mavenVersion = "maven-3.9.3";
+        String goals="-version";
+
+        TestUtils.addMavenVersion(this, mavenVersion);
         TestUtils.createJob(this, FREESTYLE_NAME,TestUtils.JobType.FreestyleProject,true);
 
         String consoleOutput = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .openBuildStepOptionsDropdown()
-                .addBuildInvokeMavenTargets(step)  //addBuildInvokeMavenTargets(steps)
+                .addBuildInvokeMavenTargets(goals)
                 .clickSaveButton()
                 .clickBuildNowFromSideMenu()
                 .clickIconBuildOpenConsoleOutput(1)
                 .getConsoleOutputText();
 
+        new ConsoleOutputPage(getDriver()).getHeader().clickLogo();
+        TestUtils.deleteMavenVersion(this);
+
         Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build wasn't finished successfully");
-       // Assert.assertTrue(consoleOutput.isDisplayedBuildTitle(), "build not created");
     }
 
     @Test

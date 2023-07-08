@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.base.BaseConfigProjectsPage;
 
@@ -57,6 +58,9 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//div[@descriptorid = 'hudson.tasks.ArtifactArchiver']")
     private WebElement archiveArtifacts;
 
+    @FindBy(xpath = "//*[@name='maven.name']")
+    private WebElement mavenVersionField;
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
@@ -68,18 +72,16 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
         return this;
     }
 
-    public FreestyleProjectConfigPage addBuildInvokeMavenTargets(String step) { //addBuildInvokeMavenTargets(String steps)
-        int deltaY = footer.getRect().y;
+    public FreestyleProjectConfigPage addBuildInvokeMavenTargets(String goals) {
         new Actions(getDriver())
-                .scrollByAmount(0, deltaY)
+                .moveToElement(invokeMavenTargetsButton)
                 .perform();
 
-        getWait5().until(ExpectedConditions.visibilityOf(invokeMavenTargetsButton)).click();
+        getWait2().until(ExpectedConditions.visibilityOf(invokeMavenTargetsButton)).click();
 
-        new Actions(getDriver())
-                .click(goalsField)
-                .sendKeys(step)
-                .perform();
+        new Select(mavenVersionField).selectByValue("maven-3.9.3");
+        goalsField.sendKeys(goals);
+
         return this;
     }
 

@@ -259,4 +259,26 @@ public class TestUtils {
                 "OrganizationFolder", new OrganizationFolderPage(baseTest.getDriver())
         );
     }
+
+    public static MainPage addMavenVersion(BaseTest baseTest, String mavenVersion) {
+       return new MainPage(baseTest.getDriver())
+                .clickManageJenkinsPage()
+                .clickManageTools()
+                .clickAddMaven()
+                .addMavenName(mavenVersion)
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo();
+
+    }
+    public static MainPage deleteMavenVersion(BaseTest baseTest) {
+        return new MainPage(baseTest.getDriver())
+                .clickManageJenkinsPage()
+                .clickManageTools()
+                .clickMavenInstallationsButton()
+                .clickDeleteMaven()
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo();
+    }
 }
