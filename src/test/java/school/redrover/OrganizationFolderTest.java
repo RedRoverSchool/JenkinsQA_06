@@ -386,7 +386,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrgFolderWithLongName() {
+    public void testCreateWithLongName() {
         String longName = RandomStringUtils.randomAlphanumeric(256);
         String errorMessage = new MainPage(getDriver())
                 .clickNewItem()
