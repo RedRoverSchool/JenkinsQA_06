@@ -168,19 +168,18 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testCreateNewAgentNodeWithDescription() {
-        final String nodeName = getRandomStr(10);
         final String description = getRandomStr(50);
 
         String nodeDescription = new MainPage(getDriver())
                 .clickManageJenkinsPage()
                 .clickManageNodes()
                 .clickNewNodeButton()
-                .inputNodeNameField(nodeName)
+                .inputNodeNameField(NODE_NAME)
                 .clickPermanentAgentRadioButton()
                 .clickCreateButton()
                 .addDescription(description)
                 .clickSaveButton()
-                .clickOnNode(nodeName)
+                .clickOnNode(NODE_NAME)
                 .getNodeDescription();
 
         Assert.assertEquals(nodeDescription, description);
@@ -265,6 +264,19 @@ public class ManageJenkinsTest extends BaseTest {
                 .clickOnDeleteAgent()
                 .clickYesButton()
                 .getNodesList();
+
+        Assert.assertFalse(nodeNameList.contains(NODE_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateNewAgentNodeWithDescription")
+    public void testDeleteNodeByDropDownOnManageNodesPage() {
+        List<String> nodeNameList =
+                new MainPage(getDriver())
+                        .clickBuildExecutorStatus()
+                        .openNodeDropDownMenu(NODE_NAME)
+                        .dropDownMenuClickDeleteAgent()
+                        .clickYesButton()
+                        .getNodesList();
 
         Assert.assertFalse(nodeNameList.contains(NODE_NAME));
     }
