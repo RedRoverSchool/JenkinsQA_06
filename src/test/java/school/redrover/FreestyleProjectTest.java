@@ -766,4 +766,16 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(jobIsDisplayed, "Error: the Freestyle Project's name is not displayed on Dashboard");
     }
+
+    @Test(dependsOnMethods = "testCreateFromNewItem")
+    public void testAccessConfigurationPageFromFP() {
+        final String breadcrumbRoute = "Dashboard > " + FREESTYLE_NAME + " > Configuration";
+
+        FreestyleProjectConfigPage freestyleConfigPage = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure();
+
+        Assert.assertEquals(freestyleConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumbRoute);
+        Assert.assertEquals(freestyleConfigPage.getTitle(), "Configure");
+    }
 }
