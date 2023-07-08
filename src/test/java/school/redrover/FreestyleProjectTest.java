@@ -312,24 +312,22 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(sizeOfPermalinksList, 4);
     }
 
-    @Ignore
     @Test
-    public void testFreestyleProjectJob() {
-        String nameProject = "Hello world";
-        String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
+    public void testBuildStepsInvokeMavenGoalsTargets() {
+        String goals = "clean";
+        
+        TestUtils.createJob(this, FREESTYLE_NAME,TestUtils.JobType.FreestyleProject,true);
 
-        String consoleOutput = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(nameProject)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .addBuildStepsExecuteShell(steps)
+        String mavenGoals = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .openBuildStepOptionsDropdown()
+                .addInvokeMavenGoalsTargets(goals)
                 .clickSaveButton()
-                .clickBuildNowFromSideMenu()
-                .clickIconBuildOpenConsoleOutput(1)
-                .getConsoleOutputText();
+                .clickConfigure()
+                .getMavenGoals();
 
-        Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
+        Assert.assertEquals(mavenGoals, goals);
     }
 
     @Test
