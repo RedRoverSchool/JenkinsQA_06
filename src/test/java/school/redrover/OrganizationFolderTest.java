@@ -42,7 +42,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteOrganizationFolderFromTheDropdownMenu() {
+    public void testDeleteItemFromDropDown() {
 
         TestUtils.createJob(this, "OrgFolder", TestUtils.JobType.OrganizationFolder, true);
 
