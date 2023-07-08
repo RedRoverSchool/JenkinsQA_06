@@ -43,7 +43,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testDeleteItemFromDropDown() {
-
         TestUtils.createJob(this, "OrgFolder", TestUtils.JobType.OrganizationFolder, true);
 
         boolean welcomeToJenkinsIsDisplayed = new MainPage(getDriver())
@@ -160,7 +159,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(actualRenamedName, ORGANIZATION_FOLDER_RENAMED);
     }
 
-    @Test(dependsOnMethods = {"testRenameFromDropDownMenu"})
+    @Test(dependsOnMethods = "testRenameFromDropDownMenu")
     public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
                 .dropDownMenuClickRename(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
@@ -171,7 +170,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(errorMessage, "The new name is the same as the current name.");
     }
 
-    @Test(dependsOnMethods = {"testRenameToTheCurrentNameAndGetError"})
+    @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
     public void testDeleteItemFromSideMenu() {
         String welcomeText = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
@@ -219,14 +218,24 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
     public void testPreviewDescriptionFromConfigurationPage() {
-        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
-
         String previewText = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
                 .clickConfigure()
                 .addDescription(DESCRIPTION_TEXT)
+                .clickPreview()
+                .getPreviewText();
+
+        Assert.assertEquals(previewText, DESCRIPTION_TEXT);
+    }
+
+    @Test(dependsOnMethods = "testRenameFromSideMenu")
+    public void testPreviewDescriptionFromProjectPage() {
+        String previewText = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_RENAMED, new OrganizationFolderPage(getDriver()))
+                .clickAddDescription()
+                .enterDescription(DESCRIPTION_TEXT)
                 .clickPreview()
                 .getPreviewText();
 
@@ -353,7 +362,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreatingJenkinsPipeline() {
-
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
         String linkBookCreatingPipeline = new OrganizationFolderPage(getDriver())
                 .getTextCreatingJenkinsPipeline();
@@ -409,7 +417,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(eventTitle, "Organization Folder Events");
     }
 
-    @Test(dependsOnMethods = "testCreateFromCreateAJob")
+    @Test(dependsOnMethods = "testCredentials")
     public void testReRunFolderComputation() {
         String titleScanOrganizationFolder = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
