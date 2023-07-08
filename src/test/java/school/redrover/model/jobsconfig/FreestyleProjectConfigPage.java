@@ -19,11 +19,11 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(tagName = "footer")
     private WebElement footer;
 
-    @FindBy(xpath = "//*[@id='yui-gen9-button']")
+    @FindBy(xpath = "//a[text()='Execute shell']")
     private WebElement executeShellButton;
 
-    @FindBy(xpath = "//*[@id='yui-gen24']")
-    private WebElement generalButton;
+    @FindBy(xpath = "//a[text()='Invoke top-level Maven targets']")
+    private WebElement invokeMavenTargetsButton;
 
     @FindBy(xpath = "//*[@name='description']")
     private WebElement descriptionField;
@@ -55,6 +55,12 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//div[@descriptorid = 'hudson.tasks.ArtifactArchiver']")
     private WebElement archiveArtifacts;
 
+    @FindBy(xpath = "//*[@id='textarea._.targets']")
+    private WebElement goalsField;
+
+    @FindBy(xpath = "//*[contains(text(), 'Invoke')]//button[@title='Delete']")
+    private WebElement deleteGoalsButton;
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
@@ -66,19 +72,14 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
         return this;
     }
 
-    public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
-        int deltaY = footer.getRect().y;
+    public FreestyleProjectConfigPage addInvokeMavenGoalsTargets(String goals) {
         new Actions(getDriver())
-                .scrollByAmount(0, deltaY)
+                .moveToElement(invokeMavenTargetsButton)
                 .perform();
 
-        getWait5().until(ExpectedConditions.visibilityOf(executeShellButton)).click();
-        generalButton.click();
+        getWait5().until(ExpectedConditions.visibilityOf(invokeMavenTargetsButton)).click();
+        goalsField.sendKeys(goals);
 
-        new Actions(getDriver())
-                .click(descriptionField)
-                .sendKeys(buildSteps)
-                .perform();
         return this;
     }
 
@@ -137,5 +138,9 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     public String getTextArchiveArtifacts() {
        return archiveArtifacts.getText();
+    }
+
+    public String getMavenGoals() {
+        return goalsField.getAttribute("value");
     }
 }
