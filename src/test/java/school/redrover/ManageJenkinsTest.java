@@ -270,13 +270,12 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewAgentNodeWithDescription")
     public void testDeleteNodeByDropDownOnManageNodesPage() {
-        List<String> nodeNameList =
-                new MainPage(getDriver())
-                        .clickBuildExecutorStatus()
-                        .openNodeDropDownMenu(NODE_NAME)
-                        .dropDownMenuClickDeleteAgent()
-                        .clickYesButton()
-                        .getNodesList();
+        List<String> nodeNameList = new MainPage(getDriver())
+                .clickBuildExecutorStatus()
+                .openNodeDropDownMenu(NODE_NAME)
+                .dropDownMenuClickDeleteAgent()
+                .clickYesButton()
+                .getNodesList();
 
         Assert.assertFalse(nodeNameList.contains(NODE_NAME));
     }
