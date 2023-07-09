@@ -150,7 +150,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
-    public void testAddDescription() {
+    public void testAddDescriptionFromProjectPage() {
         String actualDescription = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
@@ -181,7 +181,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage, "‘" + expectedResult + "’ is an unsafe character");
     }
 
-    @Test(dependsOnMethods = "testAddDescription")
+    @Test(dependsOnMethods = "testAddDescriptionFromProjectPage")
     public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
                 .dropDownMenuClickRename(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
