@@ -211,7 +211,6 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(healthMetric, "the deleted metric is no longer visible");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
     public void testAddDescriptionFromProjectPage() {
         FolderPage folderPage = new MainPage(getDriver())
