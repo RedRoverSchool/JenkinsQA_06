@@ -1,6 +1,5 @@
 package school.redrover.model.jobsconfig;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,11 +19,11 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(tagName = "footer")
     private WebElement footer;
 
-    @FindBy(xpath = "//*[@id='yui-gen9-button']")
+    @FindBy(xpath = "//a[text()='Execute shell']")
     private WebElement executeShellButton;
 
-    @FindBy(xpath = "//*[@id='yui-gen24']")
-    private WebElement generalButton;
+    @FindBy(xpath = "//a[text()='Invoke top-level Maven targets']")
+    private WebElement invokeMavenTargetsButton;
 
     @FindBy(xpath = "//*[@name='description']")
     private WebElement descriptionField;
@@ -44,6 +43,24 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//input[@name='_.recipients']")
     private WebElement emailNotificationInputField;
 
+    @FindBy(xpath = "//a[text()= 'Build other projects']")
+    private WebElement buildOtherProjectsType;
+
+    @FindBy(xpath = "//input[@name='buildTrigger.childProjects']")
+    private WebElement buildOtherProjectsInputField;
+
+    @FindBy(xpath = "//a[text()='Archive the artifacts']")
+    private WebElement archiveTheArtifacts;
+
+    @FindBy(xpath = "//div[@descriptorid = 'hudson.tasks.ArtifactArchiver']")
+    private WebElement archiveArtifacts;
+
+    @FindBy(xpath = "//*[@id='textarea._.targets']")
+    private WebElement goalsField;
+
+    @FindBy(xpath = "//*[contains(text(), 'Invoke')]//button[@title='Delete']")
+    private WebElement deleteGoalsButton;
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
@@ -55,19 +72,14 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
         return this;
     }
 
-    public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
-        int deltaY = footer.getRect().y;
+    public FreestyleProjectConfigPage addInvokeMavenGoalsTargets(String goals) {
         new Actions(getDriver())
-                .scrollByAmount(0, deltaY)
+                .moveToElement(invokeMavenTargetsButton)
                 .perform();
 
-        getWait5().until(ExpectedConditions.visibilityOf(executeShellButton)).click();
-        generalButton.click();
+        getWait5().until(ExpectedConditions.visibilityOf(invokeMavenTargetsButton)).click();
+        goalsField.sendKeys(goals);
 
-        new Actions(getDriver())
-                .click(descriptionField)
-                .sendKeys(buildSteps)
-                .perform();
         return this;
     }
 
@@ -106,5 +118,29 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     public String getEmailNotificationFieldText() {
         return getWait2().until(ExpectedConditions.visibilityOf(emailNotificationInputField)).getAttribute("value");
+    }
+
+    public FreestyleProjectConfigPage clickBuildOtherProjects() {
+        buildOtherProjectsType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage setBuildOtherProjects(String projectName) {
+        scrollToFooter();
+        getWait2().until(ExpectedConditions.elementToBeClickable(buildOtherProjectsInputField)).sendKeys(projectName);
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickArchiveTheArtifacts() {
+        archiveTheArtifacts.click();
+        return  this;
+    }
+
+    public String getTextArchiveArtifacts() {
+       return archiveArtifacts.getText();
+    }
+
+    public String getMavenGoals() {
+        return goalsField.getAttribute("value");
     }
 }

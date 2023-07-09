@@ -1,6 +1,7 @@
 package school.redrover.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -18,6 +19,9 @@ public class ManageNodesPage extends BaseMainHeaderPage<ManageNodesPage> {
 
     @FindBy(xpath = "//td/a")
     private List<WebElement> nodesList;
+
+    @FindBy(linkText = "Delete Agent")
+    private WebElement deleteAgent;
 
     public ManageNodesPage(WebDriver driver) {
         super(driver);
@@ -53,5 +57,19 @@ public class ManageNodesPage extends BaseMainHeaderPage<ManageNodesPage> {
           nodeNameList.add(element.getText());
         }
         return nodeNameList;
+    }
+
+    public ManageNodesPage openNodeDropDownMenu(String nodeName) {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath(String.format("//td/a[contains(@href,'/%s/')]/button", nodeName.replaceAll(" ", "%20")))))
+                .sendKeys(Keys.RETURN);
+
+        return this;
+    }
+
+    public DeletePage<ManageNodesPage> dropDownMenuClickDeleteAgent() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(deleteAgent)).click();
+
+        return new DeletePage<>(this);
     }
 }

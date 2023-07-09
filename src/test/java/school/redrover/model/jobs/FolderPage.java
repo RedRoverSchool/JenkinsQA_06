@@ -84,4 +84,12 @@ public class FolderPage extends BaseJobPage<FolderPage> {
     public String getPageTitle() {
         return getDriver().getTitle();
     }
+
+    public boolean jobIsDisplayed(String viewName){
+        try {
+            return getDriver().findElement(By.linkText(viewName)).isDisplayed();
+        } catch (Exception e){
+            return false;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package school.redrover.model.jobs;
 
 import org.openqa.selenium.WebDriver;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,11 +10,9 @@ import school.redrover.model.CredentialsPage;
 import school.redrover.model.OrganizationFolderEventsPage;
 import school.redrover.model.ScanOrganizationFolderLog;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseOtherFoldersPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
+import school.redrover.model.PipelineProjectPage;
 
 public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFolderPage> {
 
@@ -40,6 +39,9 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
 
     @FindBy(xpath = "//span[(text() = 'Re-run the Folder Computation')]")
     private WebElement reRunFolderComputationLink;
+
+    @FindBy(id = "pipeline-1")
+    private WebElement webElement;
 
     public OrganizationFolderPage(WebDriver driver) {
         super(driver);
@@ -72,7 +74,7 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
         return new OrganizationFolderEventsPage(getDriver());
     }
 
-    public CredentialsPage clickCredentials(){
+    public CredentialsPage clickCredentials() {
         getWait5().until(ExpectedConditions.elementToBeClickable(credentialsButton)).click();
 
         return new CredentialsPage(getDriver());
@@ -83,7 +85,7 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
         return getWait5().until(ExpectedConditions.elementToBeClickable(linkBookCreatingJenkinsPipeline)).getText();
     }
 
-    public OrganizationFolderPage clickAddDescription(){
+    public OrganizationFolderPage clickAddDescription() {
         addDescription.click();
         return this;
     }
@@ -91,5 +93,11 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     public ScanOrganizationFolderLog clickRerunTheFolderComputation() {
         getWait5().until(ExpectedConditions.elementToBeClickable(reRunFolderComputationLink)).click();
         return new ScanOrganizationFolderLog(getDriver());
+    }
+
+    public PipelineProjectPage clickPipelineOneTutorial() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(linkBookCreatingJenkinsPipeline)).click();
+
+        return new PipelineProjectPage(getDriver());
     }
 }

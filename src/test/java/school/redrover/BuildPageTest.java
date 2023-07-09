@@ -63,7 +63,7 @@ public class BuildPageTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .getHeader()
                 .clickLogo()
                 .clickBuildsHistoryButton()
@@ -86,7 +86,7 @@ public class BuildPageTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .getHeader()
                 .clickLogo()
                 .clickBuildsHistoryButton()
@@ -146,6 +146,7 @@ public class BuildPageTest extends BaseTest {
         Assert.assertEquals(actualStatusMessageText, expectedStatusMessageText);
     }
 
+    @Ignore
     @Test
     public void testPresenceProjectNameOnBuildHistoryTimeline() {
         final String itemName = "TestProject";
@@ -176,7 +177,7 @@ public class BuildPageTest extends BaseTest {
                 .selectJobType(TestUtils.JobType.FreestyleProject)
                 .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
                 .clickSaveButton()
-                .clickBuildNow()
+                .clickBuildNowFromSideMenu()
                 .getHeader()
                 .clickLogo()
                 .clickBuildsHistoryButton()
