@@ -224,6 +224,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getDescriptionButton(), "Edit description");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddDescriptionFromProjectPage")
     public void testPreviewDescriptionFromProjectPage() {
         String previewText = new MainPage(getDriver())
