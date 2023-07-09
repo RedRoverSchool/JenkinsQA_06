@@ -491,7 +491,7 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(projectName.jobIsDisplayed(NAME), "Error: the folder name is not displayed");
         Assert.assertTrue(projectName.clickMyViewsSideMenuLink()
-                .jobIsDisplayed(NAME), "Error: the Freestyle Project's name is not displayed on Dashboard from MyViews page");
+                .jobIsDisplayed(NAME), "Error: the Folder's name is not displayed on Dashboard from MyViews page");
     }
 
     @Test
@@ -505,8 +505,8 @@ public class FolderTest extends BaseTest {
                 .getHeader()
                 .clickLogo();
 
-        Assert.assertTrue(projectName.jobIsDisplayed(NAME), "Error: the Freestyle Project's name is not displayed on Dashboard from Home page");
+        Assert.assertTrue(projectName.jobIsDisplayed(NAME), "Error: the Folder's name is not displayed on Dashboard from Home page");
         Assert.assertTrue(projectName.clickMyViewsSideMenuLink()
-                .jobIsDisplayed(NAME), "Error: the Freestyle Project's name is not displayed on Dashboard from MyViews page");
+                .jobIsDisplayed(NAME), "Error: the Folder's name is not displayed on Dashboard from MyViews page");
     }
 }
