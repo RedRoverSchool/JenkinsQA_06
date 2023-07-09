@@ -493,4 +493,20 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(projectName.clickMyViewsSideMenuLink()
                 .jobIsDisplayed(NAME), "Error: the Freestyle Project's name is not displayed on Dashboard from MyViews page");
     }
+
+    @Test
+    public void testCreateFromMyViewsCreateAJob(){
+        MainPage projectName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJob()
+                .enterItemName(NAME)
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(projectName.jobIsDisplayed(NAME), "Error: the Freestyle Project's name is not displayed on Dashboard from Home page");
+        Assert.assertTrue(projectName.clickMyViewsSideMenuLink()
+                .jobIsDisplayed(NAME), "Error: the Freestyle Project's name is not displayed on Dashboard from MyViews page");
+    }
 }
