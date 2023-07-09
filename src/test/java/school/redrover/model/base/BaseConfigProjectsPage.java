@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.CreateItemErrorPage;
-import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.List;
@@ -101,6 +100,15 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
 
     @FindBy(xpath = "//label[text()='Block build when upstream project is building']")
     private WebElement blockBuildWhenUpstreamProjectIsBuilding;
+
+    @FindBy(xpath = "//button[@data-section-id='source-code-management']")
+    private WebElement sourceCodeManagementLink;
+
+    @FindBy(xpath = "//input[@id='radio-block-1']")
+    private WebElement radioButtonGit;
+
+    @FindBy(xpath = "//input[@name='_.url']")
+    private WebElement inputRepositoryUrl;
 
     public BaseConfigProjectsPage(ProjectPage projectPage) {
         super(projectPage);
@@ -297,4 +305,25 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
         blockBuildWhenUpstreamProjectIsBuilding.click();
         return (Self) this;
     }
+
+    public Self clickSourceCodeManagementLink() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(sourceCodeManagementLink)).click();
+        return (Self) this;
+    }
+
+    public Self clickRadioButtonGit() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", radioButtonGit);
+        return (Self) this;
+    }
+
+    public Self inputRepositoryUrl(String text) {
+        getWait5().until(ExpectedConditions.visibilityOf(inputRepositoryUrl)).sendKeys(text);
+        return (Self) this;
+    }
+
+    public String getRepositoryUrlText() {
+        return getWait5().until(ExpectedConditions.visibilityOf(inputRepositoryUrl)).getAttribute("value");
+    }
+
 }

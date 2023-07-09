@@ -53,7 +53,7 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
                 .click(healthMetricsSideMenu)
                 .pause(Duration.ofMillis(800))
                 .perform();
-        healthMetric.click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(healthMetric)).click();
         return (Self)this;
     }
 

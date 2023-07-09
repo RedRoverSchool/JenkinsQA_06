@@ -23,6 +23,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String NEW_FREESTYLE_NAME = "NEW_FREESTYLE_NAME";
     private static final String DESCRIPTION_TEXT = "DESCRIPTION_TEXT";
     private static final String NEW_DESCRIPTION_TEXT = "NEW_DESCRIPTION_TEXT";
+    private static final String GITHUB_URL = "https://github.com/ArtyomDulya/TestRepo";
 
     @Test
     public void testCreateFromNewItem() {
@@ -121,7 +122,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickEnable();
 
         SoftAssert soft = new SoftAssert();
-        soft.assertEquals(projectName.getDisableButtonText(),"Disable Project");
+        soft.assertEquals(projectName.getDisableButtonText(), "Disable Project");
         soft.assertEquals(projectName.clickConfigure().getTextEnabled(), "Enabled");
         soft.assertEquals(projectName.getHeader().clickLogo().getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
         soft.assertAll();
@@ -149,7 +150,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testPreviewDescriptionFromProjectPage")
-    public void testAddDescription() {
+    public void testAddDescriptionFromProjectPage() {
         String actualDescription = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
@@ -162,8 +163,8 @@ public class FreestyleProjectTest extends BaseTest {
 
     @DataProvider(name = "wrong-character")
     public Object[][] provideWrongCharacters() {
-        return new Object[][]{{"!","!"}, {"@","@"}, {"#","#"}, {"$","$"}, {"%","%"}, {"^","^"}, {"&","&amp;"}, {"*","*"},
-                {"?","?"}, {"|","|"}, {">","&gt;"}, {"<","&lt;"}, {"[","["}, {"]","]"}};
+        return new Object[][]{{"!", "!"}, {"@", "@"}, {"#", "#"}, {"$", "$"}, {"%", "%"}, {"^", "^"}, {"&", "&amp;"}, {"*", "*"},
+                {"?", "?"}, {"|", "|"}, {">", "&gt;"}, {"<", "&lt;"}, {"[", "["}, {"]", "]"}};
     }
 
     @Test(dataProvider = "wrong-character")
@@ -177,10 +178,10 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickRenameButtonAndGoError()
                 .getErrorMessage();
 
-        Assert.assertEquals(actualErrorMessage,"‘" + expectedResult + "’ is an unsafe character");
+        Assert.assertEquals(actualErrorMessage, "‘" + expectedResult + "’ is an unsafe character");
     }
 
-    @Test(dependsOnMethods = "testAddDescription")
+    @Test(dependsOnMethods = "testAddDescriptionFromProjectPage")
     public void testRenameToTheCurrentNameAndGetError() {
         String errorMessage = new MainPage(getDriver())
                 .dropDownMenuClickRename(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -312,24 +313,22 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(sizeOfPermalinksList, 4);
     }
 
-    @Ignore
     @Test
-    public void testFreestyleProjectJob() {
-        String nameProject = "Hello world";
-        String steps = "javac ".concat(nameProject.concat(".java\njava ".concat(nameProject)));
+    public void testBuildStepsInvokeMavenGoalsTargets() {
+        String goals = "clean";
+        
+        TestUtils.createJob(this, FREESTYLE_NAME,TestUtils.JobType.FreestyleProject,true);
 
-        String consoleOutput = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(nameProject)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .addBuildStepsExecuteShell(steps)
+        String mavenGoals = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .openBuildStepOptionsDropdown()
+                .addInvokeMavenGoalsTargets(goals)
                 .clickSaveButton()
-                .clickBuildNowFromSideMenu()
-                .clickIconBuildOpenConsoleOutput(1)
-                .getConsoleOutputText();
+                .clickConfigure()
+                .getMavenGoals();
 
-        Assert.assertTrue(consoleOutput.contains("Finished: SUCCESS"), "Build Finished: FAILURE");
+        Assert.assertEquals(mavenGoals, goals);
     }
 
     @Test
@@ -410,14 +409,13 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameFromDropDownMenu")
     public void testAddingAProjectOnGitHubToTheFreestyleProject() {
-        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
 
         final String actualNameRepo = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .clickGitHubProjectCheckbox()
-                .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
+                .inputTextTheInputAreaProjectUrlInGitHubProject(GITHUB_URL)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -767,5 +765,38 @@ public class FreestyleProjectTest extends BaseTest {
                 .jobIsDisplayed(FREESTYLE_NAME);
 
         Assert.assertTrue(jobIsDisplayed, "Error: the Freestyle Project's name is not displayed on Dashboard");
+    }
+
+    @Test
+    public void testAddRepositoryFromSourceCodeManagement() {
+
+        String repositoryUrl = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSourceCodeManagementLink()
+                .clickRadioButtonGit()
+                .inputRepositoryUrl(GITHUB_URL)
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .clickConfigureDropDown(FREESTYLE_NAME, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSourceCodeManagementLink()
+                .getRepositoryUrlText();
+
+        Assert.assertEquals(repositoryUrl, GITHUB_URL);
+    }
+
+    @Test(dependsOnMethods = "testCreateFromNewItem")
+    public void testAccessConfigurationPageFromFP() {
+        final String breadcrumbRoute = "Dashboard > " + FREESTYLE_NAME + " > Configuration";
+
+        FreestyleProjectConfigPage freestyleConfigPage = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure();
+
+        Assert.assertEquals(freestyleConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumbRoute);
+        Assert.assertEquals(freestyleConfigPage.getTitle(), "Configure");
     }
 }
