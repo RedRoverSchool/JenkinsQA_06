@@ -23,6 +23,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String NEW_FREESTYLE_NAME = "NEW_FREESTYLE_NAME";
     private static final String DESCRIPTION_TEXT = "DESCRIPTION_TEXT";
     private static final String NEW_DESCRIPTION_TEXT = "NEW_DESCRIPTION_TEXT";
+    private static final String GITHUB_URL = "https://github.com/ArtyomDulya/TestRepo";
 
     @Test
     public void testCreateFromNewItem() {
@@ -121,7 +122,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickEnable();
 
         SoftAssert soft = new SoftAssert();
-        soft.assertEquals(projectName.getDisableButtonText(),"Disable Project");
+        soft.assertEquals(projectName.getDisableButtonText(), "Disable Project");
         soft.assertEquals(projectName.clickConfigure().getTextEnabled(), "Enabled");
         soft.assertEquals(projectName.getHeader().clickLogo().getJobBuildStatusIcon(FREESTYLE_NAME), "Not built");
         soft.assertAll();
@@ -162,8 +163,8 @@ public class FreestyleProjectTest extends BaseTest {
 
     @DataProvider(name = "wrong-character")
     public Object[][] provideWrongCharacters() {
-        return new Object[][]{{"!","!"}, {"@","@"}, {"#","#"}, {"$","$"}, {"%","%"}, {"^","^"}, {"&","&amp;"}, {"*","*"},
-                {"?","?"}, {"|","|"}, {">","&gt;"}, {"<","&lt;"}, {"[","["}, {"]","]"}};
+        return new Object[][]{{"!", "!"}, {"@", "@"}, {"#", "#"}, {"$", "$"}, {"%", "%"}, {"^", "^"}, {"&", "&amp;"}, {"*", "*"},
+                {"?", "?"}, {"|", "|"}, {">", "&gt;"}, {"<", "&lt;"}, {"[", "["}, {"]", "]"}};
     }
 
     @Test(dataProvider = "wrong-character")
@@ -177,7 +178,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickRenameButtonAndGoError()
                 .getErrorMessage();
 
-        Assert.assertEquals(actualErrorMessage,"‘" + expectedResult + "’ is an unsafe character");
+        Assert.assertEquals(actualErrorMessage, "‘" + expectedResult + "’ is an unsafe character");
     }
 
     @Test(dependsOnMethods = "testAddDescription")
@@ -408,14 +409,13 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameFromDropDownMenu")
     public void testAddingAProjectOnGitHubToTheFreestyleProject() {
-        final String gitHubUrl = "https://github.com/ArtyomDulya/TestRepo";
         final String expectedNameRepo = "Sign in";
 
         final String actualNameRepo = new MainPage(getDriver())
                 .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickConfigure()
                 .clickGitHubProjectCheckbox()
-                .inputTextTheInputAreaProjectUrlInGitHubProject(gitHubUrl)
+                .inputTextTheInputAreaProjectUrlInGitHubProject(GITHUB_URL)
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
@@ -765,6 +765,27 @@ public class FreestyleProjectTest extends BaseTest {
                 .jobIsDisplayed(FREESTYLE_NAME);
 
         Assert.assertTrue(jobIsDisplayed, "Error: the Freestyle Project's name is not displayed on Dashboard");
+    }
+
+    @Test
+    public void testAddRepositoryFromSourceCodeManagement() {
+
+        String repositoryUrl = new MainPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSourceCodeManagementLink()
+                .clickRadioButtonGit()
+                .inputRepositoryUrl(GITHUB_URL)
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .clickConfigureDropDown(FREESTYLE_NAME, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickSourceCodeManagementLink()
+                .getRepositoryUrlText();
+
+        Assert.assertEquals(repositoryUrl, GITHUB_URL);
     }
 
     @Test(dependsOnMethods = "testCreateFromNewItem")
