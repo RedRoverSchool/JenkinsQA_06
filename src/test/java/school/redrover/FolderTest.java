@@ -246,7 +246,8 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testPreviewDescriptionFromConfigurationPage")
     public void testEditDescription() {
-        String newDescription = new FolderPage(getDriver())
+        String newDescription = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickEditDescription()
                 .clearDescriptionField()
                 .enterDescription(DESCRIPTION_2)
