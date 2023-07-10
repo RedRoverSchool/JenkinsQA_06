@@ -800,6 +800,19 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleConfigPage.getTitle(), "Configure");
     }
 
+    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
+    public void testAddDisplayName() {
+        String displayName = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickAdvancedDropdownMenu()
+                .setDisplayName(NEW_FREESTYLE_NAME)
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
+    }
+
     @Test
     public void testBuildChangesFromLastBuild() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
