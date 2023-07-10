@@ -3,18 +3,25 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import school.redrover.model.*;
-import school.redrover.model.jobs.*;
-import school.redrover.model.jobsconfig.FolderConfigPage;
-import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
+import school.redrover.model.CreateItemErrorPage;
+import school.redrover.model.MainPage;
+import school.redrover.model.NewJobPage;
 import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseJobPage;
+import school.redrover.model.jobs.FolderPage;
+import school.redrover.model.jobs.FreestyleProjectPage;
+import school.redrover.model.jobs.PipelinePage;
+import school.redrover.model.jobsconfig.FolderConfigPage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.jobsconfig.PipelineConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class FolderTest extends BaseTest {
 
@@ -223,7 +230,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(healthMetric, "the deleted metric is no longer visible");
     }
 
-    //@Ignore
+    @Ignore
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
     public void testAddDescriptionFromProjectPage() {
         FolderPage folderPage = new MainPage(getDriver())
