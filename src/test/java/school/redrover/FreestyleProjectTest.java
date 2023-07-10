@@ -318,8 +318,8 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testBuildStepsInvokeMavenGoalsTargets() {
         String goals = "clean";
-        
-        TestUtils.createJob(this, FREESTYLE_NAME,TestUtils.JobType.FreestyleProject,true);
+
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         String mavenGoals = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -813,6 +813,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
     }
+
     @Test
     public void testCreateFromMyViewsCreateAJobArrow() {
         MainPage mainPage = new MainPage(getDriver())
@@ -828,8 +829,9 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateFromNewItem")
-    public void testCreateBuildNowFromDropDown(){
+    @Test
+    public void testCreateBuildNowFromDropDown() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         String createBuildNow = new MainPage(getDriver())
                 .clickJobDropdownMenuBuildNow(FREESTYLE_NAME)
