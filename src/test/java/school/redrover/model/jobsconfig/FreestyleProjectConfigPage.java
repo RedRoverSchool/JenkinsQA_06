@@ -61,6 +61,9 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//*[contains(text(), 'Invoke')]//button[@title='Delete']")
     private WebElement deleteGoalsButton;
 
+    @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
+    private WebElement displayNameField;
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
@@ -142,5 +145,10 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     public String getMavenGoals() {
         return goalsField.getAttribute("value");
+    }
+
+    public FreestyleProjectConfigPage setDisplayName(String displayName) {
+        displayNameField.sendKeys(displayName);
+        return this;
     }
 }
