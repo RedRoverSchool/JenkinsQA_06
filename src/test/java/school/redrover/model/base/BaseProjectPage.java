@@ -166,7 +166,8 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     private Self openLastBuildDropDownMenu() {
         getDriver().navigate().refresh();
-        new Actions(getDriver()).moveToElement(lastBuildLink).click(lastBuildDropDownMenu).perform();
+        new Actions(getDriver()).moveToElement(getWait2()
+                .until(ExpectedConditions.visibilityOf(lastBuildLink))).click(lastBuildDropDownMenu).perform();
         return (Self) this;
     }
 
