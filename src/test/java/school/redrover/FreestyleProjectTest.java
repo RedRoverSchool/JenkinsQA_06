@@ -86,7 +86,7 @@ public class FreestyleProjectTest extends BaseTest {
                 "In the Freestyle project Changes chapter, not displayed status of the latest build.");
     }
 
-    @Test(dependsOnMethods = "testCreateFromNewItem")
+    @Test(dependsOnMethods = "testAccessConfigurationPageFromFP")
     public void testAccessConfigurationPageFromDashboard() {
         final String breadcrumb = "Dashboard > " + FREESTYLE_NAME + " > Configuration";
 
@@ -825,7 +825,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(mainPage.jobIsDisplayed(FREESTYLE_NAME));
         Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
     }
-
 
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testConsoleOutputFromBuildPage() {
