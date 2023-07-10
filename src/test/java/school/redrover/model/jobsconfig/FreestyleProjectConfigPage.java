@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.base.BaseConfigProjectsPage;
 
@@ -63,6 +64,16 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
     private WebElement displayNameField;
+
+    @FindBy(xpath = "//a[text()='Set GitHub commit status (universal)']")
+    private WebElement gitHubCommitStatusType;
+
+    @FindBy(xpath = "//*[contains(text(), 'Commit context')]//following-sibling::div//select")
+    private WebElement commitContextSelect;
+
+    @FindBy(xpath = "//input[@name='_.context']")
+    private WebElement contextNameField;
+
 
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
@@ -150,5 +161,23 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public FreestyleProjectConfigPage setDisplayName(String displayName) {
         displayNameField.sendKeys(displayName);
         return this;
+    }
+
+    public FreestyleProjectConfigPage clickSetGitHubCommitStatus() {
+        scrollToFooter();
+        gitHubCommitStatusType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage setGitHubCommitStatusContext(String status) {
+        scrollToFooter();
+        new Select(commitContextSelect).selectByVisibleText("Manually entered context name");
+        getWait2().until(ExpectedConditions.elementToBeClickable(contextNameField)).sendKeys(status);
+        return this;
+    }
+
+    public String getGitHubCommitStatus() {
+        scrollToFooter();
+        return contextNameField.getAttribute("value");
     }
 }
