@@ -839,10 +839,10 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(consoleOutputTitleDisplayed, "Error: Console Output Title is not displayed!");
     }
 
-    @Test(dependsOnMethods = "testCreateFromNewItem")
+    @Test
     public void testAddDisplayNameForBuild() {
-        String buildHeaderText = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+        String buildHeaderText = new FreestyleProjectPage(getDriver())
                 .clickBuildNowFromSideMenu()
                 .clickLastBuildLink()
                 .clickEditBuildInformation()
