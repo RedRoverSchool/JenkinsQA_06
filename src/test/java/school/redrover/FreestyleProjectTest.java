@@ -811,6 +811,33 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
     }
+    @Test
+    public void testCreateFromMyViewsCreateAJobArrow() {
+        MainPage mainPage = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJobArrow()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(mainPage.jobIsDisplayed(FREESTYLE_NAME));
+        Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
+    }
+
+
+    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
+    public void testConsoleOutputFromBuildPage() {
+        boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickLastBuildLink()
+                .clickConsoleOutput()
+                .isDisplayedBuildTitle();
+
+        Assert.assertTrue(consoleOutputTitleDisplayed, "Error: Console Output Title is not displayed!");
+    }
 
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testConsoleOutputFromBuildPage() {
