@@ -523,4 +523,24 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(actualError, expectedError);
     }
+
+    @Test
+    public void testAddedPipelineLibrary() {
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
+        String defaultVersion = "main";
+        String repoUrl = "https://github.com/darinpope/github-api-global-lib.git";
+
+        FolderConfigPage folderConfigPage = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .inputNameLibrary()
+                .inputDefaultVersion(defaultVersion)
+                .pushSourceCodeManagementButton()
+                .chooseOption()
+                .inputLibraryRepoUrl(repoUrl)
+                .pushApply()
+                .refreshPage();
+
+        Assert.assertTrue(folderConfigPage.libraryDefaultVersionValidated(), "Cannot validate default version");
+    }
 }
