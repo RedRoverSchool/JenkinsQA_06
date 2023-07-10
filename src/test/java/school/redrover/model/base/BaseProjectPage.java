@@ -172,7 +172,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     public ChangesPage<Self> clickChangesViaLastBuildDropDownMenu() {
         openLastBuildDropDownMenu();
-        new Actions(getDriver()).click(changesFromLastBuild).perform();
+        new Actions(getDriver()).moveToElement(changesFromLastBuild).click().perform();
         return new ChangesPage<>((Self) this);
     }
 }
