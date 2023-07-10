@@ -811,6 +811,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
     }
+
     @Test
     public void testCreateFromMyViewsCreateAJobArrow() {
         MainPage mainPage = new MainPage(getDriver())
@@ -837,6 +838,21 @@ public class FreestyleProjectTest extends BaseTest {
                 .isDisplayedBuildTitle();
 
         Assert.assertTrue(consoleOutputTitleDisplayed, "Error: Console Output Title is not displayed!");
+    }
+
+    @Test
+    public void testAddDisplayNameForBuild() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+        String buildHeaderText = new FreestyleProjectPage(getDriver())
+                .clickBuildNowFromSideMenu()
+                .clickLastBuildLink()
+                .clickEditBuildInformation()
+                .enterDisplayName("DisplayName")
+                .clickSaveButton()
+                .getBuildHeaderText();
+
+        Assert.assertTrue(buildHeaderText.contains("DisplayName"),
+                "Error: The Display Name for the Build has not been changed.");
     }
     @Test
     public void testDeleteBuildNowFromDropDown() {
