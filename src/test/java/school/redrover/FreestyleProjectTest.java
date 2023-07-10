@@ -826,4 +826,18 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
     }
 
+    @Test
+    public void testDeleteBuildNowFromDropDown() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        Boolean noBuildsMessage = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickBuildNowFromSideMenu()
+                .getHeader()
+                .clickLogo()
+                .clickBuildDropdownMenuDeleteBuild("#1")
+                .deleteBuild()
+                .isNoBuildsDisplayed();
+
+        Assert.assertTrue(noBuildsMessage, "Error");
+    }
 }

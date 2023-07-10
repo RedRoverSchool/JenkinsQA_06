@@ -96,6 +96,12 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(css = "svg[title='Folder']")
     private WebElement iconFolder;
 
+    @FindBy(xpath = "//td/a[text()='#1']/button")
+    private WebElement dropDownBuildButton;
+
+    @FindBy(xpath = "//a[contains(@href, 'confirmDelete')]")
+    private WebElement deleteBuildDropDown;
+
     public BaseDashboardPage(WebDriver driver) {
         super(driver);
     }
@@ -364,6 +370,19 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         new Actions(getDriver())
                 .moveToElement(weather)
                 .perform();
+        return (Self)this;
+    }
+
+    public BuildPage clickBuildDropdownMenuDeleteBuild(String buildNumber) {
+        openBuildDropDownMenu(buildNumber);
+        getWait2().until(ExpectedConditions.elementToBeClickable(deleteBuildDropDown)).click();
+        return new BuildPage(getDriver());
+    }
+
+    public Self openBuildDropDownMenu(String buildNumber) {
+        Actions act = new Actions(getDriver());
+        act.moveToElement(dropDownBuildButton).perform();
+        dropDownBuildButton.sendKeys(Keys.RETURN);
         return (Self)this;
     }
 }
