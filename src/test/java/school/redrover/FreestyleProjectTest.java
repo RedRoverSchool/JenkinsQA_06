@@ -318,8 +318,8 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testBuildStepsInvokeMavenGoalsTargets() {
         String goals = "clean";
-
-        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        
+        TestUtils.createJob(this, FREESTYLE_NAME,TestUtils.JobType.FreestyleProject,true);
 
         String mavenGoals = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -813,7 +813,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
     }
-
     @Test
     public void testCreateFromMyViewsCreateAJobArrow() {
         MainPage mainPage = new MainPage(getDriver())
@@ -840,6 +839,18 @@ public class FreestyleProjectTest extends BaseTest {
                 .getLastBuildIconStatus();
 
         Assert.assertEquals(createBuildNow, "Success");
+    }
+
+    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
+    public void testConsoleOutputFromBuildPage() {
+        boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickLastBuildLink()
+                .clickConsoleOutput()
+                .isDisplayedBuildTitle();
+
+        Assert.assertTrue(consoleOutputTitleDisplayed, "Error: Console Output Title is not displayed!");
     }
 
 }
