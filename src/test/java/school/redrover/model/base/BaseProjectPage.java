@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
@@ -60,7 +61,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//div[@id='no-builds']")
     private WebElement noBuildsMessage;
 
-    @FindBy(xpath = "//a[contains(@href, 'lastBuild/changes')]")
+    @FindBy(xpath = "//ul[@class='first-of-type']/li[@index='0']")
     private WebElement changesFromLastBuild;
 
     public BaseProjectPage(WebDriver driver) {
@@ -165,13 +166,13 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     private Self openLastBuildDropDownMenu() {
         getDriver().navigate().refresh();
-        lastBuildDropDownMenu.click();
+        new Actions(getDriver()).moveToElement(lastBuildLink).moveToElement(lastBuildDropDownMenu).click().perform();
         return (Self) this;
     }
 
     public ChangesPage<Self> clickChangesViaLastBuildDropDownMenu() {
         openLastBuildDropDownMenu();
-        changesFromLastBuild.click();
+        new Actions(getDriver()).moveToElement(changesFromLastBuild).click().perform();
         return new ChangesPage<>((Self) this);
     }
 }
