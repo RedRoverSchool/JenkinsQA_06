@@ -66,6 +66,19 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
+    public void testCreateFromCreateAJobArrow() {
+        String newFolderName = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .enterItemName(NAME)
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(newFolderName, NAME);
+    }
+
+    @Test
     public void testCreateFromNewItem() {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
