@@ -827,6 +827,18 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
 
+    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
+    public void testConsoleOutputFromBuildPage() {
+        boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickLastBuildLink()
+                .clickConsoleOutput()
+                .isDisplayedBuildTitle();
+
+        Assert.assertTrue(consoleOutputTitleDisplayed, "Error: Console Output Title is not displayed!");
+    }
+
     @Test
     public void testBuildChangesFromLastBuild() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
