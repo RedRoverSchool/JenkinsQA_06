@@ -458,6 +458,22 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
+    public void testCreateFromMyViewsCreateAJob() {
+        MainPage mainPage = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJob()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(mainPage.jobIsDisplayed(ORGANIZATION_FOLDER_NAME), "Error: the Organization Folder's name is not displayed on Dashboard from Home page");
+        Assert.assertTrue(mainPage.clickMyViewsSideMenuLink()
+                .jobIsDisplayed(ORGANIZATION_FOLDER_NAME), "Error: the Organization Folder's name is not displayed on Dashboard from MyViews page");
+    }
+
+    @Test
     public void testCancelDeletingFromDropDownMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
