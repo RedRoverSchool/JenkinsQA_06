@@ -1,5 +1,6 @@
 package school.redrover;
 
+import io.qameta.allure.testng.TestInstanceParameter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -9,6 +10,7 @@ import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
+import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -824,6 +826,18 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(mainPage.jobIsDisplayed(FREESTYLE_NAME));
         Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateFromNewItem")
+    public void testCreateBuildNowFromDropDown(){
+
+        String createBuildNow = new MainPage(getDriver())
+                .clickJobDropdownMenuBuildNow(FREESTYLE_NAME)
+                .getHeader()
+                .clickLogoWithPause()
+                .getLastBuildIconStatus();
+
+        Assert.assertEquals(createBuildNow, "Success");
     }
 
 }
