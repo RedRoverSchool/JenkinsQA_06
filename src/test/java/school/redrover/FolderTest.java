@@ -3,7 +3,6 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.*;
@@ -64,6 +63,19 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "Error: was not show name folder");
         Assert.assertTrue(mainPage.isIconFolderDisplayed(), "Error: was not shown icon folder");
+    }
+
+    @Test
+    public void testCreateFromCreateAJobArrow() {
+        String newFolderName = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .enterItemName(NAME)
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(newFolderName, NAME);
     }
 
     @Test
@@ -211,7 +223,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(healthMetric, "the deleted metric is no longer visible");
     }
 
-    @Ignore
+    //@Ignore
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
     public void testAddDescriptionFromProjectPage() {
         FolderPage folderPage = new MainPage(getDriver())
@@ -224,7 +236,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(folderPage.getDescriptionButton(), "Edit description");
     }
 
-    @Ignore
+   // @Ignore
     @Test(dependsOnMethods = "testAddDescriptionFromProjectPage")
     public void testPreviewDescriptionFromProjectPage() {
         String previewText = new MainPage(getDriver())
@@ -247,7 +259,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(previewText, DESCRIPTION);
     }
 
-    @Test(dependsOnMethods = "testPreviewDescriptionFromConfigurationPage")
+    @Test(dependsOnMethods = "testCancelDeletingFromFromDropDownMenu")
     public void testEditDescription() {
         String newDescription = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
@@ -314,7 +326,6 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateJobsInFolder")
     public void testDeleteItemFromDropDown() {
-
         MainPage welcomeIsDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickDeleteFolders(NAME)
                 .clickYesButton();
@@ -512,5 +523,37 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(projectName.jobIsDisplayed(NAME), "Error: the Folder's name is not displayed on Dashboard from Home page");
         Assert.assertTrue(projectName.clickMyViewsSideMenuLink()
                 .jobIsDisplayed(NAME), "Error: the Folder's name is not displayed on Dashboard from MyViews page");
+    }
+
+    @Test
+    public void testCreateWithEmptyName() {
+        final String expectedError = "» This field cannot be empty, please enter a valid name";
+
+        String actualError = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .selectJobType(TestUtils.JobType.Folder)
+                .getItemNameRequiredErrorText();
+
+        Assert.assertEquals(actualError, expectedError);
+    }
+
+    @Test
+    public void testAddedPipelineLibrary() {
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
+        String defaultVersion = "main";
+        String repoUrl = "https://github.com/darinpope/github-api-global-lib.git";
+
+        FolderConfigPage folderConfigPage = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .inputNameLibrary()
+                .inputDefaultVersion(defaultVersion)
+                .pushSourceCodeManagementButton()
+                .chooseOption()
+                .inputLibraryRepoUrl(repoUrl)
+                .pushApply()
+                .refreshPage();
+
+        Assert.assertTrue(folderConfigPage.libraryDefaultVersionValidated(), "Cannot validate default version");
     }
 }
