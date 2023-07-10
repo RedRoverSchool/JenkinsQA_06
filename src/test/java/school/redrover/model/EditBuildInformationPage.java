@@ -3,6 +3,7 @@ package school.redrover.model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInformationPage> {
@@ -13,6 +14,9 @@ public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInform
     @FindBy(xpath = "//*[@name = 'Submit']")
     private WebElement saveButton;
 
+    @FindBy(xpath = "//input[@name='displayName']")
+    private WebElement displayNameField;
+
     public EditBuildInformationPage(WebDriver driver) {
         super(driver);
     }
@@ -21,5 +25,11 @@ public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInform
         saveButton.click();
 
         return new BuildPage(getDriver());
+    }
+
+    public EditBuildInformationPage enterDisplayName(String displayName) {
+        getWait5().until(ExpectedConditions.visibilityOf(displayNameField))
+                .sendKeys(displayName);
+        return this;
     }
 }

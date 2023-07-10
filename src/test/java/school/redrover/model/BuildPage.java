@@ -24,6 +24,9 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(xpath = "//span[contains(text(), 'Delete build')]/..")
     private WebElement deleteBuildButton;
 
+    @FindBy(xpath = "//span[text()='Edit Build Information']/..")
+    private WebElement editBuildInformation;
+
     public BuildPage(WebDriver driver) {
         super(driver);
     }
@@ -49,5 +52,16 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     public <JobTypePage extends BasePage<?, ?>> DeletePage<JobTypePage> clickDeleteBuild(JobTypePage jobTypePage) {
         getWait5().until(ExpectedConditions.elementToBeClickable(deleteBuildButton)).click();
         return new DeletePage<>(jobTypePage);
+    }
+
+    public EditBuildInformationPage clickEditBuildInformation() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(editBuildInformation)).click();
+
+        return new EditBuildInformationPage(getDriver());
+    }
+
+    public String getBuildHeaderText() {
+
+        return getWait5().until(ExpectedConditions.visibilityOf(buildHeader)).getText();
     }
 }

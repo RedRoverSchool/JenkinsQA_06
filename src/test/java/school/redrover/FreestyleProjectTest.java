@@ -826,4 +826,18 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
     }
 
+    @Test(dependsOnMethods = "testCreateFromNewItem")
+    public void testAddDisplayNameForBuild() {
+        String buildHeaderText = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickBuildNowFromSideMenu()
+                .clickLastBuildLink()
+                .clickEditBuildInformation()
+                .enterDisplayName("DisplayName")
+                .clickSaveButton()
+                .getBuildHeaderText();
+
+        Assert.assertTrue(buildHeaderText.contains("DisplayName"),
+                "The Display Name for the Build has not been changed.");
+    }
 }
