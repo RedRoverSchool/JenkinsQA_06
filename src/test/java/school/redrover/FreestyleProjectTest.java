@@ -799,4 +799,17 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumbRoute);
         Assert.assertEquals(freestyleConfigPage.getTitle(), "Configure");
     }
+
+    @Test
+    public void testCreateBuildNowFromArrow(){
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        boolean buildHeaderIsDisplayed = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickIconBuildOpenConsoleOutput(1)
+                .isDisplayedBuildTitle();
+
+        Assert.assertTrue(buildHeaderIsDisplayed, "Build is not created");
+    }
 }
