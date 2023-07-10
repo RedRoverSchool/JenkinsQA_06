@@ -811,4 +811,19 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
     }
+    @Test
+    public void testCreateFromMyViewsCreateAJobArrow() {
+        MainPage mainPage = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJobArrow()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(mainPage.jobIsDisplayed(FREESTYLE_NAME));
+        Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
+    }
+
 }
