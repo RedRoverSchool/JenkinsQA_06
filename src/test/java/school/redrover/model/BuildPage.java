@@ -25,6 +25,9 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(name = "Submit")
     private WebElement deleteBuildButton;
 
+    @FindBy(xpath = "//span[contains(text(), 'Console Output')]/..")
+    private WebElement consoleOutputButton;
+
     public BuildPage(WebDriver driver) {
         super(driver);
     }
@@ -52,9 +55,13 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
         return new DeletePage<>(jobTypePage);
     }
 
+    public ConsoleOutputPage clickConsoleOutput() {
+        consoleOutputButton.click();
+        return new ConsoleOutputPage(getDriver());
+    }
+
     public FreestyleProjectPage deleteBuild() {
         deleteBuildButton.click();
         return new FreestyleProjectPage(getDriver());
     }
 }
-
