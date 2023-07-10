@@ -799,4 +799,16 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumbRoute);
         Assert.assertEquals(freestyleConfigPage.getTitle(), "Configure");
     }
+
+    @Test
+    public void testBuildChangesFromLastBuild() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+
+        String text = new FreestyleProjectPage(getDriver())
+                .clickBuildNowFromSideMenu()
+                .clickChangesViaLastBuildDropDownMenu()
+                .getTextOfPage();
+
+        Assert.assertTrue(text.contains("No changes."));
+    }
 }

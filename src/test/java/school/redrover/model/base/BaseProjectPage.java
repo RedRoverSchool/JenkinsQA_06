@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
@@ -42,6 +43,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//a[@href='lastBuild/']")
     private WebElement lastBuildLink;
 
+    @FindBy(xpath = "//a[@href='lastBuild/']/button")
+    private WebElement lastBuildDropDownMenu;
+
     @FindBy(xpath = "(//a[@update-parent-class='.build-row'])[1]")
     private WebElement lastBuildCompletedLink;
 
@@ -56,6 +60,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     @FindBy(xpath = "//div[@id='no-builds']")
     private WebElement noBuildsMessage;
+
+    @FindBy(xpath = "//a[contains(@href, 'lastBuild/changes')]")
+    private WebElement changesFromLastBuild;
 
     public BaseProjectPage(WebDriver driver) {
         super(driver);
@@ -155,5 +162,17 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     public boolean isNoBuildsDisplayed() {
         return noBuildsMessage.isDisplayed();
+    }
+
+    private Self openLastBuildDropDownMenu() {
+        getDriver().navigate().refresh();
+        new Actions(getDriver()).moveToElement(lastBuildLink).click(lastBuildDropDownMenu).perform();
+        return (Self) this;
+    }
+
+    public ChangesPage<Self> clickChangesViaLastBuildDropDownMenu() {
+        openLastBuildDropDownMenu();
+        new Actions(getDriver()).click(changesFromLastBuild).perform();
+        return new ChangesPage<>((Self) this);
     }
 }
