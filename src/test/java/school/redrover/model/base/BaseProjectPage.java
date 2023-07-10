@@ -64,6 +64,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//ul[@class='first-of-type']/li[@index='0']")
     private WebElement changesFromLastBuild;
 
+    @FindBy(xpath = "//a[contains(@class, 'task-link task-link')]")
+    private WebElement statusButton;
+
     public BaseProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -165,7 +168,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     }
 
     private Self openLastBuildDropDownMenu() {
-        getDriver().navigate().refresh();
+        statusButton.click();
         new Actions(getDriver()).moveToElement(lastBuildLink).moveToElement(lastBuildDropDownMenu).click().perform();
         return (Self) this;
     }
