@@ -66,6 +66,19 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
+    public void testCreateFromCreateAJobArrow() {
+        String newFolderName = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .enterItemName(NAME)
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(newFolderName, NAME);
+    }
+
+    @Test
     public void testCreateFromNewItem() {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
 
@@ -522,5 +535,25 @@ public class FolderTest extends BaseTest {
                 .getItemNameRequiredErrorText();
 
         Assert.assertEquals(actualError, expectedError);
+    }
+
+    @Test
+    public void testAddedPipelineLibrary() {
+        TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
+        String defaultVersion = "main";
+        String repoUrl = "https://github.com/darinpope/github-api-global-lib.git";
+
+        FolderConfigPage folderConfigPage = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure()
+                .inputNameLibrary()
+                .inputDefaultVersion(defaultVersion)
+                .pushSourceCodeManagementButton()
+                .chooseOption()
+                .inputLibraryRepoUrl(repoUrl)
+                .pushApply()
+                .refreshPage();
+
+        Assert.assertTrue(folderConfigPage.libraryDefaultVersionValidated(), "Cannot validate default version");
     }
 }
