@@ -17,6 +17,12 @@ public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInform
     @FindBy(xpath = "//input[@name='displayName']")
     private WebElement displayNameField;
 
+    @FindBy(xpath = "//a[text()='Preview']")
+    private  WebElement previewButton;
+
+    @FindBy(xpath = "//div[@class=\"textarea-preview\"]")
+    private WebElement previewTextarea;
+
     public EditBuildInformationPage(WebDriver driver) {
         super(driver);
     }
@@ -31,5 +37,22 @@ public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInform
         getWait5().until(ExpectedConditions.elementToBeClickable(displayNameField))
                 .sendKeys(displayName);
         return this;
+    }
+
+    public EditBuildInformationPage enterDescription(String description) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buildDescriptionTextArea))
+                .sendKeys(description);
+        return this;
+    }
+
+    public EditBuildInformationPage clickPreviewButton() {
+        previewButton.click();
+
+        return this;
+    }
+
+    public String getPreviewText() {
+
+        return getWait5().until(ExpectedConditions.visibilityOf(previewTextarea)).getText();
     }
 }
