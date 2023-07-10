@@ -14,34 +14,38 @@ public class FolderConfigPage extends BaseConfigFoldersPage<FolderConfigPage, Fo
     }
 
     @FindBy(xpath = "//div[@class='repeated-container with-drag-drop']/span")
-    WebElement addButton;
+    private WebElement addButton;
 
     @FindBy(xpath = "//input[@checkdependson='name']")
-    WebElement nameField;
+    private WebElement nameField;
 
     @FindBy(xpath = "//input[@name='_.defaultVersion']")
-    WebElement defaultVersionField;
+    private WebElement defaultVersionField;
 
     @FindBy(xpath = "//div[@name='retriever']//select[contains(@class, 'dropdownList')]")
-    WebElement sourceCodeManagementOptions;
+    private WebElement sourceCodeManagementOptions;
 
     @FindBy(xpath = "//div[@name='retriever']//select[@class='jenkins-select__input dropdownList']/option[text()='GitHub']")
-    WebElement optionGitHub;
+    private WebElement optionGitHub;
 
     @FindBy(xpath = "//input[@name='_.repositoryUrl']")
-    WebElement repositoryField;
+    private WebElement repositoryField;
 
     @FindBy(xpath = "//button[@name='Apply']")
-    WebElement applyButton;
+    private WebElement applyButton;
 
     @FindBy(xpath = "//div[@class='validation-error-area validation-error-area--visible']//div[@class='ok']")
-    WebElement currentDefaultVersion;
+    private WebElement currentDefaultVersion;
 
     @FindBy(xpath = "//div[@id='notification-bar'][contains(@class, 'jenkins-notification--success jenkins-notification--visible')]")
-    WebElement notificationSuccess;
+    private WebElement notificationSuccess;
+
+    @FindBy(xpath = "//button[@data-section-id='properties']")
+    private WebElement propertiesButton;
 
     public FolderConfigPage inputNameLibrary() {
-        addButton.click();
+        propertiesButton.click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(addButton)).click();
         nameField.sendKeys("shared-library");
 
         return this;
@@ -88,7 +92,6 @@ public class FolderConfigPage extends BaseConfigFoldersPage<FolderConfigPage, Fo
     }
 
     public Boolean libraryDefaultVersionValidated() {
-
         return getWait2().until(ExpectedConditions.visibilityOf(currentDefaultVersion)).getText().contains("Currently maps to revision");
     }
 }
