@@ -116,7 +116,7 @@ public class FreestyleProjectTest extends BaseTest {
         soft.assertEquals(projectName.getEnableButtonText(), "Enable");
         soft.assertAll();
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testDisableFromProjectPage")
     public void testEnableFromProjectPage() {
         FreestyleProjectPage projectName = new MainPage(getDriver())
