@@ -827,6 +827,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
     }
 
+
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testConsoleOutputFromBuildPage() {
         boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
@@ -853,4 +854,23 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderText.contains("DisplayName"),
                 "Error: The Display Name for the Build has not been changed.");
     }
+
+    @Test
+    public void testSetGitHubCommitStatusToPostBuildActions() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        String commitContextName = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .clickAddPostBuildActionDropDown()
+                .clickSetGitHubCommitStatus()
+                .setGitHubCommitStatusContext(FREESTYLE_NAME)
+                .clickSaveButton()
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .getGitHubCommitStatus();
+
+        Assert.assertEquals(commitContextName, FREESTYLE_NAME);
+    }
+
 }
