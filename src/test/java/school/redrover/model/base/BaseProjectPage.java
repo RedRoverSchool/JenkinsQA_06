@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
@@ -166,14 +165,13 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     private Self openLastBuildDropDownMenu() {
         getDriver().navigate().refresh();
-        new Actions(getDriver()).moveToElement(getWait2()
-                .until(ExpectedConditions.visibilityOf(lastBuildLink))).click(lastBuildDropDownMenu).perform();
+        lastBuildDropDownMenu.click();
         return (Self) this;
     }
 
     public ChangesPage<Self> clickChangesViaLastBuildDropDownMenu() {
         openLastBuildDropDownMenu();
-        new Actions(getDriver()).moveToElement(changesFromLastBuild).click().perform();
+        changesFromLastBuild.click();
         return new ChangesPage<>((Self) this);
     }
 }
