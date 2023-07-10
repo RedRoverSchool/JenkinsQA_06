@@ -27,6 +27,9 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(xpath = "//span[contains(text(), 'Console Output')]/..")
     private WebElement consoleOutputButton;
 
+    @FindBy(xpath = "//span[text()='Edit Build Information']/..")
+    private WebElement editBuildInformation;
+
     public BuildPage(WebDriver driver) {
         super(driver);
     }
@@ -57,5 +60,16 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     public ConsoleOutputPage clickConsoleOutput() {
         consoleOutputButton.click();
         return new ConsoleOutputPage(getDriver());
+    }
+
+    public EditBuildInformationPage clickEditBuildInformation() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(editBuildInformation)).click();
+
+        return new EditBuildInformationPage(getDriver());
+    }
+
+    public String getBuildHeaderText() {
+
+        return getWait5().until(ExpectedConditions.visibilityOf(buildHeader)).getText();
     }
 }
