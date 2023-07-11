@@ -917,4 +917,17 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(projectPeoplePage.jobIsDisplayed(FREESTYLE_NAME));
     }
+
+    @Test
+    public void testCreateFromBuildHistoryPage(){
+        MainPage newProjectFromBuildHistoryPage = new BuildHistoryPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(newProjectFromBuildHistoryPage.jobIsDisplayed(FREESTYLE_NAME));
+    }
 }
