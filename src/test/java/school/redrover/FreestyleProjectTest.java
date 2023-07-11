@@ -1,6 +1,5 @@
 package school.redrover;
 
-import io.qameta.allure.testng.TestInstanceParameter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -10,7 +9,6 @@ import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
-import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -88,7 +86,7 @@ public class FreestyleProjectTest extends BaseTest {
                 "In the Freestyle project Changes chapter, not displayed status of the latest build.");
     }
 
-    @Test(dependsOnMethods = "testAccessConfigurationPageFromFP")
+    @Test(dependsOnMethods = "testCreateFromNewItem")
     public void testAccessConfigurationPageFromDashboard() {
         final String breadcrumb = "Dashboard > " + FREESTYLE_NAME + " > Configuration";
 
@@ -897,4 +895,18 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderIsDisplayed, "Build is not created");
     }
 
+    @Test
+    public void testBuildStepsDropdownOptions() {
+        final List<String> expectedBuildStepsOptionsList = new ArrayList<>(List.of("Execute Windows batch command",
+                "Execute shell", "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets",
+                "Run with timeout", "Set build status to \"pending\" on GitHub commit"));
+
+        TestUtils.createJob(this,TestUtils.getRandomStr(10),TestUtils.JobType.FreestyleProject, false);
+        List<String> actualBuildStepsOptionsList = new FreestyleProjectPage(getDriver())
+                .clickConfigure()
+                .clickAddBuildStepButton()
+                .getBuildStepsOptionsList();
+
+        Assert.assertEquals(actualBuildStepsOptionsList, expectedBuildStepsOptionsList);
+    }
 }

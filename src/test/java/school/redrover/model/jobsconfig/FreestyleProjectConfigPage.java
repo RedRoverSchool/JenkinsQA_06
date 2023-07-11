@@ -1,12 +1,16 @@
 package school.redrover.model.jobsconfig;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.base.BaseConfigProjectsPage;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<FreestyleProjectConfigPage, FreestyleProjectPage> {
 
@@ -54,6 +58,12 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
     private WebElement displayNameField;
+
+    @FindBy(xpath = "//button[text() = 'Add build step']")
+    private WebElement addBuildStepButton;
+
+    @FindBy(css = ".bd li a")
+    private List<WebElement> buildStepsDropdownOptions;
 
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
@@ -141,5 +151,22 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public FreestyleProjectConfigPage setDisplayName(String displayName) {
         displayNameField.sendKeys(displayName);
         return this;
+    }
+
+    public FreestyleProjectConfigPage clickAddBuildStepButton() {
+        new Actions(getDriver())
+                .sendKeys(Keys.PAGE_DOWN)
+                .pause(250)
+                .click(addBuildStepButton)
+                .build()
+                .perform();
+        return this;
+    }
+
+    public List<String> getBuildStepsOptionsList() {
+        return buildStepsDropdownOptions
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 }
