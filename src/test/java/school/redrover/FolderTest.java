@@ -317,7 +317,7 @@ public class FolderTest extends BaseTest {
                 .clickConfigure();
 
         Assert.assertEquals(folderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
-        Assert.assertEquals(folderConfigPage.getTitle(), "Configure");
+        Assert.assertEquals(folderConfigPage.getTitle(), "Configuration");
     }
 
     @Test(dependsOnMethods = "testAccessConfigurationPageFromSideMenu")
