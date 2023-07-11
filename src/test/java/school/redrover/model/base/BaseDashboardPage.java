@@ -93,6 +93,12 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(css = "svg[title='Folder']")
     private WebElement iconFolder;
 
+    @FindBy(xpath = "//td/a[text()='#1']/button")
+    private WebElement dropDownBuildButton;
+
+    @FindBy(xpath = "//a[contains(@href, 'confirmDelete')]")
+    private WebElement deleteBuildDropDown;
+
     @FindBy(xpath = "//span[@class='build-status-icon__outer']//*[name()='svg']")
     private WebElement lastBuildStatusIcon;
 
@@ -362,10 +368,19 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return (Self)this;
     }
 
+    public BuildPage clickBuildDropdownMenuDeleteBuild(String buildNumber) {
+        openBuildDropDownMenu(buildNumber);
+        getWait2().until(ExpectedConditions.elementToBeClickable(deleteBuildDropDown)).click();
+        return new BuildPage(getDriver());
+    }
 
-
+    public Self openBuildDropDownMenu(String buildNumber) {
+        Actions act = new Actions(getDriver());
+        act.moveToElement(dropDownBuildButton).perform();
+        dropDownBuildButton.sendKeys(Keys.RETURN);
+        return (Self)this;
+    }
     public String getLastBuildIconStatus() {
         return getWait5().until(ExpectedConditions.visibilityOf(lastBuildStatusIcon)).getAttribute("title");
     }
-
 }

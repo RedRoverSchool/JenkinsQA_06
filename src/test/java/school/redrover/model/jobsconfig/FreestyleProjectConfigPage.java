@@ -1,6 +1,7 @@
 package school.redrover.model.jobsconfig;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -8,6 +9,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.base.BaseConfigProjectsPage;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<FreestyleProjectConfigPage, FreestyleProjectPage> {
 
@@ -64,6 +68,24 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     @FindBy(xpath = "//input[@name='_.context']")
     private WebElement contextNameField;
+
+    @FindBy(xpath = "//button[text() = 'Add build step']")
+    private WebElement addBuildStepButton;
+
+    @FindBy(css = ".bd li a")
+    private List<WebElement> buildStepsDropdownOptions;
+
+    @FindBy(xpath = "//a[contains(text(),'Git Publisher')]")
+    private WebElement gitPublisher;
+
+    @FindBy(xpath = "//div[contains(text(), 'Git Publisher')]")
+    private WebElement gitPublisherHandle;
+
+    @FindBy(xpath = "//a[text()='Delete workspace when build is done']")
+    private WebElement deleteWorkspaceType;
+
+    @FindBy(xpath = "//*[contains(text(), 'Delete workspace when build is done')]//following-sibling::div//Delete")
+    private WebElement closeDeleteWorkspaceButton;
 
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
@@ -170,4 +192,44 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
         return contextNameField.getAttribute("value");
     }
 
+
+    public FreestyleProjectConfigPage clickAddBuildStepButton() {
+        new Actions(getDriver())
+                .sendKeys(Keys.PAGE_DOWN)
+                .pause(250)
+                .click(addBuildStepButton)
+                .build()
+                .perform();
+        return this;
+    }
+
+    public List<String> getBuildStepsOptionsList() {
+        return buildStepsDropdownOptions
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    public FreestyleProjectConfigPage clickGitPublisher() {
+        scrollToFooter();
+        gitPublisher.click();
+        return this;
+    }
+
+    public String getGitPublisherText() {
+        scrollToFooter();
+        return gitPublisherHandle.getText();
+    }
+
+    public FreestyleProjectConfigPage clickDeleteWorkspaceWhenBuildDone() {
+        scrollToFooter();
+        deleteWorkspaceType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage closeDeleteWorkspaceWhenBuildDone() {
+        scrollToFooter();
+        closeDeleteWorkspaceButton.click();
+        return this;
+    }
 }
