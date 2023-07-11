@@ -897,4 +897,18 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderIsDisplayed, "Build is not created");
     }
 
+    @Test
+    public void testBuildStepsDropdownOptions() {
+        final List<String> expectedBuildStepsOptionsList = new ArrayList<>(List.of("Execute Windows batch command",
+                "Execute shell", "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets",
+                "Run with timeout", "Set build status to \"pending\" on GitHub commit"));
+
+        TestUtils.createJob(this,TestUtils.getRandomStr(10),TestUtils.JobType.FreestyleProject, false);
+        List<String> actualBuildStepsOptionsList = new FreestyleProjectPage(getDriver())
+                .clickConfigure()
+                .clickAddBuildStepButton()
+                .getBuildStepsOptionsList();
+
+        Assert.assertEquals(actualBuildStepsOptionsList, expectedBuildStepsOptionsList);
+    }
 }
