@@ -843,7 +843,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(createBuildNow, "Success");
     }
 
-    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
+    @Test(dependsOnMethods = "testBuildChangesFromProjectPage")
     public void testConsoleOutputFromBuildPage() {
         boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
                 .clickPlayBuildForATestButton(FREESTYLE_NAME)
@@ -897,4 +897,18 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(buildHeaderIsDisplayed, "Build is not created");
     }
 
+    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
+    public void testBuildChangesFromProjectPage() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        final String title = "Changes";
+
+        String changesTitle = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickChangesFromDropDownMenu()
+                .getPageTitle();
+
+        Assert.assertEquals(changesTitle, title);
+    }
 }
