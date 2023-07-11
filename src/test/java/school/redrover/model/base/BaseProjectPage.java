@@ -60,6 +60,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//div[@id='no-builds']")
     private WebElement noBuildsMessage;
 
+    @FindBy(xpath = "//*[@id='tasks']/div[3]/span/a")
+    private WebElement workspaceButton;
+
     public BaseProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -159,5 +162,11 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         changesButtonDropDownMenu.click();
 
         return new ChangesPage<>((Self)this);
+    }
+
+    public WorkspacePage<Self> clickWorkspaceFromSideMenu() {
+        workspaceButton.click();
+
+        return new WorkspacePage<>((Self)this);
     }
 }
