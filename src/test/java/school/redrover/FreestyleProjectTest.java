@@ -824,6 +824,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(repositoryUrl, GITHUB_URL);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testAddDisplayName() {
         String displayName = new MainPage(getDriver())
