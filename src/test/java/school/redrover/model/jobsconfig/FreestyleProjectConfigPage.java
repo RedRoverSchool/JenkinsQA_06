@@ -19,14 +19,8 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(tagName = "footer")
     private WebElement footer;
 
-    @FindBy(xpath = "//a[text()='Execute shell']")
-    private WebElement executeShellButton;
-
     @FindBy(xpath = "//a[text()='Invoke top-level Maven targets']")
     private WebElement invokeMavenTargetsButton;
-
-    @FindBy(xpath = "//*[@name='description']")
-    private WebElement descriptionField;
 
     @FindBy(xpath = "//input[@name='blockBuildWhenUpstreamBuilding']")
     private WebElement trueBlockBuildWhenUpstreamProjectIsBuilding;
@@ -57,9 +51,6 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     @FindBy(xpath = "//*[@id='textarea._.targets']")
     private WebElement goalsField;
-
-    @FindBy(xpath = "//*[contains(text(), 'Invoke')]//button[@title='Delete']")
-    private WebElement deleteGoalsButton;
 
     @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
     private WebElement displayNameField;

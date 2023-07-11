@@ -15,9 +15,6 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(xpath = "//h1")
     private WebElement buildHeader;
 
-    @FindBy(xpath = "//div[@class='jenkins-form-description']")
-    private WebElement description;
-
     @FindBy(xpath = "(//tr[@class='app-summary']/td//span)[1]")
     private WebElement buildInfo;
 
@@ -27,12 +24,11 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(xpath = "//span[contains(text(), 'Console Output')]/..")
     private WebElement consoleOutputButton;
 
+    @FindBy(xpath = "//span[text()='Edit Build Information']/..")
+    private WebElement editBuildInformation;
+
     public BuildPage(WebDriver driver) {
         super(driver);
-    }
-
-    private WebElement getBuildHeader() {
-        return buildHeader;
     }
 
     public boolean isDisplayedGreenIconV() {
@@ -42,7 +38,7 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public boolean isDisplayedBuildTitle() {
 
-        return getBuildHeader().getText().contains("Build #1");
+        return buildHeader.getText().contains("Build #1");
     }
 
     public String getBuildInfo() {
@@ -56,6 +52,18 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public ConsoleOutputPage clickConsoleOutput() {
         consoleOutputButton.click();
+
         return new ConsoleOutputPage(getDriver());
+    }
+
+    public EditBuildInformationPage clickEditBuildInformation() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(editBuildInformation)).click();
+
+        return new EditBuildInformationPage(getDriver());
+    }
+
+    public String getBuildHeaderText() {
+
+        return getWait5().until(ExpectedConditions.visibilityOf(buildHeader)).getText();
     }
 }

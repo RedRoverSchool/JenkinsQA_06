@@ -57,6 +57,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//span[contains(text(),'Delete build ‘#1’')]")
     private WebElement deleteBuildButtonDropDownMenu;
 
+    @FindBy(xpath = "(//a[contains(@href, 'changes')])[1]")
+    private WebElement changesButtonDropDownMenu;
+
     @FindBy(xpath = "//div[@id='no-builds']")
     private WebElement noBuildsMessage;
 
@@ -126,12 +129,6 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         return new ConsoleOutputPage(getDriver());
     }
 
-    public BuildPage clickNumberBuild(int buildNumber) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text() ,'#" + buildNumber + "')]"))).click();
-        return new BuildPage(getDriver());
-    }
-
     public int getSizeOfPermalinksList() {
         getWait2().until(ExpectedConditions.visibilityOf(permalinks));
         return permalinksList.size();
@@ -164,6 +161,13 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     public boolean isNoBuildsDisplayed() {
         return noBuildsMessage.isDisplayed();
+    }
+
+    public ChangesPage<Self> clickChangesFromDropDownMenu() {
+        openBuildsDropDownMenu();
+        changesButtonDropDownMenu.click();
+
+        return new ChangesPage<>((Self)this);
     }
 
     private Self openLastBuildDropDownMenu() {

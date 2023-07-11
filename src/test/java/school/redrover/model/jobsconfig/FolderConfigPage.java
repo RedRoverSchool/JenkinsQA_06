@@ -9,10 +9,6 @@ import school.redrover.model.base.BaseConfigFoldersPage;
 
 public class FolderConfigPage extends BaseConfigFoldersPage<FolderConfigPage, FolderPage> {
 
-    public FolderConfigPage(FolderPage folderPage) {
-        super(folderPage);
-    }
-
     @FindBy(xpath = "//div[@class='repeated-container with-drag-drop']/span")
     private WebElement addButton;
 
@@ -42,6 +38,10 @@ public class FolderConfigPage extends BaseConfigFoldersPage<FolderConfigPage, Fo
 
     @FindBy(xpath = "//button[@data-section-id='properties']")
     private WebElement propertiesButton;
+
+    public FolderConfigPage(FolderPage folderPage) {
+        super(folderPage);
+    }
 
     public FolderConfigPage inputNameLibrary() {
         propertiesButton.click();

@@ -1,6 +1,5 @@
 package school.redrover.model.base;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +8,6 @@ import school.redrover.model.DeletePage;
 import school.redrover.model.MainPage;
 import school.redrover.model.PipelineSyntaxPage;
 import school.redrover.model.jobs.FolderPage;
-import school.redrover.model.jobs.OrganizationFolderPage;
 
 public abstract class BaseOtherFoldersPage<Self extends BaseJobPage<?>> extends BaseJobPage<Self> {
 
