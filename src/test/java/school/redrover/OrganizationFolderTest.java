@@ -536,6 +536,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateFromMyViewsCreateAJobArrow(){
+
         MainPage projectName = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickCreateAJobArrow()
