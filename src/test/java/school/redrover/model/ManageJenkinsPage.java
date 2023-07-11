@@ -61,9 +61,6 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     @FindBy(xpath = "//h1[normalize-space()='Configure System']")
     private WebElement configureSystem;
 
-    @FindBy(xpath = "//h1[normalize-space(.)= 'Manage Jenkins']")
-    private WebElement manageJenkins;
-
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }

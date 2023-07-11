@@ -3,9 +3,7 @@ package school.redrover.model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
-import school.redrover.model.base.BasePage;
 
 public class PipelineSyntaxPage extends BaseMainHeaderPage<StatusUserPage>  {
 
@@ -28,12 +26,6 @@ public class PipelineSyntaxPage extends BaseMainHeaderPage<StatusUserPage>  {
         super(driver);
     }
 
-    public PipelineSyntaxPage clickAddDescriptionLink() {
-        sampleStepDropDownList.click();
-
-        return this;
-    }
-
     public PipelineSyntaxPage clickPrintMessageOption() {
         printMessage.click();
 
@@ -54,6 +46,5 @@ public class PipelineSyntaxPage extends BaseMainHeaderPage<StatusUserPage>  {
 
     public String getTextPipelineScript() {
        return textArea.getAttribute("value");
-//        getWait5().until(ExpectedConditions.textToBePresentInElement(textArea, text));
     }
 }

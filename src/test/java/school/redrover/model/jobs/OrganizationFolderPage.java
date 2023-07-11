@@ -40,9 +40,6 @@ public class OrganizationFolderPage extends BaseOtherFoldersPage<OrganizationFol
     @FindBy(xpath = "//span[(text() = 'Re-run the Folder Computation')]")
     private WebElement reRunFolderComputationLink;
 
-    @FindBy(id = "pipeline-1")
-    private WebElement webElement;
-
     public OrganizationFolderPage(WebDriver driver) {
         super(driver);
     }

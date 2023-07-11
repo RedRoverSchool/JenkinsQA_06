@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 public class CreateUserPage extends BaseMainHeaderPage<CreateUserPage> {
+
     @FindBy(id = "username")
     private WebElement userNameInputField;
 
