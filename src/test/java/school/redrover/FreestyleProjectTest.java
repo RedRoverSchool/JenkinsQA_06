@@ -855,6 +855,20 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testPreviewDescriptionFromEditInformationPage() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+        String previewDescriptionText = new FreestyleProjectPage(getDriver())
+                .clickBuildNowFromSideMenu()
+                .clickLastBuildLink()
+                .clickEditBuildInformation()
+                .enterDescription(DESCRIPTION_TEXT)
+                .clickPreviewButton()
+                .getPreviewText();
+
+        Assert.assertEquals(previewDescriptionText, DESCRIPTION_TEXT);
+    }
+
+    @Test
     public void testCreateBuildNowFromArrow(){
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
