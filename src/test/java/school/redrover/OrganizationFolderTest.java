@@ -505,7 +505,8 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateFromPeoplePage(){
-        MainPage projectPeoplePage = new PeoplePage(getDriver())
+        MainPage projectPeoplePage = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
                 .selectJobType(TestUtils.JobType.OrganizationFolder)
