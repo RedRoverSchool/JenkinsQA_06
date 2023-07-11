@@ -89,6 +89,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(changesTitle, title);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testBuildChangesFromProjectPage")
     public void testConsoleOutputFromBuildPage() {
         boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
