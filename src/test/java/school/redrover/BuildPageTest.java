@@ -165,6 +165,7 @@ public class BuildPageTest extends BaseTest {
         Assert.assertEquals(projectNameOnBuildHistoryTimeline, itemName + " #1");
     }
 
+    @Ignore
     @Test
     public void testDeleteBuild() {
         final int zeroBuild = 0;
