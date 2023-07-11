@@ -75,6 +75,12 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(css = ".bd li a")
     private List<WebElement> buildStepsDropdownOptions;
 
+    @FindBy(xpath = "//a[contains(text(),'Git Publisher')]")
+    private WebElement gitPublisher;
+
+    @FindBy(xpath = "//div[contains(text(), 'Git Publisher')]")
+    private WebElement gitPublisherHandle;
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
@@ -196,5 +202,16 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+
+    public FreestyleProjectConfigPage clickGitPublisher() {
+        scrollToFooter();
+        gitPublisher.click();
+        return this;
+    }
+
+    public String getGitPublisherText() {
+        scrollToFooter();
+        return gitPublisherHandle.getText();
     }
 }
