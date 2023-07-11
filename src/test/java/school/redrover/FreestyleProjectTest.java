@@ -1001,4 +1001,21 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualBuildStepsOptionsList, expectedBuildStepsOptionsList);
     }
+
+    @Test
+    public void testAddGitPublisherInPostBuildActions() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        String gitPublisherText = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .clickAddPostBuildActionDropDown()
+                .clickGitPublisher()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .getGitPublisherText();
+
+        Assert.assertEquals(gitPublisherText, "Git Publisher\n?");
+    }
 }
