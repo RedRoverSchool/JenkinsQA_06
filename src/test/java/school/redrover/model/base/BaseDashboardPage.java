@@ -96,6 +96,12 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(xpath = "//span[@class='build-status-icon__outer']//*[name()='svg']")
     private WebElement lastBuildStatusIcon;
 
+    @FindBy(xpath = "(//button[@class='jenkins-menu-dropdown-chevron'])[6]")
+    private WebElement lastBuildDropDownMenuButton;
+
+    @FindBy(xpath = "//span[text()= 'Console Output']")
+    private WebElement consoleOutputButtonFromBuildDropDown;
+
     public BaseDashboardPage(WebDriver driver) {
         super(driver);
     }
@@ -362,10 +368,17 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return (Self)this;
     }
 
-
-
     public String getLastBuildIconStatus() {
         return getWait5().until(ExpectedConditions.visibilityOf(lastBuildStatusIcon)).getAttribute("title");
     }
 
+    public Self openLastBuildDropDownMenu() {
+        getWait10().until(ExpectedConditions.visibilityOf(lastBuildDropDownMenuButton)).sendKeys(Keys.RETURN);
+        return (Self)this;
+    }
+
+    public ConsoleOutputPage clickConsoleOutputLastBuildDropDown() {
+        consoleOutputButtonFromBuildDropDown.click();
+        return new ConsoleOutputPage(getDriver());
+    }
 }

@@ -98,6 +98,32 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(consoleOutputTitleDisplayed, "Error: Console Output Title is not displayed!");
     }
 
+    @Test(dependsOnMethods = "testConsoleOutputFromBuildPage")
+    public void testConsoleOutputFromDropDown() {
+        boolean consoleOutputTitle = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .getHeader()
+                .clickLogo()
+                .openLastBuildDropDownMenu()
+                .clickConsoleOutputLastBuildDropDown()
+                .isDisplayedBuildTitle();
+
+        Assert.assertTrue(consoleOutputTitle, "Error: Console Output Title is not displayed!");
+    }
+
+    @Test(dependsOnMethods = "testConsoleOutputFromDropDown")
+    public void testAddDisplayName() {
+        String displayName = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickAdvancedDropdownMenu()
+                .setDisplayName(NEW_FREESTYLE_NAME)
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
+    }
+
     @Test
     public void testCreateFromNewItem() {
         MainPage projectName = new MainPage(getDriver())
@@ -820,19 +846,6 @@ public class FreestyleProjectTest extends BaseTest {
                 .getRepositoryUrlText();
 
         Assert.assertEquals(repositoryUrl, GITHUB_URL);
-    }
-
-    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
-    public void testAddDisplayName() {
-        String displayName = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickConfigure()
-                .clickAdvancedDropdownMenu()
-                .setDisplayName(NEW_FREESTYLE_NAME)
-                .clickSaveButton()
-                .getJobName();
-
-        Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
     }
 
     @Test
