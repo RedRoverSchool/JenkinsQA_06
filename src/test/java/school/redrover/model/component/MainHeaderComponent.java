@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainHeaderComponent <Page extends BasePage<?, ?>> extends BaseComponent<Page> {
+public class MainHeaderComponent<Page extends BasePage<?, ?>> extends BaseComponent<Page> {
 
     @FindBy(id = "jenkins-head-icon")
     private WebElement logoIcon;
@@ -121,12 +121,12 @@ public class MainHeaderComponent <Page extends BasePage<?, ?>> extends BaseCompo
         return new MainPage(getDriver());
     }
 
-    public boolean isDisplayedLogoIcon(){
+    public boolean isDisplayedLogoIcon() {
         return logoIcon.isDisplayed();
     }
 
-    public boolean isDisplayedLogoText(){
-       return logoText.isDisplayed();
+    public boolean isDisplayedLogoText() {
+        return logoText.isDisplayed();
     }
 
     public MainHeaderComponent<Page> clickNotificationIcon() {
@@ -246,24 +246,24 @@ public class MainHeaderComponent <Page extends BasePage<?, ?>> extends BaseCompo
         return this;
     }
 
-    public BuiltInNodePage sendSearchBox(){
+    public BuiltInNodePage sendSearchBox() {
         searchBox.sendKeys(Keys.RETURN);
 
         return new BuiltInNodePage(getDriver());
     }
 
-    public UserPage sendSearchBoxUser(String name){
+    public UserPage sendSearchBoxUser(String name) {
         searchBox.sendKeys(name);
         searchBox.sendKeys(Keys.RETURN);
         return new UserPage(getDriver());
     }
 
     public String getAttributeFromSearchBox() {
-       return searchBox.getAttribute("placeholder");
+        return searchBox.getAttribute("placeholder");
     }
 
     public boolean isDisplayedHelpIcon() {
-       return helpIcon.isDisplayed();
+        return helpIcon.isDisplayed();
     }
 
     public boolean isDisplayedSearchBoxIcon() {
@@ -272,7 +272,7 @@ public class MainHeaderComponent <Page extends BasePage<?, ?>> extends BaseCompo
 
     public List<String> getListOfSearchResult() {
         List<String> searchResult = new ArrayList<>();
-        for(WebElement webElement : searchResultList) {
+        for (WebElement webElement : searchResultList) {
             if (!webElement.getText().equals("")) {
                 searchResult.add(webElement.getText());
             }
@@ -282,8 +282,8 @@ public class MainHeaderComponent <Page extends BasePage<?, ?>> extends BaseCompo
 
     public boolean isSearchResultContainsText(String text) {
         List<String> searchResult = getListOfSearchResult();
-        for(String str : searchResult) {
-            if(!str.toLowerCase().contains(text.toLowerCase())) {
+        for (String str : searchResult) {
+            if (!str.toLowerCase().contains(text.toLowerCase())) {
                 return false;
             }
         }
@@ -344,5 +344,15 @@ public class MainHeaderComponent <Page extends BasePage<?, ?>> extends BaseCompo
     public RestApiPage clickOnRestApiLink() {
         restApi.click();
         return new RestApiPage(getDriver());
+    }
+
+    public MainPage clickLogoWithPause() {
+        new Actions(getDriver())
+                .moveToElement(logoIcon)
+                .pause(3000)
+                .click()
+                .perform();
+
+        return new MainPage(getDriver());
     }
 }

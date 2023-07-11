@@ -1,5 +1,6 @@
 package school.redrover;
 
+import io.qameta.allure.testng.TestInstanceParameter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -9,6 +10,7 @@ import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
+import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -316,8 +318,8 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testBuildStepsInvokeMavenGoalsTargets() {
         String goals = "clean";
-        
-        TestUtils.createJob(this, FREESTYLE_NAME,TestUtils.JobType.FreestyleProject,true);
+
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         String mavenGoals = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
@@ -828,6 +830,19 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
     }
 
+    @Test
+    public void testCreateBuildNowFromDropDown() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String createBuildNow = new MainPage(getDriver())
+                .clickJobDropdownMenuBuildNow(FREESTYLE_NAME)
+                .getHeader()
+                .clickLogoWithPause()
+                .getLastBuildIconStatus();
+
+        Assert.assertEquals(createBuildNow, "Success");
+    }
+
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testConsoleOutputFromBuildPage() {
         boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
@@ -881,4 +896,5 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(buildHeaderIsDisplayed, "Build is not created");
     }
+
 }

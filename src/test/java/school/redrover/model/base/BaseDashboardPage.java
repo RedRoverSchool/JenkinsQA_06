@@ -93,6 +93,9 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(css = "svg[title='Folder']")
     private WebElement iconFolder;
 
+    @FindBy(xpath = "//span[@class='build-status-icon__outer']//*[name()='svg']")
+    private WebElement lastBuildStatusIcon;
+
     public BaseDashboardPage(WebDriver driver) {
         super(driver);
     }
@@ -358,4 +361,11 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
                 .perform();
         return (Self)this;
     }
+
+
+
+    public String getLastBuildIconStatus() {
+        return getWait5().until(ExpectedConditions.visibilityOf(lastBuildStatusIcon)).getAttribute("title");
+    }
+
 }
