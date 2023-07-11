@@ -1,16 +1,13 @@
 package school.redrover;
 
-import io.qameta.allure.testng.TestInstanceParameter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
-import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -925,5 +922,4 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(commitContextName, FREESTYLE_NAME);
     }
-
 }
