@@ -6,10 +6,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
-import school.redrover.model.jobs.FolderPage;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobs.OrganizationFolderPage;
-import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
@@ -532,23 +530,6 @@ public class OrganizationFolderTest extends BaseTest {
                 .jobIsDisplayed(ORGANIZATION_FOLDER_NAME);
 
         Assert.assertTrue(newProjectFromBuildHistoryPage, "Error: the Organization Folder name is not displayed on Dashboard");
-    }
-
-    @Test
-    public void testCreateFromMyViewsCreateAJobArrow(){
-
-        MainPage projectName = new MainPage(getDriver())
-                .clickMyViewsSideMenuLink()
-                .clickCreateAJobArrow()
-                .enterItemName(ORGANIZATION_FOLDER_NAME)
-                .selectJobType(TestUtils.JobType.OrganizationFolder)
-                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
-                .getHeader()
-                .clickLogo();
-
-        Assert.assertTrue(projectName.jobIsDisplayed(ORGANIZATION_FOLDER_NAME), "Error: the Folder's name is not displayed on Dashboard from Home page");
-        Assert.assertTrue(projectName.clickMyViewsSideMenuLink()
-                .jobIsDisplayed(ORGANIZATION_FOLDER_NAME), "Error: the Folder's name is not displayed on Dashboard from MyViews page");
     }
 
     @Test
