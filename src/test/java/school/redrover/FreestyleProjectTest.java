@@ -61,7 +61,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testDeleteBuildNowFromSideMenu")
     public void testDeleteBuildNowFromBuildPage() {
         boolean noBuildsMessage = new MainPage(getDriver())
@@ -75,7 +74,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testBuildChangesFromProjectPage() {
         final String title = "Changes";
@@ -89,7 +87,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(changesTitle, title);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testBuildChangesFromProjectPage")
     public void testConsoleOutputFromBuildPage() {
         boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
@@ -839,8 +836,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(repositoryUrl, GITHUB_URL);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
+    @Test(dependsOnMethods = "testConsoleOutputFromDropDown")
     public void testAddDisplayName() {
         String displayName = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
