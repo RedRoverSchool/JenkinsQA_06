@@ -57,6 +57,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "(//a[contains(@href, 'changes')])[1]")
     private WebElement changesButtonDropDownMenu;
 
+    @FindBy(xpath = "//span[text()='Console Output']")
+    private WebElement consoleOutputButtonDropDownMenu;
+
     @FindBy(xpath = "//div[@id='no-builds']")
     private WebElement noBuildsMessage;
 
@@ -159,5 +162,12 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         changesButtonDropDownMenu.click();
 
         return new ChangesPage<>((Self)this);
+    }
+
+    public ConsoleOutputPage clickConsoleOutputFromDropDownMenu() {
+        openBuildsDropDownMenu();
+        consoleOutputButtonDropDownMenu.click();
+
+        return new ConsoleOutputPage(getDriver());
     }
 }
