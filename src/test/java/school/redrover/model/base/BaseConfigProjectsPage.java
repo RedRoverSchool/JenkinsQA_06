@@ -106,6 +106,12 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     @FindBy(xpath = "//input[@name='_.url']")
     private WebElement inputRepositoryUrl;
 
+    @FindBy(xpath = "//input[@name='jenkins-triggers-ReverseBuildTrigger']")
+    private WebElement buildAfterOtherProjectsAreBuiltCheckBox;
+
+    @FindBy(xpath = "//input[@name='_.upstreamProjects']")
+    private WebElement projectsToWatchField;
+
     public BaseConfigProjectsPage(ProjectPage projectPage) {
         super(projectPage);
     }
@@ -318,4 +324,15 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
         return getWait5().until(ExpectedConditions.visibilityOf(inputRepositoryUrl)).getAttribute("value");
     }
 
+    public Self clickBuildAfterOtherProjectsAreBuiltCheckBox() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", buildAfterOtherProjectsAreBuiltCheckBox);
+        js.executeScript("arguments[0].click();", buildAfterOtherProjectsAreBuiltCheckBox);
+        return (Self) this;
+    }
+
+    public Self inputProjectsToWatch(String projectName) {
+        getWait5().until(ExpectedConditions.visibilityOf(projectsToWatchField)).sendKeys(projectName);
+        return (Self) this;
+    }
 }

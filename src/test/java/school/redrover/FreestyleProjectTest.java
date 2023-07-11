@@ -948,4 +948,24 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(commitContextName, FREESTYLE_NAME);
     }
+
+    @Test
+    public void testConfigureBuildTriggersBuildAfterOtherProjectsAreBuilt() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, NEW_FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String lastBuildInfo = new MainPage(getDriver())
+                .clickConfigureDropDown(FREESTYLE_NAME, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickBuildAfterOtherProjectsAreBuiltCheckBox()
+                .inputProjectsToWatch(NEW_FREESTYLE_NAME)
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .clickJobDropdownMenuBuildNow(NEW_FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickLastBuildLink()
+                .getBuildInfo();
+
+        Assert.assertEquals(lastBuildInfo, "Started by upstream project " + NEW_FREESTYLE_NAME);
+    }
 }
