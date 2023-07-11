@@ -52,6 +52,7 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public ConsoleOutputPage clickConsoleOutput() {
         consoleOutputButton.click();
+
         return new ConsoleOutputPage(getDriver());
     }
 
