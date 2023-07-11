@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.MainPage;
 import school.redrover.model.ManageJenkinsPage;
 import school.redrover.model.MyViewsPage;
-import school.redrover.model.NewJobPage;
 import school.redrover.model.PeoplePage;
 import school.redrover.model.base.BaseComponent;
 import school.redrover.model.base.BaseMainHeaderPage;
@@ -82,53 +81,9 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
                 .trim();
     }
 
-    public int countBreadcrumbItems()  {
-        return this
-                .getFullBreadcrumbText()
-                .replaceAll("[^>]", "")
-                .trim()
-                .length() + 1;
-    }
-
     public MainPage clickDashboardButton() {
         getWait2().until(ExpectedConditions.elementToBeClickable(dashboard)).click();
         return new MainPage(getDriver());
-    }
-
-    private WebElement getListItemOfBreadcrumb(String listItemName) {
-
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//li[@class='jenkins-breadcrumbs__list-item']" +
-                        "/a[contains(text(), '" + listItemName + "')]"
-                )
-            )
-        );
-    }
-
-    public MainBreadcrumbComponent<Page> openDropdownMenuOfListItem(String listItemName) {
-
-        Actions actions = new Actions(getDriver());
-        final WebElement listItem = this.getListItemOfBreadcrumb(listItemName);
-        final WebElement chevron = listItem.findElement(By.xpath("./button"));
-
-        actions.moveToElement(listItem).perform();
-        actions.moveToElement(chevron).perform();
-        chevron.click();
-
-        return this;
-    }
-
-    public <ReturnedPage extends BaseMainHeaderPage<?>> ReturnedPage clickBreadcrumbItem(String listItemName, ReturnedPage pageToReturn){
-
-        getListItemOfBreadcrumb(listItemName).click();
-        return pageToReturn;
-    }
-
-    public <ReturnedPage extends BaseMainHeaderPage<?>> ReturnedPage clickDropdownOption(String optionText, ReturnedPage pageToReturn) {
-
-        dropdownMenu.findElement(By.xpath(".//span[contains(text(), '" + optionText + "')]")).click();
-
-        return pageToReturn;
     }
 
     private void hoverOver(By locator) {
@@ -175,31 +130,10 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
         return new PeoplePage(getDriver());
     }
 
-    public NewJobPage clickNewItemDashboardDropdownMenu(){
-        getDashboardDropdownMenu();
-        newItem.click();
-        return new NewJobPage(getDriver());
-    }
-
     public MyViewsPage openMyViewsPageFromDashboardDropdownMenu () {
         getDashboardDropdownMenu();
         myViews.click();
         return new MyViewsPage(getDriver());
-    }
-
-    public MainBreadcrumbComponent<?> moveToManageJenkinsLink() {
-        new Actions(getDriver()).moveToElement(manageJenkinsSubmenu).perform();
-        return this;
-    }
-
-    public void clickManageJenkinsSubmenu(String locator) {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(locator))).click();
-    }
-
-    public String getPageName () {
-        return  getDriver()
-                .findElement(By.xpath("//h1"))
-                .getText();
     }
 
     public void clickOkOnPopUp () {
@@ -208,8 +142,6 @@ public class MainBreadcrumbComponent<Page extends BasePage<?, ?>> extends BaseCo
                 .alert()
                 .accept();
     }
-
-
 }
 
 

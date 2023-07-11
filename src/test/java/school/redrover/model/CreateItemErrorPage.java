@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.base.BaseMainHeaderPage;
 
 public class CreateItemErrorPage extends BaseMainHeaderPage<CreateItemErrorPage> {
+
     @FindBy(xpath = "//div//p")
     private WebElement errorMessage;
 

@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.model.*;
 import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.base.BaseJobPage;
@@ -54,20 +53,8 @@ public class FolderPage extends BaseJobPage<FolderPage> {
         return new DeletePage<>(new MainPage(getDriver()));
     }
 
-    public DeletePage<FolderPage> clickDeleteJobThatIsFolderPage() {
-        deleteButton.click();
-        return new DeletePage<>(new FolderPage(getDriver()));
-    }
-
     public String getFolderDescription() {
         return TestUtils.getText(this, folderDescription);
-    }
-
-    public boolean nestedFolderIsVisibleAndClickable(String nestedFolder) {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + nestedFolder + "/')]"))).isDisplayed()
-                && getWait5().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//a[contains(@href,'job/" + nestedFolder + "/')]"))).isEnabled();
     }
 
     public boolean viewIsDisplayed(String viewName){

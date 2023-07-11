@@ -8,8 +8,4 @@ public class BaseComponent<Page extends BasePage<?, ?>> extends BaseModel {
         super(page.getDriver());
         this.page = page;
     }
-
-    protected Page getPage() {
-        return page;
-    }
 }

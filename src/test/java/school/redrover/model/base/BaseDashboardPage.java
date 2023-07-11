@@ -15,9 +15,6 @@ import java.util.List;
 
 public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> extends BaseMainHeaderPage<Self> {
 
-    @FindBy(css = "#ok-button")
-    private WebElement okButton;
-
     @FindBy(id = "description-link")
     private WebElement onDescription;
 
@@ -101,6 +98,9 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
 
     @FindBy(xpath = "//a[contains(@href, 'confirmDelete')]")
     private WebElement deleteBuildDropDown;
+
+    @FindBy(xpath = "//span[@class='build-status-icon__outer']//*[name()='svg']")
+    private WebElement lastBuildStatusIcon;
 
     public BaseDashboardPage(WebDriver driver) {
         super(driver);
@@ -238,7 +238,6 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return (Self) this;
     }
 
-
     public Self dismissAlert() {
         getDriver().switchTo().alert().dismiss();
         return (Self) this;
@@ -271,10 +270,6 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
                 .stream()
                 .map(WebElement::getText)
                 .toList();
-    }
-
-    public List<WebElement> getProjectsList() {
-        return getProjectStatusTable().findElements(By.xpath("./tbody/tr"));
     }
 
     private WebElement getProjectStatusTable() {
@@ -384,5 +379,8 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         act.moveToElement(dropDownBuildButton).perform();
         dropDownBuildButton.sendKeys(Keys.RETURN);
         return (Self)this;
+    }
+    public String getLastBuildIconStatus() {
+        return getWait5().until(ExpectedConditions.visibilityOf(lastBuildStatusIcon)).getAttribute("title");
     }
 }

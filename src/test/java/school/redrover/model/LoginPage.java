@@ -1,12 +1,12 @@
 package school.redrover.model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BaseModel;
 
 public class  LoginPage extends BaseModel {
+
     @FindBy(xpath = "//input[@name='j_username']")
     private WebElement inputUserNameField;
 
@@ -18,9 +18,6 @@ public class  LoginPage extends BaseModel {
 
     @FindBy (xpath = "//button[@name='Submit']")
     private WebElement signInButton;
-
-    @FindBy(xpath = "//h1")
-    private WebElement welcomeJenkins;
 
     public LoginPage(WebDriver driver) {
         super(driver);

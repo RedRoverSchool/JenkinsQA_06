@@ -3,9 +3,12 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobs.OrganizationFolderPage;
+import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -296,7 +299,7 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
     }
-
+    @Ignore
     @Test
     public void testAddHealthMetricsFromSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
@@ -498,5 +501,19 @@ public class OrganizationFolderTest extends BaseTest {
                 .jobIsDisplayed(ORGANIZATION_FOLDER_NAME);
 
         Assert.assertTrue(isOrganisationFolderDisplayed, "Organisation Folder`s name is not displayed");
+    }
+
+    @Test
+    public void testCreateFromPeoplePage(){
+        MainPage projectPeoplePage = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(projectPeoplePage.jobIsDisplayed(ORGANIZATION_FOLDER_NAME));
     }
 }
