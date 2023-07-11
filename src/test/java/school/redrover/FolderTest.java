@@ -309,6 +309,17 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
+    public void testAccessConfigurationPageFromDashboard() {
+        final String breadcrumb = "Dashboard > " + NAME + " > Configuration";
+
+        FolderConfigPage folderConfigPage = new MainPage(getDriver())
+                .clickConfigureDropDown(NAME, new FolderConfigPage(new FolderPage(getDriver())));
+
+        Assert.assertEquals(folderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
+        Assert.assertEquals(folderConfigPage.getTitle(), "Configuration");
+    }
+
+    @Test(dependsOnMethods = "testAccessConfigurationPageFromDashboard")
     public void testAccessConfigurationPageFromSideMenu() {
         final String breadcrumb = "Dashboard > " + NAME + " > Configuration";
 
