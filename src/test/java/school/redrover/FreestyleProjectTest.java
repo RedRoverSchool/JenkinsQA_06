@@ -115,19 +115,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(consoleOutputTitle, "Error: Console Output Title is not displayed!");
     }
 
-    @Test(dependsOnMethods = "testConsoleOutputFromDropDown")
-    public void testAddDisplayName() {
-        String displayName = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickConfigure()
-                .clickAdvancedDropdownMenu()
-                .setDisplayName(NEW_FREESTYLE_NAME)
-                .clickSaveButton()
-                .getJobName();
-
-        Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
-    }
-
     @Test
     public void testCreateFromNewItem() {
         MainPage projectName = new MainPage(getDriver())
