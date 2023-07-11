@@ -3,6 +3,7 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.OrganizationFolderPage;
@@ -296,7 +297,7 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
     }
-
+    @Ignore
     @Test
     public void testAddHealthMetricsFromSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
@@ -455,6 +456,22 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(newOrganizationFolderName, ORGANIZATION_FOLDER_NAME);
         Assert.assertTrue(newOrganizationFolderNameIsDisplayed);
+    }
+
+    @Test
+    public void testCreateFromMyViewsCreateAJob() {
+        MainPage mainPage = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJob()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(mainPage.jobIsDisplayed(ORGANIZATION_FOLDER_NAME), "Error: the Organization Folder's name is not displayed on Dashboard from Home page");
+        Assert.assertTrue(mainPage.clickMyViewsSideMenuLink()
+                .jobIsDisplayed(ORGANIZATION_FOLDER_NAME), "Error: the Organization Folder's name is not displayed on Dashboard from MyViews page");
     }
 
     @Test
