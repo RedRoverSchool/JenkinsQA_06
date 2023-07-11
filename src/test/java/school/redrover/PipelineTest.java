@@ -223,7 +223,7 @@ public class PipelineTest extends BaseTest {
                 .clickJobName("Engineer", new PipelinePage(getDriver()))
                 .clickBuildNowFromSideMenu()
                 .clickChangeOnLeftSideMenu()
-                .getTextOfPage();
+                .getTextPage();
 
         Assert.assertTrue(text.contains("No changes in any of the builds"),
                 "In the Pipeline Changes chapter, not displayed status of the latest build.");

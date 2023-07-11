@@ -61,9 +61,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         super(driver);
     }
 
-    public ChangesPage<Self> clickChangeOnLeftSideMenu() {
+    public Self clickChangeOnLeftSideMenu() {
         getWait10().until(ExpectedConditions.visibilityOf(changesButton)).click();
-        return new ChangesPage<>((Self) this);
+        return (Self) this;
     }
 
     public MainPage clickDeleteAndAccept() {
