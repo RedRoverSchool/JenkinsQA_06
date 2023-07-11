@@ -9,39 +9,43 @@ import school.redrover.model.base.BaseConfigFoldersPage;
 
 public class FolderConfigPage extends BaseConfigFoldersPage<FolderConfigPage, FolderPage> {
 
+    @FindBy(xpath = "//div[@class='repeated-container with-drag-drop']/span")
+    private WebElement addButton;
+
+    @FindBy(xpath = "//input[@checkdependson='name']")
+    private WebElement nameField;
+
+    @FindBy(xpath = "//input[@name='_.defaultVersion']")
+    private WebElement defaultVersionField;
+
+    @FindBy(xpath = "//div[@name='retriever']//select[contains(@class, 'dropdownList')]")
+    private WebElement sourceCodeManagementOptions;
+
+    @FindBy(xpath = "//div[@name='retriever']//select[@class='jenkins-select__input dropdownList']/option[text()='GitHub']")
+    private WebElement optionGitHub;
+
+    @FindBy(xpath = "//input[@name='_.repositoryUrl']")
+    private WebElement repositoryField;
+
+    @FindBy(xpath = "//button[@name='Apply']")
+    private WebElement applyButton;
+
+    @FindBy(xpath = "//div[@class='validation-error-area validation-error-area--visible']//div[@class='ok']")
+    private WebElement currentDefaultVersion;
+
+    @FindBy(xpath = "//div[@id='notification-bar'][contains(@class, 'jenkins-notification--success jenkins-notification--visible')]")
+    private WebElement notificationSuccess;
+
+    @FindBy(xpath = "//button[@data-section-id='properties']")
+    private WebElement propertiesButton;
+
     public FolderConfigPage(FolderPage folderPage) {
         super(folderPage);
     }
 
-    @FindBy(xpath = "//div[@class='repeated-container with-drag-drop']/span")
-    WebElement addButton;
-
-    @FindBy(xpath = "//input[@checkdependson='name']")
-    WebElement nameField;
-
-    @FindBy(xpath = "//input[@name='_.defaultVersion']")
-    WebElement defaultVersionField;
-
-    @FindBy(xpath = "//div[@name='retriever']//select[contains(@class, 'dropdownList')]")
-    WebElement sourceCodeManagementOptions;
-
-    @FindBy(xpath = "//div[@name='retriever']//select[@class='jenkins-select__input dropdownList']/option[text()='GitHub']")
-    WebElement optionGitHub;
-
-    @FindBy(xpath = "//input[@name='_.repositoryUrl']")
-    WebElement repositoryField;
-
-    @FindBy(xpath = "//button[@name='Apply']")
-    WebElement applyButton;
-
-    @FindBy(xpath = "//div[@class='validation-error-area validation-error-area--visible']//div[@class='ok']")
-    WebElement currentDefaultVersion;
-
-    @FindBy(xpath = "//div[@id='notification-bar'][contains(@class, 'jenkins-notification--success jenkins-notification--visible')]")
-    WebElement notificationSuccess;
-
     public FolderConfigPage inputNameLibrary() {
-        addButton.click();
+        propertiesButton.click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(addButton)).click();
         nameField.sendKeys("shared-library");
 
         return this;
@@ -88,7 +92,6 @@ public class FolderConfigPage extends BaseConfigFoldersPage<FolderConfigPage, Fo
     }
 
     public Boolean libraryDefaultVersionValidated() {
-
         return getWait2().until(ExpectedConditions.visibilityOf(currentDefaultVersion)).getText().contains("Currently maps to revision");
     }
 }

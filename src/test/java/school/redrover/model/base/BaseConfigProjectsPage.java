@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import school.redrover.model.CreateItemErrorPage;
 import school.redrover.runner.TestUtils;
 
 import java.util.List;
@@ -16,9 +15,6 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
 
     @FindBy(xpath = "//label[normalize-space(text())='Throttle builds']")
     private WebElement throttleBuilds;
-
-    @FindBy(xpath = "//select[@name='_.durationName']")
-    private WebElement getTimePeriod;
 
     @FindBy(xpath = "//button[contains(text(), 'Add build step')]")
     private WebElement addBuildStepButton;
@@ -110,6 +106,12 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     @FindBy(xpath = "//input[@name='_.url']")
     private WebElement inputRepositoryUrl;
 
+    @FindBy(xpath = "//input[@name='jenkins-triggers-ReverseBuildTrigger']")
+    private WebElement buildAfterOtherProjectsAreBuiltCheckBox;
+
+    @FindBy(xpath = "//input[@name='_.upstreamProjects']")
+    private WebElement projectsToWatchField;
+
     public BaseConfigProjectsPage(ProjectPage projectPage) {
         super(projectPage);
     }
@@ -183,10 +185,6 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
     public Self inputTextTheInputAreaProjectUrlInGitHubProject(String text) {
         inputLineProjectUrl.sendKeys(text);
         return (Self) this;
-    }
-
-    public CreateItemErrorPage getErrorPage() {
-        return new CreateItemErrorPage(getDriver());
     }
 
     public Self checkProjectIsParametrized() {
@@ -326,4 +324,15 @@ public abstract class BaseConfigProjectsPage<Self extends BaseConfigPage<?, ?>, 
         return getWait5().until(ExpectedConditions.visibilityOf(inputRepositoryUrl)).getAttribute("value");
     }
 
+    public Self clickBuildAfterOtherProjectsAreBuiltCheckBox() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", buildAfterOtherProjectsAreBuiltCheckBox);
+        js.executeScript("arguments[0].click();", buildAfterOtherProjectsAreBuiltCheckBox);
+        return (Self) this;
+    }
+
+    public Self inputProjectsToWatch(String projectName) {
+        getWait5().until(ExpectedConditions.visibilityOf(projectsToWatchField)).sendKeys(projectName);
+        return (Self) this;
+    }
 }
