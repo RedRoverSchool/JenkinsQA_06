@@ -865,7 +865,6 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickPreviewButton()
                 .getPreviewText();
 
-        Assert.assertTrue(previewDescriptionText.contains(DESCRIPTION_TEXT),
-                "Error: The Preview Textarea does not contain the text " + DESCRIPTION_TEXT);
+        Assert.assertEquals(previewDescriptionText, DESCRIPTION_TEXT);
     }
 }

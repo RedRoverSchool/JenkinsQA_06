@@ -18,7 +18,7 @@ public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInform
     private WebElement displayNameField;
 
     @FindBy(xpath = "//a[text()='Preview']")
-    private  WebElement previewButton;
+    private WebElement previewButton;
 
     @FindBy(xpath = "//div[@class=\"textarea-preview\"]")
     private WebElement previewTextarea;
@@ -40,8 +40,9 @@ public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInform
     }
 
     public EditBuildInformationPage enterDescription(String description) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(buildDescriptionTextArea))
-                .sendKeys(description);
+        getWait5().until(ExpectedConditions.visibilityOf(buildDescriptionTextArea)).clear();
+        buildDescriptionTextArea.sendKeys(description);
+
         return this;
     }
 
