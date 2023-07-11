@@ -3,7 +3,6 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
@@ -353,6 +352,24 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAllowParallelBuilds")
+    public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() {
+        final String expectedQuietPeriod = "10";
+
+        final String actualQuietPeriod = new MainPage(getDriver())
+                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickAdvancedDropdownMenu()
+                .clickQuietPeriod()
+                .inputQuietPeriod(expectedQuietPeriod)
+                .clickSaveButton()
+                .clickConfigure()
+                .clickAdvancedDropdownMenu()
+                .getQuietPeriod();
+
+        Assert.assertEquals(actualQuietPeriod, expectedQuietPeriod);
+    }
+
+    @Test(dependsOnMethods = "testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild")
     public void testSetNumberOfCountForJenkinsToCheckOutFromTheSCMUntilItSucceeds() {
         final String retryCount = "5";
 
@@ -656,25 +673,6 @@ public class FreestyleProjectTest extends BaseTest {
                 .getOptionsInBuildStepDropdown();
 
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testAllowParallelBuilds")
-    public void testSetPeriodForJenkinsToWaitBeforeActuallyStartingTriggeredBuild() {
-        final String expectedQuietPeriod = "10";
-
-        final String actualQuietPeriod = new MainPage(getDriver())
-                .clickJobName(NEW_FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickConfigure()
-                .clickAdvancedDropdownMenu()
-                .clickQuietPeriod()
-                .inputQuietPeriod(expectedQuietPeriod)
-                .clickSaveButton()
-                .clickConfigure()
-                .clickAdvancedDropdownMenu()
-                .getQuietPeriod();
-
-        Assert.assertEquals(actualQuietPeriod, expectedQuietPeriod);
     }
 
     @Test
