@@ -118,6 +118,22 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
+    public void testCreateFromManageJenkinsPage() {
+        MainPage mainPage = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickNewItem()
+                .enterItemName(NAME)
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "Error: was not show name folder");
+        Assert.assertTrue(mainPage.isIconFolderDisplayed(), "Error: was not shown icon folder");
+    }
+
+    @Test
     public void testCreateFromMyViewsNewItem(){
         MainPage projectName = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
@@ -138,6 +154,22 @@ public class FolderTest extends BaseTest {
         MainPage projectName = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickCreateAJob()
+                .enterItemName(NAME)
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(projectName.jobIsDisplayed(NAME), "Error: the Folder's name is not displayed on Dashboard from Home page");
+        Assert.assertTrue(projectName.clickMyViewsSideMenuLink()
+                .jobIsDisplayed(NAME), "Error: the Folder's name is not displayed on Dashboard from MyViews page");
+    }
+
+    @Test
+    public void testCreateFromMyViewsCreateAJobArrow(){
+        MainPage projectName = new MainPage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickCreateAJobArrow()
                 .enterItemName(NAME)
                 .selectJobType(TestUtils.JobType.Folder)
                 .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
@@ -277,6 +309,29 @@ public class FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testRenameToTheCurrentNameAndGetError")
+    public void testAccessConfigurationPageFromDashboard() {
+        final String breadcrumb = "Dashboard > " + NAME + " > Configuration";
+
+        FolderConfigPage folderConfigPage = new MainPage(getDriver())
+                .clickConfigureDropDown(NAME, new FolderConfigPage(new FolderPage(getDriver())));
+
+        Assert.assertEquals(folderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
+        Assert.assertEquals(folderConfigPage.getTitle(), "Configuration");
+    }
+
+    @Test(dependsOnMethods = "testAccessConfigurationPageFromDashboard")
+    public void testAccessConfigurationPageFromSideMenu() {
+        final String breadcrumb = "Dashboard > " + NAME + " > Configuration";
+
+        FolderConfigPage folderConfigPage = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .clickConfigure();
+
+        Assert.assertEquals(folderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
+        Assert.assertEquals(folderConfigPage.getTitle(), "Configuration");
+    }
+
+    @Test(dependsOnMethods = "testAccessConfigurationPageFromSideMenu")
     public void testAddDisplayName() {
         FolderPage folderPage = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))

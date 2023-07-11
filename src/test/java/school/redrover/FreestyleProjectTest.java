@@ -906,6 +906,70 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testCreateFromPeoplePage(){
+        MainPage projectPeoplePage = new PeoplePage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(projectPeoplePage.jobIsDisplayed(FREESTYLE_NAME));
+    }
+
+    @Test
+    public void testCreateFromBuildHistoryPage(){
+        MainPage newProjectFromBuildHistoryPage = new BuildHistoryPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(newProjectFromBuildHistoryPage.jobIsDisplayed(FREESTYLE_NAME));
+    }
+
+    @Test
+    public void testSetGitHubCommitStatusToPostBuildActions() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        String commitContextName = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .clickAddPostBuildActionDropDown()
+                .clickSetGitHubCommitStatus()
+                .setGitHubCommitStatusContext(FREESTYLE_NAME)
+                .clickSaveButton()
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .getGitHubCommitStatus();
+
+        Assert.assertEquals(commitContextName, FREESTYLE_NAME);
+    }
+
+    @Test
+    public void testConfigureBuildTriggersBuildAfterOtherProjectsAreBuilt() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        TestUtils.createJob(this, NEW_FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String lastBuildInfo = new MainPage(getDriver())
+                .clickConfigureDropDown(FREESTYLE_NAME, new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .clickBuildAfterOtherProjectsAreBuiltCheckBox()
+                .inputProjectsToWatch(NEW_FREESTYLE_NAME)
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo()
+                .clickJobDropdownMenuBuildNow(NEW_FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickLastBuildLink()
+                .getBuildInfo();
+
+        Assert.assertEquals(lastBuildInfo, "Started by upstream project " + NEW_FREESTYLE_NAME);
+    }
+
+    @Test
     public void testBuildChangesFromLastBuild() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
 
