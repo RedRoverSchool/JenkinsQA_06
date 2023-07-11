@@ -827,7 +827,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
     }
 
-
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testConsoleOutputFromBuildPage() {
         boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
@@ -853,6 +852,33 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(buildHeaderText.contains("DisplayName"),
                 "Error: The Display Name for the Build has not been changed.");
+    }
+
+    @Test
+    public void testPreviewDescriptionFromEditInformationPage() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+        String previewDescriptionText = new FreestyleProjectPage(getDriver())
+                .clickBuildNowFromSideMenu()
+                .clickLastBuildLink()
+                .clickEditBuildInformation()
+                .enterDescription(DESCRIPTION_TEXT)
+                .clickPreviewButton()
+                .getPreviewText();
+
+        Assert.assertEquals(previewDescriptionText, DESCRIPTION_TEXT);
+    }
+
+    @Test
+    public void testCreateBuildNowFromArrow(){
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        boolean buildHeaderIsDisplayed = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickIconBuildOpenConsoleOutput(1)
+                .isDisplayedBuildTitle();
+
+        Assert.assertTrue(buildHeaderIsDisplayed, "Build is not created");
     }
     @Test
     public void testDeleteBuildNowFromDropDown() {
