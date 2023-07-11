@@ -54,6 +54,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//span[contains(text(),'Delete build ‘#1’')]")
     private WebElement deleteBuildButtonDropDownMenu;
 
+    @FindBy(xpath = "(//a[contains(@href, 'changes')])[1]")
+    private WebElement changesButtonDropDownMenu;
+
     @FindBy(xpath = "//div[@id='no-builds']")
     private WebElement noBuildsMessage;
 
@@ -149,5 +152,12 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     public boolean isNoBuildsDisplayed() {
         return noBuildsMessage.isDisplayed();
+    }
+
+    public ChangesPage<Self> clickChangesFromDropDownMenu() {
+        openBuildsDropDownMenu();
+        changesButtonDropDownMenu.click();
+
+        return new ChangesPage<>((Self)this);
     }
 }
