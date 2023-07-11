@@ -69,7 +69,7 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     }
 
     public FreestyleProjectPage deleteBuild() {
-        deleteBuildButton.click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(deleteBuildButton)).click();
         return new FreestyleProjectPage(getDriver());
     }
 }
