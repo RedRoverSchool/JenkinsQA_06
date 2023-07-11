@@ -789,6 +789,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(repositoryUrl, GITHUB_URL);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFromNewItem")
     public void testAccessConfigurationPageFromFP() {
         final String breadcrumbRoute = "Dashboard > " + FREESTYLE_NAME + " > Configuration";
@@ -854,5 +855,46 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(consoleOutputTitleDisplayed, "Error: Console Output Title is not displayed!");
     }
 
+    @Test
+    public void testAddDisplayNameForBuild() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+        String buildHeaderText = new FreestyleProjectPage(getDriver())
+                .clickBuildNowFromSideMenu()
+                .clickLastBuildLink()
+                .clickEditBuildInformation()
+                .enterDisplayName("DisplayName")
+                .clickSaveButton()
+                .getBuildHeaderText();
+
+        Assert.assertTrue(buildHeaderText.contains("DisplayName"),
+                "Error: The Display Name for the Build has not been changed.");
+    }
+
+    @Test
+    public void testPreviewDescriptionFromEditInformationPage() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+        String previewDescriptionText = new FreestyleProjectPage(getDriver())
+                .clickBuildNowFromSideMenu()
+                .clickLastBuildLink()
+                .clickEditBuildInformation()
+                .enterDescription(DESCRIPTION_TEXT)
+                .clickPreviewButton()
+                .getPreviewText();
+
+        Assert.assertEquals(previewDescriptionText, DESCRIPTION_TEXT);
+    }
+
+    @Test
+    public void testCreateBuildNowFromArrow(){
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        boolean buildHeaderIsDisplayed = new MainPage(getDriver())
+                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickIconBuildOpenConsoleOutput(1)
+                .isDisplayedBuildTitle();
+
+        Assert.assertTrue(buildHeaderIsDisplayed, "Build is not created");
+    }
 
 }

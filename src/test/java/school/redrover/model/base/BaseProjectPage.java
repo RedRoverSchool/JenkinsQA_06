@@ -117,12 +117,6 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         return new ConsoleOutputPage(getDriver());
     }
 
-    public BuildPage clickNumberBuild(int buildNumber) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text() ,'#" + buildNumber + "')]"))).click();
-        return new BuildPage(getDriver());
-    }
-
     public int getSizeOfPermalinksList() {
         getWait2().until(ExpectedConditions.visibilityOf(permalinks));
         return permalinksList.size();
