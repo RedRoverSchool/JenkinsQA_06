@@ -182,7 +182,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     public ChangesPage<Self> clickChangesViaLastBuildDropDownMenu() {
         openLastBuildDropDownMenu();
         changesFromLastBuild.click();
-        return new ChangesPage<>((Self) this);
+        return new ChangesPage<>((Self)this);
     }
 
     public WorkspacePage<Self> clickWorkspaceFromSideMenu() {
