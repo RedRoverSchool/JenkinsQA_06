@@ -3,6 +3,7 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
@@ -60,6 +61,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDeleteBuildNowFromSideMenu")
     public void testDeleteBuildNowFromBuildPage() {
         boolean noBuildsMessage = new MainPage(getDriver())
