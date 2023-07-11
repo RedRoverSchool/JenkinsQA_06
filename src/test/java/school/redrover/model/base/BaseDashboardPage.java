@@ -96,7 +96,7 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(xpath = "//span[@class='build-status-icon__outer']//*[name()='svg']")
     private WebElement lastBuildStatusIcon;
 
-    @FindBy(xpath = "(//button[@class='jenkins-menu-dropdown-chevron'])[6]")
+    @FindBy(xpath = "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']//button[@class='jenkins-menu-dropdown-chevron']")
     private WebElement lastBuildDropDownMenuButton;
 
     @FindBy(xpath = "//span[text()= 'Console Output']")
