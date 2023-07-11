@@ -906,6 +906,19 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testCreateFromPeoplePage(){
+        MainPage projectPeoplePage = new PeoplePage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(projectPeoplePage.jobIsDisplayed(FREESTYLE_NAME));
+    }
+
+    @Test
     public void testConfigureBuildTriggersBuildAfterOtherProjectsAreBuilt() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
         TestUtils.createJob(this, NEW_FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
