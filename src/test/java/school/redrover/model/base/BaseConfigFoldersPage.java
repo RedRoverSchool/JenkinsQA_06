@@ -70,10 +70,6 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
         return getWait5().until(ExpectedConditions.visibilityOf(addedHealthMetric)).isDisplayed();
     }
 
-    public boolean isRecursive(){
-        return getWait10().until(ExpectedConditions.visibilityOf(recursiveCheckbox)).isDisplayed();
-    }
-
     public Self removeHealthMetrics(){
         getWait5().until(ExpectedConditions.elementToBeClickable(removeHealthMetric)).click();
 

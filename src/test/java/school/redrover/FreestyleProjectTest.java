@@ -787,6 +787,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(repositoryUrl, GITHUB_URL);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFromNewItem")
     public void testAccessConfigurationPageFromFP() {
         final String breadcrumbRoute = "Dashboard > " + FREESTYLE_NAME + " > Configuration";

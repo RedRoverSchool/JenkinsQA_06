@@ -24,9 +24,6 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
     @FindBy(xpath = "//*[@class = 'textarea-preview']")
     private WebElement descriptionPreviewButton;
 
-    @FindBy(xpath = "//*[@id='description']/div")
-    private WebElement description;
-
     @FindBy(xpath = "//a[@class='model-link' and contains(@href,'job')]")
     private WebElement jobOnBreadcrumbBarDropDownMenuButton;
 
@@ -74,25 +71,5 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
 
     public String getPreviewDescription () {
         return descriptionPreviewButton.getText();
-    }
-
-    private void  openJobOnBreadcrumbBarDropDownMenu() {
-        new Actions(getDriver()).moveToElement(jobOnBreadcrumbBarDropDownMenuButton).perform();
-
-        WebElement options = getWait2().until(
-                ExpectedConditions.elementToBeClickable(optionsBreadcrumbBarDropDownMenuButton));
-        new Actions(getDriver()).moveToElement(options).perform();
-        options.sendKeys(Keys.RETURN);
-    }
-
-    public FreestyleProjectPage clickDeleteProjectOnDropDown() {
-        openJobOnBreadcrumbBarDropDownMenu();
-        getWait2().until(ExpectedConditions.visibilityOf(deleteButtonOnDropDownMenu)).click();
-        return this;
-    }
-
-    public FreestyleProjectPage dismissAlert() {
-        getDriver().switchTo().alert().dismiss();
-        return this;
     }
 }

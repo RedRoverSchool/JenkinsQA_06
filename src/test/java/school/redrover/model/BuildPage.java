@@ -15,9 +15,6 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(xpath = "//h1")
     private WebElement buildHeader;
 
-    @FindBy(xpath = "//div[@class='jenkins-form-description']")
-    private WebElement description;
-
     @FindBy(xpath = "(//tr[@class='app-summary']/td//span)[1]")
     private WebElement buildInfo;
 
@@ -34,10 +31,6 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
         super(driver);
     }
 
-    private WebElement getBuildHeader() {
-        return buildHeader;
-    }
-
     public boolean isDisplayedGreenIconV() {
 
         return getWait5().until(ExpectedConditions.visibilityOf(greenIconV)).isDisplayed();
@@ -45,7 +38,7 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
 
     public boolean isDisplayedBuildTitle() {
 
-        return getBuildHeader().getText().contains("Build #1");
+        return buildHeader.getText().contains("Build #1");
     }
 
     public String getBuildInfo() {
