@@ -519,15 +519,16 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateFromBuildHistoryPage(){
-        MainPage newProjectFromBuildHistoryPage = new MainPage(getDriver())
+        boolean newProjectFromBuildHistoryPage = new MainPage(getDriver())
                 .clickBuildsHistoryButton()
                 .clickNewItem()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
                 .selectJobType(TestUtils.JobType.OrganizationFolder)
                 .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
                 .getHeader()
-                .clickLogo();
+                .clickLogo()
+                .jobIsDisplayed(ORGANIZATION_FOLDER_NAME);
 
-        Assert.assertTrue(newProjectFromBuildHistoryPage.jobIsDisplayed(ORGANIZATION_FOLDER_NAME));
+        Assert.assertTrue(newProjectFromBuildHistoryPage, "Error: the Organization Folder name is not displayed on Dashboard");
     }
 }
