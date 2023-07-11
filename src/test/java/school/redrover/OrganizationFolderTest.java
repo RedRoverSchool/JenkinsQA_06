@@ -564,4 +564,16 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(projectName.clickMyViewsSideMenuLink()
                 .jobIsDisplayed(ORGANIZATION_FOLDER_NAME), "Error: the Organization Folder name is not displayed on Dashboard from MyViews page");
     }
+
+    @Test (dependsOnMethods ="testCreateWithExistingName")
+    public void testAccessConfigurationPageFromDashboard() {
+        final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME + " > Configuration";
+
+        OrganizationFolderConfigPage organizationFolderConfigPage = new MainPage(getDriver())
+                .clickConfigureDropDown(
+                ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())));
+
+        Assert.assertEquals(organizationFolderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
+        Assert.assertEquals(organizationFolderConfigPage.getTitle(), "Configuration");
+    }
 }
