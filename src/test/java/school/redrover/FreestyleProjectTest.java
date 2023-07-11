@@ -919,6 +919,37 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testCreateFromBuildHistoryPage(){
+        MainPage newProjectFromBuildHistoryPage = new BuildHistoryPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(newProjectFromBuildHistoryPage.jobIsDisplayed(FREESTYLE_NAME));
+    }
+
+    @Test
+    public void testSetGitHubCommitStatusToPostBuildActions() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        String commitContextName = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .clickAddPostBuildActionDropDown()
+                .clickSetGitHubCommitStatus()
+                .setGitHubCommitStatusContext(FREESTYLE_NAME)
+                .clickSaveButton()
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .getGitHubCommitStatus();
+
+        Assert.assertEquals(commitContextName, FREESTYLE_NAME);
+    }
+
+    @Test
     public void testConfigureBuildTriggersBuildAfterOtherProjectsAreBuilt() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
         TestUtils.createJob(this, NEW_FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
