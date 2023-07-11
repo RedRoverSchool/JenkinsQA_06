@@ -516,4 +516,18 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(projectPeoplePage.jobIsDisplayed(ORGANIZATION_FOLDER_NAME));
     }
+
+    @Test
+    public void testCreateFromBuildHistoryPage(){
+        MainPage newProjectFromBuildHistoryPage = new MainPage(getDriver())
+                .clickBuildsHistoryButton()
+                .clickNewItem()
+                .enterItemName(ORGANIZATION_FOLDER_NAME)
+                .selectJobType(TestUtils.JobType.OrganizationFolder)
+                .clickOkButton(new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(newProjectFromBuildHistoryPage.jobIsDisplayed(ORGANIZATION_FOLDER_NAME));
+    }
 }
