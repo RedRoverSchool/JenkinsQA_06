@@ -118,6 +118,22 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
+    public void testCreateFromManageJenkinsPage() {
+        MainPage mainPage = new MainPage(getDriver())
+                .clickManageJenkinsPage()
+                .clickNewItem()
+                .enterItemName(NAME)
+                .selectJobType(TestUtils.JobType.Folder)
+                .clickOkButton(new FolderConfigPage(new FolderPage(getDriver())))
+                .clickSaveButton()
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(mainPage.jobIsDisplayed(NAME), "Error: was not show name folder");
+        Assert.assertTrue(mainPage.isIconFolderDisplayed(), "Error: was not shown icon folder");
+    }
+
+    @Test
     public void testCreateFromMyViewsNewItem(){
         MainPage projectName = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
