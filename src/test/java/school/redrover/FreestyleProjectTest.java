@@ -904,4 +904,30 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(buildHeaderIsDisplayed, "Build is not created");
     }
+
+    @Test
+    public void testCreateFromPeoplePage(){
+        MainPage projectPeoplePage = new PeoplePage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(projectPeoplePage.jobIsDisplayed(FREESTYLE_NAME));
+    }
+
+    @Test
+    public void testCreateFromBuildHistoryPage(){
+        MainPage newProjectFromBuildHistoryPage = new BuildHistoryPage(getDriver())
+                .clickNewItem()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo();
+
+        Assert.assertTrue(newProjectFromBuildHistoryPage.jobIsDisplayed(FREESTYLE_NAME));
+    }
 }
