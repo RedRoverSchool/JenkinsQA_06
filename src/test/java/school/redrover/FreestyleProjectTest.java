@@ -1018,4 +1018,23 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(gitPublisherText, "Git Publisher\n?");
     }
+
+    @Test
+    public void testDeleteWorkspaceWhenBuildDonePostBuildActions() {
+        String expectedWorkspaceStatus = "Error: no workspace";
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String actualWorkspaceStatus = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .clickAddPostBuildActionDropDown()
+                .clickDeleteWorkspaceWhenBuildDone()
+                .clickSaveButton()
+                .clickBuildNowFromSideMenu()
+                .clickWorkspaceFromSideMenu()
+                .getPageTitle();
+
+        Assert.assertEquals(actualWorkspaceStatus, expectedWorkspaceStatus);
+    }
 }

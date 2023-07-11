@@ -81,6 +81,12 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//div[contains(text(), 'Git Publisher')]")
     private WebElement gitPublisherHandle;
 
+    @FindBy(xpath = "//a[text()='Delete workspace when build is done']")
+    private WebElement deleteWorkspaceType;
+
+    @FindBy(xpath = "//*[contains(text(), 'Delete workspace when build is done')]//following-sibling::div//Delete")
+    private WebElement closeDeleteWorkspaceButton;
+
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
@@ -213,5 +219,17 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public String getGitPublisherText() {
         scrollToFooter();
         return gitPublisherHandle.getText();
+    }
+
+    public FreestyleProjectConfigPage clickDeleteWorkspaceWhenBuildDone() {
+        scrollToFooter();
+        deleteWorkspaceType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage closeDeleteWorkspaceWhenBuildDone() {
+        scrollToFooter();
+        closeDeleteWorkspaceButton.click();
+        return this;
     }
 }
