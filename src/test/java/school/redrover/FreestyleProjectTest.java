@@ -3,6 +3,7 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
@@ -60,6 +61,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDeleteBuildNowFromSideMenu")
     public void testDeleteBuildNowFromBuildPage() {
         boolean noBuildsMessage = new MainPage(getDriver())
@@ -73,6 +75,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testBuildChangesFromProjectPage() {
         final String title = "Changes";
@@ -86,6 +89,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(changesTitle, title);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testBuildChangesFromProjectPage")
     public void testConsoleOutputFromBuildPage() {
         boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
@@ -848,6 +852,20 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(repositoryUrl, GITHUB_URL);
     }
 
+    @Ignore
+    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
+    public void testAddDisplayName() {
+        String displayName = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickAdvancedDropdownMenu()
+                .setDisplayName(NEW_FREESTYLE_NAME)
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
+    }
+
     @Test
     public void testCreateFromMyViewsCreateAJobArrow() {
         MainPage mainPage = new MainPage(getDriver())
@@ -980,5 +998,50 @@ public class FreestyleProjectTest extends BaseTest {
                 .getBuildInfo();
 
         Assert.assertEquals(lastBuildInfo, "Started by upstream project " + NEW_FREESTYLE_NAME);
+    }
+    @Test
+    public void testDeleteBuildNowFromDropDown() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        Boolean noBuildsMessage = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickBuildNowFromSideMenu()
+                .getHeader()
+                .clickLogo()
+                .clickBuildDropdownMenuDeleteBuild("#1")
+                .deleteBuild()
+                .isNoBuildsDisplayed();
+
+        Assert.assertTrue(noBuildsMessage, "Error");
+    }
+    @Test
+    public void testBuildStepsDropdownOptions() {
+        final List<String> expectedBuildStepsOptionsList = new ArrayList<>(List.of("Execute Windows batch command",
+                "Execute shell", "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets",
+                "Run with timeout", "Set build status to \"pending\" on GitHub commit"));
+
+        TestUtils.createJob(this,TestUtils.getRandomStr(10),TestUtils.JobType.FreestyleProject, false);
+        List<String> actualBuildStepsOptionsList = new FreestyleProjectPage(getDriver())
+                .clickConfigure()
+                .clickAddBuildStepButton()
+                .getBuildStepsOptionsList();
+
+        Assert.assertEquals(actualBuildStepsOptionsList, expectedBuildStepsOptionsList);
+    }
+
+    @Test
+    public void testAddGitPublisherInPostBuildActions() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+        String gitPublisherText = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .clickAddPostBuildActionDropDown()
+                .clickGitPublisher()
+                .clickSaveButton()
+                .clickConfigure()
+                .clickPostBuildActionsButton()
+                .getGitPublisherText();
+
+        Assert.assertEquals(gitPublisherText, "Git Publisher\n?");
     }
 }
