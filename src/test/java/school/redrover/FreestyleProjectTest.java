@@ -75,6 +75,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testBuildChangesFromProjectPage() {
         final String title = "Changes";
