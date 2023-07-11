@@ -297,7 +297,7 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
     }
-    @Ignore
+
     @Test
     public void testAddHealthMetricsFromSideMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
