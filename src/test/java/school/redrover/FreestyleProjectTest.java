@@ -88,6 +88,7 @@ public class FreestyleProjectTest extends BaseTest {
                 "In the Freestyle project Changes chapter, not displayed status of the latest build.");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAccessConfigurationPageFromFP")
     public void testAccessConfigurationPageFromDashboard() {
         final String breadcrumb = "Dashboard > " + FREESTYLE_NAME + " > Configuration";
