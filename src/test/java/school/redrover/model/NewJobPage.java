@@ -26,12 +26,6 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     @FindBy(xpath = "//label[@class = 'h3']")
     private WebElement title;
 
-//    @FindBy(css = "label > span")
-//    private List<WebElement> listOfNewItems;
-
-//    @FindBy(xpath = "//*[@id='from']")
-//    private WebElement itemNameToPlaceHolder;
-
     private TestUtils.JobType jobType;
 
     public NewJobPage(WebDriver driver) {
@@ -93,9 +87,4 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         clickOkButton(null);
         return new CreateBugPage(getDriver());
     }
-
-//    public boolean isOkButtonClickable() {
-//        return  getWait2().until((ExpectedConditions.not(
-//                ExpectedConditions.elementToBeClickable(okButton))));
-//    }
 }
