@@ -433,7 +433,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(enableOrgFolder.trim(), "Disable Organization Folder");
     }
 
-    @Test(dependsOnMethods = "testCreateWithExistingName")
+    @Test(dependsOnMethods = "testAccessConfigurationPageFromDashboard")
     public void testAddDisplayName() {
         final String displayName = "This is Display Name of Folder";
 
@@ -564,7 +564,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
 
-    @Test (dependsOnMethods ="testPreviewDescriptionFromConfigurationPage")
+    @Test (dependsOnMethods ="testCreateWithExistingName")
     public void testAccessConfigurationPageFromDashboard() {
         final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME + " > Configuration";
 
