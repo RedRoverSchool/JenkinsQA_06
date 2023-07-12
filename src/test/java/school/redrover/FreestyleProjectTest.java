@@ -3,7 +3,6 @@ package school.redrover;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
@@ -61,7 +60,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testDeleteBuildNowFromSideMenu")
     public void testDeleteBuildNowFromBuildPage() {
         boolean noBuildsMessage = new MainPage(getDriver())
@@ -75,7 +73,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(noBuildsMessage, "error! No builds message is not display");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
     public void testBuildChangesFromProjectPage() {
         final String title = "Changes";
@@ -89,7 +86,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(changesTitle, title);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testBuildChangesFromProjectPage")
     public void testConsoleOutputFromBuildPage() {
         boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
@@ -100,6 +96,19 @@ public class FreestyleProjectTest extends BaseTest {
                 .isDisplayedBuildTitle();
 
         Assert.assertTrue(consoleOutputTitleDisplayed, "Error: Console Output Title is not displayed!");
+    }
+
+    @Test(dependsOnMethods = "testConsoleOutputFromBuildPage")
+    public void testAddDisplayName() {
+        String displayName = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickConfigure()
+                .clickAdvancedDropdownMenu()
+                .setDisplayName(NEW_FREESTYLE_NAME)
+                .clickSaveButton()
+                .getJobName();
+
+        Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
     }
 
     @Test
@@ -824,20 +833,6 @@ public class FreestyleProjectTest extends BaseTest {
                 .getRepositoryUrlText();
 
         Assert.assertEquals(repositoryUrl, GITHUB_URL);
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testDeleteBuildNowFromBuildPage")
-    public void testAddDisplayName() {
-        String displayName = new MainPage(getDriver())
-                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
-                .clickConfigure()
-                .clickAdvancedDropdownMenu()
-                .setDisplayName(NEW_FREESTYLE_NAME)
-                .clickSaveButton()
-                .getJobName();
-
-        Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
     }
 
     @Test
