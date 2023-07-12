@@ -140,7 +140,7 @@ public class BuildPageTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickPlayBuildForATestButton("NewBuilds")
+                .clickBuildByGreenArrow("NewBuilds")
                 .clickBuildsHistoryButton()
                 .getStatusMessageText();
         Assert.assertEquals(actualStatusMessageText, expectedStatusMessageText);
@@ -158,7 +158,7 @@ public class BuildPageTest extends BaseTest {
                 .clickSaveButton()
                 .getHeader()
                 .clickLogo()
-                .clickPlayBuildForATestButton(itemName)
+                .clickBuildByGreenArrow(itemName)
                 .clickBuildsHistoryButton()
                 .clickBuildNameOnTimeline(itemName + " #1")
                 .getBubbleTitleOnTimeline();
