@@ -6,7 +6,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.jobs.FolderPage;
 import school.redrover.model.jobs.OrganizationFolderPage;
+import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -525,6 +527,18 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
+    public void testAccessConfigurationPageFromSideMenu(){
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String getTitleFromPage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .getTitle();
+
+        Assert.assertEquals(getTitleFromPage, "Configuration");
+    }
+
+    @Test
     public void testCancelDeletingFromDropDownMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
@@ -574,17 +588,16 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
-   
-    @Ignore
-    @Test (dependsOnMethods ="testCreateWithExistingName")
+
+    @Test
     public void testAccessConfigurationPageFromDashboard() {
-        final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME + " > Configuration";
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
-        OrganizationFolderConfigPage organizationFolderConfigPage = new MainPage(getDriver())
+        String getTitleFromPage = new MainPage(getDriver())
                 .clickConfigureDropDown(
-                        ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())));
+                        ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getTitle();
 
-        Assert.assertEquals(organizationFolderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
-        Assert.assertEquals(organizationFolderConfigPage.getTitle(), "Configuration");
+        Assert.assertEquals(getTitleFromPage, "Configuration");
     }
 }
