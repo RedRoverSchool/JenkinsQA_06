@@ -997,7 +997,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .getHeader()
                 .clickLogo()
                 .clickBuildDropdownMenuDeleteBuild("#1")
-                .clickYesButtonForDropDownMainPage()
+                .clickDelete(new FreestyleProjectPage(getDriver()))
                 .isNoBuildsDisplayed();
 
         Assert.assertTrue(noBuildsMessage, "Error");
