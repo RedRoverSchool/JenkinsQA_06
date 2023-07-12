@@ -532,12 +532,12 @@ public class OrganizationFolderTest extends BaseTest {
 
         final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME;
 
-        FolderConfigPage folderConfigPage = new MainPage(getDriver())
-                .clickJobName(ORGANIZATION_FOLDER_NAME, new FolderPage(getDriver()))
+        OrganizationFolderConfigPage OrgFolderConfigPage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickConfigure();
 
-        Assert.assertEquals(folderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
-        Assert.assertEquals(folderConfigPage.getTitle(), "Configuration");
+        Assert.assertEquals(OrgFolderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
+        Assert.assertEquals(OrgFolderConfigPage.getTitle(), "Configuration");
     }
 
     @Test
