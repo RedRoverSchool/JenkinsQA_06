@@ -19,7 +19,7 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(xpath = "(//tr[@class='app-summary']/td//span)[1]")
     private WebElement buildInfo;
 
-    @FindBy(name = "Submit")
+    @FindBy(xpath = "//span[contains(text(), 'Delete')]")
     private WebElement deleteBuildButton;
 
     @FindBy(xpath = "//span[contains(text(), 'Console Output')]/..")
