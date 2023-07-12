@@ -374,10 +374,10 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return (Self)this;
     }
 
-    public BuildPage clickBuildDropdownMenuDeleteBuild(String buildNumber) {
+    public DeletePage<Self> clickBuildDropdownMenuDeleteBuild(String buildNumber) {
         openBuildDropDownMenu(buildNumber);
         getWait2().until(ExpectedConditions.elementToBeClickable(deleteBuildDropDown)).click();
-        return new BuildPage(getDriver());
+        return new DeletePage<>((Self)this);
     }
 
     public Self openBuildDropDownMenu(String buildNumber) {

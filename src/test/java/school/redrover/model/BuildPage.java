@@ -19,7 +19,7 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(xpath = "(//tr[@class='app-summary']/td//span)[1]")
     private WebElement buildInfo;
 
-    @FindBy(name = "Submit")
+    @FindBy(xpath = "//span[contains(text(), 'Delete build')]/..")
     private WebElement deleteBuildButton;
 
     @FindBy(xpath = "//span[contains(text(), 'Console Output')]/..")
@@ -66,10 +66,5 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     public String getBuildHeaderText() {
 
         return getWait5().until(ExpectedConditions.visibilityOf(buildHeader)).getText();
-    }
-
-    public FreestyleProjectPage deleteBuild() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(deleteBuildButton)).click();
-        return new FreestyleProjectPage(getDriver());
     }
 }
