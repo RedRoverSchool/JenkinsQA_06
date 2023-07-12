@@ -990,13 +990,14 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testDeleteBuildNowFromDropDown() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
-        Boolean noBuildsMessage = new MainPage(getDriver())
+
+        boolean noBuildsMessage = new MainPage(getDriver())
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickBuildNowFromSideMenu()
                 .getHeader()
                 .clickLogo()
                 .clickBuildDropdownMenuDeleteBuild("#1")
-                .deleteBuild()
+                .clickDelete(new FreestyleProjectPage(getDriver()))
                 .isNoBuildsDisplayed();
 
         Assert.assertTrue(noBuildsMessage, "Error");
