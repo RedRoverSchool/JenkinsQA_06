@@ -111,6 +111,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(displayName, "Project " + NEW_FREESTYLE_NAME);
     }
 
+
     @Test
     public void testCreateFromNewItem() {
         MainPage projectName = new MainPage(getDriver())
