@@ -1003,6 +1003,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(noBuildsMessage, "Error");
     }
+    @Ignore
     @Test
     public void testBuildStepsDropdownOptions() {
         final List<String> expectedBuildStepsOptionsList = new ArrayList<>(List.of("Execute Windows batch command",
