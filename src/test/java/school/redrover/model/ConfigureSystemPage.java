@@ -40,14 +40,29 @@ public class ConfigureSystemPage extends BaseMainHeaderPage<ConfigureSystemPage>
     @FindBy(css = "#credentialsDialog_c button#credentials-add-submit-button")
     private WebElement addButtonAddCredentialsPopUpWindow;
 
-    @FindBy(xpath = "//div[@class='setting-main help-sibling']//span[@class=\"jenkins-checkbox\"]//span[text()='Use SSL']")
+    @FindBy(xpath = "//div[@class='setting-main help-sibling']//span[@class='jenkins-checkbox']//span[text()='Use SSL']")
     private WebElement useSSLCheckboxExtendedEmailNotifications;
+
+    @FindBy(xpath = "//div[@class='setting-main help-sibling']//span[@class='jenkins-checkbox']/input[@name='_.useSsl']")
+    private WebElement useSSLCheckboxExtendedEmailVerification;
 
     @FindBy(xpath = "//button[contains(text(), 'Default Triggers')]")
     private WebElement defaultTriggersButton;
 
     @FindBy(xpath = "//div[@class='setting-main']/span/label[@class='attach-previous ']")
     private List<WebElement> defaultTriggersList;
+
+    @FindBy(xpath = "//label[text()='Always']/../input")
+    private WebElement defaultTriggerAlwaysVerification;
+
+    @FindBy(xpath = "//label[text()='Always']")
+    private WebElement defaultTriggerAlwaysCheckbox;
+
+    @FindBy(xpath = "//label[text()='Success']/../input")
+    private WebElement defaultTriggerSuccessVerification;
+
+    @FindBy(xpath = "//label[text()='Success']")
+    private WebElement defaultTriggerSuccessCheckbox;
 
     @FindBy(xpath = "//input[@class='jenkins-input validated  '][@name='_.smtpHost']")
     private WebElement smtpServerFieldEmailNotifications;
@@ -58,6 +73,9 @@ public class ConfigureSystemPage extends BaseMainHeaderPage<ConfigureSystemPage>
     @FindBy(xpath = "//label[text()='Use SMTP Authentication']")
     private WebElement useSMTPAuthenticationCheckbox;
 
+    @FindBy(xpath = "//label[text()='Use SMTP Authentication']/../input")
+    private WebElement useSMTPAuthenticationVerification;
+
     @FindBy(xpath = "//div[@nameref='cb15']//input[@name='_.username']")
     private WebElement userNameSMTPAuthentication;
 
@@ -65,7 +83,10 @@ public class ConfigureSystemPage extends BaseMainHeaderPage<ConfigureSystemPage>
     private WebElement passwordSMTPAuthentication;
 
     @FindBy(xpath = "//div[@class='jenkins-form-item tr has-help jenkins-form-item--tight']//label/span[text()='Use SSL']")
-    private WebElement useSSLCheckboxEmailNotifications;
+    private WebElement useSSLEmailNotificationsCheckbox;
+
+    @FindBy(xpath = "//div[@class='jenkins-form-item tr has-help jenkins-form-item--tight']//input[@name='_.useSsl']")
+    private WebElement useSSLEmailCheckboxVerification;
 
     @FindBy(xpath = "//div[@class='jenkins-form-item tr  has-help']//input[@name='_.smtpPort']")
     private WebElement smtpPortFieldEmailNotifications;
@@ -88,6 +109,9 @@ public class ConfigureSystemPage extends BaseMainHeaderPage<ConfigureSystemPage>
     @FindBy(xpath = "//div[@class='jenkins-form-label help-sibling'][text()='Content Token Reference']")
     private WebElement contentTokenReference;
 
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement saveButton;
+
     public ConfigureSystemPage(WebDriver driver) {
         super(driver);
     }
@@ -101,13 +125,13 @@ public class ConfigureSystemPage extends BaseMainHeaderPage<ConfigureSystemPage>
         TestUtils.scrollToElementByJavaScript(this, smtpServerFieldExtendedEmailNotifications);
         getWait10().until(ExpectedConditions.visibilityOf(smtpServerFieldExtendedEmailNotifications)).clear();
         smtpServerFieldExtendedEmailNotifications.sendKeys(smtpServer);
-        return  this;
+        return this;
     }
 
     public ConfigureSystemPage inputSmtpPortFieldExtendedEmailNotifications(String smtpPort) {
         getWait2().until(ExpectedConditions.visibilityOf(smtpPortFieldExtendedEmailNotifications)).clear();
         smtpPortFieldExtendedEmailNotifications.sendKeys(smtpPort);
-        return  this;
+        return this;
     }
 
     public ConfigureSystemPage clickAdvancedButtonExtendedEmailNotification() {
@@ -155,12 +179,18 @@ public class ConfigureSystemPage extends BaseMainHeaderPage<ConfigureSystemPage>
         return this;
     }
 
-    public ConfigureSystemPage checkAlwaysAndSuccessDefaultTriggers() {
-        for (WebElement trigger: defaultTriggersList) {
-            if(trigger.getText().equals("Always")) {
+    public ConfigureSystemPage checkAlwaysDefaultTriggers() {
+        for (WebElement trigger : defaultTriggersList) {
+            if (trigger.getText().equals("Always")) {
                 trigger.click();
             }
-            if(trigger.getText().equals("Success")) {
+        }
+        return this;
+    }
+
+    public ConfigureSystemPage checkSuccessDefaultTriggers() {
+        for (WebElement trigger : defaultTriggersList) {
+            if (trigger.getText().equals("Success")) {
                 trigger.click();
             }
         }
@@ -171,7 +201,7 @@ public class ConfigureSystemPage extends BaseMainHeaderPage<ConfigureSystemPage>
         TestUtils.scrollToElementByJavaScript(this, smtpServerFieldEmailNotifications);
         getWait5().until(ExpectedConditions.visibilityOf(smtpServerFieldEmailNotifications)).clear();
         smtpServerFieldEmailNotifications.sendKeys(smtpServer);
-        return  this;
+        return this;
     }
 
     public ConfigureSystemPage clickAdvancedButtonEmailNotification() {
@@ -191,12 +221,12 @@ public class ConfigureSystemPage extends BaseMainHeaderPage<ConfigureSystemPage>
     }
 
     public ConfigureSystemPage checkUseSSLCheckboxEmailNotifications() {
-        TestUtils.scrollToElementByJavaScript(this, useSSLCheckboxEmailNotifications);
-        getWait2().until(ExpectedConditions.elementToBeClickable(useSSLCheckboxEmailNotifications)).click();
+        TestUtils.scrollToElementByJavaScript(this, useSSLEmailNotificationsCheckbox);
+        getWait5().until(ExpectedConditions.elementToBeClickable(useSSLEmailNotificationsCheckbox)).click();
         return this;
     }
 
-    public ConfigureSystemPage testEmailRecipientInputField(String port) {
+    public ConfigureSystemPage inputSmtpPortEmailNotificationsField(String port) {
         smtpPortFieldEmailNotifications.clear();
         smtpPortFieldEmailNotifications.sendKeys(port);
         return this;
@@ -221,5 +251,83 @@ public class ConfigureSystemPage extends BaseMainHeaderPage<ConfigureSystemPage>
 
     public String getConfigurationMessageText() {
         return getWait2().until(ExpectedConditions.visibilityOf(testConfigurationMessage)).getText();
+    }
+
+    public MainPage clickSaveButton() {
+        TestUtils.scrollToElementByJavaScript(this, saveButton);
+        saveButton.click();
+        return new MainPage(getDriver());
+    }
+
+    public ConfigureSystemPage unCheckUseSSLCheckboxExtendedEmailNotifications() {
+        new Actions(getDriver()).scrollToElement(useSSLCheckboxExtendedEmailNotifications).perform();
+        if (useSSLCheckboxExtendedEmailVerification.isSelected()) {
+            useSSLCheckboxExtendedEmailNotifications.click();
+        }
+        return this;
+    }
+
+    public ConfigureSystemPage unCheckDefaultTriggerAlwaysCheckbox() {
+        if (defaultTriggerAlwaysVerification.isSelected()) {
+            defaultTriggerAlwaysCheckbox.click();
+        }
+        return this;
+    }
+
+    public ConfigureSystemPage unCheckDefaultTriggerSuccessCheckbox() {
+        if (defaultTriggerSuccessVerification.isSelected()) {
+            defaultTriggerSuccessCheckbox.click();
+        }
+        return this;
+    }
+
+    public ConfigureSystemPage unCheckSMTPAuthenticationCheckbox() {
+        if (useSMTPAuthenticationVerification.isSelected()) {
+            useSMTPAuthenticationCheckbox.click();
+        }
+        return this;
+    }
+
+    public ConfigureSystemPage unCheckUseSSLCheckboxEmailNotifications() {
+        if (useSSLEmailCheckboxVerification.isSelected()) {
+            useSSLEmailNotificationsCheckbox.click();
+        }
+        return this;
+    }
+
+    public boolean isSmtpServerFieldExtendedEmailNotificationsEmpty() {
+        return smtpPortFieldExtendedEmailNotifications.getText().isEmpty();
+    }
+
+    public boolean isSmtpPortFieldExtendedEmailNotificationsBackToOriginal() {
+        return smtpPortFieldExtendedEmailNotifications.getAttribute("value").equals("25");
+    }
+
+    public boolean isUseSSLCheckboxChecked() {
+        return useSSLCheckboxExtendedEmailVerification.isSelected();
+    }
+
+    public boolean isTriggersAlwaysChecked() {
+        return defaultTriggerAlwaysVerification.isSelected();
+    }
+
+    public boolean isTriggersSuccessChecked() {
+        return defaultTriggerSuccessVerification.isSelected();
+    }
+
+    public boolean isSmtpServerFieldEmailNotificationsEmpty() {
+        return smtpServerFieldEmailNotifications.getText().isEmpty();
+    }
+
+    public boolean isUseSMTPAuthenticationCheckboxChecked() {
+        return useSMTPAuthenticationVerification.isSelected();
+    }
+
+    public boolean isUseSSLCheckboxEmailNotificationsChecked() {
+        return useSSLEmailCheckboxVerification.isSelected();
+    }
+
+    public boolean isSmtpPortFieldEmailNotificationsBackToOriginal() {
+        return smtpPortFieldEmailNotifications.getAttribute("value").equals("25");
     }
 }
