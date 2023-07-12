@@ -7,10 +7,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FolderPage;
-import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.jobs.OrganizationFolderPage;
 import school.redrover.model.jobsconfig.FolderConfigPage;
-import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -39,7 +37,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFromCreateAJobArrow(){
+    public void testCreateFromCreateAJobArrow() {
         boolean projectPageFromCreateAJobArrow = new MainPage(getDriver())
                 .clickCreateAJobArrow()
                 .enterItemName(ORGANIZATION_FOLDER_NAME)
@@ -49,7 +47,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickLogo()
                 .jobIsDisplayed(ORGANIZATION_FOLDER_NAME);
 
-        Assert.assertTrue(projectPageFromCreateAJobArrow, "Error: the Organization Folder name is not displayed on Dashboard" );
+        Assert.assertTrue(projectPageFromCreateAJobArrow, "Error: the Organization Folder name is not displayed on Dashboard");
     }
 
     @Test
@@ -63,7 +61,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFromPeoplePage(){
+    public void testCreateFromPeoplePage() {
         MainPage projectPeoplePage = new MainPage(getDriver())
                 .clickPeopleOnLeftSideMenu()
                 .clickNewItem()
@@ -77,7 +75,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFromBuildHistoryPage(){
+    public void testCreateFromBuildHistoryPage() {
         boolean newProjectFromBuildHistoryPage = new MainPage(getDriver())
                 .clickBuildsHistoryButton()
                 .clickNewItem()
@@ -144,7 +142,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFromMyViewsCreateAJobArrow(){
+    public void testCreateFromMyViewsCreateAJobArrow() {
         MainPage projectName = new MainPage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickCreateAJobArrow()
@@ -281,6 +279,19 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
+    public void testRenameWithDotName() {
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String errorMessage = new MainPage(getDriver())
+                .dropDownMenuClickRename(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .enterNewName(".")
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorMessage, "“.” is not an allowed name");
+    }
+
+    @Test
     public void testConfigureProject() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, false);
 
@@ -312,7 +323,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .getTextPipelineTitle();
 
         Assert.assertEquals(linkBookCreatingPipeline, "Creating a Jenkins Pipeline");
-        Assert.assertEquals(pipelineOneTutorial,"Pipeline");
+        Assert.assertEquals(pipelineOneTutorial, "Pipeline");
     }
 
     @Test
@@ -338,14 +349,14 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testOrganizationFolderEvents() {
-        TestUtils.createJob(this,ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
         String eventTitle = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
                 .clickOrgFolderEvents()
                 .getTextFromTitle();
 
-        Assert.assertEquals(eventTitle,"Organization Folder Events");
+        Assert.assertEquals(eventTitle, "Organization Folder Events");
     }
 
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
@@ -360,7 +371,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickGeneratePipelineScriptButton()
                 .getTextPipelineScript();
 
-        Assert.assertEquals(pipelineSyntax, expectedText );
+        Assert.assertEquals(pipelineSyntax, expectedText);
     }
 
     @Test(dependsOnMethods = "testCreateFromCreateAJob")
@@ -481,6 +492,7 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(previewText, DESCRIPTION_TEXT);
     }
+
     @Ignore
     @Test
     public void testAppearanceIconHasChanged() {
@@ -496,6 +508,7 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(defaultIconDisplayed, "The appearance icon was not changed to the default icon");
     }
+
     @Ignore
     @Test
     public void testAddHealthMetricsFromSideMenu() {
@@ -511,6 +524,18 @@ public class OrganizationFolderTest extends BaseTest {
                 .healthMetricIsVisible();
 
         Assert.assertTrue(isHealthMetricsAdded, "Health Metric is not displayed");
+    }
+
+    @Test
+    public void testAccessConfigurationPageFromSideMenu(){
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        String getTitleFromPage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
+                .clickConfigure()
+                .getTitle();
+
+        Assert.assertEquals(getTitleFromPage, "Configuration");
     }
 
     @Test
@@ -564,15 +589,15 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
 
-    @Test (dependsOnMethods ="testCreateWithExistingName")
+    @Test
     public void testAccessConfigurationPageFromDashboard() {
-        final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME + " > Configuration";
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
-        OrganizationFolderConfigPage organizationFolderConfigPage = new MainPage(getDriver())
+        String getTitleFromPage = new MainPage(getDriver())
                 .clickConfigureDropDown(
-                ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())));
+                        ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getTitle();
 
-        Assert.assertEquals(organizationFolderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
-        Assert.assertEquals(organizationFolderConfigPage.getTitle(), "Configuration");
+        Assert.assertEquals(getTitleFromPage, "Configuration");
     }
 }

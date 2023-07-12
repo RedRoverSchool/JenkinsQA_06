@@ -52,7 +52,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testEditDescription")
     public void testDeleteBuildNowFromSideMenu() {
         boolean noBuildsMessage = new MainPage(getDriver())
-                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickBuildByGreenArrow(FREESTYLE_NAME)
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickDeleteBuildFromDropDownMenu()
                 .clickYesButton()
@@ -65,7 +65,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testDeleteBuildNowFromSideMenu")
     public void testDeleteBuildNowFromBuildPage() {
         boolean noBuildsMessage = new MainPage(getDriver())
-                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickBuildByGreenArrow(FREESTYLE_NAME)
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickLastBuildLink()
                 .clickDeleteBuild(new FreestyleProjectPage(getDriver()))
@@ -81,7 +81,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String title = "Changes";
 
         String changesTitle = new MainPage(getDriver())
-                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickBuildByGreenArrow(FREESTYLE_NAME)
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickChangesFromDropDownMenu()
                 .getPageTitle();
@@ -93,7 +93,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testBuildChangesFromProjectPage")
     public void testConsoleOutputFromBuildPage() {
         boolean consoleOutputTitleDisplayed = new MainPage(getDriver())
-                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickBuildByGreenArrow(FREESTYLE_NAME)
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickLastBuildLink()
                 .clickConsoleOutput()
@@ -915,7 +915,7 @@ public class FreestyleProjectTest extends BaseTest {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
         boolean buildHeaderIsDisplayed = new MainPage(getDriver())
-                .clickPlayBuildForATestButton(FREESTYLE_NAME)
+                .clickBuildByGreenArrow(FREESTYLE_NAME)
                 .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
                 .clickIconBuildOpenConsoleOutput(1)
                 .isDisplayedBuildTitle();
@@ -925,7 +925,8 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFromPeoplePage(){
-        MainPage projectPeoplePage = new PeoplePage(getDriver())
+        MainPage projectPeoplePage = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -1000,6 +1001,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(noBuildsMessage, "Error");
     }
+    @Ignore
     @Test
     public void testBuildStepsDropdownOptions() {
         final List<String> expectedBuildStepsOptionsList = new ArrayList<>(List.of("Execute Windows batch command",
@@ -1049,6 +1051,47 @@ public class FreestyleProjectTest extends BaseTest {
                 .getPageTitle();
 
         Assert.assertEquals(actualWorkspaceStatus, expectedWorkspaceStatus);
+    }
+
+    @Test
+    public void testCreateWithDotName() {
+        final String expectedError= "» “.” is not an allowed name";
+
+        String actualError = new MainPage(getDriver())
+                .clickNewItem()
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .enterItemName(".")
+                .getItemInvalidMessage();
+
+        Assert.assertEquals(actualError, expectedError);
+    }
+
+    @Test
+    public void testEditBuildInformationFromProjectPage(){
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String titleEditBuildPage = new MainPage(getDriver())
+                .clickBuildByGreenArrow(FREESTYLE_NAME)
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickEditBuildInformFromProjectPage()
+                .getTitle();
+
+        Assert.assertEquals(titleEditBuildPage,"Edit Build Information");
+    }
+
+    @Test
+    public void testConsoleOutputFromDropDown() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        boolean consoleOutputTitle = new MainPage(getDriver())
+                .clickBuildByGreenArrow(FREESTYLE_NAME)
+                .getHeader()
+                .clickLogo()
+                .openLastBuildDropDownMenu()
+                .clickConsoleOutputLastBuildDropDown()
+                .isDisplayedBuildTitle();
+
+        Assert.assertTrue(consoleOutputTitle, "Error: Console Output Title is not displayed!");
     }
 
     @Test

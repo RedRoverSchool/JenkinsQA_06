@@ -72,6 +72,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//a[contains(@class, 'task-link task-link')]")
     private WebElement statusButton;
 
+    @FindBy(xpath = "//span[contains(text(),'Edit Build Information')]")
+    private WebElement editBuildInformFromDropDownOfBuild;
+
     public BaseProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -189,5 +192,12 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         workspaceButton.click();
 
         return new WorkspacePage<>((Self)this);
+    }
+
+    public EditBuildInformationPage clickEditBuildInformFromProjectPage(){
+        openBuildsDropDownMenu();
+        editBuildInformFromDropDownOfBuild.click();
+
+        return new EditBuildInformationPage(getDriver());
     }
 }
