@@ -591,9 +591,12 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
 
-    @Test (dependsOnMethods ="testCreateWithExistingName")
+    @Test
     public void testAccessConfigurationPageFromDashboard() {
         final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME;
+
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
 
         OrganizationFolderConfigPage organizationFolderConfigPage = new MainPage(getDriver())
                 .clickConfigureDropDown(
