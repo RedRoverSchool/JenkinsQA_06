@@ -927,7 +927,8 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFromPeoplePage(){
-        MainPage projectPeoplePage = new PeoplePage(getDriver())
+        MainPage projectPeoplePage = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
