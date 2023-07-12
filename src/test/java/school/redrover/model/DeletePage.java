@@ -5,7 +5,6 @@ import org.openqa.selenium.support.FindBy;
 import school.redrover.model.base.BaseJobPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.model.base.BasePage;
-import school.redrover.model.jobs.FreestyleProjectPage;
 
 public class DeletePage<ParentPage extends BasePage<?,?>> extends BaseMainHeaderPage<DeletePage<ParentPage>> {
 
