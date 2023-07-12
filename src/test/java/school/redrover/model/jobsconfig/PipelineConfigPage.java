@@ -118,15 +118,10 @@ public class PipelineConfigPage extends BaseConfigProjectsPage<PipelineConfigPag
         return this;
     }
 
-    private WebElement getPipelineSection() {
-        return section;
-    }
-
     public PipelineConfigPage scrollToPipelineSection() {
-        TestUtils.scrollToElementByJavaScript(this, getPipelineSection());
+        TestUtils.scrollToElementByJavaScript(this, section);
         return this;
     }
-
 
     public String getOptionTextInDefinitionField() {
         String text = "";

@@ -61,8 +61,11 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     @FindBy(xpath = "//h1[normalize-space()='Configure System']")
     private WebElement configureSystem;
 
-    @FindBy(xpath = "//h1[normalize-space(.)= 'Manage Jenkins']")
-    private WebElement manageJenkins;
+    @FindBy(xpath = "//a[@href='configure']//dt")
+    private WebElement configureSystemLink;
+
+    @FindBy(xpath = "//dl/dt[text()='Credentials']")
+    private WebElement credentialsLink;
 
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
@@ -173,6 +176,11 @@ public class ManageJenkinsPage extends BaseMainHeaderPage<ManageJenkinsPage> {
     public ConfigureSystemPage clickConfigureSystemFromSearchDropdown() {
         getWait5().until(ExpectedConditions.visibilityOfAllElements(searchResults));
         configureSystemLinkInSearchResult.click();
+        return new ConfigureSystemPage(getDriver());
+    }
+
+    public ConfigureSystemPage clickConfigureSystemLink() {
+        getWait2().until(ExpectedConditions.elementToBeClickable(configureSystemLink)).click();
         return new ConfigureSystemPage(getDriver());
     }
 }

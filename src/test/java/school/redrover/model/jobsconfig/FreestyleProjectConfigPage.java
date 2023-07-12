@@ -1,13 +1,17 @@
 package school.redrover.model.jobsconfig;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import school.redrover.model.jobs.FreestyleProjectPage;
 import school.redrover.model.base.BaseConfigProjectsPage;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<FreestyleProjectConfigPage, FreestyleProjectPage> {
 
@@ -20,35 +24,88 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(tagName = "footer")
     private WebElement footer;
 
-    @FindBy(xpath = "//*[@id='yui-gen9-button']")
-    private WebElement executeShellButton;
-
-    @FindBy(xpath = "//*[@id='yui-gen24']")
-    private WebElement generalButton;
-
-    @FindBy(xpath = "//*[@name='description']")
-    private WebElement descriptionField;
+    @FindBy(xpath = "//a[text()='Invoke top-level Maven targets']")
+    private WebElement invokeMavenTargetsButton;
 
     @FindBy(xpath = "//input[@name='blockBuildWhenUpstreamBuilding']")
     private WebElement trueBlockBuildWhenUpstreamProjectIsBuilding;
+
+    @FindBy(xpath = "(//button[@class='task-link'])[5]")
+    private WebElement postBuildActionsButton;
+
+    @FindBy(xpath = "//button[text()='Add post-build action']")
+    private WebElement addPostBuildActionDropDown;
+
+    @FindBy(xpath = "//a[text()='E-mail Notification']")
+    private WebElement emailNotificationType;
+
+    @FindBy(xpath = "//input[@name='_.recipients']")
+    private WebElement emailNotificationInputField;
+
+    @FindBy(xpath = "//a[text()= 'Build other projects']")
+    private WebElement buildOtherProjectsType;
+
+    @FindBy(xpath = "//input[@name='buildTrigger.childProjects']")
+    private WebElement buildOtherProjectsInputField;
+
+    @FindBy(xpath = "//a[text()='Archive the artifacts']")
+    private WebElement archiveTheArtifacts;
+
+    @FindBy(xpath = "//div[@descriptorid = 'hudson.tasks.ArtifactArchiver']")
+    private WebElement archiveArtifacts;
+
+    @FindBy(xpath = "//*[@id='textarea._.targets']")
+    private WebElement goalsField;
+
+    @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
+    private WebElement displayNameField;
+
+    @FindBy(xpath = "//a[text()='Set GitHub commit status (universal)']")
+    private WebElement gitHubCommitStatusType;
+
+    @FindBy(xpath = "//*[contains(text(), 'Commit context')]//following-sibling::div//select")
+    private WebElement commitContextSelect;
+
+    @FindBy(xpath = "//input[@name='_.context']")
+    private WebElement contextNameField;
+
+    @FindBy(xpath = "//button[text() = 'Add build step']")
+    private WebElement addBuildStepButton;
+
+    @FindBy(css = ".bd li a")
+    private List<WebElement> buildStepsDropdownOptions;
+
+    @FindBy(xpath = "//a[contains(text(),'Git Publisher')]")
+    private WebElement gitPublisher;
+
+    @FindBy(xpath = "//div[contains(text(), 'Git Publisher')]")
+    private WebElement gitPublisherHandle;
+
+    @FindBy(xpath = "//a[text()='Delete workspace when build is done']")
+    private WebElement deleteWorkspaceType;
+
+    @FindBy(xpath = "//*[contains(text(), 'Delete workspace when build is done')]//following-sibling::div//Delete")
+    private WebElement closeDeleteWorkspaceButton;
 
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
 
-    public FreestyleProjectConfigPage addBuildStepsExecuteShell(String buildSteps) {
-        int deltaY = footer.getRect().y;
+    private FreestyleProjectConfigPage scrollToFooter() {
         new Actions(getDriver())
-                .scrollByAmount(0, deltaY)
+                .scrollToElement(footer)
+                .perform();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage addInvokeMavenGoalsTargets(String goals) {
+        new Actions(getDriver())
+                .moveToElement(invokeMavenTargetsButton)
                 .perform();
 
-        getWait5().until(ExpectedConditions.visibilityOf(executeShellButton)).click();
-        generalButton.click();
+        getWait5().until(ExpectedConditions.visibilityOf(invokeMavenTargetsButton)).click();
+        goalsField.sendKeys(goals);
 
-        new Actions(getDriver())
-                .click(descriptionField)
-                .sendKeys(buildSteps)
-                .perform();
         return this;
     }
 
@@ -61,5 +118,118 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
 
     public boolean getTrueBlockBuildWhenUpstreamProjectIsBuilding() {
         return trueBlockBuildWhenUpstreamProjectIsBuilding.isSelected();
+    }
+
+    public FreestyleProjectConfigPage clickPostBuildActionsButton() {
+        postBuildActionsButton.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickAddPostBuildActionDropDown() {
+        scrollToFooter();
+        getWait2().until(ExpectedConditions.elementToBeClickable(addPostBuildActionDropDown)).click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickEmailNotification() {
+        emailNotificationType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage setEmailNotification(String email) {
+        scrollToFooter();
+        getWait2().until(ExpectedConditions.elementToBeClickable(emailNotificationInputField)).sendKeys(email);
+        return this;
+    }
+
+    public String getEmailNotificationFieldText() {
+        return getWait2().until(ExpectedConditions.visibilityOf(emailNotificationInputField)).getAttribute("value");
+    }
+
+    public FreestyleProjectConfigPage clickBuildOtherProjects() {
+        buildOtherProjectsType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage setBuildOtherProjects(String projectName) {
+        scrollToFooter();
+        getWait2().until(ExpectedConditions.elementToBeClickable(buildOtherProjectsInputField)).sendKeys(projectName);
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickArchiveTheArtifacts() {
+        archiveTheArtifacts.click();
+        return  this;
+    }
+
+    public String getTextArchiveArtifacts() {
+       return archiveArtifacts.getText();
+    }
+
+    public String getMavenGoals() {
+        return goalsField.getAttribute("value");
+    }
+
+    public FreestyleProjectConfigPage setDisplayName(String displayName) {
+        displayNameField.sendKeys(displayName);
+        return this;
+    }
+    public FreestyleProjectConfigPage clickSetGitHubCommitStatus() {
+        scrollToFooter();
+        gitHubCommitStatusType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage setGitHubCommitStatusContext(String status) {
+        scrollToFooter();
+        new Select(commitContextSelect).selectByVisibleText("Manually entered context name");
+        getWait2().until(ExpectedConditions.elementToBeClickable(contextNameField)).sendKeys(status);
+        return this;
+    }
+
+    public String getGitHubCommitStatus() {
+        scrollToFooter();
+        return contextNameField.getAttribute("value");
+    }
+
+
+    public FreestyleProjectConfigPage clickAddBuildStepButton() {
+        new Actions(getDriver())
+                .sendKeys(Keys.PAGE_DOWN)
+                .pause(250)
+                .click(addBuildStepButton)
+                .build()
+                .perform();
+        return this;
+    }
+
+    public List<String> getBuildStepsOptionsList() {
+        return buildStepsDropdownOptions
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    public FreestyleProjectConfigPage clickGitPublisher() {
+        scrollToFooter();
+        gitPublisher.click();
+        return this;
+    }
+
+    public String getGitPublisherText() {
+        scrollToFooter();
+        return gitPublisherHandle.getText();
+    }
+
+    public FreestyleProjectConfigPage clickDeleteWorkspaceWhenBuildDone() {
+        scrollToFooter();
+        deleteWorkspaceType.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage closeDeleteWorkspaceWhenBuildDone() {
+        scrollToFooter();
+        closeDeleteWorkspaceButton.click();
+        return this;
     }
 }

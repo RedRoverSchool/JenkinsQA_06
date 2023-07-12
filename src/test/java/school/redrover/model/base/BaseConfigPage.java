@@ -18,6 +18,9 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
     @FindBy(xpath = "//div[@class='textarea-preview']")
     private WebElement previewTextarea;
 
+    @FindBy(xpath = "//h1")
+    private WebElement title;
+
     private final JobPage jobPage;
 
     public BaseConfigPage(JobPage jobPage) {
@@ -55,5 +58,9 @@ public abstract class BaseConfigPage<Self extends BaseConfigPage<?, ?>, JobPage 
     public Self clearDescriptionArea() {
         descriptionTextBox.clear();
         return (Self) this;
+    }
+
+    public String getTitle(){
+        return title.getText();
     }
 }

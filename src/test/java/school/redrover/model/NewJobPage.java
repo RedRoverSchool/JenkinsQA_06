@@ -8,7 +8,6 @@ import school.redrover.model.base.BaseConfigPage;
 import school.redrover.model.base.BaseMainHeaderPage;
 import school.redrover.runner.TestUtils;
 
-import java.util.List;
 
 public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
 
@@ -27,12 +26,6 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     @FindBy(xpath = "//label[@class = 'h3']")
     private WebElement title;
 
-    @FindBy(css = "label > span")
-    private List<WebElement> listOfNewItems;
-
-    @FindBy(xpath = "//*[@id='from']")
-    private WebElement itemNameToPlaceHolder;
-
     private TestUtils.JobType jobType;
 
     public NewJobPage(WebDriver driver) {
@@ -43,12 +36,8 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
         return jobType;
     }
 
-    private WebElement getOkButton() {
-        return getWait5().until(ExpectedConditions.visibilityOf(okButton));
-    }
-
-    public boolean isOkButtonDisabled() {
-        return getOkButton().isDisplayed();
+    public boolean isOkButtonEnabled() {
+        return getWait5().until(ExpectedConditions.visibilityOf(okButton)).isEnabled();
     }
 
     public NewJobPage enterItemName(String jobName) {
@@ -63,7 +52,7 @@ public class NewJobPage extends BaseMainHeaderPage<NewJobPage> {
     }
 
     public <JobConfigPage extends BaseConfigPage<?, ?>> JobConfigPage clickOkButton(JobConfigPage jobConfigPage) {
-        getOkButton().click();
+        getWait5().until(ExpectedConditions.visibilityOf(okButton)).click();
         return jobConfigPage;
     }
 

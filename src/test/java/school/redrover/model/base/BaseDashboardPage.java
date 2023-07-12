@@ -15,9 +15,6 @@ import java.util.List;
 
 public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> extends BaseMainHeaderPage<Self> {
 
-    @FindBy(css = "#ok-button")
-    private WebElement okButton;
-
     @FindBy(id = "description-link")
     private WebElement onDescription;
 
@@ -75,6 +72,9 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']")
     private WebElement buildButton;
 
+    @FindBy(xpath = "//a[contains(@tooltip,'Schedule a Build for ')]")
+    private List<WebElement> jobsBuildLinks;
+
     @FindBy(css = ".jenkins-table__link")
     private List<WebElement> jobList;
 
@@ -92,6 +92,15 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
 
     @FindBy(css = "svg[title='Folder']")
     private WebElement iconFolder;
+
+    @FindBy(xpath = "//td/a[text()='#1']/button")
+    private WebElement dropDownBuildButton;
+
+    @FindBy(xpath = "//a[contains(@href, 'confirmDelete')]")
+    private WebElement deleteBuildDropDown;
+
+    @FindBy(xpath = "//span[@class='build-status-icon__outer']//*[name()='svg']")
+    private WebElement lastBuildStatusIcon;
 
     public BaseDashboardPage(WebDriver driver) {
         super(driver);
@@ -229,7 +238,6 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return (Self) this;
     }
 
-
     public Self dismissAlert() {
         getDriver().switchTo().alert().dismiss();
         return (Self) this;
@@ -262,10 +270,6 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
                 .stream()
                 .map(WebElement::getText)
                 .toList();
-    }
-
-    public List<WebElement> getProjectsList() {
-        return getProjectStatusTable().findElements(By.xpath("./tbody/tr"));
     }
 
     private WebElement getProjectStatusTable() {
@@ -318,6 +322,20 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return status;
     }
 
+    public boolean isScheduleBuildOnDashboardAvailable(String jobName) {
+        boolean status = false;
+
+        List<WebElement> scheduleBuildLinks = jobsBuildLinks;
+        for (WebElement link : scheduleBuildLinks) {
+            String tooltip = link.getAttribute("tooltip");
+            if (jobName.equals(tooltip.substring(tooltip.length() - jobName.length()))) {
+                status = true;
+                break;
+            }
+        }
+        return status;
+    }
+
     public Self clickSortByName() {
         getWait5().until(ExpectedConditions.elementToBeClickable(sortByName)).click();
         return (Self) this;
@@ -348,5 +366,21 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
                 .moveToElement(weather)
                 .perform();
         return (Self)this;
+    }
+
+    public BuildPage clickBuildDropdownMenuDeleteBuild(String buildNumber) {
+        openBuildDropDownMenu(buildNumber);
+        getWait2().until(ExpectedConditions.elementToBeClickable(deleteBuildDropDown)).click();
+        return new BuildPage(getDriver());
+    }
+
+    public Self openBuildDropDownMenu(String buildNumber) {
+        Actions act = new Actions(getDriver());
+        act.moveToElement(dropDownBuildButton).perform();
+        dropDownBuildButton.sendKeys(Keys.RETURN);
+        return (Self)this;
+    }
+    public String getLastBuildIconStatus() {
+        return getWait5().until(ExpectedConditions.visibilityOf(lastBuildStatusIcon)).getAttribute("title");
     }
 }
