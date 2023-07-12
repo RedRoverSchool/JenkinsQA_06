@@ -8,7 +8,9 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import school.redrover.model.*;
 import school.redrover.model.jobs.FreestyleProjectPage;
+import school.redrover.model.jobs.OrganizationFolderPage;
 import school.redrover.model.jobsconfig.FreestyleProjectConfigPage;
+import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
 
@@ -1049,5 +1051,18 @@ public class FreestyleProjectTest extends BaseTest {
                 .getPageTitle();
 
         Assert.assertEquals(actualWorkspaceStatus, expectedWorkspaceStatus);
+    }
+
+    @Test
+    public void testCreateWithDotName() {
+        final String expectedError= "» “.” is not an allowed name";
+
+        String actualError = new MainPage(getDriver())
+                .clickNewItem()
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .enterItemName(".")
+                .getItemInvalidMessage();
+
+        Assert.assertEquals(actualError, expectedError);
     }
 }
