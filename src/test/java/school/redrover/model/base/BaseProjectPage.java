@@ -187,4 +187,10 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         consoleOutputType.click();
         return new ConsoleOutputPage(getDriver());
     }
+
+    public BuildPage clickBuildFromSideMenu(String jobName, int buildName) {
+       getDriver().findElement(By.xpath("//a[@href='/job/" + jobName + "/"+ buildName + "/']")).click();
+
+        return new BuildPage(getDriver());
+    }
 }
