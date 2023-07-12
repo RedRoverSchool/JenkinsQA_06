@@ -1110,6 +1110,21 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testConsoleOutputFromProjectPage() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        boolean consoleOutput = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickBuildNowFromSideMenu()
+                .openBuildsDropDownMenu()
+                .clickConsoleOutputType()
+                .isDisplayedBuildTitle();
+
+        Assert.assertTrue(consoleOutput, "Console output page is not displayed");
+
+    }
+
+    @Test
     public void testAddDescriptionFromEditInformationPage() {
         TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
 
