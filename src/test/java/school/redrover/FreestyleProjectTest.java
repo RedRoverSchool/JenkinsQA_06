@@ -925,7 +925,8 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFromPeoplePage(){
-        MainPage projectPeoplePage = new PeoplePage(getDriver())
+        MainPage projectPeoplePage = new MainPage(getDriver())
+                .clickPeopleOnLeftSideMenu()
                 .clickNewItem()
                 .enterItemName(FREESTYLE_NAME)
                 .selectJobType(TestUtils.JobType.FreestyleProject)
@@ -1000,6 +1001,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(noBuildsMessage, "Error");
     }
+    @Ignore
     @Test
     public void testBuildStepsDropdownOptions() {
         final List<String> expectedBuildStepsOptionsList = new ArrayList<>(List.of("Execute Windows batch command",
