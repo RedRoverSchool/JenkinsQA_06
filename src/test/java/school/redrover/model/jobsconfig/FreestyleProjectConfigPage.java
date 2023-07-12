@@ -84,9 +84,6 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     @FindBy(xpath = "//a[text()='Delete workspace when build is done']")
     private WebElement deleteWorkspaceType;
 
-    @FindBy(xpath = "//*[contains(text(), 'Delete workspace when build is done')]//following-sibling::div//Delete")
-    private WebElement closeDeleteWorkspaceButton;
-
     public FreestyleProjectConfigPage(FreestyleProjectPage freestyleProjectPage) {
         super(freestyleProjectPage);
     }
@@ -224,12 +221,6 @@ public class FreestyleProjectConfigPage extends BaseConfigProjectsPage<Freestyle
     public FreestyleProjectConfigPage clickDeleteWorkspaceWhenBuildDone() {
         scrollToFooter();
         deleteWorkspaceType.click();
-        return this;
-    }
-
-    public FreestyleProjectConfigPage closeDeleteWorkspaceWhenBuildDone() {
-        scrollToFooter();
-        closeDeleteWorkspaceButton.click();
         return this;
     }
 }

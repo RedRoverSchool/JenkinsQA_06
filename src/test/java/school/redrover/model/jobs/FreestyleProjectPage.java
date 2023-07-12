@@ -24,15 +24,6 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage> 
     @FindBy(xpath = "//*[@class = 'textarea-preview']")
     private WebElement descriptionPreviewButton;
 
-    @FindBy(xpath = "//a[@class='model-link' and contains(@href,'job')]")
-    private WebElement jobOnBreadcrumbBarDropDownMenuButton;
-
-    @FindBy(xpath = "//a[@class='model-link' and contains(@href,'job')]/button")
-    private WebElement optionsBreadcrumbBarDropDownMenuButton;
-
-    @FindBy(xpath = "//a[@class='yuimenuitemlabel' and @href='#']/span[text()='Delete Project']/..")
-    private WebElement deleteButtonOnDropDownMenu;
-
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
     }

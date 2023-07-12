@@ -35,22 +35,6 @@ public class FolderTest extends BaseTest {
                 .clickLogo();
     }
 
-    private void moveJobToFolderFromSideMenu(String jobName, String folderName, BaseJobPage<?> jobPage) {
-        new MainPage(getDriver())
-                .clickJobName(jobName, jobPage)
-                .clickMoveOnSideMenu()
-                .selectDestinationFolder(folderName)
-                .clickMoveButton()
-                .getHeader()
-                .clickLogo();
-    }
-
-    public List<String> createdJobList(String name) {
-        return new MainPage(getDriver())
-                .clickJobName(name, new FolderPage(getDriver()))
-                .getJobList();
-    }
-
     @Test
     public void testCreateFromCreateAJob() {
         MainPage mainPage = new MainPage(getDriver())
@@ -333,13 +317,14 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testAccessConfigurationPageFromSideMenu")
     public void testAddDisplayName() {
-        FolderPage folderPage = new MainPage(getDriver())
+        String jobName = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickConfigure()
                 .enterDisplayName(DISPLAY_NAME)
-                .clickSaveButton();
+                .clickSaveButton()
+                .getJobName();
 
-        Assert.assertEquals(folderPage.getJobName(), DISPLAY_NAME);
+        Assert.assertEquals(jobName, DISPLAY_NAME);
     }
 
     @Test(dependsOnMethods = "testAddDisplayName")
@@ -452,7 +437,7 @@ public class FolderTest extends BaseTest {
         String defaultVersion = "main";
         String repoUrl = "https://github.com/darinpope/github-api-global-lib.git";
 
-        FolderConfigPage folderConfigPage = new MainPage(getDriver())
+        boolean isVersionValidated = new MainPage(getDriver())
                 .clickJobName(NAME, new FolderPage(getDriver()))
                 .clickConfigure()
                 .inputNameLibrary()
@@ -461,9 +446,10 @@ public class FolderTest extends BaseTest {
                 .chooseOption()
                 .inputLibraryRepoUrl(repoUrl)
                 .pushApply()
-                .refreshPage();
+                .refreshPage()
+                .libraryDefaultVersionValidated();
 
-        Assert.assertTrue(folderConfigPage.libraryDefaultVersionValidated(), "Cannot validate default version");
+        Assert.assertTrue(isVersionValidated, "Cannot validate default version");
     }
 
     @Test(dependsOnMethods = "testDeleteHealthMetrics")
@@ -513,7 +499,10 @@ public class FolderTest extends BaseTest {
                     new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())));
         }
 
-        List<String> createdJobList = createdJobList(NAME);
+        List<String> createdJobList = new MainPage(getDriver())
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .getJobList();
+
         List<String> jobNameList = new ArrayList<>(jobMap.keySet());
 
         Assert.assertEquals(jobNameList.size(), createdJobList.size());
@@ -536,33 +525,34 @@ public class FolderTest extends BaseTest {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
         TestUtils.createJob(this, jobType.name(), jobType, true);
 
-        FolderPage folder = new MainPage(getDriver())
+        boolean isJobDisplayed = new MainPage(getDriver())
                 .dropDownMenuClickMove(jobType.name(), new FolderPage(getDriver()))
                 .selectDestinationFolder(NAME)
                 .clickMoveButton()
                 .getHeader()
                 .clickLogo()
-                .clickJobName(NAME, new FolderPage(getDriver()));
+                .clickJobName(NAME, new FolderPage(getDriver()))
+                .jobIsDisplayed(jobType.name());
 
-        Assert.assertTrue(folder.jobIsDisplayed(jobType.name()), "Job is not present in Folder");
+        Assert.assertTrue(isJobDisplayed, "Job is not present in Folder");
     }
 
-    @Test
-    public void testMoveJobsToFolderFromSideMenu() {
-        Map<String, BaseJobPage<?>> jobMap = TestUtils.getJobMap(this);
-
+    @Test(dataProvider = "jobType")
+    public void testMoveJobsToFolderFromSideMenu(TestUtils.JobType jobType) {
         TestUtils.createJob(this, NAME, TestUtils.JobType.Folder, true);
+        TestUtils.createJob(this, jobType.name(), jobType, true);
 
-        for (Map.Entry<String, BaseJobPage<?>> entry : jobMap.entrySet()) {
-            TestUtils.createJob(this, entry.getKey(), TestUtils.JobType.valueOf(entry.getKey()), true);
-            moveJobToFolderFromSideMenu(entry.getKey(), NAME, entry.getValue());
-        }
+        boolean isJobDisplayed = new MainPage(getDriver())
+                    .clickJobName(jobType.name(), new FolderPage(getDriver()))
+                    .clickMoveOnSideMenu()
+                    .selectDestinationFolder(NAME)
+                    .clickMoveButton()
+                    .getHeader()
+                    .clickLogo()
+                    .clickJobName(NAME, new FolderPage(getDriver()))
+                    .jobIsDisplayed(jobType.name());
 
-        List<String> createdJobList = createdJobList(NAME);
-        List<String> jobNameList = new ArrayList<>(jobMap.keySet());
-
-        Assert.assertEquals(jobNameList.size(), createdJobList.size());
-        Assert.assertTrue(createdJobList.containsAll(jobNameList));
+        Assert.assertTrue(isJobDisplayed, "Job is not present in Folder");
     }
 
     @Test(dependsOnMethods = "testEditDescription")
