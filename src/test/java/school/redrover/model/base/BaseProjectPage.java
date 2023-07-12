@@ -179,4 +179,10 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
         return new EditBuildInformationPage(getDriver());
     }
+
+    public BuildPage clickBuildFromSideMenu(String jobName, int buildName) {
+       getDriver().findElement(By.xpath("//a[@href='/job/" + jobName + "/"+ buildName + "/']")).click();
+
+        return new BuildPage(getDriver());
+    }
 }

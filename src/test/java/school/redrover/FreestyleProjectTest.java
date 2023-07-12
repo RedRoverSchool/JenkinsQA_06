@@ -1108,4 +1108,20 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getTitle,"Edit Build Information");
     }
+
+    @Test
+    public void testAddDescriptionFromEditInformationPage() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String descriptionText = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickBuildNowFromSideMenu()
+                .clickBuildFromSideMenu(FREESTYLE_NAME,1)
+                .clickEditBuildInformation()
+                .enterDescription(DESCRIPTION_TEXT)
+                .clickSaveButton()
+                .getDescriptionText();
+
+        Assert.assertEquals(descriptionText, DESCRIPTION_TEXT);
+    }
 }

@@ -28,6 +28,9 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     @FindBy(xpath = "//span[text()='Edit Build Information']/..")
     private WebElement editBuildInformation;
 
+    @FindBy(xpath = "//div[@id='description']/div[1]")
+    private WebElement buildDescription;
+
     public BuildPage(WebDriver driver) {
         super(driver);
     }
@@ -71,5 +74,9 @@ public class BuildPage extends BaseMainHeaderPage<BuildPage> {
     public FreestyleProjectPage deleteBuild() {
         getWait5().until(ExpectedConditions.elementToBeClickable(deleteBuildButton)).click();
         return new FreestyleProjectPage(getDriver());
+    }
+
+    public String getDescriptionText() {
+        return buildDescription.getText();
     }
 }
