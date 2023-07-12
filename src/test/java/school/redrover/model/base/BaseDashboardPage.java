@@ -108,6 +108,9 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     @FindBy(xpath = "//span[text()= 'Console Output']")
     private WebElement consoleOutputButtonFromBuildDropDown;
 
+    @FindBy(xpath = "//span[contains(text(),'Edit Build Information')]")
+    private WebElement editBuildInformFromDropDown;
+
     public BaseDashboardPage(WebDriver driver) {
         super(driver);
     }
@@ -391,12 +394,18 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
     }
 
     public Self openLastBuildDropDownMenu() {
-        getWait10().until(ExpectedConditions.visibilityOf(lastBuildDropDownMenuButton)).sendKeys(Keys.RETURN);
+        getWait15().until(ExpectedConditions.visibilityOf(lastBuildDropDownMenuButton)).sendKeys(Keys.RETURN);
         return (Self)this;
     }
 
     public ConsoleOutputPage clickConsoleOutputLastBuildDropDown() {
         consoleOutputButtonFromBuildDropDown.click();
         return new ConsoleOutputPage(getDriver());
+    }
+
+    public EditBuildInformationPage clickEditBuildInformFromDropDown(){
+        editBuildInformFromDropDown.click();
+
+        return new EditBuildInformationPage(getDriver());
     }
 }

@@ -1093,4 +1093,19 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertTrue(consoleOutputTitle, "Error: Console Output Title is not displayed!");
     }
+
+    @Test
+    public void testEditBuildInformationFromDropDown(){
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String getTitle = new MainPage(getDriver())
+                .clickBuildByGreenArrow(FREESTYLE_NAME)
+                .getHeader()
+                .clickLogo()
+                .openBuildDropDownMenu("#1")
+                .clickEditBuildInformFromDropDown()
+                .getTitle();
+
+        Assert.assertEquals(getTitle,"Edit Build Information");
+    }
 }
