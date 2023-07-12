@@ -1,5 +1,6 @@
 package school.redrover.model.base;
 
+import lombok.Value;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +33,12 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
 
     @FindBy(xpath = "//button[@tooltip='Remove']")
     private WebElement removeHealthMetric;
+
+    @FindBy(xpath = "//button[@data-section-id ='projects']")
+    private WebElement projectsSideMenu;
+
+    @FindBy(xpath = "//input[@name ='_.scriptPath']")
+    private WebElement inputScriptPath;
 
     public BaseConfigFoldersPage(FolderPage foldersPage) {
         super(foldersPage);
@@ -74,5 +81,22 @@ public abstract class BaseConfigFoldersPage<Self extends BaseConfigPage<?, ?>, F
         getWait5().until(ExpectedConditions.elementToBeClickable(removeHealthMetric)).click();
 
         return (Self) this;
+    }
+
+    public Self clickProjectsSideMenu(){
+        getWait5().until(ExpectedConditions.elementToBeClickable(projectsSideMenu)).click();
+
+        return (Self) this;
+    }
+
+    public Self enterScriptPath(String scriptPath) {
+        inputScriptPath.clear();
+        inputScriptPath.click();
+        inputScriptPath.sendKeys(scriptPath);
+        return (Self)this;
+    }
+
+    public String getScriptPath() {
+        return inputScriptPath.getAttribute("value");
     }
 }
