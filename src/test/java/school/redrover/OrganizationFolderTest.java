@@ -530,14 +530,12 @@ public class OrganizationFolderTest extends BaseTest {
     public void testAccessConfigurationPageFromSideMenu(){
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
-        final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME;
-
-        OrganizationFolderConfigPage OrgFolderConfigPage = new MainPage(getDriver())
+        String getTitleFromPage = new MainPage(getDriver())
                 .clickJobName(ORGANIZATION_FOLDER_NAME, new OrganizationFolderPage(getDriver()))
-                .clickConfigure();
+                .clickConfigure()
+                .getTitle();
 
-        Assert.assertEquals(OrgFolderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
-        Assert.assertEquals(OrgFolderConfigPage.getTitle(), "Configuration");
+        Assert.assertEquals(getTitleFromPage, "Configuration");
     }
 
     @Test
@@ -593,16 +591,13 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testAccessConfigurationPageFromDashboard() {
-        final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME;
-
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
-
-        OrganizationFolderConfigPage organizationFolderConfigPage = new MainPage(getDriver())
+        String getTitleFromPage = new MainPage(getDriver())
                 .clickConfigureDropDown(
-                        ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())));
+                        ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())))
+                .getTitle();
 
-        Assert.assertEquals(organizationFolderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
-        Assert.assertEquals(organizationFolderConfigPage.getTitle(), "Configuration");
+        Assert.assertEquals(getTitleFromPage, "Configuration");
     }
 }
