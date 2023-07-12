@@ -853,6 +853,19 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(mainPage.jobIsDisplayed(FREESTYLE_NAME));
         Assert.assertTrue(mainPage.clickMyViewsSideMenuLink().verifyJobIsPresent(FREESTYLE_NAME));
     }
+  
+    @Test
+    public void testCreateWithDotInsteadName(){
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, true);
+
+        String actualErrorMessage = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_NAME, new FreestyleProjectPage(getDriver()))
+                .clickRename()
+                .enterNewName(".")
+                .clickRenameButtonAndGoError()
+                .getErrorMessage();
+        Assert.assertEquals(actualErrorMessage, "“.” is not an allowed name");
+    }
 
     @Test
     public void testCreateBuildNowFromDropDown() {
