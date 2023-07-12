@@ -6,7 +6,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.model.*;
+import school.redrover.model.jobs.FolderPage;
 import school.redrover.model.jobs.OrganizationFolderPage;
+import school.redrover.model.jobsconfig.FolderConfigPage;
 import school.redrover.model.jobsconfig.OrganizationFolderConfigPage;
 import school.redrover.runner.BaseTest;
 import school.redrover.runner.TestUtils;
@@ -525,6 +527,20 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
+    public void testAccessConfigurationPageFromSideMenu(){
+        TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
+
+        final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME;
+
+        FolderConfigPage folderConfigPage = new MainPage(getDriver())
+                .clickJobName(ORGANIZATION_FOLDER_NAME, new FolderPage(getDriver()))
+                .clickConfigure();
+
+        Assert.assertEquals(folderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
+        Assert.assertEquals(folderConfigPage.getTitle(), "Configuration");
+    }
+
+    @Test
     public void testCancelDeletingFromDropDownMenu() {
         TestUtils.createJob(this, ORGANIZATION_FOLDER_NAME, TestUtils.JobType.OrganizationFolder, true);
 
@@ -574,11 +590,10 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
-   
-    @Ignore
+
     @Test (dependsOnMethods ="testCreateWithExistingName")
     public void testAccessConfigurationPageFromDashboard() {
-        final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME + " > Configuration";
+        final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME;
 
         OrganizationFolderConfigPage organizationFolderConfigPage = new MainPage(getDriver())
                 .clickConfigureDropDown(
