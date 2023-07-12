@@ -66,6 +66,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//span[contains(text(),'Edit Build Information')]")
     private WebElement editBuildInformFromDropDownOfBuild;
 
+    @FindBy(xpath = "//span[contains(text(),'Console Output')]")
+    private WebElement consoleOutputType;
+
     public BaseProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -178,5 +181,10 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         editBuildInformFromDropDownOfBuild.click();
 
         return new EditBuildInformationPage(getDriver());
+    }
+
+    public ConsoleOutputPage clickConsoleOutputType(){
+        consoleOutputType.click();
+        return new ConsoleOutputPage(getDriver());
     }
 }
