@@ -1052,4 +1052,17 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualWorkspaceStatus, expectedWorkspaceStatus);
     }
+
+    @Test
+    public void testCreateWithDotName() {
+        final String expectedError= "» “.” is not an allowed name";
+
+        String actualError = new MainPage(getDriver())
+                .clickNewItem()
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .enterItemName(".")
+                .getItemInvalidMessage();
+
+        Assert.assertEquals(actualError, expectedError);
+    }
 }
