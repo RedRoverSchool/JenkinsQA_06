@@ -564,7 +564,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
 
-    @Test (dependsOnMethods ="testCreateWithExistingName")
+    @Test (dependsOnMethods ="testPreviewDescriptionFromConfigurationPage")
     public void testAccessConfigurationPageFromDashboard() {
         final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME + " > Configuration";
 
