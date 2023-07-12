@@ -42,6 +42,9 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(xpath = "//a[@href='lastBuild/']")
     private WebElement lastBuildLink;
 
+    @FindBy(xpath = "//a[@href='lastBuild/']/button")
+    private WebElement lastBuildDropDownMenu;
+
     @FindBy(xpath = "(//a[@update-parent-class='.build-row'])[1]")
     private WebElement lastBuildCompletedLink;
 
@@ -62,6 +65,12 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
 
     @FindBy(xpath = "//*[@id='tasks']/div[3]/span/a")
     private WebElement workspaceButton;
+
+    @FindBy(xpath = "//ul[@class='first-of-type']/li[@index='0']")
+    private WebElement changesFromLastBuild;
+
+    @FindBy(xpath = "//a[contains(@class, 'task-link task-link')]")
+    private WebElement statusButton;
 
     @FindBy(xpath = "//span[contains(text(),'Edit Build Information')]")
     private WebElement editBuildInformFromDropDownOfBuild;
@@ -167,6 +176,18 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         openBuildsDropDownMenu();
         changesButtonDropDownMenu.click();
 
+        return new ChangesPage<>((Self)this);
+    }
+
+    private Self openLastBuildDropDownMenu() {
+        statusButton.click();
+        lastBuildDropDownMenu.sendKeys(Keys.RETURN);
+        return (Self) this;
+    }
+
+    public ChangesPage<Self> clickChangesViaLastBuildDropDownMenu() {
+        openLastBuildDropDownMenu();
+        changesFromLastBuild.click();
         return new ChangesPage<>((Self)this);
     }
 

@@ -1054,6 +1054,18 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testBuildChangesFromLastBuild() {
+        TestUtils.createJob(this, FREESTYLE_NAME, TestUtils.JobType.FreestyleProject, false);
+
+        String text = new FreestyleProjectPage(getDriver())
+                .clickBuildNowFromSideMenu()
+                .clickChangesViaLastBuildDropDownMenu()
+                .getTextOfPage();
+
+        Assert.assertTrue(text.contains("No changes."));
+    }
+
+    @Test
     public void testCreateWithDotName() {
         final String expectedError= "» “.” is not an allowed name";
 
@@ -1092,6 +1104,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .isDisplayedBuildTitle();
 
         Assert.assertTrue(consoleOutputTitle, "Error: Console Output Title is not displayed!");
+
     }
 
     @Test
