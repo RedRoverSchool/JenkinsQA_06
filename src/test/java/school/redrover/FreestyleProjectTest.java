@@ -1037,4 +1037,18 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualWorkspaceStatus, expectedWorkspaceStatus);
     }
+
+    @Test
+    public void testCreateFromCreateAJobArrow(){
+        boolean freestyleProjectNameIsAppeared = new MainPage(getDriver())
+                .clickCreateAJobArrow()
+                .enterItemName(FREESTYLE_NAME)
+                .selectJobType(TestUtils.JobType.FreestyleProject)
+                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
+                .getHeader()
+                .clickLogo()
+                .jobIsDisplayed(FREESTYLE_NAME);
+
+        Assert.assertTrue(freestyleProjectNameIsAppeared,"Error! Job Is Not Displayed");
+    }
 }
