@@ -260,7 +260,7 @@ public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> exten
         return viewBasePage;
     }
 
-    public Self clickPlayBuildForATestButton(String projectName) {
+    public Self clickBuildByGreenArrow(String projectName) {
         TestUtils.click(this, getDriver().findElement(
                 By.xpath("//a[@href='job/" + projectName + "/build?delay=0sec']")));
         return (Self) this;

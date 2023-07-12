@@ -23,6 +23,10 @@ public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInform
     @FindBy(xpath = "//div[@class=\"textarea-preview\"]")
     private WebElement previewTextarea;
 
+    @FindBy(xpath = "//li[contains(text(),'Edit Build Information')]")
+    private WebElement titleEditFromBreadCrumb;
+
+
     public EditBuildInformationPage(WebDriver driver) {
         super(driver);
     }
@@ -55,5 +59,10 @@ public class EditBuildInformationPage extends BaseMainHeaderPage<EditBuildInform
     public String getPreviewText() {
 
         return getWait5().until(ExpectedConditions.visibilityOf(previewTextarea)).getText();
+    }
+
+    public String getTitle(){
+
+        return getWait5().until(ExpectedConditions.visibilityOf(titleEditFromBreadCrumb)).getText();
     }
 }
