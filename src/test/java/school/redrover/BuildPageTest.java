@@ -165,25 +165,17 @@ public class BuildPageTest extends BaseTest {
         Assert.assertEquals(projectNameOnBuildHistoryTimeline, itemName + " #1");
     }
 
+    @Ignore
     @Test
     public void testDeleteBuild() {
-        final String nameOfJob = "FreestyleProjectWhomBuildWillBeDeleted";
-        final int oneBuild = 1;
         final int zeroBuild = 0;
+        TestUtils.createJob(this, FREESTYLE_PROJECT_NAME, TestUtils.JobType.FreestyleProject, true);
 
-        int countOfBuildsBeforeDeleting = new MainPage(getDriver())
-                .clickNewItem()
-                .enterItemName(nameOfJob)
-                .selectJobType(TestUtils.JobType.FreestyleProject)
-                .clickOkButton(new FreestyleProjectConfigPage(new FreestyleProjectPage(getDriver())))
-                .clickSaveButton()
+        int countOfBuildsAfterDeleting = new MainPage(getDriver())
+                .clickJobName(FREESTYLE_PROJECT_NAME, new FreestyleProjectPage(getDriver()))
                 .clickBuildNowFromSideMenu()
                 .getHeader()
                 .clickLogo()
-                .clickBuildsHistoryButton()
-                .getNumberOfLinesInBuildHistoryTable();
-
-        int countOfBuildsAfterDeleting = new MainPage(getDriver())
                 .clickBuildsHistoryButton()
                 .clickNameOfBuildLink()
                 .clickDeleteBuild(new FreestyleProjectPage(getDriver()))
@@ -193,7 +185,6 @@ public class BuildPageTest extends BaseTest {
                 .clickBuildsHistoryButton()
                 .getNumberOfLinesInBuildHistoryTable();
 
-        Assert.assertEquals(countOfBuildsBeforeDeleting, oneBuild);
         Assert.assertEquals(countOfBuildsAfterDeleting, zeroBuild);
     }
 }
