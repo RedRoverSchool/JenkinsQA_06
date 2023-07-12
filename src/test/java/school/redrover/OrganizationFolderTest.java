@@ -563,4 +563,16 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(welcomeText, "Welcome to Jenkins!");
     }
+
+    @Test (dependsOnMethods ="testCreateWithExistingName")
+    public void testAccessConfigurationPageFromDashboard() {
+        final String breadcrumb = "Dashboard > " + ORGANIZATION_FOLDER_NAME + " > Configuration";
+
+        OrganizationFolderConfigPage organizationFolderConfigPage = new MainPage(getDriver())
+                .clickConfigureDropDown(
+                ORGANIZATION_FOLDER_NAME, new OrganizationFolderConfigPage(new OrganizationFolderPage(getDriver())));
+
+        Assert.assertEquals(organizationFolderConfigPage.getBreadcrumb().getFullBreadcrumbText(), breadcrumb);
+        Assert.assertEquals(organizationFolderConfigPage.getTitle(), "Configuration");
+    }
 }
